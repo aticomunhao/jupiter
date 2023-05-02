@@ -1,10 +1,20 @@
 <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-dark shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #B0E0E6">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/home') }}">Chronos</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="btn-group">
+                <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Área de pessoal
+                </div>          
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Gerenciar Funcionarios</a></li>
+                    <li><a class="dropdown-item" href="#">Gerenciar Voluntários</a></li>
+                </ul>
+                </div>
+
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
