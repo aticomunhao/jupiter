@@ -1,4 +1,4 @@
-<div id="app">
+<div id="menup">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #B0E0E6">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/home') }}">Chronos</a>
@@ -8,9 +8,9 @@
                 <div class="btn-group">
                 <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Área de pessoal
-                </div>          
+                </div>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Gerenciar Funcionarios</a></li>
+                    <li><a class="dropdown-item" href="gerenciar-funcionario">Gerenciar Funcionarios</a></li>
                     <li><a class="dropdown-item" href="#">Gerenciar Voluntários</a></li>
                 </ul>
                 </div>
@@ -59,5 +59,5 @@
                     </ul>
                 </div>
             </div>
-        </nav>   
+        </nav>
     </div>
