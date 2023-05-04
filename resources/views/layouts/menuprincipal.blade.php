@@ -1,5 +1,5 @@
 <div id="menup">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #B0E0E6">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #99C68E">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/home') }}">Chronos</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">

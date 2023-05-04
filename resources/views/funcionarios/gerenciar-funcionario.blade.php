@@ -16,26 +16,20 @@
                         <input class="form-control" type="numeric" name="idt" value="">
                     </div>
                     <div class="col-4">Nome
-                        <input class="form-control" type="numeric" name="nome" value="">
+                        <input class="form-control" type="text" name="nome" value="">
                     </div>
-                        <div class=" bootstrapToggle data-toggle-toggle">
-                            <input id="chkToggle2" type="checkbox" data-toggle="toggle"checked>
-                            <script>
-                                $(function(){ $('#chkToggle2').bootstrapToggle() });
-                              </script>
+                    <div class="col-1 form-check form-switch"><br>
 
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input id="inlineCheckbox2" class="form-check-input" type="checkbox" data-toggle="toggle" data-style="mr-1" disabled>
-                            <label for="inlineCheckbox2" class="form-check-label">Disabled</label>
-                        </div>
-
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Ativo</label>
+                          </div>
+                        <!--<input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" />
+                        <label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label>-->
                         <div class="col-3"><br>
-
                             <input class="btn btn-info btn-sm" type="submit" value="Pesquisar">
                             <a href="/"><input class="btn btn-danger btn-sm" type="button" value="Cancelar"></a>
                     </form>
-                            <a href="/"><input class="btn btn-success btn-sm" type="button" value="Novo Cadastro+"></a>
+                            <a href="/incluir-funcionario"><input class="btn btn-success btn-sm" type="button" value="Novo Cadastro+"></a>
 
                     </div>
                 </div>
@@ -44,9 +38,9 @@
             </div>
             <hr>
             <div>
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
+                <table class="table table-striped table-bordered border-dark">
+                    <thead style="text-align: center;">
+                        <tr style="background-color: #CBE4D6;">
                         <th scope="col">CPF</th>
                         <th scope="col">Identidade</th>
                         <th scope="col">Nome</th>
@@ -54,13 +48,13 @@
                         <th scope="col">Ações</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="font-size: 12px;">
                         <tr>
-                        @foreach($result as $results)
-                            <td scope="2">{{$results->cpf}}</td>
-                            <td scope="2">{{$results->rg}}</td>
-                            <td scope="2">{{$results->nome_pessoa}}</td>
-                            <td scope="2">{{$results->sexo}}</td>
+                        @foreach($lista as $listas)
+                            <td scope="2">{{$listas->cpf}}</td>
+                            <td scope="2">{{$listas->rg}}</td>
+                            <td scope="2">{{$listas->nome_pessoa}}</td>
+                            <td scope="2">{{$listas->sexo}}</td>
                             <td scope="2">Botões</td>
                         </tr>
                         @endforeach
@@ -72,5 +66,15 @@
 </div>
 
 @endsection
+
+@section('footerScript')
+            <script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
+            <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
+            <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
+            <script src="{{ URL::asset('/js/pages/cadastro-inicial.init.js')}}"></script>
+@endsection
+
+
 
 
