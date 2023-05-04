@@ -48,9 +48,12 @@ class GerenciarFuncionarioController extends Controller
 
     public function store(){
 
-        $result=DB::select('select * from pessoa');
+        $lista1 = DB::select('select id, tipo from sexo');
 
-        return view('\funcionarios\incluir-funcionario', compact('result'));
+        $result=DB::table('pessoa AS p')
+                    ->select('pk_pessoa');
+
+        return view('\funcionarios\incluir-funcionario', compact('result', 'lista1'));
 
     }
 
