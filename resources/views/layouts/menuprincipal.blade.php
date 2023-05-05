@@ -11,7 +11,8 @@
                 </div>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="gerenciar-funcionario">Gerenciar Funcionarios</a></li>
-                    <li><a class="dropdown-item" href="#">Gerenciar Voluntários</a></li>
+                    <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
+
                 </ul>
                 </div>
 
