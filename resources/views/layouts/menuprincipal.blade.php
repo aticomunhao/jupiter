@@ -1,12 +1,12 @@
 <div id="menup">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #99C68E">
+        <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;" >
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/home') }}">Chronos</a>
+                <a class="navbar-brand" style="font-weight:bold; font-size: 25px; color:#ffffff;" href="{{ url('/home') }}">Chronos</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="btn-group">
-                <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">
                     Área de pessoal
                 </div>
                 <ul class="dropdown-menu">
