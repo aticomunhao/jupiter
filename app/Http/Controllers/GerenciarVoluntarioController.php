@@ -44,16 +44,17 @@ class GerenciarVoluntarioController extends Controller
         $result=DB::table('pessoa AS p')
                     ->select('pk_pessoa');
 
-        return view('\Voluntarios\incluir-voluntario', compact('result', 'lista1'));
+        $cidade = DB::connection('mysql2')->select('select id_cidade, descricao from cidade');
+
+
+        //dd($cidade);
+
+        return view('/voluntario/incluir-voluntario',compact('cidade'));
 
     }
 
     public function insert(Request $request){
 
-        $cidades = DB::connection('mysql2')->select('select id_cidade, descricao from cidade');
-        return view('/voluntario/incluir-voluntario',compact('cidades'));
-
-        dd($cidades);
 
         $vercpf = DB::select('select cpf from pessoa;');
 

@@ -19,19 +19,19 @@
                         <div class="col">Sexo
                             <select class="form-control select2" required="required"  id="4" name="sexo">
                                 <option value="">Selecione</option>
-                                <!--@foreach($lista1 as $lista1s)
-                                <option value="{{$lista1s->id}}">{{$lista1s->tipo}}</option>
-                                @endforeach-->
+                                @foreach($cidade as $cidades)
+                                <option value="{{$cidades->id_cidade}}">{{$cidades->descricao}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{--<div class="form-group row">
                         <div class="col">Nacionalidade
                             <select class="form-control select2" required="required"  id="4" name="sexo">
                                 <option value="">Selecione</option>
-                                <!--@foreach($lista1 as $lista1s)
+                                @foreach($lista1 as $lista1s)
                                 <option value="{{$lista1s->id}}">{{$lista1s->tipo}}</option>
-                                @endforeach-->
+                                @endforeach
                             </select>
                         </div>
                         <div class="col">UF
@@ -190,7 +190,7 @@
                             <label for="cidade" class="form-label">Cidade</label>
                             <input type="text" class="form-control" id="25" name="cidade">
                         </div>
-                    </div>
+                    </div>--}}
                     <div class="row">
                         <div class="col-12 mt-3" style="text-align: right;">
                             <button type="submit" class="btn btn-success">Confirmar</button>
