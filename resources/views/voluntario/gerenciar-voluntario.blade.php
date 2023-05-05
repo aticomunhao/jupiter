@@ -36,8 +36,8 @@
                 <table class="table table-striped table-bordered border-dark col-3" >
                     <thead style="text-align: center;">
                         <tr style="background-color: #CBE4D6;">
-                        <th scope="col">CPF</th>
-                        <th scope="col">Nome</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Cidade</th>
                         <th scope="col">Grupo</th>
                         <th scope="col">Ações</th>
                         </tr>
@@ -45,7 +45,7 @@
                     <tbody style="font-size: 12px;">
                         <tr>
                         @foreach($lista as $listas)
-                            <td scope="2">{{$listas->cpf}}</td>
+                            <td scope="2">{{$listas->id_cidades}}</td>
                             <td scope="2">{{$listas->nome_pessoa}}</td>
                             <td scope="2">Grupo</td>
                             <td scope="2">Botões</td>

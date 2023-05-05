@@ -12,7 +12,7 @@ class GerenciarVoluntarioController extends Controller
 
     public function index(Request $request){
 
-        $result=DB::select('select cpf, nome_pessoa from pessoa');
+        $result=DB::connection('mysql2')->select('select id_cidade, descricao from cidade');
 
         $lista = DB::table('pessoa AS p')
         ->select ('p.cpf', 'p.nome_pessoa');
@@ -49,6 +49,11 @@ class GerenciarVoluntarioController extends Controller
     }
 
     public function insert(Request $request){
+
+        $cidades = DB::connection('mysql2')->select('select id_cidade, descricao from cidade');
+        return view('/voluntario/incluir-voluntario',compact('cidades'));
+
+        dd($cidades);
 
         $vercpf = DB::select('select cpf from pessoa;');
 

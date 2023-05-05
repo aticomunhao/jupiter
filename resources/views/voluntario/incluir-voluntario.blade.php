@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12">
-            <form class="form-horizontal mt-4" method="POST" action="/cad-funcionario/inserir">
+            <form class="form-horizontal mt-4" method="POST" action="/cad-voluntario/inserir">
                 @csrf
                     <div class="form-group row">
                         <div class="col">Matrícula

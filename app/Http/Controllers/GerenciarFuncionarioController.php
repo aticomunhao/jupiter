@@ -12,9 +12,9 @@ class GerenciarFuncionarioController extends Controller
 
     public function index(Request $request){
 
-        $result=DB::select('select cpf, rg, nome_pessoa, sexo from pessoa');
+        $result=DB::connection('mysql')->select('select cpf, rg, nome_pessoa, sexo from pessoa');
 
-        $lista = DB::table('pessoa AS p')
+        $lista = DB::connection('mysql')->table('pessoa AS p')
         ->select ('p.cpf', 'p.rg', 'p.nome_pessoa', 'sexo');
 
 
