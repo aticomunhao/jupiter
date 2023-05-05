@@ -40,7 +40,7 @@
             <div>
                 <table class="table table-striped table-bordered border-dark">
                     <thead style="text-align: center;">
-                        <tr style="background-color: #CBE4D6;">
+                        <tr style="background-color: #82a9ff; color:#ffffff">
                         <th scope="col">CPF</th>
                         <th scope="col">Identidade</th>
                         <th scope="col">Nome</th>

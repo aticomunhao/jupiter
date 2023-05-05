@@ -7,16 +7,16 @@
             <form class="form-horizontal mt-4" method="POST" action="/cad-funcionario/inserir">
                 @csrf
                     <div class="form-group row">
-                        <div class="col">Matrícula
+                        <div class="col-1">Matrícula
                             <input class="form-control" required="required" type="numeric" id="1" name="matricula">
                         </div>
-                        <div class="col">Nome completo
+                        <div class="col-4">Nome completo
                             <input class="form-control" required="required" type="text" id="2" name="nome">
                         </div>
-                        <div class="col">Data nasicmento
+                        <div class="col-2">Data nascimento
                             <input class="form-control" type="date" value="" id="3" name="dt_nascimento">
                         </div>
-                        <div class="col">Sexo
+                        <div class="col-2">Sexo
                             <select class="form-control select2" required="required"  id="4" name="sexo">
                                 <option value="">Selecione</option>
                                 <!--@foreach($lista1 as $lista1s)
