@@ -12,49 +12,48 @@ class GerenciarVoluntarioController extends Controller
 
     public function index(Request $request){
 
-        $result=DB::connection('mysql2')->select('select id_cidade, descricao from cidade');
+        $result=DB::connection('mysql2')->select('select id_cidade, descricao from cidade where uf="df"');
 
-        $lista = DB::table('pessoa AS p')
-        ->select ('p.cpf', 'p.nome_pessoa');
+        $lista = DB::table('endereco AS c')
+        ->select ('c.id_cidade', 'c.descricao');
 
-        $cpf = $request->cpf;
+        $id_cidade = $request->id_cidade;
 
-        $nome = $request->nome;
+        $descricao = $request->descricao;
 
 
-        if ($request->cpf){
-            $lista->where('p.cpf', $request->cpf);
+        if ($request->id_cidade){
+            $lista->where('c.id_cidade', $request->id_cidade);
         }
 
-        if ($request->nome){
-            $lista->where('p.nome_pessoa', 'LIKE', '%'.$request->nome.'%');
+        if ($request->$descricao){
+            $lista->where('c.descricao', 'LIKE', '%'.$request->descricao.'%');
         }
 
-        $lista = $lista->orderBy('p.nome_pessoa', 'DESC')->paginate(5);
+        $lista = $lista->orderBy('c.descricao', 'DESC')->paginate(5);
 
 
         //dd($result);
 
-       return view('\voluntario.gerenciar-Voluntario', compact ('lista'));
+       return view('\voluntario.gerenciar-voluntario', compact ('lista'));
 
     }
 
     public function store(){
 
-        $result=DB::table('pessoa AS p')
-                    ->select('pk_pessoa');
+        $result=DB::table('cidade AS c')
+                    ->select('id_cidade');
 
-        $cidade = DB::connection('mysql2')->select('select id_cidade, descricao from cidade');
-
-
-        //dd($cidade);
-
-        return view('/voluntario/incluir-voluntario',compact('cidade'));
+        return view('\Voluntarios\gerenciar-voluntario', compact('result', 'lista'));
 
     }
 
     public function insert(Request $request){
 
+        $cidades = DB::connection('mysql2')->select('select id_cidade, descricao from cidade');
+        return view('/voluntario/incluir-voluntario',compact('cidades'));
+
+        dd($cidades);
 
         $vercpf = DB::select('select cpf from pessoa;');
 

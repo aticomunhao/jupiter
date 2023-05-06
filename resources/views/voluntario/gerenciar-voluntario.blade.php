@@ -44,15 +44,18 @@
                     </thead>
                     <tbody style="font-size: 12px;">
                         <tr>
+                        <td scope="2">Grupo</td>
+                            <td scope="2">Botões</td>
                         @foreach($lista as $listas)
-                            <td scope="2">{{$listas->id_cidades}}</td>
-                            <td scope="2">{{$listas->nome_pessoa}}</td>
+                            <td scope="2">{{$listas->id_cidade}}</td>
+                            <td scope="2">{{$listas->descricao}}</td>
                             <td scope="2">Grupo</td>
                             <td scope="2">Botões</td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+
             </div>
         </div>
     </div>
