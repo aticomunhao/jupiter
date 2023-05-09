@@ -7,53 +7,57 @@ use App\Models;
 use iluminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
-class GerenciarVoluntarioController extends Controller
+class GerenciarDadosBancariosController extends Controller
 {
 
     public function index(Request $request){
 
-        $result=DB::connection('mysql2')->select('select id_cidade, descricao from cidade where uf="df"');
+        $result=DB::connection('mysql')->select('select cpf, rg, nome_pessoa, sexo from pessoa');
 
-        $lista = DB::table('endereco AS c')
-        ->select ('c.id_cidade', 'c.descricao');
-
-        $id_cidade = $request->id_cidade;
-
-        $descricao = $request->descricao;
+        $lista = DB::connection('mysql')->table('pessoa AS p')
+        ->select ('p.cpf', 'p.rg', 'p.nome_pessoa', 'sexo');
 
 
-        if ($request->id_cidade){
-            $lista->where('c.id_cidade', $request->id_cidade);
+        $cpf = $request->cpf;
+
+        $rg = $request->idt;
+
+        $nome = $request->nome;
+
+
+        if ($request->cpf){
+            $lista->where('p.cpf', $request->cpf);
         }
 
-        if ($request->$descricao){
-            $lista->where('c.descricao', 'LIKE', '%'.$request->descricao.'%');
+        if ($request->idt){
+            $lista->where('p.rg', '=', '$request->idt');
         }
 
-        $lista = $lista->orderBy('c.descricao', 'DESC')->paginate(5);
+        if ($request->nome){
+            $lista->where('p.nome_pessoa', 'LIKE', '%'.$request->nome.'%');
+        }
+
+        $lista = $lista->orderBy('p.nome_pessoa', 'DESC')->paginate(5);
 
 
         //dd($result);
 
-       return view('\voluntario.gerenciar-voluntario', compact ('lista'));
+       return view('\funcionarios.gerenciar-funcionario', compact ('lista'));
 
     }
 
     public function store(){
 
-        $result=DB::table('cidade AS c')
-                    ->select('id_cidade');
+        $lista1 = DB::select('select id, tipo from sexo');
 
-        return view('\Voluntarios\gerenciar-voluntario', compact('result', 'lista'));
+        $result=DB::table('pessoa AS p')
+                    ->select('pk_pessoa');
+
+        return view('\funcionarios\incluir-funcionario', compact('result', 'lista1'));
 
     }
 
     public function insert(Request $request){
-
-        $cidades = DB::connection('mysql2')->select('select id_cidade, descricao from cidade');
-        return view('/voluntario/incluir-voluntario',compact('cidades'));
-
-        dd($cidades);
 
         $vercpf = DB::select('select cpf from pessoa;');
 
@@ -62,7 +66,7 @@ class GerenciarVoluntarioController extends Controller
         if ($vercpf = $cpf){
 
             return redirect()
-            ->action('GerenciarVoluntarioController@index')
+            ->action('GerenciarFuncionarioController@index')
             ->with('danger', 'Este CPF já existe no cadastro do sistema!');
 
         }
@@ -71,6 +75,7 @@ class GerenciarVoluntarioController extends Controller
 
         DB::table('pessoa')->insert([
             'nome' => $request->input('nome_pessoa'),
+            'idt' => $request->input('rg'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'dt_nascimento' => $request->input('dt_nascimento'),
             'nacionalidade' => $request->input('pais'),
@@ -88,7 +93,8 @@ class GerenciarVoluntarioController extends Controller
             'gia' => $request->input('gia')
         ]);
 
-        DB::table('Voluntario')->insert([
+        DB::table('funcionario')->insert([
+            'idt' => $request->input('rg'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'email' => $request->input('email'),
             'id_genero' => $request->input('genero'),
@@ -99,6 +105,7 @@ class GerenciarVoluntarioController extends Controller
         ]);
 
         DB::table('endereco')->insert([
+            'idt' => $request->input('rg'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'email' => $request->input('email'),
             'id_genero' => $request->input('genero'),
@@ -109,6 +116,7 @@ class GerenciarVoluntarioController extends Controller
         ]);
 
         DB::table('pessoa_endereco')->insert([
+            'idt' => $request->input('rg'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'email' => $request->input('email'),
             'id_genero' => $request->input('genero'),
@@ -120,7 +128,7 @@ class GerenciarVoluntarioController extends Controller
 
 
         return redirect()
-        ->action('GerenciarVoluntarioController@index')
+        ->action('GerenciarFuncionarioController@index')
         ->with('message', 'Cadastro realizado com sucesso!');
         }
 
