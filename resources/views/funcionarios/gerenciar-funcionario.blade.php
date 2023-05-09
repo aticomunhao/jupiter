@@ -19,12 +19,8 @@
                         <input class="form-control" type="text" name="nome" value="">
                     </div>
                     <div class="col-1 form-check form-switch"><br>
-
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Ativo</label>
-                          </div>
-                        <!--<input type="checkbox" id="checkAdq" name="checkAdq" switch="bool" />
-                        <label for="checkAdq" data-on-label="Sim" data-off-label="Não"></label>-->
+                            <input type="checkbox" data-size="sm" checked data-toggle="toggle" data-onlabel="Ativo" data-offlabel="Inativo" data-onstyle="secondary" data-offstyle="light">
+                    </div>
                         <div class="col-3"><br>
                             <input class="btn btn-info btn-sm" type="submit" value="Pesquisar">
                             <a href="/"><input class="btn btn-danger btn-sm" type="button" value="Cancelar"></a>
@@ -40,7 +36,7 @@
             <div>
                 <table class="table table-striped table-bordered border-dark">
                     <thead style="text-align: center;">
-                        <tr style="background-color: #82a9ff; color:#ffffff">
+                        <tr style="background-color: #82a9ff; color:#000000">
                         <th scope="col">CPF</th>
                         <th scope="col">Identidade</th>
                         <th scope="col">Nome</th>
@@ -73,6 +69,10 @@
             <script src="{{ URL::asset('/libs/select2/select2.min.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/cadastro-inicial.init.js')}}"></script>
+
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/css/bootstrap5-toggle.min.css" rel="stylesheet">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/js/bootstrap5-toggle.ecmas.min.js"></script>
+
 @endsection
 
 

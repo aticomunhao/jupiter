@@ -1,7 +1,7 @@
 <div id="menup">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;" >
             <div class="container">
-                <a class="navbar-brand" style="font-weight:bold; font-size: 25px; color:#ffffff;" href="{{ url('/home') }}">Chronos</a>
+                <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;" href="{{ url('/home') }}">Chronos</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -29,13 +29,13 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a class="nav-link" style="color:#ffffff;" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link" style="color:#ffffff;" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
