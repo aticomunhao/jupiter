@@ -26,4 +26,6 @@ Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioC
 Route::get('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
 
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
-//Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
+Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
+
+Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index']);

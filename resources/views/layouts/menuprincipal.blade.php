@@ -6,14 +6,22 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="btn-group">
-                <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">
+                    <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">
                     Área de pessoal
-                </div>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="gerenciar-funcionario">Gerenciar Funcionarios</a></li>
-                    <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="gerenciar-funcionario">Gerenciar Funcionarios</a></li>
+                        <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
 
-                </ul>
+                    </ul>
+                    <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">
+                    Gerencia
+                    </div>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="gerenciar-dados-bancarios">Gerenciar Dados Bancarios</a></li>
+
+
+                    </ul>
                 </div>
 
 
