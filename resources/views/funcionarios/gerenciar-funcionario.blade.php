@@ -10,22 +10,29 @@
                 <form action="{{route('gerenciar')}}" class="form-horizontal mt-4" method="GET" >
                 <div class="row">
                     <div class="col-2">CPF
-                        <input class="form-control" type="numeric" name="cpf" value="">
+                        <input class="form-control" type="numeric" id="1" name="cpf" value="">
                     </div>
                     <div class="col-2">Identidade
-                        <input class="form-control" type="numeric" name="idt" value="">
+                        <input class="form-control" type="numeric" id="2" name="idt" value="">
                     </div>
                     <div class="col-4">Nome
-                        <input class="form-control" type="text" name="nome" value="">
+                        <input class="form-control" type="text" id="3" name="nome" value="">
                     </div>
-                    <div class="col-1 form-check form-switch"><br>
+                    {{--<div class="col-1 form-check form-switch"><br>
                             <input type="checkbox" data-size="sm" checked data-toggle="toggle" data-onlabel="Ativo" data-offlabel="Inativo" data-onstyle="secondary" data-offstyle="light">
+                    </div>--}}
+                    <div class="col-1">Ativo?
+                        <select class="form-select" id="4" name="ativo" type="number" required="required">
+                            <option value="1">Sim</option>
+                            <option value="">Todos</option>
+                            <option value="2">Não</option>
+                        </select>
                     </div>
                         <div class="col-3"><br>
-                            <input class="btn btn-info btn-sm" type="submit" value="Pesquisar">
+                            <input class="btn btn-primary btn-sm" type="submit" value="Pesquisar">
                             <a href="/"><input class="btn btn-danger btn-sm" type="button" value="Cancelar"></a>
                     </form>
-                            <a href="/incluir-funcionario"><input class="btn btn-success btn-sm" type="button" value="Novo Cadastro+"></a>
+                            <a href="/incluir-funcionario"><input class="btn btn-success btn-sm" type="button" autofocus value="Novo Cadastro+"></a>
 
                     </div>
                 </div>
@@ -33,25 +40,33 @@
                 <br>
             </div>
             <hr>
-            <div>
-                <table class="table table-striped table-bordered border-dark">
+            <div class="table">
+                <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                     <thead style="text-align: center;">
-                        <tr style="background-color: #82a9ff; color:#000000">
-                        <th scope="col">CPF</th>
-                        <th scope="col">Identidade</th>
-                        <th scope="col">Nome</th>
-                        <th scope="col">Ativo?</th>
-                        <th scope="col">Ações</th>
+                        <tr style="background-color: #d6e3ff; color:#000000">
+                            <th class="col-1">CPF</th>
+                            <th class="col-1">Identidade</th>
+                            <th class="col-4">Nome</th>
+                            <th class="col-1">Ativo?</th>
+                            <th class="col-4">Ações</th>
                         </tr>
                     </thead>
                     <tbody style="font-size: 12px;">
                         <tr>
                         @foreach($lista as $listas)
-                            <td scope="2">{{$listas->cpf}}</td>
-                            <td scope="2">{{$listas->rg}}</td>
-                            <td scope="2">{{$listas->nome_pessoa}}</td>
-                            <td scope="2">{{$listas->sexo}}</td>
-                            <td scope="2">Botões</td>
+                            <td scope="" >{{$listas->cpf}}</td>
+                            <td scope="" >{{$listas->idt}}</td>
+                            <td scope="" >{{$listas->nome_completo}}</td>
+                            <td scope="" style="text-align: center;">{{$listas->sexo}}</td>
+                            <td scope="">
+                                <a href="/editar-funcionario"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#000;"></i></button>
+                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-search" style="font-size: 1rem; color:#000;"></i></button>
+                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#000;"></i></button>
+                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bank" style="font-size: 1rem; color:#000;"></i></button>
+                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button>
+                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button>
+                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-person-vcard" style="font-size: 1rem; color:#000;"></i></button></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -70,6 +85,7 @@
             <script src="{{ URL::asset('/js/pages/form-advanced.init.js')}}"></script>
             <script src="{{ URL::asset('/js/pages/cadastro-inicial.init.js')}}"></script>
 
+            <!--botão toggle-->
             <link href="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/css/bootstrap5-toggle.min.css" rel="stylesheet">
             <script src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/js/bootstrap5-toggle.ecmas.min.js"></script>
 

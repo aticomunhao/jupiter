@@ -12,17 +12,20 @@ class GerenciarFuncionarioController extends Controller
 
     public function index(Request $request){
 
-        $result=DB::connection('mysql')->select('select cpf, rg, nome_pessoa, sexo from pessoa');
+        $result=DB::connection('mysql')->select('select cpf, idt, nome_completo, sexo from pessoa');
 
         $lista = DB::connection('mysql')->table('pessoa AS p')
-        ->select ('p.cpf', 'p.rg', 'p.nome_pessoa', 'sexo');
+        ->select ('p.cpf', 'p.idt', 'p.nome_completo', 'p.sexo');
+        //->where('p.sexo', '=', '1');
 
 
         $cpf = $request->cpf;
 
-        $rg = $request->idt;
+        $idt = $request->idt;
 
         $nome = $request->nome;
+
+        $ativo = $request->ativo;
 
 
         if ($request->cpf){
@@ -30,17 +33,21 @@ class GerenciarFuncionarioController extends Controller
         }
 
         if ($request->idt){
-            $lista->where('p.rg', '=', '$request->idt');
+            $lista->where('p.idt', '=', $request->idt);
+        }
+
+        if ($request->ativo){
+            $lista->where('p.sexo', '=', $request->ativo);
         }
 
         if ($request->nome){
-            $lista->where('p.nome_pessoa', 'LIKE', '%'.$request->nome.'%');
+            $lista->where('p.nome_completo', 'LIKE', '%'.$request->nome.'%');
         }
 
-        $lista = $lista->orderBy('p.nome_pessoa', 'DESC')->paginate(5);
+        $lista = $lista->orderBy( 'p.sexo','asc')->orderBy('p.nome_completo', 'asc')->paginate(5);
 
 
-        //dd($result);
+        //dd($request->ativo);
 
        return view('\funcionarios.gerenciar-funcionario', compact ('lista'));
 
@@ -48,12 +55,32 @@ class GerenciarFuncionarioController extends Controller
 
     public function store(){
 
-        $lista1 = DB::select('select id, tipo from sexo');
+        $sexo = DB::select('select id, tipo from tp_sexo');
 
-        $result=DB::table('pessoa AS p')
-                    ->select('pk_pessoa');
+        $tp_uf = DB::select('select id, sigla from tp_uf');
 
-        return view('\funcionarios\incluir-funcionario', compact('result', 'lista1'));
+        $nac = DB::select('select id, local from tp_nacionalidade');
+
+        $cidade = DB::select('select id_cidade, descricao from tp_cidade');
+
+        $programa = DB::select('select id, programa from tp_programa');
+
+        $org_exp = DB::select('select id, sigla from tp_orgao_exp');
+
+        $cor = DB::select('select id, nome_cor from tp_cor_pele');
+
+        $sangue = DB::select('select id, nome_sangue from tp_sangue');
+
+        $fator = DB::select('select id, nome_fator from tp_fator');
+
+        $cnh = DB::select('select id, nome_cat from tp_cnh');
+
+        $cep = DB::select('select id, cep, descricao, descricao_bairro from tp_logradouro');
+
+        $logra = DB::select('select distinct(id), descricao from tp_logradouro');
+
+
+        return view('\funcionarios\incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra'));
 
     }
 
@@ -74,8 +101,8 @@ class GerenciarFuncionarioController extends Controller
         {
 
         DB::table('pessoa')->insert([
-            'nome' => $request->input('nome_pessoa'),
-            'idt' => $request->input('rg'),
+            'nome_completo' => $request->input('nome_completo'),
+            'idt' => $request->input('idt'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'dt_nascimento' => $request->input('dt_nascimento'),
             'nacionalidade' => $request->input('pais'),
@@ -94,7 +121,7 @@ class GerenciarFuncionarioController extends Controller
         ]);
 
         DB::table('funcionario')->insert([
-            'idt' => $request->input('rg'),
+            'idt' => $request->input('idt'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'email' => $request->input('email'),
             'id_genero' => $request->input('genero'),
@@ -105,7 +132,7 @@ class GerenciarFuncionarioController extends Controller
         ]);
 
         DB::table('endereco')->insert([
-            'idt' => $request->input('rg'),
+            'idt' => $request->input('idt'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'email' => $request->input('email'),
             'id_genero' => $request->input('genero'),
@@ -116,7 +143,7 @@ class GerenciarFuncionarioController extends Controller
         ]);
 
         DB::table('pessoa_endereco')->insert([
-            'idt' => $request->input('rg'),
+            'idt' => $request->input('idt'),
             'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
             'email' => $request->input('email'),
             'id_genero' => $request->input('genero'),
