@@ -6,16 +6,26 @@ use Illuminate\Http\Request;
 use App\Models;
 use iluminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use App\Models\pessoa;
+use App\Models\funcionario;
+use App\Models\Sexo;
+
 
 class GerenciarFuncionarioController extends Controller
 {
 
+    
     public function index(Request $request){
+
+        $teste = $request->session()->all();
+
+       // dd($teste);
 
         $result=DB::connection('mysql')->select('select cpf, idt, nome_completo, sexo from pessoa');
 
         $lista = DB::connection('mysql')->table('pessoa AS p')
-        ->select ('p.cpf', 'p.idt', 'p.nome_completo', 'p.sexo');
+        ->select ('p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
         //->where('p.sexo', '=', '1');
 
 
@@ -25,7 +35,7 @@ class GerenciarFuncionarioController extends Controller
 
         $nome = $request->nome;
 
-        $ativo = $request->ativo;
+        $status = $request->status;
 
 
         if ($request->cpf){
@@ -36,15 +46,15 @@ class GerenciarFuncionarioController extends Controller
             $lista->where('p.idt', '=', $request->idt);
         }
 
-        if ($request->ativo){
-            $lista->where('p.sexo', '=', $request->ativo);
+        if ($request->status){
+            $lista->where('p.status', '=', $request->status);
         }
 
         if ($request->nome){
             $lista->where('p.nome_completo', 'LIKE', '%'.$request->nome.'%');
         }
 
-        $lista = $lista->orderBy( 'p.sexo','asc')->orderBy('p.nome_completo', 'asc')->paginate(5);
+        $lista = $lista->orderBy( 'p.status','asc')->orderBy('p.nome_completo', 'asc')->paginate(5);
 
 
         //dd($request->ativo);
@@ -53,7 +63,7 @@ class GerenciarFuncionarioController extends Controller
 
     }
 
-    public function store(){
+    public function create(){
 
         $sexo = DB::select('select id, tipo from tp_sexo');
 
@@ -79,84 +89,113 @@ class GerenciarFuncionarioController extends Controller
 
         $logra = DB::select('select distinct(id), descricao from tp_logradouro');
 
+        $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
 
-        return view('\funcionarios\incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra'));
+        
+
+
+        return view('\funcionarios\incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd'));
 
     }
 
-    public function insert(Request $request){
+    public function store(Request $request){
 
-        $vercpf = DB::select('select cpf from pessoa;');
+        
+
+        $sexo = DB::select('select id, tipo from tp_sexo');
+
+        $today = Carbon::today()->format('Y-m-d');
+
+        $vercpf = DB::table('pessoa')
+                    ->get('cpf');
+
+        
 
         $cpf = $request->cpf;
 
-        if ($vercpf = $cpf){
+        
 
-            return redirect()
-            ->action('GerenciarFuncionarioController@index')
-            ->with('danger', 'Este CPF já existe no cadastro do sistema!');
+        if ( $request->$cpf = $vercpf){
+
+           
+            app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+
+            return redirect('/informar-dados');
+           
 
         }
         else
         {
 
-        DB::table('pessoa')->insert([
+            DB::table('pessoa')->insert([
             'nome_completo' => $request->input('nome_completo'),
-            'idt' => $request->input('idt'),
-            'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
+            'idt' => $request->input('identidade'),
+            'orgao_expedidor' =>  $request->input('orgexp'),
+            'uf_idt' =>  $request->input('uf_idt'),
+            'dt_emissao_idt' =>  $request->input('dt_idt'),
             'dt_nascimento' => $request->input('dt_nascimento'),
+            'sexo' => $request->input('sexo'),
             'nacionalidade' => $request->input('pais'),
+            'uf_natural' =>  $request->input('uf_nat'),
+            'naturalidade' => $request->input('natura'),
+            'cpf' => $request->input('cpf'),
             'email' => $request->input('email'),
-            'id_genero' => $request->input('genero'),
-
-            'celular' => preg_replace("/[^0-9]/", "", $request->input('celular')),
-            'cep' => str_replace('-','',$request->input('cep')),
-            'uf' =>  $request->input('estado'),
-            'localidade' => $request->input('cidade'),
-            'bairro' => $request->input('bairro'),
-            'logradouro' => $request->input('logradouro'),
-            'numero' => $request->input('numero'),
-            'complemento' => $request->input('complemento'),
-            'gia' => $request->input('gia')
+            'status' => '1',
+            
         ]);
+
+        $id_pessoa = DB::table('pessoa')
+        ->select(DB::raw('MAX(id) as max_id'))
+        ->value('max_id');
+
+      
 
         DB::table('funcionario')->insert([
-            'idt' => $request->input('idt'),
-            'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
-            'email' => $request->input('email'),
-            'id_genero' => $request->input('genero'),
-            'data_nascimento' => $request->input('dt_nascimento'),
-            'celular' => preg_replace("/[^0-9]/", "", $request->input('celular')),
-            'cep' => str_replace('-','',$request->input('cep')),
-            'uf' =>  $request->input('estado')
+            'dt_inicio'=> $request->input('dt_ini'),                        
+            'id_pessoa'=> $id_pessoa,            
+            'matricula'=> $request->input('matricula'),
+            'tp_programa' => $request->input('tp_programa'),
+            'nr_programa' => $request->input('programa'),
+            'id_cor_pele' => $request->input('cor'),
+            'id_tp_sangue' => $request->input('tps'),
+            'fator_rh' => $request->input('frh'),
+            'titulo_eleitor' => $request->input('titele'),
+            'dt_titulo' => $request->input('dt_titulo'),
+            'zona_tit' => $request->input('zona'),
+            'secao_tit' => $request->input('secao'),
+            'ddd' => $request->input('ddd'),
+            'celular' => $request->input('celular'),
+            'ctps' => $request->input('ctps'),
+            'serie' => $request->input('serie_ctps'),
+            'uf_ctps' => $request->input('uf_ctps'),
+            'dt_emissao_ctps' => $request->input('dt_ctps'),
+            'reservista' => $request->input('reservista'),
+            'nome_mae' => $request->input('nome_mae'),
+            'nome_pai' => $request->input('nome_pai'),
+            'id_cat_cnh' => $request->input('cnh'),
+
+
         ]);
 
-        DB::table('endereco')->insert([
-            'idt' => $request->input('idt'),
-            'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
-            'email' => $request->input('email'),
-            'id_genero' => $request->input('genero'),
-            'data_nascimento' => $request->input('dt_nascimento'),
-            'celular' => preg_replace("/[^0-9]/", "", $request->input('celular')),
+        DB::table('endereco_pessoas')->insert([
             'cep' => str_replace('-','',$request->input('cep')),
-            'uf' =>  $request->input('estado')
+            'id_uf_end' =>  $request->input('uf_end'),
+            'id_cidade' => $request->input('cidade'),
+            'logradouro' => $request->input('logradouro'),
+            'numero' => $request->input('numero'),
+            'bairro' => $request->input('bairro'),
+            'complemento' => $request->input('comple'),
+            'dt_inicio'=> $today, 
+
+            
         ]);
 
-        DB::table('pessoa_endereco')->insert([
-            'idt' => $request->input('idt'),
-            'cpf' => preg_replace("/[^0-9]/", "", $request->input('cpf')),
-            'email' => $request->input('email'),
-            'id_genero' => $request->input('genero'),
-            'data_nascimento' => $request->input('dt_nascimento'),
-            'celular' => preg_replace("/[^0-9]/", "", $request->input('celular')),
-            'cep' => str_replace('-','',$request->input('cep')),
-            'uf' =>  $request->input('estado')
-        ]);
-
-
-        return redirect()
-        ->action('GerenciarFuncionarioController@index')
-        ->with('message', 'Cadastro realizado com sucesso!');
+    
+       app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
+       
+       return redirect('/gerenciar-funcionario');
+       
+      
         }
 
     }

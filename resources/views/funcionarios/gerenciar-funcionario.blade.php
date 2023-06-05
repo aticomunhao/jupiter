@@ -22,7 +22,7 @@
                             <input type="checkbox" data-size="sm" checked data-toggle="toggle" data-onlabel="Ativo" data-offlabel="Inativo" data-onstyle="secondary" data-offstyle="light">
                     </div>--}}
                     <div class="col-1">Ativo?
-                        <select class="form-select" id="4" name="ativo" type="number" required="required">
+                        <select class="form-select" id="4" name="status" type="number" required="required">
                             <option value="1">Sim</option>
                             <option value="">Todos</option>
                             <option value="2">Não</option>
@@ -32,7 +32,7 @@
                             <input class="btn btn-primary btn-sm" type="submit" value="Pesquisar">
                             <a href="/"><input class="btn btn-danger btn-sm" type="button" value="Cancelar"></a>
                     </form>
-                            <a href="/incluir-funcionario"><input class="btn btn-success btn-sm" type="button" autofocus value="Novo Cadastro+"></a>
+                            <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" autofocus value="Novo Cadastro+"></a>
 
                     </div>
                 </div>
@@ -43,21 +43,21 @@
             <div class="table">
                 <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                     <thead style="text-align: center;">
-                        <tr style="background-color: #d6e3ff; color:#000000">
+                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                             <th class="col-1">CPF</th>
                             <th class="col-1">Identidade</th>
                             <th class="col-4">Nome</th>
-                            <th class="col-1">Ativo?</th>
+                            <th class="col-1">Status</th>
                             <th class="col-4">Ações</th>
                         </tr>
                     </thead>
-                    <tbody style="font-size: 12px;">
+                    <tbody style="font-size: 14px; color:#000000;">
                         <tr>
                         @foreach($lista as $listas)
                             <td scope="" >{{$listas->cpf}}</td>
                             <td scope="" >{{$listas->idt}}</td>
                             <td scope="" >{{$listas->nome_completo}}</td>
-                            <td scope="" style="text-align: center;">{{$listas->sexo}}</td>
+                            <td scope="" style="text-align: center;">{{$listas->status}}</td>
                             <td scope="">
                                 <a href="/editar-funcionario"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#000;"></i></button>
