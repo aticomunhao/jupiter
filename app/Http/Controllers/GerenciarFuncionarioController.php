@@ -25,7 +25,7 @@ class GerenciarFuncionarioController extends Controller
         $result=DB::connection('mysql')->select('select cpf, idt, nome_completo, sexo from pessoa');
 
         $lista = DB::connection('mysql')->table('pessoa AS p')
-        ->select ('p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
+        ->select ('id','p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
         //->where('p.sexo', '=', '1');
 
 
