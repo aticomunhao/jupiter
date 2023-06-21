@@ -34,3 +34,8 @@ Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioCon
 Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
 
 Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index']);
+
+Route::get('/gerenciar-dependentes', [App\Http\Controllers\GerenciarDependentesController::class, 'index']);
+
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
