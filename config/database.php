@@ -48,7 +48,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST', '192.168.1.132'),
             'port' => env('DB_PORT', '3306'),
-            'database' => env('DB_DATABASE', 'funcionario'),
+            'database' => env('DB_DATABASE', 'pessoal'),
             'username' => env('DB_USERNAME', 'ati'),
             'password' => env('DB_PASSWORD', 'ati'),
             'unix_socket' => env('DB_SOCKET', ''),
