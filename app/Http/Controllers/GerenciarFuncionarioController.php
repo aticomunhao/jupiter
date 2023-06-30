@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use App\Models\pessoa;
 use App\Models\funcionario;
 use App\Models\Sexo;
+use App\Models\pessoal;
 
 
 class GerenciarFuncionarioController extends Controller
@@ -20,13 +21,20 @@ class GerenciarFuncionarioController extends Controller
 
         $teste = $request->session()->all();
 
-       // dd($teste);
+       
 
         $result=DB::connection('mysql')->select('select cpf, idt, nome_completo, sexo from pessoa');
 
         $lista = DB::connection('mysql')->table('pessoa AS p')
+<<<<<<< Updated upstream
         ->select ('id','p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
+=======
+        ->select ('p.id','p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
+        
+>>>>>>> Stashed changes
         //->where('p.sexo', '=', '1');
+
+        
 
 
         $cpf = $request->cpf;
@@ -181,7 +189,7 @@ class GerenciarFuncionarioController extends Controller
             'cep' => str_replace('-','',$request->input('cep')),
             'id_uf_end' =>  $request->input('uf_end'),
             'id_cidade' => $request->input('cidade'),
-            'logradouro' => $request->input('logradouro'),
+             'logradouro' => $request->input('logradouro'),
             'numero' => $request->input('numero'),
             'bairro' => $request->input('bairro'),
             'complemento' => $request->input('comple'),
@@ -200,4 +208,60 @@ class GerenciarFuncionarioController extends Controller
 
     }
 
-}
+    public function edit($id){
+
+        $editar = DB::table ('pessoa')
+        ->join('funcionario', 'pessoa.id', '=', 'funcionario.id_pessoa',)
+        ->join('tp_sangue', 'tp_sangue.id', '=', 'funcionario.id_tp_sangue')
+        ->join('tp_programa', 'tp_programa.id', '=', 'funcionario.tp_programa')
+        ->join('tp_sexo', 'tp_sexo.id', '=', 'pessoa.sexo')
+        ->join('tp_nacionalidade', 'tp_nacionalidade.id', '=', 'pessoa.nacionalidade')
+        ->join('tp_cor_pele', 'tp_cor_pele.id', '=', 'funcionario.id_cor_pele')
+        ->join('')
+        
+        ->select('pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*','tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*')
+        ->where('id_pessoa', $id)->first();
+
+        $tbsangue = DB::table('tp_sangue')->distinct()->pluck('nome_sangue');
+        $tbsexo = DB::table('tp_sexo')->distinct()->pluck('tipo');
+        $tbnacionalidade =  DB::table('tp_nacionalidade')->distinct()->pluck('local');
+        $tbpele = DB::table('tp_cor_pele')->distinct()->pluck('nome_cor');
+
+ 
+        
+    
+       //dd($editar);
+       //dd($tbsangue);
+    //dd($tbsexo);
+
+    
+         
+        return view('/funcionarios/editar-funcionario', ['editar' => $editar , 'tbsangue'=> $tbsangue, 'tbsexo'=> $tbsexo, 'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele]);
+
+    }
+    
+
+    
+    //public function update(Request, $request, $id){
+
+
+      //  $editar = pessoa::findOnfail($id);
+        //$editar->matricula = $request->input('matricula');
+
+        //$editar->save();
+
+
+        
+
+        //return view('/funcionarios/editar-funcionario');
+    //}
+
+
+
+       
+
+
+
+
+    }
+

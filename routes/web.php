@@ -29,13 +29,22 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
 Route::get('/informar-dados', [App\Http\Controllers\GerenciarFuncionarioController::class, 'create']);
 Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
+Route::get('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
+
+Route::post('/atualizar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
 Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
 
 Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index']);
 
+<<<<<<< Updated upstream
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index']);
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+=======
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+>>>>>>> Stashed changes

@@ -21,7 +21,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <form class="form-horizontal mt-4" method="POST" action="/incluir-funcionario">
+                    <form class="form-horizontal mt-4" method="post" action="/incluir-funcionario">
                         @csrf    
                     <legend style="color:rgb(16, 19, 241); font-size:15px;">Dados básicos</legend>                           
                     <fieldset class="border rounded border-primary p-2">
