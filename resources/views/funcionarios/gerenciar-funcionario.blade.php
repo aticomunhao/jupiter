@@ -60,7 +60,6 @@
                             <td scope="" style="text-align: center;">{{$listas->status}}</td>
                             <td scope="">
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#000;"></i></button></a>
-<<<<<<< Updated upstream
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-search" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <a href="/gerenciar-dependentes/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#000;"></i></button></a>
@@ -68,7 +67,6 @@
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-person-vcard" style="font-size: 1rem; color:#000;"></i></button></td></a>
-=======
                                 <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#000;"></i></button>
                                 <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-search" style="font-size: 1rem; color:#000;"></i></button>
                                 <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#000;"></i></button>
@@ -76,7 +74,6 @@
                                 <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button>
                                 <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button>
                                 <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-person-vcard" style="font-size: 1rem; color:#000;"></i></button></td>
->>>>>>> Stashed changes
                         </tr>
                         @endforeach
                     </tbody>
