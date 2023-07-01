@@ -32,7 +32,7 @@
                             <input class="btn btn-primary btn-sm" type="submit" value="Pesquisar">
                             <a href="/"><input class="btn btn-danger btn-sm" type="button" value="Cancelar"></a>
                     </form>
-                            <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" autofocus value="Novo Cadastro+"></a>
+                            <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" autofocus value="Novo Cadastro &plus;"></a>
 
                     </div>
                 </div>
@@ -67,13 +67,7 @@
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-person-vcard" style="font-size: 1rem; color:#000;"></i></button></td></a>
-                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#000;"></i></button>
-                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-search" style="font-size: 1rem; color:#000;"></i></button>
-                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#000;"></i></button>
-                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bank" style="font-size: 1rem; color:#000;"></i></button>
-                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button>
-                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button>
-                                <button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-person-vcard" style="font-size: 1rem; color:#000;"></i></button></td>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
