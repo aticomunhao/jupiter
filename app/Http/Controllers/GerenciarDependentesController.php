@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GerenciarDependentesController extends Controller
 {
@@ -11,7 +12,11 @@ class GerenciarDependentesController extends Controller
      */
     public function index($id)
     {   
-        return view('/dependentes/gerenciar-dependentes');
+        $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id"); 
+        //dd($funcionario);
+        $dependentes = DB::select("select * from dependente where id= $id");
+        //dd($dependentes);
+        return view('/dependentes/gerenciar-dependentes', compact('funcionario', 'dependentes'));
     }
 
     /**

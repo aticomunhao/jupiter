@@ -40,8 +40,7 @@ Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBan
 
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index']);
 
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Auth::routes();
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
