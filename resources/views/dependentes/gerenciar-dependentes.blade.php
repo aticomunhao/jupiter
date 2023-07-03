@@ -32,8 +32,31 @@
                                 </div>
                             </div>
                             <hr>
-                                <div class="table"></div>
-                            
+                                <div class="table">
+                                <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
+                                <thead style="text-align: center;">
+                                <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                <th class="col-2">Parentesco</th>
+                                <th class="col-4">Nome</th>
+                                <th class="col-2">Data de Nascimento</th>
+                                <th class="col-3">CPF</th>
+                                <th class="col-2">Ações</th>
+                                </tr>
+                                </thead>
+                                <tbody style="font-size: 14px; color:#000000;">
+                                <tr>
+                                    @foreach($dependentes as $dependente)
+                                    <td scope="" >{{$dependente->id_parentesco}}</td>
+                                    <td scope="" >{{$dependente->nome_dependente}}</td>
+                                    <td scope="" >{{$dependente->dt_nascimento}}</td>
+                                    <td scope="" >{{$dependente->cpf}}</td>
+                      
+                                </tr>
+                                    @endforeach
+                                </tbody>
+                                </table>
+                                </div>
+
                             </div>
                         </div>
                         </div>
