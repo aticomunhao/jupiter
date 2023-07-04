@@ -201,9 +201,12 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">DDD</label>
-      <select id="validationCustomUsername" class="form-control" >
-        <option selected></option>
-        <option>61</option>
+      <select id="12" class="form-control" >
+      <option value=""></option>
+        @foreach ($tbddd as $descricao)
+        <option value= "{{$descricao}}" @if($editar->descricao == $descricao) selected @endif>{{$descricao}}</option>
+      
+      @endforeach
       </select>
       <div class="invalid-feedback">
         Por favor, selecione um DDD válido.
@@ -248,9 +251,12 @@
   
     <div class="form-group col-md-1">
       <label for="validationCustomUsername">UF</label>
-      <select id="validationCustomUsername" class="form-control">
-        <option selected></option>
-        <option>DF</option>
+      <select id="12" class="form-select" >
+      <option value=""></option>
+        @foreach ($tbufidt as $sigla)
+        <option value= "{{$sigla}}" @if($editar->sigla == $sigla) selected @endif>{{$sigla}}</option>
+
+        @endforeach
       </select>
       <div class="invalid-feedback">
         Por favor, selecione um UF válido.
