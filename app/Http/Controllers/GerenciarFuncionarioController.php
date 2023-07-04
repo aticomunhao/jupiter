@@ -213,26 +213,30 @@ class GerenciarFuncionarioController extends Controller
         ->join('tp_sexo', 'tp_sexo.id', '=', 'pessoa.sexo')
         ->join('tp_nacionalidade', 'tp_nacionalidade.id', '=', 'pessoa.nacionalidade')
         ->join('tp_cor_pele', 'tp_cor_pele.id', '=', 'funcionario.id_cor_pele')
-        ->join('')
-        
-        ->select('pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*','tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*')
+        ->join('tp_ddd', 'tp_ddd.id', '=', 'funcionario.ddd')
+        ->join('tp_uf', 'tp_uf.id', '=', 'funcionario.uf_idt')
+        ->select('pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*',
+        'tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*', 'tp_ddd.*', 'tp_uf.*')
         ->where('id_pessoa', $id)->first();
 
         $tbsangue = DB::table('tp_sangue')->distinct()->pluck('nome_sangue');
         $tbsexo = DB::table('tp_sexo')->distinct()->pluck('tipo');
         $tbnacionalidade =  DB::table('tp_nacionalidade')->distinct()->pluck('local');
         $tbpele = DB::table('tp_cor_pele')->distinct()->pluck('nome_cor');
+        $tbddd = DB::table('tp_ddd')->distinct()->pluck('descricao');
+        $tbufidt = DB::table('tp_uf')->distinct()->pluck('sigla');
 
  
         
     
-       //dd($editar);
+   // dd($editar);
        //dd($tbsangue);
     //dd($tbsexo);
 
     
          
-        return view('/funcionarios/editar-funcionario', ['editar' => $editar , 'tbsangue'=> $tbsangue, 'tbsexo'=> $tbsexo, 'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele]);
+        return view('/funcionarios/editar-funcionario', ['editar' => $editar , 'tbsangue'=> $tbsangue, 'tbsexo'=> $tbsexo, 
+        'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele, 'tbddd'=>$tbddd, 'tpufidt'=>$tbufidt]);
 
     }
     
