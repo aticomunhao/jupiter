@@ -14,7 +14,7 @@ class GerenciarDependentesController extends Controller
     {   
         $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id"); 
         //dd($funcionario);
-        $dependentes = DB::select("select * from dependente where id= $id");
+        $dependentes = DB::select("select * from dependente where id_pessoa= $id");
         //dd($dependentes);
         return view('/dependentes/gerenciar-dependentes', compact('funcionario', 'dependentes'));
     }
