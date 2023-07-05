@@ -253,7 +253,7 @@
       <label for="validationCustomUsername">UF</label>
       <select id="12" class="form-select" >
       <option value=""></option>
-        @foreach ($tbufidt as $sigla)
+        @foreach ($tpufidt as $sigla)
         <option value= "{{$sigla}}" @if($editar->sigla == $sigla) selected @endif>{{$sigla}}</option>
 
         @endforeach

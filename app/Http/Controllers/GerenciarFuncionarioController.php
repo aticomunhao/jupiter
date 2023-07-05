@@ -214,7 +214,8 @@ class GerenciarFuncionarioController extends Controller
         ->join('tp_nacionalidade', 'tp_nacionalidade.id', '=', 'pessoa.nacionalidade')
         ->join('tp_cor_pele', 'tp_cor_pele.id', '=', 'funcionario.id_cor_pele')
         ->join('tp_ddd', 'tp_ddd.id', '=', 'funcionario.ddd')
-        ->join('tp_uf', 'tp_uf.id', '=', 'funcionario.uf_idt')
+        ->join('tp_uf', 'tp_uf.id', '=', 'pessoa.uf_idt')
+
         ->select('pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*',
         'tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*', 'tp_ddd.*', 'tp_uf.*')
         ->where('id_pessoa', $id)->first();
@@ -224,7 +225,7 @@ class GerenciarFuncionarioController extends Controller
         $tbnacionalidade =  DB::table('tp_nacionalidade')->distinct()->pluck('local');
         $tbpele = DB::table('tp_cor_pele')->distinct()->pluck('nome_cor');
         $tbddd = DB::table('tp_ddd')->distinct()->pluck('descricao');
-        $tbufidt = DB::table('tp_uf')->distinct()->pluck('sigla');
+        $tpufidt = DB::table('tp_uf')->distinct()->pluck('sigla');
 
  
         
@@ -236,7 +237,7 @@ class GerenciarFuncionarioController extends Controller
     
          
         return view('/funcionarios/editar-funcionario', ['editar' => $editar , 'tbsangue'=> $tbsangue, 'tbsexo'=> $tbsexo, 
-        'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele, 'tbddd'=>$tbddd, 'tpufidt'=>$tbufidt]);
+        'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele, 'tbddd'=>$tbddd, 'tpufidt'=>$tpufidt]);
 
     }
     
