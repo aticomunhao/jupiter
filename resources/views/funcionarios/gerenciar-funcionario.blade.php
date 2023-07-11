@@ -66,7 +66,6 @@
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bank" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-person-vcard" style="font-size: 1rem; color:#000;"></i></button></td></a>
                             </td>
                         </tr>
                         @endforeach
