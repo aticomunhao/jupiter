@@ -215,9 +215,12 @@ class GerenciarFuncionarioController extends Controller
         ->join('tp_cor_pele', 'tp_cor_pele.id', '=', 'funcionario.id_cor_pele')
         ->join('tp_ddd', 'tp_ddd.id', '=', 'funcionario.ddd')
         ->join('tp_uf', 'tp_uf.id', '=', 'pessoa.uf_idt')
+        ->join('tp_cnh', 'tp_cnh.id', '=', 'funcionario.id_cat_cnh')
+        ->join('tp_cidade', 'tp_cidade.id_cidade', '=', 'pessoa.naturalidade')
+        
 
         ->select('pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*',
-        'tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*', 'tp_ddd.*', 'tp_uf.*')
+        'tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*', 'tp_ddd.*', 'tp_uf.*', 'tp_cidade.*','tp_cnh.*')
         ->where('id_pessoa', $id)->first();
 
         $tbsangue = DB::table('tp_sangue')->distinct()->pluck('nome_sangue');
@@ -226,36 +229,43 @@ class GerenciarFuncionarioController extends Controller
         $tbpele = DB::table('tp_cor_pele')->distinct()->pluck('nome_cor');
         $tbddd = DB::table('tp_ddd')->distinct()->pluck('descricao');
         $tpufidt = DB::table('tp_uf')->distinct()->pluck('sigla');
+        $tpcnh = DB::table('tp_cnh')->distinct()->pluck('nome_cat');
+        $tpcidade = DB::table('tp_cidade')->distinct()->pluck('descricao');
+       
+        
 
  
         
     
-   // dd($editar);
+//dd($editar);
        //dd($tbsangue);
     //dd($tbsexo);
 
     
          
         return view('/funcionarios/editar-funcionario', ['editar' => $editar , 'tbsangue'=> $tbsangue, 'tbsexo'=> $tbsexo, 
-        'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele, 'tbddd'=>$tbddd, 'tpufidt'=>$tpufidt]);
+        'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele, 'tbddd'=>$tbddd, 'tpufidt'=>$tpufidt, 'tpcnh'=>$tpcnh, 'tpcidade'=>$tpcidade]);
 
     }
     
 
     
-    //public function update(Request, $request, $id){
+    public function update(Request $request, $id){
 
 
-      //  $editar = pessoa::findOnfail($id);
-        //$editar->matricula = $request->input('matricula');
+         dd($editar);
+        $editar = pessoa::findOnfail($id);
+        
+        if($request->has('atualizar')){
+        $editar->matricula = $request->input('matricula');
 
-        //$editar->save();
-
+        $editar->save();
+        }
 
         
 
-        //return view('/funcionarios/editar-funcionario');
-    //}
+        return view('/funcionarios/editar-funcionario');
+   }
 
 
 

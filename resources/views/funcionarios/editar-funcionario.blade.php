@@ -10,7 +10,7 @@
     <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>   
     <fieldset class="border rounded border-primary p-2">
 <div> 
-    <form method = 'POST' action = "{{$editar->id}}">
+    <form method = 'POST' action = "{{route('atualizar-funcionario.update', $editar->id)}}">
       
       @csrf
       @method('PUT')
@@ -79,11 +79,12 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Naturalidade-Cidade</label>
-      <select id="validationCustomUsername" class="form-control" >
-        <option selected></option>
-        <option>Brasília</option>
-        <option>Rio de Janeiro</option>
-        <option>São Paulo</option>
+      <select id="12" class="form-select" >
+      <option value=""></option>
+        @foreach ($tpcidade as $descricao)
+        <option value= "{{$descricao}}" @if($editar->descricao == $descricao) selected @endif>{{$descricao}}</option>
+
+        @endforeach
       </select>
       <div class="invalid-feedback">
         Por favor, selecione um UF válido.
@@ -201,12 +202,12 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">DDD</label>
-      <select id="12" class="form-control" >
+      <select id="12" class="form-select" >
       <option value=""></option>
         @foreach ($tbddd as $descricao)
         <option value= "{{$descricao}}" @if($editar->descricao == $descricao) selected @endif>{{$descricao}}</option>
-      
-      @endforeach
+
+        @endforeach
       </select>
       <div class="invalid-feedback">
         Por favor, selecione um DDD válido.
@@ -265,7 +266,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Reservista</label>
-      <input type="text" class="form-control" id="validationCustom05" value = "{{$editar->reservista}}" required>
+      <input type="text" class="form-control" id="validationCustom05" value = "{{$editar->reservista}}" >
       
     </div>
     <div class="form-group row" style = "">
@@ -295,17 +296,16 @@
 
     <div class="form-group col-md-1">
       <label for="validationCustomUsername">Cat CNH</label>
-      <select id="validationCustomUsername" class="form-control" >
-        <option selected></option>
-        <option>A</option>
-        <option>B</option>
-        <option>C</option>
+      <select id="12" class="form-select" >
+      <option value=""></option>
+        @foreach ($tpcnh as $nome_cat)
+        <option value= "{{$nome_cat}}" @if($editar->nome_cat == $nome_cat) selected @endif>{{$nome_cat}}</option>
+
+        @endforeach
       </select>
       <div class="invalid-feedback">
         Por favor, selecione uma Cat CNH válida.
     </div>
-    </div>
-
   </div>
 </div>
 <div>
@@ -318,7 +318,7 @@
 </fieldset>
 <div class="botões" style = "padding-left:20px;  font-size:40px; width: 50%;">    
 <input type ="submit"value = "Cancelar" class="btn btn-danger">
-<input type ="submit"value = "salvar" class="btn btn-primary">
+<input type ="submit"value = "atualizar" class="btn btn-primary">
 </form>
 </div>
 <script>
