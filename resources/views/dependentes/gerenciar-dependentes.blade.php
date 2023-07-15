@@ -28,7 +28,7 @@
                                     </div>
                                 <div class="col-4"></div>
                                 <div class="col-3">
-                                <button type="button" class="btn btn-success btn-lg" style="padding: 5px 80px;">Novo &plus;</button>
+                                <a href="/incluir-dependentes/{id}"><button type="button" class="btn btn-success btn-lg" style="padding: 5px 80px;">Novo &plus;</button></a>
                                 </div>
                             </div>
                             <hr>

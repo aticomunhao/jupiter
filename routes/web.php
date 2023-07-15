@@ -39,7 +39,7 @@ Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioContr
 Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index']);
 
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index']);
-
+Route::get('/incluir-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'create']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
