@@ -252,19 +252,22 @@ class GerenciarFuncionarioController extends Controller
     
     public function update(Request $request, $id){
 
+     
+       //dd($nome_completo);
 
-         dd($editar);
-        $editar = pessoa::findOnfail($id);
+         DB::table('pessoa')
+        ->where('id', $id)
+        ->update(['nome_completo'=>$request->input('nome_completo'),
+                  'dt_nascimento'=>$request->input('dt_nascimento')
+        ]);
+        //dd($atualizar);
+
         
-        if($request->has('atualizar')){
-        $editar->matricula = $request->input('matricula');
+       //dd($id); 
+      //dd($nome_completo);
+      //dd($dt_nascimento);
 
-        $editar->save();
-        }
-
-        
-
-        return view('/funcionarios/editar-funcionario');
+        return redirect()->action('GerenciarFuncionarioController::class', 'index');
    }
 
 

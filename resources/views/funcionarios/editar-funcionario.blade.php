@@ -10,10 +10,10 @@
     <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>   
     <fieldset class="border rounded border-primary p-2">
 <div> 
-    <form method = 'POST' action = "{{route('atualizar-funcionario.update', $editar->id)}}">
-      
-      @csrf
+    <form method = 'POST' action = "/atualizar-funcionario/$editar[0]->id">
       @method('PUT')
+      @csrf
+   
   <div class="form-group row" style = "display:flex;
     justify-content:space-between; width: 100%;">
     <div class="form-group col-md-2">
@@ -317,8 +317,8 @@
 </div>
 </fieldset>
 <div class="botões" style = "padding-left:20px;  font-size:40px; width: 50%;">    
-<input type ="submit"value = "Cancelar" class="btn btn-danger">
-<input type ="submit"value = "atualizar" class="btn btn-primary">
+<a href="/gerenciar-funcionario" type ="button" value = "" class="btn btn-danger">Cancelar</a>
+<input type ="submit" value= "Confirmar" class="btn btn-primary">
 </form>
 </div>
 <script>
