@@ -10,22 +10,22 @@
     <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>   
     <fieldset class="border rounded border-primary p-2">
 <div> 
-    <form method = 'POST' action = "/atualizar-funcionario/$editar[0]->id">
-      @method('PUT')
+    <form method = 'POST' action = "/atualizar-funcionario/{{$editar->id_pes}}">
+     
       @csrf
    
   <div class="form-group row" style = "display:flex;
     justify-content:space-between; width: 100%;">
     <div class="form-group col-md-2">
       <label for="validationCustom01">Matricula</label>
-      <input type="text" class="form-control" value ="{{$editar->matricula}}"  required>
+      <input type="text" name = "matr" class="form-control" value ="{{$editar->matricula}}"  required>
       <div class="invalid-feedback">
         Por favor, informe o Número da Matrícula.
       </div>
     </div>
     <div class="form-group col-md-6">
       <label for="validationCustom02">Nome Completo</label>
-      <input type="text" class="form-control" value ="{{$editar->nome_completo}}"  required>
+      <input type="text" name = "nome" class="form-control" value ="{{$editar->nome_completo}}"  required>
     </div>
     <br>
     <div class="form-group col-md-2">

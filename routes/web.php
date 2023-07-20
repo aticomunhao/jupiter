@@ -26,12 +26,12 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('GerenciarFuncionarioController@index');
+Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
 Route::get('/informar-dados', [App\Http\Controllers\GerenciarFuncionarioController::class, 'create']);
 Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
-Route::get('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
+Route::get('/editar-funcionario/{id_pes}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
 
-Route::any('/atualizar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update'])->name('atualizar-funcionario.update');
+Route::post('/atualizar-funcionario/{id_pes}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update'])->name('atualizar-funcionario.update');
 
 //Route::post('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('editar-funcionario.index');
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');

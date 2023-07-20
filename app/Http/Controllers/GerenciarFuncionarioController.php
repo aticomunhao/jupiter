@@ -219,7 +219,7 @@ class GerenciarFuncionarioController extends Controller
         ->join('tp_cidade', 'tp_cidade.id_cidade', '=', 'pessoa.naturalidade')
         
 
-        ->select('pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*',
+        ->select('pessoa.id AS id_pes', 'pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*',
         'tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*', 'tp_ddd.*', 'tp_uf.*', 'tp_cidade.*','tp_cnh.*')
         ->where('id_pessoa', $id)->first();
 
@@ -250,16 +250,19 @@ class GerenciarFuncionarioController extends Controller
     
 
     
-    public function update(Request $request, $id){
+    public function update(Request $request, $id_pes){
 
      
-       //dd($nome_completo);
+       //dd($request);
 
-         DB::table('pessoa')
-        ->where('id', $id)
-        ->update(['nome_completo'=>$request->input('nome_completo'),
-                  'dt_nascimento'=>$request->input('dt_nascimento')
+        DB::table('pessoa')
+        ->where('id', $id_pes)
+        ->update(['nome_completo'=>$request->input('nome'),
+
         ]);
+
+
+        
         //dd($atualizar);
 
         
@@ -267,7 +270,8 @@ class GerenciarFuncionarioController extends Controller
       //dd($nome_completo);
       //dd($dt_nascimento);
 
-        return redirect()->action('GerenciarFuncionarioController::class', 'index');
+       
+        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
    }
 
 
