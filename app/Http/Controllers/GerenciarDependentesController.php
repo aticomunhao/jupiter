@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\GerenciarDependentesController;
 
 class GerenciarDependentesController extends Controller
 {
@@ -11,8 +13,8 @@ class GerenciarDependentesController extends Controller
      * Display a listing of the resource.
      */
     public function index($id)
-    {   
-        $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id"); 
+    {
+        $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id");
         //dd($funcionario);
         $dependentes = DB::select("select * from dependente where id_pessoa= $id");
         //dd($dependentes);
@@ -24,15 +26,33 @@ class GerenciarDependentesController extends Controller
      */
     public function create($id)
     {
-        return view('/dependentes/incluir-dependente');
+        $funcionario_atual = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id");
+
+        $tp_relacao = DB::select("select * from tp_parentesco");
+
+
+
+        return view('/dependentes/incluir-dependente', compact('funcionario_atual','tp_relacao'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
-        //
+        $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id");
+
+        //dd($id);
+        DB::table('dependente')->insert([
+
+            'nome_dependente'=> $request->input('nomecomp_dep'),
+            'dt_nascimento'=> $request->input('dtnasc_dep'),
+            'cpf'=>$request->input('cpf_dep'),
+            'id_pessoa'=>$id,
+            'id_parentesco'=>$request->input('relacao_dep')
+
+        ]);
+        return redirect()->route('Batata', ['id' => $id]);
     }
 
     /**
@@ -64,6 +84,8 @@ class GerenciarDependentesController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $deleted = DB::table('')->delete();
+
+        $deleted = DB::table('users')->where('votes', '>', 100)->delete();
     }
 }

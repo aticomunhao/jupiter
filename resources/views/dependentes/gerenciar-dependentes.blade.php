@@ -27,7 +27,7 @@
                                     </div>
                                 <div class="col-4"></div>
                                 <div class="col-3">
-                                <a href="/incluir-dependentes/{id}"><button type="button" class="btn btn-success btn-lg" style="padding: 5px 80px;">Novo &plus;</button></a>
+                                <a href="/incluir-dependentes/{{$funcionario[0]->id}}"><button type="button" class="btn btn-success btn-lg" style="padding: 5px 80px;">Novo &plus;</button></a>
                                 </div>
                             </div>
                             <hr>
@@ -49,7 +49,7 @@
                                     <td scope="" >{{$dependente->nome_dependente}}</td>
                                     <td scope="" >{{$dependente->dt_nascimento}}</td>
                                     <td scope="" >{{$dependente->cpf}}</td>
-                      
+
                                 </tr>
                                     @endforeach
                                 </tbody>
