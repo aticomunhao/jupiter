@@ -1,5 +1,6 @@
 <?php
 
+use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 
 
@@ -38,9 +39,14 @@ Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioContr
 
 Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index']);
 
+
+/*Rotas dos Dependentes */
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('Batata');
 Route::get('/incluir-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'create']);
 Route::any('/armazenar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'store']);
+Route::any('/deletar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'destroy']);
+
+
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -38,8 +38,8 @@
                                 <th class="col-2">Parentesco</th>
                                 <th class="col-4">Nome</th>
                                 <th class="col-2">Data de Nascimento</th>
-                                <th class="col-3">CPF</th>
-                                <th class="col-2">Ações</th>
+                                <th class="col-2">CPF</th>
+                                <th class="col-3">Ações</th>
                                 </tr>
                                 </thead>
                                 <tbody style="font-size: 14px; color:#000000;">
@@ -49,6 +49,9 @@
                                     <td scope="" >{{$dependente->nome_dependente}}</td>
                                     <td scope="" >{{$dependente->dt_nascimento}}</td>
                                     <td scope="" >{{$dependente->cpf}}</td>
+
+                                    <td scope=""><a href="/deletar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-danger delete-btn"><i class="bi bi-trash"></i></button></a></td>
+
 
                                 </tr>
                                     @endforeach
