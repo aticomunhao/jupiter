@@ -4,7 +4,6 @@
 @section('content')
             <div class="container">
                 <div class="justify-content-center">
-                    
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
@@ -13,7 +12,7 @@
                                     </div>
                                     <div class="col-8">
                                     </div>
-                                    <div class="col-2">aaa
+                                    <div class="col-2">
                                     </div>
                                 </div>
                             </div>
@@ -28,7 +27,7 @@
                                     </div>
                                 <div class="col-4"></div>
                                 <div class="col-3">
-                                <button type="button" class="btn btn-success btn-lg" style="padding: 5px 80px;">Novo &plus;</button>
+                                <a href="/incluir-dependentes/{{$funcionario[0]->id}}"><button type="button" class="btn btn-success btn-lg" style="padding: 5px 80px;">Novo &plus;</button></a>
                                 </div>
                             </div>
                             <hr>
@@ -50,7 +49,7 @@
                                     <td scope="" >{{$dependente->nome_dependente}}</td>
                                     <td scope="" >{{$dependente->dt_nascimento}}</td>
                                     <td scope="" >{{$dependente->cpf}}</td>
-                      
+
                                 </tr>
                                     @endforeach
                                 </tbody>
@@ -58,7 +57,6 @@
                                 </div>
 
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
