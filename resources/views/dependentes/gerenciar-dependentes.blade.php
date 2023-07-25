@@ -8,11 +8,9 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row">
-                                    <div class="col-2">Editar-Dependentes
+                                    <div class="col-6">Editar-Dependentes
                                     </div>
-                                    <div class="col-8">
-                                    </div>
-                                    <div class="col-2">
+                                    <div class="col-6">
                                     </div>
                                 </div>
                             </div>
@@ -38,17 +36,41 @@
                                 <th class="col-2">Parentesco</th>
                                 <th class="col-4">Nome</th>
                                 <th class="col-2">Data de Nascimento</th>
-                                <th class="col-3">CPF</th>
-                                <th class="col-2">Ações</th>
+                                <th class="col-2">CPF</th>
+                                <th class="col-3">Ações</th>
                                 </tr>
                                 </thead>
                                 <tbody style="font-size: 14px; color:#000000;">
                                 <tr>
                                     @foreach($dependentes as $dependente)
-                                    <td scope="" >{{$dependente->id_parentesco}}</td>
+                                    <td scope="" >@switch($dependente->id_pessoa)
+                                        @case(1)
+                                            Pai
+                                            @break
+                                        @case(2)
+                                            Mãe
+                                            @break
+                                        @case(3)
+                                            Filha
+                                        @break
+                                        @case(4)
+                                            Filho
+                                        @break
+                                        @default
+
+                                    @endswitch</td>
                                     <td scope="" >{{$dependente->nome_dependente}}</td>
                                     <td scope="" >{{$dependente->dt_nascimento}}</td>
                                     <td scope="" >{{$dependente->cpf}}</td>
+
+                                    <div class="d-flex justify-content-between" >
+                                        <td scope=""><a href="/deletar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-danger delete-btn"><i class="bi bi-trash"></i></button></a>
+
+
+                                        <a href="/editar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-primary"><i class="bi bi-pencil"></i></button></a>
+                                        </td>
+                                    </div>
+
 
                                 </tr>
                                     @endforeach

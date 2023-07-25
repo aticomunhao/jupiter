@@ -17,13 +17,13 @@
             </DIV>
             </div>
             <div class="card-body">
-            <form method="post" action="/armazenar-dependentes/{{$funcionario_atual[0]->id}}">
+            <form method="post" action="/armazenar-dependentes/{{$funcionario[0]->id}}">
                         @csrf
                 <div class="row">
                     <div class="col-5">
                     <div class="card" style="padding: 0px">
-                        <div class="card-body bg-body-secondary" value= {{$funcionario_atual[0]->id}}>
-                              {{$funcionario_atual[0]->nome_completo}}
+                        <div class="card-body bg-body-secondary" value= {{$funcionario[0]->id}}>
+                              {{$funcionario[0]->nome_completo}}
                         </div>
                     </div>
                     </div>
@@ -53,7 +53,7 @@
                 <br>
                 <div class="row">
                         <div class="d-grid gap-1 col-5 mx-auto">
-                            <a class="btn btn-danger" href="/incluir-dependentes/{{$funcionario_atual[0]->id}}" role="button">Limpar</a>
+                            <a class="btn btn-danger" href="/incluir-dependentes/{{$funcionario[0]->id}}" role="button">Limpar</a>
                         </div>
                         <div class="d-grid gap-2 col-5 mx-auto">
                           <button type="submit" class="btn btn-success" >Confirmar</button>

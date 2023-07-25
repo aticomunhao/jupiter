@@ -26,6 +26,7 @@ class GerenciarDependentesController extends Controller
      */
     public function create($id)
     {
+
         $funcionario_atual = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id");
 
         $tp_relacao = DB::select("select * from tp_parentesco");
@@ -68,7 +69,11 @@ class GerenciarDependentesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $dependente = DB::table('dependente')->where('id',$id)->first();
+        $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $dependente->id_pessoa");
+        $tp_relacao = DB::select("select * from tp_parentesco");
+
+        return view('/dependentes/editar-dependentes',compact('dependente','tp_relacao','funcionario'));
     }
 
     /**
@@ -82,10 +87,9 @@ class GerenciarDependentesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        $deleted = DB::table('')->delete();
-
-        $deleted = DB::table('users')->where('votes', '>', 100)->delete();
+        DB::table('dependente')->where('id', $id)->delete();
+        return redirect()->back();
     }
 }
