@@ -64,10 +64,10 @@
                                     <td scope="" >{{$dependente->cpf}}</td>
 
                                     <div class="d-flex justify-content-between" >
-                                        <td scope=""><a href="/deletar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-danger delete-btn"><i class="bi bi-trash"></i></button></a>
+                                        <td scope=""><a href="/deletar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-danger delete-btn btn-sm"><i class="bi bi-trash"></i></button></a>
 
 
-                                        <a href="/editar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-primary"><i class="bi bi-pencil"></i></button></a>
+                                        <a href="/editar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-pencil btn-sm"></i></button></a>
                                         </td>
                                     </div>
 
