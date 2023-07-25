@@ -69,7 +69,14 @@ class GerenciarDependentesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $funcionario_atual = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id");
+
+        $tp_relacao = DB::select("select * from tp_parentesco");
+        $dependente = DB::table('dependente')->where('id',$id)->first();
+
+
+
+        return view('/dependentes/editar-dependentes',compact('dependente','tp_relacao','funcionario_atual'));
     }
 
     /**

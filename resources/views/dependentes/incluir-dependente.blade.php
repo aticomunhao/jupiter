@@ -24,7 +24,7 @@
                     <div class="card" style="padding: 0px">
                         <div class="card-body bg-body-secondary" value= {{$funcionario_atual[0]->id}}>
                               {{$funcionario_atual[0]->nome_completo}}
-                         required</div>
+                        </div>
                     </div>
                     </div>
                 </div>
