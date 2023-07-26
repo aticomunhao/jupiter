@@ -73,15 +73,32 @@ class GerenciarDependentesController extends Controller
         $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $dependente->id_pessoa");
         $tp_relacao = DB::select("select * from tp_parentesco");
 
+
+
         return view('/dependentes/editar-dependentes',compact('dependente','tp_relacao','funcionario'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        $dependente = DB::table('dependente')->where('id',$id)->first();
+        $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $dependente->id_pessoa");
+        $tp_relacao = DB::select("select * from tp_parentesco");
+
+       
+        DB::table('dependente')
+        ->where('id', $id)
+        ->update([
+        'nome_dependente' => $request->input('nomecomp_dep'),
+        'cpf'=> $request->input('cpf_dep'),
+        'dt_nascimento' => $request->input('dtnasc_dep'),
+        'id_parentesco'=> $request->input('relacao_dep'),
+        'id_pessoa' => $request->input($dependente->id_pessoa)
+        ]);
+
+        return redirect()->route('Batata', ['id' => $dependente->id_pessoa]);
     }
 
     /**
