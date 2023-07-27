@@ -22,10 +22,10 @@
             <div class="card">
                 <div class="card-body">
                     <form class="form-horizontal mt-4" method="post" action="/incluir-funcionario">
-                        @csrf    
-                    <legend style="color:rgb(16, 19, 241); font-size:15px;">Dados básicos</legend>                           
+                        @csrf
+                    <legend style="color:rgb(16, 19, 241); font-size:15px;">Dados básicos</legend>
                     <fieldset class="border rounded border-primary p-2">
-                                
+
                         <div class="form-group row">
                             <div class="col-2">Matrícula
                                 <input  class="form-control" type="numeric" maxlength="11" id="1" name="matricula" required="required" >
@@ -210,11 +210,11 @@
                             </div>
                         </div>
                     </fieldset>
-                        <br>   
-                        <legend style="color:rgb(16, 19, 241); font-size:15px;">Dados bancários</legend>                           
-                    <fieldset class="border rounded border-primary p-2">                    
+                        <br>
+                        <legend style="color:rgb(16, 19, 241); font-size:15px;">Dados bancários</legend>
+                    <fieldset class="border rounded border-primary p-2">
                         <div class="row">
-                    
+
                             <div class="col">CEP
                                 <input class="form-control" maxlength="8" type="numeric"  id="35" name="cep">
                             </div>
@@ -246,8 +246,8 @@
                                 <input type="text" maxlength="45" class="form-control" id="36" name="comple">
                             </div>
                         </div>
-                        <div class="row  h-90">                  
-                            
+                        <div class="row  h-90">
+
                             <div class="col">Bairro:
                                 <input type="text" maxlength="45" class="form-control" id="36" name="bairro">
                             </div>
@@ -263,7 +263,7 @@
                         </div>
                     </div>
                     </form>
-                    
+
                     <br>
                 </div>
             </div>
