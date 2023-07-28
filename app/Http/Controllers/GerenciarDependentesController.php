@@ -41,17 +41,21 @@ class GerenciarDependentesController extends Controller
     public function store(Request $request, $id)
     {
         $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id");
-
+        
         //dd($id);
         DB::table('dependente')->insert([
 
-            'nome_dependente'=> $request->input('nomecomp_dep'),
-            'dt_nascimento'=> $request->input('dtnasc_dep'),
-            'cpf'=>$request->input('cpf_dep'),
+            'nome_dependente'=> $request
+            ->input('nomecomp_dep'),
+            'dt_nascimento'=> $request
+            ->input('dtnasc_dep'),
+            'cpf'=>$request
+            ->input('cpf_dep'),
             'id_pessoa'=>$id,
             'id_parentesco'=>$request->input('relacao_dep')
 
         ]);
+        app('flasher')->addSuccess('O cadastro do dependente foi realizado com sucesso.');
         return redirect()->route('Batata', ['id' => $id]);
     }
 
