@@ -41,7 +41,7 @@ Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBan
 
 
 /*Rotas dos Dependentes */
-Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('Batata');
+Route::get('/gerenciar-dependentes/{idf}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('Batata');
 Route::get('/incluir-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'create']);
 Route::any('/armazenar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'store']);
 Route::any('/deletar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'destroy']);

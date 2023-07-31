@@ -11,11 +11,20 @@ class GerenciarDependentesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id)
+    public function index($idf)
     {
-        $funcionario = DB::select("select f.id, p.nome_completo from funcionario f left join pessoa p on f.id_pessoa = p.id where f.id = $id");
+        $funcionario = DB::select("select 
+                            f.id, 
+                            p.nome_completo 
+                            from funcionario f 
+                            left join pessoa p on f.id_pessoa = p.id
+                            where f.id = $idf");
         //dd($funcionario);
-        $dependentes = DB::select("select * from dependente where id_pessoa= $id");
+
+        $dependentes = DB::select("select 
+                            id_funcionario 
+                            from dependente d
+                            where = d.id_funcionario = $idf");
         //dd($dependentes);
         return view('/dependentes/gerenciar-dependentes', compact('funcionario', 'dependentes'));
     }

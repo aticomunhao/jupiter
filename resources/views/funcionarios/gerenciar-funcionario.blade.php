@@ -10,13 +10,13 @@
                 <form action="{{route('gerenciar')}}" class="form-horizontal mt-4" method="GET" >
                 <div class="row">
                     <div class="col-2">CPF
-                        <input class="form-control" type="numeric" id="1" name="cpf" value="">
+                        <input class="form-control" type="text" id="1" name="cpf" value="{{$cpf}}">
                     </div>
                     <div class="col-2">Identidade
-                        <input class="form-control" type="numeric" id="2" name="idt" value="">
+                        <input class="form-control" type="text" id="2" name="idt" value="{{$idt}}">
                     </div>
                     <div class="col-4">Nome
-                        <input class="form-control" type="text" id="3" name="nome" value="">
+                        <input class="form-control" type="text" id="3" name="nome" value="{{$nome}}">
                     </div>
                     {{--<div class="col-1 form-check form-switch"><br>
                             <input type="checkbox" data-size="sm" checked data-toggle="toggle" data-onlabel="Ativo" data-offlabel="Inativo" data-onstyle="secondary" data-offstyle="light">
@@ -30,7 +30,7 @@
                     </div>
                         <div class="col-3"><br>
                             <input class="btn btn-primary btn-sm" type="submit" value="Pesquisar">
-                            <a href="/"><input class="btn btn-danger btn-sm" type="button" value="Cancelar"></a>
+                            <a href="/gerenciar-funcionario"><input class="btn btn-danger btn-sm" type="button" value="Limpar"></a>
                     </form>
                             <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" autofocus value="Novo Cadastro &plus;"></a>
 
@@ -59,13 +59,13 @@
                             <td scope="" >{{$listas->nome_completo}}</td>
                             <td scope="" style="text-align: center;">{{$listas->status}}</td>
                             <td scope="">
-                                <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-search" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/gerenciar-dependentes/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bank" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-search" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bank" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button></a>
                             </td>
                         </tr>
                         @endforeach

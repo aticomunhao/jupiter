@@ -19,19 +19,10 @@ class GerenciarFuncionarioController extends Controller
     
     public function index(Request $request){
 
-        $teste = $request->session()->all();
-
-       
-
-        $result=DB::connection('mysql')->select('select cpf, idt, nome_completo, sexo from pessoa');
-
-        $lista = DB::connection('mysql')->table('pessoa AS p')
-        ->select ('p.id','p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
-        
-        //->where('p.sexo', '=', '1');
-
-        
-
+        //$lista = DB::connection('mysql')->table('funcionario AS f')
+        $lista = DB::table('funcionario AS f')
+        ->leftjoin('pessoa AS p', 'f.id_pessoa', 'p.id')
+        ->select ('f.id AS idf','p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
 
         $cpf = $request->cpf;
 
@@ -61,9 +52,10 @@ class GerenciarFuncionarioController extends Controller
         $lista = $lista->orderBy( 'p.status','asc')->orderBy('p.nome_completo', 'asc')->paginate(5);
 
 
-        //dd($request->ativo);
 
-       return view('\funcionarios.gerenciar-funcionario', compact ('lista'));
+   
+
+       return view('\funcionarios.gerenciar-funcionario', compact ('lista', 'cpf', 'idt', 'status', 'nome'));
 
     }
 
@@ -113,13 +105,10 @@ class GerenciarFuncionarioController extends Controller
         $vercpf = DB::table('pessoa')
                     ->get('cpf');
 
-        
-
         $cpf = $request->cpf;
-
         
 
-        if ( $request->$cpf = $vercpf){
+        if ( $request->$cpf == $vercpf){
 
            
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
