@@ -193,6 +193,44 @@ class GerenciarFuncionarioController extends Controller
 
     }
 
+<<<<<<< HEAD
+    public function edit($id){
+
+        $editar = DB::table ('pessoa')
+        ->join('funcionario', 'pessoa.id', '=', 'funcionario.id_pessoa',)
+        ->join('tp_sangue', 'tp_sangue.id', '=', 'funcionario.id_tp_sangue')
+        ->join('tp_programa', 'tp_programa.id', '=', 'funcionario.tp_programa')
+        ->join('tp_sexo', 'tp_sexo.id', '=', 'pessoa.sexo')
+        ->join('tp_nacionalidade', 'tp_nacionalidade.id', '=', 'pessoa.nacionalidade')
+        ->join('tp_cor_pele', 'tp_cor_pele.id', '=', 'funcionario.id_cor_pele')
+        ->join('tp_ddd', 'tp_ddd.id', '=', 'funcionario.ddd')
+        ->join('tp_uf', 'tp_uf.id', '=', 'pessoa.uf_idt')
+        ->join('tp_cnh', 'tp_cnh.id', '=', 'funcionario.id_cat_cnh')
+        ->join('tp_cidade', 'tp_cidade.id_cidade', '=', 'pessoa.naturalidade')
+        
+
+        ->select('pessoa.id AS id_pes', 'pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*',
+        'tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*', 'tp_ddd.*', 'tp_uf.*', 'tp_cidade.*','tp_cnh.*')
+        ->where('id_pessoa', $id)->first();
+
+        $tbsangue = DB::table('tp_sangue')->distinct()->pluck('nome_sangue');
+        $tbsexo = DB::table('tp_sexo')->distinct()->pluck('tipo');
+        $tbnacionalidade =  DB::table('tp_nacionalidade')->distinct()->pluck('local');
+        $tbpele = DB::table('tp_cor_pele')->distinct()->pluck('nome_cor');
+        $tbddd = DB::table('tp_ddd')->distinct()->pluck('descricao');
+        $tpufidt = DB::table('tp_uf')->distinct()->pluck('sigla');
+        $tpcnh = DB::table('tp_cnh')->distinct()->pluck('nome_cat');
+        $tpcidade = DB::table('tp_cidade')->distinct()->pluck('descricao');
+       
+        
+
+ 
+        
+    
+//dd($editar);
+       //dd($tbsangue);
+    //dd($tbsexo);
+=======
     public function edit($idf){
 
         $editar = DB::table ('funcionario AS f')
@@ -209,6 +247,7 @@ class GerenciarFuncionarioController extends Controller
         ->get();
 
         
+>>>>>>> main
 
         
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
@@ -221,25 +260,40 @@ class GerenciarFuncionarioController extends Controller
 
    
          
+<<<<<<< HEAD
+        return view('/funcionarios/editar-funcionario', ['editar' => $editar , 'tbsangue'=> $tbsangue, 'tbsexo'=> $tbsexo, 
+        'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele, 'tbddd'=>$tbddd, 'tpufidt'=>$tpufidt, 'tpcnh'=>$tpcnh, 'tpcidade'=>$tpcidade]);
+=======
         return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tpufidt', 'tpcnh'));
+>>>>>>> main
 
     }
     
 
     
-    //public function update(Request, $request, $id){
+    public function update(Request $request, $id_pes){
 
+     
+       //dd($request);
 
-      //  $editar = pessoa::findOnfail($id);
-        //$editar->matricula = $request->input('matricula');
+        DB::table('pessoa')
+        ->where('id', $id_pes)
+        ->update(['nome_completo'=>$request->input('nome'),
 
-        //$editar->save();
+        ]);
 
 
         
+        //dd($atualizar);
 
-        //return view('/funcionarios/editar-funcionario');
-    //}
+        
+       //dd($id); 
+      //dd($nome_completo);
+      //dd($dt_nascimento);
+
+       
+        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+   }
 
 
 
