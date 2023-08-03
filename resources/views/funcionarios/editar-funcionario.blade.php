@@ -10,35 +10,22 @@
     <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>   
     <fieldset class="border rounded border-primary p-2">
 <div> 
-<<<<<<< HEAD
-    <form method = 'POST' action = "/atualizar-funcionario/{{$editar->id_pes}}">
-     
-=======
     <form method = 'POST' action = "atualizar-funcionario/{{$editar[0]->idf}}">
       
->>>>>>> main
       @csrf
    
   <div class="form-group row" style = "display:flex;
     justify-content:space-between; width: 100%;">
     <div class="form-group col-md-2">
       <label for="validationCustom01">Matricula</label>
-<<<<<<< HEAD
-      <input type="text" name = "matr" class="form-control" value ="{{$editar->matricula}}"  required>
-=======
       <input type="text" class="form-control" value ="{{$editar[0]->matricula}}"  required>
->>>>>>> main
       <div class="invalid-feedback">
         Por favor, informe o Número da Matrícula.
       </div>
     </div>
     <div class="form-group col-md-6">
       <label for="validationCustom02">Nome Completo</label>
-<<<<<<< HEAD
-      <input type="text" name = "nome" class="form-control" value ="{{$editar->nome_completo}}"  required>
-=======
       <input type="text" class="form-control" value ="{{$editar[0]->nome_completo}}"  required>
->>>>>>> main
     </div>
     <br>
     <div class="form-group col-md-2">
@@ -50,8 +37,8 @@
     </div>
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Sexo</label>
-      <select id="12" class="form-control" >
-      <option value="{{$editar[0]->id_tps}}"></option>
+      <select id="12" class="form-select" >
+      <option value="{{$editar[0]->id}}">{{$editar[0]->tps}}</option>
         @foreach ($tpsexo as $tpsexos)
         <option value= "{{$tpsexos->id}}">{{$tpsexos->tipo}}</option>
 
@@ -64,12 +51,12 @@
 
   <div class="form-group row" style = " display:flex;
     justify-content:space-between; width: 100%; ">
-  <div class="form-group col-md-2">
+    <div class="form-group col-md-2">
       <label for="validationCustomUsername">Nacionalidade</label>
-      <select id="12" class="form-control" >
-      <option value="{{$editar[0]->local}}"></option>
-        @foreach ($tpnacionalidade as $local)
-        <option value= "{{$local->id}}">{{$local->local}}</option>
+      <select id="12" class="form-select" >
+      <option value="{{$editar[0]->id}}">{{$editar[0]->tnl}}</option>
+        @foreach ($tpnacionalidade as $tpnacionalidades)
+        <option value= "{{$tpnacionalidades->id}}">{{$tpnacionalidades->local}}</option>
 
         @endforeach 
       </select>
@@ -92,10 +79,10 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Naturalidade-Cidade</label>
-      <select id="12" class="form-select" >
-      <option value=""></option>
-        @foreach ($tpcidade as $descricao)
-        <option value= "{{$descricao}}" @if($editar->descricao == $descricao) selected @endif>{{$descricao}}</option>
+      <select id="12" class="form-select" type="numeric">
+      <option  value="{{$editar[0]->id_cidade}}">{{$editar[0]->nat}}</option>
+        @foreach ($tpcidade as $tpcidades)
+        <option value= "{{$tpcidades->id_cidade}}">{{$tpcidades->descricao}}</option>
 
         @endforeach
       </select>
@@ -151,7 +138,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Cor Pele</label>
       <select id="12" class="form-control" >
-      <option value=""></option>
+      <option value="{{$editar[0]->id}}">{{$editar[0]->nmpele}}</option>
         @foreach ($tppele as $tppeles)
         <option value= "{{$tppeles->id}}">{{$tppeles->nome_cor}}</option>
 
@@ -165,7 +152,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Tipo Sanguineo</label>
       <select id="12" class="form-select" >
-      <option value=""></option>
+      <option value="{{$editar[0]->id}}">{{$editar[0]->nmsangue}}</option>
         @foreach ($tpsangue as $tpsangues)
         <option value= "{{$tpsangues->id}}">{{$tpsangues->nome_sangue}}</option>
 
@@ -216,18 +203,11 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">DDD</label>
       <select id="12" class="form-select" >
-      <option value=""></option>
-<<<<<<< HEAD
-        @foreach ($tbddd as $descricao)
-        <option value= "{{$descricao}}" @if($editar->descricao == $descricao) selected @endif>{{$descricao}}</option>
-
-        @endforeach
-=======
+      <option value="{{$editar[0]->id}}">{{$editar[0]->dddesc}}</option>
         @foreach ($tpddd as $tpddds)
         <option value= "{{$tpddds->id}}">{{$tpddds->descricao}}</option>
       
       @endforeach
->>>>>>> main
       </select>
       <div class="invalid-feedback">
         Por favor, selecione um DDD válido.
@@ -270,10 +250,10 @@
     </div>
     </div>
   
-    <div class="form-group col-md-1">
+    <div class="form-group col-sm-2">
       <label for="validationCustomUsername">UF</label>
       <select id="12" class="form-select" >
-      <option value=""></option>
+      <option value="{{$editar[0]->id}}">{{$editar[0]->ufsgl}}</option>
         @foreach ($tpufidt as $tpufidts)
         <option value= "{{$tpufidts->id}}">{{$tpufidts->sigla}}</option>
 
@@ -286,11 +266,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Reservista</label>
-<<<<<<< HEAD
-      <input type="text" class="form-control" id="validationCustom05" value = "{{$editar->reservista}}" >
-=======
       <input type="text" class="form-control" id="validationCustom05" value = "{{$editar[0]->reservista}}" required>
->>>>>>> main
       
     </div>
     <div class="form-group row" style = "">
@@ -320,18 +296,10 @@
 
     <div class="form-group col-md-1">
       <label for="validationCustomUsername">Cat CNH</label>
-<<<<<<< HEAD
-      <select id="12" class="form-select" >
-      <option value=""></option>
-        @foreach ($tpcnh as $nome_cat)
-        <option value= "{{$nome_cat}}" @if($editar->nome_cat == $nome_cat) selected @endif>{{$nome_cat}}</option>
-
-=======
       <select id="validationCustomUsername" class="form-control" >
-        <option value="{{$editar[0]->id_cat_cnh}}"></option>
+        <option value="{{$editar[0]->id}}">{{$editar[0]->nmcnh}}</option>
         @foreach ( $tpcnh as $tpcnhs )
-          <option value="{{$tpcnhs->id}}">"{{$tpcnhs->nome_cat}}"</option>
->>>>>>> main
+          <option value="{{$tpcnhs->id}}">{{$tpcnhs->nome_cat}}</option>
         @endforeach
       </select>
       <div class="invalid-feedback">
