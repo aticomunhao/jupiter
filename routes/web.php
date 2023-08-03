@@ -30,9 +30,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
 Route::get('/informar-dados', [App\Http\Controllers\GerenciarFuncionarioController::class, 'create']);
 Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
-Route::get('/editar-funcionario/{id_pes}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
+Route::get('/editar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
 
-Route::post('/atualizar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
+Route::post('/atualizar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
 //Route::post('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('editar-funcionario.index');
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
@@ -42,7 +42,7 @@ Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBan
 
 
 /*Rotas dos Dependentes */
-Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('Batata');
+Route::get('/gerenciar-dependentes/{idf}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('Batata');
 Route::get('/incluir-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'create']);
 Route::any('/armazenar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'store']);
 Route::any('/deletar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'destroy']);

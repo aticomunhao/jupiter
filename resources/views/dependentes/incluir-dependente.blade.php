@@ -56,7 +56,7 @@
                             <a class="btn btn-danger" href="/incluir-dependentes/{{$funcionario_atual[0]->id}}" role="button">Limpar</a>
                         </div>
                         <div class="d-grid gap-2 col-5 mx-auto">
-                          <button type="submit" class="btn btn-success" >Confirmar</button>
+                          <button type="submit" class="btn btn-success" id="sucesso" onclick="sucesso()">Confirmar</button>
                         </div>
                 </div>
                 </form>
@@ -67,6 +67,11 @@
     </div>
 </div>
 
+<script>
+    function sucesso(){
+        confirm('Tem certeza que deseja sair?')
+    }
+</script>
 
 @endsection
 

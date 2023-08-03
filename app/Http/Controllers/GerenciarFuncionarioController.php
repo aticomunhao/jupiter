@@ -19,19 +19,10 @@ class GerenciarFuncionarioController extends Controller
     
     public function index(Request $request){
 
-        $teste = $request->session()->all();
-
-       
-
-        $result=DB::connection('mysql')->select('select cpf, idt, nome_completo, sexo from pessoa');
-
-        $lista = DB::connection('mysql')->table('pessoa AS p')
-        ->select ('p.id','p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
-        
-        //->where('p.sexo', '=', '1');
-
-        
-
+        //$lista = DB::connection('mysql')->table('funcionario AS f')
+        $lista = DB::table('funcionario AS f')
+        ->leftjoin('pessoa AS p', 'f.id_pessoa', 'p.id')
+        ->select ('f.id AS idf','p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
 
         $cpf = $request->cpf;
 
@@ -61,9 +52,10 @@ class GerenciarFuncionarioController extends Controller
         $lista = $lista->orderBy( 'p.status','asc')->orderBy('p.nome_completo', 'asc')->paginate(5);
 
 
-        //dd($request->ativo);
 
-       return view('\funcionarios.gerenciar-funcionario', compact ('lista'));
+   
+
+       return view('\funcionarios.gerenciar-funcionario', compact ('lista', 'cpf', 'idt', 'status', 'nome'));
 
     }
 
@@ -113,13 +105,10 @@ class GerenciarFuncionarioController extends Controller
         $vercpf = DB::table('pessoa')
                     ->get('cpf');
 
-        
-
         $cpf = $request->cpf;
-
         
 
-        if ( $request->$cpf = $vercpf){
+        if ( $request->$cpf == $vercpf){
 
            
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
@@ -204,6 +193,7 @@ class GerenciarFuncionarioController extends Controller
 
     }
 
+<<<<<<< HEAD
     public function edit($id){
 
         $editar = DB::table ('pessoa')
@@ -240,11 +230,42 @@ class GerenciarFuncionarioController extends Controller
 //dd($editar);
        //dd($tbsangue);
     //dd($tbsexo);
+=======
+    public function edit($idf){
 
-    
+        $editar = DB::table ('funcionario AS f')
+        ->leftjoin('pessoa AS p', 'f.id_pessoa', 'p.id')
+        ->leftjoin('tp_sangue', 'tp_sangue.id', 'f.id_tp_sangue')
+        ->leftjoin('tp_programa', 'tp_programa.id', 'f.tp_programa')
+        ->leftjoin('tp_sexo', 'tp_sexo.id', 'p.sexo')
+        ->leftjoin('tp_nacionalidade AS tn', 'tn.id', 'p.nacionalidade')
+        ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele')
+        ->leftjoin('tp_ddd', 'tp_ddd.id', 'f.ddd')
+        ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_idt')
+        ->select('f.id AS idf','p.nome_completo', 'f.matricula', 'f.titulo_eleitor', 'f.zona_tit', 'f.secao_tit', 'f.dt_titulo', 'f.celular', 'f.dt_emissao_ctps', 'f.ctps', 'f.serie', 'f.reservista', 'f.nome_pai', 'f.nome_mae', 'p.email', 'f.id_cat_cnh', 'p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',  'tp_sangue.id','p.dt_nascimento', 'tp_sangue.nome_sangue', 'tp_sexo.id AS id_tps', 'tp_sexo.tipo','tp_programa.id', 'tp_programa.programa', 'tn.id', 'tn.local', 'tp_cor_pele.id', 'tp_cor_pele.nome_cor', 'tp_ddd.id', 'tp_ddd.descricao', 'tp_uf.id', 'tp_uf.sigla')
+        ->where('f.id', $idf)
+        ->get();
+
+        
+>>>>>>> main
+
+        
+        $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
+        $tpsangue = DB::table('tp_sangue')->select('id', 'nome_sangue')->get();
+        $tpnacionalidade =  DB::table('tp_nacionalidade')->select('id', 'local')->get();
+        $tppele = DB::table('tp_cor_pele')->select('id', 'nome_cor')->get();
+        $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
+        $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
+        $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
+
+   
          
+<<<<<<< HEAD
         return view('/funcionarios/editar-funcionario', ['editar' => $editar , 'tbsangue'=> $tbsangue, 'tbsexo'=> $tbsexo, 
         'tbnacionalidade'=>$tbnacionalidade, 'tbpele'=>$tbpele, 'tbddd'=>$tbddd, 'tpufidt'=>$tpufidt, 'tpcnh'=>$tpcnh, 'tpcidade'=>$tpcidade]);
+=======
+        return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tpufidt', 'tpcnh'));
+>>>>>>> main
 
     }
     
