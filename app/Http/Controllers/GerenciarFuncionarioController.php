@@ -203,14 +203,17 @@ class GerenciarFuncionarioController extends Controller
         ->leftjoin('tp_nacionalidade AS tn', 'tn.id', 'p.nacionalidade')
         ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele')
         ->leftjoin('tp_ddd', 'tp_ddd.id', 'f.ddd')
-        ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_idt')
+        ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_idt', 'p.uf_natural')
         ->leftjoin('tp_cidade AS tc', 'tc.id_cidade','p.naturalidade')
         ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
         
 
         ->select('f.id AS idf','p.nome_completo', 'f.matricula', 'f.titulo_eleitor', 'f.zona_tit', 'f.secao_tit', 'f.dt_titulo', 
         'f.celular', 'f.dt_emissao_ctps', 'f.ctps', 'f.serie', 'f.reservista', 'f.nome_pai', 'f.nome_mae', 'p.email', 
-        'f.id_cat_cnh', 'tpcnh.id','tpcnh.nome_cat AS nmcnh','p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',  'tp_sangue.id','p.dt_nascimento', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id', 'tp_programa.programa', 'tn.id', 'tn.local AS tnl', 'tp_cor_pele.id','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id', 'tp_ddd.descricao AS dddesc', 'tp_uf.id', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
+        'f.id_cat_cnh', 'tpcnh.id','tpcnh.nome_cat AS nmcnh','p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',
+        'tp_sangue.id','p.dt_nascimento', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id', 
+        'tp_programa.programa', 'tn.id', 'tn.local AS tnl', 'tp_cor_pele.id','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id', 'tp_ddd.descricao AS dddesc',
+        'tp_uf.id', 'tp_uf.sigla AS ufsgl', 'p.uf_natural',  'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
         ->where('f.id', $idf)
         ->get();
 //dd($editar);        
@@ -233,15 +236,16 @@ class GerenciarFuncionarioController extends Controller
     
 
     
-  //  public function update(Request $request, $id_pes){
+  public function atualizar(Request $request, $idf){
 
      
        //dd($request);
 
-    //    DB::table('pessoa')
-      //  ->where('id', $id_pes)
-      //  ->update(['nome_completo'=>$request->input('nome'),
-       //]);
+      DB::table('p')
+       ->where('p.id', $idf)
+       ->update(['nome_completo'=>$request->input('nomecompleto'),
+       ])
+       ->get();
 
 
         
@@ -253,8 +257,8 @@ class GerenciarFuncionarioController extends Controller
       //dd($dt_nascimento);
 
        
-        //return redirect()->action([GerenciarFuncionarioController::class, 'index']);
-   //}
+        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+   }
 
 
 

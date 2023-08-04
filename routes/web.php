@@ -30,7 +30,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
 Route::get('/informar-dados', [App\Http\Controllers\GerenciarFuncionarioController::class, 'create']);
 Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
-Route::get('/editar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
+Route::get('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
 
 Route::post('/atualizar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
