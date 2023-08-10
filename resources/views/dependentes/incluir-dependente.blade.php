@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-5">
                     <div class="card" style="padding: 0px">
-                        <div class="card-body bg-body-secondary" value= {{$funcionario_atual[0]->id}}>
+                        <div class="card-body bg-body-secondary" value= "{{$funcionario_atual[0]->id}}">
                               {{$funcionario_atual[0]->nome_completo}}
                         </div>
                     </div>

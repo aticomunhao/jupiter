@@ -10,7 +10,7 @@
     <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>   
     <fieldset class="border rounded border-primary p-2">
 <div> 
-    <form method = 'POST' action = "atualizar-funcionario/{{$editar[0]->idf}}">
+    <form method = 'POST' action = "/atualizar-funcionario/{{$editar[0]->idf}}">
       
       @csrf
       
@@ -70,11 +70,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Naturalidade UF</label>
       <select id="validationCustomUsername" class="form-select" name = "uf_naturalidade" >
-        <option value = "{{$editar[0]->id}}">{{$editar[0]->uf_natural}}</option>
-        @foreach ($tpufidt as $tpufnat)
-        <option value= "{{$tpufnat->id}}">{{$tpufnat->sigla}}</option>
-
-        @endforeach
+      
          </select>
       <div class="invalid-feedback">
         Por favor, selecione um UF válido.
@@ -105,7 +101,13 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">PIS/PASEP</label>
-      <input type="text" class="form-control" name = "pis" id="validationCustom05" value = "" >
+      <select id="12" name = "pis" class="form-select" >
+      <option value="{{$editar[0]->id}}">{{$editar[0]->prog}}</option>
+        @foreach ($tpprograma as $tpprogramas)
+        <option value= "{{$tpprogramas->id}}">{{$tpprogramas->programa}}</option>
+
+        @endforeach 
+</select>
       <div class="invalid-feedback">
         Por favor, informe um PIS/PASEP válido.
     </div>
