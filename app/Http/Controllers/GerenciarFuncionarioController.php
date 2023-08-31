@@ -193,6 +193,7 @@ class GerenciarFuncionarioController extends Controller
 
     }
 
+<<<<<<< HEAD
     public function edit($id){
 
         $editar = DB::table ('pessoa')
@@ -229,6 +230,32 @@ class GerenciarFuncionarioController extends Controller
 //dd($editar);
        //dd($tbsangue);
     //dd($tbsexo);
+=======
+    public function edit($idf){
+
+        $editar = DB::table ('funcionario AS f')
+        ->leftjoin('pessoa AS p', 'f.id_pessoa', 'p.id')
+        ->leftjoin('tp_sangue', 'tp_sangue.id', 'f.id_tp_sangue')
+        ->leftjoin('tp_programa', 'tp_programa.id', 'f.tp_programa')
+        ->leftjoin('tp_sexo', 'tp_sexo.id', 'p.sexo')
+        ->leftjoin('tp_nacionalidade AS tn', 'tn.id', 'p.nacionalidade')
+        ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele')
+        ->leftjoin('tp_ddd', 'tp_ddd.id', 'f.ddd')
+        ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_idt', 'p.uf_natural')
+        ->leftjoin('tp_cidade AS tc', 'tc.id_cidade','p.naturalidade')
+        ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
+        
+
+        ->select('f.id AS idf','p.nome_completo', 'f.matricula', 'f.titulo_eleitor', 'f.zona_tit', 'f.secao_tit', 'f.dt_titulo', 
+        'f.celular', 'f.dt_emissao_ctps', 'f.ctps', 'f.serie', 'f.reservista', 'f.nome_pai', 'f.nome_mae', 'p.email', 
+        'f.id_cat_cnh', 'tpcnh.id','tpcnh.nome_cat AS nmcnh','p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',
+        'tp_sangue.id','p.dt_nascimento', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id', 
+        'tp_programa.programa AS prog', 'tn.id', 'tn.local AS tnl', 'tp_cor_pele.id','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id', 'tp_ddd.descricao AS dddesc',
+        'tp_uf.id', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
+        ->where('f.id', $idf)
+        ->get();
+//dd($editar);        
+>>>>>>> main
 
         
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
@@ -238,25 +265,77 @@ class GerenciarFuncionarioController extends Controller
         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
         $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
         $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
+        $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
+        $tpprograma = DB::table('tp_programa')->select('id', 'programa')->get();
 
-   
+
          
+<<<<<<< HEAD
         return view('/funcionarios/editar-funcionario', compact('editar', 'tbsangue', 'tbsexo', 'tbnacionalidade', 'tbpele', 'tbddd', 'tpufidt', 'tpcnh', 'tpcidade'));
+=======
+        return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tpufidt', 'tpcnh', 'tpcidade', 'tpprograma'));
+>>>>>>> main
 
     }
     
 
     
-    public function update(Request $request, $id_pes){
+    public function update(Request $request, $idf){
 
      
        //dd($request);
 
-        DB::table('pessoa')
-        ->where('id', $id_pes)
-        ->update(['nome_completo'=>$request->input('nome'),
+      DB::table('pessoa')
+       ->where('id', $idf)
+       ->update(['nome_completo'=>$request->input('nomecompleto'),
+                 'idt'=>$request->input('identidade'),
+                 'sexo'=>$request->input('sexo'),
+                 'dt_nascimento'=>$request->input('dt_de_nascimento'),
+                 'nacionalidade'=>$request->input('nacionalidade'),
+                 //'uf_natural'=>$request->input('')
+                 'naturalidade'=>$request->input('natural_cidade'),
+                 'cpf'=>$request->input('cpf'),
+                 'orgao_expedidor'=>$request->input('orgao_exp'),
+                 'dt_emissao_idt'=>$request->input('dt_emissao'),
+                 'email'=>$request->input('email')
 
-        ]);
+
+                 
+
+
+                
+
+
+    ]);
+      
+      DB::table('funcionario')
+      ->where('id', $idf)
+      ->update([//'tp_programa'=>$request->input('pis'),
+                'id_cor_pele'=>$request->input('cor_pele'),
+                'id_tp_sangue'=>$request->input('tp_sanguineo'),
+                'titulo_eleitor'=>$request->input('tl_eleitor'),
+                'zona_tit'=>$request->input('zona'),
+                'secao_tit'=>$request->input('secao'),
+                'dt_titulo'=>$request->input('dt_emissao'),
+                'ddd'=>$request->input('ddd'),
+                'celular'=>$request->input('celular'),
+                'ctps'=>$request->input('nr_ctps'),
+                'dt_emissao_ctps'=>$request->input('dt_emissao_ctps'),
+                'serie'=>$request->input('serie'),
+                'uf_ctps'=>$request->input('uf'),
+                'reservista'=>$request->input('reservista'),
+                'nome_mae'=>$request->input('nome_mae'),
+                'nome_pai'=>$request->input('nome_pai'),
+                'id_cat_cnh'=>$request->input('cat_cnh')
+
+
+   
+ 
+
+      ]);
+
+      
+       
 
 
         
