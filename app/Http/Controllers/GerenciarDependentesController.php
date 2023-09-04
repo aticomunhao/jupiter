@@ -88,7 +88,7 @@ class GerenciarDependentesController extends Controller
 
 
         app('flasher')->addSuccess('O cadastro do dependente foi realizado com sucesso.');
-        return redirect()->route('Batata', ['id' => $id]);
+        return redirect()->route('Potato', ['id' => $id]);
         }
 
 
