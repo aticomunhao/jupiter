@@ -141,7 +141,7 @@ class GerenciarDependentesController extends Controller
      */
     public function destroy($id)
     {
-        DB::table('dependente')->where('id', $id)->delete();
+        DB::table('dependentes')->where('id', $id)->delete();
         return redirect()->back();
     }
 }
