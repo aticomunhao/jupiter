@@ -19,7 +19,7 @@ class GerenciarDependentesController extends Controller
                             from funcionarios f
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
-        //dd($funcionario);
+        //dd($funcionario);                                        
 
 
         $dependentes = DB::select("select
