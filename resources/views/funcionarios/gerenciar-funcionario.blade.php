@@ -59,13 +59,13 @@
                             <td scope="" >{{$listas->nome_completo}}</td>
                             <td scope="" style="text-align: center;">{{$listas->status}}</td>
                             <td scope="">
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-search" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bank" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#000;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#000;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
+                                <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-coin" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
                             </td>
                         </tr>
                         @endforeach

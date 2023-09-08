@@ -25,7 +25,7 @@
                         <div class="col-5">
                         <div class="card" style="padding: 0px">
                             <div class="card-body bg-body-secondary" value= "{{$funcionario_atual[0]->id}}">
-                                  {{$funcionario_atual[0]->nome_completo}}
+                                  <span style="color: rgb(16, 19, 241)">{{$funcionario_atual[0]->nome_completo}}</span>
                             </div>
                         </div>
                         </div>
