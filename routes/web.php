@@ -49,6 +49,12 @@ Route::any('/deletar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependent
 Route::any('/editar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class,'edit']);
 Route::any('/atualizar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class,'update']);
 
+/** Rotas dos Certificados */
+Route::get('/gerenciar-certificados/{id}',
+[\App\Http\Controllers\GerenciarCertificadosController::class, 'index']);
+
+Route::get('/incluir-certificados/{id}',
+    [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']);
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

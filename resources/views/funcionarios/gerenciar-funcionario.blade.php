@@ -65,7 +65,7 @@
                                 <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-people-fill" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-coin" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-bandaid" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
+                                <a href="/gerenciar-certificados/{{$listas->idf}}"><button type="button" class="btn btn-primary btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#d5d5d5;"></i></button></a>
                             </td>
                         </tr>
                         @endforeach
