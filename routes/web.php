@@ -56,6 +56,9 @@ Route::get('/gerenciar-certificados/{id}',
 Route::get('/incluir-certificados/{id}',
     [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']);
 
+    /**Rota para Entidades Escolares   */
+    Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index']);
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
