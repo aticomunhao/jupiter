@@ -19,7 +19,7 @@ class GerenciarDependentesController extends Controller
                             from funcionarios f
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
-        //dd($funcionario);                                        
+        //dd($funcionario);
 
 
         $dependentes = DB::select("select
@@ -34,7 +34,7 @@ class GerenciarDependentesController extends Controller
                             left join tp_parentesco tpp on d.id_parentesco = tpp.id
                             where d.id_funcionario = $idf");
 
-        //dd($dependentes);
+
         return view('/dependentes/gerenciar-dependentes', compact('funcionario', 'dependentes'));
     }
 
@@ -107,7 +107,8 @@ class GerenciarDependentesController extends Controller
     public function edit($id)
     {
         $dependente = DB::table('dependentes')->where('id',$id)->first();
-        $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
+        $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_parentesco");
+        //dd($funcionario);
         $tp_relacao = DB::select("select * from tp_parentesco");
 
 
@@ -120,7 +121,7 @@ class GerenciarDependentesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //$idf = DB::select("select id_funcionario from dependentes d where d.id = $id");
+        $funcionario = DB::select("select id_funcionario from dependentes d where d.id = $id");
         $idf = DB::table('dependentes AS d') -> where('id', $id)->select('id_funcionario')->value('id_funcionario');
 
 

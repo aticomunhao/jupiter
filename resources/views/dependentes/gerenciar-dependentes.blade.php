@@ -38,7 +38,7 @@
                                     <div class="table">
                                     <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
-                                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                        <tr style="background-color: #d6e3ff; vvvvvfont-size:17px; color:#000000">
                                             <th class="col-2">Parentesco</th>
                                             <th class="col-4">Nome</th>
                                             <th class="col-2">Data de Nascimento</th>
@@ -68,7 +68,40 @@
                                         <td scope="" >{{$dependente->nome_dependente}}</td>
                                         <td scope="" >{{$dependente->dt_nascimento}}</td>
                                         <td scope="" >{{$dependente->cpf}}</td>
-                                        <td scope=""><a href="/deletar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-danger delete-btn btn-sm"><i class="bi bi-trash"></i></button></a>
+                                        <td scope="">
+                                            <!-- Button trigger modal -->
+                                            <button type="button" class="btn btn-danger delete-btn btn-sm" data-bs-toggle="modal" data-bs-target="#{{$dependente->nome_dependente}}"><i class="bi bi-trash"></i></button>
+
+
+                                            <!-- Modal -->
+
+                                            <div class="modal fade" id="{{$dependente->nome_dependente}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <div class="row">
+                                                                <h2>Excluir Dependentes</h2>
+                                                            </div>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="fw-bold alert alert-danger text-center">Voce realmente deseja
+                                                                <br>
+                                                                <span class="fw-bolder fs-5">EXCLUIR {{ $dependente->nome_dependente }}</span></p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                            <a href="/deletar-dependentes/{{$dependente->id}}"><button type="button" class="btn btn-danger">Excluir</button></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <!--Fim Modal-->
+
+
                                         <a href="/editar-dependentes/{{$dependente->id}}"><button type="submit" class="btn btn-primary btn-sm"><i class="bi bi-pencil btn-sm"></i></button></a>
                                         </td>
                                     </tr>
