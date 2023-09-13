@@ -6,10 +6,11 @@
                 <br>
                 <div class="card">
 
-                    <div class="card-body">
+                    <div class="card-header">
 
                         <div class="row">
                             <div class="col-8">
+                                <h2>Dependentes</h2>
                                 <h5 class="card-title">
                                     <form class="d-flex" role="search">
                                         <input class="form-control me-2" type="search" placeholder="Search"
@@ -18,44 +19,37 @@
                                     </form>
                                 </h5>
                             </div>
+
                             <div class="col-4">
-                                <!-- botão adicionar-->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">
-                                    Adicionar
-                                </button>
-                                 @foreach ($entidades as $entidade)
-                                    <h1>
-                                    {{ $entidade->nome }}
-                                    </h1>
 
-                                 @endforeach
-                                <!-- Modal -->
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Adicionar Entidade</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input class="form-control" type="text" placeholder="Default input"
-                                                    aria-label="default input example">
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    data-bs-dismiss="modal">Close</button>
-                                                <button type="button" class="btn btn-primary">Save changes</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
 
                             </div>
                         </div>
+                    </div>
+                    <div class="card-body">
+                        <table
+                            class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
+                            <thead>
+                                <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                    <th class="col-10">Entidades de Ensino</th>
+                                    <th class="col-2">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($entidades as $entidade)
+                                    <tr>
+                                        <th scope="">{{ $entidade->nome }}</th>
+                                        <th scope=""><button type="button" class="btn btn-danger delete-btn btn-sm"
+                                                data-bs-toggle="modal" data-bs-target="#A"><i
+                                                    class="bi bi-trash"></i></button>
+                                            <a href=""><button type="submit" class="btn btn-primary btn-sm"><i
+                                                        class="bi bi-pencil btn-sm"></i></button></a>
+                                        </th>
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
