@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use PhpParser\Node\Stmt\Foreach_;
 
 class GerenciarDependentesController extends Controller
 {
@@ -20,6 +21,8 @@ class GerenciarDependentesController extends Controller
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
         //dd($funcionario);
+
+        $identificadorDep = DB::select("select nome_dependente from dependentes where id_funcionario = $idf");
 
 
         $dependentes = DB::select("select
@@ -107,13 +110,14 @@ class GerenciarDependentesController extends Controller
     public function edit($id)
     {
         $dependente = DB::table('dependentes')->where('id',$id)->first();
-        $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_parentesco");
-        //dd($funcionario);
+        $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_funcionario");
+
+
         $tp_relacao = DB::select("select * from tp_parentesco");
 
 
 
-        return view('/dependentes/editar-dependentes',compact('dependente','tp_relacao','funcionario'));
+        return view('dependentes.editar-dependentes',compact('dependente','tp_relacao','funcionario'));
     }
 
     /**
@@ -133,7 +137,7 @@ class GerenciarDependentesController extends Controller
         'dt_nascimento' => $request->input('dtnasc_dep'),
         'id_parentesco'=> $request->input('relacao_dep')
         ]);
-
+        app('flasher')->addInfo('O cadastro do Dependente alterado com Sucesso.');
         return redirect()->route('Potato',['id'=>$idf]);
     }
 
@@ -142,7 +146,9 @@ class GerenciarDependentesController extends Controller
      */
     public function destroy($id)
     {
+
         DB::table('dependentes')->where('id', $id)->delete();
+        app('flasher')->addWarning('O cadastro do Dependente foi Removido com Sucesso.');
         return redirect()->back();
     }
 }

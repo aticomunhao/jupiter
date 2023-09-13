@@ -13,8 +13,9 @@ class GerenciarEntidadesController extends Controller
      */
     public function index()
     {
-        
-       return view('entidadesensino.gerenciar-entidades-ensino');
+        $entidades = DB::select('select nome from tp_entidades_ensino');
+        //dd($entidades);
+       return view('entidadesensino.gerenciar-entidades-ensino', compact('entidades'));
     }
 
     /**

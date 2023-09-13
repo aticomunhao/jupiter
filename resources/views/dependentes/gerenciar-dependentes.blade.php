@@ -70,17 +70,17 @@
                                         <td scope="" >{{$dependente->cpf}}</td>
                                         <td scope="">
                                             <!-- Button trigger modal -->
-                                            <button type="button" class="btn btn-danger delete-btn btn-sm" data-bs-toggle="modal" data-bs-target="#{{$dependente->nome_dependente}}"><i class="bi bi-trash"></i></button>
+                                            <button type="button" class="btn btn-danger delete-btn btn-sm" data-bs-toggle="modal" data-bs-target="#A{{$dependente->dt_nascimento}}-{{ $dependente->id }}"><i class="bi bi-trash"></i></button>
 
 
                                             <!-- Modal -->
 
-                                            <div class="modal fade" id="{{$dependente->nome_dependente}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="A{{$dependente->dt_nascimento}}-{{ $dependente->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <div class="row">
-                                                                <h2>Excluir Dependentes</h2>
+                                                                <h2>Excluir Dependente</h2>
                                                             </div>
                                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>

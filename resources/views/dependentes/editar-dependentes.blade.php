@@ -53,11 +53,11 @@
                 </div>
                 <br>
                 <div class="row">
-                        <div class="d-grid gap-1 col-5 mx-auto">
-                            <a class="btn btn-danger" href="/gerenciar-dependentes/{{$funcionario[0]->id}}" role="button">Cancelar</a>
+                        <div class="d-grid  col-5 mx-auto">
+                            <a class="btn btn-danger btn-sm" href="/gerenciar-dependentes/{{$funcionario[0]->id}}" role="button">Cancelar</a>
                         </div>
-                        <div class="d-grid gap-2 col-5 mx-auto">
-                          <a href="/atualizar-dependentes/{{$dependente->id}}"></a><button type="submit" class="btn btn-info" >Confirmar</button>
+                        <div class="d-grid  col-5 mx-auto">
+                          <a href="/atualizar-dependentes/{{$dependente->id}}"></a><button type="submit" class="btn btn-primary btn-sm" >Confirmar</button>
                         </div>
                 </div>
                 </form>
