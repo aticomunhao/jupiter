@@ -102,7 +102,7 @@ class GerenciarFuncionarioController extends Controller
 
         $today = Carbon::today()->format('Y-m-d');
 
-        $vercpf = DB::table('pessoa')
+        $vercpf = DB::table('pessoas')
                     ->get('cpf');
 
         $cpf = $request->cpf;
@@ -120,7 +120,7 @@ class GerenciarFuncionarioController extends Controller
         else
         {
 
-            DB::table('pessoa')->insert([
+            DB::table('pessoas')->insert([
             'nome_completo' => $request->input('nome_completo'),
             'idt' => $request->input('identidade'),
             'orgao_expedidor' =>  $request->input('orgexp'),
@@ -133,17 +133,19 @@ class GerenciarFuncionarioController extends Controller
             'naturalidade' => $request->input('natura'),
             'cpf' => $request->input('cpf'),
             'email' => $request->input('email'),
+            'ddd' => $request->input('ddd'),
+            'celular' => $request->input('celular'),
             'status' => '1',
 
         ]);
 
-        $id_pessoa = DB::table('pessoa')
+        $id_pessoa = DB::table('pessoas')
         ->select(DB::raw('MAX(id) as max_id'))
         ->value('max_id');
 
 
 
-        DB::table('funcionario')->insert([
+        DB::table('funcionarios')->insert([
             'dt_inicio'=> $request->input('dt_ini'),
             'id_pessoa'=> $id_pessoa,
             'matricula'=> $request->input('matricula'),
@@ -156,8 +158,6 @@ class GerenciarFuncionarioController extends Controller
             'dt_titulo' => $request->input('dt_titulo'),
             'zona_tit' => $request->input('zona'),
             'secao_tit' => $request->input('secao'),
-            'ddd' => $request->input('ddd'),
-            'celular' => $request->input('celular'),
             'ctps' => $request->input('ctps'),
             'serie' => $request->input('serie_ctps'),
             'uf_ctps' => $request->input('uf_ctps'),
@@ -195,20 +195,20 @@ class GerenciarFuncionarioController extends Controller
 
     public function edit($id){
 
-        $editar = DB::table ('pessoa')
-        ->join('funcionario', 'pessoa.id', '=', 'funcionario.id_pessoa',)
-        ->join('tp_sangue', 'tp_sangue.id', '=', 'funcionario.id_tp_sangue')
-        ->join('tp_programa', 'tp_programa.id', '=', 'funcionario.tp_programa')
-        ->join('tp_sexo', 'tp_sexo.id', '=', 'pessoa.sexo')
-        ->join('tp_nacionalidade', 'tp_nacionalidade.id', '=', 'pessoa.nacionalidade')
-        ->join('tp_cor_pele', 'tp_cor_pele.id', '=', 'funcionario.id_cor_pele')
-        ->join('tp_ddd', 'tp_ddd.id', '=', 'funcionario.ddd')
-        ->join('tp_uf', 'tp_uf.id', '=', 'pessoa.uf_idt')
-        ->join('tp_cnh', 'tp_cnh.id', '=', 'funcionario.id_cat_cnh')
-        ->join('tp_cidade', 'tp_cidade.id_cidade', '=', 'pessoa.naturalidade')
+        $editar = DB::table ('pessoas')
+        ->join('funcionarios', 'pessoas.id', '=', 'funcionarios.id_pessoa',)
+        ->join('tp_sangue', 'tp_sangue.id', '=', 'funcionarios.id_tp_sangue')
+        ->join('tp_programa', 'tp_programa.id', '=', 'funcionarios.tp_programa')
+        ->join('tp_sexo', 'tp_sexo.id', '=', 'pessoas.sexo')
+        ->join('tp_nacionalidade', 'tp_nacionalidade.id', '=', 'pessoas.nacionalidade')
+        ->join('tp_cor_pele', 'tp_cor_pele.id', '=', 'funcionarios.id_cor_pele')
+        ->join('tp_ddd', 'tp_ddd.id', '=', 'funcionarios.ddd')
+        ->join('tp_uf', 'tp_uf.id', '=', 'pessoas.uf_idt')
+        ->join('tp_cnh', 'tp_cnh.id', '=', 'funcionarios.id_cat_cnh')
+        ->join('tp_cidade', 'tp_cidade.id_cidade', '=', 'pessoas.naturalidade')
 
 
-        ->select('pessoa.id AS id_pes', 'pessoa.*', 'funcionario.*', 'tp_sangue.*', 'tp_sexo.*',
+        ->select('pessoas.id AS id_pes', 'pessoas.*', 'funcionarios.*', 'tp_sangue.*', 'tp_sexo.*',
         'tp_programa.*', 'tp_nacionalidade.*', 'tp_cor_pele.*', 'tp_ddd.*', 'tp_uf.*', 'tp_cidade.*','tp_cnh.*')
         ->where('id_pessoa', $id)->first();
 
@@ -254,14 +254,15 @@ class GerenciarFuncionarioController extends Controller
 
        //dd($request);
 
-      DB::table('pessoa')
+      DB::table('pessoas')
        ->where('id', $idf)
        ->update(['nome_completo'=>$request->input('nomecompleto'),
                  'idt'=>$request->input('identidade'),
                  'sexo'=>$request->input('sexo'),
                  'dt_nascimento'=>$request->input('dt_de_nascimento'),
                  'nacionalidade'=>$request->input('nacionalidade'),
-                 //'uf_natural'=>$request->input('')
+                 'ddd' => $request->input('ddd'),
+                 'celular' => $request->input('celular'),
                  'naturalidade'=>$request->input('natural_cidade'),
                  'cpf'=>$request->input('cpf'),
                  'orgao_expedidor'=>$request->input('orgao_exp'),
@@ -277,7 +278,7 @@ class GerenciarFuncionarioController extends Controller
 
     ]);
 
-      DB::table('funcionario')
+      DB::table('funcionarios')
       ->where('id', $idf)
       ->update([//'tp_programa'=>$request->input('pis'),
                 'id_cor_pele'=>$request->input('cor_pele'),
@@ -286,8 +287,6 @@ class GerenciarFuncionarioController extends Controller
                 'zona_tit'=>$request->input('zona'),
                 'secao_tit'=>$request->input('secao'),
                 'dt_titulo'=>$request->input('dt_emissao'),
-                'ddd'=>$request->input('ddd'),
-                'celular'=>$request->input('celular'),
                 'ctps'=>$request->input('nr_ctps'),
                 'dt_emissao_ctps'=>$request->input('dt_emissao_ctps'),
                 'serie'=>$request->input('serie'),

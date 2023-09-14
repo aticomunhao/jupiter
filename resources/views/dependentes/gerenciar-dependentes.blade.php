@@ -2,6 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
+            <br>
             <div class="container">
                 <div class="justify-content-center">
                     <div class="col-12">

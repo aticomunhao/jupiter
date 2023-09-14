@@ -88,7 +88,7 @@ class GerenciarDependentesController extends Controller
 
 
         app('flasher')->addSuccess('O cadastro do dependente foi realizado com sucesso.');
-        return redirect()->route('Batata', ['id' => $id]);
+        return redirect()->route('Potato', ['id' => $id]);
         }
 
 
@@ -120,18 +120,11 @@ class GerenciarDependentesController extends Controller
      */
     public function update(Request $request, $id)
     {
-<<<<<<< Updated upstream
         //$idf = DB::select("select id_funcionario from dependentes d where d.id = $id");
         $idf = DB::table('dependentes AS d') -> where('id', $id)->select('id_funcionario')->value('id_funcionario');
 
 
         DB::table('dependentes')
-=======
-       
-        $idf = DB::select("select id_funcionario from dependentes d where d.id = $id");
-
-        DB::table('dependente')
->>>>>>> Stashed changes
         ->where('id', $id)
         ->update([
         'nome_dependente' => $request->input('nomecomp_dep'),
@@ -140,11 +133,7 @@ class GerenciarDependentesController extends Controller
         'id_parentesco'=> $request->input('relacao_dep')
         ]);
 
-<<<<<<< Updated upstream
         return redirect()->route('Potato',['id'=>$idf]);
-=======
-        return redirect::route('gerenciar-dependentes')->with('id', $idf);
->>>>>>> Stashed changes
     }
 
     /**
