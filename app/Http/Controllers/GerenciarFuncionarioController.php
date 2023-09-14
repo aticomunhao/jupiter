@@ -226,9 +226,9 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-//dd($editar);
-       //dd($tbsangue);
-    //dd($tbsexo);
+        //dd($editar);
+        //dd($tbsangue);
+        //dd($tbsexo);
 
 
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();

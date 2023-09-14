@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<<<<<<< HEAD
     <div class="container">
         <div class="justify-content-center">
             <div class="col-12">
@@ -14,19 +13,6 @@
                                         style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar-Dependentes</span>
                                 </div>
                                 <div class="col-6">
-=======
-            <br>
-            <div class="container">
-                <div class="justify-content-center">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <div class="row">
-                                    <div class="col-6">Editar-Dependentes
-                                    </div>
-                                    <div class="col-6">
-                                    </div>
->>>>>>> main
                                 </div>
                             </div>
                         </div>
