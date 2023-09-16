@@ -75,7 +75,7 @@
                                                 <td scope="">{{ $dependente->cpf }}</td>
                                                 <td scope="">
                                                     <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-danger delete-btn btn-sm"
+                                                    <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}"><i
                                                             class="bi bi-trash"></i></button>
@@ -121,7 +121,7 @@
 
 
                                                     <a href="/editar-dependentes/{{ $dependente->id }}"><button
-                                                            type="submit" class="btn btn-primary btn-sm"><i
+                                                            type="submit" class="btn btn-outline-primary btn-sm"><i
                                                                 class="bi bi-pencil btn-sm"></i></button></a>
                                                 </td>
                                         </tr>

@@ -43,21 +43,30 @@ Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBan
 
 /*Rotas dos Dependentes */
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('Potato');
-Route::get('/incluir-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'create']);
-Route::any('/armazenar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'store']);
-Route::any('/deletar-dependentes/{id}',[\App\Http\Controllers\GerenciarDependentesController::class,'destroy']);
-Route::any('/editar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class,'edit']);
-Route::any('/atualizar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class,'update']);
+Route::get('/incluir-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'create']);
+Route::any('/armazenar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'store']);
+Route::any('/deletar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'destroy']);
+Route::any('/editar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'edit']);
+Route::any('/atualizar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'update']);
 
 /** Rotas dos Certificados */
-Route::get('/gerenciar-certificados/{id}',
-[\App\Http\Controllers\GerenciarCertificadosController::class, 'index']);
+Route::get(
+    '/gerenciar-certificados/{id}',
+    [\App\Http\Controllers\GerenciarCertificadosController::class, 'index']
+);
 
-Route::get('/incluir-certificados/{id}',
-    [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']);
+Route::get(
+    '/incluir-certificados/{id}',
+    [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']
+);
 
-    /**Rota para Entidades Escolares   */
-    Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index']);
+/**Rota para Entidades Escolares   */
+Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('batata');
+Route::get('/incluir-entidades-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'create']);
+Route::any('/armazenar-entidade',[App\Http\Controllers\GerenciarEntidadesController::class, 'store']);
+Route::any('/excluir-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'destroy']);
+Route::any('/editar-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'edit']);
+Route::any('/atualizar-entidade-ensino/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -16,7 +16,7 @@
                                 <input class="form-control" type="text" id="2" name="idt"
                                     value="{{ $idt }}">
                             </div>
-                            <div class="col-4">Nome
+                            <div class="col-3">Nome
                                 <input class="form-control" type="text" id="3" name="nome"
                                     value="{{ $nome }}">
                             </div>
@@ -31,13 +31,20 @@
                                     <option value="2">Não</option>
                                 </select>
                             </div>
-                            <div class="col-3"><br>
-                                <input class="btn btn-primary btn-sm" type="submit" value="Pesquisar">
-                                <a href="/gerenciar-funcionario"><input class="btn btn-danger btn-sm" type="button"
-                                        value="Limpar"></a>
+                            <div class="col-4"><br>
+                                <span class="shadow-lg p-1 mb-5 bg-body-tertiary rounded"><input
+                                        class="btn btn-primary btn-sm" type="submit" value="Pesquisar"></span>
+
+
+                                <span class="shadow-lg p-1 mb-5 bg-body-tertiary rounded">
+                                    <a href="/gerenciar-funcionario"><input class="btn btn-danger btn-sm" type="button"
+                                            value="Limpar"></a>
+                                </span>
                     </form>
-                    <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" autofocus
-                            value="Novo Cadastro &plus;"></a>
+                    <span class="shadow-lg p-1 mb-5 bg-body-tertiary rounded">
+                        <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" autofocus
+                                value="Novo Cadastro &plus;"></a>
+                    </span>
 
                 </div>
             </div>
@@ -71,25 +78,25 @@
                                         class="btn btn-outline-danger btn-sm"><i class="bi-trash"
                                             style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/editar-funcionario/{{ $listas->idf }}"><button type="button"
-                                        class="btn btn-outline-secondary btn-sm"><i class="bi-search"
+                                        class="btn btn-outline-primary-1 btn-sm"><i class="bi-search"
                                             style="font-size: 1rem;"></i></button></a>
                                 <a href="/gerenciar-dependentes/{{ $listas->idf }}"><button type="button"
-                                        class="btn btn-outline-secondary btn-sm"><i class="bi-people-fill"
+                                        class="btn btn-outline-primary-1 btn-sm"><i class="bi-people-fill"
                                             style="font-size: 1rem; "></i></button></a>
                                 <a href="/editar-funcionario/{{ $listas->idf }}"><button type="button"
                                         class="btn btn-outline-primary-1 btn-sm"><i class="bi-coin"
                                             style="font-size: 1rem; "></i></button></a>
                                 <a href="/editar-funcionario/{{ $listas->idf }}"><button type="button"
-                                        class="btn btn-outline-secondary btn-sm"><i class="bi-bandaid"
+                                        class="btn btn-outline-primary-1 btn-sm"><i class="bi-bandaid"
                                             style="font-size: 1rem;"></i></button></a>
                                 <a href="/gerenciar-certificados/{{ $listas->idf }}"><button type="button"
-                                        class="btn btn-outline-secondary btn-sm"><i class="bi-mortarboard"
+                                        class="btn btn-outline-primary-1 btn-sm"><i class="bi-mortarboard"
                                             style="font-size: 1rem;"></i></button></a>
                             </td>
                     </tr>
                     @endforeach
                 </tbody>
-                <div class="doido">AAA</div>
+
             </table>
         </div>
     </div>
@@ -107,5 +114,5 @@
     <!--botão toggle-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/css/bootstrap5-toggle.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/js/bootstrap5-toggle.ecmas.min.js"></script>
-   <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
+    <link rel="stylesheet" href="{{ URL::asset('css/app.css') }}">
 @endsection

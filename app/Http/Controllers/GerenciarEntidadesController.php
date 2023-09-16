@@ -13,9 +13,9 @@ class GerenciarEntidadesController extends Controller
      */
     public function index()
     {
-        $entidades = DB::select('select nome from tp_entidades_ensino');
-        //dd($entidades);
-       return view('entidadesensino.gerenciar-entidades-ensino', compact('entidades'));
+        $entidades = DB::select('select * from tp_entidades_ensino');
+
+        return view('entidadesensino.gerenciar-entidades-ensino', compact('entidades'));
     }
 
     /**
@@ -23,7 +23,7 @@ class GerenciarEntidadesController extends Controller
      */
     public function create()
     {
-        //
+        return view('entidadesensino.nova-entidade-ensino');
     }
 
     /**
@@ -31,7 +31,13 @@ class GerenciarEntidadesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        DB::table('tp_entidades_ensino')->insert([
+            'nome' => $request->input('nome_ent')
+        ]);
+
+
+        return redirect()->route('batata');
     }
 
     /**
@@ -47,7 +53,9 @@ class GerenciarEntidadesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $entidade = DB::table('tp_entidades_ensino')->where('id',$id)->first();
+
+        return view('entidadesensino.editar-entidade-ensino', compact('entidade'));
     }
 
     /**
@@ -55,14 +63,20 @@ class GerenciarEntidadesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        DB::table('tp_entidades_ensino')
+        ->where('id', $id)
+        ->update([
+            'nome' => $request->input('nome_ent')
+        ]);
+        return redirect()->route('batata');
+        }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        DB::table('tp_entidades_ensino')->where('id', $id)->delete();
+        return redirect()->back();
     }
 }
