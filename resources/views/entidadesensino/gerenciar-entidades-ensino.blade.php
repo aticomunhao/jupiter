@@ -49,13 +49,51 @@
                             <tbody>
                                 @foreach ($entidades as $entidade)
                                     <tr style="text-align: center">
-                                        <th scope="">{{ $entidade->nome }}</th>
-                                        <th scope=""><a href="/excluir-entidade/{{ $entidade->id }}">
-                                                <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
-                                                    data-bs-toggle="modal" data-bs-target="#A"><i
-                                                        class="bi bi-trash"></i></button>
-                                            </a>
-                                            <a href="/editar-entidade/{{ $entidade->id }}"><button type="submit"
+                                        <th scope="">{{ $entidade->nome_tpentensino }}</th>
+                                        <!--Botão que ativa Modal-->
+                                        <th scope="">
+                                            <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
+                                                data-bs-toggle="modal" data-bs-target="#A{{ $entidade->id }}"><i
+                                                    class="bi bi-trash"></i></button>
+
+                                            <div class="modal fade" id="A{{ $entidade->id }}"><i
+                                                    class="bi bi-trash"></i></button>"
+                                                tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <div class="row">
+                                                                <h2>Excluir Dependente</h2>
+                                                            </div>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="fw-bold alert alert-danger text-center">Voce
+                                                                realmente deseja
+                                                                <br>
+                                                                <span class="fw-bolder fs-5">EXCLUIR
+                                                                    {{ $entidade->nome_tpentensino }}</span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                            <a href="/excluir-entidade/{{ $entidade->id }}"><button
+                                                                    type="button"
+                                                                    class="btn btn-danger">Excluir</button></a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <!--Fim Modal-->
+
+
+                                            <a href="/editar-entidade/{{$entidade->id}}"><button type="submit"
                                                     class="btn btn-outline-primary btn-sm"><i
                                                         class="bi bi-pencil btn-sm"></i></button></a>
                                         </th>

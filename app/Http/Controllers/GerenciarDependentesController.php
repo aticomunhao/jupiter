@@ -53,7 +53,7 @@ class GerenciarDependentesController extends Controller
 
 
 
-        return view('/dependentes/incluir-dependente', compact('funcionario_atual','tp_relacao'));
+        return view('/dependentes/incluir-dependente', compact('funcionario_atual', 'tp_relacao'));
     }
 
     /**
@@ -64,35 +64,33 @@ class GerenciarDependentesController extends Controller
         $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
 
         $vercpf = DB::table('dependentes')
-                    ->get('cpf');
+            ->get('cpf');
 
-                    $cpf = $request->cpf;
+        $cpf = $request->cpf;
 
-                    if ( $request->$cpf == $vercpf){
-
-
-                        app('flasher')->addError('Existe outro cadastro usando este número de CPF');
-
-                        return redirect()->route('Batata', ['id' => $id]);
+        if ($request->$cpf == $vercpf) {
 
 
-                    }else{
-                        DB::table('dependentes')->insert([
+            app('flasher')->addError('Existe outro cadastro usando este número de CPF');
 
-                            'nome_dependente'=> $request->input('nomecomp_dep'),
-                            'dt_nascimento'=> $request->input('dtnasc_dep'),
-                            'cpf'=>$request->input('cpf_dep'),
-                            'id_funcionario'=>$id,
-                            'id_parentesco'=>$request->input('relacao_dep')
+            return redirect()->route('Batata', ['id' => $id]);
+        } else {
+            DB::table('dependentes')->insert([
 
-                        ]);
-                    }
+                'nome_dependente' => $request->input('nomecomp_dep'),
+                'dt_nascimento' => $request->input('dtnasc_dep'),
+                'cpf' => $request->input('cpf_dep'),
+                'id_funcionario' => $id,
+                'id_parentesco' => $request->input('relacao_dep')
+
+            ]);
+        }
 
 
 
         app('flasher')->addSuccess('O cadastro do dependente foi realizado com sucesso.');
         return redirect()->route('Potato', ['id' => $id]);
-        }
+    }
 
 
 
@@ -109,7 +107,7 @@ class GerenciarDependentesController extends Controller
      */
     public function edit($id)
     {
-        $dependente = DB::table('dependentes')->where('id',$id)->first();
+        $dependente = DB::table('dependentes')->where('id', $id)->first();
         $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_funcionario");
 
 
@@ -117,7 +115,7 @@ class GerenciarDependentesController extends Controller
 
 
 
-        return view('dependentes.editar-dependentes',compact('dependente','tp_relacao','funcionario'));
+        return view('dependentes.editar-dependentes', compact('dependente', 'tp_relacao', 'funcionario'));
     }
 
     /**
@@ -126,19 +124,19 @@ class GerenciarDependentesController extends Controller
     public function update(Request $request, $id)
     {
         $funcionario = DB::select("select id_funcionario from dependentes d where d.id = $id");
-        $idf = DB::table('dependentes AS d') -> where('id', $id)->select('id_funcionario')->value('id_funcionario');
+        $idf = DB::table('dependentes AS d')->where('id', $id)->select('id_funcionario')->value('id_funcionario');
 
 
         DB::table('dependentes')
-        ->where('id', $id)
-        ->update([
-        'nome_dependente' => $request->input('nomecomp_dep'),
-        'cpf'=> $request->input('cpf_dep'),
-        'dt_nascimento' => $request->input('dtnasc_dep'),
-        'id_parentesco'=> $request->input('relacao_dep')
-        ]);
+            ->where('id', $id)
+            ->update([
+                'nome_dependente' => $request->input('nomecomp_dep'),
+                'cpf' => $request->input('cpf_dep'),
+                'dt_nascimento' => $request->input('dtnasc_dep'),
+                'id_parentesco' => $request->input('relacao_dep')
+            ]);
         app('flasher')->addInfo('O cadastro do Dependente alterado com Sucesso.');
-        return redirect()->route('Potato',['id'=>$idf]);
+        return redirect()->route('Potato', ['id' => $idf]);
     }
 
     /**

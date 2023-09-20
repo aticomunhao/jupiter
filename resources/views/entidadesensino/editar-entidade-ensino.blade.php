@@ -7,16 +7,16 @@
                 <div class="card">
                     <div class="card-header">
 
-                            <h2>Incluir Entidades de Ensino</h2>
+                            <h2>Editar Entidades de Ensino</h2>
                     </div>
                     <div class="card-body">
                         <p class="card-text">
-                            <form method="POST" action="/armazenar-entidade">
+                            <form method="POST" action="/atualizar-entidade-ensino/{{ $entidade->id }}">
                                 @csrf
                                 <div class="form-group row">
                                     <div class="col-5">Nome da Instituição de Ensino
                                         <input class="form-control" type="text" maxlength="100" id="2"name="nome_ent"
-                                            value="{{ $entidade->nome }}" required="required">
+                                            value="{{ $entidade->nome_tpentensino }}" required="required">
                                     </div>
                                 </div>
                                 <br>
@@ -26,7 +26,7 @@
                                             role="button">Limpar</a>
                                     </div>
                                     <div class="d-grid gap-2 col-2 mx-auto">
-                                        <a href="/atualizar-entidade-ensino/{{  }}"><button type="submit" class="btn btn-success btn-lg" id="sucesso">Confirmar</button></a>
+                                      <button type="submit" class="btn btn-success btn-lg" id="sucesso">Confirmar</button>
                                     </div>
                                  </div>
                                 </div>

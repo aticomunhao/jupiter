@@ -33,7 +33,7 @@ class GerenciarEntidadesController extends Controller
     {
 
         DB::table('tp_entidades_ensino')->insert([
-            'nome' => $request->input('nome_ent')
+            'nome_tpentensino' => $request->input('nome_ent')
         ]);
 
 
@@ -53,7 +53,7 @@ class GerenciarEntidadesController extends Controller
      */
     public function edit(string $id)
     {
-        $entidade = DB::table('tp_entidades_ensino')->where('id',$id)->first();
+        $entidade = DB::table('tp_entidades_ensino')->where('id', $id)->first();
 
         return view('entidadesensino.editar-entidade-ensino', compact('entidade'));
     }
@@ -63,13 +63,17 @@ class GerenciarEntidadesController extends Controller
      */
     public function update(Request $request, string $id)
     {
+
         DB::table('tp_entidades_ensino')
-        ->where('id', $id)
-        ->update([
-            'nome' => $request->input('nome_ent')
-        ]);
+            ->where('id', $id)
+            ->update([
+                'id' => $id,
+                'nome_tpentensino' => $request->input('nome_ent')
+            ]);
+
+
         return redirect()->route('batata');
-        }
+    }
 
     /**
      * Remove the specified resource from storage.
