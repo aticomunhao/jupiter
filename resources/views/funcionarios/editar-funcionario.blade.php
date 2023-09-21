@@ -1,25 +1,25 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container"> 
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            
+
         </div>
     </div>
-    <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>   
+    <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>
     <fieldset class="border rounded border-primary p-2">
-<div> 
-    <form method = 'POST' action = "/atualizar-funcionario/{{$editar[0]->idf}}">
-      
+<div>
+    <form method = 'POST' action = "/atualizar-funcionario/{{$editar[0]->idp}}">
+
       @csrf
-      
-   
+
+
   <div class="form-group row" style = "display:flex;
     justify-content:space-between; width: 100%;">
     <div class="form-group col-md-2">
       <label for="validationCustom01">Matricula</label>
-      <input type="text" class="form-control" name= "matricula" value ="{{$editar[0]->matricula}}"  required>
+      <input class="form-control" name= "matricula" value ="{{$editar[0]->matricula}}"  required>
       <div class="invalid-feedback">
         Por favor, informe o Número da Matrícula.
       </div>
@@ -43,7 +43,7 @@
         @foreach ($tpsexo as $tpsexos)
         <option value= "{{$tpsexos->id}}">{{$tpsexos->tipo}}</option>
 
-        @endforeach 
+        @endforeach
       </select>
       <div class="invalid-feedback">
         Por favor, selecione um Campo
@@ -59,7 +59,7 @@
         @foreach ($tpnacionalidade as $tpnacionalidades)
         <option value= "{{$tpnacionalidades->id}}">{{$tpnacionalidades->local}}</option>
 
-        @endforeach 
+        @endforeach
       </select>
       <div class="invalid-feedback">
         Por favor, selecione uma Nacionalidade.
@@ -70,7 +70,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Naturalidade UF</label>
       <select id="validationCustomUsername" class="form-select" name = "uf_naturalidade" >
-      
+
          </select>
       <div class="invalid-feedback">
         Por favor, selecione um UF válido.
@@ -106,13 +106,13 @@
         @foreach ($tpprograma as $tpprogramas)
         <option value= "{{$tpprogramas->id}}">{{$tpprogramas->programa}}</option>
 
-        @endforeach 
+        @endforeach
 </select>
       <div class="invalid-feedback">
         Por favor, informe um PIS/PASEP válido.
     </div>
     </div>
- 
+
     <div class="form-group row" style = " display:flex;
     justify-content:space-between; width: 100%; ">
 
@@ -148,7 +148,7 @@
         @foreach ($tppele as $tppeles)
         <option value= "{{$tppeles->id}}">{{$tppeles->nome_cor}}</option>
 
-        @endforeach 
+        @endforeach
 </select>
       <div class="invalid-feedback">
         Por favor, selecione a Cor da Pele.
@@ -172,7 +172,7 @@
 </div>
 <div class="form-group row" style = " display:flex;
     justify-content:space-between; width: 100%; ">
-    
+
     <div class="form-group col-md-2">
       <label for="validationCustom05">Titulo eleitor Nr</label>
       <input type="text" class="form-control" name = "tl_eleitor" id="validationCustom05" value = "{{$editar[0]->titulo_eleitor}}"  required>
@@ -212,14 +212,14 @@
       <option value="{{$editar[0]->id}}">{{$editar[0]->dddesc}}</option>
         @foreach ($tpddd as $tpddds)
         <option value= "{{$tpddds->id}}">{{$tpddds->descricao}}</option>
-      
+
       @endforeach
       </select>
       <div class="invalid-feedback">
         Por favor, selecione um DDD válido.
     </div>
-    </div> 
-    
+    </div>
+
     <div class="form-group col-md-2">
       <label for="validationCustom05">Celular</label>
       <input type="text" class="form-control" name = "celular" id="validationCustom05" value = "{{$editar[0]->celular}}"  required>
@@ -233,7 +233,7 @@
 
   <div class="form-group col-md-2">
       <label for="validationCustom05">CTPS Nr</label>
-      <input type="text" class="form-control" name = "nr_ctps" id="validationCustom05" value = "{{$editar[0]->ctps}}" required>  
+      <input type="text" class="form-control" name = "nr_ctps" id="validationCustom05" value = "{{$editar[0]->ctps}}" required>
       <div class="invalid-feedback">
         Por favor, informe um CTPS Nr válido.
     </div>
@@ -255,7 +255,7 @@
         Por favor, informe um Nr Série válido.
     </div>
     </div>
-  
+
     <div class="form-group col-sm-2">
       <label for="validationCustomUsername">UF</label>
       <select id="12" class="form-select" name = "uf" >
@@ -268,36 +268,36 @@
       <div class="invalid-feedback">
         Por favor, selecione um UF válido.
     </div>
-    </div> 
+    </div>
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Reservista</label>
       <input type="text" class="form-control" name = "reservista" id="validationCustom05" value = "{{$editar[0]->reservista}}" required>
-      
+
     </div>
     <div class="form-group row" style = "">
 
     <div class="form-group col-md-6">
       <label for="validationCustom05">Nome da Mãe</label>
-      <input type="text" class="form-control" name = "nome_mae" id="validationCustom05" value = "{{$editar[0]->nome_mae}}" required>
+      <input type="text" class="form-control" name = "nome_mae" id="validationCustom05" value = "{{$editar[0]->nome_mae}}" >
       <div class="invalid-feedback">
         Por favor, informe o Nome da Mãe>
     </div>
     <br>
     </div>
-  
+
     <div class="form-group col-md-6">
       <label for="validationCustom05">Nome do Pai</label>
-      <input type="text" class="form-control" name = "nome_pai" id="validationCustom05" value = "{{$editar[0]->nome_pai}}" required>
+      <input type="text" class="form-control" name = "nome_pai" id="validationCustom05" value = "{{$editar[0]->nome_pai}}" >
     </div>
-   
+
   </div>
 
   <div class="form-group row" style = "">
-     
+
   <div class="form-group col-md-5">
       <label for="validationCustom05">Email</label>
-      <input type="text" class="form-control" name = "email" id="validationCustom05" value = "{{$editar[0]->email}}" required>
+      <input type="text" class="form-control" name = "email" id="validationCustom05" value = "{{$editar[0]->email}}" >
     </div>
 
     <div class="form-group col-md-2">
@@ -321,7 +321,7 @@
 </figure>
 </div>
 </fieldset>
-<div class="botões" style = "padding-left:20px;  font-size:40px; width: 50%;">    
+<div class="botões" style = "padding-left:20px;  font-size:40px; width: 50%;">
 <a href="/gerenciar-funcionario" type ="button" value = "" class="btn btn-danger">Cancelar</a>
 <input type ="submit" value= "Confirmar" class="btn btn-primary">
 </form>

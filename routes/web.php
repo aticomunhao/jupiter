@@ -32,7 +32,7 @@ Route::get('/informar-dados', [App\Http\Controllers\GerenciarFuncionarioControll
 Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
 Route::get('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
 
-Route::post('/atualizar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
+Route::post('/atualizar-funcionario/{idp}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
 //Route::post('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('editar-funcionario.index');
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
