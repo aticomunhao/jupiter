@@ -213,8 +213,8 @@ class GerenciarFuncionarioController extends Controller
         'p.celular', 'f.dt_emissao_ctps', 'f.ctps', 'f.serie', 'f.reservista', 'f.nome_pai', 'f.nome_mae', 'p.email',
         'f.id_cat_cnh', 'tpcnh.id','tpcnh.nome_cat AS nmcnh','p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',
         'tp_sangue.id','p.dt_nascimento', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id',
-        'tp_programa.programa AS prog', 'tn.id', 'tn.local AS tnl', 'tp_cor_pele.id','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id', 'tp_ddd.descricao AS dddesc',
-        'tp_uf.id', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
+        'tp_programa.programa AS prog', 'tn.id', 'tn.local AS tnl', 'tp_cor_pele.id','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id',
+        'tp_ddd.descricao AS dddesc', 'tp_uf.id', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
         ->where('f.id', $idp)
         ->get();
 //dd($editar);
