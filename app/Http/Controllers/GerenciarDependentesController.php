@@ -62,33 +62,26 @@ class GerenciarDependentesController extends Controller
         $dependentes = DB::select('select * from dependentes');
 
         $dataHoje = Carbon::now();
-
-
         foreach ($dependentes as $dependente) {
-
             if (intval($request->input('cpf_dep')) == $dependente->cpf) {
                 app('flasher')->addError('Existe outro cadastro usando este número de CPF');
                 return redirect()->route('Potato', ['id' => $id]);
-            } elseif ($request->input('id_parentesco')== 1 && intval($request->input(
+            } elseif (intval($request->input('relacao_dep'))== 6 && intval($request->input(
                 'dtnasc_dep')) <= intval($funcionario[0]->dt_nascimento)) {
                 app('flasher')->addError('A data do Dependente cadastrado é mais velha ou igual a do funcionario');
                 return redirect()->route('Potato', ['id' => $id]);
             }
         }
-
         $current = Carbon::today()->format('Y-m-d');
         DB::table('dependentes')->insert([
-
             'nome_dependente' => $request->input('nomecomp_dep'),
             'dt_nascimento' => $request->input('dtnasc_dep'),
             'cpf' => $request->input('cpf_dep'),
             'id_funcionario' => $id,
             'id_parentesco' => $request->input('relacao_dep')
-
         ]);
         #Foreach para comparar os resultados daqui com o banco
         #cpf
-
         /*if ($resultadocpf == 1) {
 
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
@@ -100,16 +93,13 @@ class GerenciarDependentesController extends Controller
 
             return redirect()->route('Potato', ['id' => $id]);
         } elseif(intval($hoje)) {
-
         }else{
             DB::table('dependentes')->insert([
-
                 'nome_dependente' => $request->input('nomecomp_dep'),
                 'dt_nascimento' => $request->input('dtnasc_dep'),
                 'cpf' => $request->input('cpf_dep'),
                 'id_funcionario' => $id,
                 'id_parentesco' => $request->input('relacao_dep')
-
             ]);
         }
 
