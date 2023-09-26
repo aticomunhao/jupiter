@@ -217,7 +217,8 @@ class GerenciarFuncionarioController extends Controller
         'tp_ddd.descricao AS dddesc', 'tp_uf.id', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
         ->where('f.id', $idp)
         ->get();
-//dd($editar);
+
+        //dd($editar);
 
 
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
@@ -248,22 +249,24 @@ class GerenciarFuncionarioController extends Controller
     public function update(Request $request, $idp){
 
 
-    //dd($request);
+    //dd($idp);
 
       DB::table('pessoas')
        ->where('id', $idp)
-       ->update(['nome_completo'=>$request->input('nomecompleto'),
-                 'idt'=>$request->input('identidade'),
-                 'sexo'=>$request->input('sexo'),
-                 'dt_nascimento'=>$request->input('dt_de_nascimento'),
-                 'nacionalidade'=>$request->input('nacionalidade'),
+       ->update(['nome_completo' => $request->input('nome_completo'),
+                 'idt' => $request->input('identidade'),
+                 'orgao_expedidor' =>  $request->input('orgexp'),
+                 'uf_idt' =>  $request->input('uf_idt'),
+                 'dt_emissao_idt' =>  $request->input('dt_idt'),
+                 'dt_nascimento' => $request->input('dt_nascimento'),
+                 'sexo' => $request->input('sexo'),
+                 'nacionalidade' => $request->input('pais'),
+                 'uf_natural' =>  $request->input('uf_nat'),
+                 'naturalidade' => $request->input('natura'),
+                 'cpf' => $request->input('cpf'),
+                 'email' => $request->input('email'),
                  'ddd' => $request->input('ddd'),
                  'celular' => $request->input('celular'),
-                 'naturalidade'=>$request->input('natural_cidade'),
-                 'cpf'=>$request->input('cpf'),
-                 'orgao_expedidor'=>$request->input('orgao_exp'),
-                 'dt_emissao_idt'=>$request->input('dt_emissao'),
-                 'email'=>$request->input('email')
 
 
 
@@ -274,32 +277,34 @@ class GerenciarFuncionarioController extends Controller
 
     ]);
 
+
       DB::table('funcionarios')
       ->where('id', $idp)
-      ->update([//'tp_programa'=>$request->input('pis'),
-                'id_cor_pele'=>$request->input('cor_pele'),
-                'id_tp_sangue'=>$request->input('tp_sanguineo'),
-                'titulo_eleitor'=>$request->input('tl_eleitor'),
-                'zona_tit'=>$request->input('zona'),
-                'secao_tit'=>$request->input('secao'),
-                'dt_titulo'=>$request->input('dt_emissao'),
-                'ctps'=>$request->input('nr_ctps'),
-                'dt_emissao_ctps'=>$request->input('dt_emissao_ctps'),
-                'serie'=>$request->input('serie'),
-                'uf_ctps'=>$request->input('uf'),
-                'reservista'=>$request->input('reservista'),
-                'nome_mae'=>$request->input('nome_mae'),
-                'nome_pai'=>$request->input('nome_pai'),
-                'id_cat_cnh'=>$request->input('cat_cnh')
+      ->update(['dt_inicio'=> $request->input('dt_ini'),
+                'matricula'=> $request->input('matricula'),
+                'tp_programa' => $request->input('tp_programa'),
+                'nr_programa' => $request->input('programa'),
+                'id_cor_pele' => $request->input('cor'),
+                'id_tp_sangue' => $request->input('tps'),
+                'fator_rh' => $request->input('frh'),
+                'titulo_eleitor' => $request->input('titele'),
+                'dt_titulo' => $request->input('dt_titulo'),
+                'zona_tit' => $request->input('zona'),
+                'secao_tit' => $request->input('secao'),
+                'ctps' => $request->input('ctps'),
+                'serie' => $request->input('serie_ctps'),
+                'uf_ctps' => $request->input('uf_ctps'),
+                'dt_emissao_ctps' => $request->input('dt_ctps'),
+                'reservista' => $request->input('reservista'),
+                'nome_mae' => $request->input('nome_mae'),
+                'nome_pai' => $request->input('nome_pai'),
+                'id_cat_cnh' => $request->input('cnh'),
 
 
 
 
 
       ]);
-
-
-
 
 
 
