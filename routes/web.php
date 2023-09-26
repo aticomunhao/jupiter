@@ -3,9 +3,6 @@
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,8 +13,6 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
 
 Route::get('/', function () {
     return view('home');
@@ -59,7 +54,6 @@ Route::get(
     '/incluir-certificados/{id}',
     [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']
 );
-
 /**Rota para Entidades Escolares   */
 Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('batata');
 Route::get('/incluir-entidades-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'create']);
@@ -68,8 +62,5 @@ Route::any('/excluir-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesCont
 Route::any('/editar-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'edit']);
 Route::any('/atualizar-entidade-ensino/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
 
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use PhpParser\Node\Stmt\Foreach_;
+use Carbon\Carbon;
+use Illuminate\Support\Carbon as SupportCarbon;
 
 class GerenciarDependentesController extends Controller
 {
@@ -38,7 +39,7 @@ class GerenciarDependentesController extends Controller
                             where d.id_funcionario = $idf");
 
 
-        return view('/dependentes/gerenciar-dependentes', compact('funcionario', 'dependentes'));
+        return view('dependentes.gerenciar-dependentes', compact('funcionario', 'dependentes'));
     }
 
     /**
@@ -48,12 +49,8 @@ class GerenciarDependentesController extends Controller
     {
 
         $funcionario_atual = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
-
         $tp_relacao = DB::select("select * from tp_parentesco");
-
-
-
-        return view('/dependentes/incluir-dependente', compact('funcionario_atual', 'tp_relacao'));
+        return view('dependentes.incluir-dependente', compact('funcionario_atual', 'tp_relacao'));
     }
 
     /**
@@ -61,20 +58,50 @@ class GerenciarDependentesController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
+        $funcionario = DB::select("select f.id, p.dt_nascimento, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
+        $dependentes = DB::select('select * from dependentes');
 
-        $vercpf = DB::table('dependentes')
-            ->get('cpf');
+        $dataHoje = Carbon::now();
 
-        $cpf = $request->cpf;
 
-        if ($request->$cpf == $vercpf) {
+        foreach ($dependentes as $dependente) {
 
+            if (intval($request->input('cpf_dep')) == $dependente->cpf) {
+                app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+                return redirect()->route('Potato', ['id' => $id]);
+            } elseif ($request->input('id_parentesco')== 1 && intval($request->input(
+                'dtnasc_dep')) <= intval($funcionario[0]->dt_nascimento)) {
+                app('flasher')->addError('A data do Dependente cadastrado é mais velha ou igual a do funcionario');
+                return redirect()->route('Potato', ['id' => $id]);
+            }
+        }
+
+        $current = Carbon::today()->format('Y-m-d');
+        DB::table('dependentes')->insert([
+
+            'nome_dependente' => $request->input('nomecomp_dep'),
+            'dt_nascimento' => $request->input('dtnasc_dep'),
+            'cpf' => $request->input('cpf_dep'),
+            'id_funcionario' => $id,
+            'id_parentesco' => $request->input('relacao_dep')
+
+        ]);
+        #Foreach para comparar os resultados daqui com o banco
+        #cpf
+
+        /*if ($resultadocpf == 1) {
 
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+            return redirect()->route('Potato', ['id' => $id]);
 
-            return redirect()->route('Batata', ['id' => $id]);
-        } else {
+        } elseif (intval($dtnas) <= intval($funcionario[0]->dt_nascimento)) {
+
+            app('flasher')->addError('A data do Dependente cadastrado é mais velha ou igual a do funcionario');
+
+            return redirect()->route('Potato', ['id' => $id]);
+        } elseif(intval($hoje)) {
+
+        }else{
             DB::table('dependentes')->insert([
 
                 'nome_dependente' => $request->input('nomecomp_dep'),
@@ -87,10 +114,11 @@ class GerenciarDependentesController extends Controller
         }
 
 
-
+        */
         app('flasher')->addSuccess('O cadastro do dependente foi realizado com sucesso.');
         return redirect()->route('Potato', ['id' => $id]);
     }
+
 
 
 
