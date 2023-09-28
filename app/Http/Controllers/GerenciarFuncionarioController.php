@@ -298,13 +298,6 @@ class GerenciarFuncionarioController extends Controller
                 'dt_emissao_idt' => $request->input('dt_emissao'),
                 'email' => $request->input('email')
 
-
-
-
-
-
-
-
             ]);
 
         DB::table('funcionarios')
