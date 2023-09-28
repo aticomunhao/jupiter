@@ -209,13 +209,13 @@ class GerenciarFuncionarioController extends Controller
         ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
 
 
-        ->select('f.id_pessoa AS idp','p.nome_completo', 'f.matricula', 'f.titulo_eleitor', 'f.zona_tit', 'f.secao_tit', 'f.dt_titulo',
+        ->select('f.id_pessoa AS idp', 'f.id AS idf','p.nome_completo', 'f.matricula', 'f.titulo_eleitor', 'f.zona_tit', 'f.secao_tit', 'f.dt_titulo',
         'p.celular', 'f.dt_emissao_ctps', 'f.ctps', 'f.serie', 'f.reservista', 'f.nome_pai', 'f.nome_mae', 'p.email',
-        'f.id_cat_cnh', 'tpcnh.id','tpcnh.nome_cat AS nmcnh','p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',
-        'tp_sangue.id','p.dt_nascimento', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id',
-        'tp_programa.programa AS prog', 'tn.id', 'tn.local AS tnl', 'tp_cor_pele.id','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id',
-        'tp_ddd.descricao AS dddesc', 'tp_uf.id', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
-        ->where('f.id', $idp)
+        'f.id_cat_cnh', 'tpcnh.id AS tpcn','tpcnh.nome_cat AS nmcnh','p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',
+        'tp_sangue.id','p.dt_nascimento', 'tp_sangue.id AS tpsang', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id AS tpprog',
+        'tp_programa.programa AS prog', 'tn.id AS tpnac', 'tn.local AS tnl', 'tp_cor_pele.id AS tpcor','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id AS tpd',
+        'tp_ddd.descricao AS dddesc', 'tp_uf.id AS tuf', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
+        ->where('f.id', $idp, $idf)
         ->get();
 
         //dd($editar);
@@ -246,10 +246,12 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-    public function update(Request $request, $idp){
+    public function update(Request $request, $idp, $idf){
 
 
-    //dd($idp);
+
+
+
 
       DB::table('pessoas')
        ->where('id', $idp)
@@ -279,10 +281,10 @@ class GerenciarFuncionarioController extends Controller
 
 
       DB::table('funcionarios')
-      ->where('id', $idp)
+      ->where('id', $idf)
       ->update(['dt_inicio'=> $request->input('dt_ini'),
                 'matricula'=> $request->input('matricula'),
-                'tp_programa' => $request->input('tp_programa'),
+                'tp_programa' => $request->input('programa'),
                 'nr_programa' => $request->input('programa'),
                 'id_cor_pele' => $request->input('cor'),
                 'id_tp_sangue' => $request->input('tps'),
@@ -298,14 +300,13 @@ class GerenciarFuncionarioController extends Controller
                 'reservista' => $request->input('reservista'),
                 'nome_mae' => $request->input('nome_mae'),
                 'nome_pai' => $request->input('nome_pai'),
-                'id_cat_cnh' => $request->input('cnh'),
+                'id_cat_cnh' => $request->input('cnh')
 
 
 
 
 
       ]);
-
 
 
         //dd($atualizar);

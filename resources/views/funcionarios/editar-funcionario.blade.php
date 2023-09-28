@@ -39,7 +39,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Sexo</label>
       <select id="12" class="form-select" name = "sexo" type = "text">
-      <option value="{{$editar[0]->id}}">{{$editar[0]->tps}}</option>
+      <option value="{{$editar[0]->id_tps}}">{{$editar[0]->tps}}</option>
         @foreach ($tpsexo as $tpsexos)
         <option value= "{{$tpsexos->id}}">{{$tpsexos->tipo}}</option>
 
@@ -55,7 +55,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Nacionalidade</label>
       <select id="12" class="form-select" name = "pais" >
-      <option value="{{$editar[0]->id}}">{{$editar[0]->tnl}}</option>
+      <option value="{{$editar[0]->tpnac}}">{{$editar[0]->tnl}}</option>
         @foreach ($tpnacionalidade as $tpnacionalidades)
         <option value= "{{$tpnacionalidades->id}}">{{$tpnacionalidades->local}}</option>
 
@@ -102,7 +102,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustom05">PIS/PASEP</label>
       <select id="12" name = "programa" class="form-select" >
-      <option value="{{$editar[0]->id}}">{{$editar[0]->prog}}</option>
+      <option value="{{$editar[0]->tpprog}}">{{$editar[0]->prog}}</option>
         @foreach ($tpprograma as $tpprogramas)
         <option value= "{{$tpprogramas->id}}">{{$tpprogramas->programa}}</option>
 
@@ -144,7 +144,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Cor Pele</label>
       <select id="12" name = "cor" class="form-select" type = "bigint" >
-      <option value="{{$editar[0]->id}}">{{$editar[0]->nmpele}}</option>
+      <option value="{{$editar[0]->tpcor}}">{{$editar[0]->nmpele}}</option>
         @foreach ($tppele as $tppeles)
         <option value= "{{$tppeles->id}}">{{$tppeles->nome_cor}}</option>
 
@@ -158,7 +158,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Tipo Sanguineo</label>
       <select id="12" name = "tps" class="form-select" >
-      <option value="{{$editar[0]->id}}">{{$editar[0]->nmsangue}}</option>
+      <option value="{{$editar[0]->tpsang}}">{{$editar[0]->nmsangue}}</option>
         @foreach ($tpsangue as $tpsangues)
         <option value= "{{$tpsangues->id}}">{{$tpsangues->nome_sangue}}</option>
 
@@ -209,7 +209,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">DDD</label>
       <select id="12" class="form-select" name = "ddd">
-      <option value="{{$editar[0]->id}}">{{$editar[0]->dddesc}}</option>
+      <option value="{{$editar[0]->tpd}}">{{$editar[0]->dddesc}}</option>
         @foreach ($tpddd as $tpddds)
         <option value= "{{$tpddds->id}}">{{$tpddds->descricao}}</option>
 
@@ -258,8 +258,8 @@
 
     <div class="form-group col-sm-2">
       <label for="validationCustomUsername">UF</label>
-      <select id="12" class="form-select" name = "uf_ctps" >
-      <option value="{{$editar[0]->id}}">{{$editar[0]->ufsgl}}</option>
+      <select id="12" class="form-select" name = "uf_idt" >
+      <option value="{{$editar[0]->tuf}}">{{$editar[0]->ufsgl}}</option>
         @foreach ($tpufidt as $tpufidts)
         <option value= "{{$tpufidts->id}}">{{$tpufidts->sigla}}</option>
 
@@ -303,7 +303,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Cat CNH</label>
       <select id="validationCustomUsername" class="form-select" name = "cnh" >
-        <option value="{{$editar[0]->id}}">{{$editar[0]->nmcnh}}</option>
+        <option value="{{$editar[0]->tpcn}}">{{$editar[0]->nmcnh}}</option>
         @foreach ( $tpcnh as $tpcnhs )
           <option value="{{$tpcnhs->id}}">{{$tpcnhs->nome_cat}}</option>
         @endforeach
@@ -315,10 +315,6 @@
 </div>
 <div>
 
-<figure class="figure">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT29losWo_Df-O-bjW0A6tuH-NLoUorWQxrqS5HADgrkfySSPpRWjv8_Kb5itsXAlmB1ic&usqp=CAU/200x200" class="figure-img img-fluid rounded" alt="Imagem de um quadrado genérico com bordas arredondadas, em uma figure.">
-  <a href = "#" >Alterar Foto</a>
-</figure>
 </div>
 </fieldset>
 <div class="botões" style = "padding-left:20px;  font-size:40px; width: 50%;">
