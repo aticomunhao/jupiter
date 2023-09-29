@@ -32,18 +32,18 @@
                                 </select>
                             </div>
                             <div class="col-4"><br>
-                                <span class="shadow-lg p-1 mb-5 bg-body-tertiary rounded"><input
-                                        class="btn btn-primary btn-sm" type="submit" value="Pesquisar"></span>
+                             <input
+                                        class="btn btn-primary btn-sm" type="submit" value="Pesquisar" style="box-shadow: 5px 4px 5px #0F0024;">
 
 
                                 <span class="shadow-lg p-1 mb-5 bg-body-tertiary rounded">
                                     <a href="/gerenciar-funcionario"><input class="btn btn-danger btn-sm" type="button"
-                                            value="Limpar"></a>
+                                            value="Limpar" style="box-shadow: 5px 4px 5px #0F0024;"></a>
                                 </span>
                     </form>
                     <span class="shadow-lg p-1 mb-5 bg-body-tertiary rounded">
                         <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" autofocus
-                                value="Novo Cadastro &plus;"></a>
+                                value="Novo Cadastro &plus;" style="box-shadow: 5px 4px 5px #0F0024;"></a>
                     </span>
 
                 </div>
