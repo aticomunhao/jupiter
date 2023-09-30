@@ -2,12 +2,9 @@
 
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
 use App\Http\Controllers;
 
 
-=======
->>>>>>> main
 
 /*
 |--------------------------------------------------------------------------
@@ -71,10 +68,6 @@ Route::any('/editar-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesContr
 Route::any('/atualizar-entidade-ensino/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-<<<<<<< HEAD
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-=======
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
->>>>>>> main
