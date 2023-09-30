@@ -34,11 +34,7 @@
                                 <input class="form-control" type="date" value="" id="13" name="dt_ini" required="required">
                             </div>
                             <div class="col">Nome completo
-<<<<<<< HEAD
                                 <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" name="nome_completo" value="" required="required">
-=======
-                                <input class="form-control"  type="text" id="2" name="nome_completo" value="" required="required">
->>>>>>> f11661f74d59e8920a2675f6b8811c422a3cc5bd
                             </div>
                             <div class="col-2">Data nascimento
                                 <input class="form-control" type="date" value="" id="3" name="dt_nascimento" required="required">
