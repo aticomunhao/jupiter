@@ -2,9 +2,12 @@
 
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
 use App\Http\Controllers;
 
 
+=======
+>>>>>>> main
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +19,6 @@ use App\Http\Controllers;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
-
 
 Route::get('/', function () {
     return view('home');
@@ -34,7 +35,7 @@ Route::get('/informar-dados', [App\Http\Controllers\GerenciarFuncionarioControll
 Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
 Route::get('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
 
-Route::post('/atualizar-funcionario/{idp}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
+Route::post('/atualizar-funcionario/{idp}{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
 //Route::post('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('editar-funcionario.index');
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
@@ -61,7 +62,6 @@ Route::get(
     '/incluir-certificados/{id}',
     [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']
 );
-
 /**Rota para Entidades Escolares   */
 Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('batata');
 Route::get('/incluir-entidades-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'create']);
@@ -70,8 +70,11 @@ Route::any('/excluir-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesCont
 Route::any('/editar-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'edit']);
 Route::any('/atualizar-entidade-ensino/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+<<<<<<< HEAD
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
+=======
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+>>>>>>> main
