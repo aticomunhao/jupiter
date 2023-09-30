@@ -16,7 +16,7 @@
 @section('content')
 
 
-<div class="container">
+<div class="container-fluid">
     <div class="row justify-content-center">
         <div class="col-12">
             <div class="card">
@@ -28,13 +28,13 @@
 
                         <div class="form-group row">
                             <div class="col-2">Matrícula
-                                <input  class="form-control" type="numeric" maxlength="11" id="1" name="matricula" required="required" >
+                                <input  class="form-control" type="numeric" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  id="1" name="matricula" required="required" >
                             </div>
                             <div class="col-2">Data Início
                                 <input class="form-control" type="date" value="" id="13" name="dt_ini" required="required">
                             </div>
                             <div class="col">Nome completo
-                                <input class="form-control"  type="text" maxlength="45" id="2" name="nome_completo" value="" required="required">
+                                <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[a-zA-Z\s]/+$, '').replace(/(\..*)\./g, '$1');" id="2" name="nome_completo" value="" required="required">
                             </div>
                             <div class="col-2">Data nascimento
                                 <input class="form-control" type="date" value="" id="3" name="dt_nascimento" required="required">
@@ -75,7 +75,7 @@
                                 </select>
                             </div>
                             <div class="col">CPF
-                                <input class="form-control" type="numeric" maxlength="11"  value="" id="8" name="cpf" required="required">
+                                <input class="form-control" type="numeric" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="8" name="cpf" required="required">
                             </div>
                             <div class="col">Tipo Programa
                                 <select class="form-select" id="9" name="tp_programa" required="required"  >
@@ -151,7 +151,7 @@
                             <div class="col-2">Data emissão
                                 <input class="form-control" type="date" value="" id="20" name="dt_titulo">
                             </div>
-                            <div class="col-2">DDD
+                            <div class="col-1">DDD
                                 <select class="form-select" id="16" name="ddd" required="required">
                                     <option value=""></option>
                                     <@foreach($ddd as $ddds)
@@ -160,7 +160,7 @@
                                 </select>
                             </div>
                             <div class="col-2">Celular
-                                <input class="form-control mascara_celular" maxlength="9" placeholder="Ex.: 99999-9999" type="numeric" value="" id="22" name="celular">
+                                <input class="form-control" maxlength="9" type="numeric" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" placeholder="Ex.: 99999-9999" value="" id="22" name="celular">
                             </div>
                         </div>
                         <br>
@@ -189,10 +189,10 @@
                         <br>
                         <div class="form-group row">
                             <div class="col">Nome mãe
-                                <input class="form-control" maxlength="45" required="required" type="text" id="29" name="nome_mae" required="required">
+                                <input class="form-control" type="text" maxlength="45" pattern="[a-zA-Z\s]+$"  required="required"  id="29" name="nome_mae">
                             </div>
                             <div class="col">Nome pai
-                                <input class="form-control" maxlength="45" required="required" type="text" id="30" name="nome_pai">
+                                <input class="form-control" type="text" maxlength="45" pattern="[a-zA-Z\s]+$" required="required" id="30" name="nome_pai">
                             </div>
                         </div>
                         <br>
@@ -256,10 +256,10 @@
                     <br>
                     <div class="row">
                         <div class="d-grid gap-1 col-5 mx-auto">
-                            <a class="btn btn-danger" href="/gerenciar-funcionario" role="button">Limpar</a>
+                            <a class="btn btn-danger" href="/gerenciar-funcionario" role="button">Cancelar</a>
                         </div>
                         <div class="d-grid gap-2 col-5 mx-auto">
-                            <button type="submit" class="btn btn-success">Confirmar</button>
+                            <button type="submit" class="btn btn-info">Confirmar</button>
                         </div>
                     </div>
                     </form>

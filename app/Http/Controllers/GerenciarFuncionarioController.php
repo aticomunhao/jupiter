@@ -49,13 +49,10 @@ class GerenciarFuncionarioController extends Controller
             $lista->where('p.nome_completo', 'LIKE', '%'.$request->nome.'%');
         }
 
-        $lista = $lista->orderBy( 'p.status','asc')->orderBy('p.nome_completo', 'asc')->paginate(5);
+        $lista = $lista->orderBy( 'p.status','asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
 
-
-
-
-       return view('\funcionarios.gerenciar-funcionario', compact ('lista', 'cpf', 'idt', 'status', 'nome'));
+       return view('/funcionarios.gerenciar-funcionario', compact ('lista', 'cpf', 'idt', 'status', 'nome'));
 
     }
 
@@ -90,7 +87,7 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-        return view('\funcionarios\incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd'));
+        return view('/funcionarios.incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd'));
 
     }
 
@@ -102,18 +99,18 @@ class GerenciarFuncionarioController extends Controller
 
         $today = Carbon::today()->format('Y-m-d');
 
-        $vercpf = DB::table('pessoas')
-                    ->get('cpf');
+        $vercpf = DB::select("select cpf from pessoas");
 
         $cpf = $request->cpf;
 
+        //dd($cpf);
 
         if ( $request->$cpf == $vercpf){
 
 
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
 
-            return redirect('/informar-dados');
+            return back()->withInput();
 
 
         }
@@ -292,24 +289,7 @@ class GerenciarFuncionarioController extends Controller
                 'nome_pai'=>$request->input('nome_pai'),
                 'id_cat_cnh'=>$request->input('cat_cnh')
 
-
-
-
-
       ]);
-
-
-
-
-
-
-        //dd($atualizar);
-
-
-       //dd($id);
-      //dd($nome_completo);
-      //dd($dt_nascimento);
-
 
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
    }
