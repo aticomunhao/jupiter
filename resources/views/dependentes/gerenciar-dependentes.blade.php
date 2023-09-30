@@ -97,7 +97,7 @@
                                                                         data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <p class="fw-bold alert alert-danger text-center">Voce
+                                                                    <p class="fw-bold alert alert-danger text-center">Você
                                                                         realmente deseja
                                                                         <br>
                                                                         <span class="fw-bolder fs-5">EXCLUIR
@@ -118,8 +118,6 @@
 
 
                                                     <!--Fim Modal-->
-
-
                                                     <a href="/editar-dependentes/{{ $dependente->id }}"><button
                                                             type="submit" class="btn btn-outline-primary btn-sm"><i
                                                                 class="bi bi-pencil btn-sm"></i></button></a>
