@@ -34,7 +34,7 @@
                                 <input class="form-control" type="date" value="" id="13" name="dt_ini" required="required">
                             </div>
                             <div class="col">Nome completo
-                                <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[a-zA-Z\s]/+$, '').replace(/(\..*)\./g, '$1');" id="2" name="nome_completo" value="" required="required">
+                                <input class="form-control"  type="text" id="2" name="nome_completo" value="" required="required">
                             </div>
                             <div class="col-2">Data nascimento
                                 <input class="form-control" type="date" value="" id="3" name="dt_nascimento" required="required">
@@ -75,7 +75,7 @@
                                 </select>
                             </div>
                             <div class="col">CPF
-                                <input class="form-control" type="numeric" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="8" name="cpf" required="required">
+                                <input class="form-control" type="numeric" maxlength="11" placeholder="888.888.888-88" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="8" name="cpf" required="required">
                             </div>
                             <div class="col">Tipo Programa
                                 <select class="form-select" id="9" name="tp_programa" required="required"  >
@@ -281,9 +281,7 @@
 
 @section('footerScript')
 
-<script src="{{ URL::asset('/js/pages/mascaras.init.js')}}"></script>
-<script src="vendor/select2/dist/js/select2.min.js"></script>
-<script src="path/to/select2.min.js"></script>
+
 
 @endsection
 
