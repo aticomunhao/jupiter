@@ -5,7 +5,6 @@
     <div class="container-fluid">
         <div class="col-12">
             <div class="row justify-content-center">
-<<<<<<< HEAD
                 <form action="{{route('gerenciar')}}" class="form-horizontal mt-4" method="GET">
                 <div class="row">
                     <div class="col-2">CPF
@@ -32,49 +31,6 @@
                         <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" name="6" value="Novo Cadastro +" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>
                 
                     </div>
-=======
-                <div>
-                    <form action="{{ route('gerenciar') }}" class="form-horizontal mt-4" method="GET">
-                        <div class="row">
-                            <div class="col-2">CPF
-                                <input class="form-control" type="text" id="1" name="cpf"
-                                    value="{{ $cpf }}">
-                            </div>
-                            <div class="col-2">Identidade
-                                <input class="form-control" type="text" id="2" name="idt"
-                                    value="{{ $idt }}">
-                            </div>
-                            <div class="col-3">Nome
-                                <input class="form-control" type="text" id="3" name="nome"
-                                    value="{{ $nome }}">
-                            </div>
-                            {{-- <div class="col-1 form-check form-switch"><br>
-                            <input type="checkbox" data-size="sm" checked data-toggle="toggle" data-onlabel="Ativo" data-offlabel="Inativo" data-onstyle="secondary" data-offstyle="light">
-                    </div> --}}
-                            <div class="col-1">Ativo?
-                                <select class="form-select" id="4" name="status" type="number"
-                                    required="required">
-                                    <option value="1">Sim</option>
-                                    <option value="">Todos</option>
-                                    <option value="2">Não</option>
-                                </select>
-                            </div>
-                            <div class="col-4"><br>
-                             <input
-                                        class="btn btn-primary btn-sm" type="submit" value="Pesquisar" style="box-shadow: 5px 4px 5px #0F0024;">
-
-
-                                <span class="shadow-lg p-1 mb-5 bg-body-tertiary rounded">
-                                    <a href="/gerenciar-funcionario"><input class="btn btn-danger btn-sm" type="button"
-                                            value="Limpar" style="box-shadow: 5px 4px 5px #0F0024;"></a>
-                                </span>
-                    </form>
-                    <span class="shadow-lg p-1 mb-5 bg-body-tertiary rounded">
-                        <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" autofocus
-                                value="Novo Cadastro &plus;" style="box-shadow: 5px 4px 5px #0F0024;"></a>
-                    </span>
-
->>>>>>> main
                 </div>
             </div>  
         <hr>

@@ -50,21 +50,11 @@ class GerenciarFuncionarioController extends Controller
             $lista->where('p.nome_completo', 'LIKE', '%' . $request->nome . '%');
         }
 
-<<<<<<< HEAD
         $lista = $lista->orderBy( 'p.status','asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
 
        return view('/funcionarios.gerenciar-funcionario', compact ('lista', 'cpf', 'idt', 'status', 'nome'));
 
-=======
-        $lista = $lista->orderBy('p.status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(5);
-
-
-
-
-
-        return view('\funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome'));
->>>>>>> main
     }
 
     public function create()
@@ -96,15 +86,8 @@ class GerenciarFuncionarioController extends Controller
 
         $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
 
-
-
-
-<<<<<<< HEAD
         return view('/funcionarios.incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd'));
 
-=======
-        return view('\funcionarios\incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd'));
->>>>>>> main
     }
 
     public function store(Request $request)
@@ -116,12 +99,7 @@ class GerenciarFuncionarioController extends Controller
 
         $today = Carbon::today()->format('Y-m-d');
 
-<<<<<<< HEAD
         $vercpf = DB::select("select cpf from pessoas");
-=======
-        $vercpf = DB::table('pessoas')
-            ->get('cpf');
->>>>>>> main
 
         $cpf = $request->cpf;
 
@@ -132,17 +110,12 @@ class GerenciarFuncionarioController extends Controller
 
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
 
-<<<<<<< HEAD
             return back()->withInput();
 
 
         }
         else
         {
-=======
-            return redirect('/informar-dados');
-        } else {
->>>>>>> main
 
             DB::table('pessoas')->insert([
                 'nome_completo' => $request->input('nome_completo'),
@@ -215,7 +188,7 @@ class GerenciarFuncionarioController extends Controller
     }
 
 
-    public function edit($idp)
+    public function edit($idf, $idp)
     {
 
         $editar = DB::table('funcionarios AS f')
@@ -325,18 +298,6 @@ class GerenciarFuncionarioController extends Controller
 
       ]);
 
-<<<<<<< HEAD
-=======
-
-        //dd($atualizar);
-
-
-        //dd($id);
-        //dd($nome_completo);
-        //dd($dt_nascimento);
-
-
->>>>>>> main
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
     }
 }
