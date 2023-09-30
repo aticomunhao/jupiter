@@ -34,7 +34,7 @@
                                 <input class="form-control" type="date" value="" id="13" name="dt_ini" required="required">
                             </div>
                             <div class="col">Nome completo
-                                <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[a-zA-Z\s]/+$, '').replace(/(\..*)\./g, '$1');" id="2" name="nome_completo" value="" required="required">
+                                <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" name="nome_completo" value="" required="required">
                             </div>
                             <div class="col-2">Data nascimento
                                 <input class="form-control" type="date" value="" id="3" name="dt_nascimento" required="required">
@@ -259,7 +259,7 @@
                             <a class="btn btn-danger" href="/gerenciar-funcionario" role="button">Cancelar</a>
                         </div>
                         <div class="d-grid gap-2 col-5 mx-auto">
-                            <button type="submit" class="btn btn-info">Confirmar</button>
+                            <button type="submit" class="btn btn-primary">Confirmar</button>
                         </div>
                     </div>
                     </form>

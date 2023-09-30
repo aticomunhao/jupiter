@@ -106,7 +106,7 @@ class GerenciarDependentesController extends Controller
 
 
         */
-        app('flasher')->addSuccess('O cadastro do dependente foi realizado com sucesso.');
+        app('flasher')->addInfo('O cadastro do dependente foi realizado com sucesso.');
         return redirect()->route('Potato', ['id' => $id]);
     }
 
@@ -154,7 +154,7 @@ class GerenciarDependentesController extends Controller
                 'dt_nascimento' => $request->input('dtnasc_dep'),
                 'id_parentesco' => $request->input('relacao_dep')
             ]);
-        app('flasher')->addInfo('O cadastro do Dependente alterado com Sucesso.');
+        app('flasher')->addWarning('O cadastro do Dependente alterado com Sucesso.');
         return redirect()->route('Potato', ['id' => $idf]);
     }
 

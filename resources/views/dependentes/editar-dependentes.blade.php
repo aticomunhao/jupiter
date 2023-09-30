@@ -57,7 +57,7 @@
                             <a class="btn btn-danger btn-sm" href="/gerenciar-dependentes/{{$funcionario[0]->id}}" role="button">Cancelar</a>
                         </div>
                         <div class="d-grid  col-5 mx-auto">
-                          <a href="/atualizar-dependentes/{{$dependente->id}}"></a><button type="submit" class="btn btn-primary btn-sm" >Confirmar</button>
+                          <a href="/atualizar-dependentes/{{$dependente->id}}"></a><button type="submit" class="btn btn-warning btn-sm" >Confirmar</button>
                         </div>
                 </div>
                 </form>
@@ -67,7 +67,6 @@
     </div>
     </div>
 </div>
-
 
 @endsection
 

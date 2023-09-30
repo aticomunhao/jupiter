@@ -33,7 +33,7 @@
                                         <span style="margin-top: 15px; margin-left: -18px"><a
                                                 href="/incluir-dependentes/{{ $funcionario[0]->id }}"><button type="button"
                                                     class="btn btn-success btn-sm"
-                                                    style="padding: 5px 80px;margin-right:100px">Novo&plus;</button></a></span>
+                                                    style="padding: 5px 80px;margin-right:100px;font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">Novo&plus;</button></a></span>
                                     </div>
                                 </div>
                                 <div class="col-2"></div>
@@ -54,21 +54,7 @@
                                     <tbody style="font-size: 14px; color:#000000;">
                                         <tr>
                                             @foreach ($dependentes as $dependente)
-                                                {{-- witch($dependente->id_pessoa)
-                                            @case(1)
-                                                Pai
-                                                @break
-                                            @case(2)
-                                                Mãe
-                                                @break
-                                            @case(3)
-                                                Filha
-                                            @break
-                                            @case(4)
-                                                Filho
-                                            @break
-                                            @default
-                                        @endswitch</td> --}}
+                                               
                                                 <td scope="">{{ $dependente->nome }}</td>
                                                 <td scope="">{{ $dependente->nome_dependente }}</td>
                                                 <td scope="">{{ $dependente->dt_nascimento }}</td>
@@ -119,7 +105,7 @@
 
                                                     <!--Fim Modal-->
                                                     <a href="/editar-dependentes/{{ $dependente->id }}"><button
-                                                            type="submit" class="btn btn-outline-primary btn-sm"><i
+                                                            type="submit" class="btn btn-outline-warning btn-sm"><i
                                                                 class="bi bi-pencil btn-sm"></i></button></a>
                                                 </td>
                                         </tr>
