@@ -41,12 +41,6 @@
                         <!-- JAVASCRIPT -->
 
 
-                        <script src="{{ URL::asset('/libs/jquery/jquery.min.js')}}"></script>
-                        <script src="{{ URL::asset('/libs/bootstrap/bootstrap.min.js')}}"></script>
-                        <script src="{{ URL::asset('/libs/metismenu/metismenu.min.js')}}"></script>
-                        <script src="{{ URL::asset('/libs/simplebar/simplebar.min.js')}}"></script>
-
-                        <script src="{{ URL::asset('/libs/jquery-sparkline/jquery-sparkline.min.js')}}"></script>
 
                         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
