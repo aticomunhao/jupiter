@@ -28,19 +28,23 @@
 
                         <div class="form-group row">
                             <div class="col-2">Matrícula
-                                <input  class="form-control" type="numeric" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  id="1" name="matricula" required="required" >
+                                <input  class="form-control" type="numeric" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  id="1" name="matricula" value="{{old('matricula')}}" required="required" >
                             </div>
                             <div class="col-2">Data Início
-                                <input class="form-control" type="date" value="" id="13" name="dt_ini" required="required">
+                                <input class="form-control" type="date" value="" id="13" name="dt_ini" value="{{old('dt_ini')}}" required="required">
                             </div>
                             <div class="col">Nome completo
+<<<<<<< HEAD
                                 <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" name="nome_completo" value="" required="required">
+=======
+                                <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" name="nome_completo" value="{{old('nome_completo')}}" required="required">
+>>>>>>> 6ff4b1cc2fefa2cf23f619fed2ecf450153505d0
                             </div>
                             <div class="col-2">Data nascimento
-                                <input class="form-control" type="date" value="" id="3" name="dt_nascimento" required="required">
+                                <input class="form-control" type="date" value="{{old('dt_nascimento')}}" id="3" name="dt_nascimento" required="required">
                             </div>
                             <div class="col-2">Sexo
-                                <select class="form-select" id="4" name="sex" required="required">
+                                <select class="form-select" id="4" name="sex" value="{{old('sex')}}" required="required">
                                     <option value=""></option>
                                     @foreach($sexo as $sexos)
                                     <option value="{{$sexos->id}}">{{$sexos->tipo}}</option>
@@ -189,18 +193,15 @@
                         <br>
                         <div class="form-group row">
                             <div class="col">Nome mãe
-                                <input class="form-control" type="text" maxlength="45" pattern="[a-zA-Z\s]+$"  required="required"  id="29" name="nome_mae">
+                                <input class="form-control" type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" pattern="[a-zA-Z\s]+$"  required="required"  id="29" name="nome_mae">
                             </div>
                             <div class="col">Nome pai
-                                <input class="form-control" type="text" maxlength="45" pattern="[a-zA-Z\s]+$" required="required" id="30" name="nome_pai">
+                                <input class="form-control" type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" required="required" id="30" name="nome_pai">
                             </div>
-                        </div>
-                        <br>
-                        <div class="form-group row">
                             <div class="col">e-mail
                                 <input class="form-control" maxlength="45" type="email" value="" id="31" name="email">
                             </div>
-                            <div class="col-2">Cat CNH
+                            <div class="col-1">Cat CNH
                                 <select class="form-select" id="32" name="cnh">
                                     <option value=""></option>
                                     @foreach($cnh as $cnhs)
@@ -209,16 +210,18 @@
                                 </select>
                             </div>
                         </div>
+                        <br>
+                        
                     </fieldset>
                         <br>
                         <legend style="color:rgb(16, 19, 241); font-size:15px;">Dados bancários</legend>
                     <fieldset class="border rounded border-primary p-2">
                         <div class="row">
 
-                            <div class="col">CEP
-                                <input class="form-control" maxlength="8" type="numeric"  id="35" name="cep">
+                            <div class="col-1">CEP
+                                <input class="form-control" maxlength="8" type="numeric" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  id="35" name="cep">
                             </div>
-                            <div class="col-3">UF
+                            <div class="col-1">UF
                                 <br>
                                 <select class="js-example-responsive form-select" id="37" name="uf_end">
                                     <option value=""></option>
@@ -227,7 +230,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col">Cidade
+                            <div class="col-2">Cidade
                                 <br>
                                 <select class="js-example-responsive form-select" id="38" name="cidade">
                                     <option value=""></option>
@@ -239,15 +242,12 @@
                             <div class="col">Logradouro
                                 <input class="form-control" maxlength="45" type="text"  id="36" name="logradouro">
                             </div>
-                            <div class="col-2">Número
+                            <div class="col-1">Número
                                 <input class="form-control" maxlength="10" type="text"  id="35" name="numero">
                             </div>
-                            <div class="col-2">Complemento
+                            <div class="col">Complemento
                                 <input type="text" maxlength="45" class="form-control" id="36" name="comple">
                             </div>
-                        </div>
-                        <div class="row  h-90">
-
                             <div class="col">Bairro:
                                 <input type="text" maxlength="45" class="form-control" id="36" name="bairro">
                             </div>
