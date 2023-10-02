@@ -25,14 +25,14 @@
                     </div>
                     <div class="col"><br>
                         <input class="btn btn-light btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Pesquisar">
-                    
+
                         <a href="/gerenciar-funcionario"><button class="btn btn-light btn-sm " type="button" value="" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" >Limpar</button></a>
                     </form>
                         <a href="/informar-dados"><input class="btn btn-success btn-sm" type="button" name="6" value="Novo Cadastro +" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>
-                
+
                     </div>
                 </div>
-            </div>  
+            </div>
         <hr>
         <div class="table">
             <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
@@ -59,11 +59,11 @@
                             <td scope="">
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary-1 btn-sm"><i class="bi-search" style="font-size: 1rem;"></i></button></a>
-                                <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary-1 btn-sm"><i class="bi-people-fill" style="font-size: 1rem; "></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary-1 btn-sm"><i class="bi-coin" style="font-size: 1rem; "></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary-1 btn-sm"><i class="bi-bandaid" style="font-size: 1rem;"></i></button></a>
-                                <a href="/gerenciar-certificados/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary-1 btn-sm"><i class="bi-mortarboard" style="font-size: 1rem;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-people-fill" style="font-size: 1rem;color:#303030; "></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-coin" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-bandaid" style="font-size: 1rem;color:#303030;"></i></button></a>
+                                <a href="/gerenciar-certificados/{{$listas->idf}}"><button type="button" class="btn btn-outline-info btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:;"></i></button></a>
                             </td>
                     </tr>
                     @endforeach

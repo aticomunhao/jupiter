@@ -40,8 +40,7 @@
                                         </select>
                                     </div>
                                     <div class="col-5">Nome completo
-                                        <input class="form-control" type="text" maxlength="40" id="2"
-                                            name="nomecomp_dep" value="" required="required">
+                                        <input class="form-control" type="text" maxlength="40" id="2" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" name="nomecomp_dep" value="" required="required">
                                     </div>
                                     <div class="col-3">Data nascimento
                                         <input class="form-control" type="date" value="" id="3"
@@ -49,7 +48,7 @@
                                     </div>
                                     <div class="col-2">CPF
                                         <input class="form-control" type="numeric" maxlength="11" value=""
-                                            id="8" name="cpf_dep" required="required">
+                                            id="8" name="cpf_dep" required="required" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                     </div>
                                 </div>
                                 <br>

@@ -34,11 +34,7 @@
                                 <input class="form-control" type="date" value="" id="13" name="dt_ini" value="{{old('dt_ini')}}" required="required">
                             </div>
                             <div class="col">Nome completo
-<<<<<<< HEAD
                                 <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" name="nome_completo" value="" required="required">
-=======
-                                <input class="form-control"  type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" name="nome_completo" value="{{old('nome_completo')}}" required="required">
->>>>>>> 6ff4b1cc2fefa2cf23f619fed2ecf450153505d0
                             </div>
                             <div class="col-2">Data nascimento
                                 <input class="form-control" type="date" value="{{old('dt_nascimento')}}" id="3" name="dt_nascimento" required="required">
@@ -211,7 +207,7 @@
                             </div>
                         </div>
                         <br>
-                        
+
                     </fieldset>
                         <br>
                         <legend style="color:rgb(16, 19, 241); font-size:15px;">Dados bancários</legend>
