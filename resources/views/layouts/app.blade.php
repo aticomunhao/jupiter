@@ -9,12 +9,6 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         <title></title>
-<<<<<<< Updated upstream
-
-=======
-      
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
->>>>>>> Stashed changes
 
         <!-- Styles -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"/>
@@ -50,19 +44,11 @@
 
                         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<<<<<<< Updated upstream
 
                         <!-- footerScript -->
                          @yield('footerScript')
 
                         <!-- App js -->
                         <script src="{{ URL::asset('/js/app.min.js')}}"></script>
-=======
-            <!-- footerScript -->
-            @yield('footerScript')
-                            
-        
-
->>>>>>> Stashed changes
         </body>
 </html>

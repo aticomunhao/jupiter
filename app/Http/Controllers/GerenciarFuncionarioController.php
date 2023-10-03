@@ -104,6 +104,7 @@ class GerenciarFuncionarioController extends Controller
         $cpf = $request->cpf;
 
         //dd($vercpf);
+        dd($request->input('cpf'));
 
         if ($request->$cpf = $vercpf) {
 
@@ -243,11 +244,11 @@ class GerenciarFuncionarioController extends Controller
     public function update(Request $request, $idf, $idp){
 
 
- //dd($idf);
+ //dd($idp);
 
  //dd($idf);
 
-
+ //dd($request->all());
 
       DB::table('pessoas')
        ->where('id', $idf)

@@ -19,19 +19,19 @@
     justify-content:space-between; width: 100%;">
     <div class="form-group col-md-2">
       <label for="validationCustom01">Matricula</label>
-      <input class="form-control" name= "matricula" value ="{{$editar[0]->matricula}}"  required>
+      <input class="form-control" name= "matricula" value ="{{$editar[0]->matricula}}" >
       <div class="invalid-feedback">
         Por favor, informe o Número da Matrícula.
       </div>
     </div>
     <div class="form-group col-md-6">
       <label for="validationCustom02">Nome Completo</label>
-      <input type="text" class="form-control" name = "nome_completo" value ="{{$editar[0]->nome_completo}}"  required>
+      <input type="text" class="form-control" name = "nome_completo" value ="{{$editar[0]->nome_completo}}" >
     </div>
     <br>
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Data de Nascimento</label>
-      <input type="date" class="form-control" name = "dt_nascimento" value ="{{$editar[0]->dt_nascimento}}" required>
+      <input type="date" class="form-control" name = "dt_nascimento" value ="{{$editar[0]->dt_nascimento}}" >
          <div class="invalid-feedback">
         Por favor, selecione a Data de Nascimento.
     </div>
@@ -93,7 +93,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">CPF</label>
-      <input type="text" class="form-control" name = "cpf" id="validationCustom05"  value ="{{$editar[0]->cpf}}"  required>
+      <input type="text" class="form-control" name = "cpf" id="validationCustom05"  value ="{{$editar[0]->cpf}}" >
       <div class="invalid-feedback">
         Por favor, informe um CPF válido.
     </div>
@@ -118,7 +118,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Identidade</label>
-      <input type="text" class="form-control" name = "identidade" id="validationCustom05" value ="{{$editar[0]->idt}}" required>
+      <input type="text" class="form-control" name = "identidade" id="validationCustom05" value ="{{$editar[0]->idt}}">
       <div class="invalid-feedback">
         Por favor, informe um RG válido.
     </div>
@@ -127,7 +127,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Orgão Exp</label>
-      <input type="text" class="form-control" name = "orgexp" id="validationCustom05" value ="{{$editar[0]->orgao_expedidor}}" required>
+      <input type="text" class="form-control" name = "orgexp" id="validationCustom05" value ="{{$editar[0]->orgao_expedidor}}">
       <div class="invalid-feedback">
         Por favor, informe o Orgão Exp válido.
     </div>
@@ -135,7 +135,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Data de Emissão</label>
-      <input type="date" class="form-control" name = "dt_idt" id="validationCustomUsername" value ="{{$editar[0]->dt_emissao_idt}}" required>
+      <input type="date" class="form-control" name = "dt_idt" id="validationCustomUsername" value ="{{$editar[0]->dt_emissao_idt}}">
       <div class="invalid-feedback">
         Por favor, selecione a Data de Emissão.
     </div>
@@ -175,7 +175,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Titulo eleitor Nr</label>
-      <input type="text" class="form-control" name = "titele" id="validationCustom05" value = "{{$editar[0]->titulo_eleitor}}"  required>
+      <input type="text" class="form-control" name = "titele" id="validationCustom05" value = "{{$editar[0]->titulo_eleitor}}" >
           <div class="invalid-feedback">
         Por favor, informe um Titulo eleitor Nr válido.
     </div>
@@ -184,7 +184,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Zona</label>
-      <input type="text" class="form-control" name = "zona" id="validationCustom05" value = "{{$editar[0]->zona_tit}}" required>
+      <input type="text" class="form-control" name = "zona" id="validationCustom05" value = "{{$editar[0]->zona_tit}}" >
       <div class="invalid-feedback">
         Por favor, informe um Titulo eleitor Nr válido.
     </div>
@@ -192,7 +192,7 @@
 
     <div class="form-group col-md-1">
       <label for="validationCustom05">Seção</label>
-      <input type="text" class="form-control" name = "secao" id="validationCustom05" value = "{{$editar[0]->secao_tit}}" required>
+      <input type="text" class="form-control" name = "secao" id="validationCustom05" value = "{{$editar[0]->secao_tit}}" >
       <div class="invalid-feedback">
         Por favor, informe uma Seção válida.
     </div>
@@ -200,7 +200,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Data de Emissão</label>
-      <input type="date" class="form-control" name = "dt_titulo" id="validationCustomUsername" value = "{{$editar[0]->dt_titulo}}"required>
+      <input type="date" class="form-control" name = "dt_titulo" id="validationCustomUsername" value = "{{$editar[0]->dt_titulo}}">
 
       <div class="invalid-feedback">
         Por favor, selecione a Data de Emissão.
@@ -223,7 +223,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Celular</label>
-      <input type="text" class="form-control" name = "celular" id="validationCustom05" value = "{{$editar[0]->celular}}"  required>
+      <input type="text" class="form-control" name = "celular" id="validationCustom05" value = "{{$editar[0]->celular}}"  >
       <div class="invalid-feedback">
         Por favor, informe o Número de Celular.
     </div>
@@ -234,7 +234,7 @@
 
   <div class="form-group col-md-2">
       <label for="validationCustom05">CTPS Nr</label>
-      <input type="text" class="form-control" name = "ctps" id="validationCustom05" value = "{{$editar[0]->ctps}}" required>
+      <input type="text" class="form-control" name = "ctps" id="validationCustom05" value = "{{$editar[0]->ctps}}" >
 
       <div class="invalid-feedback">
         Por favor, informe um CTPS Nr válido.
@@ -244,7 +244,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Data de Emissão</label>
-      <input type="date" class="form-control" name = "dt_ctps" id="validationCustomUsername" value = "{{$editar[0]->dt_emissao_ctps}}"required>
+      <input type="date" class="form-control" name = "dt_ctps" id="validationCustomUsername" value = "{{$editar[0]->dt_emissao_ctps}}">
 
       <div class="invalid-feedback">
         Por favor, selecione a Data de Emissão.
@@ -253,7 +253,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Série</label>
-      <input type="text" class="form-control" name = "serie_ctps" id="validationCustom05"  value = "{{$editar[0]->serie}}"required>
+      <input type="text" class="form-control" name = "serie_ctps" id="validationCustom05"  value = "{{$editar[0]->serie}}">
            <div class="invalid-feedback">
         Por favor, informe um Nr Série válido.
     </div>
@@ -275,7 +275,7 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustom05">Reservista</label>
-      <input type="text" class="form-control" name = "reservista" id="validationCustom05" value = "{{$editar[0]->reservista}}" required>
+      <input type="text" class="form-control" name = "reservista" id="validationCustom05" value = "{{$editar[0]->reservista}}">
 
     </div>
     <div class="form-group row" style = "">
