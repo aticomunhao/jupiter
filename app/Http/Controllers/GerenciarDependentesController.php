@@ -66,9 +66,7 @@ class GerenciarDependentesController extends Controller
             if (intval($request->input('cpf_dep')) == $dependente->cpf) {
                 app('flasher')->addError('Existe outro cadastro usando este número de CPF');
                 return redirect()->route('Potato', ['id' => $id]);
-            } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input(
-                'dtnasc_dep'
-            )) <= intval($funcionario[0]->dt_nascimento)) {
+            } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario[0]->dt_nascimento)) {
                 app('flasher')->addError('A data do Dependente cadastrado é mais velha ou igual a do funcionario');
                 return redirect()->route('Potato', ['id' => $id]);
             }
