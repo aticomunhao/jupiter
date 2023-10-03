@@ -1,4 +1,20 @@
-import 'bootstrap';
+import "./bootstrap";
+import $ from "jquery";
+import select2 from 'select2';
+select2();
+window.$ = $;
+// import { Select2 } from "select2"; // does nothing when uncommented
+//import 'select2'; // does nothing
+
+$("#test").html("ok");
+
+$(document).on("load",function() { // does nothing
+    $(".js-example-basic-single").select2();
+});
+
+
+
+
 
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
@@ -6,6 +22,7 @@ import 'bootstrap';
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
+import 'bootstrap';
 import axios from 'axios';
 window.axios = axios;
 
@@ -31,3 +48,5 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     forceTLS: (import.meta.env.VITE_PUSHER_SCHEME ?? 'https') === 'https',
 //     enabledTransports: ['ws', 'wss'],
 // });
+
+/*=========================================================================*/
