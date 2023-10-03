@@ -10,7 +10,7 @@
     <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>
     <fieldset class="border rounded border-primary p-2">
 <div>
-    <form method = 'POST' action = "/atualizar-funcionario/{{$editar[0]->idp}}">
+    <form method = 'POST' action = "/atualizar-funcionario/{{$editar[0]->idf}}{{$editar[0]->idp}}">
 
       @csrf
 
@@ -27,14 +27,12 @@
     <div class="form-group col-md-6">
       <label for="validationCustom02">Nome Completo</label>
       <input type="text" class="form-control" name = "nome_completo" value ="{{$editar[0]->nome_completo}}"  required>
-      <input type="text" class="form-control" name = "nome_completo" value ="{{$editar[0]->nome_completo}}"  required>
     </div>
     <br>
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Data de Nascimento</label>
       <input type="date" class="form-control" name = "dt_nascimento" value ="{{$editar[0]->dt_nascimento}}" required>
-      <input type="date" class="form-control" name = "dt_nascimento" value ="{{$editar[0]->dt_nascimento}}" required>
-      <div class="invalid-feedback">
+         <div class="invalid-feedback">
         Por favor, selecione a Data de Nascimento.
     </div>
     </div>
@@ -72,7 +70,6 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Naturalidade UF</label>
       <select id="validationCustomUsername" class="form-select" name = "uf_nat" >
-      <select id="validationCustomUsername" class="form-select" name = "uf_nat" >
 
          </select>
       <div class="invalid-feedback">
@@ -82,7 +79,6 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Naturalidade-Cidade</label>
-      <select id="12" class="form-select"  name = "natura" type="numeric">
       <select id="12" class="form-select"  name = "natura" type="numeric">
       <option  value="{{$editar[0]->id_cidade}}">{{$editar[0]->nat}}</option>
         @foreach ($tpcidade as $tpcidades)
@@ -132,7 +128,6 @@
     <div class="form-group col-md-2">
       <label for="validationCustom05">Orgão Exp</label>
       <input type="text" class="form-control" name = "orgexp" id="validationCustom05" value ="{{$editar[0]->orgao_expedidor}}" required>
-      <input type="text" class="form-control" name = "orgexp" id="validationCustom05" value ="{{$editar[0]->orgao_expedidor}}" required>
       <div class="invalid-feedback">
         Por favor, informe o Orgão Exp válido.
     </div>
@@ -140,7 +135,6 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Data de Emissão</label>
-      <input type="date" class="form-control" name = "dt_idt" id="validationCustomUsername" value ="{{$editar[0]->dt_emissao_idt}}" required>
       <input type="date" class="form-control" name = "dt_idt" id="validationCustomUsername" value ="{{$editar[0]->dt_emissao_idt}}" required>
       <div class="invalid-feedback">
         Por favor, selecione a Data de Emissão.
@@ -182,8 +176,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustom05">Titulo eleitor Nr</label>
       <input type="text" class="form-control" name = "titele" id="validationCustom05" value = "{{$editar[0]->titulo_eleitor}}"  required>
-      <input type="text" class="form-control" name = "titele" id="validationCustom05" value = "{{$editar[0]->titulo_eleitor}}"  required>
-      <div class="invalid-feedback">
+          <div class="invalid-feedback">
         Por favor, informe um Titulo eleitor Nr válido.
     </div>
     <br>
@@ -208,7 +201,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Data de Emissão</label>
       <input type="date" class="form-control" name = "dt_titulo" id="validationCustomUsername" value = "{{$editar[0]->dt_titulo}}"required>
-      <input type="date" class="form-control" name = "dt_titulo" id="validationCustomUsername" value = "{{$editar[0]->dt_titulo}}"required>
+
       <div class="invalid-feedback">
         Por favor, selecione a Data de Emissão.
     </div>
@@ -242,7 +235,7 @@
   <div class="form-group col-md-2">
       <label for="validationCustom05">CTPS Nr</label>
       <input type="text" class="form-control" name = "ctps" id="validationCustom05" value = "{{$editar[0]->ctps}}" required>
-      <input type="text" class="form-control" name = "ctps" id="validationCustom05" value = "{{$editar[0]->ctps}}" required>
+
       <div class="invalid-feedback">
         Por favor, informe um CTPS Nr válido.
     </div>
@@ -252,7 +245,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Data de Emissão</label>
       <input type="date" class="form-control" name = "dt_ctps" id="validationCustomUsername" value = "{{$editar[0]->dt_emissao_ctps}}"required>
-      <input type="date" class="form-control" name = "dt_ctps" id="validationCustomUsername" value = "{{$editar[0]->dt_emissao_ctps}}"required>
+
       <div class="invalid-feedback">
         Por favor, selecione a Data de Emissão.
     </div>
@@ -261,8 +254,7 @@
     <div class="form-group col-md-2">
       <label for="validationCustom05">Série</label>
       <input type="text" class="form-control" name = "serie_ctps" id="validationCustom05"  value = "{{$editar[0]->serie}}"required>
-      <input type="text" class="form-control" name = "serie_ctps" id="validationCustom05"  value = "{{$editar[0]->serie}}"required>
-      <div class="invalid-feedback">
+           <div class="invalid-feedback">
         Por favor, informe um Nr Série válido.
     </div>
     </div>

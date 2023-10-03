@@ -188,7 +188,7 @@ class GerenciarFuncionarioController extends Controller
     }
 
 
-    public function edit($idf, $idp)
+    public function edit($idf)
     {
 
         $editar = DB::table('funcionarios AS f')
@@ -210,7 +210,7 @@ class GerenciarFuncionarioController extends Controller
         'tp_sangue.id','p.dt_nascimento', 'tp_sangue.id AS tpsang', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id AS tpprog',
         'tp_programa.programa AS prog', 'tn.id AS tpnac', 'tn.local AS tnl', 'tp_cor_pele.id AS tpcor','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id AS tpd',
         'tp_ddd.descricao AS dddesc', 'tp_uf.id AS tuf', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
-        ->where('f.id', $idp, $idf)
+        ->where('f.id', $idf)
         ->get();
 
         //dd($editar);
@@ -240,15 +240,17 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-    public function update(Request $request, $idp, $idf){
+    public function update(Request $request, $idf, $idp){
 
 
+ //dd($idf);
 
+ //dd($idf);
 
 
 
       DB::table('pessoas')
-       ->where('id', $idp)
+       ->where('id', $idf)
        ->update(['nome_completo' => $request->input('nome_completo'),
                  'idt' => $request->input('identidade'),
                  'orgao_expedidor' =>  $request->input('orgexp'),
@@ -275,7 +277,7 @@ class GerenciarFuncionarioController extends Controller
 
 
       DB::table('funcionarios')
-      ->where('id', $idf)
+      ->where('id', $idp)
       ->update(['dt_inicio'=> $request->input('dt_ini'),
                 'matricula'=> $request->input('matricula'),
                 'tp_programa' => $request->input('programa'),
