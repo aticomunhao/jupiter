@@ -48,7 +48,7 @@
                                 <input class="form-control" type="date" value="{{$dependente->dt_nascimento}}" id="3" name="dtnasc_dep" required="required">
                             </div>
                             <div class="col-2">CPF
-                            <input class="form-control" type="numeric" maxlength="11"  value="{{$dependente->cpf}}" id="8" name="cpf_dep" required="required">
+                            <input class="form-control" type="numeric" maxlength="11"  value="{{$dependente->cpf}}" id="8" name="cpf_dep" required="required" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                             </div>
                 </div>
                 <br>

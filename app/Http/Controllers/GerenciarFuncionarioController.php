@@ -104,9 +104,9 @@ class GerenciarFuncionarioController extends Controller
         $cpf = $request->cpf;
 
         //dd($vercpf);
-        dd($request->input('cpf'));
+    
 
-        if ($request->$cpf == $vercpf) {
+        if ($cpf = $vercpf) {
 
 
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
