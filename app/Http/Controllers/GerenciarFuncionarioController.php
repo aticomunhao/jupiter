@@ -99,93 +99,95 @@ class GerenciarFuncionarioController extends Controller
 
         $today = Carbon::today()->format('Y-m-d');
 
-        $vercpf = DB::select("select cpf from pessoas");
+        $cpfs = DB::select("select cpf from pessoas");
 
         $cpf = $request->cpf;
 
-        //dd($vercpf);
-    
-
-        if ($cpf = $vercpf) {
 
 
-            app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+        foreach ($cpfs as $cpfs) {
+            if (intval($cpf) == $cpfs->cpf) {
 
-            return redirect()->back()->withInput();
+                app('flasher')->addError('Existe outro cadastro usando este número de CPF');
 
+                return redirect()->back()->withInput();
+
+
+            }
+            else
+            {
+
+                DB::table('pessoas')->insert([
+                    'nome_completo' => $request->input('nome_completo'),
+                    'idt' => $request->input('identidade'),
+                    'orgao_expedidor' =>  $request->input('orgexp'),
+                    'uf_idt' =>  $request->input('uf_idt'),
+                    'dt_emissao_idt' =>  $request->input('dt_idt'),
+                    'dt_nascimento' => $request->input('dt_nascimento'),
+                    'sexo' => $request->input('sexo'),
+                    'nacionalidade' => $request->input('pais'),
+                    'uf_natural' =>  $request->input('uf_nat'),
+                    'naturalidade' => $request->input('natura'),
+                    'cpf' => $request->input('cpf'),
+                    'email' => $request->input('email'),
+                    'ddd' => $request->input('ddd'),
+                    'celular' => $request->input('celular'),
+                    'status' => '1',
+
+                ]);
+
+                $id_pessoa = DB::table('pessoas')
+                    ->select(DB::raw('MAX(id) as max_id'))
+                    ->value('max_id');
+
+
+
+                DB::table('funcionarios')->insert([
+                    'dt_inicio' => $request->input('dt_ini'),
+                    'id_pessoa' => $id_pessoa,
+                    'matricula' => $request->input('matricula'),
+                    'tp_programa' => $request->input('tp_programa'),
+                    'nr_programa' => $request->input('programa'),
+                    'id_cor_pele' => $request->input('cor'),
+                    'id_tp_sangue' => $request->input('tps'),
+                    'fator_rh' => $request->input('frh'),
+                    'titulo_eleitor' => $request->input('titele'),
+                    'dt_titulo' => $request->input('dt_titulo'),
+                    'zona_tit' => $request->input('zona'),
+                    'secao_tit' => $request->input('secao'),
+                    'ctps' => $request->input('ctps'),
+                    'serie' => $request->input('serie_ctps'),
+                    'uf_ctps' => $request->input('uf_ctps'),
+                    'dt_emissao_ctps' => $request->input('dt_ctps'),
+                    'reservista' => $request->input('reservista'),
+                    'nome_mae' => $request->input('nome_mae'),
+                    'nome_pai' => $request->input('nome_pai'),
+                    'id_cat_cnh' => $request->input('cnh'),
+
+
+                ]);
+
+                DB::table('endereco_pessoas')->insert([
+                    'cep' => str_replace('-', '', $request->input('cep')),
+                    'id_uf_end' =>  $request->input('uf_end'),
+                    'id_cidade' => $request->input('cidade'),
+                    'logradouro' => $request->input('logradouro'),
+                    'numero' => $request->input('numero'),
+                    'bairro' => $request->input('bairro'),
+                    'complemento' => $request->input('comple'),
+                    'dt_inicio' => $today,
+
+
+                ]);
+
+
+                app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
+
+                return redirect('/gerenciar-funcionario');
+            }
 
         }
-        else
-        {
 
-            DB::table('pessoas')->insert([
-                'nome_completo' => $request->input('nome_completo'),
-                'idt' => $request->input('identidade'),
-                'orgao_expedidor' =>  $request->input('orgexp'),
-                'uf_idt' =>  $request->input('uf_idt'),
-                'dt_emissao_idt' =>  $request->input('dt_idt'),
-                'dt_nascimento' => $request->input('dt_nascimento'),
-                'sexo' => $request->input('sexo'),
-                'nacionalidade' => $request->input('pais'),
-                'uf_natural' =>  $request->input('uf_nat'),
-                'naturalidade' => $request->input('natura'),
-                'cpf' => $request->input('cpf'),
-                'email' => $request->input('email'),
-                'ddd' => $request->input('ddd'),
-                'celular' => $request->input('celular'),
-                'status' => '1',
-
-            ]);
-
-            $id_pessoa = DB::table('pessoas')
-                ->select(DB::raw('MAX(id) as max_id'))
-                ->value('max_id');
-
-
-
-            DB::table('funcionarios')->insert([
-                'dt_inicio' => $request->input('dt_ini'),
-                'id_pessoa' => $id_pessoa,
-                'matricula' => $request->input('matricula'),
-                'tp_programa' => $request->input('tp_programa'),
-                'nr_programa' => $request->input('programa'),
-                'id_cor_pele' => $request->input('cor'),
-                'id_tp_sangue' => $request->input('tps'),
-                'fator_rh' => $request->input('frh'),
-                'titulo_eleitor' => $request->input('titele'),
-                'dt_titulo' => $request->input('dt_titulo'),
-                'zona_tit' => $request->input('zona'),
-                'secao_tit' => $request->input('secao'),
-                'ctps' => $request->input('ctps'),
-                'serie' => $request->input('serie_ctps'),
-                'uf_ctps' => $request->input('uf_ctps'),
-                'dt_emissao_ctps' => $request->input('dt_ctps'),
-                'reservista' => $request->input('reservista'),
-                'nome_mae' => $request->input('nome_mae'),
-                'nome_pai' => $request->input('nome_pai'),
-                'id_cat_cnh' => $request->input('cnh'),
-
-
-            ]);
-
-            DB::table('endereco_pessoas')->insert([
-                'cep' => str_replace('-', '', $request->input('cep')),
-                'id_uf_end' =>  $request->input('uf_end'),
-                'id_cidade' => $request->input('cidade'),
-                'logradouro' => $request->input('logradouro'),
-                'numero' => $request->input('numero'),
-                'bairro' => $request->input('bairro'),
-                'complemento' => $request->input('comple'),
-                'dt_inicio' => $today,
-
-
-            ]);
-
-
-            app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
-
-            return redirect('/gerenciar-funcionario');
-        }
     }
 
 
@@ -200,7 +202,7 @@ class GerenciarFuncionarioController extends Controller
             ->leftjoin('tp_nacionalidade AS tn', 'tn.id', 'p.nacionalidade')
             ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele')
             ->leftjoin('tp_ddd', 'tp_ddd.id', 'p.ddd')
-            ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_idt', 'p.uf_natural')
+            ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_natural')
             ->leftjoin('tp_cidade AS tc', 'tc.id_cidade', 'p.naturalidade')
             ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
 
@@ -210,7 +212,7 @@ class GerenciarFuncionarioController extends Controller
         'f.id_cat_cnh', 'tpcnh.id AS tpcn','tpcnh.nome_cat AS nmcnh','p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',
         'tp_sangue.id','p.dt_nascimento', 'tp_sangue.id AS tpsang', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id AS tpprog',
         'tp_programa.programa AS prog', 'tn.id AS tpnac', 'tn.local AS tnl', 'tp_cor_pele.id AS tpcor','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id AS tpd',
-        'tp_ddd.descricao AS dddesc', 'tp_uf.id AS tuf', 'tp_uf.sigla AS ufsgl', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
+        'tp_ddd.descricao AS dddesc', 'tp_uf.id AS tuf', 'tp_uf.sigla AS ufsgl','p.uf_natural', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
         ->where('f.id', $idf)
         ->get();
 
@@ -251,7 +253,7 @@ class GerenciarFuncionarioController extends Controller
  //dd($request->all());
 
       DB::table('pessoas')
-       ->where('id', $idf)
+       ->where('id', $idp)
        ->update(['nome_completo' => $request->input('nome_completo'),
                  'idt' => $request->input('identidade'),
                  'orgao_expedidor' =>  $request->input('orgexp'),
@@ -278,7 +280,7 @@ class GerenciarFuncionarioController extends Controller
 
 
       DB::table('funcionarios')
-      ->where('id', $idp)
+      ->where('id', $idf)
       ->update(['dt_inicio'=> $request->input('dt_ini'),
                 'matricula'=> $request->input('matricula'),
                 'tp_programa' => $request->input('programa'),
@@ -301,6 +303,20 @@ class GerenciarFuncionarioController extends Controller
 
       ]);
 
+      app('flasher')->addSuccess('Edição feita com Sucesso!');
+
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
     }
+
+
+
+// public function delete($idf){
+
+    //$delete = DB::table('funcionarios')->where('id', $idf)->delete();
+
+
+
+
+  //  return view('/funcionarios/delete-funcionario');
+ //}
 }

@@ -58,7 +58,7 @@
                             @endif
                             <td scope="">
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <a href="/excluir-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-people-fill" style="font-size: 1rem;color:#303030; "></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-coin" style="font-size: 1rem; color:#303030;"></i></button></a>

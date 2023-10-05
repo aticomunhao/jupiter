@@ -10,7 +10,7 @@
     <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>
     <fieldset class="border rounded border-primary p-2">
 <div>
-    <form method = 'POST' action = "/atualizar-funcionario/{{$editar[0]->idf}}{{$editar[0]->idp}}">
+    <form method = 'POST' action = "/atualizar-funcionario/{{$editar[0]->idf}}/{{$editar[0]->idp}}">
 
       @csrf
 
@@ -69,9 +69,13 @@
 
     <div class="form-group col-md-2">
       <label for="validationCustomUsername">Naturalidade UF</label>
-      <select id="validationCustomUsername" class="form-select" name = "uf_nat" >
+      <select id="12" class="form-select"  name = "uf_nat" type="numeric">
+        <option value="{{$editar[0]->tuf}}">{{$editar[0]->ufsgl}}</option>
+        @foreach ($tpufidt as $tpufidts)
+        <option value= "{{$tpufidts->id}}">{{$tpufidts->sigla}}</option>
 
-         </select>
+        @endforeach
+      </select>
       <div class="invalid-feedback">
         Por favor, selecione um UF válido.
     </div>
