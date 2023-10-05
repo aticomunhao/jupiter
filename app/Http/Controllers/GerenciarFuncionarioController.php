@@ -310,13 +310,9 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-// public function delete($idf){
+public function delete($idf){
 
-    //$delete = DB::table('funcionarios')->where('id', $idf)->delete();
-
-
-
-
-  //  return view('/funcionarios/delete-funcionario');
- //}
+    $delete = DB::table('funcionarios')->where('id', $idf);
+    return redirect()->back();
+ }
 }

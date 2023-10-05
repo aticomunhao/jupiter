@@ -58,13 +58,64 @@
                             @endif
                             <td scope="">
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                <a href="/excluir-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
+
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-people-fill" style="font-size: 1rem;color:#303030; "></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-coin" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-bandaid" style="font-size: 1rem;color:#303030;"></i></button></a>
                                 <a href="/gerenciar-certificados/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#303030;"></i></button></a>
-                            </td>
+
+                                <a href=""><button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#A{{ $listas->cpf}}-{{ $listas->idf }}"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
+
+                                <!-- <a href=""><button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#A{{ $listas->cpf}}-{{ $listas->idf }}"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                -->
+                                </td>
+
+
+
+
+
+                            <!-- Modal -->
+
+                            <div class="modal fade"
+                                id="A{{ $listas->cpf }}-{{ $listas->idf }}"
+                                tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <div class="row">
+                                                <h2>Excluir Dependente</h2>
+                                            </div>
+                                            <button type="button" class="btn-close"
+                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="fw-bold alert alert-danger text-center">Você
+                                                realmente deseja
+                                                <br>
+                                                <span class="fw-bolder fs-5">EXCLUIR
+                                                    {{ $listas->nome_completo }}</span>
+                                            </p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Cancelar</button>
+                                            <button
+                                                    type="button"
+                                                    class="btn btn-danger" <a href="/excluir-funcionario/{{ $listas->idf }}"/a>>Excluir</button></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <!--Fim Modal-->
+
+                        </td>
+                </tr>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -75,6 +126,7 @@
     </div>
     </div>
 @endsection
+
 
 @section('footerScript')
 

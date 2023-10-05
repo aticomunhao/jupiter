@@ -54,7 +54,7 @@
                                     <tbody style="font-size: 14px; color:#000000;">
                                         <tr>
                                             @foreach ($dependentes as $dependente)
-                                               
+
                                                 <td scope="">{{ $dependente->nome }}</td>
                                                 <td scope="">{{ $dependente->nome_dependente }}</td>
                                                 <td scope="">{{ $dependente->dt_nascimento }}</td>

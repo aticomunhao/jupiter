@@ -101,8 +101,6 @@ class GerenciarDependentesController extends Controller
                 'id_parentesco' => $request->input('relacao_dep')
             ]);
         }
-
-
         */
         app('flasher')->addInfo('O cadastro do dependente foi realizado com sucesso.');
         return redirect()->route('Potato', ['id' => $id]);
