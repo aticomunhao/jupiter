@@ -57,9 +57,8 @@
                                                     class="bi bi-trash"></i></button>
 
                                             <div class="modal fade" id="A{{ $entidade->id }}"><i
-                                                    class="bi bi-trash"></i></button>"
-                                                tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                aria-hidden="true">
+                                                    class="bi bi-trash "></i></button>
+
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
@@ -95,7 +94,7 @@
 
                                             <a href="/editar-entidade/{{$entidade->id}}"><button type="submit"
                                                     class="btn btn-outline-primary btn-sm"><i
-                                                        class="bi bi-pencil btn-sm"></i></button></a>
+                                                        class="bi bi-pencil sm"></i></button></a>
                                         </th>
 
                                     </tr>

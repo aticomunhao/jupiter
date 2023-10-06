@@ -14,7 +14,7 @@
                             <form method="POST" action="/atualizar-entidade-ensino/{{ $entidade->id }}">
                                 @csrf
                                 <div class="form-group row">
-                                    <div class="col-5">Nome da Instituição de Ensino
+                                    <div class="col-12">Nome da Instituição de Ensino
                                         <input class="form-control" type="text" maxlength="100" id="2"name="nome_ent"
                                             value="{{ $entidade->nome_tpentensino }}" required="required">
                                     </div>
@@ -26,7 +26,7 @@
                                             role="button">Limpar</a>
                                     </div>
                                     <div class="d-grid gap-2 col-2 mx-auto">
-                                      <button type="submit" class="btn btn-success btn-lg" id="sucesso">Confirmar</button>
+                                      <button type="submit" class="btn btn-success btn-sm" id="sucesso">Confirmar</button>
                                     </div>
                                  </div>
                                 </div>
