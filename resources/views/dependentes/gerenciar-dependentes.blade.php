@@ -106,7 +106,7 @@
                                                     <!--Fim Modal-->
                                                     <a href="/editar-dependentes/{{ $dependente->id }}"><button
                                                             type="submit" class="btn btn-outline-warning btn-sm"><i
-                                                                class="bi bi-pencil btn-sm"></i></button></a>
+                                                                class="bi bi-pencil"></i></button></a>
                                                 </td>
                                         </tr>
                                         @endforeach
