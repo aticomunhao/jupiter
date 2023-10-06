@@ -79,29 +79,10 @@ class GerenciarDependentesController extends Controller
             'id_funcionario' => $id,
             'id_parentesco' => $request->input('relacao_dep')
         ]);
-        #Foreach para comparar os resultados daqui com o banco
+      
 
-            app('flasher')->addError('Existe outro cadastro usando este número de CPF');
-            return redirect()->route('Potato', ['id' => $id]);
-
-        } elseif (intval($dtnas) <= intval($funcionario[0]->dt_nascimento)) {
-
-            app('flasher')->addError('A data do Dependente cadastrado é mais velha ou igual a do funcionario');
-
-            return redirect()->route('Potato', ['id' => $id]);
-        } elseif(intval($hoje)) {
-        }else{
-            DB::table('dependentes')->insert([
-                'nome_dependente' => $request->input('nomecomp_dep'),
-                'dt_nascimento' => $request->input('dtnasc_dep'),
-                'cpf' => $request->input('cpf_dep'),
-                'id_funcionario' => $id,
-                'id_parentesco' => $request->input('relacao_dep')
-            ]);
-        }
-        */
         app('flasher')->addInfo('O cadastro do dependente foi realizado com sucesso.');
-        retunrn redirect()->route('Potato', ['id' => $id]);
+        return redirect()->route('Potato', ['id' => $id]);
     }
 
 
