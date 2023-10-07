@@ -58,24 +58,59 @@
                                     </thead>
                                     <tbody style="font-size: 14px; color:#000000;">
                                         @foreach ($certificados as $certificado)
+                                            <tr>
 
+                                                <td scope="">{{ $certificado->nome_tpne }}</td>
+                                                <td scope="">{{ $certificado->nome }}</td>
+                                                <td scope="">{{ $certificado->nome_tpee }}</td>
+                                                <td scope="">{{ $certificado->nome_grauacad }}</td>
+                                                <td scope="">{{ $certificado->nome_tpentensino }}</td>
+                                                <td scope="">{{ $certificado->dt_conclusao }}</td>
+                                                <!--Botão que abre Modal-->
+                                                <td scope=""><button type="button"
+                                                            class="btn btn-outline-danger delete-btn btn-sm"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#A{{ $certificado->id }}"><i
+                                                                class="bi bi-trash"></i></button>
 
-                                        <tr>
-
-                                            <td scope="">{{ $certificado->nome_tpne}}</td>
-                                            <td scope="">{{ $certificado->nome }}</td>
-                                            <td scope="">{{ $certificado->nome_tpee}}</td>
-                                            <td scope="">{{ $certificado->nome_grauacad }}</td>
-                                            <td scope="">{{ $certificado->nome_tpentensino }}</td>
-                                            <td scope="">{{ $certificado->dt_conclusao }}</td>
-                                            <td scope=""><a href="/deletar-dependentes/"><button type="submit"
-                                                        class="btn btn-danger delete-btn btn-sm"><i
-                                                            class="bi bi-trash"></i></button></a>
-                                                <a href="/editar-dependentes/"><button type="submit"
-                                                        class="btn btn-primary btn-sm"><i
-                                                            class="bi bi-pencil btn-sm"></i></button></a>
-                                            </td>
-                                        </tr>
+                                                <!--Modal-->
+                                                <div class="modal fade"
+                                                        id="A{{ $certificado->id }}"
+                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <div class="row">
+                                                                        <h2>Excluir Dependente</h2>
+                                                                    </div>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p class="fw-bold alert alert-danger text-center">Você
+                                                                        realmente deseja
+                                                                        <br>
+                                                                        <span class="fw-bolder fs-5">EXCLUIR
+                                                                            {{ $certificado->nome }}</span>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Cancelar</button>
+                                                                    <a href="/deletar-certificado/{{ $certificado->id }}"><button
+                                                                            type="button"
+                                                                            class="btn btn-danger">Excluir</button></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!--Fim modal-->
+                                                        <a href="/editar-certificados/{{ $certificado->id }}"><button type="submit"
+                                                                class="btn btn-primary btn-sm"><i
+                                                                    class="bi bi-pencil btn-sm"></i></button></a>
+                                                </td>
+                                            </tr>
                                         @endforeach
                                     </tbody>
                                 </table>

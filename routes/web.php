@@ -52,12 +52,20 @@ Route::any('/atualizar-dependentes/{id}', [\App\Http\Controllers\GerenciarDepend
 Route::get(
     '/gerenciar-certificados/{id}',
     [\App\Http\Controllers\GerenciarCertificadosController::class, 'index']
-);
+)->name('viewGerenciarCertificados');
 
 Route::get(
     '/incluir-certificados/{id}',
     [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']
 );
+
+Route::any('/adicionar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'store']);
+Route::any('/deletar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'destroy']);
+
+Route::any('/editar-certificados/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'edit']);
+
+
+
 /**Rota para Entidades Escolares   */
 Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('batata');
 Route::get('/incluir-entidades-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'create']);

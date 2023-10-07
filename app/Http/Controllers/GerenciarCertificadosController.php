@@ -27,6 +27,8 @@ class GerenciarCertificadosController extends Controller
         join tp_entidades_ensino as tp_ent_e on tp_ent_e.id=cert.id_entidade_ensino
         where cert.id_funcionario =$idf;");
 
+
+
         return view(
             'certificados.gerenciar-certificados ',
             compact('certificados', 'funcionario')
@@ -45,22 +47,37 @@ class GerenciarCertificadosController extends Controller
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
 
-        $grau_academico = DB::select("select * from grau_academico");
+        $graus_academicos = DB::select("select * from grau_academico");
 
-        $tp_nivel_ensino = DB::select("select * from tp_nivel_ensino");
+        $tp_niveis_ensino = DB::select("select * from tp_nivel_ensino");
 
         $tp_etapas_ensino = DB::select("select * from tp_etapas_ensino");
         $tp_entidades_ensino = DB::select("select * from tp_entidades_ensino");
 
-        return view('certificados.incluir-certificados', 'funcionario', 'grau_academico', 'tp_nivel_ensino', 'tp_etapas_ensino','tp_entidades_ensino');
+
+        return view('certificados.incluir-certificados', compact('funcionario', 'graus_academicos', 'tp_niveis_ensino', 'tp_etapas_ensino','tp_entidades_ensino'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $idf)
     {
-        //
+
+        $funcionario = DB::select("select f.id, p.dt_nascimento, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $idf");
+
+        DB::table('certificados')->insert([
+            'dt_conclusao' => $request->input('dtconc_cert'),
+            'id_nivel_ensino' => $request->input('nivel_ensino'),
+            'id_grau_acad' => $request->input('grau_academico'),
+            'id_etapa' => $request->input('etapa_ensino'),
+            'id_entidade_ensino'=> $request->input('entidade_ensino'),
+            'id_funcionario' => $idf,
+            'nome' => $request->input('nome_curso')
+
+        ]);
+        app('flasher')->addInfo('O cadastro do dependente foi realizado com sucesso.');
+        return redirect()->route('viewGerenciarCertificados', ['id' => $idf]);
     }
 
     /**
@@ -74,9 +91,22 @@ class GerenciarCertificadosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit( $id)
     {
-        //
+        $certificado = DB::table('certificados')->where('id', $id)->first();
+        $funcionario = DB::select("select
+                            f.id,
+                            p.nome_completo
+                            from funcionarios f
+                            left join pessoas p on f.id_pessoa = p.id
+                            where f.id = $dependente->id_funcionario");
+
+        $graus_academicos = DB::select("select * from grau_academico");
+
+        $tp_niveis_ensino = DB::select("select * from tp_nivel_ensino");
+
+        $tp_etapas_ensino = DB::select("select * from tp_etapas_ensino");
+        $tp_entidades_ensino = DB::select("select * from tp_entidades_ensino");
     }
 
     /**
@@ -92,6 +122,9 @@ class GerenciarCertificadosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+        DB::table('certificados')->where('id', $id)->delete();
+        app('flasher')->addWarning('O cadastro do Dependente foi Removido com Sucesso.');
+        return redirect()->back();
     }
 }
