@@ -107,8 +107,8 @@
                                                     </div>
                                                     <!--Fim modal-->
                                                         <a href="/editar-certificado/{{ $certificado->id }}"><button type="submit"
-                                                                class="btn btn-primary btn-sm"><i
-                                                                    class="bi bi-pencil btn-sm"></i></button></a>
+                                                                class="btn btn-outline-warning btn-sm"><i
+                                                                    class="bi bi-pencil"></i></button></a>
                                                 </td>
                                             </tr>
                                         @endforeach

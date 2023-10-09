@@ -95,7 +95,7 @@
                                                 role="button">Cancelar</a>
                                         </div>
                                         <div class="d-grid gap-2 col-2 mx-auto">
-                                            <button type="submit" class="btn btn-primary btn-sm"
+                                            <button type="submit" class="btn btn-warning btn-sm"
                                                 id="sucesso">Confirmar</button>
                                         </div>
                                     </div>
