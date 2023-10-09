@@ -106,7 +106,7 @@
                                                         </div>
                                                     </div>
                                                     <!--Fim modal-->
-                                                        <a href="/editar-certificados/{{ $certificado->id }}"><button type="submit"
+                                                        <a href="/editar-certificado/{{ $certificado->id }}"><button type="submit"
                                                                 class="btn btn-primary btn-sm"><i
                                                                     class="bi bi-pencil btn-sm"></i></button></a>
                                                 </td>

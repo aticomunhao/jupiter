@@ -62,7 +62,9 @@ Route::get(
 Route::any('/adicionar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'store']);
 Route::any('/deletar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'destroy']);
 
-Route::any('/editar-certificados/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'edit']);
+Route::any('/editar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'edit']);
+
+Route::any('/atualizar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'update']);
 
 
 
