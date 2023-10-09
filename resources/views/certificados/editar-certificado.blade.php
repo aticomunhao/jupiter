@@ -67,8 +67,8 @@
                                             </div>
                                             <div class="col-4">Etapa de Ensino
                                                 <select class="form-select" id="4" name="etapa_ensino"
-                                                    required="required" value>
-                                                    <option selected>{{ $certificado->id_nivel_ensino }}</option>
+                                                    required="required" value="{{ $certificado->id_nivel_ensino }}">
+                                                   
                                                     @foreach ($tp_etapas_ensino as $etapas_ensino)
                                                         <option value="{{ $etapas_ensino->id }}">
                                                             {{ $etapas_ensino->nome_tpee }}</option>
