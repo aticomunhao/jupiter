@@ -91,7 +91,7 @@
                                     <br>
                                     <div class="row">
                                         <div class="d-grid gap-1 col-2 mx-auto">
-                                            <a class="btn btn-danger btn-sm" href="/gerenciar-dependentes/"
+                                            <a class="btn btn-danger btn-sm" href="/gerenciar-dependentes/{{ $funcionario[0]->id }}"
                                                 role="button">Cancelar</a>
                                         </div>
                                         <div class="d-grid gap-2 col-2 mx-auto">

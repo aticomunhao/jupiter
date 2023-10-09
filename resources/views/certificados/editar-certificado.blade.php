@@ -16,7 +16,7 @@
                                 </DIV>
                             </div>
                             <div class="card-body">
-                                <form method="post" action="/atualizar-certificado/{{$certificado->id}}">
+                                <form method="post" action="/adicionar-certificado/{{ $funcionario[0]->id }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col-5">
@@ -67,8 +67,8 @@
                                             </div>
                                             <div class="col-4">Etapa de Ensino
                                                 <select class="form-select" id="4" name="etapa_ensino"
-                                                    required="required" value="{{ $certificado->id_nivel_ensino }}">
-                                                   
+                                                    required="required" value>
+
                                                     @foreach ($tp_etapas_ensino as $etapas_ensino)
                                                         <option value="{{ $etapas_ensino->id }}">
                                                             {{ $etapas_ensino->nome_tpee }}</option>
@@ -77,7 +77,8 @@
                                             </div>
                                             <div class="col-4">Entidade de Ensino
                                                 <select class="form-select" id="4" name="entidade_ensino"
-                                                    required="required"  value="{{$certificado->id_entidade_ensino}}">
+                                                    required="required"  value="{{$certificado->id_entidade_ensino}}" >
+
                                                     @foreach ($tp_entidades_ensino as $entidade_ensino)
                                                         <option value="{{ $entidade_ensino->id }}">
                                                             {{ $entidade_ensino->nome_tpentensino }}</option>
@@ -89,12 +90,13 @@
                                     </div>
                                     <br>
                                     <div class="row">
-                                        <div class="d-grid gap-3 col-2 mx-auto">
-                                            <a class="btn btn-danger btn-sm" href="/gerenciar-certificados/{{$certificado->id_funcionario}}" role="button">Cancelar</a>
+                                        <div class="d-grid gap-1 col-2 mx-auto">
+                                            <a class="btn btn-danger btn-sm" href="/gerenciar-certificados/{{ $funcionario[0]->id }}"
+                                                role="button">Cancelar</a>
                                         </div>
-                                        <div class="d-grid gap-3 col-2 mx-auto">
-                                            <button type="submit" class="btn btn-warning btn-sm">Editar</button>
-                                            </a>
+                                        <div class="d-grid gap-2 col-2 mx-auto">
+                                            <button type="submit" class="btn btn-primary btn-sm"
+                                                id="sucesso">Confirmar</button>
                                         </div>
                                     </div>
                                 </form>
