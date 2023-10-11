@@ -311,8 +311,45 @@ class GerenciarFuncionarioController extends Controller
 
 
 public function delete($idf){
+    $funcionario = DB::table('funcionarios')->where('id', $idf)->first();
 
-    $delete = DB::table('funcionarios')->where('id', $idf);
-    return redirect()->back();
+
+
+    $dependentes = DB::select('select * from dependentes');
+
+    foreach ($dependentes as $dependente) {
+
+        if($idf == $dependente->id_funcionario){
+            app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
+            return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+        }
+    }
+
+
+    $certficado = DB:: select('select * from certificados');
+
+
+
+   //foreach ($certficado as $certificados){
+
+
+        if($idf == $certificados->id_funcionario){
+            app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois possui certificado cadastrado com o nome de $certificados->nome");
+            return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+       }
+    }
+
+}
+    $dados_bancario = DB:: select('select * from dados_bancarios');
+
+
+    foreach ($dados_bancario as $dados_bancarios){
+        if($funcionario->id_pessoa == $dados_bancarios->id_pessoa)
+
+        app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
+        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
  }
 }
+}
+
+
