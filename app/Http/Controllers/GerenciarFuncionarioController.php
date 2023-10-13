@@ -311,7 +311,14 @@ class GerenciarFuncionarioController extends Controller
 
 
 public function delete($idf){
+
+
+
+
     $funcionario = DB::table('funcionarios')->where('id', $idf)->first();
+
+
+
 
 
 
@@ -330,7 +337,7 @@ public function delete($idf){
 
 
 
-   //foreach ($certficado as $certificados){
+   foreach ($certficado as $certificados){
 
 
         if($idf == $certificados->id_funcionario){
@@ -339,17 +346,34 @@ public function delete($idf){
        }
     }
 
-}
-    $dados_bancario = DB:: select('select * from dados_bancarios');
+
+    $dados_bancario = DB::select('select * from dados_bancarios');
 
 
     foreach ($dados_bancario as $dados_bancarios){
-        if($funcionario->id_pessoa == $dados_bancarios->id_pessoa)
+        if($funcionario->id_pessoa == $dados_bancarios->id_pessoa){
 
         app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
-        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
- }
+        }
+
+    }
+
+
+
+
+
+
+   DB::table('funcionarios')->where('id', $idf)->delete();
+
+
+app('flasher')->addSuccess('O cadastro do funcionario foi Removido com Sucesso.');
+return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+
 }
+
+
+
+
 }
 
 

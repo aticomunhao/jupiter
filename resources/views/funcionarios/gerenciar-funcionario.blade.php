@@ -76,23 +76,29 @@
 
 
                                 <!-- Modal -->
-                                <div class="modal fade" id="A{{ $listas->cpf}}-{{ $listas->idf }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div>
+                                <div class="modal fade" id="A{{ $listas->cpf}}-{{ $listas->idf }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
                                     <div class="modal-dialog">
                                       <div class="modal-content">
                                         <div class="modal-header">
-                                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                          <h5 class="modal-title" id="exampleModalLabel">Excluir Funcionário</h5>
 
                                         </div>
                                         <div class="modal-body">
-
+                                            <p class="fw-bold alert alert-danger text-center">Você
+                                                realmente deseja excluir:
+                                                <br>
+                                                {{ $listas->nome_completo}}
+                                            </p>
                                         </div>
                                         <div class="modal-footer">
-                                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                           <a href="/excluir-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-primary">Confirmar</button></a>
                                         </div>
                                       </div>
                                     </div>
                                   </div>
+                                </div>
 
 
 
