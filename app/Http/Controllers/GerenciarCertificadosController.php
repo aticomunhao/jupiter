@@ -151,7 +151,7 @@ class GerenciarCertificadosController extends Controller
     {
 
         DB::table('certificados')->where('id', $id)->delete();
-        app('flasher')->addWarning('O cadastro do Dependente foi Removido com Sucesso.');
+        app('flasher')->addWarning('O cadastro do Certificado foi Removido com Sucesso.');
         return redirect()->back();
     }
 }
