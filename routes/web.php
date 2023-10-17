@@ -38,7 +38,8 @@ Route::post('/atualizar-funcionario/{idp}/{idf}', [App\Http\Controllers\Gerencia
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
 Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
 
-Route::get('/gerenciar-dados-bancarios', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index']);
+Route::get('/gerenciar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index']);
+Route::get('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'create']);
 
 
 /*Rotas dos Dependentes */
@@ -60,22 +61,21 @@ Route::get(
     [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']
 );
 
-Route::any('/adicionar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'store']);
-Route::any('/deletar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'destroy']);
+Route::any('/adicionar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'store']);
+Route::any('/deletar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'destroy']);
 
-Route::any('/editar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'edit']);
+Route::any('/editar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'edit']);
 
-Route::any('/atualizar-certificado/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'update']);
-
+Route::any('/atualizar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'update']);
 
 
 /**Rota para Entidades Escolares   */
 Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('batata');
 Route::get('/incluir-entidades-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'create']);
-Route::any('/armazenar-entidade',[App\Http\Controllers\GerenciarEntidadesController::class, 'store']);
-Route::any('/excluir-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'destroy']);
-Route::any('/editar-entidade/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'edit']);
-Route::any('/atualizar-entidade-ensino/{id}',[App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
+Route::any('/armazenar-entidade', [App\Http\Controllers\GerenciarEntidadesController::class, 'store']);
+Route::any('/excluir-entidade/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'destroy']);
+Route::any('/editar-entidade/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'edit']);
+Route::any('/atualizar-entidade-ensino/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
