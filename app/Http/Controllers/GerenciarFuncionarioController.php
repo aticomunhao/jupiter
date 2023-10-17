@@ -371,9 +371,24 @@ return redirect()->action([GerenciarFuncionarioController::class, 'index']);
 
 }
 
+public function pes_func($idf){
 
+ $up = DB:: table('pessoas As p')
+ ->select('p.nome_completo', 'p.celular', 'p.email')
+ ->where('id', $idf);
+
+
+ $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
+ $tpnacionalidade =  DB::table('tp_nacionalidade')->select('id', 'local')->get();
+ $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
+ $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
 
 
 }
+
+
+}
+
+
 
 
