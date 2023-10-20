@@ -37,8 +37,6 @@ class GerenciarEntidadesController extends Controller
         DB::table('tp_entidades_ensino')->insert([
             'nome_tpentensino' => $request->input('nome_ent')
         ]);
-
-
         return redirect()->route('batata');
     }
 

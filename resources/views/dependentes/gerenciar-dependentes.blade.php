@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+<title>Gerenciar Dependentes</title>
+
 @section('content')
     <div class="container">
         <div class="justify-content-center">

@@ -40,9 +40,9 @@ class GerenciarDadosBancariosController extends Controller
                             from funcionarios f
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
-
-
         $idPessoa = strval($funcionario[0]->id_pessoa);
+        $codigosDosBancos = DB::select("select * from tp_bancos");
+
         return view('dadosBancarios.incluir-dados-bancarios',compact('funcionario'));
     }
 

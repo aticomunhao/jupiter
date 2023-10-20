@@ -71,11 +71,17 @@ Route::any('/atualizar-certificado/{id}', [\App\Http\Controllers\GerenciarCertif
 
 /**Rota para Entidades Escolares   */
 Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('batata');
+
 Route::get('/incluir-entidades-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'create']);
+
 Route::any('/armazenar-entidade', [App\Http\Controllers\GerenciarEntidadesController::class, 'store']);
+
 Route::any('/excluir-entidade/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'destroy']);
+
 Route::any('/editar-entidade/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'edit']);
+
 Route::any('/atualizar-entidade-ensino/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
+
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 

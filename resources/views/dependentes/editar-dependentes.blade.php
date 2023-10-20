@@ -14,7 +14,7 @@
                 <div class="card-header">
                 <DIV class="ROW">
                     <div class="col-12">
-                        <span>Editar Dependente</span>
+                        <span  style="color: rgb(16, 19, 241); font-size:15px;">Editar Dependente</span>
                     </div>
                 </DIV>
                 </div>
@@ -26,7 +26,7 @@
                         <div class="col-5">
                         <div class="card" style="padding: 0px">
                             <div class="card-body bg-body-secondary" value= {{$funcionario[0]->id}}>
-                                  {{$funcionario[0]->nome_completo}}
+                                  <span  style="color: rgb(16, 19, 241); font-size:15px;">{{$funcionario[0]->nome_completo}}</span>
                             </div>
                         </div>
                         </div>
@@ -34,7 +34,7 @@
                     <hr>
                     <div class="form-group row">
                                 <div class="col-2">Parentesco
-                                    <select class="form-select" id="4" name="relacao_dep" required="required" value = "{{$dependente->id_parentesco}}">
+                                    <select class="form-select"  id = "{{$dependente->id_parentesco}}" name="relacao_dep" required="required" value ="{{$dependente->id_parentesco}}">
                                         @foreach ($tp_relacao as $tp_relacaos)
                                         <option value="{{$tp_relacaos->id}}">{{$tp_relacaos->nome}}</option>
                                         @endforeach
@@ -53,7 +53,7 @@
                     <br>
                     <div class="row">
                         <div class="d-grid gap-1 col-2 mx-auto">
-                            <a class="btn btn-danger btn-sm" href="/gerenciar-certificados/{{ $funcionario[0]->id }}"
+                            <a class="btn btn-danger btn-sm" href="/gerenciar-dependentes/{{ $funcionario[0]->id }}"
                                 role="button">Cancelar</a>
                         </div>
                             <div class="d-grid gap-3 col-2 mx-auto">
