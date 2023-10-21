@@ -68,21 +68,18 @@
                                                 <td scope="">{{ $certificado->dt_conclusao }}</td>
                                                 <!--Botão que abre Modal-->
                                                 <td scope=""><button type="button"
-                                                            class="btn btn-outline-danger delete-btn btn-sm"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#A{{ $certificado->id }}"><i
-                                                                class="bi bi-trash"></i></button>
+                                                        class="btn btn-outline-danger delete-btn btn-sm"
+                                                        data-bs-toggle="modal" data-bs-target="#A{{ $certificado->id }}"><i
+                                                            class="bi bi-trash"></i></button>
 
-                                                <!--Modal-->
-                                                <div class="modal fade"
-                                                        id="A{{ $certificado->id }}"
-                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true">
+                                                    <!--Modal-->
+                                                    <div class="modal fade" id="A{{ $certificado->id }}" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <div class="row">
-                                                                        <h2>Excluir Dependente</h2>
+                                                                        <h2>Excluir Certificado</h2>
                                                                     </div>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal" aria-label="Close"></button>
@@ -106,9 +103,9 @@
                                                         </div>
                                                     </div>
                                                     <!--Fim modal-->
-                                                        <a href="/editar-certificado/{{ $certificado->id }}"><button type="submit"
-                                                                class="btn btn-outline-warning btn-sm"><i
-                                                                    class="bi bi-pencil"></i></button></a>
+                                                    <a href="/editar-certificado/{{ $certificado->id }}"><button
+                                                            type="submit" class="btn btn-outline-warning btn-sm"><i
+                                                                class="bi bi-pencil"></i></button></a>
                                                 </td>
                                             </tr>
                                         @endforeach

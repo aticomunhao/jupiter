@@ -122,7 +122,7 @@ class GerenciarDependentesController extends Controller
 
         $funcionario = DB::select("select id_funcionario from dependentes d where d.id = $id");
         $idf = DB::table('dependentes AS d')->where('id', $id)->select('id_funcionario')->value('id_funcionario');
-    
+
         DB::table('dependentes')
             ->where('id', $id)
             ->update([
