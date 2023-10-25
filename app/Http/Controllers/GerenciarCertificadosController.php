@@ -25,7 +25,8 @@ class GerenciarCertificadosController extends Controller
         join tp_nivel_ensino as tpne on tpne.id = cert.id_nivel_ensino
         join tp_etapas_ensino as tpee on tpee.id = cert.id_etapa
         join tp_entidades_ensino as tp_ent_e on tp_ent_e.id=cert.id_entidade_ensino
-        where cert.id_funcionario =$idf;");
+        where cert.id_funcionario =$idf
+        ORDER BY id DESC;");
 
 
 
@@ -133,7 +134,7 @@ class GerenciarCertificadosController extends Controller
         DB::table('certificados')
             ->where('id', $id)
             ->update([
-                'id'=>$id,
+                'id' => $id,
                 'dt_conclusao' => $request->input('dtconc_cert'),
                 'id_nivel_ensino' => $request->input('nivel_ensino'),
                 'id_grau_acad' => $request->input('grau_academico'),

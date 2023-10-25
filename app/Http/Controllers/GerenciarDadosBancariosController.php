@@ -22,11 +22,30 @@ class GerenciarDadosBancariosController extends Controller
                             where f.id = $idf");
 
 
-        $idPessoa = strval($funcionario[0]->id_pessoa);
 
-        $contasBancarias = DB::select("select * from dados_bancarios where id_pessoa = $idPessoa");
+        $idFunc = strval($funcionario[0]->id);
 
-        return view('dadosBancarios.gerenciar-dados-bancarios', compact('funcionario','contasBancarias'));
+        $contasBancarias = DB::select("SELECT rel_dados_bancarios.id,
+        rel_dados_bancarios.id_funcionario,
+        rel_dados_bancarios.nmr_conta,
+        rel_dados_bancarios.dt_inicio,
+        rel_dados_bancarios.dt_fim,
+        tp_banco_ag.desc_agen,
+        desc_ban.nome,
+        tp_banco_ag.agencia,
+        tp_conta.nome_tipo_conta,
+        tp_sub_tp_conta.descricao
+        FROM public.rel_dados_bancarios
+        join tp_banco_ag on rel_dados_bancarios.id_banco_ag =tp_banco_ag.id
+        join desc_ban on rel_dados_bancarios.id_desc_banco=desc_ban.id
+        join tp_conta on rel_dados_bancarios.id_tp_conta = tp_conta.id
+        join tp_sub_tp_conta on rel_dados_bancarios.id_subtp_conta = tp_sub_tp_conta.id
+        where rel_dados_bancarios.id_funcionario = $idFunc;");
+
+        dd($contasBancarias);
+
+
+        return view('dadosBancarios.gerenciar-dados-bancarios', compact('funcionario', 'contasBancarias'));
     }
 
     /**
@@ -43,7 +62,7 @@ class GerenciarDadosBancariosController extends Controller
         $idPessoa = strval($funcionario[0]->id_pessoa);
         $codigosDosBancos = DB::select("select * from tp_bancos");
 
-        return view('dadosBancarios.incluir-dados-bancarios',compact('funcionario'));
+        return view('dadosBancarios.incluir-dados-bancarios', compact('funcionario'));
     }
 
     /**
@@ -51,7 +70,6 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function store(Request $request)
     {
-
     }
 
     /**
