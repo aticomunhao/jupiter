@@ -13,15 +13,12 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function index($idf)
     {
-
         $funcionario = DB::select("select
                             f.id, f.id_pessoa,
                             p.nome_completo
                             from funcionarios f
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
-
-
 
         $idFunc = strval($funcionario[0]->id);
 
@@ -30,19 +27,17 @@ class GerenciarDadosBancariosController extends Controller
         rel_dados_bancarios.nmr_conta,
         rel_dados_bancarios.dt_inicio,
         rel_dados_bancarios.dt_fim,
-        tp_banco_ag.desc_agen,
         desc_ban.nome,
+        tp_banco_ag.desc_agen,
         tp_banco_ag.agencia,
         tp_conta.nome_tipo_conta,
         tp_sub_tp_conta.descricao
         FROM public.rel_dados_bancarios
-        join tp_banco_ag on rel_dados_bancarios.id_banco_ag =tp_banco_ag.id
-        join desc_ban on rel_dados_bancarios.id_desc_banco=desc_ban.id
-        join tp_conta on rel_dados_bancarios.id_tp_conta = tp_conta.id
-        join tp_sub_tp_conta on rel_dados_bancarios.id_subtp_conta = tp_sub_tp_conta.id
-        where rel_dados_bancarios.id_funcionario = $idFunc;");
-
-        dd($contasBancarias);
+        JOIN tp_banco_ag ON rel_dados_bancarios.id_banco_ag = tp_banco_ag.id
+        JOIN desc_ban ON rel_dados_bancarios.id_desc_banco = desc_ban.id
+        JOIN tp_conta ON rel_dados_bancarios.id_tp_conta = tp_conta.id
+        JOIN tp_sub_tp_conta ON rel_dados_bancarios.id_subtp_conta = tp_sub_tp_conta.id
+        WHERE rel_dados_bancarios.id_funcionario = $idFunc;");
 
 
         return view('dadosBancarios.gerenciar-dados-bancarios', compact('funcionario', 'contasBancarias'));
@@ -60,7 +55,13 @@ class GerenciarDadosBancariosController extends Controller
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
         $idPessoa = strval($funcionario[0]->id_pessoa);
-        $codigosDosBancos = DB::select("select * from tp_bancos");
+
+        $desc_banco = DB::select('select * from desc_ban');
+
+        $tp_banco_ag =  DB::select("SELECT * FROM public.tp_banco_ag order by agencia;");
+        dd($tp_banco_ag);
+
+
 
         return view('dadosBancarios.incluir-dados-bancarios', compact('funcionario'));
     }
