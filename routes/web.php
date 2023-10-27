@@ -41,6 +41,7 @@ Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioContr
 Route::get('/gerenciar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index']);
 Route::get('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'create']);
 
+Route::get('/gerenciar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index']);
 
 /*Rotas dos Dependentes */
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('Potato');
