@@ -65,7 +65,8 @@
                                                 <td scope="">{{ $certificado->nome_tpee }}</td>
                                                 <td scope="">{{ $certificado->nome_grauacad }}</td>
                                                 <td scope="">{{ $certificado->nome_tpentensino }}</td>
-                                                <td scope="">{{ $certificado->dt_conclusao }}</td>
+                                                <td scope="">{{ \Carbon\Carbon::parse($certificado->dt_conclusao)->format('d/m/Y')}}</td>
+
                                                 <!--Botão que abre Modal-->
                                                 <td scope=""><button type="button"
                                                         class="btn btn-outline-danger delete-btn btn-sm"

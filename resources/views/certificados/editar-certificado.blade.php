@@ -16,7 +16,7 @@
                                 </DIV>
                             </div>
                             <div class="card-body">
-                                <form method="post" action="/adicionar-certificado/{{ $funcionario[0]->id }}">
+                                <form method="post" action="/atualizar-certificado/{{ $certificado->id }}">
                                     @csrf
                                     <div class="row">
                                         <div class="col-5">
@@ -33,7 +33,7 @@
                                         <div class="col-2">Grau Acadêmico
                                             <select class="form-select" id="4" name="grau_academico"
                                                 required="required" value="{{ $certificado->id_grau_acad}}">
-                                     
+
                                                 @foreach ($graus_academicos as $grau_academico)
                                                     <option value="{{ $grau_academico->id }}">
                                                         {{ $grau_academico->nome_grauacad }}</option>

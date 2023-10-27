@@ -94,7 +94,9 @@ class GerenciarCertificadosController extends Controller
      */
     public function edit($id)
     {
+
         $certificado = DB::table('certificados')->where('id', $id)->first();
+
 
         $funcionario = DB::select("select
                             f.id,
@@ -111,8 +113,6 @@ class GerenciarCertificadosController extends Controller
         $tp_entidades_ensino = DB::select("select * from tp_entidades_ensino");
 
 
-
-        //return view('certificados.editar-certificado', compact('certificado','funcionario','graus_academicos','tp_niveis_ensino'));
         return view('certificados.editar-certificado', compact('certificado', 'funcionario', 'graus_academicos', 'tp_niveis_ensino', 'tp_etapas_ensino', 'tp_entidades_ensino'));
     }
 
@@ -121,7 +121,9 @@ class GerenciarCertificadosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $certificado = DB::table('certificados')->where('id', $id)->first();
+
+        $certificado = $certificado = DB::table('certificados')->where('id', $id)->first();;
+    
 
         $idf = DB::table('certificados')->where('id', $id)->select('id_funcionario')->first();
 
@@ -130,7 +132,7 @@ class GerenciarCertificadosController extends Controller
                             p.nome_completo
                             from funcionarios f
                             left join pessoas p on f.id_pessoa = p.id
-                            where f.id = $certificado->id_funcionario");
+                            ");
         DB::table('certificados')
             ->where('id', $id)
             ->update([

@@ -59,7 +59,7 @@
 
                                                 <td scope="">{{ $dependente->nome }}</td>
                                                 <td scope="">{{ $dependente->nome_dependente }}</td>
-                                                <td scope="">{{ $dependente->dt_nascimento }}</td>
+                                                <td scope="">{{ \Carbon\Carbon::parse($dependente->dt_nascimento)->format('d/m/Y')}}</td>
                                                 <td scope="">{{ $dependente->cpf }}</td>
                                                 <td scope="">
                                                     <!-- Button trigger modal -->
