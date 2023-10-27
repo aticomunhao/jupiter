@@ -37,8 +37,7 @@ class GerenciarEntidadesController extends Controller
         DB::table('tp_entidades_ensino')->insert([
             'nome_tpentensino' => $request->input('nome_ent')
         ]);
-
-
+        app('flasher')->addSuccess("Entidade cadastrada com sucesso");
         return redirect()->route('batata');
     }
 
@@ -73,7 +72,7 @@ class GerenciarEntidadesController extends Controller
                 'nome_tpentensino' => $request->input('nome_ent')
             ]);
 
-
+        app('flasher')->addInfo("Entidade editada com sucesso");
         return redirect()->route('batata');
     }
 
@@ -82,7 +81,19 @@ class GerenciarEntidadesController extends Controller
      */
     public function destroy(string $id)
     {
+
+        $certificados = DB::select("select * from certificados where id_entidade_ensino = $id");
+
+        foreach ($certificados as $certificado) {
+
+            if($id == $certificado->id_entidade_ensino){
+                app('flasher')->addWarning("Não foi possivel excluir a entidade pois o certificado $certificado->nome, ainda está cadastrado");
+                return redirect()->back();
+            }
+        }
         DB::table('tp_entidades_ensino')->where('id', $id)->delete();
+        app('flasher')->addWarning("Entidade excluida com sucesso");
+
         return redirect()->back();
     }
 }

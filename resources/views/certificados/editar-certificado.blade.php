@@ -33,7 +33,7 @@
                                         <div class="col-2">Grau Acadêmico
                                             <select class="form-select" id="4" name="grau_academico"
                                                 required="required" value="{{ $certificado->id_grau_acad}}">
-
+                                     
                                                 @foreach ($graus_academicos as $grau_academico)
                                                     <option value="{{ $grau_academico->id }}">
                                                         {{ $grau_academico->nome_grauacad }}</option>
@@ -42,7 +42,7 @@
                                         </div>
                                         <div class="col-7">Nome do Certificado
                                             <input class="form-control" type="text" maxlength="40" name="nome_curso"    value="{{ $certificado->nome }}"
-                                                value="" required="required">
+                                             required="required">
                                         </div>
                                         <div class="col-3">Data de Conclusão
                                             <input class="form-control" type="date" value="{{ $certificado->dt_conclusao }}" id="3"

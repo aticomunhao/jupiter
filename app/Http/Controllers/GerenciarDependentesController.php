@@ -102,8 +102,10 @@ class GerenciarDependentesController extends Controller
     public function edit($id)
     {
         $dependente = DB::table('dependentes')->where('id', $id)->first();
-        $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_funcionario");
 
+
+
+        $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_funcionario");
 
         $tp_relacao = DB::select("select * from tp_parentesco");
 
@@ -117,9 +119,9 @@ class GerenciarDependentesController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $funcionario = DB::select("select id_funcionario from dependentes d where d.id = $id");
         $idf = DB::table('dependentes AS d')->where('id', $id)->select('id_funcionario')->value('id_funcionario');
-
 
         DB::table('dependentes')
             ->where('id', $id)
