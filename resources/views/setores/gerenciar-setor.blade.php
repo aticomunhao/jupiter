@@ -14,7 +14,7 @@
                     <input class="form-control" maxlength="9" type="text" id="2" name="nome">
                 </div>
                 <div class="col-3">Sigla
-                    <input class="form-control" maxlength="50" type="text" id="3" name="sigla">
+                    <input class="form-control" maxlength="50" type="text" id="3" name="siglaa">
                 </div>
                 <div class="col"><br>
                     <input class="btn btn-light btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Pesquisar">
