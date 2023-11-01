@@ -24,29 +24,27 @@ class GerenciarSetoresController extends Controller
 
       $nome = $request->nome;
 
-      $sigla = $request->sigla;
+     // $sigla = $request->sigla;
 
       $dt_inicio = $request->dt_inicio;
 
       $dt_fim = $request->dt_fim;
 
     if ($request->usuario) {
-        $lista->where('setores.usuario', $request->usuario);
+        $lista->where('s.usuario', 'LIKE', '%' . $request->usuario . '%');
     }
 
     if ($request->nome) {
-        $lista->where('setores.nome', '=', $request->nome);
+        $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
     }
 
-    if ($request->sigla) {
-        $lista->where('setores.sigla', '=', $request->sigla);
-    }
+    //if ($request->sigla) {
+        //$lista->where('setores.sigla', '=', $request->sigla);
+    //}
 
 
 
-    $lista = $lista->sortBy([['sigla', 'asc'],['usuario', 'asc']]);
 
-
-       return view('/setores/gerenciar-setor', compact ('lista','usuario', 'nome', 'sigla', 'dt_inicio', 'dt_fim'));
+       return view('/setores/gerenciar-setor', compact ('lista','usuario', 'nome',  'dt_inicio', 'dt_fim'));
     }
 }

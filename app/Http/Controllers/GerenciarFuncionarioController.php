@@ -26,6 +26,7 @@ class GerenciarFuncionarioController extends Controller
             ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
 
         $cpf = $request->cpf;
+        
 
         $idt = $request->idt;
 
@@ -248,9 +249,44 @@ class GerenciarFuncionarioController extends Controller
 
  //dd($idp);
 
+ // $valid = DB::select('select*from pessoas');
+ // dd($valid);
+
  //dd($idf);
 
  //dd($request->all());
+
+  $cpf = $request->cpf;
+
+  $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
+
+  //dd($vercpf);
+
+ try{
+    $validated = $request->validate([
+        //'telefone' => 'required|telefone',
+        'cpf' => 'required|cpf',
+        //'cnpj' => 'required|cnpj',
+        // outras validações aqui
+    ]);
+} catch (\Illuminate\Validation\ValidationException $e) {
+
+    app('flasher')->addError('Este CPF não é válido');
+
+    return redirect()->back()->withInput();
+    //dd($e->errors());
+}
+
+if ($vercpf > 0) {
+
+
+    app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+
+    return redirect()->back()->withInput();
+}
+else
+{
+
 
       DB::table('pessoas')
        ->where('id', $idp)
@@ -308,7 +344,7 @@ class GerenciarFuncionarioController extends Controller
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
     }
 
-
+    }
 
 public function delete($idf){
 

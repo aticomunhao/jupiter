@@ -5,24 +5,29 @@
 <div class="container-fluid">
     <div class="col-12">
         <div class="row justify-content-center">
-            <form action="{{route('gerenciar')}}" class="form-horizontal mt-4" method="GET">
+            <form "{{route('pesquisar')}}"class="form-horizontal mt-4" method="GET">
             <div class="row"  style="padding-left:5%">
                 <div class="col-2">Usuário
-                    <input class="form-control" maxlength="11" type="text" id="1" name="usuario" value="{{$usuario}}">
+                    <input class="form-control" maxlength="45" type="text" id="1" name="usuario" value="{{$usuario}}">
                 </div>
                 <div class="col-3">Setor
-                    <input class="form-control" maxlength="9" type="text" id="2" name="nome" value="{{$nome}}">
+                    <input class="form-control" maxlength="50" type="text" id="2" name="nome" value="{{$nome}}">
                 </div>
                 <div class="col-1">Sigla
-                    <input class="form-control" maxlength="50" type="text" id="3" name="sigla" value="{{$lista[0]->sigla}}">
+                    <input class="form-control" maxlength="30" type="text" id="3" name="sigla">
                 </div>
-
-                <div class="col" style="padding-left:20%"><br>
+                <div class="col-1">Data de Início
+                    <input class="form-control" maxlength="30" type="date" id="3" name="dt_inicio">
+                </div>
+                <div class="col-1">Data de Fim
+                    <input class="form-control" maxlength="30" type="date" id="3" name="dt_fim">
+                </div>
+                <div class="col" style="padding-left:10%"><br>
                     <input class="btn btn-light btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Pesquisar">
 
-                    <a href=""><button class="btn btn-primary" type="button" value="" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" >Limpar</button></a>
+                    <a href="/gerenciar-setor"><button class="btn btn-light btn-sm"  type="button" value="" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" >Limpar</button></a>
                 </form>
-                <a href=""><input class="btn btn-danger" type="button" name="6" value="Cancelar" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>
+
                     <a href=""><input class="btn btn-success btn-sm" type="button" name="6" value="Novo Cadastro +" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>
 
                 </div>
@@ -32,7 +37,7 @@
     <div class="table">
         <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
             <thead style="text-align: center;">
-                <tr style="background-color: #365699; font-size:19px; color:#000000">
+                <tr style="background-color: #365699; font-size:19px; color:#ffffff">
                     <th class="col-3">Setor</th>
                     <th class="col-1">Sigla</th>
                     <th class="col-1">Dt_inicio</th>
