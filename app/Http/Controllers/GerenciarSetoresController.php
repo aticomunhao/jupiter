@@ -15,8 +15,7 @@ class GerenciarSetoresController extends Controller
     public function index(Request $request){
 
     $lista = DB::table('setores AS s')
-    ->select('s.id AS ids', 's.nome', 's.usuario', 's.sigla', 's.dt_inicio', 's.dt_fim')
-    ->get();
+    ->select('s.id AS ids', 's.nome', 's.usuario', 's.sigla', 's.dt_inicio', 's.dt_fim');
 
       //dd($lista);
 
@@ -42,9 +41,29 @@ class GerenciarSetoresController extends Controller
         //$lista->where('setores.sigla', '=', $request->sigla);
     //}
 
-
-
+    $lista = $lista->orderBy( 's.usuario','asc')->orderBy('s.nome', 'asc')->paginate(10);
+         //dd($lista);
 
        return view('/setores/gerenciar-setor', compact ('lista','usuario', 'nome',  'dt_inicio', 'dt_fim'));
+    }
+    public function edit($id){
+          $editar = DB::table('setores AS s')
+          ->select('s.id AS ids', 's.nome', 's.usuario', 's.sigla', 's.dt_inicio', 's.dt_fim')
+          ->where($id, 'id');
+
+          return view('/setores/editar-setor', compact('editar'));
+
+    }
+
+
+
+
+
+    public function delete($ids){
+
+        $del = DB::table('setores')->where('id', $ids)->delete();
+
+        app('flasher')->addSuccess('O cadastro do Setor foi Removido com Sucesso.');
+    return redirect()->action([GerenciarSetoresController::class, 'index']);
     }
 }

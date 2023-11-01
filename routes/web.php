@@ -43,6 +43,8 @@ Route::get('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDados
 
 Route::get('/gerenciar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index']);
 Route::get('/pesquisar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index'])->name('pesquisar');
+Route::get('/editar-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'edit']);
+Route::get('/excluir-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'delete']);
 
 /*Rotas dos Dependentes */
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('Potato');

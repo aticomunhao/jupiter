@@ -59,19 +59,48 @@
 
                         <td scope="">
 
-                            <a href=""><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
+                            <a href="/editar-setor/{{$listas->ids}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
                             <a href=""><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                             <button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-people-fill" style="font-size: 1rem;color:#303030; "></i></button></a>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
-
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#A{{ $listas->nome}}-{{ $listas->ids }}"class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
 
                             </td>
 
+                           </td>
 
 
-                    </td>
-            </tr>
+                    <!-- Modal -->
+                    <div>
+                    <div class="modal fade" id="A{{ $listas->nome}}-{{ $listas->ids }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" >
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Excluir Usuario</h5>
 
-                </tr>
-                @endforeach
+                            </div>
+                            <div class="modal-body">
+                                <p class="fw-bold alert alert-danger text-center">Você
+                                    realmente deseja excluir:
+                                    <br>
+                                    {{ $listas->usuario}}
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                              <a href="/excluir-setor/{{$listas->ids}}"><button type="button" class="btn btn-primary">Confirmar</button></a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+                <!--Fim Modal-->
+
+            </td>
+    </tr>
+
+        </tr>
+        @endforeach
+
     @endsection
