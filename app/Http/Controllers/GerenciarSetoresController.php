@@ -30,7 +30,7 @@ class GerenciarSetoresController extends Controller
       $dt_fim = $request->dt_fim;
 
     if ($request->usuario) {
-        $lista->where('s.usuario', 'LIKE', '%' . $request->usuario . '%');
+        $lista->where('s.usuario', 'LIKE', '%' . $request->usuario . '%1');
     }
 
     if ($request->nome) {
