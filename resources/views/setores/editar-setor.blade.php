@@ -8,59 +8,43 @@
 
         </div>
     </div>
-    <legend style="color:rgb(16, 19, 241); width:-20%; "></legend>
-    <fieldset class="border rounded border-primary p-2">
-    <div>
+    <legend></legend>
+    <fieldset class="border rounded border-primary p-2" >
         <form method = 'POST' action = "/atualizar-funcionario">
 
                 @csrf
 
-                <form>
-                    <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputEmail4">Email</label>
-                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
-                      </div>
-                      <div class="form-group col-md-6">
-                        <label for="inputPassword4">Senha</label>
-                        <input type="password" class="form-control" id="inputPassword4" placeholder="Senha">
-                      </div>
+                <div class="form-group row" style = "display:flex;
+                justify-content:space-between center width: 60%;">
+                <div class="form-group col-md-4">
+                    <label for="1">Setor</label>
+                    <input class="form-control" name= "matricula" maxlength="32"  maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"  id="1" value ="{{$editar[0]->nome}}" >
+                </div>
+                    <div class="form-group col-md-2" style="padding-right:80px">
+                        <label for="2">Sigla</label>
+                        <input type="text" class="form-control" name = "nome_completo"   maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" value ="{{$editar[0]->sigla}}" >
                     </div>
-                    <div class="form-group">
-                      <label for="inputAddress">Endereço</label>
-                      <input type="text" class="form-control" id="inputAddress" placeholder="Rua dos Bobos, nº 0">
-                    </div>
-                    <div class="form-group">
-                      <label for="inputAddress2">Endereço 2</label>
-                      <input type="text" class="form-control" id="inputAddress2" placeholder="Apartamento, hotel, casa, etc.">
-                    </div>
-                    <div class="form-row">
-                      <div class="form-group col-md-6">
-                        <label for="inputCity">Cidade</label>
-                        <input type="text" class="form-control" id="inputCity">
-                      </div>
-                      <div class="form-group col-md-4">
-                        <label for="inputEstado">Estado</label>
-                        <select id="inputEstado" class="form-control">
-                          <option selected>Escolher...</option>
-                          <option>...</option>
-                        </select>
-                      </div>
-                      <div class="form-group col-md-2">
-                        <label for="inputCEP">CEP</label>
-                        <input type="text" class="form-control" id="inputCEP">
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="gridCheck">
-                        <label class="form-check-label" for="gridCheck">
-                          Clique em mim
-                        </label>
-                      </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Entrar</button>
-                  </form>
 
+
+
+                <div class="form-group row" style = "display:flex;
+                justify-content:space-between center">
+                <div class="form-group col-md-2" style="padding-right:70px">
+                    <label for="3">Data de Inicio</label>
+                    <input type="date" class="form-control" name = "dt_inicio" id = "3" value ="{{$editar[0]->dt_inicio}}" >
+                </div>
+                    <div class="form-group col-md-2" style="padding-right:70px">
+                        <label for="4">Data Final</label>
+                        <input type="date" class="form-control" name = "dt_inicio" id = "4" value ="{{$editar[0]->dt_fim}}" >
+                    </div>
+                    <div class="form-group row" style = "display:flex;
+                    justify-content:space-between; width: 100%;">
+                    <div class="form-group col-md-6" style="padding-right: 5%">
+                        <label for="2">Nome Completo</label>
+                        <input type="text" class="form-control" name = "nome_completo"   maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" value ="{{$editar[0]->usuario}}" >
+                
+                    <br>
+            </fieldset>
+            </form>
 
 @endsection

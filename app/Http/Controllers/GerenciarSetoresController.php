@@ -30,7 +30,7 @@ class GerenciarSetoresController extends Controller
       $dt_fim = $request->dt_fim;
 
     if ($request->usuario) {
-        $lista->where('s.usuario', 'LIKE', '%' . $request->usuario . '%1');
+        $lista->where('s.usuario', 'LIKE', '%' . $request->usuario . '%');
     }
 
     if ($request->nome) {
@@ -46,12 +46,14 @@ class GerenciarSetoresController extends Controller
 
        return view('/setores/gerenciar-setor', compact ('lista','usuario', 'nome',  'dt_inicio', 'dt_fim'));
     }
-    public function edit($id){
+
+
+    public function edit($ids){
           $editar = DB::table('setores AS s')
           ->select('s.id AS ids', 's.nome', 's.usuario', 's.sigla', 's.dt_inicio', 's.dt_fim')
-          ->where($id, 'id');
+          ->where('s.id', $ids)->get();
 
-          return view('/setores/editar-setor', compact('editar'));
+          return view('/setores/editar-setor', compact('editar', ));
 
     }
 
