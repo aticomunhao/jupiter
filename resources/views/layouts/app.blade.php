@@ -39,7 +39,6 @@
                         <!-- JAVASCRIPT -->
 
 
-
                         <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 
                         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -50,5 +49,7 @@
 
                         <!-- App js -->
                         <script src="{{ URL::asset('/js/app.min.js')}}"></script>
+                        <!--JQUERY-->
+                        <script src="https://cdn.jsdelivr.net/gh/jquery-form/form@4.3.0/dist/jquery.form.min.js" integrity="sha384-qlmct0AOBiA2VPZkMY3+2WqkHtIQ9lSdAsAn5RUJD/3vA5MKDgSGcdmIv4ycVxyn" crossorigin="anonymous"></script>
         </body>
 </html>

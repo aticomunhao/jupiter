@@ -123,7 +123,7 @@ class GerenciarCertificadosController extends Controller
     {
 
         $certificado = $certificado = DB::table('certificados')->where('id', $id)->first();;
-    
+
 
         $idf = DB::table('certificados')->where('id', $id)->select('id_funcionario')->first();
 
@@ -152,7 +152,6 @@ class GerenciarCertificadosController extends Controller
 
     public function destroy(string $id)
     {
-
         DB::table('certificados')->where('id', $id)->delete();
         app('flasher')->addWarning('O cadastro do Certificado foi Removido com Sucesso.');
         return redirect()->back();

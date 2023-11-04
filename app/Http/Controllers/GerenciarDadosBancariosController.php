@@ -55,15 +55,13 @@ class GerenciarDadosBancariosController extends Controller
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
         $idPessoa = strval($funcionario[0]->id_pessoa);
-
-        $desc_banco = DB::select('select * from desc_ban');
-
-        $tp_banco_ag =  DB::select("SELECT * FROM public.tp_banco_ag order by agencia;");
-        dd($tp_banco_ag);
-
+        $desc_bancos = DB::select('select * from desc_ban order by id');
+        $tp_banco_ags =  DB::select("SELECT * FROM public.tp_banco_ag order by agencia");
+        $tp_contas = DB::select('select * from tp_conta');
+        $tp_sub_tp_contas = DB::select('select * from tp_sub_tp_conta');
 
 
-        return view('dadosBancarios.incluir-dados-bancarios', compact('funcionario'));
+        return view('dadosBancarios.incluir-dados-bancarios', compact('funcionario','tp_banco_ags','desc_bancos', 'tp_contas', 'tp_sub_tp_contas'));
     }
 
     /**
@@ -71,6 +69,7 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function store(Request $request)
     {
+
     }
 
     /**
