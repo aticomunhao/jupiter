@@ -58,6 +58,27 @@ class GerenciarSetoresController extends Controller
     }
 
 
+    public function update(Request $request, $ids){
+
+
+
+        DB::table('setores')
+        ->where('id', $ids)
+        ->update(['nome' => $request->input('nome'),
+                  'sigla' => $request->input('sigla'),
+                  'dt_inicio' =>  $request->input('dt_inicio'),
+                  'dt_fim' =>  $request->input('dt_fim'),
+     ]);
+
+
+
+     app('flasher')->addSuccess('Edição feita com Sucesso!');
+
+     return redirect()->action([GerenciarSetoresController::class, 'index']);
+
+    }
+
+
 
 
 
