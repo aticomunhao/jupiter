@@ -26,7 +26,7 @@ class GerenciarFuncionarioController extends Controller
             ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
 
         $cpf = $request->cpf;
-        
+
 
         $idt = $request->idt;
 
@@ -106,16 +106,36 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-        foreach ($cpfs as $cpfs) {
-            if (intval($cpf) == $cpfs->cpf) {
+        $cpf = $request->cpf;
 
-                app('flasher')->addError('Existe outro cadastro usando este número de CPF');
-
-                return redirect()->back()->withInput();
+        $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
 
 
-            }
-            else
+
+       try{
+          $validated = $request->validate([
+              //'telefone' => 'required|telefone',
+              'cpf' => 'required|cpf',
+              //'cnpj' => 'required|cnpj',
+              // outras validações aqui
+          ]);
+      } catch (\Illuminate\Validation\ValidationException $e) {
+
+          app('flasher')->addError('Este CPF não é válido');
+
+          return redirect()->back()->withInput();
+          //dd($e->errors());
+      }
+
+      if ($vercpf > 1) {
+
+
+          app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+
+          return redirect()->back()->withInput();
+      }
+      else
+      {
             {
 
                 DB::table('pessoas')->insert([
@@ -260,7 +280,8 @@ class GerenciarFuncionarioController extends Controller
 
   $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
 
-  //dd($vercpf);
+
+//dd($vercpf);
 
  try{
     $validated = $request->validate([
@@ -277,7 +298,7 @@ class GerenciarFuncionarioController extends Controller
     //dd($e->errors());
 }
 
-if ($vercpf > 0) {
+if ($vercpf > 1) {
 
 
     app('flasher')->addError('Existe outro cadastro usando este número de CPF');
