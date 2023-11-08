@@ -14,14 +14,18 @@ class GerenciarSetoresController extends Controller
 {
     public function index(Request $request){
 
-    $lista = DB::table('setores AS s')
-    ->select('s.id AS ids', 's.nome', 's.usuario', 's.sigla', 's.dt_inicio', 's.dt_fim');
+    $lista = DB::table('subsetor AS sub')
+    ->leftJoin('setor AS s', 'setor.id', 'sub.id_setor')
+    ->select('sub.id AS ids', 'sub.nome', 'sub.sigla', 's.subsetor', 's.sigla','s.dt_inicio', 's.dt_fim');
 
-      //dd($lista);
+
+   // dd($lista);
 
       $usuario = $request->usuario;
 
       $nome = $request->nome;
+
+      $subsetor = $request->subsetor;
 
      // $sigla = $request->sigla;
 
@@ -37,14 +41,19 @@ class GerenciarSetoresController extends Controller
         $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
     }
 
+    if ($request->subsetor) {
+        $lista->where('s.nome', 'LIKE', '%' . $request->subsetor . '%');
+    }
+
+
     //if ($request->sigla) {
         //$lista->where('setores.sigla', '=', $request->sigla);
     //}
 
-    $lista = $lista->orderBy( 's.usuario','asc')->orderBy('s.nome', 'asc')->paginate(10);
-         //dd($lista);
+    $lista = $lista->orderBy( 's.','asc')->orderBy('s.nome', 'asc')->paginate(10);
+        // dd($lista);
 
-       return view('/setores/gerenciar-setor', compact ('lista','usuario', 'nome',  'dt_inicio', 'dt_fim'));
+       return view('/setores/gerenciar-setor', compact ('lista','usuario', 'nome',  'dt_inicio', 'dt_fim', 'subsetor'));
     }
 
 
