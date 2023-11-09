@@ -61,15 +61,26 @@ class GerenciarDadosBancariosController extends Controller
         $tp_sub_tp_contas = DB::select('select * from tp_sub_tp_conta');
 
 
-        return view('dadosBancarios.incluir-dados-bancarios', compact('funcionario','tp_banco_ags','desc_bancos', 'tp_contas', 'tp_sub_tp_contas'));
+        return view('dadosBancarios.incluir-dados-bancarios', compact('funcionario', 'tp_banco_ags', 'desc_bancos', 'tp_contas', 'tp_sub_tp_contas'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $idf)
     {
+        DB::table('rel_dados_bancarios')->insert([
+            'id_funcionario' => $idf,
+            'id_banco_ag' => $request->input('tp_banco_ag'),
+            'dt_inicio' => $request->input('dt_inicio'),
+            'dt_fim' => $request->input('dt_fim'),
+            'nmr_conta' => $request->input('nmr_conta'),
+            'id_desc_banco' => $request->input('desc_banco'),
+            'id_tp_conta' => $request->input('tp_conta'),
+            'id_subtp_conta' => $request->input('tp_sub_tp_conta')
+        ]);
 
+        return redirect()->route('DadoBanc', ['id' => $idf]);
     }
 
     /**
