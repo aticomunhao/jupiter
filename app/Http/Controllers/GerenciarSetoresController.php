@@ -14,16 +14,20 @@ class GerenciarSetoresController extends Controller
 {
     public function index(Request $request){
 
-    $lista = DB::table('setores AS s')
-    ->select('s.id AS ids', 's.nome', 's.usuario', 's.sigla', 's.dt_inicio', 's.dt_fim');
+    $lista = DB::table('subsetor AS sub')
+    ->leftJoin('setor AS s', 'sub.id_setor', '=', 's.id')
+    ->select('sub.id AS idsb', 's.id AS ids','sub.sigla', 'sub.nome_subsetor', 's.nome','s.dt_inicio', 's.dt_fim', 's.usuario');
 
-      //dd($lista);
+
+   //dd($lista);
 
       $usuario = $request->usuario;
 
       $nome = $request->nome;
 
-     // $sigla = $request->sigla;
+      $nome_subsetor = $request->nome_subsetor;
+
+      $sigla = $request->sigla;
 
       $dt_inicio = $request->dt_inicio;
 
@@ -37,23 +41,97 @@ class GerenciarSetoresController extends Controller
         $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
     }
 
-    //if ($request->sigla) {
-        //$lista->where('setores.sigla', '=', $request->sigla);
-    //}
-
-    $lista = $lista->orderBy( 's.usuario','asc')->orderBy('s.nome', 'asc')->paginate(10);
-         //dd($lista);
-
-       return view('/setores/gerenciar-setor', compact ('lista','usuario', 'nome',  'dt_inicio', 'dt_fim'));
+    if ($request->nome_subsetor) {
+        $lista->where('sub.nome_subsetor', 'LIKE', '%' . $request->nome_subsetor . '%');
     }
 
 
-    public function edit($ids){
-          $editar = DB::table('setores AS s')
-          ->select('s.id AS ids', 's.nome', 's.usuario', 's.sigla', 's.dt_inicio', 's.dt_fim')
-          ->where('s.id', $ids)->get();
+    if ($request->sigla) {
+        $lista->where('sub.sigla', '=', $request->sigla);}
 
-          return view('/setores/editar-setor', compact('editar', ));
+    $lista = $lista->orderBy( 'sub.sigla','asc')->orderBy('s.nome', 'asc')->paginate(10);
+
+
+       return view('/setores/gerenciar-setor', compact ('lista','usuario', 'nome',  'dt_inicio', 'dt_fim', 'nome_subsetor', 'sigla'));
+    }
+
+
+    public function create(){
+
+
+
+        return view('/setores/incluir-setor');
+    }
+
+
+
+    public function insert(Request $request){
+
+        DB::table('setor')
+        ->insert(['nome' => $request->input('nome'),
+                  'sigla' => $request->input('sigla'),
+                  'dt_inicio' =>  $request->input('dt_inicio'),
+                  'dt_fim' =>  $request->input('dt_fim'),
+                  'usuario' =>  $request->input('usuario')]);
+
+
+        DB::table('subsetor')
+        ->insert(['nome_subsetor' => $request->input('nome_subsetor'),
+                  'sigla' => $request->input('sigla')]);
+
+        $id_subsetor = DB::table('subsetor')
+        ->select(DB::raw('MAX(id) as max_id'))
+        ->value('max_id');
+
+        $id_setor = DB::table('setor')
+        ->select(DB::raw('MAX(id) as max_id'))
+        ->value('max_id');
+
+        app('flasher')->addSuccess('Edição feita com Sucesso!');
+
+        return redirect('/gerenciar-setor');
+
+
+    }
+
+
+
+    public function edit($idsb){
+
+          $editar =DB::table('subsetor AS sub')
+          ->leftJoin('setor AS s', 'sub.id_setor', '=', 's.id')
+          ->select('sub.id AS idsb', 's.id AS ids','sub.sigla', 'sub.nome_subsetor', 's.nome','s.dt_inicio', 's.dt_fim', 's.usuario')->where('sub.id', $idsb)->get();
+          //dd($editar);
+
+
+          return view('/setores/editar-setor', compact('editar'));
+
+    }
+
+
+    public function update(Request $request, $idsb, $ids){
+
+
+
+        DB::table('setor')
+        ->where('id', $ids)
+        ->update(['nome' => $request->input('nome'),
+                  'sigla' => $request->input('sigla'),
+                  'dt_inicio' =>  $request->input('dt_inicio'),
+                  'dt_fim' =>  $request->input('dt_fim'),
+                  'usuario' =>  $request->input('usuario')]);
+
+
+        DB::table('subsetor')
+        ->where('id', $idsb)
+        ->update(['nome_subsetor' => $request->input('nome_subsetor'),
+                  'sigla' => $request->input('sigla')]);
+
+
+
+     app('flasher')->addSuccess('Edição feita com Sucesso!');
+
+     return redirect()->action([GerenciarSetoresController::class, 'index']);
 
     }
 
@@ -61,9 +139,13 @@ class GerenciarSetoresController extends Controller
 
 
 
-    public function delete($ids){
+    public function delete($ids, $idsb){
 
-        $del = DB::table('setores')->where('id', $ids)->delete();
+        $del =DB::table('subsetor AS sub')
+        ->leftJoin('setor AS s', 'sub.id_setor', '=', 's.id')
+        ->select('sub.id AS idsb', 's.id AS ids','sub.sigla', 'sub.nome_subsetor')->where('sub.id', $ids);
+
+       $del1 = DB::table('setor as s')->select('s.id AS ids','s.nome',  's.sigla', 's.dt_inicio', 's.dt_fim', 's.usuario')->where($)
 
         app('flasher')->addSuccess('O cadastro do Setor foi Removido com Sucesso.');
     return redirect()->action([GerenciarSetoresController::class, 'index']);
