@@ -110,8 +110,9 @@ class GerenciarDadosBancariosController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $idf)
     {
-        //
+        DB::table('rel_dados_bancarios')->where('id',$idf)->delete();
+        return redirect()->back();
     }
 }

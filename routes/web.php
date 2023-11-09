@@ -42,6 +42,8 @@ Route::get('/gerenciar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDad
 Route::get('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'create']);
 Route::get('/armazenar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'store']);
 
+Route::get('/deletar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'destroy']);
+
 
 
 

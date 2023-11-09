@@ -91,7 +91,7 @@
                                                             <div class="modal-footer">
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-bs-dismiss="modal">Cancelar</button>
-                                                                <a href="/deletar-dependentes/"><button type="button"
+                                                                <a href="/deletar-dado-bancario/{{$contaBancaria->id}}"><button type="button"
                                                                         class="btn btn-danger">Excluir</button></a>
                                                             </div>
                                                         </div>
