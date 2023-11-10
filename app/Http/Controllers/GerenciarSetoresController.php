@@ -145,7 +145,7 @@ class GerenciarSetoresController extends Controller
         ->leftJoin('setor AS s', 'sub.id_setor', '=', 's.id')
         ->select('sub.id AS idsb', 's.id AS ids','sub.sigla', 'sub.nome_subsetor')->where('sub.id', $ids);
 
-       $del1 = DB::table('setor as s')->select('s.id AS ids','s.nome',  's.sigla', 's.dt_inicio', 's.dt_fim', 's.usuario')->where($)
+       $del1 = DB::table('setor as s')->select('s.id AS ids','s.nome',  's.sigla', 's.dt_inicio', 's.dt_fim', 's.usuario')->where('s.id', $idsb);
 
         app('flasher')->addSuccess('O cadastro do Setor foi Removido com Sucesso.');
     return redirect()->action([GerenciarSetoresController::class, 'index']);
