@@ -6,6 +6,8 @@ use App\Http\Controllers;
 
 
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -69,10 +71,7 @@ Route::get(
     [\App\Http\Controllers\GerenciarCertificadosController::class, 'index']
 )->name('viewGerenciarCertificados');
 
-Route::get(
-    '/incluir-certificados/{id}',
-    [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']
-);
+Route::get(    '/incluir-certificados/{id}',[\App\Http\Controllers\GerenciarCertificadosController::class, 'create']);
 
 Route::any('/adicionar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'store']);
 Route::any('/deletar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'destroy']);
@@ -95,7 +94,7 @@ Route::any('/editar-entidade/{id}', [App\Http\Controllers\GerenciarEntidadesCont
 
 Route::any('/atualizar-entidade-ensino/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
 
-
+/**Rotas de Entrada**/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 

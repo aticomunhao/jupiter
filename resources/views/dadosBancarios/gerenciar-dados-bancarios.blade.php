@@ -57,12 +57,12 @@
                                         @foreach ($contasBancarias as $contaBancaria )
                                         <tr>
                                             <td class="text-center">{{$contaBancaria->nome}}</td>
-                                            <td class="text-center">>{{$contaBancaria->agencia}}</td>
+                                            <td class="text-center">{{ str_pad($contaBancaria->agencia, 3, '0', STR_PAD_LEFT) }}</td>
                                             <td class="text-center">{{$contaBancaria->nmr_conta}}</td>
                                             <td class="text-center">{{$contaBancaria->nome_tipo_conta}}</td>
                                             <td class="text-center">{{$contaBancaria->descricao}}</td>
-                                            <td class="text-center">{{$contaBancaria->dt_inicio}}</td>
-                                            <td class="text-center">{{$contaBancaria->dt_fim}}</td>
+                                            <td class="text-center">{{\Carbon\Carbon::parse($contaBancaria->dt_inicio)->format('d/m/Y')}}</td>
+                                            <td class="text-center">{{\Carbon\Carbon::parse($contaBancaria->dt_fim)->format('d/m/Y')}}</td>
                                             <td>
                                                 <!-- Button trigger modal -->
                                                 <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
