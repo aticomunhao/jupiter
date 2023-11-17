@@ -20,7 +20,7 @@
                 </ul>
                 <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"
                     style="color:#ffffff;">
-                    Gerencia
+                    Gerenciar
                 </div>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="gerenciar-dados-bancarios">Gerenciar Dados Bancarios</a></li>
