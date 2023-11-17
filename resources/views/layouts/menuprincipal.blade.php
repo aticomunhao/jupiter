@@ -23,7 +23,7 @@
                     Gerenciar
                 </div>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="gerenciar-dados-bancarios">Gerenciar Dados Bancarios</a></li>
+
                     <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar Entidades de Ensino</a>
                     <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a>
                     </li>
