@@ -47,10 +47,20 @@ class GerenciarAcordosController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($idf)
     {
-        $tipoAcordo = DB::select('select * from tp_acordo');
-        dd($tipoAcordo);
+        $funcionario = DB::select("select
+        f.id,
+        p.nome_completo
+        from funcionarios f
+        left join pessoas p on f.id_pessoa = p.id
+        where f.id = $idf");
+        $tipoacordo = DB::select('select * from tp_acordo');
+
+        
+
+
+        return view('acordos.incluir-acordo',compact('tipoacordo','funcionario'));
     }
 
     /**
