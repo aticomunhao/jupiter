@@ -64,8 +64,11 @@
                                 <a href="/gerenciar-dados-bancarios/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-coin" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-bandaid" style="font-size: 1rem;color:#303030;"></i></button></a>
                                 <a href="/gerenciar-certificados/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <a href="/gerenciar-acordos/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil-square" style="font-size: 1rem; color:#303030;"></i></button></a>
+
 
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#A{{ $listas->cpf}}-{{ $listas->idf }}"class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
+
 
                                 <!-- <a href="/excluir-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal fader" data-bs-target="#A{{ $listas->cpf}}-{{ $listas->idf }}"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 -->
