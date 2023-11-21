@@ -9,25 +9,15 @@ use Illuminate\Support\Facades\DB;
 
 class GerenciarVoluntarioController extends Controller
 {
-
-    public function index(Request $request){
-
-       
-
-    
-
+    public function index(Request $request)
+    {
     }
 
-    public function store(){
-
-       
-
+    public function store()
+    {
     }
 
-    public function insert(Request $request){
-
-        
-
+    public function insert(Request $request)
+    {
     }
-
 }

@@ -90,8 +90,9 @@ Route::any('/editar-entidade/{id}', [App\Http\Controllers\GerenciarEntidadesCont
 Route::any('/atualizar-entidade-ensino/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
 
 /* Rota Para Tipos de Acordos*/
-
 Route::get('/gerenciar-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'index'])->name('indexGerenciarAcordos');
+Route::get('/incluir-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'create']);
+
 
 /**Rotas de Entrada**/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

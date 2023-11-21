@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
-use Illuminate\Support\Carbon as SupportCarbon;
+
+use DateTime;
+
 
 class GerenciarAcordosController extends Controller
 {
@@ -20,15 +21,27 @@ class GerenciarAcordosController extends Controller
                             from funcionarios f
                             left join pessoas p on f.id_pessoa = p.id
                             where f.id = $idf");
-
-        $Acordos = DB::select("select * from acordos where id_funcionario = $idf");
-        $acordos = DB::select("select acordos.data_inicio, acordos.data_fim, acordos.observacao, tp_acordo.nome from acordos
+        $acordos = DB::select("select acordos.id, acordos.data_inicio, acordos.data_fim, acordos.observacao, tp_acordo.nome,acordos.valido, acordos.caminho from acordos
         join tp_acordo on tp_acordo.id = acordos.id_tp_acordo
         where acordos.id_funcionario = $idf");
-      
 
 
-        return view('acordos.gerenciar-acordos');
+        foreach ($acordos as $acordo) {
+
+            $dataDeHoje = new DateTime('now');
+            $dataFormatada = $dataDeHoje->format('Y-m-d');
+            $datadoBancoDeDados = new DateTime($acordo->data_fim);
+            $datadoBancoDeDadosFormatada = $datadoBancoDeDados->format('Y-m-d');
+
+
+            if ($dataFormatada <= $datadoBancoDeDadosFormatada) {
+                $acordo->valido = "Sim";
+            }else{
+                $acordo->valido = "Não";
+            }
+        }
+
+        return view('acordos.gerenciar-acordos', compact('acordos','funcionario'));
     }
 
     /**
