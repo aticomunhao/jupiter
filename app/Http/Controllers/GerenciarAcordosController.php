@@ -133,6 +133,7 @@ class GerenciarAcordosController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Db::table('acordos')->where('id',$id)->delete();
+        return redirect()->back();
     }
 }

@@ -63,19 +63,20 @@
                                                 <td scope="">{{$acordo->valido}}</td>
                                                 <td scope="">{{\Carbon\Carbon::parse($acordo->data_fim)->format('d/m/Y')}}</td>
                                                 <td scope="">{{$acordo->observacao}}</td>
-                                                <td scope = ""><a href="{{asset("storage/public/images/$acordo->caminho")}}">Ico</a></td>
+                                                <td scope = ""><a href="{{asset("storage/public/images/$acordo->caminho")}}"><button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-archive"></i></button>
+                                                        </a></td>
                                                 <td scope="">
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#A"><i
+                                                        data-bs-target="#A{{$acordo->id}}"><i
                                                             class="bi bi-trash"></i></button>
 
 
                                                     <!-- Modal -->
 
                                                     <div class="modal fade"
-                                                        id="A"
+                                                        id="A{{$acordo->id}}"
                                                         tabindex="-1" aria-labelledby="exampleModalLabel"
                                                         aria-hidden="true">
                                                         <div class="modal-dialog">
@@ -91,14 +92,14 @@
                                                                     <p class="fw-bold alert alert-danger text-center">Você
                                                                         realmente deseja
                                                                         <br>
-                                                                        <span class="fw-bolder fs-5">EXCLUIR
+                                                                        <span class="fw-bolder fs-5">EXCLUIR {{ $acordo->nome }}
                                                                             </span>
                                                                     </p>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-bs-dismiss="modal">Cancelar</button>
-                                                                    <a href="/deletar-dependentes/"><button
+                                                                    <a href="/excluir-acordo/{{$acordo->id}}"><button
                                                                             type="button"
                                                                             class="btn btn-danger">Excluir</button></a>
                                                                 </div>

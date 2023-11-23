@@ -93,6 +93,8 @@ Route::any('/atualizar-entidade-ensino/{id}', [App\Http\Controllers\GerenciarEnt
 Route::get('/gerenciar-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'index'])->name('indexGerenciarAcordos');
 Route::get('/incluir-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'create']);Route::any('/armazenar-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'store']);
 
+Route::any('/excluir-acordo/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'destroy']);
+
 
 /**Rotas de Entrada**/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

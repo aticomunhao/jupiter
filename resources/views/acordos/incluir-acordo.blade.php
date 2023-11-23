@@ -48,14 +48,14 @@
                                             name="dt_fim">
                                     </div>
                                     <div class="form-group col-3">Arquivo
-                                        <input type="file" name ="ficheiro" id="idficheiro" required="required" >
+                                        <input type="file" class="form-control form-control-sm" name ="ficheiro" id="idficheiro" required="required" >
                                     </div>
                                 </div>
                                 <br>
                                 <div class="row">
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">Observação</label>
-                                        <textarea class="form-control" id="idobservacao" rows="1" name="observacao"></textarea>
+                                        <textarea class="form-control " id="idobservacao" rows="1" name="observacao"></textarea>
                                     </div>
                                 </div>
                                 <br>
