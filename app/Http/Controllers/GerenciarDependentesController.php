@@ -141,8 +141,11 @@ class GerenciarDependentesController extends Controller
     public function destroy($id)
     {
 
-        DB::table('dependentes')->where('id', $id)->delete();
-        app('flasher')->addWarning('O cadastro do Dependente foi Removido com Sucesso.');
+        DB::table('dependentes')
+            ->where('id', $id)
+            ->delete();
+        app('flasher')
+            ->addWarning('O cadastro do Dependente foi Removido com Sucesso.');
         return redirect()->back();
     }
 }

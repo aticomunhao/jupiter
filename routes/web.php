@@ -91,7 +91,7 @@ Route::any('/atualizar-entidade-ensino/{id}', [App\Http\Controllers\GerenciarEnt
 
 /* Rota Para Tipos de Acordos*/
 Route::get('/gerenciar-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'index'])->name('indexGerenciarAcordos');
-Route::get('/incluir-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'create']);Route::get('/armazenar-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'store']);
+Route::get('/incluir-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'create']);Route::any('/armazenar-acordos/{id}',[App\Http\Controllers\GerenciarAcordosController::class, 'store']);
 
 
 /**Rotas de Entrada**/

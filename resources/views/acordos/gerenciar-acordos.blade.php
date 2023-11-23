@@ -63,7 +63,7 @@
                                                 <td scope="">{{$acordo->valido}}</td>
                                                 <td scope="">{{\Carbon\Carbon::parse($acordo->data_fim)->format('d/m/Y')}}</td>
                                                 <td scope="">{{$acordo->observacao}}</td>
-                                                <td scope = ""><a href="{{asset("storage/$acordo->caminho")}}">Ico</a></td>
+                                                <td scope = ""><a href="{{asset("storage/public/images/$acordo->caminho")}}">Ico</a></td>
                                                 <td scope="">
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
