@@ -41,7 +41,7 @@
                                     </select>
                                 </div>
                                 <div class="col-5">Nome completo
-                                    <input class="form-control"  type="text" maxlength="40" id="2" name="nomecomp_dep" value="{{$dependente->nome_dependente}}" required="required">
+                                    <input class="form-control"  type="text" maxlength="40"  name="nomecomp_dep" value="{{$dependente->nome_dependente}}" required="required">
                                 </div>
                                 <div class="col-3">Data nascimento
                                     <input class="form-control" type="date" value="{{$dependente->dt_nascimento}}" id="3" name="dtnasc_dep" required="required">

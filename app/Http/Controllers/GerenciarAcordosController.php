@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Http;
 
 
 use DateTime;
+use mysql_xdevapi\Table;
 
 
 class GerenciarAcordosController extends Controller
@@ -83,23 +84,20 @@ class GerenciarAcordosController extends Controller
 
         $dataDeHoje = date('dmYHis');
         $nomeArquivo = "{$funcionario->cpf}{$dataDeHoje}";
+        $file = $request->file('ficheiro');
+        $extension = $file->getClientOriginalExtension();
+        $filePath = $file->storeAs('public/images', "{$nomeArquivo}.{$extension}");
 
-        // Check if the file was uploaded
+        DB::table('acordos')->insert([
+            'id_tp_acordo' => $request->input('tipo_acordo'),
+            'data_inicio' => $request->input('dt_inicio'),
+            'data_fim' => $request->input('dt_fim'),
+            'id_funcionario' => $idf,
+            'observacao' => $request->input('observacao'),
+            'caminho' => "{$nomeArquivo}.{$extension}"
+        ]);
 
-            $file = $request->file('ficheiro');
-            $extension = $file->getClientOriginalExtension();
-            $filePath = $file->storeAs('public/images', "{$nomeArquivo}.{$extension}");
-
-            DB::table('acordos')->insert([
-                'id_tp_acordo' => $request->input('tipo_acordo'),
-                'data_inicio' => $request->input('dt_inicio'),
-                'data_fim'  => $request->input('dt_fim'),
-                'id_funcionario' => $idf,
-                'observacao' => $request->input('observacao'),
-                'caminho' => "{$nomeArquivo}.{$extension}"
-            ]);
-
-            return redirect()->route('indexGerenciarAcordos',['id' => $idf]);
+        return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
 
 
     }
@@ -117,7 +115,19 @@ class GerenciarAcordosController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $acordo = Db::table('acordos')->where('id', $id)->first();
+
+
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
+
+        $tipoacordo = DB::select('select * from tp_acordo');
+
+
+        return view('acordos.editar-acordos', compact('acordo', 'funcionario', 'tipoacordo'));
+
+
     }
 
     /**
@@ -125,15 +135,57 @@ class GerenciarAcordosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+
+        $acordo = Db::table('acordos')->where('id_funcionario', $id)->first();
+
+
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
+
+        if ($request->file('ficheiro') ==  'null') {
+            Db::table('acordos')
+                ->where( 'id', $acordo->id)
+                ->update(values: array(
+                    'id_tp_acordo' => $request->input(key:'tipo_acordo'),
+                    'data_inicio' => $request->input(key:'dt_inicio'),
+                    'data_fim' => $request->input(key: 'dt_fim'),
+                    'observacao' => $request->input(key: 'observacao')
+                ));
+
+            return redirect()->route('indexGerenciarAcordos', ['id'=>$id]);
+
+        } elseif ($request->file('ficheiro') <> 'null'){
+
+            $dataDeHoje = date('dmYHis');
+            $nomeArquivo = "{$funcionario->cpf}{$dataDeHoje}";
+            $file = $request->file('ficheiroNovo');
+
+            $extension = $file->getClientOriginalExtension();
+            $filePath = $file->storeAs('public/images', "{$nomeArquivo}.{$extension}");
+
+            Db::table('acordos')
+                ->where('id', $acordo->id)
+                ->update(values: array(
+                    'id_tp_acordo' => $request->input('tipo_acordo'),
+                    'data_inicio' => $request->input('dt_inicio'),
+                    'data_fim' => $request->input('dt_fim'),
+                    'observacao' => $request->input('observacao'),
+                    'caminho' => "{$nomeArquivo}.{$extension}"
+                ));
+            return redirect()->route('indexGerenciarAcordos', ['id'=>$id]);
+
+        }
+
+
+
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy(string $id)
     {
-        Db::table('acordos')->where('id',$id)->delete();
+        Db::table('acordos')->where('id', $id)->delete();
         return redirect()->back();
     }
 }

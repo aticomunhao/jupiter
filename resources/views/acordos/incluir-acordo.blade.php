@@ -32,7 +32,7 @@
                                 <hr>
                                 <div class="form-group row">
                                     <div class="form-group col-2">Tipo de Acordo
-                                        <select class="form-select" id="4" name="tipo_acordo" required="required">
+                                        <select class="form-select"  name="tipo_acordo" required="required">
                                             @foreach ($tipoacordo as $tiposacordos)
                                                 <option value="{{ $tiposacordos->id }}">{{ $tiposacordos->nome }}</option>
                                             @endforeach
