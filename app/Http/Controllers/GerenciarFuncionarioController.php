@@ -51,10 +51,10 @@ class GerenciarFuncionarioController extends Controller
             $lista->where('p.nome_completo', 'LIKE', '%' . $request->nome . '%');
         }
 
-        $lista = $lista->orderBy( 'p.status','asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
+        $lista = $lista->orderBy('p.status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
 
-       return view('/funcionarios.gerenciar-funcionario', compact ('lista', 'cpf', 'idt', 'status', 'nome'));
+        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome'));
 
     }
 
@@ -112,42 +112,39 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-       try{
-          $validated = $request->validate([
-              //'telefone' => 'required|telefone',
-              'cpf' => 'required|cpf',
-              //'cnpj' => 'required|cnpj',
-              // outras validações aqui
-          ]);
-      } catch (\Illuminate\Validation\ValidationException $e) {
+        try {
+            $validated = $request->validate([
+                //'telefone' => 'required|telefone',
+                'cpf' => 'required|cpf',
+                //'cnpj' => 'required|cnpj',
+                // outras validações aqui
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
 
-          app('flasher')->addError('Este CPF não é válido');
+            app('flasher')->addError('Este CPF não é válido');
 
-          return redirect()->back()->withInput();
-          //dd($e->errors());
-      }
+            return redirect()->back()->withInput();
+            //dd($e->errors());
+        }
 
-      if ($vercpf > 1) {
+        if ($vercpf > 1) {
 
 
-          app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+            app('flasher')->addError('Existe outro cadastro usando este número de CPF');
 
-          return redirect()->back()->withInput();
-      }
-      else
-      {
-            {
+            return redirect()->back()->withInput();
+        } else { {
 
                 DB::table('pessoas')->insert([
                     'nome_completo' => $request->input('nome_completo'),
                     'idt' => $request->input('identidade'),
-                    'orgao_expedidor' =>  $request->input('orgexp'),
-                    'uf_idt' =>  $request->input('uf_idt'),
-                    'dt_emissao_idt' =>  $request->input('dt_idt'),
+                    'orgao_expedidor' => $request->input('orgexp'),
+                    'uf_idt' => $request->input('uf_idt'),
+                    'dt_emissao_idt' => $request->input('dt_idt'),
                     'dt_nascimento' => $request->input('dt_nascimento'),
                     'sexo' => $request->input('sexo'),
                     'nacionalidade' => $request->input('pais'),
-                    'uf_natural' =>  $request->input('uf_nat'),
+                    'uf_natural' => $request->input('uf_nat'),
                     'naturalidade' => $request->input('natura'),
                     'cpf' => $request->input('cpf'),
                     'email' => $request->input('email'),
@@ -190,7 +187,7 @@ class GerenciarFuncionarioController extends Controller
 
                 DB::table('endereco_pessoas')->insert([
                     'cep' => str_replace('-', '', $request->input('cep')),
-                    'id_uf_end' =>  $request->input('uf_end'),
+                    'id_uf_end' => $request->input('uf_end'),
                     'id_cidade' => $request->input('cidade'),
                     'logradouro' => $request->input('logradouro'),
                     'numero' => $request->input('numero'),
@@ -228,21 +225,61 @@ class GerenciarFuncionarioController extends Controller
             ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
 
 
-        ->select('f.id_pessoa AS idp', 'f.id AS idf','p.nome_completo', 'f.matricula', 'f.titulo_eleitor', 'f.zona_tit', 'f.secao_tit', 'f.dt_titulo',
-        'p.celular', 'f.dt_emissao_ctps', 'f.ctps', 'f.serie', 'f.reservista', 'f.nome_pai', 'f.nome_mae', 'p.email',
-        'f.id_cat_cnh', 'tpcnh.id AS tpcn','tpcnh.nome_cat AS nmcnh','p.orgao_expedidor', 'p.cpf', 'p.idt', 'p.dt_emissao_idt', 'p.nacionalidade',
-        'tp_sangue.id','p.dt_nascimento', 'tp_sangue.id AS tpsang', 'tp_sangue.nome_sangue AS nmsangue','tp_sexo.id AS id_tps', 'tp_sexo.tipo AS tps','tp_programa.id AS tpprog',
-        'tp_programa.programa AS prog', 'tn.id AS tpnac', 'tn.local AS tnl', 'tp_cor_pele.id AS tpcor','tp_cor_pele.nome_cor AS nmpele', 'tp_ddd.id AS tpd',
-        'tp_ddd.descricao AS dddesc', 'tp_uf.id AS tuf', 'tp_uf.sigla AS ufsgl','p.uf_natural', 'p.naturalidade', 'tc.id_cidade', 'tc.descricao AS nat')
-        ->where('f.id', $idf)
-        ->get();
+            ->select(
+                'f.id_pessoa AS idp',
+                'f.id AS idf',
+                'p.nome_completo',
+                'f.matricula',
+                'f.titulo_eleitor',
+                'f.zona_tit',
+                'f.secao_tit',
+                'f.dt_titulo',
+                'p.celular',
+                'f.dt_emissao_ctps',
+                'f.ctps',
+                'f.serie',
+                'f.reservista',
+                'f.nome_pai',
+                'f.nome_mae',
+                'p.email',
+                'f.id_cat_cnh',
+                'tpcnh.id AS tpcn',
+                'tpcnh.nome_cat AS nmcnh',
+                'p.orgao_expedidor',
+                'p.cpf',
+                'p.idt',
+                'p.dt_emissao_idt',
+                'p.nacionalidade',
+                'tp_sangue.id',
+                'p.dt_nascimento',
+                'tp_sangue.id AS tpsang',
+                'tp_sangue.nome_sangue AS nmsangue',
+                'tp_sexo.id AS id_tps',
+                'tp_sexo.tipo AS tps',
+                'tp_programa.id AS tpprog',
+                'tp_programa.programa AS prog',
+                'tn.id AS tpnac',
+                'tn.local AS tnl',
+                'tp_cor_pele.id AS tpcor',
+                'tp_cor_pele.nome_cor AS nmpele',
+                'tp_ddd.id AS tpd',
+                'tp_ddd.descricao AS dddesc',
+                'tp_uf.id AS tuf',
+                'tp_uf.sigla AS ufsgl',
+                'p.uf_natural',
+                'p.naturalidade',
+                'tc.id_cidade',
+                'tc.descricao AS nat'
+            )
+            ->where('f.id', $idf)
+            ->get();
 
         //dd($editar);
 
 
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
         $tpsangue = DB::table('tp_sangue')->select('id', 'nome_sangue')->get();
-        $tpnacionalidade =  DB::table('tp_nacionalidade')->select('id', 'local')->get();
+        $tpnacionalidade = DB::table('tp_nacionalidade')->select('id', 'local')->get();
         $tppele = DB::table('tp_cor_pele')->select('id', 'nome_cor')->get();
         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
         $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
@@ -264,184 +301,187 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-    public function update(Request $request, $idf, $idp){
+    public function update(Request $request, $idf, $idp)
+    {
 
 
- //dd($idp);
+        //dd($idp);
 
- // $valid = DB::select('select*from pessoas');
- // dd($valid);
+        // $valid = DB::select('select*from pessoas');
+        // dd($valid);
 
- //dd($idf);
+        //dd($idf);
 
- //dd($request->all());
+        //dd($request->all());
 
-  $cpf = $request->cpf;
+        $cpf = $request->cpf;
 
-  $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
-
-
-//dd($vercpf);
-
- try{
-    $validated = $request->validate([
-        //'telefone' => 'required|telefone',
-        'cpf' => 'required|cpf',
-        //'cnpj' => 'required|cnpj',
-        // outras validações aqui
-    ]);
-} catch (\Illuminate\Validation\ValidationException $e) {
-
-    app('flasher')->addError('Este CPF não é válido');
-
-    return redirect()->back()->withInput();
-    //dd($e->errors());
-}
-
-if ($vercpf > 1) {
+        $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
 
 
-    app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+        //dd($vercpf);
 
-    return redirect()->back()->withInput();
-}
-else
-{
+        try {
+            $validated = $request->validate([
+                //'telefone' => 'required|telefone',
+                'cpf' => 'required|cpf',
+                //'cnpj' => 'required|cnpj',
+                // outras validações aqui
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
 
+            app('flasher')->addError('Este CPF não é válido');
 
-      DB::table('pessoas')
-       ->where('id', $idp)
-       ->update(['nome_completo' => $request->input('nome_completo'),
-                 'idt' => $request->input('identidade'),
-                 'orgao_expedidor' =>  $request->input('orgexp'),
-                 'uf_idt' =>  $request->input('uf_idt'),
-                 'dt_emissao_idt' =>  $request->input('dt_idt'),
-                 'dt_nascimento' => $request->input('dt_nascimento'),
-                 'sexo' => $request->input('sexo'),
-                 'nacionalidade' => $request->input('pais'),
-                 'uf_natural' =>  $request->input('uf_nat'),
-                 'naturalidade' => $request->input('natura'),
-                 'cpf' => $request->input('cpf'),
-                 'email' => $request->input('email'),
-                 'ddd' => $request->input('ddd'),
-                 'celular' => $request->input('celular'),
+            return redirect()->back()->withInput();
+            //dd($e->errors());
+        }
+
+        if ($vercpf > 1) {
 
 
+            app('flasher')->addError('Existe outro cadastro usando este número de CPF');
 
+            return redirect()->back()->withInput();
+        } else {
+
+
+            DB::table('pessoas')
+                ->where('id', $idp)
+                ->update([
+                    'nome_completo' => $request->input('nome_completo'),
+                    'idt' => $request->input('identidade'),
+                    'orgao_expedidor' => $request->input('orgexp'),
+                    'uf_idt' => $request->input('uf_idt'),
+                    'dt_emissao_idt' => $request->input('dt_idt'),
+                    'dt_nascimento' => $request->input('dt_nascimento'),
+                    'sexo' => $request->input('sexo'),
+                    'nacionalidade' => $request->input('pais'),
+                    'uf_natural' => $request->input('uf_nat'),
+                    'naturalidade' => $request->input('natura'),
+                    'cpf' => $request->input('cpf'),
+                    'email' => $request->input('email'),
+                    'ddd' => $request->input('ddd'),
+                    'celular' => $request->input('celular'),
 
 
 
 
 
-    ]);
 
 
-      DB::table('funcionarios')
-      ->where('id', $idf)
-      ->update(['dt_inicio'=> $request->input('dt_ini'),
-                'matricula'=> $request->input('matricula'),
-                'tp_programa' => $request->input('programa'),
-                'nr_programa' => $request->input('programa'),
-                'id_cor_pele' => $request->input('cor'),
-                'id_tp_sangue' => $request->input('tps'),
-                'fator_rh' => $request->input('frh'),
-                'titulo_eleitor' => $request->input('titele'),
-                'dt_titulo' => $request->input('dt_titulo'),
-                'zona_tit' => $request->input('zona'),
-                'secao_tit' => $request->input('secao'),
-                'ctps' => $request->input('ctps'),
-                'serie' => $request->input('serie_ctps'),
-                'uf_ctps' => $request->input('uf_ctps'),
-                'dt_emissao_ctps' => $request->input('dt_ctps'),
-                'reservista' => $request->input('reservista'),
-                'nome_mae' => $request->input('nome_mae'),
-                'nome_pai' => $request->input('nome_pai'),
-                'id_cat_cnh' => $request->input('cnh')
 
-      ]);
+                ]);
 
-      app('flasher')->addSuccess('Edição feita com Sucesso!');
 
+            DB::table('funcionarios')
+                ->where('id', $idf)
+                ->update([
+                    'dt_inicio' => $request->input('dt_ini'),
+                    'matricula' => $request->input('matricula'),
+                    'tp_programa' => $request->input('programa'),
+                    'nr_programa' => $request->input('programa'),
+                    'id_cor_pele' => $request->input('cor'),
+                    'id_tp_sangue' => $request->input('tps'),
+                    'fator_rh' => $request->input('frh'),
+                    'titulo_eleitor' => $request->input('titele'),
+                    'dt_titulo' => $request->input('dt_titulo'),
+                    'zona_tit' => $request->input('zona'),
+                    'secao_tit' => $request->input('secao'),
+                    'ctps' => $request->input('ctps'),
+                    'serie' => $request->input('serie_ctps'),
+                    'uf_ctps' => $request->input('uf_ctps'),
+                    'dt_emissao_ctps' => $request->input('dt_ctps'),
+                    'reservista' => $request->input('reservista'),
+                    'nome_mae' => $request->input('nome_mae'),
+                    'nome_pai' => $request->input('nome_pai'),
+                    'id_cat_cnh' => $request->input('cnh')
+
+                ]);
+
+            app('flasher')->addSuccess('Edição feita com Sucesso!');
+
+            return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+        }
+
+    }
+
+    public function delete($idf)
+    {
+
+
+
+
+        $funcionario = DB::table('funcionarios')->where('id', $idf)->first();
+
+
+
+
+
+
+        $dependentes = DB::select('select * from dependentes');
+
+        foreach ($dependentes as $dependente) {
+
+            if ($idf == $dependente->id_funcionario) {
+                app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
+                return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+            }
+        }
+
+
+        $certficado = DB::select('select * from certificados');
+
+
+
+        foreach ($certficado as $certificados) {
+
+
+            if ($idf == $certificados->id_funcionario) {
+                app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois possui certificado cadastrado com o nome de $certificados->nome");
+                return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+            }
+        }
+
+
+        $dados_bancario = DB::select('select * from dados_bancarios');
+
+
+        foreach ($dados_bancario as $dados_bancarios) {
+            if ($funcionario->id_pessoa == $dados_bancarios->id_pessoa) {
+
+                app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
+            }
+
+        }
+
+
+
+
+
+
+        DB::table('funcionarios')->where('id', $idf)->delete();
+
+
+        app('flasher')->addSuccess('O cadastro do funcionario foi Removido com Sucesso.');
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
-    }
 
     }
 
-public function delete($idf){
+    public function pes_func($idf)
+    {
+
+        $up = DB::table('pessoas As p')
+            ->select('p.nome_completo', 'p.celular', 'p.email')
+            ->where('id', $idf);
 
 
+        $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
+        $tpnacionalidade = DB::table('tp_nacionalidade')->select('id', 'local')->get();
+        $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
+        $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
 
-
-    $funcionario = DB::table('funcionarios')->where('id', $idf)->first();
-
-
-
-
-
-
-    $dependentes = DB::select('select * from dependentes');
-
-    foreach ($dependentes as $dependente) {
-
-        if($idf == $dependente->id_funcionario){
-            app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
-            return redirect()->action([GerenciarFuncionarioController::class, 'index']);
-        }
-    }
-
-
-    $certficado = DB:: select('select * from certificados');
-
-
-
-   foreach ($certficado as $certificados){
-
-
-        if($idf == $certificados->id_funcionario){
-            app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois possui certificado cadastrado com o nome de $certificados->nome");
-            return redirect()->action([GerenciarFuncionarioController::class, 'index']);
-       }
-    }
-
-
-    $dados_bancario = DB::select('select * from dados_bancarios');
-
-
-    foreach ($dados_bancario as $dados_bancarios){
-        if($funcionario->id_pessoa == $dados_bancarios->id_pessoa){
-
-        app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
-        }
 
     }
-
-
-
-
-
-
-   DB::table('funcionarios')->where('id', $idf)->delete();
-
-
-app('flasher')->addSuccess('O cadastro do funcionario foi Removido com Sucesso.');
-return redirect()->action([GerenciarFuncionarioController::class, 'index']);
-
-}
-
-public function pes_func($idf){
-
- $up = DB:: table('pessoas As p')
- ->select('p.nome_completo', 'p.celular', 'p.email')
- ->where('id', $idf);
-
-
- $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
- $tpnacionalidade =  DB::table('tp_nacionalidade')->select('id', 'local')->get();
- $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
- $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
-
-
-}
 
 
 }

@@ -1,11 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-12">
-            <form class="form-horizontal mt-4" method="POST" action="/cad-voluntario/inserir">
-                @csrf
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <form class="form-horizontal mt-4" method="POST" action="/cad-voluntario/inserir">
+                    @csrf
                     <div class="form-group row">
                         <div class="col">Matrícula
                             <input class="form-control" required="required" type="numeric" id="1" name="matricula">
@@ -24,7 +24,8 @@
                     <div class="row mt-10">
                         <div class="col-md-4">
                             <label for="cep" class="form-label">CEP</label>
-                            <input type="numeric" class="form-control cep-mask"  id="24" name="cep" placeholder="Ex.:00000-000">
+                            <input type="numeric" class="form-control cep-mask" id="24" name="cep"
+                                placeholder="Ex.:00000-000">
                         </div>
                         <div class="col-md-4">
                             <label for="logradouro" class="form-label">Logradouro</label>
@@ -60,7 +61,7 @@
                         </div>
                 </form>
 
+            </div>
         </div>
     </div>
-</div>
 @endsection

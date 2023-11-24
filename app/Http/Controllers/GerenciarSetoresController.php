@@ -15,10 +15,10 @@ class GerenciarSetoresController extends Controller
     public function index(Request $request)
     {
 
-$lista = DB::table('tp_nivel_setor AS tns')
-    ->whereIn('tns.id', ['1', '2'])
-    ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
-    ->get();
+        $lista = DB::table('tp_nivel_setor AS tns')
+            ->whereIn('tns.id', ['1', '2'])
+            ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
+            ->get();
 
 
 
