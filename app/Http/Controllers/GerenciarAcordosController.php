@@ -7,10 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-
-
+use File;
 use DateTime;
-use mysql_xdevapi\Table;
+use Illuminate\Support\Facades\Storage;
 
 
 class GerenciarAcordosController extends Controller
@@ -81,23 +80,36 @@ class GerenciarAcordosController extends Controller
             ->select('pessoas.nome_completo', 'pessoas.cpf', 'funcionarios.id')
             ->where('funcionarios.id', $idf)
             ->first();
+        $caminho = $request->file('ficheiro')->store('public/images');
+        if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null) {
 
-        $dataDeHoje = date('dmYHis');
-        $nomeArquivo = "{$funcionario->cpf}{$dataDeHoje}";
-        $file = $request->file('ficheiro');
-        $extension = $file->getClientOriginalExtension();
-        $filePath = $file->storeAs('public/images', "{$nomeArquivo}.{$extension}");
+            app('flasher')->addError('A data inicial é maior que a data final');
+            return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
 
-        DB::table('acordos')->insert([
-            'id_tp_acordo' => $request->input('tipo_acordo'),
-            'data_inicio' => $request->input('dt_inicio'),
-            'data_fim' => $request->input('dt_fim'),
-            'id_funcionario' => $idf,
-            'observacao' => $request->input('observacao'),
-            'caminho' => "{$nomeArquivo}.{$extension}"
-        ]);
+        } elseif ($request->input('dt_fim') == null) {
+            DB::table('acordos')->insert([
+                'id_tp_acordo' => $request->input('tipo_acordo'),
+                'data_inicio' => $request->input('dt_inicio'),
+                'id_funcionario' => $idf,
+                'observacao' => $request->input('observacao'),
+                'caminho' => $caminho
+            ]);
+            app('flasher')->addInfo('O cadastro do Acordo foi realizado com sucesso.');
+            return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
 
-        return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
+        } else {
+
+            DB::table('acordos')->insert([
+                'id_tp_acordo' => $request->input('tipo_acordo'),
+                'data_inicio' => $request->input('dt_inicio'),
+                'data_fim' => $request->input('dt_fim'),
+                'id_funcionario' => $idf,
+                'observacao' => $request->input('observacao'),
+                'caminho' => $caminho
+            ]);
+            app('flasher')->addInfo('O cadastro do Acordo foi realizado com sucesso.');
+            return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
+        }
 
 
     }
@@ -124,7 +136,6 @@ class GerenciarAcordosController extends Controller
 
         $tipoacordo = DB::select('select * from tp_acordo');
 
-
         return view('acordos.editar-acordos', compact('acordo', 'funcionario', 'tipoacordo'));
 
 
@@ -136,10 +147,10 @@ class GerenciarAcordosController extends Controller
     public function update(Request $request, string $id)
     {
         $acordo = Db::table('acordos')->where('id_funcionario', $id)->first();
-
         $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
             ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')
+            ->where('funcionarios.id', $acordo->id_funcionario)
             ->first();
 
         if ($request->file('ficheiro') == null) {
@@ -151,32 +162,37 @@ class GerenciarAcordosController extends Controller
                     'data_fim' => $request->input('dt_fim'),
                     'observacao' => $request->input('observacao')
                 ]);
+            app('flasher')->addWarning('O cadastro do Acordo foi Alterado com Sucesso.');
+            return redirect()->route('indexGerenciarAcordos', ['id' => $acordo->id_funcionario]);
 
+        } elseif ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null) {
+            app('flasher')->addError('A data inicial é maior que a data final');
             return redirect()->route('indexGerenciarAcordos', ['id' => $id]);
-        } elseif ($request->file('ficheiro') != null) {
+        } elseif ($request->file('ficheiro') != null and $request->hasFile('ficheiroNovo')) {
             // Check if the file is present in the request
-            if ($request->hasFile('ficheiroNovo')) {
-                $caminho = $request->file('ficheiroNovo')->store('public/images');
-
-                Db::table('acordos')
-                    ->where('id', $acordo->id)
-                    ->update([
-                        'id_tp_acordo' => $request->input('tipo_acordo'),
-                        'data_inicio' => $request->input('dt_inicio'),
-                        'data_fim' => $request->input('dt_fim'),
-                        'observacao' => $request->input('observacao'),
-                        'caminho' => $caminho
-                    ]);
-
-                return redirect()->route('indexGerenciarAcordos', ['id' => $id]);
-            }
-        }
+            $caminho = $request->file('ficheiroNovo')->store('public/images');
+            Db::table('acordos')
+                ->where('id', $acordo->id)
+                ->update([
+                    'id_tp_acordo' => $request->input('tipo_acordo'),
+                    'data_inicio' => $request->input('dt_inicio'),
+                    'data_fim' => $request->input('dt_fim'),
+                    'observacao' => $request->input('observacao'),
+                    'caminho' => $caminho
+                ]);
+        };
+        app('flasher')->addWarning('O cadastro do Acordo foi Alterado com Sucesso.');
+        return redirect()->route('indexGerenciarAcordos', ['id' => $acordo->id_funcionario]);
     }
 
 
     public function destroy(string $id)
     {
+        $acordo = Db::table('acordos')->where('id', $id)->first();
+        Storage::delete($acordo->caminho);
         Db::table('acordos')->where('id', $id)->delete();
+        app('flasher')
+            ->addWarning('O cadastro do Acordo foi Removido com Sucesso.');
         return redirect()->back();
     }
 }

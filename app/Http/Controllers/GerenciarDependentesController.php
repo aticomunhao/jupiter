@@ -131,7 +131,7 @@ class GerenciarDependentesController extends Controller
                 'dt_nascimento' => $request->input('dtnasc_dep'),
                 'id_parentesco' => $request->input('relacao_dep')
             ]);
-        app('flasher')->addWarning('O cadastro do Dependente alterado com Sucesso.');
+        app('flasher')->addWarning('O cadastro do Dependente  foi alterado com Sucesso.');
         return redirect()->route('Potato', ['id' => $idf]);
     }
 

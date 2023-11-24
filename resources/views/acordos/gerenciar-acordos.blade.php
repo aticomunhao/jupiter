@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+<title>Gerenciar Acordos </title>
 @section('content')
     <div class="container">
         <div class="justify-content-center">
@@ -10,7 +10,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6"><span
-                                        style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar-Dependentes</span>
+                                        style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar-Acordos</span>
                                 </div>
                                 <div class="col-6">
                                 </div>
@@ -83,7 +83,7 @@
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <div class="row">
-                                                                        <h2>Excluir Dependente</h2>
+                                                                        <h2>Excluir Acordo</h2>
                                                                     </div>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal" aria-label="Close"></button>
