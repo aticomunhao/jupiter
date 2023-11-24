@@ -122,15 +122,18 @@ class GerenciarDependentesController extends Controller
             ->where('funcionarios.id', $dependente->id_funcionario)
             ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
 
-        $dependentes = DB::select('select * from dependentes');
 
-        foreach ($dependentes as $dependente) {
-            if (intval($request->input('cpf_dep')) == $dependente->cpf) {
-                app('flasher')->addError('Existe outro cadastro usando este número de CPF');
-                return redirect()->route('IndexGerenciarDependentes', ['id' => $funcionario->id]);
-            } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario->dt_nascimento)) {
-                app('flasher')->addError('A data do Filho cadastrado é mais velha ou igual a do funcionario');
-                return redirect()->route('IndexGerenciarDependentes', ['id' => $funcionario->id]);
+        if ($request->input('cpf_dep') <> $dependente->cpf) {
+            $dependentes = DB::select('select * from dependentes');
+            foreach ($dependentes as $dependente) {
+
+                if (intval($request->input('cpf_dep')) == $dependente->cpf) {
+                    app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+                    return redirect()->route('IndexGerenciarDependentes', ['id' => $funcionario->id]);
+                } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario->dt_nascimento)) {
+                    app('flasher')->addError('A data do Filho cadastrado é mais velha ou igual a do funcionario');
+                    return redirect()->route('IndexGerenciarDependentes', ['id' => $funcionario->id]);
+                }
             }
         }
 
@@ -152,7 +155,8 @@ class GerenciarDependentesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
 
         DB::table('dependentes')
