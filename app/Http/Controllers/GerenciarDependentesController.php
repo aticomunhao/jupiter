@@ -15,12 +15,9 @@ class GerenciarDependentesController extends Controller
      */
     public function index($idf)
     {
-        $funcionario = DB::select("select
-                            f.id,
-                            p.nome_completo
-                            from funcionarios f
-                            left join pessoas p on f.id_pessoa = p.id
-                            where f.id = $idf");
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
         //dd($funcionario);
 
         $identificadorDep = DB::select("select nome_dependente from dependentes where id_funcionario = $idf");
@@ -58,7 +55,10 @@ class GerenciarDependentesController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $funcionario = DB::select("select f.id, p.dt_nascimento, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
+        //$funcionario = DB::select("select f.id, p.dt_nascimento, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
         $dependentes = DB::select('select * from dependentes');
 
         $dataHoje = Carbon::now();
@@ -66,12 +66,12 @@ class GerenciarDependentesController extends Controller
             if (intval($request->input('cpf_dep')) == $dependente->cpf) {
                 app('flasher')->addError('Existe outro cadastro usando este número de CPF');
                 return redirect()->route('Potato', ['id' => $id]);
-            } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario[0]->dt_nascimento)) {
+            } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario->dt_nascimento)) {
                 app('flasher')->addError('A data do Filho cadastrado é mais velha ou igual a do funcionario');
                 return redirect()->route('Potato', ['id' => $id]);
             }
         }
-        $current = Carbon::today()->format('Y-m-d');
+
         DB::table('dependentes')->insert([
             'nome_dependente' => $request->input('nomecomp_dep'),
             'dt_nascimento' => $request->input('dtnasc_dep'),
@@ -80,12 +80,9 @@ class GerenciarDependentesController extends Controller
             'id_parentesco' => $request->input('relacao_dep')
         ]);
 
-
         app('flasher')->addInfo('O cadastro do dependente foi realizado com sucesso.');
         return redirect()->route('Potato', ['id' => $id]);
     }
-
-
 
 
     /**
@@ -102,13 +99,12 @@ class GerenciarDependentesController extends Controller
     public function edit($id)
     {
         $dependente = DB::table('dependentes')->where('id', $id)->first();
-
-
-
-        $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_funcionario");
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
+        // $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_funcionario");
 
         $tp_relacao = DB::select("select * from tp_parentesco");
-
 
 
         return view('dependentes.editar-dependentes', compact('dependente', 'tp_relacao', 'funcionario'));
@@ -119,8 +115,26 @@ class GerenciarDependentesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $dependente = Db::table('dependentes')->where('id', $id)->first();
 
-        $funcionario = DB::select("select id_funcionario from dependentes d where d.id = $id");
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->where('funcionarios.id', $dependente->id_funcionario)
+            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
+
+        $dependentes = DB::select('select * from dependentes');
+
+        foreach ($dependentes as $dependente) {
+            if (intval($request->input('cpf_dep')) == $dependente->cpf) {
+                app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+                return redirect()->route('Potato', ['id' => $funcionario->id]);
+            } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario->dt_nascimento)) {
+                app('flasher')->addError('A data do Filho cadastrado é mais velha ou igual a do funcionario');
+                return redirect()->route('Potato', ['id' => $funcionario->id]);
+            }
+        }
+
+
         $idf = DB::table('dependentes AS d')->where('id', $id)->select('id_funcionario')->value('id_funcionario');
 
         DB::table('dependentes')
@@ -132,7 +146,7 @@ class GerenciarDependentesController extends Controller
                 'id_parentesco' => $request->input('relacao_dep')
             ]);
         app('flasher')->addWarning('O cadastro do Dependente  foi alterado com Sucesso.');
-        return redirect()->route('Potato', ['id' => $idf]);
+        return redirect()->route('Potato', ['id' => $funcionario->id]);
     }
 
     /**

@@ -25,8 +25,8 @@
                     <div class="row">
                         <div class="col-5">
                         <div class="card" style="padding: 0px">
-                            <div class="card-body bg-body-secondary" value= {{$funcionario[0]->id}}>
-                                  <span  style="color: rgb(16, 19, 241); font-size:15px;">{{$funcionario[0]->nome_completo}}</span>
+                            <div class="card-body bg-body-secondary" value= {{$funcionario->id}}>
+                                  <span  style="color: rgb(16, 19, 241); font-size:15px;">{{$funcionario->nome_completo}}</span>
                             </div>
                         </div>
                         </div>
@@ -53,7 +53,7 @@
                     <br>
                     <div class="row">
                         <div class="d-grid gap-1 col-2 mx-auto">
-                            <a class="btn btn-danger btn-sm" href="/gerenciar-dependentes/{{ $funcionario[0]->id }}"
+                            <a class="btn btn-danger btn-sm" href="/gerenciar-dependentes/{{ $funcionario->id }}"
                                 role="button">Cancelar</a>
                         </div>
                             <div class="d-grid gap-3 col-2 mx-auto">
