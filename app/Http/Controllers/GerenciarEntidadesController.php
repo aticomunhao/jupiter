@@ -38,7 +38,7 @@ class GerenciarEntidadesController extends Controller
             'nome_tpentensino' => $request->input('nome_ent')
         ]);
         app('flasher')->addSuccess("Entidade cadastrada com sucesso");
-        return redirect()->route('batata');
+        return redirect()->route('IndexGerenciarEntidades');
     }
 
     /**
@@ -73,7 +73,7 @@ class GerenciarEntidadesController extends Controller
             ]);
 
         app('flasher')->addInfo("Entidade editada com sucesso");
-        return redirect()->route('batata');
+        return redirect()->route('IndexGerenciarEntidades');
     }
 
     /**

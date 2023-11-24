@@ -65,10 +65,10 @@ class GerenciarDependentesController extends Controller
         foreach ($dependentes as $dependente) {
             if (intval($request->input('cpf_dep')) == $dependente->cpf) {
                 app('flasher')->addError('Existe outro cadastro usando este número de CPF');
-                return redirect()->route('Potato', ['id' => $id]);
+                return redirect()->route('IndexGerenciarDependentes', ['id' => $id]);
             } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario->dt_nascimento)) {
                 app('flasher')->addError('A data do Filho cadastrado é mais velha ou igual a do funcionario');
-                return redirect()->route('Potato', ['id' => $id]);
+                return redirect()->route('IndexGerenciarDependentes', ['id' => $id]);
             }
         }
 
@@ -81,7 +81,7 @@ class GerenciarDependentesController extends Controller
         ]);
 
         app('flasher')->addInfo('O cadastro do dependente foi realizado com sucesso.');
-        return redirect()->route('Potato', ['id' => $id]);
+        return redirect()->route('IndexGerenciarDependentes', ['id' => $id]);
     }
 
 
@@ -127,10 +127,10 @@ class GerenciarDependentesController extends Controller
         foreach ($dependentes as $dependente) {
             if (intval($request->input('cpf_dep')) == $dependente->cpf) {
                 app('flasher')->addError('Existe outro cadastro usando este número de CPF');
-                return redirect()->route('Potato', ['id' => $funcionario->id]);
+                return redirect()->route('IndexGerenciarDependentes', ['id' => $funcionario->id]);
             } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario->dt_nascimento)) {
                 app('flasher')->addError('A data do Filho cadastrado é mais velha ou igual a do funcionario');
-                return redirect()->route('Potato', ['id' => $funcionario->id]);
+                return redirect()->route('IndexGerenciarDependentes', ['id' => $funcionario->id]);
             }
         }
 
@@ -146,7 +146,7 @@ class GerenciarDependentesController extends Controller
                 'id_parentesco' => $request->input('relacao_dep')
             ]);
         app('flasher')->addWarning('O cadastro do Dependente  foi alterado com Sucesso.');
-        return redirect()->route('Potato', ['id' => $funcionario->id]);
+        return redirect()->route('IndexGerenciarDependentes', ['id' => $funcionario->id]);
     }
 
     /**
