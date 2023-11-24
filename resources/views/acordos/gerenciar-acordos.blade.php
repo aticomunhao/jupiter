@@ -44,10 +44,10 @@
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-1">Tipo de Acordo</th>
+                                            <th class="col-2">Tipo de Acordo</th>
                                             <th class="col-2">Data de Inicio</th>
                                             <th class="col-1">Valido</th>
-                                            <th class="col-2">Data  deFim</th>
+                                            <th class="col-2">Data de Fim</th>
                                             <th class="col-3">Observações</th>
                                             <th class="col-1">Arquivo</th>
                                             <th class="col-1">Ações</th>
