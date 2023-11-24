@@ -52,7 +52,7 @@
                                     </div>
                                     <div class="form-group col-2">Arquivo atual
                                         <p>
-                                            <a href="{{asset("storage/public/images/$acordo->caminho")}}"><button type="button" class="btn btn-lg btn-outline-secondary"><i class="bi bi-archive"></i></button>
+                                            <a href="{{asset("storage/public/images/$acordo->caminho")}}"><button type="button" class="btn btn-lg btn-outline-secondary" ><i class="bi bi-archive"></i></button>
                                             </a>
                                         </p>
                                     </div>

@@ -135,51 +135,42 @@ class GerenciarAcordosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
-
         $acordo = Db::table('acordos')->where('id_funcionario', $id)->first();
-
 
         $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
-            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
+            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')
+            ->first();
 
-        if ($request->file('ficheiro') ==  'null') {
-            Db::table('acordos')
-                ->where( 'id', $acordo->id)
-                ->update(values: array(
-                    'id_tp_acordo' => $request->input(key:'tipo_acordo'),
-                    'data_inicio' => $request->input(key:'dt_inicio'),
-                    'data_fim' => $request->input(key: 'dt_fim'),
-                    'observacao' => $request->input(key: 'observacao')
-                ));
-
-            return redirect()->route('indexGerenciarAcordos', ['id'=>$id]);
-
-        } elseif ($request->file('ficheiro') <> 'null'){
-
-            $dataDeHoje = date('dmYHis');
-            $nomeArquivo = "{$funcionario->cpf}{$dataDeHoje}";
-            $file = $request->file('ficheiroNovo');
-
-            $extension = $file->getClientOriginalExtension();
-            $filePath = $file->storeAs('public/images', "{$nomeArquivo}.{$extension}");
-
+        if ($request->file('ficheiro') == null) {
             Db::table('acordos')
                 ->where('id', $acordo->id)
-                ->update(values: array(
+                ->update([
                     'id_tp_acordo' => $request->input('tipo_acordo'),
                     'data_inicio' => $request->input('dt_inicio'),
                     'data_fim' => $request->input('dt_fim'),
-                    'observacao' => $request->input('observacao'),
-                    'caminho' => "{$nomeArquivo}.{$extension}"
-                ));
-            return redirect()->route('indexGerenciarAcordos', ['id'=>$id]);
+                    'observacao' => $request->input('observacao')
+                ]);
 
+            return redirect()->route('indexGerenciarAcordos', ['id' => $id]);
+        } elseif ($request->file('ficheiro') != null) {
+            // Check if the file is present in the request
+            if ($request->hasFile('ficheiroNovo')) {
+                $caminho = $request->file('ficheiroNovo')->store('public/images');
+
+                Db::table('acordos')
+                    ->where('id', $acordo->id)
+                    ->update([
+                        'id_tp_acordo' => $request->input('tipo_acordo'),
+                        'data_inicio' => $request->input('dt_inicio'),
+                        'data_fim' => $request->input('dt_fim'),
+                        'observacao' => $request->input('observacao'),
+                        'caminho' => $caminho
+                    ]);
+
+                return redirect()->route('indexGerenciarAcordos', ['id' => $id]);
+            }
         }
-
-
-
     }
 
 
