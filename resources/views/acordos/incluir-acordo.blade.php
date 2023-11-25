@@ -17,14 +17,14 @@
                             </DIV>
                         </div>
                         <div class="card-body">
-                            <form method="post" action="/armazenar-acordos/{{ $funcionario[0]->id }}" enctype="multipart/form-data">
+                            <form method="post" action="/armazenar-acordos/{{ $funcionario->id }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
                                     <div class="col-5">
                                         <div class="card" style="padding: 0px">
-                                            <div class="card-body bg-body-secondary" value="{{$funcionario[0]->id }}">
+                                            <div class="card-body bg-body-secondary" value="{{$funcionario->id }}">
                                                 <span
-                                                    style="color: rgb(16, 19, 241)">{{ $funcionario[0]->nome_completo }}</span>
+                                                    style="color: rgb(16, 19, 241)">{{ $funcionario->nome_completo }}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -61,7 +61,7 @@
                                 <br>
                                 <div class="row">
                                     <div class="d-grid gap-1 col-2 mx-auto">
-                                        <a class="btn btn-danger btn-sm" href="/gerenciar-acordos/{{ $funcionario[0]->id }}"
+                                        <a class="btn btn-danger btn-sm" href="/gerenciar-acordos/{{ $funcionario->id }}"
                                             role="button">Cancelar</a>
                                     </div>
                                     <div class="d-grid gap-2 col-2 mx-auto">

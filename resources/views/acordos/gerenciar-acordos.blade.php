@@ -22,7 +22,7 @@
                                     <div class="card">
                                         <div class="card-body bg-body-secondary">
                                             <div style="color: rgb(26, 53, 173); font-size:15px;">
-                                                {{ $funcionario[0]->nome_completo }}</div>
+                                                {{ $funcionario->nome_completo }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -31,7 +31,7 @@
 
                                     <div class="row">
                                         <span style="margin-top: 15px; margin-left: -18px"><a
-                                                href="/incluir-acordos/{{ $funcionario[0]->id }}"><button type="button"
+                                                href="/incluir-acordos/{{ $funcionario->id }}"><button type="button"
                                                     class="btn btn-success btn-sm"
                                                     style="padding: 5px 80px;margin-right:100px;font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">Novo&plus;</button></a></span>
                                     </div>
