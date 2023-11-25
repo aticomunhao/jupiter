@@ -17,6 +17,7 @@ class GerenciarDependentesController extends Controller
     {
         $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->where('funcionarios.id', $idf)
             ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
         //dd($funcionario);
 
@@ -55,8 +56,9 @@ class GerenciarDependentesController extends Controller
      */
     public function store(Request $request, $id)
     {
-        $funcionario = DB::table('funcionarios')
+            $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->where('funcionarios.id', $id)
             ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
         //$funcionario = DB::select("select f.id, p.dt_nascimento, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
         $dependentes = DB::select('select * from dependentes');
@@ -101,6 +103,7 @@ class GerenciarDependentesController extends Controller
         $dependente = DB::table('dependentes')->where('id', $id)->first();
         $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->where('funcionarios.id', $dependente->id_funcionario)
             ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
         // $funcionario = DB::select("select f.id, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $dependente->id_funcionario");
 

@@ -37,10 +37,13 @@ Route::get('/pessoa-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionar
 Route::post('/atualizar-funcionario/{idp}/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
 //Route::post('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('editar-funcionario.index');
+
+
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
 Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
 
-Route::get('/gerenciar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index'])->name('DadoBanc');
+/*Gerenciar dados Bancarios*/
+Route::get( '/gerenciar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index'])->name('DadoBanc');
 Route::get('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'create']);
 Route::get('/armazenar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'store']);
 

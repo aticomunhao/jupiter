@@ -17,7 +17,7 @@
                             </DIV>
                         </div>
                         <div class="card-body">
-                            <form method="post" action="/atualizar-acordo/{{ $funcionario->id }}"
+                            <form method="post" action="/atualizar-acordo/{{ $acordo->id }}"
                                   enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">

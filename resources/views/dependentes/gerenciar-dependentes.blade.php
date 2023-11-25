@@ -60,7 +60,7 @@
                                                 <td scope="">{{ $dependente->nome }}</td>
                                                 <td scope="">{{ $dependente->nome_dependente }}</td>
                                                 <td scope="">{{ \Carbon\Carbon::parse($dependente->dt_nascimento)->format('d/m/Y')}}</td>
-                                                <td scope="">{{ $dependente->cpf }}</td>
+                                                <td scope="" id="cpf">{{ $dependente->cpf }}</td>
                                                 <td scope="">
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
@@ -121,4 +121,5 @@
             </div>
         </div>
     </div>
+
 @endsection
