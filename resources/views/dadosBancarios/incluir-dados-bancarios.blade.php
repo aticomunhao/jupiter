@@ -22,7 +22,7 @@
                                 <div class="card">
                                     <div class="card-body bg-body-secondary">
                                         <div style="color: rgb(26, 53, 173); font-size:15px;">
-                                            {{ $funcionario[0]->nome_completo }}</div>
+                                            {{ $funcionario->nome_completo }}</div>
                                     </div>
                                 </div>
                             </div>
@@ -33,7 +33,7 @@
                             <div class="col-2"></div>
                         </div>
                         <hr>
-                        <form action="/armazenar-dados-bancarios/{{$funcionario[0]->id}}">
+                        <form action="/armazenar-dados-bancarios/{{$funcionario->id}}">
 
                                 <div class="row">
                                     <div class="form-group  col-xl-3 col-md-1 ">
@@ -41,8 +41,8 @@
                                         <select id="Banco" class="form-select" aria-label="Default select example"
                                             name="desc_banco" required>
                                             @foreach ($desc_bancos as $desc_banco)
-                                                <option value="{{ $desc_banco->id }}">
-                                                    {{ str_pad($desc_banco->id, 3, '0', STR_PAD_LEFT) }}</option>
+                                                <option value="{{ $desc_banco->id_db}}">
+                                                    {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }}</option>
                                             @endforeach
                                         </select>
                                     </div>

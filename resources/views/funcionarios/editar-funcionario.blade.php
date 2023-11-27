@@ -73,7 +73,6 @@
                                 </div>
                                 <br>
                             </div>
-
                             <div class="form-group col-md-2">
                                 <label for="6">Naturalidade UF</label>
                                 <select id="6" class="form-select" name = "uf_nat" type="numeric">

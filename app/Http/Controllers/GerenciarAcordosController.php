@@ -21,9 +21,9 @@ class GerenciarAcordosController extends Controller
     {
 
         $funcionario = DB::table('funcionarios')
-            ->join('pessoas','pessoas.id', '=','funcionarios.id_pessoa')
-            ->select('funcionarios.id','pessoas.nome_completo')
-            ->where('funcionarios.id','=',"$idf")            ->first();
+            ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->select('funcionarios.id', 'pessoas.nome_completo')
+            ->where('funcionarios.id', '=', "$idf")->first();
 
         $acordos = DB::select("select acordos.id,
        acordos.data_inicio,
@@ -63,8 +63,8 @@ class GerenciarAcordosController extends Controller
             ->get();
 
         $funcionario = DB::table("funcionarios")
-            ->join('pessoas','pessoas.id', '=', 'funcionarios.id_pessoa')
-            ->select('funcionarios.id','pessoas.nome_completo')
+            ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->select('funcionarios.id', 'pessoas.nome_completo')
             ->first();
 
 
@@ -81,14 +81,15 @@ class GerenciarAcordosController extends Controller
             ->select('pessoas.nome_completo', 'pessoas.cpf', 'funcionarios.id')
             ->where('funcionarios.id', $idf)
             ->first();
-        $caminho = $request->file('ficheiro')->store('public/images');
+
 
         if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null) {
-
+            $caminho = $request->file('ficheiro')->store('public/images');
             app('flasher')->addError('A data inicial é maior que a data final');
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
 
         } elseif ($request->input('dt_fim') == null) {
+            $caminho = $request->file('ficheiro')->store('public/images');
             DB::table('acordos')->insert([
                 'id_tp_acordo' => $request->input('tipo_acordo'),
                 'data_inicio' => $request->input('dt_inicio'),
@@ -100,7 +101,7 @@ class GerenciarAcordosController extends Controller
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
 
         } else {
-
+            $caminho = $request->file('ficheiro')->store('public/images');
             DB::table('acordos')->insert([
                 'id_tp_acordo' => $request->input('tipo_acordo'),
                 'data_inicio' => $request->input('dt_inicio'),
@@ -159,10 +160,10 @@ class GerenciarAcordosController extends Controller
             ->first();
 
 
-        if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null){
+        if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null) {
             app('flasher')->addError('A data inicial é maior que a data final');
-            return redirect()->route('indexGerenciarAcordos', ['id' =>$acordo->id_funcionario]);
-        }elseif ($request->file('ficheiroNovo') == null){
+            return redirect()->route('indexGerenciarAcordos', ['id' => $acordo->id_funcionario]);
+        } elseif ($request->file('ficheiroNovo') == null) {
             Db::table('acordos')
                 ->where('id', $acordo->id)
                 ->update([

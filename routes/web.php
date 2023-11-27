@@ -46,8 +46,8 @@ Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioContr
 Route::get( '/gerenciar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index'])->name('DadoBanc');
 Route::get('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'create']);
 Route::get('/armazenar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'store']);
-
 Route::get('/deletar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'destroy']);
+Route::any('/editar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'edit']);
 
 
 

@@ -13,31 +13,26 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function index($idf)
     {
-        $funcionario = DB::select("select
-                            f.id, f.id_pessoa,
-                            p.nome_completo
-                            from funcionarios f
-                            left join pessoas p on f.id_pessoa = p.id
-                            where f.id = $idf");
 
-        $idFunc = strval($funcionario[0]->id);
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'funcionarios.id_pessoa','=','pessoas.id')
+            ->select('funcionarios.id','funcionarios.id_pessoa','pessoas.nome_completo')
+            ->where('funcionarios.id',"$idf")
+            ->first();
 
-        $contasBancarias = DB::select("SELECT rel_dados_bancarios.id,
-        rel_dados_bancarios.id_funcionario,
-        rel_dados_bancarios.nmr_conta,
-        rel_dados_bancarios.dt_inicio,
-        rel_dados_bancarios.dt_fim,
-        desc_ban.nome,
-        tp_banco_ag.desc_agen,
-        tp_banco_ag.agencia,
-        tp_conta.nome_tipo_conta,
-        tp_sub_tp_conta.descricao
-        FROM public.rel_dados_bancarios
-        JOIN tp_banco_ag ON rel_dados_bancarios.id_banco_ag = tp_banco_ag.id
-        JOIN desc_ban ON rel_dados_bancarios.id_desc_banco = desc_ban.id
-        JOIN tp_conta ON rel_dados_bancarios.id_tp_conta = tp_conta.id
-        JOIN tp_sub_tp_conta ON rel_dados_bancarios.id_subtp_conta = tp_sub_tp_conta.id
-        WHERE rel_dados_bancarios.id_funcionario = $idFunc;");
+
+
+
+        $contasBancarias = DB::table('rel_dados_bancarios')
+            ->join('desc_ban', 'rel_dados_bancarios.id_desc_banco', '=', 'desc_ban.id_db')
+            ->join('tp_banco_ag', 'rel_dados_bancarios.id_banco_ag', '=', 'tp_banco_ag.id')
+            ->join('tp_conta', 'rel_dados_bancarios.id_tp_conta', '=', 'tp_conta.id')
+            ->join('tp_sub_tp_conta', 'rel_dados_bancarios.id_subtp_conta', '=', 'tp_sub_tp_conta.id')
+            ->select('rel_dados_bancarios.id_funcionario', 'rel_dados_bancarios.nmr_conta', 'rel_dados_bancarios.dt_inicio',
+                    'rel_dados_bancarios.dt_fim','desc_ban.nome','tp_banco_ag.desc_agen','tp_banco_ag.agencia','tp_conta.nome_tipo_conta',
+                    'tp_sub_tp_conta.descricao','rel_dados_bancarios.id')
+            ->where('rel_dados_bancarios.id_funcionario','=',"$funcionario->id")
+            ->get();
 
 
         return view('dadosBancarios.gerenciar-dados-bancarios', compact('funcionario', 'contasBancarias'));
@@ -48,15 +43,14 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function create($idf)
     {
-        $funcionario = DB::select("select
-                            f.id, f.id_pessoa,
-                            p.nome_completo
-                            from funcionarios f
-                            left join pessoas p on f.id_pessoa = p.id
-                            where f.id = $idf");
-        $idPessoa = strval($funcionario[0]->id_pessoa);
-        $desc_bancos = DB::select('select * from desc_ban order by id');
-        $tp_banco_ags =  DB::select("SELECT * FROM public.tp_banco_ag order by agencia");
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'funcionarios.id_pessoa','=','pessoas.id')
+            ->select('funcionarios.id','funcionarios.id_pessoa','pessoas.nome_completo')
+            ->where('funcionarios.id',"$idf")
+            ->first();
+
+        $desc_bancos = DB::select('select * from desc_ban order by id_db');
+        $tp_banco_ags = DB::select("SELECT * FROM public.tp_banco_ag order by agencia");
         $tp_contas = DB::select('select * from tp_conta');
         $tp_sub_tp_contas = DB::select('select * from tp_sub_tp_conta');
 
@@ -69,6 +63,8 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function store(Request $request, $idf)
     {
+
+
         DB::table('rel_dados_bancarios')->insert([
             'id_funcionario' => $idf,
             'id_banco_ag' => $request->input('tp_banco_ag'),
@@ -96,7 +92,44 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
+        $contaBancaria = DB::table('rel_dados_bancarios')
+            ->leftJoin('desc_ban', 'rel_dados_bancarios.id_desc_banco', '=', 'desc_ban.id_db')
+            ->join('tp_banco_ag', 'rel_dados_bancarios.id_banco_ag', '=', 'tp_banco_ag.id')
+            ->join('tp_conta', 'rel_dados_bancarios.id_tp_conta', '=', 'tp_conta.id')
+            ->join('tp_sub_tp_conta', 'rel_dados_bancarios.id_subtp_conta', '=', 'tp_sub_tp_conta.id')
+            ->select(
+                'rel_dados_bancarios.id_funcionario',
+                'rel_dados_bancarios.nmr_conta',
+                'rel_dados_bancarios.dt_inicio',
+                'rel_dados_bancarios.dt_fim',
+                'tp_banco_ag.desc_agen',
+                'tp_banco_ag.agencia',
+                'tp_conta.nome_tipo_conta',
+                'tp_banco_ag.id AS tpbag', // alias for tp_banco_ag.id
+                'tp_sub_tp_conta.descricao',
+                'tp_conta.id AS tpcid',
+                'rel_dados_bancarios.id',
+                'desc_ban.id_db',
+                'rel_dados_bancarios.id_banco_ag' // assuming id_banco_ag is a column in rel_dados_bancarios table
+            )
+            ->where('rel_dados_bancarios.id', '=', $id)
+            ->first();
+    dd($contaBancaria);
+
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'funcionarios.id_pessoa','=','pessoas.id')
+            ->select('funcionarios.id','funcionarios.id_pessoa','pessoas.nome_completo')
+            ->where('funcionarios.id',"$contaBancaria->id_funcionario")
+            ->first();
+
+        $desc_bancos = DB::select('select * from desc_ban order by id_db');
+        $tp_banco_ags = DB::select("SELECT * FROM public.tp_banco_ag order by agencia");
+        $tp_contas = DB::select('select * from tp_conta');
+        $tp_sub_tp_contas = DB::select('select * from tp_sub_tp_conta');
+
+        return view('dadosBancarios.editar-dados-bancarios', compact('contaBancaria','desc_bancos',
+        'tp_contas','tp_sub_tp_contas','funcionario','tp_banco_ags'));
     }
 
     /**
@@ -112,7 +145,7 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function destroy(string $idf)
     {
-        DB::table('rel_dados_bancarios')->where('id',$idf)->delete();
+        DB::table('rel_dados_bancarios')->where('id', $idf)->delete();
         return redirect()->back();
     }
 }
