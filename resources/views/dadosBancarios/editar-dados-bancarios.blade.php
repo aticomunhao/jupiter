@@ -10,7 +10,7 @@
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6"><span
-                                    style=" color: rgb(26, 53, 173); font-size:15px;">Incluir-Contas-Bancarias</span>
+                                    style=" color: rgb(26, 53, 173); font-size:15px;">Editar-Contas-Bancarias</span>
                             </div>
                             <div class="col-6">
                             </div>
@@ -40,7 +40,7 @@
                                     <label for="Banco">Banco</label>
                                     <select id="Banco" class="form-select" aria-label="Default select example"
                                             name="desc_banco" required="required">
-                                        <option value="{{ $contaBancaria->id_db }}"></option>
+                                        <option value="{{ $contaBancaria->id_db }}">{{ str_pad($contaBancaria->id_db,3, '0' ,STR_PAD_LEFT) }}</option>
                                         @foreach ($desc_bancos as $desc_banco)
                                             <option value="{{ $desc_banco->id_db }}">
                                                 {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }}</option>
@@ -51,7 +51,7 @@
                                     <label for="agencia">Agencia</label>
                                     <select id="agencia" class="form-select" aria-label="Default select example"
                                             name="tp_banco_ag" required="required">
-                                        <option value="{{ $contaBancaria->id_db }}">{{ str_pad($contaBancaria->id_db,3, '0' ,STR_PAD_LEFT) }}</option>
+                                        <option value="{{ $contaBancaria->tpbag }}">{{ $contaBancaria->agencia }}-{{ $contaBancaria->desc_agen }}</option>
                                         @foreach ($tp_banco_ags as $tp_banco_ag)
                                             <option value="{{ $tp_banco_ag->id }}">
                                                 {{ $tp_banco_ag->agencia }}-{{ $tp_banco_ag->desc_agen }}</option>
@@ -60,12 +60,13 @@
                                 </div>
                                 <div class="form-group col-xl-2 col-md-4">Numero da Conta
                                     <input class="form-control" type="text" maxlength="40" name="nmr_conta"
-                                           value="" required="required">
+                                           value="{{$contaBancaria->numeroconta}}" required="required">
                                 </div>
                                 <div class="form-group col-xl-2 col-md-3">
                                     <label for="tconta">Tipo de Conta</label>
                                     <select id="tconta" class="form-select" aria-label="Default select example"
                                             name="tp_conta" required>
+                                        <option value="{{ $contaBancaria->tp_conta_id }}">{{$contaBancaria->nome_tipo_conta}}</option>
                                         @foreach ($tp_contas as $tp_conta)
                                             <option value="{{ $tp_conta->id }}">{{ $tp_conta->nome_tipo_conta }}
                                             </option>
@@ -74,7 +75,6 @@
                                 </div>
                             </div>
                             <br>
-
 
                             <div class="row">
                                 <div class="form-group col-md-3">
