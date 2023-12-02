@@ -61,7 +61,11 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function store(Request $request, $idf)
     {
-
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->select('funcionarios.id', 'funcionarios.id_pessoa', 'pessoas.nome_completo', 'funcionarios.dt_inicio')
+            ->where('funcionarios.id', "$idf")
+            ->first();
         DB::table('rel_dados_bancarios')->insert([
             'id_funcionario' => $idf,
             'id_banco_ag' => $request->input('tp_banco_ag'),
@@ -72,7 +76,7 @@ class GerenciarDadosBancariosController extends Controller
             'id_tp_conta' => $request->input('tp_conta'),
             'id_subtp_conta' => $request->input('tp_sub_tp_conta')
         ]);
-
+        app('flasher')->addSuccess('O Dado Bancario foi cadastrado com sucesso');
         return redirect()->route('DadoBanc', ['id' => $idf]);
     }
 
@@ -105,7 +109,8 @@ class GerenciarDadosBancariosController extends Controller
                 'tp_banco_ag.id AS tpbag',
                 'tp_conta.id AS tp_conta_id',
                 'tp_conta.nome_tipo_conta',
-                'tp_sub_tp_conta.descricao',
+                'tp_sub_tp_conta.descricao AS stpcontadesc',
+                'tp_sub_tp_conta.id AS stpcontaid',
                 'tp_conta.id AS tpcid',
                 'rel_dados_bancarios.id',
                 'desc_ban.id_db',
@@ -129,6 +134,7 @@ class GerenciarDadosBancariosController extends Controller
         return view('dadosBancarios.editar-dados-bancarios', compact('contaBancaria', 'desc_bancos',
             'tp_contas', 'tp_sub_tp_contas', 'funcionario', 'tp_banco_ags'));
 
+
     }
 
     /**
@@ -136,8 +142,22 @@ class GerenciarDadosBancariosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        DB::table('rel_dados_bancarios')
+            ->where('id', $id)
+            ->update([
+                'id_banco_ag' => $request->input('tp_banco_ag'),
+                'dt_inicio' => $request->input('dt_inicio'),
+                'dt_fim' => $request->input('dt_fim'),
+                'nmr_conta' => $request->input('nmr_conta'),
+                'id_desc_banco' => $request->input('desc_banco'),
+                'id_tp_conta' => $request->input('tp_conta'),
+                'id_subtp_conta' => $request->input('tp_sub_tp_conta')
+            ]);
+        $dadoBancario = DB::table('rel_dados_bancarios')->where('id', $id)->first();
+        app('flasher')->addWarning('O Dado Bancario foi editado com sucesso');
+        return redirect()->route('DadoBanc', ['id' => $dadoBancario->id_funcionario]);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -145,6 +165,7 @@ class GerenciarDadosBancariosController extends Controller
     public function destroy(string $idf)
     {
         DB::table('rel_dados_bancarios')->where('id', $idf)->delete();
+        app('flasher')->addWarning('O dado Bancario Foi deletado.');
         return redirect()->back();
     }
 }

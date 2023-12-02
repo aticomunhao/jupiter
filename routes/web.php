@@ -48,6 +48,7 @@ Route::get('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDados
 Route::get('/armazenar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'store']);
 Route::get('/deletar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'destroy']);
 Route::any('/editar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'edit']);
+Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'update']);
 
 
 

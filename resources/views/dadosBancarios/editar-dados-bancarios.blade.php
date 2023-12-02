@@ -33,7 +33,7 @@
                             <div class="col-2"></div>
                         </div>
                         <hr>
-                        <form action="/armazenar-dados-bancarios/">
+                        <form action="/alterar-dado-bancario/{{$contaBancaria->id}}">
 
                             <div class="row">
                                 <div class="form-group  col-xl-3 col-md-1 ">
@@ -81,6 +81,7 @@
                                     <label for="sbconta">Subtipo de Conta</label>
                                     <select id="sbconta" class="form-select" aria-label="Default select example"
                                             name="tp_sub_tp_conta">
+                                        <option value="{{$contaBancaria->stpcontaid}}"> {{$contaBancaria->stpcontadesc}}</option>
                                         @foreach ($tp_sub_tp_contas as $tp_sub_tp_conta)
                                             <option value="{{ $tp_sub_tp_conta->id }}">{{ $tp_sub_tp_conta->descricao }}
                                             </option>
@@ -88,11 +89,11 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md-2">Data de Inicio
-                                    <input class="form-control" type="date" value="" id="3"
+                                    <input class="form-control" type="date" value="{{$contaBancaria->dt_inicio}}" id="3"
                                            name="dt_inicio" required="required">
                                 </div>
                                 <div class= "form-group col-md-2">Data de Fim
-                                    <input class="form-control" type="date" value="" id="3"
+                                    <input class="form-control" type="date" value="{{$contaBancaria->dt_fim}}" id="3"
                                            name="dt_fim">
                                 </div>
                             </div>
