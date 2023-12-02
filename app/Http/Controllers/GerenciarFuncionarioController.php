@@ -180,9 +180,7 @@ class GerenciarFuncionarioController extends Controller
                     'reservista' => $request->input('reservista'),
                     'nome_mae' => $request->input('nome_mae'),
                     'nome_pai' => $request->input('nome_pai'),
-                    'id_cat_cnh' => $request->input('cnh'),
-
-
+                    'id_cat_cnh' => $request->input('cnh')
                 ]);
 
                 DB::table('endereco_pessoas')->insert([
