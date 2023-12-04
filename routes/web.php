@@ -50,6 +50,9 @@ Route::get('/deletar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBa
 Route::any('/editar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'edit']);
 Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class,'update']);
 
+/*Gerenciar Cargos Regulares*/
+
+Route::get('/gerenciar-cargos-regulares',[App\Http\Controllers\GerenciarCargosRegularesController::class,'index']);
 
 
 

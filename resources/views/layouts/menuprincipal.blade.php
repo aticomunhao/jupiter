@@ -25,8 +25,8 @@
                 <ul class="dropdown-menu">
 
                     <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar Entidades de Ensino</a>
-                    <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a>
-                    </li>
+                    <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a></li>
+                    <li><a href="/gerenciar-cargos-regulares" class="dropdown-item">Gerenciar Cargos Regulares</a></li>
                 </ul>
             </div>
 
