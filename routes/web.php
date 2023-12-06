@@ -25,6 +25,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+Route::get('/', [App\Http\Controllers\LoginController::class, 'index']);
+Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'validaUserLogado'])->name('home.post');
+Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
