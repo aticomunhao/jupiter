@@ -36,19 +36,27 @@
 
                             <table
                                 class="table table table-striped table-bordered border-secondary table-hover align-middle justify-content-center">
-                                <thead class="text-align: center;">
+                                <thead class="text-align: center">
                                 <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col-2">Cargo</th>
+                                    <th scope="col-2">Salario Atual</th>
+                                    <th scope="col-2">Data Inicio</th>
+                                    <th scope="col-2">Data Fim</th>
+
+                                    <th scope="col-2">Handle</th>
+                                    <th scope="col-2">Handle</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($cargosregulares as $cargoregular)
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>Mark</td>
+                                        @if($cargoregular->nomeCR <> null)
+                                            <td>{{$cargoregular->nomeCR}}</td>
+                                        @endif
+                                        @if($cargoregular->nomeCC <> null)
+                                            <td >{{$cargoregular->nomeCR}}</td>
+                                        @endif
+                                        <td>{{$cargoregular->salariobase}}</td>
                                         <td>Otto</td>
                                         <td>@mdo</td>
                                     </tr>

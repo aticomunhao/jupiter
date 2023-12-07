@@ -109,6 +109,4 @@ Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosContr
 
 /**Rotas de Entrada**/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
