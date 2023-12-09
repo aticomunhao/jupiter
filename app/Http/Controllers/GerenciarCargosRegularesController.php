@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use File;
 use DateTime;
-use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class GerenciarCargosRegularesController extends Controller
 {
@@ -39,21 +39,13 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function store(Request $request)
     {
-        $dataDeHoje = new DateTime();
-        $dataFormatada = $dataDeHoje->format('Y-m-d');
+        $dataDeHoje = Carbon::today()->toDateString();
+        ;
 
-        $request->validate([
-            'nomecargo' => 'required|string',
-            'data_inicial' => 'required|date',
-            'data_final' => 'required|date',
-            'salario' => 'required|numeric',
-            'tipo_cargo' => 'required|in:1,2',
-        ]);
-
-        if ($request->input('data_inicial') > $request->input('data_final')) {
-            return redirect()->route('IndexGrenciarCargoRegular')->with('error', 'A data inicial deve ser menor ou igual à data final.');
+        if ($request->input('data_inicial') > $request->input('data_final') and $request->input('data_final') != null) {
+            app('flasher')->addWarning("A data inicial é maior que a data final");
+            return redirect()->route('IndexGrenciarCargoRegular');
         }
-
 
         if ($request->input('tipo_cargo') == 1) {
             $idcargoregular = DB::table('cargo_regular')->insertGetId([
@@ -62,10 +54,9 @@ class GerenciarCargosRegularesController extends Controller
                 'dt_fimCR' => $request->input('data_final'),
                 'salariobase' => $request->input('salario')
             ]);
-
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $idcargoregular,
-                'dt_alteracao' => $dataFormatada,
+                'dt_alteracao' => $dataDeHoje,
                 'salarionovo' => $request->input('salario')
             ]);
         } elseif ($request->input('tipo_cargo') == 2) {
@@ -75,17 +66,17 @@ class GerenciarCargosRegularesController extends Controller
                 'dt_inicioCR' => $request->input('data_inicial'),
                 'dt_fimCR' => $request->input('data_final'),
                 'salariobase' => $request->input('salario')
-                // Add additional fields if needed for tipo_cargo == 2
-            ]);
 
+            ]);
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $idcargoregular,
-                'dt_alteracao' => $dataFormatada,
+                'dt_alteracao' => $dataDeHoje,
                 'salarionovo' => $request->input('salario')
             ]);
         }
+        return redirect()->route('IndexGrenciarCargoRegular');
 
-        return redirect()->route('IndexGrenciarCargoRegular')->with('success', 'Operação realizada com sucesso.');
+
     }
 
     /**
