@@ -33,10 +33,8 @@
                         </h5>
 
                         <div class="card-body">
-                            <table
-                                class="table table table-striped table-bordered border-secondary table-hover align-middle justify-content-center">
-                                <thead class="text-align: center">
-                                <div class="row flex-row">
+                            <table class="table table-striped table-bordered border-secondary table-hover align-middle justify-content-center">
+                                <thead class="text-align: justify-center">
                                     <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                         <th scope="col-2 flex-column">Cargo</th>
                                         <th scope="col-2 flex-column">Salario Atual</th>
@@ -44,31 +42,27 @@
                                         <th scope="col-2 flex-column">Data Fim</th>
                                         <th scope="col-2 flex-column">Acões</th>
                                     </tr>
-                                </div>
                                 </thead>
                                 <tbody>
                                 @foreach($cargosregulares as $cargoregular)
-                                    <div class="row flex-row">
-                                        <tr>
-                                            @if($cargoregular->nomeCR <> null)
-                                                <td>{{$cargoregular->nomeCR}}</td>
-                                            @elseif($cargoregular->nomeCC <> null)
-                                                <td>{{$cargoregular->nomeCC}}</td>
-                                            @endif
-                                            <td>R&dollar; {{$cargoregular->salariobase}}</td>
-                                            <td>{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y')}}</td>
-                                            <td>{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y')}}</td>
-                                            <td>Otto</td>
-                                        </tr>
-                                    </div>
+                                    <tr>
+                                        @if($cargoregular->nomeCR <> null)
+                                            <td style="vertical-align: middle;">{{$cargoregular->nomeCR}}</td>
+                                        @elseif($cargoregular->nomeCC <> null)
+                                            <td style="vertical-align: middle;">{{$cargoregular->nomeCC}}</td>
+                                        @endif
+                                        <td style="vertical-align: middle;">R&dollar; {{$cargoregular->salariobase}}</td>
+                                        <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y')}}</td>
+                                        <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y')}}</td>
+                                        <td style="vertical-align: middle;">Otto</td>
+                                    </tr>
                                 @endforeach
-
                                 </tbody>
                             </table>
                         </div>
                     </div>
+                </fieldset>
             </div>
-            </fieldset>
         </div>
     </div>
 @endsection
