@@ -56,7 +56,9 @@ Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBa
 
 /*Gerenciar Cargos Regulares*/
 
-Route::get('/gerenciar-cargos-regulares',[App\Http\Controllers\GerenciarCargosRegularesController::class,'index']);
+Route::get('/gerenciar-cargos-regulares',[App\Http\Controllers\GerenciarCargosRegularesController::class,'index'])->name('IndexGrenciarCargoRegular');
+Route::get('/criar-cargo-regular',[App\Http\Controllers\GerenciarCargosRegularesController::class,'create']);
+Route::any('/incluir-cargo-regular',[App\Http\Controllers\GerenciarCargosRegularesController::class,'store']);
 
 
 

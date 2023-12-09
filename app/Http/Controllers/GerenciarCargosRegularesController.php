@@ -17,6 +17,7 @@ class GerenciarCargosRegularesController extends Controller
         $cargosregulares = DB::table('cargo_regular')
             ->get();
 
+
         return view('cargosregulares.gerenciar-cargo-regular',compact('cargosregulares'));
     }
 
@@ -25,7 +26,8 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function create()
     {
-        //
+
+        return view('cargosregulares.criar-cargo-regular');
     }
 
     /**
@@ -33,7 +35,27 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        if ($request->input('tipo_cargo') == 1) {
+            DB::table('cargo_regular')->insert([
+                'nomeCR' => $request->input('nomecargo'),
+                'dt_inicioCR' => $request->input('data_inicial'),
+                'dt_fimCR' => $request->input('data_final'),
+                'salariobase' => $request->input('salario')
+            ]);
+        } elseif ($request->input('tipo_cargo') == 2) {
+            // Insert different data for tipo_cargo == 2 if needed
+            DB::table('cargo_regular')->insert([
+                'nomeCC' => $request->input('nomecargo'),
+                'dt_inicioCR' => $request->input('data_inicial'),
+                'dt_fimCR' => $request->input('data_final'),
+                'salariobase' => $request->input('salario')
+                // Add additional fields if needed for tipo_cargo == 2
+            ]);
+        }
+        return redirect()->route('IndexGrenciarCargoRegular');
+
+
     }
 
     /**
