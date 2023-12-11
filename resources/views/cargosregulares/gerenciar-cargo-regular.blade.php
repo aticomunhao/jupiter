@@ -58,7 +58,8 @@
                                             R&dollar; {{$cargoregular->salariobase}}</td>
                                         <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y')}}</td>
                                         <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y')}}</td>
-                                        <td style="vertical-align: middle;"><button class="btn  btn-outline-danger delete-btn btn-sm"><span style="color: #000000"><i class="bi bi-trash"></i></span></button>
+                                        <td style="vertical-align: middle;"><a href="
+                                            "><button class="btn  btn-outline-danger delete-btn btn-sm"><span style="color: #000000"><i class="bi bi-trash"></i></span></button></a>
                                             </td>
                                     </tr>
                                 @endforeach

@@ -95,7 +95,6 @@ class GerenciarFuncionarioController extends Controller
     {
 
 
-
         $sexo = DB::select('select id, tipo from tp_sexo');
 
         $today = Carbon::today()->format('Y-m-d');
@@ -105,11 +104,9 @@ class GerenciarFuncionarioController extends Controller
         $cpf = $request->cpf;
 
 
-
         $cpf = $request->cpf;
 
         $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
-
 
 
         try {
@@ -133,7 +130,8 @@ class GerenciarFuncionarioController extends Controller
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
 
             return redirect()->back()->withInput();
-        } else { {
+        } else {
+            {
 
                 DB::table('pessoas')->insert([
                     'nome_completo' => $request->input('nome_completo'),
@@ -157,7 +155,6 @@ class GerenciarFuncionarioController extends Controller
                 $id_pessoa = DB::table('pessoas')
                     ->select(DB::raw('MAX(id) as max_id'))
                     ->value('max_id');
-
 
 
                 DB::table('funcionarios')->insert([
@@ -221,8 +218,6 @@ class GerenciarFuncionarioController extends Controller
             ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_natural')
             ->leftjoin('tp_cidade AS tc', 'tc.id_cidade', 'p.naturalidade')
             ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
-
-
             ->select(
                 'f.id_pessoa AS idp',
                 'f.id AS idf',
@@ -288,15 +283,8 @@ class GerenciarFuncionarioController extends Controller
         //dd($tpsexo);
 
 
-
         return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tpufidt', 'tpcnh', 'tpcidade', 'tpprograma'));
     }
-
-
-
-
-
-
 
 
     public function update(Request $request, $idf, $idp)
@@ -360,14 +348,6 @@ class GerenciarFuncionarioController extends Controller
                     'email' => $request->input('email'),
                     'ddd' => $request->input('ddd'),
                     'celular' => $request->input('celular'),
-
-
-
-
-
-
-
-
                 ]);
 
 
@@ -406,15 +386,7 @@ class GerenciarFuncionarioController extends Controller
     public function delete($idf)
     {
 
-
-
-
         $funcionario = DB::table('funcionarios')->where('id', $idf)->first();
-
-
-
-
-
 
         $dependentes = DB::select('select * from dependentes');
 
@@ -426,13 +398,9 @@ class GerenciarFuncionarioController extends Controller
             }
         }
 
-
         $certficado = DB::select('select * from certificados');
 
-
-
         foreach ($certficado as $certificados) {
-
 
             if ($idf == $certificados->id_funcionario) {
                 app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois possui certificado cadastrado com o nome de $certificados->nome");
@@ -451,10 +419,6 @@ class GerenciarFuncionarioController extends Controller
             }
 
         }
-
-
-
-
 
 
         DB::table('funcionarios')->where('id', $idf)->delete();

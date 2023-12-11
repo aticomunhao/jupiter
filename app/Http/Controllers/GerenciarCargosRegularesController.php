@@ -40,7 +40,6 @@ class GerenciarCargosRegularesController extends Controller
     public function store(Request $request)
     {
         $dataDeHoje = Carbon::today()->toDateString();
-        ;
 
         if ($request->input('data_inicial') > $request->input('data_final') and $request->input('data_final') != null) {
             app('flasher')->addWarning("A data inicial é maior que a data final");
@@ -76,7 +75,6 @@ class GerenciarCargosRegularesController extends Controller
         }
         return redirect()->route('IndexGrenciarCargoRegular');
 
-
     }
 
     /**
@@ -84,7 +82,8 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function show(string $id)
     {
-        //
+
+
     }
 
     /**
@@ -92,7 +91,8 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $cargoregular = DB::table('cargo_regular')->where('id', $id)->first();
+        dd($cargoregular);
     }
 
     /**
@@ -108,6 +108,6 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function destroy(string $id)
     {
-
+        //DB::table('')
     }
 }

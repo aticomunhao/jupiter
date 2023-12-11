@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;">
         <div class="container">
             <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;"
-                href="{{ url('/home') }}">Júpiter</a>
+                href="../">Júpiter</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
                 aria-label="{{ __('Toggle navigation') }}">
