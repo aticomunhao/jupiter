@@ -38,6 +38,18 @@ Route::get('/editar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionar
 Route::get('/excluir-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
 Route::get('/pessoa-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
 
+Route::name('usuario')->middleware('validaUsuario')->group(function () {
+    Route::get('gerenciar-usuario', 'UsuarioController@index');
+    Route::get('usuario-incluir', 'UsuarioController@create');
+    Route::get('cadastrar-usuarios/configurar/{id}', 'UsuarioController@configurarUsuario');
+    Route::post('/cad-usuario/inserir', 'UsuarioController@store');
+    Route::get('/usuario/excluir/{id}', 'UsuarioController@destroy');
+    Route::get('/usuario/alterar/{id}', 'UsuarioController@edit');
+    Route::put('usuario-atualizar/{id}', 'UsuarioController@update');
+    Route::get('/usuario/gerar-Senha/{id}', 'UsuarioController@gerarSenha');
+    
+  });
+
 Route::post('/atualizar-funcionario/{idp}/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
 //Route::post('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('editar-funcionario.index');
