@@ -4,7 +4,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="col-12">
-            <div class="row justify-content-center" <form "{{ route('pesquisar') }}" class="form-horizontal mt-4"
+            <div class="row justify-content-center" <form "{{ route('') }}" class="form-horizontal mt-4"
                 method="GET">
                 <div class="row" style="padding-left:5%">
                     <div class="col-2">Subsetor
