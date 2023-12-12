@@ -70,9 +70,7 @@ Route::get('/criar-cargo-regular', [App\Http\Controllers\GerenciarCargosRegulare
 Route::any('/incluir-cargo-regular', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'store']);
 Route::any('/editar-cargo-regular/{id}',[App\Http\Controllers\GerenciarCargosRegularesController::class,'edit']);
 Route::any('/alterar-cargo-regular/{id}',[App\Http\Controllers\GerenciarCargosRegularesController::class,'update']);
-
-/*Gerenciar Historico Cargo Regular*/
-Route::get('/historico-cargo-regular/{id}', [App\Http\Controllers\GerenciarHistoricoCargosRegulares::class, 'index'])->name('IndexHistoricoCargoRegular');
+Route::get('/historico-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'show']);
 
 /*Gerenciar setores*/
 

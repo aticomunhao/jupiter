@@ -39,11 +39,11 @@
                                 class="table table-striped table-bordered border-secondary table-hover align-middle justify-content-center">
                                 <thead class="text-align: justify-center">
                                 <tr style="background-color: #d6e3ff; font-size:17px; color:#343434">
-                                    <th scope="col-4">Cargo</th>
-                                    <th scope="col-2">Salario Atual</th>
-                                    <th scope="col-2">Data Inicio</th>
-                                    <th scope="col-2">Data Fim</th>
-                                    <th scope="col-2">Acões</th>
+                                    <th class="col-lg-4 col-sm-12">Cargo</th>
+                                    <th class="col-lg-2 col-sm-12">Salario Atual</th>
+                                    <th class="col-lg-2 col-sm-12">Data Inicio</th>
+                                    <th class="col-lg-2 col-sm-12">Data Fim</th>
+                                    <th class="col-lg-2 col-sm-12">Acões</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -63,26 +63,20 @@
                                             {{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y') }}</td>
                                         <td style="vertical-align: middle;">
 
-                                            <button class="btn  btn-outline-danger delete-btn btn-sm"><span
-                                                    style="color: #000000"> <a
-                                                        href=" /gerenciar-cargos-regulares "><span
-                                                            style="color: #000000"><i
-                                                                class="bi bi-trash btn-sm"></i></span></a></span>
-                                            </button>
-
 
                                             <button class="btn btn-outline-primary"><a href="
                                             /editar-cargo-regular/{{ $cargoregular->id }}"><span
                                                         style="color: #000000"><i
-                                                            class="bi bi-pencil "></i></span> </a>
+                                                            class="bi bi-pencil"></i></span> </a>
                                             </button>
-
-                                            <button class="btn btn-outline-primary"><a href="
-                                            /historico-cargo-regular/{{ $cargoregular->id }}"><span
-                                                        style="color: #000000"><i
-                                                            class="bi bi-search btn-sm"></i></span> </a>
+                                            <a href="
+                                            /historico-cargo-regular/{{ $cargoregular->id }}">
+                                                <button
+                                                    class="btn btn-outline-info">
+                                                    <span style="color: #000"><i class="bi bi-search"></i></span>
+                                                </button>
+                                            </a>
                                             </button>
-
 
                                         </td>
                                     </tr>

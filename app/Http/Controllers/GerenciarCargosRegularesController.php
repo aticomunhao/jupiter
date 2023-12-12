@@ -43,7 +43,7 @@ class GerenciarCargosRegularesController extends Controller
 
         if ($request->input('data_inicial') > $request->input('data_final') and $request->input('data_final') != null) {
             app('flasher')->addWarning("A data inicial é maior que a data final");
-            return redirect()->route('IndexGrenciarCargoRegular');
+            return redirect()->route('IndexGerenciarCargoRegular');
         }
 
         if ($request->input('tipo_cargo') == 1) {
@@ -76,6 +76,7 @@ class GerenciarCargosRegularesController extends Controller
                 'motivoalt' => 'Criacao do Cargo Regular'
             ]);
         }
+        app('flasher')->addSuccess('Cargo Inserido com Sucesso!');
         return redirect()->route('IndexGerenciarCargoRegular');
 
     }
@@ -86,7 +87,13 @@ class GerenciarCargosRegularesController extends Controller
     public function show(string $id)
     {
 
+        $cargoregular = DB::table('cargo_regular')->where('id', $id)->first();
 
+        $historicocargoregular = DB::table('hist_cargo_regular')
+            ->where('id_cargoalterado', $id)->orderBy('id_hist', 'desc')
+            ->get();
+
+        return view('cargosregulares.hist-cargo-regular', compact('historicocargoregular', 'cargoregular'));
     }
 
     /**
@@ -110,7 +117,7 @@ class GerenciarCargosRegularesController extends Controller
 
         if ($request->input('data_inicial') > $request->input('data_final') and $request->input('data_final') != null) {
             app('flasher')->addWarning("A data inicial é maior que a data final");
-            return redirect()->route('IndexGrenciarCargoRegular');
+            return redirect()->route('IndexGerenciarCargoRegular');
         }
 
         if ($request->input('tipo_cargo') == 1) {
@@ -144,6 +151,7 @@ class GerenciarCargosRegularesController extends Controller
                 'motivoalt' => $request->input('motivoalteracao')
             ]);
         }
+        app('flasher')->addInfo('Alterado com sucesso');
         return redirect()->route('IndexGerenciarCargoRegular');
     }
 
