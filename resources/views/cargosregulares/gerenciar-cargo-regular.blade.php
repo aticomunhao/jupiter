@@ -38,29 +38,53 @@
                             <table
                                 class="table table-striped table-bordered border-secondary table-hover align-middle justify-content-center">
                                 <thead class="text-align: justify-center">
-                                <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                    <th scope="col-2 flex-column">Cargo</th>
-                                    <th scope="col-2 flex-column">Salario Atual</th>
-                                    <th scope="col-2 flex-column">Data Inicio</th>
-                                    <th scope="col-2 flex-column">Data Fim</th>
-                                    <th scope="col-2 flex-column">Acões</th>
+                                <tr style="background-color: #d6e3ff; font-size:17px; color:#343434">
+                                    <th scope="col-4">Cargo</th>
+                                    <th scope="col-2">Salario Atual</th>
+                                    <th scope="col-2">Data Inicio</th>
+                                    <th scope="col-2">Data Fim</th>
+                                    <th scope="col-2">Acões</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($cargosregulares as $cargoregular)
+                                @foreach ($cargosregulares as $cargoregular)
                                     <tr>
-                                        @if($cargoregular->nomeCR <> null)
-                                            <td style="vertical-align: middle;">{{$cargoregular->nomeCR}}</td>
-                                        @elseif($cargoregular->nomeCC <> null)
-                                            <td style="vertical-align: middle;">{{$cargoregular->nomeCC}}</td>
+                                        @if ($cargoregular->nomeCR != null)
+                                            <td style="vertical-align: middle;">{{ $cargoregular->nomeCR }}</td>
+                                        @elseif($cargoregular->nomeCC != null)
+                                            <td style="vertical-align: middle;">{{ $cargoregular->nomeCC }}</td>
                                         @endif
                                         <td style="vertical-align: middle;">
-                                            R&dollar; {{$cargoregular->salariobase}}</td>
-                                        <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y')}}</td>
-                                        <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y')}}</td>
-                                        <td style="vertical-align: middle;"><a href="
-                                            "><button class="btn  btn-outline-danger delete-btn btn-sm"><span style="color: #000000"><i class="bi bi-trash"></i></span></button></a>
-                                            </td>
+                                            R&dollar; {{ $cargoregular->salariobase }}</td>
+                                        <td style="vertical-align: middle;">
+                                            {{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y') }}
+                                        </td>
+                                        <td style="vertical-align: middle;">
+                                            {{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y') }}</td>
+                                        <td style="vertical-align: middle;">
+
+                                            <button class="btn  btn-outline-danger delete-btn btn-sm"><span
+                                                    style="color: #000000"> <a
+                                                        href=" /gerenciar-cargos-regulares "><span
+                                                            style="color: #000000"><i
+                                                                class="bi bi-trash btn-sm"></i></span></a></span>
+                                            </button>
+
+
+                                            <button class="btn btn-outline-primary"><a href="
+                                            /editar-cargo-regular/{{ $cargoregular->id }}"><span
+                                                        style="color: #000000"><i
+                                                            class="bi bi-pencil "></i></span> </a>
+                                            </button>
+
+                                            <button class="btn btn-outline-primary"><a href="
+                                            /historico-cargo-regular/{{ $cargoregular->id }}"><span
+                                                        style="color: #000000"><i
+                                                            class="bi bi-search btn-sm"></i></span> </a>
+                                            </button>
+
+
+                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

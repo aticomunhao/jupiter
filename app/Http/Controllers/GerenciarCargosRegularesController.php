@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-use File;
+
 use DateTime;
 use Carbon\Carbon;
 
@@ -18,7 +18,7 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function index()
     {
-        $cargosregulares = DB::table('cargo_regular')
+        $cargosregulares = DB::table('cargo_regular')->orderBy('nomeCR')
             ->get();
 
 
@@ -51,12 +51,14 @@ class GerenciarCargosRegularesController extends Controller
                 'nomeCR' => $request->input('nomecargo'),
                 'dt_inicioCR' => $request->input('data_inicial'),
                 'dt_fimCR' => $request->input('data_final'),
-                'salariobase' => $request->input('salario')
+                'salariobase' => $request->input('salario'),
+                'nomeCC' => null
             ]);
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $idcargoregular,
                 'dt_alteracao' => $dataDeHoje,
-                'salarionovo' => $request->input('salario')
+                'salarionovo' => $request->input('salario'),
+                'motivoalt' => 'Criacao do Cargo Regular'
             ]);
         } elseif ($request->input('tipo_cargo') == 2) {
             // Insert different data for tipo_cargo == 2 if needed
@@ -64,16 +66,17 @@ class GerenciarCargosRegularesController extends Controller
                 'nomeCC' => $request->input('nomecargo'),
                 'dt_inicioCR' => $request->input('data_inicial'),
                 'dt_fimCR' => $request->input('data_final'),
-                'salariobase' => $request->input('salario')
-
+                'salariobase' => $request->input('salario'),
+                'nomeCR' => null
             ]);
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $idcargoregular,
                 'dt_alteracao' => $dataDeHoje,
-                'salarionovo' => $request->input('salario')
+                'salarionovo' => $request->input('salario'),
+                'motivoalt' => 'Criacao do Cargo Regular'
             ]);
         }
-        return redirect()->route('IndexGrenciarCargoRegular');
+        return redirect()->route('IndexGerenciarCargoRegular');
 
     }
 
@@ -92,7 +95,9 @@ class GerenciarCargosRegularesController extends Controller
     public function edit(string $id)
     {
         $cargoregular = DB::table('cargo_regular')->where('id', $id)->first();
-        dd($cargoregular);
+
+
+        return view('cargosregulares.editar-cargo-regular', compact('cargoregular'));
     }
 
     /**
@@ -100,7 +105,46 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+
+        $dataDeHoje = Carbon::today()->toDateString();
+
+        if ($request->input('data_inicial') > $request->input('data_final') and $request->input('data_final') != null) {
+            app('flasher')->addWarning("A data inicial é maior que a data final");
+            return redirect()->route('IndexGrenciarCargoRegular');
+        }
+
+        if ($request->input('tipo_cargo') == 1) {
+            DB::table('cargo_regular')->where('id', $id)->update([
+                'nomeCR' => $request->input('nomecargo'),
+                'dt_inicioCR' => $request->input('data_inicial'),
+                'dt_fimCR' => $request->input('data_final'),
+                'salariobase' => $request->input('salario'),
+                'nomeCC' => null
+            ]);
+            DB::table('hist_cargo_regular')->insert([
+                'id_cargoalterado' => $id,
+                'dt_alteracao' => $dataDeHoje,
+                'salarionovo' => $request->input('salario'),
+                'motivoalt' => $request->input('motivoalteracao')
+            ]);
+        } elseif ($request->input('tipo_cargo') == 2) {
+            // Insert different data for tipo_cargo == 2 if needed
+            DB::table('cargo_regular')->where('id', $id)->update([
+                'nomeCC' => $request->input('nomecargo'),
+                'dt_inicioCR' => $request->input('data_inicial'),
+                'dt_fimCR' => $request->input('data_final'),
+                'salariobase' => $request->input('salario'),
+                'nomeCR' => null
+
+            ]);
+            DB::table('hist_cargo_regular')->insert([
+                'id_cargoalterado' => $id,
+                'dt_alteracao' => $dataDeHoje,
+                'salarionovo' => $request->input('salario'),
+                'motivoalt' => $request->input('motivoalteracao')
+            ]);
+        }
+        return redirect()->route('IndexGerenciarCargoRegular');
     }
 
     /**

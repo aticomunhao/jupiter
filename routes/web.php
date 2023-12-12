@@ -65,10 +65,14 @@ Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBa
 
 /*Gerenciar Cargos Regulares*/
 
-Route::get('/gerenciar-cargos-regulares', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'index'])->name('IndexGrenciarCargoRegular');
+Route::get('/gerenciar-cargos-regulares', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'index'])->name('IndexGerenciarCargoRegular');
 Route::get('/criar-cargo-regular', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'create']);
 Route::any('/incluir-cargo-regular', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'store']);
 Route::any('/editar-cargo-regular/{id}',[App\Http\Controllers\GerenciarCargosRegularesController::class,'edit']);
+Route::any('/alterar-cargo-regular/{id}',[App\Http\Controllers\GerenciarCargosRegularesController::class,'update']);
+
+/*Gerenciar Historico Cargo Regular*/
+Route::get('/historico-cargo-regular/{id}', [App\Http\Controllers\GerenciarHistoricoCargosRegulares::class, 'index'])->name('IndexHistoricoCargoRegular');
 
 /*Gerenciar setores*/
 

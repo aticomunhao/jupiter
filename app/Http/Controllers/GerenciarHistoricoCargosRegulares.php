@@ -12,9 +12,13 @@ class GerenciarHistoricoCargosRegulares extends Controller
      */
     public function index($idcr)
     {
-        DB::table('hist_cargo_regular')
-            ->where('id_hist', $idcr)
+        $cargoregular = DB::table('cargo_regular')->where('id', $idcr)->first();
+        dd($cargoregular);
+       $historicocargoregular = DB::table('hist_cargo_regular')
+            ->where('id_cargoalterado', $idcr)
             ->get();
+        return view('historicocargoregular.gerenciar-hist-cargo-regular',compact('historicocargoregular'));
+
     }
 
     /**
