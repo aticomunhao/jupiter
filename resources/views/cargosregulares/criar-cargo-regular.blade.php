@@ -43,7 +43,7 @@
                                 </div>
                                 <div class="col-lg-3 col-md-6 flex-column"><label for="#idsalario">Salario</label>
                                     <input type="number" name="salario" id="idsalario" class="form-control" step="0.01"
-                                        min="0">
+                                        min="0" required = "required">
                                 </div>
                             </div>
                         </div>
