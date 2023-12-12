@@ -89,17 +89,6 @@ class GerenciarSetoresController extends Controller
                 'usuario' => $request->input('usuario')
             ]);
 
-
-        DB::table('subsetor')
-            ->insert([
-                'nome_subsetor' => $request->input('nome_subsetor'),
-                'sigla' => $request->input('sigla')
-            ]);
-
-        $id_subsetor = DB::table('subsetor')
-            ->select(DB::raw('MAX(id) as max_id'))
-            ->value('max_id');
-
         $id_setor = DB::table('setor')
             ->select(DB::raw('MAX(id) as max_id'))
             ->value('max_id');

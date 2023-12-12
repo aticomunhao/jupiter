@@ -46,8 +46,8 @@
                         <tr style="background-color: #365699; font-size:19px; color:#ffffff">
                             <th class="col-2">Setor</th>
                             <th class="col-1">Sigla</th>
-                            <th class="col-1">Dt_inicio</th>
-                            <th class="col-1">Dt_final</th>
+                            <th class="col-1">Data Inicio</th>
+                            <th class="col-1">Data Final</th>
                             <th class="col-1">Status</th>
                             <th class="col-1">Substituto</th>
                             <th class="col-1">Ações</th>
