@@ -16,23 +16,26 @@ class GerenciarSetoresController extends Controller
     {
 
         $lista = DB::table('tp_nivel_setor AS tns')
-            ->whereIn('tns.id', ['1', '2'])
-            ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
-            ->get();
+        ->whereIn('tns.id', ['1', '2'])
+        ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
+        ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
+        ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
+        ->select(
+            's.id AS ids', 
+            's.nome', 
+            's.sigla', 
+            's.dt_inicio', 
+            's.dt_fim', 
+            's.status', 
+            'setor_pai.nome AS setor_pai', 
+            'substituto.sigla AS nome_substituto');
+                
+      
+            //dd($lista);
 
-
-
-
-
-
-
-        //dd($lista);
-
-        $usuario = $request->usuario;
+        $ids = $request->ids;
 
         $nome = $request->nome;
-
-        $nome_subsetor = $request->nome_subsetor;
 
         $sigla = $request->sigla;
 
@@ -40,27 +43,27 @@ class GerenciarSetoresController extends Controller
 
         $dt_fim = $request->dt_fim;
 
-        if ($request->usuario) {
-            $lista->where('s.usuario', 'LIKE', '%' . $request->usuario . '%');
-        }
+        $setor_pai = $request->setor_pai;
 
+        $nome_substituto = $request->nome_substituto;
+
+        $status = $request->status;
+ 
         if ($request->nome) {
             $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
         }
 
-        if ($request->nome_subsetor) {
-            $lista->where('sub.nome_subsetor', 'LIKE', '%' . $request->nome_subsetor . '%');
-        }
-
-
         if ($request->sigla) {
-            $lista->where('sub.sigla', '=', $request->sigla);
+            $lista->where('s.sigla', '=', $request->sigla);
         }
 
-        $lista = $lista->orderBy('sub.sigla', 'asc')->orderBy('s.nome', 'asc')->paginate(10);
+        if ($request->nome_substituto){
+            $lista->where('s.substituto', '=', $request->nome_substituto);
+        }
+        $lista = $lista->orderBy('s.sigla', 'asc')->orderBy('s.nome', 'asc')->orderBy('nome_substituto', 'asc')->paginate(10);
 
 
-        return view('/setores/gerenciar-setor', compact('lista', 'usuario', 'nome', 'dt_inicio', 'dt_fim', 'nome_subsetor', 'sigla'));
+        return view('/setores/gerenciar-setor', compact('lista','nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai', 'status'));
     }
 
 

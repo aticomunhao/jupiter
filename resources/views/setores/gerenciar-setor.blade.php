@@ -4,17 +4,13 @@
 @section('content')
     <div class="container-fluid">
         <div class="col-12">
-            <div class="row justify-content-center" <form "{{ route('') }}" class="form-horizontal mt-4"
+            <div class="row justify-content-center" class="form-horizontal mt-4"
                 method="GET">
                 <div class="row" style="padding-left:5%">
-                    <div class="col-2">Subsetor
-                        <input class="form-control" maxlength="45" type="text" id="1" name="subsetor"
-                            value="{{ $nome_subsetor }}">
-                    </div>
                     <div class="col-3">Setor
                         <input class="form-control" maxlength="50" type="text" id="2" name="nome"
                             value="{{ $nome }}">
-                    </div>F
+                    </div>
                     <div class="col-1">Sigla
                         <input class="form-control" maxlength="30" type="text" id="3" name="sigla"
                             value="{{ $sigla }}">
@@ -24,10 +20,10 @@
                             value="{{ $dt_inicio }}">
                     </div>
                     <div class="col-1">Data de Fim
-                        <input class="form-control" maxlength="30" type="date" id="3" name="dt_fim"
+                        <input class="form-control" maxlength="30" type="date" id="3" name="dt_fim" 
                             value="{{ $dt_fim }}">
                     </div>
-                    <div class="col" style="padding-left:10%"><br>
+                    <div class="col" style="padding-left:20%"><br>
                         <input class="btn btn-light btn-sm"
                             style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit"
                             value="Pesquisar">
@@ -48,11 +44,12 @@
                 <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                     <thead style="text-align: center;">
                         <tr style="background-color: #365699; font-size:19px; color:#ffffff">
-                            <th class="col-3">Setor</th>
+                            <th class="col-2">Setor</th>
                             <th class="col-1">Sigla</th>
                             <th class="col-1">Dt_inicio</th>
                             <th class="col-1">Dt_final</th>
-                            <th class="col-2">Subsetor</th>
+                            <th class="col-1">Status</th>
+                            <th class="col-1">Substituto</th>
                             <th class="col-1">Ações</th>
 
                         </tr>
@@ -72,14 +69,17 @@
                                     <center>{{ $listas->dt_fim }}</center>
                                 </td>
                                 <td scope="">
-                                    <center>{{ $listas->nome_subsetor }}</center>
+                                    <center>{{ $listas->status?'Ativo':'Inativo'}}</center>
+                                </td>
+                                <td scope="">
+                                    <center>{{ $listas->nome_substituto}}</center>
                                 </td>
 
 
                                 <td scope="">
                                     <center>
 
-                                        <a href="/editar-setor/{{ $listas->ids }}"><button type="button"
+                                        <a href="/editar-setor/{{ $listas->ids}}"><button type="button"
                                                 class="btn btn-outline-warning btn-sm"><i class="bi-pencil"
                                                     style="font-size: 1rem; color:#303030;"></i></button></a>
                                         <a href=""><button type="button" class="btn btn-outline-primary btn-sm"><i
@@ -90,7 +90,7 @@
                                                 style="font-size: 1rem;color:#303030; "></i></button></a>
 
                                         <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#A{{ $listas->nome_subsetor }}-{{ $listas->idsb }}"class="btn btn-outline-danger btn-sm"><i
+                                            data-bs-target="#A{{ $listas->nome }}-{{ $listas->ids}}"class="btn btn-outline-danger btn-sm"><i
                                                 class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
 
 
@@ -101,7 +101,7 @@
 
                                         <!-- Modal -->
                                         <div>
-                                            <div class="modal fade" id="A{{ $listas->nome_subsetor }}-{{ $listas->idsb }}"
+                                            <div class="modal fade" id="A{{ $listas->nome}}-{{ $listas->ids}}"
                                                 tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
@@ -116,14 +116,14 @@
                                                                 <br>
                                                                 {{ $listas->nome }}
                                                                 <br>
-                                                                com o subsetor: {{ $listas->nome_subsetor }}
+                                                                com o subsetor: {{ $listas->nome}}
                                                             </p>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-danger"
                                                                 data-bs-dismiss="modal">Cancelar</button>
                                                             <a
-                                                                href="/excluir-setor/{{ $listas->idsb }}/{{ $listas->ids }}"><button
+                                                                href="/excluir-setor/{{ $listas->ids }}/{{ $listas->ids }}"><button
                                                                     type="button"
                                                                     class="btn btn-primary">Confirmar</button></a>
                                                         </div>
