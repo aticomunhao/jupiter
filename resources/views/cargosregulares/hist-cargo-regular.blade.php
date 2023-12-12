@@ -11,19 +11,25 @@
                         <h5 class="card-header">
 
                             <div class="row">
-                                <div class="col-lg-4 col-sm-12">
-                                    <span>
+                                <div class="col-12">
+                                    <div class="col-lg-4 col-sm-12">
+
                                         <div class="card">
-                                            <div class="card-body">
-                                                @if ($cargoregular->nomeCR != null)
-                                                    <span>{{ $cargoregular->nomeCR }}</span>
-                                                @elseif($cargoregular->nomeCC != null)
-                                                    <span>{{ $cargoregular->nomeCC }}</span>
-                                                @endif
+                                            <div class="row">
+
+                                                <div class="card-body">
+                                                    @if ($cargoregular->nomeCR != null)
+                                                        <span>{{ $cargoregular->nomeCR }}</span>
+                                                    @elseif($cargoregular->nomeCC != null)
+                                                        <span>{{ $cargoregular->nomeCC }}</span>
+                                                    @endif
+                                                </div>
+
                                             </div>
                                         </div>
-                                    </span>
+                                    </div>
                                 </div>
+                            </div>
                                 <div class="col-lg-5">
                                     <br>
                                 </div>
