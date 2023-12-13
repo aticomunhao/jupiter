@@ -7,35 +7,24 @@
             <div class="container-fluid">
                 <fieldset class="border border-primary rounded">
                     <div class="card">
-
                         <h5 class="card-header">
-
                             <div class="row">
-                                <div class="col-12">
-                                    <div class="col-lg-4 col-sm-12">
-
-                                        <div class="card">
-                                            <div class="row">
-
-                                                <div class="card-body">
-                                                    @if ($cargoregular->nomeCR != null)
-                                                        <span>{{ $cargoregular->nomeCR }}</span>
-                                                    @elseif($cargoregular->nomeCC != null)
-                                                        <span>{{ $cargoregular->nomeCC }}</span>
-                                                    @endif
-                                                </div>
-
-                                            </div>
+                                <div class="col-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            @if ($cargoregular->nomeCR != null)
+                                                <span>{{ $cargoregular->nomeCR }}</span>
+                                            @elseif($cargoregular->nomeCC != null)
+                                                <span>{{ $cargoregular->nomeCC }}</span>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                                <div class="col-lg-5">
-                                    <br>
+                                <div class="col-4"></div>
+                                <div class="col-4">
+                                    <a href="../gerenciar-cargos-regulares"><button type="button" class="btn btn-primary" style="padding: 10px 30%; box-shadow: 4px 3px 2px rgba(0, 0, 0, 0.836);margin-top: 1%;width:100%; ">Retornar a tela inicial</button></a>
                                 </div>
-                                <div class="col-lg-3 col-md-12">
 
-                                </div>
                             </div>
                         </h5>
 

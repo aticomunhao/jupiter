@@ -64,16 +64,19 @@
                                         <td style="vertical-align: middle;">
 
 
-                                            <button class="btn btn-outline-primary"><a href="
-                                            /editar-cargo-regular/{{ $cargoregular->id }}"><span
-                                                        style="color: #000000"><i
-                                                            class="bi bi-pencil"></i></span> </a>
-                                            </button>
+                                            <a href="
+                                            /editar-cargo-regular/{{ $cargoregular->id }}">
+                                                <button class="btn btn-outline-primary"><span
+                                                        style="color: #000000; text-decoration: none"><i class="bi bi-pencil"></i></span>
+                                                </button>
+                                            </a>
+
+
                                             <a href="
                                             /historico-cargo-regular/{{ $cargoregular->id }}">
                                                 <button
                                                     class="btn btn-outline-info">
-                                                    <span style="color: #000"><i class="bi bi-search"></i></span>
+                                                    <span style="color: #000;text-decoration: none"><i class="bi bi-search"></i></span>
                                                 </button>
                                             </a>
                                             </button>
