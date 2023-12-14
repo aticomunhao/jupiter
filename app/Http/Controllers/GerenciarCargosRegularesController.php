@@ -18,11 +18,20 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function index()
     {
-        $cargosregulares = DB::table('cargo_regular')->orderBy('nomeCR')
-            ->get();
+        $search = request('search');
 
+        if ($search) {
+            $cargosregulares = DB::table('cargo_regular')
+                ->where('nomeCR', 'like', '%' . $search . '%')
+                ->orWhere('nomeCC', 'like', '%' . $search . '%')
+                ->get();
+        } else {
+            $cargosregulares = DB::table('cargo_regular')
+                ->orderBy('nomeCR')
+                ->get();
+        }
 
-        return view('cargosregulares.gerenciar-cargo-regular', compact('cargosregulares'));
+        return view('cargosregulares.gerenciar-cargo-regular', compact('cargosregulares', 'search'));
     }
 
     /**
@@ -162,4 +171,6 @@ class GerenciarCargosRegularesController extends Controller
     {
         //DB::table('')
     }
+
+
 }

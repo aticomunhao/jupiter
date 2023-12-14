@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid">
 
+    <div class="container-fluid">
         <div class="col-12">
             <br>
             <div class="card">
@@ -40,7 +40,8 @@
                                     <label for="Banco">Banco</label>
                                     <select id="Banco" class="form-select" aria-label="Default select example"
                                             name="desc_banco" required="required">
-                                        <option value="{{ $contaBancaria->id_db }}">{{ str_pad($contaBancaria->id_db,3, '0' ,STR_PAD_LEFT) }}</option>
+                                        <option
+                                            value="{{ $contaBancaria->id_db }}">{{ str_pad($contaBancaria->id_db,3, '0' ,STR_PAD_LEFT) }}</option>
                                         @foreach ($desc_bancos as $desc_banco)
                                             <option value="{{ $desc_banco->id_db }}">
                                                 {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }}</option>
@@ -51,7 +52,8 @@
                                     <label for="agencia">Agencia</label>
                                     <select id="agencia" class="form-select" aria-label="Default select example"
                                             name="tp_banco_ag" required="required">
-                                        <option value="{{ $contaBancaria->tpbag }}">{{ $contaBancaria->agencia }}-{{ $contaBancaria->desc_agen }}</option>
+                                        <option value="{{ $contaBancaria->tpbag }}">{{ $contaBancaria->agencia }}
+                                            -{{ $contaBancaria->desc_agen }}</option>
                                         @foreach ($tp_banco_ags as $tp_banco_ag)
                                             <option value="{{ $tp_banco_ag->id }}">
                                                 {{ $tp_banco_ag->agencia }}-{{ $tp_banco_ag->desc_agen }}</option>
@@ -66,7 +68,8 @@
                                     <label for="tconta">Tipo de Conta</label>
                                     <select id="tconta" class="form-select" aria-label="Default select example"
                                             name="tp_conta" required>
-                                        <option value="{{ $contaBancaria->tp_conta_id }}">{{$contaBancaria->nome_tipo_conta}}</option>
+                                        <option
+                                            value="{{ $contaBancaria->tp_conta_id }}">{{$contaBancaria->nome_tipo_conta}}</option>
                                         @foreach ($tp_contas as $tp_conta)
                                             <option value="{{ $tp_conta->id }}">{{ $tp_conta->nome_tipo_conta }}
                                             </option>
@@ -81,7 +84,8 @@
                                     <label for="sbconta">Subtipo de Conta</label>
                                     <select id="sbconta" class="form-select" aria-label="Default select example"
                                             name="tp_sub_tp_conta">
-                                        <option value="{{$contaBancaria->stpcontaid}}"> {{$contaBancaria->stpcontadesc}}</option>
+                                        <option
+                                            value="{{$contaBancaria->stpcontaid}}"> {{$contaBancaria->stpcontadesc}}</option>
                                         @foreach ($tp_sub_tp_contas as $tp_sub_tp_conta)
                                             <option value="{{ $tp_sub_tp_conta->id }}">{{ $tp_sub_tp_conta->descricao }}
                                             </option>
@@ -92,12 +96,11 @@
                                     <input class="form-control" type="date" value="{{$contaBancaria->dt_inicio}}" id="3"
                                            name="dt_inicio" required="required">
                                 </div>
-                                <div class= "form-group col-md-2">Data de Fim
+                                <div class="form-group col-md-2">Data de Fim
                                     <input class="form-control" type="date" value="{{$contaBancaria->dt_fim}}" id="3"
                                            name="dt_fim">
                                 </div>
                             </div>
-
 
 
                             <br>
