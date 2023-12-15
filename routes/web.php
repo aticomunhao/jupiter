@@ -72,6 +72,12 @@ Route::any('/editar-cargo-regular/{id}',[App\Http\Controllers\GerenciarCargosReg
 Route::any('/alterar-cargo-regular/{id}',[App\Http\Controllers\GerenciarCargosRegularesController::class,'update']);
 Route::get('/historico-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'show']);
 
+/*Gerenciar Funcao Gratificada*/
+
+Route::get('/gerenciar-funcao-gratificada',[Controllers\GerenciarFuncaoGratificada::class, 'index'])->name('IndexGerenciarFuncaoGratificada');
+Route::get('/criar-funcao-gratificada',[Controllers\GerenciarFuncaoGratificada::class, 'create']);
+Route::get('/incluir-funcao-gratificada',[Controllers\GerenciarFuncaoGratificada::class, 'store']);
+
 /*Gerenciar setores*/
 
 Route::get('/gerenciar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index']);
