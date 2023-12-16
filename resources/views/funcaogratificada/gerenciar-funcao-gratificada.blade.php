@@ -74,10 +74,7 @@
                                                     <a href="/historico-cargo-regular/" class="btn btn-outline-info">
                                                         <i class="bi bi-search" style="color: #0F0024"></i>
                                                     </a>
-                                                    <a href="/fechar-funcao-gratificada/{{$funcoesgratificada->id}}"
-                                                       class="btn btn-outline-danger  bg-gradient text-dark">
-                                                        <i class="bi bi-x-circle" style="color: #0F0024"></i>
-                                                    </a>
+
                                                 </td>
                                             </tr>
 

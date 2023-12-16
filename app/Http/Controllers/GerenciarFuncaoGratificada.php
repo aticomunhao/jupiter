@@ -18,7 +18,7 @@ class GerenciarFuncaoGratificada extends Controller
         $search = request('search');
         if (request('search')) {
             $funcoesgratificadas = DB::table('funcao_gratificada')
-                ->where('nomeFG', 'like', '%' . $search . '%')
+                ->where('nomeFG', 'ilike', '%' . $search . '%')
                 ->get();
         } else {
             $funcoesgratificadas = DB::table('funcao_gratificada')->get();
@@ -97,7 +97,7 @@ class GerenciarFuncaoGratificada extends Controller
                 'dt_inicioFG' => $request->input('data_inicial'),
                 'dt_fimFG' => $request->input('data_final'),
                 'salarioFG' => $request->input('salario'),
-                'status' => true
+
             ]);
         return redirect()->route('IndexGerenciarFuncaoGratificada');
     }
@@ -108,7 +108,7 @@ class GerenciarFuncaoGratificada extends Controller
     public function close(string $id, Request $request)
     {
         $funcaogratificada = DB::table('funcao_gratificada')
-            ->where('id',$id)
+            ->where('id', $id)
             ->first();
 
         $dataDeHoje = Carbon::today()->toDateString();
