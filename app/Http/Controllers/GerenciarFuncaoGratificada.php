@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,9 +14,18 @@ class GerenciarFuncaoGratificada extends Controller
      */
     public function index()
     {
-        $funcoesgratificadas = DB::table('funcao_gratificada')->get();
 
-        return view('funcaogratificada.gerenciar-funcao-gratificada', compact('funcoesgratificadas'));
+        $search = request('search');
+        if (request('search')) {
+            $funcoesgratificadas = DB::table('funcao_gratificada')
+                ->where('nomeFG', 'like', '%' . $search . '%')
+                ->get();
+        } else {
+            $funcoesgratificadas = DB::table('funcao_gratificada')->get();
+        }
+
+
+        return view('funcaogratificada.gerenciar-funcao-gratificada', compact('funcoesgratificadas', 'search'));
     }
 
     /**
@@ -31,23 +41,25 @@ class GerenciarFuncaoGratificada extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->input('data_inicial') == null){
-            DB::table('funcao_gratificada')
-                ->insert([
-                    'nomeFG' => $request->input('nomefuncao'),
-                    'salarioFG' => $request->input('salario'),
-                    'dt_inicioFG' => $request->input('data_inicial'),
-                    'dt_fimFG' => null
-                ]);
-        }else{
-        DB::table('funcao_gratificada')
-            ->insert([
+        $dataDeHoje = Carbon::today()->toDateString();
+
+        $idfuncaoGratificada = DB::table('funcao_gratificada')
+            ->insertGetId([
                 'nomeFG' => $request->input('nomefuncao'),
                 'salarioFG' => $request->input('salario'),
                 'dt_inicioFG' => $request->input('data_inicial'),
-                'dt_fimFG' => $request->input('data_final')
+                'dt_fimFG' => null,
+                'status' => true
             ]);
-        }
+        DB::table('hist_funcao_gratificada')
+            ->insert([
+                'idFG' => $idfuncaoGratificada,
+                'salario' => $request->input('salario'),
+                'motivo' => 'Abertura da Conta',
+                'datamod' => $dataDeHoje
+            ]);
+
+        app('flasher')->addSuccess('Função Gratificada adicionada com Sucesso!');
         return redirect()->route('IndexGerenciarFuncaoGratificada');
     }
 
@@ -56,7 +68,7 @@ class GerenciarFuncaoGratificada extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -64,7 +76,13 @@ class GerenciarFuncaoGratificada extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $funcaogratificada = DB::table('funcao_gratificada')
+            ->where('id', $id)
+            ->first();
+
+        return view('funcaogratificada.editar-funcao-gratificada', compact('funcaogratificada'));
+
+
     }
 
     /**
@@ -72,14 +90,40 @@ class GerenciarFuncaoGratificada extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        DB::table('funcao_gratificada')
+            ->where('id', $id)
+            ->update([
+                'nomeFG' => $request->input('nomecargo'),
+                'dt_inicioFG' => $request->input('data_inicial'),
+                'dt_fimFG' => $request->input('data_final'),
+                'salarioFG' => $request->input('salario'),
+                'status' => true
+            ]);
+        return redirect()->route('IndexGerenciarFuncaoGratificada');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function close(string $id, Request $request)
     {
-        //
+        $funcaogratificada = DB::table('funcao_gratificada')
+            ->where('id',$id)
+            ->first();
+
+        $dataDeHoje = Carbon::today()->toDateString();
+        DB::table('funcao_gratificada')
+            ->where('id', $id)
+            ->update([
+                'status' => false
+            ]);
+        DB::table('hist_funcao_gratificada')
+            ->insert([
+                'idFG' => $id,
+                'salario' => $funcaogratificada->salarioFG,
+                'motivo' => 'Encerramento de Conta',
+                'datamod' => $dataDeHoje
+            ]);
+        return redirect()->route('IndexGerenciarFuncaoGratificada');
     }
 }

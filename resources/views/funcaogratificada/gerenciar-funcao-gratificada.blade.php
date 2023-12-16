@@ -8,10 +8,10 @@
                 <fieldset class="border rounded">
                     <DIV class="CARD">
                         <div class="card-header">
-                            <form action="/gerenciar-cargos-regulares" method="GET" class="w-100">
+                            <form action="/gerenciar-funcao-gratificada" method="GET" class="w-100">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-12">
-                                        <input type="text" class="form-control" placeholder=""
+                                        <input type="text" class="form-control" placeholder="{{ $search }}"
                                                name="search" style="">
                                     </div>
                                     <br>
@@ -52,42 +52,62 @@
                                     </thead>
                                     <tbody>
                                     @foreach ($funcoesgratificadas as $funcoesgratificada)
-                                        <tr>
-                                            <td style="vertical-align: middle;">{{ $funcoesgratificada->nomeFG }}</td>
-                                            <td style="vertical-align: middle;">
-                                                R&dollar; {{ $funcoesgratificada->salarioFG }}</td>
-                                            <td style="vertical-align: middle;">
-                                                {{ \Carbon\Carbon::parse($funcoesgratificada->dt_inicioFG)->format('d/m/Y') }}
-                                            </td>
-                                            @if($funcoesgratificada->dt_fimFG != null)
-                                                <td>
-                                                    {{ \Carbon\Carbon::parse($funcoesgratificada->dt_fimFG)->format('d/m/Y') }}
+
+                                        @if($funcoesgratificada->status == false)
+                                            <tr class="text-secondary">
+                                                <td class="align-middle text-danger">{{ $funcoesgratificada->nomeFG }}</td>
+                                                <td class="align-middle">
+                                                    <span
+                                                        class="text-danger"> R&dollar; {{ $funcoesgratificada->salarioFG }}</span>
                                                 </td>
-                                            @elseif($funcoesgratificada->dt_fimFG == null)
+                                                <td class="align-middle text-danger">{{ \Carbon\Carbon::parse($funcoesgratificada->dt_inicioFG)->format('d/m/Y') }}</td>
+                                                @if($funcoesgratificada->dt_fimFG != null)
+                                                    <td class="align-middle text-danger">{{ \Carbon\Carbon::parse($funcoesgratificada->dt_fimFG)->format('d/m/Y') }}</td>
+                                                @elseif($funcoesgratificada->dt_fimFG == null)
+                                                    <td class="align-middle text-danger">EM VIGOR</td>
+                                                @endif
+                                                <td class="align-middle">
+                                                    <a href="/editar-funcao-gratificada/{{$funcoesgratificada->id}}"
+                                                       class="btn btn-outline-primary">
+                                                        <i class="bi bi-pencil" style="color: #0F0024"></i>
+                                                    </a>
+                                                    <a href="/historico-cargo-regular/" class="btn btn-outline-info">
+                                                        <i class="bi bi-search" style="color: #0F0024"></i>
+                                                    </a>
+                                                    <a href="/fechar-funcao-gratificada/{{$funcoesgratificada->id}}"
+                                                       class="btn btn-outline-danger  bg-gradient text-dark">
+                                                        <i class="bi bi-x-circle" style="color: #0F0024"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+
+                                        @else
+                                            <tr>
+                                                <td style="vertical-align: middle;">{{ $funcoesgratificada->nomeFG }}</td>
                                                 <td style="vertical-align: middle;">
-                                                    EM VIGOR
+                                                    R&dollar; {{ $funcoesgratificada->salarioFG }}</td>
+                                                <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($funcoesgratificada->dt_inicioFG)->format('d/m/Y') }}</td>
+                                                @if($funcoesgratificada->dt_fimFG != null)
+                                                    <td>{{ \Carbon\Carbon::parse($funcoesgratificada->dt_fimFG)->format('d/m/Y') }}</td>
+                                                @elseif($funcoesgratificada->dt_fimFG == null)
+                                                    <td style="vertical-align: middle;">EM VIGOR</td>
+                                                @endif
+                                                <td class="align-middle">
+                                                    <a href="/editar-funcao-gratificada/{{$funcoesgratificada->id}}"
+                                                       class="btn btn-outline-primary">
+                                                        <i class="bi bi-pencil" style="color: #0F0024"></i>
+                                                    </a>
+                                                    <a href="/historico-cargo-regular/" class="btn btn-outline-info">
+                                                        <i class="bi bi-search" style="color: #0F0024"></i>
+                                                    </a>
+                                                    <a href="/fechar-funcao-gratificada/{{$funcoesgratificada->id}}"
+                                                       class="btn btn-outline-danger">
+                                                        <i class="bi bi-x-circle" style="color: #0F0024"></i>
+                                                    </a>
                                                 </td>
-                                            @endif
-                                            <td style="vertical-align: middle;">
-                                                <a
-                                                    href="
-                                                                    /editar-cargo-regular/">
-                                                    <button class="btn btn-outline-primary"><span
-                                                            style="color: #000000; text-decoration: none"><i
-                                                                class="bi bi-pencil"></i></span>
-                                                    </button>
-                                                </a>
-                                                <a
-                                                    href="
-                                                                    /historico-cargo-regular/">
-                                                    <button class="btn btn-outline-info">
-                                                                <span style="color: #000;text-decoration: none"><i
-                                                                        class="bi bi-search"></i></span>
-                                                    </button>
-                                                </a>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                            </tr>
+                                        @endif
+
                                     @endforeach
                                     </tbody>
                                 </table>

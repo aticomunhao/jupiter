@@ -68,15 +68,18 @@ Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBa
 Route::get('/gerenciar-cargos-regulares', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'index'])->name('IndexGerenciarCargoRegular');
 Route::get('/criar-cargo-regular', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'create']);
 Route::any('/incluir-cargo-regular', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'store']);
-Route::any('/editar-cargo-regular/{id}',[App\Http\Controllers\GerenciarCargosRegularesController::class,'edit']);
-Route::any('/alterar-cargo-regular/{id}',[App\Http\Controllers\GerenciarCargosRegularesController::class,'update']);
+Route::any('/editar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'edit']);
+Route::any('/alterar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'update']);
 Route::get('/historico-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'show']);
 
 /*Gerenciar Funcao Gratificada*/
 
-Route::get('/gerenciar-funcao-gratificada',[Controllers\GerenciarFuncaoGratificada::class, 'index'])->name('IndexGerenciarFuncaoGratificada');
-Route::get('/criar-funcao-gratificada',[Controllers\GerenciarFuncaoGratificada::class, 'create']);
-Route::get('/incluir-funcao-gratificada',[Controllers\GerenciarFuncaoGratificada::class, 'store']);
+Route::get('/gerenciar-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'index'])->name('IndexGerenciarFuncaoGratificada');
+Route::get('/criar-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'create']);
+Route::get('/incluir-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'store']);
+Route::any('/editar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'edit']);
+Route::any('/alterar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class,'update']);
+Route::any('/fechar-funcao-gratificada/{id}',[Controllers\GerenciarFuncaoGratificada::class,'close']);
 
 /*Gerenciar setores*/
 
