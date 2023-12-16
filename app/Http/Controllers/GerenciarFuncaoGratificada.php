@@ -68,7 +68,9 @@ class GerenciarFuncaoGratificada extends Controller
      */
     public function show(string $id)
     {
-
+        $histfuncaogratificada = DB::table('hist_funcao_gratificada')
+            ->where('id', $id)
+            ->get();
     }
 
     /**
