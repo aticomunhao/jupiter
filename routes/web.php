@@ -44,7 +44,6 @@ Route::name('usuario')->middleware('validaUsuario')->group(function () {
     Route::get('/usuario/alterar/{id}', 'UsuarioController@edit');
     Route::put('usuario-atualizar/{id}', 'UsuarioController@update');
     Route::get('/usuario/gerar-Senha/{id}', 'UsuarioController@gerarSenha');
-
 });
 
 Route::post('/atualizar-funcionario/{idp}/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
@@ -78,8 +77,9 @@ Route::get('/gerenciar-funcao-gratificada', [Controllers\GerenciarFuncaoGratific
 Route::get('/criar-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'create']);
 Route::get('/incluir-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'store']);
 Route::any('/editar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'edit']);
-Route::any('/alterar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class,'update']);
-Route::any('/fechar-funcao-gratificada/{id}',[Controllers\GerenciarFuncaoGratificada::class,'close']);
+Route::any('/alterar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'update']);
+Route::any('/fechar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'close']);
+Route::get('/historico-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class,'show']);
 
 /*Gerenciar setores*/
 
@@ -106,12 +106,9 @@ Route::get(
 )->name('viewGerenciarCertificados');
 
 Route::get('/incluir-certificados/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']);
-
 Route::any('/adicionar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'store']);
 Route::any('/deletar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'destroy']);
-
 Route::any('/editar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'edit']);
-
 Route::any('/atualizar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'update']);
 
 

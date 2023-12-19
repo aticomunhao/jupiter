@@ -71,7 +71,7 @@
                                                        class="btn btn-outline-primary">
                                                         <i class="bi bi-pencil" style="color: #0F0024"></i>
                                                     </a>
-                                                    <a href="/historico-cargo-regular/" class="btn btn-outline-info">
+                                                    <a href="/historico-funcao-gratificada/{{$funcoesgratificada->id}}" class="btn btn-outline-info">
                                                         <i class="bi bi-search" style="color: #0F0024"></i>
                                                     </a>
 
@@ -94,7 +94,7 @@
                                                        class="btn btn-outline-primary">
                                                         <i class="bi bi-pencil" style="color: #0F0024"></i>
                                                     </a>
-                                                    <a href="/historico-cargo-regular/" class="btn btn-outline-info">
+                                                    <a href="/historico-funcao-gratificada/{{$funcoesgratificada->id}}" class="btn btn-outline-info">
                                                         <i class="bi bi-search" style="color: #0F0024"></i>
                                                     </a>
                                                     <a href="/fechar-funcao-gratificada/{{$funcoesgratificada->id}}"
@@ -111,6 +111,7 @@
                             </DIV>
                         </div>
                     </DIV>
+                </fieldset>
             </div>
         </div>
     </DIV>

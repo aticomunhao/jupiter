@@ -9,6 +9,7 @@
                     <div class="card">
                         <h5 class="card-header">
                             <div class="row">
+
                                 <div class="col-4">
                                     <div class="card">
                                         <div class="card-body">
@@ -18,7 +19,7 @@
                                 </div>
                                 <div class="col-4"></div>
                                 <div class="col-4">
-                                    <a href="../gerenciar-cargos-regulares">
+                                    <a href="../gerenciar-funcao-gratificada">
                                         <button type="button" class="btn btn-primary"
                                                 style="padding: 10px 30%; box-shadow: 4px 3px 2px rgba(0, 0, 0, 0.836);margin-top: 1%;width:100%; ">
                                             Retornar a tela inicial
@@ -41,11 +42,11 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach( $historicocargoregular as  $historicocargoregulars)
+                                @foreach( $funcaogratificada as  $funcaogratificadas)
                                     <tr>
-                                        <td> {{ \Carbon\Carbon::parse($historicocargoregulars->dt_alteracao)->format('d/m/y')}}</td>
-                                        <td>{{$historicocargoregulars->salarionovo}}</td>
-                                        <td>{{$historicocargoregulars->motivoalt}}</td>
+                                        <td> {{ \Carbon\Carbon::parse($funcaogratificadas->datamod)->format('d/m/y')}}</td>
+                                        <td>{{$funcaogratificadas->salario}}</td>
+                                        <td>{{$funcaogratificadas->motivo}}</td>
                                     </tr>
                                 @endforeach
 
@@ -60,4 +61,5 @@
             </div>
         </div>
     </div>
+
 @endsection
