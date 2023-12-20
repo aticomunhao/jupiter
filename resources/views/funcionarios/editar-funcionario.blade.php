@@ -312,7 +312,7 @@
                                             id="25" value = "{{ $editar[0]->reservista }}">
 
                                     </div>
-                                    <div class="form-group row" style = "">
+                                    <div class="form-group row">
 
                                         <div class="form-group col-md-6">
                                             <label for="26">Nome da Mãe</label>
@@ -334,7 +334,7 @@
 
                                     </div>
 
-                                    <div class="form-group row" style = "">
+                                    <div class="form-group row">
 
                                         <div class="form-group col-md-5">
                                             <label for="28">Email</label>

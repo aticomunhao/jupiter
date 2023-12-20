@@ -24,7 +24,7 @@
                 <div class="row">
                 <div class="col-6">
                     <input type="select" class="form-control" placeholder="Setor Pai">
-                </div>
+                </div>J
                 <div class="col-2">
                     <input type="select" class="form-control" placeholder="">
                 </div>

@@ -89,6 +89,7 @@ Route::get('/incluir-setor', [App\Http\Controllers\GerenciarSetoresController::c
 Route::any('/incluir-setores', [App\Http\Controllers\GerenciarSetoresController::class, 'insert']);
 Route::get('/editar-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'edit']);
 Route::post('/atualizar-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'update']);
+Route::get('/adicionar-area/{ids}', [App\Http\Controllers\GerenciarAreasController::class, 'index']);
 Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'delete']);
 
 /*Rotas dos Dependentes */
