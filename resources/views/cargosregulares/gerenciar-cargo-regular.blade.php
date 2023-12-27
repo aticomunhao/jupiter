@@ -81,16 +81,16 @@
                                             @elseif ($cargoregular->status == false)
                                                 <tr>
                                                     @if ($cargoregular->nomeCR != null)
-                                                        <td style="vertical-align: middle;">{{ $cargoregular->nomeCR }}</td>
+                                                        <td style="vertical-align: middle; color :red">{{ $cargoregular->nomeCR }}</td>
                                                     @elseif($cargoregular->nomeCC != null)
-                                                        <td style="vertical-align: middle;">{{ $cargoregular->nomeCC }}</td>
+                                                        <td style="vertical-align: middle; color :red ">{{ $cargoregular->nomeCC }}</td>
                                                     @endif
-                                                    <td style="vertical-align: middle;">R&dollar; {{ $cargoregular->salariobase }}</td>
-                                                    <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y') }}</td>
+                                                    <td style="vertical-align: middle; color :red ">R&dollar; {{ $cargoregular->salariobase }}</td>
+                                                    <td style="vertical-align: middle; color :red">{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y') }}</td>
                                                     @if ($cargoregular->dt_fimCR != null)
-                                                        <td>{{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y') }}</td>
+                                                        <td><span style="vertical-align: middle; color :red" > {{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y') }}</span></td>
                                                     @elseif($cargoregular->dt_fimCR == null)
-                                                        <td style="vertical-align: middle;">EM VIGOR</td>
+                                                        <td style="vertical-align: middle; color :red">EM VIGOR</td>
                                                     @endif
                                                     <td style="vertical-align: middle;">
                                                         <a href="/editar-cargo-regular/{{ $cargoregular->id }}">

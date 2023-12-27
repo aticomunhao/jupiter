@@ -180,7 +180,21 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function destroy(string $id)
     {
-        //DB::table('')
+        $dataDeHoje = Carbon::today()->toDateString();
+        $cargo = DB::table('cargo_regular')
+            ->where('id', $id)
+            ->first();
+        DB::table('cargo_regular')->where('id', $id)->update([
+            'status' => false,
+            'dt_fimCR' => $dataDeHoje
+        ]);
+
+        DB::table('hist_cargo_regular')->insert([
+            'id_cargoalterado' => $id,
+            'dt_alteracao' => $dataDeHoje,
+            'salarionovo' => $cargo->salario,
+            'motivoalt' => 'Fechamento do Cargo'
+        ]);
     }
 
 

@@ -70,7 +70,7 @@ Route::any('/incluir-cargo-regular', [App\Http\Controllers\GerenciarCargosRegula
 Route::any('/editar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'edit']);
 Route::any('/alterar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'update']);
 Route::get('/historico-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'show']);
-
+Route::any('/fechar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'destroy']);
 /*Gerenciar Funcao Gratificada*/
 
 Route::get('/gerenciar-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'index'])->name('IndexGerenciarFuncaoGratificada');
