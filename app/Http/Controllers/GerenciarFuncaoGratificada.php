@@ -20,8 +20,9 @@ class GerenciarFuncaoGratificada extends Controller
                 ->where('nomeFG', 'ilike', '%' . $search . '%')
                 ->get();
 
+
 // If you still want to group the results by 'status' in PHP, you can use the following code:
-            $funcoesgratificadas = $funcoesgratificadas->groupBy('status');
+
         } else {
             $funcoesgratificadas = DB::table('funcao_gratificada')->get();
         }
@@ -78,12 +79,12 @@ class GerenciarFuncaoGratificada extends Controller
                 ->insert([
                     'idFG' => $idfuncaoGratificada,
                     'salario' => $request->input('salario'),
-                    'motivo' => 'Encerramento da Funcao',
+                    'motivo' => 'Criação Função',
                     'datamod' => $request->input('data_final')
                 ]);
             app('flasher')->addSuccess('Função Gratificada adicionada com Sucesso!');
             return redirect()->route('IndexGerenciarFuncaoGratificada');
-        }else{
+        } else {
             $idfuncaoGratificada = DB::table('funcao_gratificada')
                 ->insertGetId([
                     'nomeFG' => $request->input('nomefuncao'),
@@ -96,7 +97,7 @@ class GerenciarFuncaoGratificada extends Controller
                 ->insert([
                     'idFG' => $idfuncaoGratificada,
                     'salario' => $request->input('salario'),
-                    'motivo' => 'Encerramento da Funcao',
+                    'motivo' => 'Criação Função',
                     'datamod' => $dataDeHoje
                 ]);
 
@@ -113,13 +114,14 @@ class GerenciarFuncaoGratificada extends Controller
      */
     public function show(string $id)
     {
+        $funcao = DB::table('funcao_gratificada')->where('id', $id)->first();
 
         $funcaogratificada = DB::table('hist_funcao_gratificada')
-            ->where('idFG', $id)
+            ->where('idFG', $id)->orderBy('datamod', 'desc')
             ->get();
 
 
-        return view('funcaogratificada.hist-funcao-gratificada', compact('funcaogratificada'));
+        return view('funcaogratificada.hist-funcao-gratificada', compact('funcaogratificada','funcao'));
     }
 
     /**
@@ -141,15 +143,37 @@ class GerenciarFuncaoGratificada extends Controller
      */
     public function update(Request $request, string $id)
     {
-        DB::table('funcao_gratificada')
-            ->where('id', $id)
-            ->update([
-                'nomeFG' => $request->input('nomecargo'),
-                'dt_inicioFG' => $request->input('data_inicial'),
-                'dt_fimFG' => $request->input('data_final'),
-                'salarioFG' => $request->input('salario'),
 
-            ]);
+        $funcaogratificada = DB::table('funcao_gratificada')
+            ->where('id', $id)
+            ->first();
+
+
+        if ($request->input('data_inicial') < $request->input('data_final')) {
+            app('flasher')->addError('Não foi posso');
+        } else if ($request->input('salario') < $funcaogratificada->salarioFG) {
+            app('flasher')->addError('Não foi possivel editar, o salario inserido é menor que o salario anterior');
+        } else {
+            $dataDeHoje = Carbon::today()->toDateString();
+            DB::table('funcao_gratificada')
+                ->where('id', $id)
+                ->update([
+                    'nomeFG' => $request->input('nomecargo'),
+                    'dt_inicioFG' => $request->input('data_inicial'),
+                    'dt_fimFG' => $request->input('data_final'),
+                    'salarioFG' => $request->input('salario'),
+
+                ]);
+
+            DB::table('hist_funcao_gratificada')
+                ->insert([
+                    'idFG' => $id,
+                    'salario' => $request->input('salario'),
+                    'motivo' => $request->input('motivoalteracao'),
+                    'datamod' => $dataDeHoje
+                ]);
+        }
+
         return redirect()->route('IndexGerenciarFuncaoGratificada');
     }
 

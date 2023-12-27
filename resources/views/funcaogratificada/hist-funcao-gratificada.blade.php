@@ -13,7 +13,7 @@
                                 <div class="col-4">
                                     <div class="card">
                                         <div class="card-body">
-
+                                            {{$funcao->nomeFG}}
                                         </div>
                                     </div>
                                 </div>

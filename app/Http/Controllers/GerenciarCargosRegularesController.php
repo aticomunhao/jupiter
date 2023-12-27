@@ -18,6 +18,7 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function index()
     {
+        $dataDeHoje = Carbon::today()->toDateString();
         $search = request('search');
 
         if ($search) {
@@ -29,6 +30,14 @@ class GerenciarCargosRegularesController extends Controller
             $cargosregulares = DB::table('cargo_regular')
                 ->orderBy('nomeCR')
                 ->get();
+        }
+
+        foreach ($cargosregulares as $cargoregular) {
+
+            if ($cargoregular->dt_fimCR <= $dataDeHoje && $cargoregular->dt_fimCR != null) {
+                $cargoregular->status = false;
+
+            }
         }
 
         return view('cargosregulares.gerenciar-cargo-regular', compact('cargosregulares', 'search'));
@@ -61,7 +70,8 @@ class GerenciarCargosRegularesController extends Controller
                 'dt_inicioCR' => $request->input('data_inicial'),
                 'dt_fimCR' => $request->input('data_final'),
                 'salariobase' => $request->input('salario'),
-                'nomeCC' => null
+                'nomeCC' => null,
+                'status' => true
             ]);
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $idcargoregular,
@@ -76,7 +86,8 @@ class GerenciarCargosRegularesController extends Controller
                 'dt_inicioCR' => $request->input('data_inicial'),
                 'dt_fimCR' => $request->input('data_final'),
                 'salariobase' => $request->input('salario'),
-                'nomeCR' => null
+                'nomeCR' => null,
+                'status' => true
             ]);
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $idcargoregular,
