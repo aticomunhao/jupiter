@@ -17,25 +17,63 @@ class GerenciarHierarquiaController extends Controller
 
       $nivel = DB::table('tp_nivel_setor')->select('id AS id_nivel', 'nome as nome_nivel');
 
-      $setor = DB::table('setor')->select('id AS id_setor','nome AS nome_setor');
+      $setor = DB::table('setor')->select('id AS id_setor','nome AS nome_setor', 'sigla', 'dt_inicio', 'status', 'substituto')->get();
 
 
-      $nome_nivel = $request->nome_nivel;
+      //dd($setor);
+      $id_nivel = $request->id_nivel;
+      $id_setor = $request->id_setor;
+      $sigla = $request->input('sigla');
+      $status = $request->input('status');
+      $dt_inicio = $request->input('dt_inicio');
+      $substituto = $request->input('substituto');
 
-      $nome_setor = $request->nome_setor;
+      $nome_nivel = $request->input('nome_nivel');
+      $nome_setor = $request->input('nome_setor');
 
-      if ($request->nome_nivel){
-         $nivel->where('nome_nivel', '=', $request->nome_nivel);
-      }
+      if ($nome_nivel) {
+         $nivel->where('nome', $nome_nivel);
+     }
 
-      if ($request->nome_setor){
-         $setor->where('nome_setor', '=', $request->nome_setor);
-      }
+     if ($nome_setor) {
+         $setor->where('nome', $nome_setor);
+     }
 
-       
+     if ($id_setor) {
+      $setor->where('nome', $nome_setor);
+     }
 
-    return view('/setores/Gerenciar-hierarquia', compact('nome_nivel','nome_setor', 'nivel', 'setor'));
+     if ($id_nivel) {
+      $nivel->where('nome', $id_nivel);
+     }      
+     
+     if ($sigla) {
+      $sigla->where('nome', $sigla);
+     }     
+
+    return view('/setores/Gerenciar-hierarquia', compact('nome_nivel','nivel','setor', 'nome_setor', 'id_nivel', 'id_setor', 'sigla', 'dt_inicio', 'status', 'substituto'));
     }
+   public function create(Request $request){
+
+      $nome_nivel = $request->input('nome_nivel');
+      $nome_setor = $request->input('nome_setor');
+
+      $niveis = DB::table('tp_nivel_setor')->select('id AS id_nivel', 'nome AS nome_nivel');
+      $setor = DB::table('setor')->select('id AS id_setor', 'nome AS nome_setor');
 
 
+      if ($nome_nivel) {
+          $niveis->where('nome', $nome_nivel);
+      }
+
+      if ($nome_setor) {
+          $setor->where('nome', $nome_setor);
+      }
+
+      $niveis = $niveis->get();
+      $setores = $setor->get();
+
+      return view('/setores/Gerenciar-hierarquia', compact('nome_nivel', 'nome_setor', 'niveis', 'setor'));
+  }
 }
+

@@ -14,7 +14,7 @@
                     <select id="1" class="form-select" name="nivel" value="{{$nome_nivel}}" type="text">
                        <option></option> 
                         @foreach($nivel as $niveis)
-                        <option value="{{$niveis->id_nivel}}">{{$niveis->nome_nivel}}</option>
+                        <option value=""></option>
                         @endforeach
                     </select>
                 </div>
@@ -73,25 +73,17 @@
                     </thead>
                     <tbody style="font-size: 15px; color:#000000;">
                         <tr>
-                          
-                                <td scope="">
-                                    <center></center>
-                                </td>
-                                <td scope="">
-                                    <center></center>
-                                </td>
-                                <td scope="">
-                                    <center></center>
-                                </td>
-                                <td scope="">
-                                    <center></center>
-                                </td>
-                                <td scope="">
-                                    <center></center>
-                                </td>
-
-              </div>
+                    @foreach ($setor as $setores)
+                    <td scope="">{{$setores->nome_setor}}</td>
+                    <td scope="">{{$setores->sigla}}</td>
+                    <td scope="">{{$setores->dt_inicio}}</td>
+                    <td scope="">{{$setores->status}}</td>
+                    <td scope="">{{$setores->substituto}}</td>  
+                        </tr>                                 
+              </div> 
             </div>
         </div>
+         
+           @endforeach
 
             @endsection
