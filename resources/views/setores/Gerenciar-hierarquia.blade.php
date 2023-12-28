@@ -8,13 +8,13 @@
 
     <div class="card">
         <div class="card-header">
-            <div class="row" action="{{route('gerenciar')}}" method="GET">>
+            <div class="row" action="{{route('gerenciar')}}" method="GET">
                 <div class="col-2">
                     <label for="1">Nivel</label>
                     <select id="1" class="form-select" name="nivel" value="{{$nome_nivel}}" type="text">
                        <option></option> 
                         @foreach($nivel as $niveis)
-                        <option value=""></option>
+                        <option value="{{$niveis->id_nivel}}">{{$niveis->nome_nivel}}</option>
                         @endforeach
                     </select>
                 </div>
@@ -51,13 +51,17 @@
                             </div>
                             <div class="col-2">
                                 <label for="5">Nivel</label>
-                                <input id="5" type="select" class="form-control">
-                                
+                                <select id="1" class="form-select" name="nivel" value="{{$nome_nivel}}" type="text">
+                            <option></option> 
+                        @foreach($nivel as $niveis)
+                        <option value="{{$niveis->id_nivel}}">{{$niveis->nome_nivel}}</option>
+                        @endforeach
+                        </select>
                             </div>
                             <div class="col">
                             <a href="" type="button" class="btn btn-primary" value="">Confirmar</a>
                             </div>
-                <hr>    
+                 
                 </div>
                                 <div class="table">
                 <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
@@ -74,11 +78,11 @@
                     <tbody style="font-size: 15px; color:#000000;">
                         <tr>
                     @foreach ($setor as $setores)
-                    <td scope="">{{$setores->nome_setor}}</td>
-                    <td scope="">{{$setores->sigla}}</td>
-                    <td scope="">{{$setores->dt_inicio}}</td>
-                    <td scope="">{{$setores->status}}</td>
-                    <td scope="">{{$setores->substituto}}</td>  
+                    <td scope=""> <center> {{$setores->nome_setor}}</center></td>
+                    <td scope=""> <center> {{$setores->sigla}}</center></td>
+                    <td scope=""> <center> {{$setores->dt_inicio}}</center></td>
+                    <td scope=""> <center> {{$setores->status?'Ativo':'Inativo'}}</center></td>
+                    <td scope=""> <center> {{$setores->nome_substituto}}</center></td>  
                         </tr>                                 
               </div> 
             </div>
