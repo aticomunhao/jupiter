@@ -32,6 +32,7 @@ class GerenciarCargosRegularesController extends Controller
                 ->get();
         }
 
+
         foreach ($cargosregulares as $cargoregular) {
 
             if ($cargoregular->dt_fimCR <= $dataDeHoje && $cargoregular->dt_fimCR != null) {
@@ -189,12 +190,15 @@ class GerenciarCargosRegularesController extends Controller
             'dt_fimCR' => $dataDeHoje
         ]);
 
+
         DB::table('hist_cargo_regular')->insert([
             'id_cargoalterado' => $id,
             'dt_alteracao' => $dataDeHoje,
-            'salarionovo' => $cargo->salario,
+            'salarionovo' => $cargo->salariobase,
             'motivoalt' => 'Fechamento do Cargo'
         ]);
+
+        return redirect()->route('IndexGerenciarCargoRegular');
     }
 
 

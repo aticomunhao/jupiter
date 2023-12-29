@@ -71,7 +71,7 @@ class GerenciarDadosBancariosController extends Controller
         if ($request->input('dt_inicio') > $funcionario->dt_inicio) {
             app('flasher')->addError('A data de inicio da conta é maior que a data de inicio do funcionario na empresa');
             return redirect()->route('DadoBanc', ['id' => $idf]);
-        } else{
+        } else {
             DB::table('rel_dados_bancarios')->insert([
                 'id_funcionario' => $idf,
                 'id_banco_ag' => $request->input('tp_banco_ag'),

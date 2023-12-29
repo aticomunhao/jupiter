@@ -13,7 +13,7 @@ class GerenciarEntidadesController extends Controller
      */
     public function index()
     {
-        $entidades = DB::select('select * from tp_entidades_ensino');
+        $entidades = DB::table('tp_entidades_ensino')->get();
 
 
 

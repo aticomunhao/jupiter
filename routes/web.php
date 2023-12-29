@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 
 
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -116,7 +118,7 @@ Route::any('/editar-certificado/{id}', [\App\Http\Controllers\GerenciarCertifica
 Route::any('/atualizar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'update']);
 
 
-/**Rota para Entidades Escolares   */
+/**Rota para Entidades Escolares */
 Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('IndexGerenciarEntidades');
 Route::get('/incluir-entidades-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'create']);
 Route::any('/armazenar-entidade', [App\Http\Controllers\GerenciarEntidadesController::class, 'store']);

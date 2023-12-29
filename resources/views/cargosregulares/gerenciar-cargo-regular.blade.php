@@ -11,18 +11,22 @@
                             <form action="/gerenciar-cargos-regulares" method="GET" class="w-100">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-12">
-                                        <input type="text" class="form-control" placeholder="{{ $search }}" name="search" style="">
+                                        <input type="text" class="form-control" placeholder="{{ $search }}"
+                                            name="search" style="">
                                     </div>
                                     <br>
                                     <div class="col-lg-2 col-md-12">
-                                        <button class="btn btn-light btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 100%;margin-top: 1%" type="submit">
+                                        <button class="btn btn-light btn-sm"
+                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 100%;margin-top: 1%"
+                                            type="submit">
                                             Pesquisar
                                         </button>
                                     </div>
                                     <div class="col"></div>
                                     <div class="col-lg-3 col-md-12">
                                         <a href="/criar-cargo-regular">
-                                            <button type="button" class="btn btn-success" style="padding: 10px 15%; box-shadow: 4px 3px 2px rgba(0, 0, 0, 0.836); margin-top: 1%; width: 100%;">
+                                            <button type="button" class="btn btn-success"
+                                                style="padding: 10px 15%; box-shadow: 4px 3px 2px rgba(0, 0, 0, 0.836); margin-top: 1%; width: 100%;">
                                                 Novo &plus;
                                             </button>
                                         </a>
@@ -35,7 +39,8 @@
                     <div class="card-body">
                         <div class="container-fluid">
                             <div class="card-text">
-                                <table class="table table-striped table-bordered border-secondary table-hover align-middle justify-content-center">
+                                <table
+                                    class="table table-striped table-bordered border-secondary table-hover align-middle justify-content-center">
                                     <thead class="text-align: justify-center">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#343434">
                                             <th class="col-lg-4 col-sm-12">CARGO</th>
@@ -54,10 +59,14 @@
                                                     @elseif($cargoregular->nomeCC != null)
                                                         <td style="vertical-align: middle;">{{ $cargoregular->nomeCC }}</td>
                                                     @endif
-                                                    <td style="vertical-align: middle;">R&dollar; {{ $cargoregular->salariobase }}</td>
-                                                    <td style="vertical-align: middle;">{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y') }}</td>
+                                                    <td style="vertical-align: middle;">R&dollar;
+                                                        {{ $cargoregular->salariobase }}</td>
+                                                    <td style="vertical-align: middle;">
+                                                        {{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y') }}
+                                                    </td>
                                                     @if ($cargoregular->dt_fimCR != null)
-                                                        <td>{{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y') }}</td>
+                                                        <td>{{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y') }}
+                                                        </td>
                                                     @elseif($cargoregular->dt_fimCR == null)
                                                         <td style="vertical-align: middle;">EM VIGOR</td>
                                                     @endif
@@ -76,19 +85,33 @@
                                                                 </span>
                                                             </button>
                                                         </a>
+                                                        <a href="/fechar-cargo-regular/{{ $cargoregular->id }}">
+                                                            <button class="btn btn-outline-danger">
+                                                                <span style="color: #000;text-decoration: none">
+                                                                    <i class="bi bi-x-lg"></i>
+                                                                </span>
+                                                            </button>
+                                                        </a>
                                                     </td>
                                                 </tr>
                                             @elseif ($cargoregular->status == false)
                                                 <tr>
                                                     @if ($cargoregular->nomeCR != null)
-                                                        <td style="vertical-align: middle; color :red">{{ $cargoregular->nomeCR }}</td>
+                                                        <td style="vertical-align: middle; color :red">
+                                                            {{ $cargoregular->nomeCR }}</td>
                                                     @elseif($cargoregular->nomeCC != null)
-                                                        <td style="vertical-align: middle; color :red ">{{ $cargoregular->nomeCC }}</td>
+                                                        <td style="vertical-align: middle; color :red ">
+                                                            {{ $cargoregular->nomeCC }}</td>
                                                     @endif
-                                                    <td style="vertical-align: middle; color :red ">R&dollar; {{ $cargoregular->salariobase }}</td>
-                                                    <td style="vertical-align: middle; color :red">{{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y') }}</td>
+                                                    <td style="vertical-align: middle; color :red ">R&dollar;
+                                                        {{ $cargoregular->salariobase }}</td>
+                                                    <td style="vertical-align: middle; color :red">
+                                                        {{ \Carbon\Carbon::parse($cargoregular->dt_inicioCR)->format('d/m/Y') }}
+                                                    </td>
                                                     @if ($cargoregular->dt_fimCR != null)
-                                                        <td><span style="vertical-align: middle; color :red" > {{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y') }}</span></td>
+                                                        <td><span style="vertical-align: middle; color :red">
+                                                                {{ \Carbon\Carbon::parse($cargoregular->dt_fimCR)->format('d/m/Y') }}</span>
+                                                        </td>
                                                     @elseif($cargoregular->dt_fimCR == null)
                                                         <td style="vertical-align: middle; color :red">EM VIGOR</td>
                                                     @endif
@@ -107,6 +130,7 @@
                                                                 </span>
                                                             </button>
                                                         </a>
+
                                                     </td>
                                                 </tr>
                                             @endif
