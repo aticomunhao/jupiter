@@ -41,10 +41,17 @@
                                             aria-hidden="true"></i></label>
                                     <input type="date" name="data_final" id="id_data_final" class="form-control">
                                 </div>
-                                <div class="col-lg-3 col-md-6 flex-column"><label for="#idsalario">Salario</label>
-                                    <input type="number" name="salario" id="idsalario" class="form-control" step="0.01"
-                                        min="0" required = "required">
+                                <div class="col-lg-3 col-md-6 flex-column">
+                                    <label for="#idsalario">Salário</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">R$</span>
+                                        </div>
+                                        <input type="number" name="salario" id="idsalario" class="form-control"
+                                            step="0.01" min="0" required="required">
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                         <br>

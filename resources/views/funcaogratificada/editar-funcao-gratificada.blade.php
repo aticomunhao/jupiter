@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="/alterar-funcao-gratificada/{{$funcaogratificada->id}}">
+                    <form action="/alterar-funcao-gratificada/{{ $funcaogratificada->id }}">
                         @csrf
 
                         <div class="row">
@@ -29,12 +29,7 @@
                                     <input type="date" name="data_inicial" id="id_data_inicial" class="form-control"
                                            required="required" value="{{ $funcaogratificada->dt_inicioFG }}">
                                 </div>
-                                <div class="col-lg-2 col-md-6 flex-column">
-                                    <label for="#id_data_final">Data Final<i class="fa fa-terminal"
-                                                                             aria-hidden="true"></i></label>
-                                    <input type="date" name="data_final" id="id_data_final" class="form-control"
-                                           value="{{ $funcaogratificada->dt_fimFG }}">
-                                </div>
+
                                 <div class="col-lg-3 col-md-6 flex-column"><label for="#idsalario">Salario</label>
                                     <input type="number" name="salario" id="idsalario" class="form-control" step="0.01"
                                            min="0" value="{{ $funcaogratificada->salarioFG }}" required="required">

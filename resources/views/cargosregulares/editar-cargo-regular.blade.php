@@ -37,21 +37,22 @@
                                         <option value="2">Cargo De Confiança</option>
                                     </select>
                                 </div>
-                                <div class="col-lg-2 col-md-6 flex-column">
+                                <div class="col-lg-3 col-md-6 flex-column">
                                     <label for="#id_data_inicial">Data Inicial</label>
                                     <input type="date" name="data_inicial" id="id_data_inicial" class="form-control"
                                            required="required" value="{{ $cargoregular->dt_inicioCR }}">
                                 </div>
-                                <div class="col-lg-2 col-md-6 flex-column">
-                                    <label for="#id_data_final">Data Final<i class="fa fa-terminal"
-                                                                             aria-hidden="true"></i></label>
-                                    <input type="date" name="data_final" id="id_data_final" class="form-control"
-                                           value="{{ $cargoregular->dt_fimCR }}">
+
+                                <div class="col-lg-3 col-md-6 flex-column">
+                                    <label for="#idsalario">Salario</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">R$</span>
+                                        </div>
+                                        <input type="number" name="salario" id="idsalario" class="form-control" step="0.01" min="0" value="{{ $cargoregular->salariobase }}" required="required">
+                                    </div>
                                 </div>
-                                <div class="col-lg-3 col-md-6 flex-column"><label for="#idsalario">Salario</label>
-                                    <input type="number" name="salario" id="idsalario" class="form-control" step="0.01"
-                                           min="0" value="{{ $cargoregular->salariobase }}" required="required">
-                                </div>
+
                             </div>
                         </div>
                         <br>

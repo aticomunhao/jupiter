@@ -8,8 +8,8 @@
                 <fieldset class="border border-primary rounded">
                     <div class="card">
                         <h5 class="card-header">
-                            <div class="row">
-                                <div class="col-4">
+                            <div class="row row-flex justify-content-between">
+                                <div class="col-md-4 col-sm-12">
                                     <div class="card">
                                         <div class="card-body">
                                             @if ($cargoregular->nomeCR != null)
@@ -20,8 +20,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4"></div>
-                                <div class="col-4">
+
+                                <div class="col-md-5 col-sm-12">
                                     <a href="../gerenciar-cargos-regulares"><button type="button" class="btn btn-primary" style="padding: 10px 30%; box-shadow: 4px 3px 2px rgba(0, 0, 0, 0.836);margin-top: 1%;width:100%; ">Retornar a tela inicial</button></a>
                                 </div>
 
