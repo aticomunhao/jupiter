@@ -101,61 +101,29 @@
 
                 </div>
 
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                                const masterCheckBox = document.getElementById('masterCheckBox');
-                                const checkBoxes = Array.from(document.querySelectorAll('.checkBox'));
+                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                <script type="text/javascript">
+                    $(document).ready(function() {
+                        $('#idnivel').change(function() {
+                            var nivel_id = $(this).val();
 
-                                // Marca ou desmarca todas as checkboxes de acordo com a checkbox master
-                                masterCheckBox.addEventListener('change', function(event) {
-                                    checkBoxes.forEach(function(e) {
-                                        e.checked = event.target.checked;
-                                        changeBackground(e);
+                            $.ajax({
+                                url: '/obter-setores/' + nivel_id,
+                                type: 'GET',
+                                success: function(data) {
+                                    $('#idsetor').removeAttr('disabled');
+                                    $('#idsetor').empty();
+                                    $.each(data, function(index, item) {
+                                        $('#idsetor').append('<option value="' + item.id + '">' + item.nome + '</option>');
                                     });
-                                });
 
-                                // Marca masterCheckBox se todas as outras estiverem marcadas
-                                // Desmarca se pelo menos uma estiver desmarcada
-                                checkBoxes.forEach(function(e) {
-                                    e.addEventListener('change', function(event) {
-                                        masterCheckBox.checked = checkBoxes.every(function(f) {
-                                            return f.checked;
-                                        });
-                                        changeBackground(e);
-                                    });
-                                });
-
-                                // Destaca background das linhas selecionadas
-                                function changeBackground(input) {
-                                    const tableRow = input.parentElement.parentElement;
-                                    if (input.checked) tableRow.style.background = '#aaa';
-                                    else tableRow.style.background = '';
+                                },
+                                error: function(xhr) {
+                                    console.log(xhr.responseText);
                                 }
-
-                                //JQUERY
-                                $(document).ready(function() {
-                                    $('#idnivel').change(function() {
-                                        var nivel_id = $(this).val();
-
-                                        // Faz a requisição AJAX
-                                        $.ajax({
-                                            url: '/obter-setores/' + nivel_id, // Rota para o controller que retorna os setores
-                                            type: 'GET',
-                                            success: function(data) {
-                                                $('#idsetor').removeAttr('disabled'); // Habilita o campo de seleção de setores
-                                                $('#idsetor').empty(); // Limpa as opções existentes
-
-                                                // Adiciona as novas opções com base nos setores retornados
-                                                $.each(data, function(key, value) {
-                                                    $('#idsetor').append('<option value="' + key + '">' + value + '</option>');
-                                                });
-                                            },
-                                            error: function(xhr) {
-                                                console.log(xhr.responseText); // Lida com erros
-                                            }
-                                        });
-                                    });
-                                });
+                            });
+                        });
+                    });
                 </script>
             </div>
         </div>

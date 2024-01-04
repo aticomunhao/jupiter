@@ -91,21 +91,17 @@ class GerenciarHierarquiaController extends Controller
     }
     
 
-
     public function obterSetoresPorNivel($id_nivel)
     {
+        $set = DB::table('setor as s')->where('id_nivel', $id_nivel)->select('s.nome')->get();
     
-        $set = DB::table('setores')->where('id_nivel', $id_nivel)->pluck('nome', 'id'); 
-
-    foreach ($set  as $set_nivel) {
-
-        if ($id_nivel == $set_nivel->id) {
-            $sets = DB::table('setor as s')->where('id_nivel', $id_nivel)->select('s.nome');
-            
-             
-
-    return response()->json($sets); 
-   }
+        if ($set->isNotEmpty()) {
+            return response()->json($set); 
+        }
+    
+        return response()->json(['message' => 'Nenhum setor encontrado para o ID de nível fornecido']);
+    }
+    
+    
 
 }
-    }}
