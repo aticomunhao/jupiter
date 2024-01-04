@@ -103,27 +103,57 @@
 
                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                 <script type="text/javascript">
-                    $(document).ready(function() {
-                        $('#idnivel').change(function() {
-                            var nivel_id = $(this).val();
+document.addEventListener('DOMContentLoaded', function() {
+    const masterCheckBox = document.getElementById('masterCheckBox');
+    const checkBoxes = Array.from(document.querySelectorAll('.checkBox'));
 
-                            $.ajax({
-                                url: '/obter-setores/' + nivel_id,
-                                type: 'GET',
-                                success: function(data) {
-                                    $('#idsetor').removeAttr('disabled');
-                                    $('#idsetor').empty();
-                                    $.each(data, function(index, item) {
-                                        $('#idsetor').append('<option value="' + item.id + '">' + item.nome + '</option>');
-                                    });
+    // Marca ou desmarca todas as checkboxes de acordo com a checkbox master
+    masterCheckBox.addEventListener('change', function(event) {
+        checkBoxes.forEach(function(e) {
+            e.checked = event.target.checked;
+            changeBackground(e);
+        });
+    });
 
-                                },
-                                error: function(xhr) {
-                                    console.log(xhr.responseText);
-                                }
-                            });
-                        });
-                    });
+    // Marca masterCheckBox se todas as outras estiverem marcadas
+    // Desmarca se pelo menos uma estiver desmarcada
+    checkBoxes.forEach(function(e) {
+        e.addEventListener('change', function(event) {
+            masterCheckBox.checked = checkBoxes.every(function(f) {
+                return f.checked;
+            });
+            changeBackground(e);
+        });
+    });
+
+    // Destaca background das linhas selecionadas
+    function changeBackground(input) {
+        const tableRow = input.parentElement.parentElement;
+        if (input.checked) tableRow.style.background = '#aaa';
+        else tableRow.style.background = '';
+    }
+
+    // Início do código AJAX
+    $('#idnivel').change(function() {
+        var nivel_id = $(this).val();
+
+        $.ajax({
+            url: '/obter-setores/' + nivel_id,
+            type: 'GET',
+            success: function(data) {
+                $('#idsetor').removeAttr('disabled');
+                $('#idsetor').empty();
+                $.each(data, function(index, item) {
+                    $('#idsetor').append('<option value="' + item.id + '">' + item.nome + '</option>');
+                });
+
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+            }
+        });
+    });
+});
                 </script>
             </div>
         </div>
