@@ -95,7 +95,7 @@ Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetores
 
 /*Gerenciar-Hierarquia*/
 
-Route::get('/gerenciar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'index'])->name('gerenciar');
+
 Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarHierarquiaController::class, 'obterSetoresPorNivel']);
 
 
