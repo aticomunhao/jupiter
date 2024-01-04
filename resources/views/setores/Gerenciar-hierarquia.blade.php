@@ -4,15 +4,13 @@
     <br>
 
     <div class="container">
-
         <div class="border border-primary" style="border-radius: 5px;">
             <div class="card">
                 <div class="card-header">
-                    <div class="row" style="margin-left:5px" action="{{ route('gerenciar') }}" method="GET">
+                    <div class="row" style="margin-left:5px">
                         <div class="col-2">
                             <label for="1">Nivel</label>
-                            <select id="idnivel" class="form-select" name="nivel" value="{{ $nome_nivel }}"
-                                type="text">
+                            <select id="idnivel" class="form-select" name="nivel" value="{{ $nome_nivel }}" type="text">
                                 <option></option>
                                 @foreach ($nivel as $niveis)
                                     <option value="{{ $niveis->id_nivel }}">{{ $niveis->nome_nivel }}</option>
@@ -21,8 +19,7 @@
                         </div>
                         <div class="col-3">
                             <label for="1">Setor</label>
-                            <select id="idsetor" class="form-select" name="setor" type="text"
-                                value="{{ $nome_setor }}" disabled>
+                            <select id="idsetor" class="form-select" name="setor" type="text" value="{{ $nome_setor }}">
                                 <option></option>
                                 @foreach ($setor as $setores)
                                     <option value="{{ $setores->id_setor }}">{{ $setores->nome_setor }}</option>
@@ -52,8 +49,7 @@
                         </div>
                         <div class="col-2">
                             <label for="5">Nivel</label>
-                            <select id="1" class="form-select" name="nivel" value="{{ $nome_nivel }}"
-                                type="text">
+                            <select id="1" class="form-select" name="nivel" value="{{ $nome_nivel }}" type="text">
                                 <option></option>
                                 @foreach ($nivel as $niveis)
                                     <option value="{{ $niveis->id_nivel }}">{{ $niveis->nome_nivel }}</option>
@@ -68,38 +64,38 @@
                         <table
                             class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                             <thead style="text-align: center;">
-                                <tr style="background-color: #365699; font-size:19px; color:#ffffff">
-                                    <th class="col-1"><input type="checkbox" id="masterCheckBox"></th>
-                                    <th class="col-4">Nome</th>
-                                    <th class="col-2">Sigla</th>
-                                    <th class="col-2">Data de Inicio</th>
-                                    <th class="col-1">Status</th>
-                                    <th class="col-2">Substituto</th>
-                                </tr>
+                            <tr style="background-color: #365699; font-size:19px; color:#ffffff">
+                                <th class="col-1"><input type="checkbox" id="masterCheckBox"></th>
+                                <th class="col-4">Nome</th>
+                                <th class="col-2">Sigla</th>
+                                <th class="col-2">Data de Inicio</th>
+                                <th class="col-1">Status</th>
+                                <th class="col-2">Substituto</th>
+                            </tr>
                             </thead>
                             <tbody style="font-size: 15px; color:#000000;">
-                                @foreach ($setor as $setores)
-                                    <tr>
-                                        <td scope="">
-                                            <center><input type="checkbox" class="checkBox"></center>
-                                        </td>
-                                        <td scope="">
-                                            <center>{{ $setores->nome_setor }}</center>
-                                        </td>
-                                        <td scope="">
-                                            <center>{{ $setores->sigla }}</center>
-                                        </td>
-                                        <td scope="">
-                                            <center>{{ $setores->dt_inicio }}</center>
-                                        </td>
-                                        <td scope="">
-                                            <center>{{ $setores->status ? 'Ativo' : 'Inativo' }}</center>
-                                        </td>
-                                        <td scope="">
-                                            <center>{{ $setores->nome_substituto }}</center>
-                                        </td>
-                                    </tr>
-                                @endforeach
+                            @foreach ($setor as $setores)
+                                <tr>
+                                    <td scope="">
+                                        <center><input type="checkbox" class="checkBox"></center>
+                                    </td>
+                                    <td scope="">
+                                        <center>{{ $setores->nome_setor }}</center>
+                                    </td>
+                                    <td scope="">
+                                        <center>{{ $setores->sigla }}</center>
+                                    </td>
+                                    <td scope="">
+                                        <center>{{ $setores->dt_inicio }}</center>
+                                    </td>
+                                    <td scope="">
+                                        <center>{{ $setores->status ? 'Ativo' : 'Inativo' }}</center>
+                                    </td>
+                                    <td scope="">
+                                        <center>{{ $setores->nome_substituto }}</center>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
 
@@ -109,85 +105,82 @@
                     </div>
 
                     <script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                                    const masterCheckBox = document.getElementById('masterCheckBox');
-                                    const checkBoxes = Array.from(document.querySelectorAll('.checkBox'));
+                        document.addEventListener('DOMContentLoaded', function () {
+                            const masterCheckBox = document.getElementById('masterCheckBox');
+                            const checkBoxes = Array.from(document.querySelectorAll('.checkBox'));
 
-                                    // Marca ou desmarca todas as checkboxes de acordo com a checkbox master
-                                    masterCheckBox.addEventListener('change', function(event) {
-                                        checkBoxes.forEach(function(e) {
-                                            e.checked = event.target.checked;
-                                            changeBackground(e);
-                                        });
+                            // Marca ou desmarca todas as checkboxes de acordo com a checkbox master
+                            masterCheckBox.addEventListener('change', function (event) {
+                                checkBoxes.forEach(function (e) {
+                                    e.checked = event.target.checked;
+                                    changeBackground(e);
+                                });
+                            });
+
+                            // Marca masterCheckBox se todas as outras estiverem marcadas
+                            // Desmarca se pelo menos uma estiver desmarcada
+                            checkBoxes.forEach(function (e) {
+                                e.addEventListener('change', function (event) {
+                                    masterCheckBox.checked = checkBoxes.every(function (f) {
+                                        return f.checked;
                                     });
+                                    changeBackground(e);
+                                });
+                            });
 
-                                    // Marca masterCheckBox se todas as outras estiverem marcadas
-                                    // Desmarca se pelo menos uma estiver desmarcada
-                                    checkBoxes.forEach(function(e) {
-                                        e.addEventListener('change', function(event) {
-                                            masterCheckBox.checked = checkBoxes.every(function(f) {
-                                                return f.checked;
-                                            });
-                                            changeBackground(e);
-                                        });
-                                    });
+                            // Destaca background das linhas selecionadas
+                            function changeBackground(input) {
+                                const tableRow = input.parentElement.parentElement;
+                                if (input.checked) tableRow.style.background = '#aaa';
+                                else tableRow.style.background = '';
+                            }
 
-                                    // Destaca background das linhas selecionadas
-                                    function changeBackground(input) {
-                                        const tableRow = input.parentElement.parentElement;
-                                        if (input.checked) tableRow.style.background = '#aaa';
-                                        else tableRow.style.background = '';
-                                    }
+                            //JQUERY
+                            $(document).ready(function () {
+                                const idNivelSelect = $('#idnivel');
+                                const idSetorSelect = $('#idsetor');
+                                const nomeSetorElement = $('#nomeSetor');
+                                const responsavelSetorElement = $('#responsavelSetor');
 
-                                    //JQUERY
-                                    $(document).ready(function() {
-                                        const idNivelSelect = $('#idnivel');
-                                        const idSetorSelect = $('#idsetor');
-                                        const nomeSetorElement = $('#nomeSetor');
-                                        const responsavelSetorElement = $('#responsavelSetor');
+                                idNivelSelect.on('change', function () {
+                                    const nivel = $(this).val();
 
-                                        idNivelSelect.on('change', function() {
-                                            const nivel = $(this).val();
-                                            idSetorSelect.prop('disabled', !nivel);
+                                    if (nivel) {
+                                        $.ajax({
+                                            type: "get",
+                                            url: "/retornar-setor/" + nivel,
+                                            dataType: "json",
+                                            success: function (response) {
+                                                if (response && response.setor) {
+                                                    // Update the displayed information
+                                                    nomeSetorElement.text('Nome: ' + response.setor.nome_setor);
+                                                    responsavelSetorElement.text('Responsável: ' +
+                                                        response.setor.responsavel);
 
-                                            if (nivel) {
-                                                $.ajax({
-                                                    type: "get",
-                                                    url: "/retornar-setor/" + nivel,
-                                                    dataType: "json",
-                                                    success: function(response) {
-                                                        if (response && response.setor) {
-                                                            // Update the displayed information
-                                                            nomeSetorElement.text('Nome: ' + response.setor
-                                                                .nome_setor);
-                                                            responsavelSetorElement.text('Responsável: ' +
-                                                                response.setor.responsavel);
+                                                    // Update options in the idsetor select element
+                                                    idSetorSelect.empty(); // Clear existing options
+                                                    idSetorSelect.append('<option></option>'); // Add an empty option
 
-                                                            // Update options in the idsetor select element
-                                                            idSetorSelect.empty(); // Clear existing options
-                                                            idSetorSelect.append(
-                                                            '<option></option>'); // Add an empty option
+                                                    // Add options based on the data returned from the server
+                                                    $.each(response.setores, function (index, setor) {
+                                                        idSetorSelect.append('<option value="' +
+                                                            setor.id_setor + '">' + setor.nome_setor + '</option>');
+                                                    });
 
-                                                            // Add options based on the data returned from the server
-                                                            $.each(response.setores, function(index, setor) {
-                                                                idSetorSelect.append('<option value="' +
-                                                                    setor.id_setor + '">' + setor
-                                                                    .nome_setor + '</option>');
-                                                            });
-
-                                                            // Enable the idsetor select element
-                                                            idSetorSelect.prop('disabled', false);
-                                                        } else {
-                                                            console.log('Setor não encontrado.');
-                                                        }
-                                                    },
-                                                    error: function(error) {
-                                                        console.log(error);
-                                                    }
-                                                });
+                                                    // Enable the idsetor select element
+                                                    idSetorSelect.prop('disabled', false);
+                                                } else {
+                                                    console.log('Setor não encontrado.');
+                                                }
+                                            },
+                                            error: function (error) {
+                                                console.log(error);
                                             }
                                         });
-                                    });
+                                    }
+                                });
+                            });
+                        });
                     </script>
                 </div>
             </div>
