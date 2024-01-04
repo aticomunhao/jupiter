@@ -21,6 +21,7 @@ class GerenciarHierarquiaController extends Controller
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
             ->select('setor.id AS id_setor', 'setor.nome AS nome_setor', 'setor.sigla', 'setor.dt_inicio', 'setor.status', 'substituto.sigla AS nome_substituto')
             ->get();
+            
 
         //dd($setor);
         $id_nivel = $request->id_nivel;
@@ -80,10 +81,27 @@ class GerenciarHierarquiaController extends Controller
         return view('/setores/Gerenciar-hierarquia', compact('nome_nivel', 'nome_setor', 'niveis', 'setor'));
     }
 
-    public function retornaSetor($idsetor) {
-        $setoresfilhos = DB::table('setor')->where('setor_pai', $idsetor)->get();
+    public function retornaSetor($idsetor)
+    {
+        $setoresfilhos = DB::table('setor')->where('id_nivel', $idsetor)->get();
 
-        return response()->json(['setoresfilhos' => $setor]);
+        dd($setoresfilhos);
+    
+        return response()->json(['setoresfilhos' => $setoresfilhos]);
     }
-}
+    
 
+    public function obterSetoresPorNivel($id_nivel)
+    {
+        $set = DB::table('setor as s')->where('id_nivel', $id_nivel)->select('s.nome')->get();
+    
+        if ($set->isNotEmpty()) {
+            return response()->json($set); 
+        }
+    
+        return response()->json(['message' => 'Nenhum setor encontrado para o ID de nível fornecido']);
+    }
+    
+    
+
+}
