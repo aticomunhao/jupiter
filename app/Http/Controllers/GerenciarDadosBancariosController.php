@@ -179,4 +179,12 @@ class GerenciarDadosBancariosController extends Controller
         app('flasher')->addWarning('O dado Bancario Foi deletado.');
         return redirect()->back();
     }
+
+    public function agencias($id)
+    {
+        $agenciasdoselect =DB::table('tp_banco_ag')
+            ->where('banco', $id)
+            ->get();
+        return response()->json($agenciasdoselect);
+    }
 }
