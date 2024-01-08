@@ -33,7 +33,9 @@ class GerenciarTipoDesconto extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        app('flasher')->addSuccess("Entidade cadastrada com sucesso");
+        return redirect()->route('indexTipoDesconto');
     }
 
     /**
@@ -49,15 +51,20 @@ class GerenciarTipoDesconto extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $info = DB::table('setor')->where('id', $id)->first();
+
+        return view('/tipopagamento/editar-tp-desconto', compact('info'));
+
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    //Request $request, string $id
+    public function update()
     {
-        //
+        app('flasher')->addSuccess("Entidade cadastrada com sucesso");
+        return redirect()->route('indexTipoDesconto');
     }
 
     /**

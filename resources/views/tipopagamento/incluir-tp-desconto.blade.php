@@ -5,7 +5,7 @@
 
     <div class="container">
 
-        <div class="card">
+        <div class="card" style="border-color:#355089">
 
             <div class="card-header">
                 Adicionar Tipo de Desconto
@@ -15,34 +15,30 @@
                 <br>
                 <div class="row justify-content-start">
 
-                    
+
                     <center>
                         <div class="col-10" style="margin-top:none">
 
-                            <input type="text" class="form-control" aria-label="Sizing example input" placeholder="Tipo de desconto...">
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                placeholder="Tipo de desconto...">
                         </div>
 
 
 
-                    <center>
-                        <div class="col-12">
-                            <br />
-                            <br />
-                            <br />
-                                <a href="/gerenciar-tipo-desconto">
-                                <button class="btn btn-secondary col-3">Cancelar</button>
+                        <center>
+                            <div class="col-12" style="margin-top: 70px;">
+                                <a href="/gerenciar-tipo-desconto" class="btn btn-secondary col-3">
+                                    Cancelar
                                 </a>
 
-                                <a href="/gerenciar-tipo-desconto">
-                                <button class="btn btn-success col-3 offset-4">Novo</button>
+                                <a href="/store-tipo-desconto" class="btn btn-success col-3 offset-4">
+                                    Novo
                                 </a>
-                        </div>
-                    </center>
+                            </div>
+                        </center>
 
                 </div>
             </div>
         </div>
-    </div>
-    </div>
     </div>
 @endsection
