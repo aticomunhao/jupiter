@@ -60,6 +60,7 @@ Route::get('/armazenar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDad
 Route::get('/deletar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'destroy']);
 Route::any('/editar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'edit']);
 Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'update']);
+Route::get('/recebe-agencias/{id}',[App\Http\Controllers\GerenciarDadosBancariosController::class,'agencias']);
 
 /*Gerenciar Cargos Regulares*/
 
