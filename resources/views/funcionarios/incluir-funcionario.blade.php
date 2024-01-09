@@ -259,12 +259,12 @@
 
 
                                 <div class="row">
-                                    <div class="col">CEP
+                                    <div class="col-md-4 col-sm-12">CEP
                                         <input class="form-control" maxlength="8" type="numeric"
                                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                             id="35" name="cep" value="{{ old('cep') }}">
                                     </div>
-                                    <div class="col">UF
+                                    <div class="col-md-4 col-sm-12">UF
                                         <br>
                                         <select class="js-example-responsive form-select" id="iduf"name="uf_end"
                                             value="{{ old('uf_end') }}">
@@ -274,29 +274,27 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col">Cidade
+                                    <div class="col-md-4 col-sm-12">Cidade
                                         <br>
                                         <select class="js-example-responsive form-select" id="idcidade" name="cidade"
                                             value="{{ old('cidade') }}" disabled>
-
-
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-2">Logradouro
+                                    <div class="col-md-3 col-sm-12">Logradouro
                                         <input class="form-control" maxlength="45" type="text" id="36"
                                             name="logradouro" value="{{ old('logradouro') }}">
                                     </div>
-                                    <div class="col-2">Número
+                                    <div class="col-md-3 col-sm-12">Número
                                         <input class="form-control" maxlength="10" type="text" id="35"
                                             name="numero" value="{{ old('numero') }}">
                                     </div>
-                                    <div class="col">Complemento
+                                    <div class="col-md-3 col-sm-12">Complemento
                                         <input type="text" maxlength="45" class="form-control" id="36"
                                             name="comple" value="{{ old('comple') }}">
                                     </div>
-                                    <div class="col">Bairro:
+                                    <div class="col-md-3 col-sm-12">Bairro:
                                         <input type="text" maxlength="45" class="form-control" id="36"
                                             name="bairro" value="{{ old('bairro') }}">
                                     </div>
@@ -306,10 +304,10 @@
                             </fieldset>
                             <br>
                             <div class="row">
-                                <div class="d-grid gap-1 col-5 mx-auto">
+                                <div class="d-grid gap-1 col-md-4 col-sm-12 mx-auto">
                                     <a class="btn btn-danger" href="/gerenciar-funcionario" role="button">Cancelar</a>
                                 </div>
-                                <div class="d-grid gap-2 col-5 mx-auto">
+                                <div class="d-grid gap-2 col-md-4 col-sm-12 mx-auto">
                                     <button type="submit" class="btn btn-primary">Confirmar</button>
                                 </div>
                             </div>
