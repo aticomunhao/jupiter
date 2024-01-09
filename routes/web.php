@@ -140,8 +140,9 @@ Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosContr
 Route::get('/gerenciar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'index'])->name('indexTipoDesconto');
 Route::get('/incluir-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'create']);
 Route::get('/editar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'edit']);
-Route::get('/store-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'store']);
-Route::get('/update-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'update']);
+Route::post('/armazenar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'store']);
+Route::get('/atualizar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'update']);
+Route::any('/exluir-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'destroy']);
 
 /**Rotas de Entrada**/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
