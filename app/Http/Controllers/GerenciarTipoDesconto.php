@@ -11,10 +11,9 @@ class GerenciarTipoDesconto extends Controller
      */
     public function index()
     {
-        $desc = DB::select('select * from setor');
+        $desc = DB::select('select * from tipo_desconto');
 
         return view('/tipopagamento/gerenciar-tp-desconto', compact('desc'));
-
     }
 
     /**
@@ -22,10 +21,8 @@ class GerenciarTipoDesconto extends Controller
      */
     public function create()
     {
-
-
-
-        return view('/tipopagamento/incluir-tp-desconto');
+        $tpDesc = DB::select('select * from tipo_desconto');
+        return view('/tipopagamento/incluir-tp-desconto', compact('tpDesc'));
     }
 
     /**
@@ -34,7 +31,14 @@ class GerenciarTipoDesconto extends Controller
     public function store(Request $request)
     {
 
-        app('flasher')->addSuccess("Entidade cadastrada com sucesso");
+
+
+        DB::table('tipo_desconto')->insert([
+            'description' => $request->input('tpdesc'),
+            'percDesconto' => $request->input('pecdesc')
+        ]);
+
+        app('flasher')->addSuccess('Entidade cadastrada com sucesso');
         return redirect()->route('indexTipoDesconto');
     }
 
@@ -51,19 +55,20 @@ class GerenciarTipoDesconto extends Controller
      */
     public function edit(string $id)
     {
-        $info = DB::table('setor')->where('id', $id)->first();
+        $info = DB::table('setor')
+            ->where('id', $id)
+            ->first();
 
         return view('/tipopagamento/editar-tp-desconto', compact('info'));
-
     }
 
     /**
      * Update the specified resource in storage.
      */
     //Request $request, string $id
-    public function update()
+    public function update(Request $request, string $id)
     {
-        app('flasher')->addSuccess("Entidade cadastrada com sucesso");
+        app('flasher')->addSuccess('Entidade cadastrada com sucesso');
         return redirect()->route('indexTipoDesconto');
     }
 
@@ -72,6 +77,10 @@ class GerenciarTipoDesconto extends Controller
      */
     public function destroy(string $id)
     {
-        //
+
+
+        $dest = DB::table('tipo_desconto')->where('id', $id)->delete();
+        return redirect()->route('indexTipoDesconto');
+
     }
 }
