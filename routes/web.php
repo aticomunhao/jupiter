@@ -60,7 +60,7 @@ Route::get('/armazenar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDad
 Route::get('/deletar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'destroy']);
 Route::any('/editar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'edit']);
 Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'update']);
-Route::get('/recebe-agencias/{id}',[App\Http\Controllers\GerenciarDadosBancariosController::class,'agencias']);
+Route::get('/recebe-agencias/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'agencias']);
 
 /*Gerenciar Cargos Regulares*/
 
@@ -97,8 +97,7 @@ Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetores
 
 Route::get('/gerenciar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'index'])->name('gerenciar-hierarquia');
 Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarHierarquiaController::class, 'obterSetoresPorNivel']);
-
-Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'store'])->name('consultar-hierarquia');
+Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'show'])->name('consultar-hierarquia');
 
 
 
