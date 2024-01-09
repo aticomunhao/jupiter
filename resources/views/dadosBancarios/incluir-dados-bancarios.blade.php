@@ -33,81 +33,76 @@
                             <div class="col-2"></div>
                         </div>
                         <hr>
-                        <form action="/armazenar-dados-bancarios/{{$funcionario->id}}">
-
-                                <div class="row">
-                                    <div class="form-group  col-xl-3 col-md-1 ">
-                                        <label for="Banco">Banco</label>
-                                        <select id="Banco" class="form-select" aria-label="Default select example"
-                                            name="desc_banco" required>
-                                            @foreach ($desc_bancos as $desc_banco)
-                                                <option value="{{ $desc_banco->id_db}}">
-                                                    {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-xl-4 col-md-4">
-                                        <label for="agencia">Agencia</label>
-                                        <select id="agencia" class="form-select" aria-label="Default select example"
-                                            name="tp_banco_ag" required>
-                                            @foreach ($tp_banco_ags as $tp_banco_ag)
-                                                <option value="{{ $tp_banco_ag->id }}">
-                                                    {{ $tp_banco_ag->agencia }}-{{ $tp_banco_ag->desc_agen }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-xl-2 col-md-4">Numero da Conta
-                                        <input class="form-control" type="text" maxlength="40" name="nmr_conta"
-                                            value="" required="required">
-                                    </div>
-                                    <div class="form-group col-xl-2 col-md-3">
-                                        <label for="tconta">Tipo de Conta</label>
-                                        <select id="tconta" class="form-select" aria-label="Default select example"
-                                            name="tp_conta" required>
-                                            @foreach ($tp_contas as $tp_conta)
-                                                <option value="{{ $tp_conta->id }}">{{ $tp_conta->nome_tipo_conta }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                        <form action="/armazenar-dados-bancarios/{{ $funcionario->id }}">
+                            <div class="row">
+                                <div class="form-group  col-xl-3 col-md-1 ">
+                                    <label for="Banco">Banco</label>
+                                    <select id="idbanco" class="form-select" aria-label="Default select example"
+                                        name="desc_banco" required>
+                                        @foreach ($desc_bancos as $desc_banco)
+                                            <option value="{{ $desc_banco->id_db }}">
+                                                {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <br>
+                                <div class="form-group col-xl-4 col-md-4">
+                                    <label for="agencia">Agencia</label>
+                                    <select id="idagencia" class="form-select" aria-label="Default select example"
+                                        name="tp_banco_ag" required disabled>
 
-
-                                <div class="row">
-                                    <div class="form-group col-md-3">
-                                        <label for="sbconta">Subtipo de Conta</label>
-                                        <select id="sbconta" class="form-select" aria-label="Default select example"
-                                            name="tp_sub_tp_conta">
-                                            @foreach ($tp_sub_tp_contas as $tp_sub_tp_conta)
-                                                <option value="{{ $tp_sub_tp_conta->id }}">{{ $tp_sub_tp_conta->descricao }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-md-2">Data de Inicio
-                                        <input class="form-control" type="date" value="" id="3"
-                                            name="dt_inicio" required="required">
-                                    </div>
-                                    <div class= "form-group col-md-2">Data de Fim
-                                        <input class="form-control" type="date" value="" id="3"
-                                            name="dt_fim">
-                                    </div>
+                                    </select>
                                 </div>
-
-
-
-                                <br>
-                                <div class="row">
-                                    <div class="col-3"></div>
-                                    <div class="col-2">
-                                        <a class="btn btn-danger " href="../" role="button">Cancelar</a>
-                                    </div>
-                                    <div class="col-3"></div>
-                                    <div class="col-2">
-                                        <button type="submit" class="btn btn-primary btn" id="sucesso">Confirmar</button>
-                                    </div>
+                                <div class="form-group col-xl-2 col-md-4">Numero da Conta
+                                    <input class="form-control" type="text" maxlength="40" name="nmr_conta"
+                                        value="" required="required">
                                 </div>
+                                <div class="form-group col-xl-2 col-md-3">
+                                    <label for="tconta">Tipo de Conta</label>
+                                    <select id="tconta" class="form-select" aria-label="Default select example"
+                                        name="tp_conta" required>
+                                        @foreach ($tp_contas as $tp_conta)
+                                            <option value="{{ $tp_conta->id }}">{{ $tp_conta->nome_tipo_conta }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+
+
+                            <div class="row">
+                                <div class="form-group col-md-3">
+                                    <label for="sbconta">Subtipo de Conta</label>
+                                    <select id="sbconta" class="form-select" aria-label="Default select example"
+                                        name="tp_sub_tp_conta">
+                                        @foreach ($tp_sub_tp_contas as $tp_sub_tp_conta)
+                                            <option value="{{ $tp_sub_tp_conta->id }}">{{ $tp_sub_tp_conta->descricao }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-2">Data de Inicio
+                                    <input class="form-control" type="date" value="" id="3"
+                                        name="dt_inicio" required="required">
+                                </div>
+                                <div class= "form-group col-md-2">Data de Fim
+                                    <input class="form-control" type="date" value="" id="3" name="dt_fim">
+                                </div>
+                            </div>
+
+
+
+                            <br>
+                            <div class="row">
+                                <div class="col-3"></div>
+                                <div class="col-2">
+                                    <a class="btn btn-danger " href="../" role="button">Cancelar</a>
+                                </div>
+                                <div class="col-3"></div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary btn" id="sucesso">Confirmar</button>
+                                </div>
+                            </div>
 
                         </form>
                 </fieldset>
@@ -117,6 +112,61 @@
 
     <!--JQUERY-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!--
+                <script>
+                    $(document).ready(function() {
+                                $('#idbanco').change(function() {
+                                        var banco = $(this).val();
 
-    <script></script>
+                                        $.ajax({
+                                                url: '/recebe-agencias/' + banco,
+                                                type: 'get',
+                                                success: function(data) {
+                                                    $('#idagencia').removeAttr('disabled');
+                                                    $('#idagencia').empty();;
+                                                    $.each(data, function(index, agencia) {
+                                                        $('#idsetor').append('<option value="' + item.id + '">' +
+                                                            item.nome + '</option>');
+                                                    });
+                                                    {
+
+
+                                                    },
+                                                    error: function(xhr, status, error) {
+                                                        alert('Error occurred while fetching agencies');
+                                                    }
+                                                });
+                                        });
+                                });
+                </script>
+            -->
+
+        <script>
+            $(document).ready(function() {
+                $('#idbanco').change(function(e) {
+                    var idbanco = $(this).val();
+                    e.preventDefault();
+                    $('#idagencia').removeAttr('disabled');
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/recebe-agencias/" + idbanco,
+                        dataType: "json",
+                        success: function(response) {
+                            $('#idagencia').empty();
+                            $.each(response, function(index, item) {
+                                $('#idagencia').append("<option value =" + item.id + "> " +
+                                    item.agencia + " - " + item.desc_agen + "</option>");
+
+                            });
+                        },
+                        error: function(xhr) {
+                            console.log(xhr.responseText);
+                        }
+                    });
+                });
+            });
+        </script>
+
+
 @endsection

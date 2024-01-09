@@ -4,9 +4,6 @@ use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 
-
-
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,7 +21,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
 Route::get('/', [App\Http\Controllers\LoginController::class, 'index']);
 Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'validaUserLogado'])->name('home.post');
 Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida']);
@@ -37,21 +33,22 @@ Route::get('/editar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionar
 Route::get('/excluir-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
 Route::get('/pessoa-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
 
-Route::name('usuario')->middleware('validaUsuario')->group(function () {
-    Route::get('gerenciar-usuario', 'UsuarioController@index');
-    Route::get('usuario-incluir', 'UsuarioController@create');
-    Route::get('cadastrar-usuarios/configurar/{id}', 'UsuarioController@configurarUsuario');
-    Route::post('/cad-usuario/inserir', 'UsuarioController@store');
-    Route::get('/usuario/excluir/{id}', 'UsuarioController@destroy');
-    Route::get('/usuario/alterar/{id}', 'UsuarioController@edit');
-    Route::put('usuario-atualizar/{id}', 'UsuarioController@update');
-    Route::get('/usuario/gerar-Senha/{id}', 'UsuarioController@gerarSenha');
-});
+Route::name('usuario')
+    ->middleware('validaUsuario')
+    ->group(function () {
+        Route::get('gerenciar-usuario', 'UsuarioController@index');
+        Route::get('usuario-incluir', 'UsuarioController@create');
+        Route::get('cadastrar-usuarios/configurar/{id}', 'UsuarioController@configurarUsuario');
+        Route::post('/cad-usuario/inserir', 'UsuarioController@store');
+        Route::get('/usuario/excluir/{id}', 'UsuarioController@destroy');
+        Route::get('/usuario/alterar/{id}', 'UsuarioController@edit');
+        Route::put('usuario-atualizar/{id}', 'UsuarioController@update');
+        Route::get('/usuario/gerar-Senha/{id}', 'UsuarioController@gerarSenha');
+    });
 
 Route::post('/atualizar-funcionario/{idp}/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
 //Route::post('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('editar-funcionario.index');
-
 
 Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
 Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
@@ -63,6 +60,7 @@ Route::get('/armazenar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDad
 Route::get('/deletar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'destroy']);
 Route::any('/editar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'edit']);
 Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'update']);
+Route::get('/recebe-agencias/{id}',[App\Http\Controllers\GerenciarDadosBancariosController::class,'agencias']);
 
 /*Gerenciar Cargos Regulares*/
 
@@ -81,7 +79,7 @@ Route::get('/incluir-funcao-gratificada', [Controllers\GerenciarFuncaoGratificad
 Route::any('/editar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'edit']);
 Route::any('/alterar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'update']);
 Route::any('/fechar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'close']);
-Route::get('/historico-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class,'show']);
+Route::get('/historico-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'show']);
 
 /*Gerenciar setores*/
 
@@ -99,7 +97,10 @@ Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetores
 
 Route::get('/gerenciar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'index'])->name('gerenciar-hierarquia');
 Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarHierarquiaController::class, 'obterSetoresPorNivel']);
+<<<<<<< HEAD
 Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'store'])->name('consultar-hierarquia');
+=======
+>>>>>>> refs/remotes/origin/main
 
 /*Rotas dos Dependentes */
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('IndexGerenciarDependentes');
@@ -110,17 +111,13 @@ Route::any('/editar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependent
 Route::any('/atualizar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'update']);
 
 /** Rotas dos Certificados */
-Route::get(
-    '/gerenciar-certificados/{id}',
-    [\App\Http\Controllers\GerenciarCertificadosController::class, 'index']
-)->name('viewGerenciarCertificados');
+Route::get('/gerenciar-certificados/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'index'])->name('viewGerenciarCertificados');
 
 Route::get('/incluir-certificados/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']);
 Route::any('/adicionar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'store']);
 Route::any('/deletar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'destroy']);
 Route::any('/editar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'edit']);
 Route::any('/atualizar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'update']);
-
 
 /**Rota para Entidades Escolares */
 Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('IndexGerenciarEntidades');
@@ -137,6 +134,14 @@ Route::any('/armazenar-acordos/{id}', [App\Http\Controllers\GerenciarAcordosCont
 Route::any('/excluir-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'destroy']);
 Route::any('/editar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'edit']);
 Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'update']);
+
+/**Rotas para Tipo de Pagamento**/
+
+Route::get('/gerenciar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'index'])->name('indexTipoDesconto');
+Route::get('/incluir-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'create']);
+Route::get('/editar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'edit']);
+Route::get('/store-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'store']);
+Route::get('/update-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'update']);
 
 /**Rotas de Entrada**/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
