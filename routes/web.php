@@ -97,10 +97,10 @@ Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetores
 
 Route::get('/gerenciar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'index'])->name('gerenciar-hierarquia');
 Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarHierarquiaController::class, 'obterSetoresPorNivel']);
-<<<<<<< HEAD
+
 Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'store'])->name('consultar-hierarquia');
-=======
->>>>>>> refs/remotes/origin/main
+
+
 
 /*Rotas dos Dependentes */
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('IndexGerenciarDependentes');

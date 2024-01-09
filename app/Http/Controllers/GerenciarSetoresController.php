@@ -189,7 +189,7 @@ class GerenciarSetoresController extends Controller
     return view('/setores/gerenciar-setor', compact('lista','nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai', 'status'));
 }    
   
-   }
+   
 
 
 

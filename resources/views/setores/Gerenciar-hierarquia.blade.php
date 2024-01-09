@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<<<<<<< HEAD
 <br>
 <div class="container">
     <div class="border border-primary" style="border-radius: 5px;">
@@ -28,37 +27,6 @@
                             <a href="/gerenciar-hierarquia" type="button" value="" class="btn btn-danger">Cancelar</a>
                             <a href="/gerenciar-hierarquia" type="button" class="btn btn-primary" value="">Limpar</a>
                             <input type="submit" value="Confirmar" class="btn btn-success">
-=======
-    <br>
-    <div class="container">
-        <div class="border border-primary" style="border-radius: 5px;">
-            <div class="card">
-                <form id="gerenciarHierarquiaForm" action="/gerenciar-hierarquia" method="GET">
-                    <div class="card-header">
-                        <div class="row" style="margin-left:5px">
-                            <div class="col-2">
-                                <label for="1">Nivel</label>
-                                <select id="idnivel" class="form-select" name="nivel">
-                                    <option></option>
-                                    @foreach ($nivel as $niveis)
-                                        <option value="{{ $niveis->id_nivel }}">{{ $niveis->nome_nivel }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <label for="1">Setor</label>
-                                <select id="idsetor" class="form-select" name="setor" disabled>
-                                    <option></option>
-                                </select>
-                            </div>
-                            <div class="col" style="padding-top:25px">
-                                <a href="/gerenciar-hierarquia" type="button" value=""
-                                   class="btn btn-danger">Cancelar</a>
-                                <a href="/gerenciar-hierarquia" type="button" class="btn btn-primary"
-                                   value="">Limpar</a>
-                                <input type="submit" value="Confirmar" class="btn btn-success">
-                            </div>
->>>>>>> refs/remotes/origin/main
                         </div>
                     </div>
                 </form>
