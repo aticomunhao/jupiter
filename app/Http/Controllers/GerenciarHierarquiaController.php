@@ -76,4 +76,14 @@ class GerenciarHierarquiaController extends Controller
 
         return response()->json(['message' => 'Nenhum setor encontrado para o ID de nível fornecido']);
     }
+
+    public function store($id_nivel, $set){
+    
+        $oi = DB::table('setor as s')->where('id_nivel', $id_nivel)->select('s.nome')->get();
+
+        dd($set);
+
+
+        dd($oi);
+    }
 }

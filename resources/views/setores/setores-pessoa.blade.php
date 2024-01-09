@@ -86,7 +86,7 @@
                                                     class="bi-search"
                                                     style="font-size: 1rem; color:#303030;"></i></button></a>
                                         
-                                        <a href ="/setores-pessoa"><button type="button" class="btn btn-outline-primary btn-sm"><i
+                                        <a href ="setores-pessoa"><button type="button" class="btn btn-outline-primary btn-sm"><i
                                                 class="bi-people-fill"
                                                 style="font-size: 1rem;color:#303030; "></i></button></a>
 

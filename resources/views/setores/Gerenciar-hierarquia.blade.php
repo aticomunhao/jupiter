@@ -5,7 +5,7 @@
 <div class="container">
     <div class="border border-primary" style="border-radius: 5px;">
         <div class="card">
-            <form id="gerenciarHierarquiaForm" action="/gerenciar-hierarquia" method="GET">
+            <form id="gerenciarHierarquiaForm" action="/consultar-hierarquia/" method="POST">
                 <div class="card-header">
                     <div class="row" style="margin-left:5px">
                         <div class="col-2">
@@ -19,7 +19,7 @@
                         </div>
                         <div class="col-3">
                             <label for="1">Setor</label>
-                            <select id="idsetor" class="form-select" name="setor" disabled>
+                            <select id="idsetor" class="form-select" name="nome_setor" disabled>
                                 <option></option>
                             </select>
                         </div>

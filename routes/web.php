@@ -90,14 +90,16 @@ Route::get('/pesquisar-setor', [App\Http\Controllers\GerenciarSetoresController:
 Route::get('/incluir-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'create']);
 Route::any('/incluir-setores', [App\Http\Controllers\GerenciarSetoresController::class, 'insert']);
 Route::get('/editar-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'edit']);
+Route::get('/setor-pessoas', [App\Http\Controllers\GerenciarSetoresController::class, 'consult']);
 Route::post('/atualizar-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'update']);
+
 Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'delete']);
 
 /*Gerenciar-Hierarquia*/
 
 Route::get('/gerenciar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'index'])->name('gerenciar-hierarquia');
 Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarHierarquiaController::class, 'obterSetoresPorNivel']);
-
+Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'store'])->name('consultar-hierarquia');
 
 /*Rotas dos Dependentes */
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('IndexGerenciarDependentes');

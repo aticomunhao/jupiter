@@ -31,6 +31,7 @@ class GerenciarSetoresController extends Controller
             'substituto.sigla AS nome_substituto');
                 
       
+            
             //dd($lista);
 
         $ids = $request->ids;
@@ -147,7 +148,48 @@ class GerenciarSetoresController extends Controller
 
     }
 
+   public function consult(Request $request){
 
+
+            
+  
+        
+        //dd($lista);
+
+    $ids = $request->ids;
+
+    $nome = $request->nome;
+
+    $sigla = $request->sigla;
+
+    $dt_inicio = $request->dt_inicio;
+
+    $dt_fim = $request->dt_fim;
+
+    $setor_pai = $request->setor_pai;
+
+    $nome_substituto = $request->nome_substituto;
+
+    $status = $request->status;
+
+    if ($request->nome) {
+        $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
+    }
+
+    if ($request->sigla) {
+        $lista->where('s.sigla', '=', $request->sigla);
+    }
+
+    if ($request->nome_substituto){
+        $lista->where('s.substituto', '=', $request->nome_substituto);
+    }
+    $lista = $lista->orderBy('s.sigla', 'asc')->orderBy('s.nome', 'asc')->orderBy('nome_substituto', 'asc')->paginate(10);
+
+
+    return view('/setores/gerenciar-setor', compact('lista','nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai', 'status'));
+}    
+  
+   }
 
 
 
