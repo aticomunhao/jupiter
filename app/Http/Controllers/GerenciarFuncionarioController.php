@@ -445,6 +445,23 @@ class GerenciarFuncionarioController extends Controller
 
     }
 
+    public function retornaCidadeDadosResidenciais($id)
+    {
+        $cidadeDadosResidenciais = DB::table('tp_cidade')
+            ->where('id_uf',$id)
+            ->get();
+
+        return response()->json($cidadeDadosResidenciais);
+    }
+
+    public function retornacidadesNaturalidade($id)
+    {
+        $cidadeNaturalidade = DB::table('tp_cidade')
+            ->where('id_uf',$id)
+            ->get();
+        return response()->json($cidadeNaturalidade);
+    }
+
 
 }
 
