@@ -68,22 +68,59 @@ class GerenciarHierarquiaController extends Controller
 
     public function obterSetoresPorNivel($id_nivel)
     {
-        $set = DB::table('setor as s')->where('id_nivel', $id_nivel)->select('s.nome')->get();
+        $set = DB::table('setor as s')
+            ->where('id_nivel', $id_nivel)
+            ->select('s.nome', 's.id')
+            ->get();
 
         if ($set->isNotEmpty()) {
-            return response()->json($set);
+            return response()
+                ->json($set);
         }
 
         return response()->json(['message' => 'Nenhum setor encontrado para o ID de nível fornecido']);
     }
 
-    public function store($id_nivel, $set){
-    
-        $oi = DB::table('setor as s')->where('id_nivel', $id_nivel)->select('s.nome')->get();
+    public function show(Request $request)
+    {
 
-        dd($set);
+        $nivel = $request->input('nivel');
+        $nome_set = $request->input('nome_setor');
 
 
-        dd($oi);
+        $setor = DB::table('setor')->get();
+
+
+        foreach ($setor as $setores) {
+
+
+            $lista = []; // Inicializa a variável como um array vazio
+
+            if ($nome_set == $setores->id or $nome_set == $setores->setor_pai) {
+                $oi = DB::table('setor')->where('setor.id', $nome_set)->get();
+
+                $resultados = DB::table('tp_nivel_setor AS tns')
+                    ->where('s.id', $nome_set)
+                    ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
+                    ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
+                    ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
+                    ->select(
+                        's.id AS ids',
+                        's.nome',
+                        's.sigla',
+                        's.dt_inicio',
+                        's.dt_fim',
+                        's.status',
+                        'setor_pai.nome AS setor_pai',
+                        'substituto.sigla AS nome_substituto'
+                    )->get();
+
+                // Adiciona os resultados ao array $lista
+                foreach ($resultados as $resultado) {
+                    $lista[] = $resultado;
+                }
+            }
+        }
+        dd($lista);
     }
 }

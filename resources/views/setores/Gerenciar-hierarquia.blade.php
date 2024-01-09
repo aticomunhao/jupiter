@@ -5,7 +5,8 @@
 <div class="container">
     <div class="border border-primary" style="border-radius: 5px;">
         <div class="card">
-            <form id="gerenciarHierarquiaForm" action="/consultar-hierarquia/" method="POST">
+            <form id="gerenciarHierarquiaForm" action="/consultar-hierarquia" >
+                @csrf
                 <div class="card-header">
                     <div class="row" style="margin-left:5px">
                         <div class="col-2">
@@ -132,13 +133,20 @@
                             $.ajax({
                                 url: '/obter-setores/' + nivel_id,
                                 type: 'GET',
+                                dataType: ' json',
                                 success: function (data) {
 
                                     $('#idsetor').removeAttr('disabled');
                                     $('#idsetor').empty();
-                                    $.each(data, function (index, item) {
-                                        $('#idsetor').append('<option value="' + item.id + '">' + item.nome + '</option>');
+                                    $.each(data, function (indexInArray, item) { 
+                                      
+                                         $('#idsetor').append('<option value="' + item.id + '">' + item.nome + '</option>');
                                     });
+                                   // $.each(data, function (index, item) {
+                                      //  alert(item.id);
+
+                                        //$('#idsetor').append('<option value="' + item.id + '">' + item.nome + '</option>');
+                                   // });
                                 },
                                 error: function (xhr) {
                                     console.log(xhr.responseText);
