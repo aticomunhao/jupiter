@@ -91,7 +91,7 @@ class GerenciarHierarquiaController extends Controller
         $setor = DB::table('setor')->get();
 
 
-        foreach ($setor as $setores) {
+        foreach ($setor as $setores) 
 
 
             $lista = []; // Inicializa a variável como um array vazio
