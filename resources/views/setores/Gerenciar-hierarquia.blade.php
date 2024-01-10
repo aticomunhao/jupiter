@@ -5,7 +5,7 @@
 <div class="container">
     <div class="border border-primary" style="border-radius: 5px;">
         <div class="card">
-            <form id="gerenciarHierarquiaForm" action="/consultar-hierarquia" >
+            <form id="gerenciarHierarquiaForm" action="/gerenciar-hierarquia" method="get">
                 @csrf
                 <div class="card-header">
                     <div class="row" style="margin-left:5px">
@@ -47,24 +47,24 @@
                         </thead>
                         <tbody style="font-size: 15px; color:#000000;">
                         <tr>
-                            @foreach ($setor as $setores)
+                            @foreach ($lista as $listas)
                                 <td scope="">
                                     <center><input type="checkbox" class="checkBox"></center>
                                 </td>
                                 <td scope="">
-                                    <center>{{ $setores->nome_setor }}</center>
+                                    <center>{{ $listas->nome_setor }}</center>
                                 </td>
                                 <td scope="">
-                                    <center>{{ $setores->sigla }}</center>
+                                    <center>{{ $listas->sigla }}</center>
                                 </td>
                                 <td scope="">
-                                    <center>{{ $setores->dt_inicio }}</center>
+                                    <center>{{ $listas->dt_inicio }}</center>
                                 </td>
                                 <td scope="">
-                                    <center>{{ $setores->status ? 'Ativo' : 'Inativo' }}</center>
+                                    <center>{{ $listas->status ? 'Ativo' : 'Inativo' }}</center>
                                 </td>
                                 <td scope="">
-                                    <center>{{ $setores->nome_substituto }}</center>
+                                    <center>{{ $listas->nome_substituto }}</center>
                                 </td>
                         </tr>
                         @endforeach

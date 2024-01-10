@@ -37,8 +37,7 @@
                             <div class="row">
                                 <div class="form-group  col-xl-3 col-md-1 ">
                                     <label for="Banco">Banco</label>
-                                    <select id="idbanco" class="form-select" aria-label="Default select example"
-                                        name="desc_banco" required="required">
+                                    <select id="idbanco" class="form-select" name="desc_banco" required="required">
                                         <option value="{{ $contaBancaria->id_db }}">
                                             {{ str_pad($contaBancaria->id_db, 3, '0', STR_PAD_LEFT) }}</option>
                                         @foreach ($desc_bancos as $desc_banco)
@@ -49,10 +48,9 @@
                                 </div>
                                 <div class="form-group col-xl-4 col-md-4">
                                     <label for="agencia">Agencia</label>
-                                    <select id="idagencia" class="form-select" aria-label="Default select example"
-                                        name="tp_banco_ag" required="required">
+                                    <select id="idagencia" class="form-select" name="tp_banco_ag" required="required">
                                         <option value="{{ $contaBancaria->tpbag }}" selected>{{ $contaBancaria->agencia }}
-                                            -{{ $contaBancaria->desc_agen }}</option>
+                                            -{{ $contaBancaria->desc_agen }} </option>
 
                                     </select>
                                 </div>
@@ -122,6 +120,12 @@
 
     <script>
         $(document).ready(function() {
+
+            $('#idagencia').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+            });
+
             $('#idbanco').change(function(e) {
                 e.preventDefault();
                 var idbanco = $(this).val();
@@ -131,18 +135,21 @@
                     url: "/recebe-agencias/" + idbanco,
                     dataType: "json",
                     success: function(response) {
+
+
+                        // Append new options with Bootstrap styling
                         $.each(response, function(index, item) {
                             $("#idagencia").append("<option value =" + item.id +
                                 "> " +
                                 item.agencia + " - " + item.desc_agen + "</option>");
                         });
 
+                        // Update Select2
+                        $('#idagencia').trigger('change');
                     },
                     error: function() {
                         alert('Erro!');
                     }
-
-
                 });
             });
         });

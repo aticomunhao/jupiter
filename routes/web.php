@@ -32,6 +32,7 @@ Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioCon
 Route::get('/editar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
 Route::get('/excluir-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
 Route::get('/pessoa-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
+Route::get('/retorna-cidade-dados-residenciais/{id}',[App\Http\Controllers\GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
 
 Route::name('usuario')
     ->middleware('validaUsuario')

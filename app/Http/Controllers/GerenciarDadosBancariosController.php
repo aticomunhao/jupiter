@@ -184,6 +184,7 @@ class GerenciarDadosBancariosController extends Controller
     {
         $agenciasdoselect =DB::table('tp_banco_ag')
             ->where('banco', $id)
+            ->orderBy('agencia')
             ->get();
         return response()->json($agenciasdoselect);
     }

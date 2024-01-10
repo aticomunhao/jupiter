@@ -28,11 +28,11 @@ class GerenciarSetoresController extends Controller
             's.dt_fim', 
             's.status', 
             'setor_pai.nome AS setor_pai', 
-            'substituto.sigla AS nome_substituto')->get();
+            'substituto.sigla AS nome_substituto');
                 
       
             
-            dd($lista);
+            //dd($lista);
 
         $ids = $request->ids;
 
