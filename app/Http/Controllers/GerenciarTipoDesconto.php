@@ -9,11 +9,19 @@ class GerenciarTipoDesconto extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $desc = DB::select('select * from tipo_desconto');
+        $pesquisa = request('pesquisa');
 
-        return view('/tipopagamento/gerenciar-tp-desconto', compact('desc'));
+        if ($pesquisa) {
+            $desc = DB::table('tipo_desconto')
+                ->where('description', 'ilike', '%' . $pesquisa . '%')
+                ->get();
+        } else {
+            $desc = DB::table('tipo_desconto')->orderBy('description', 'asc')->get();
+        }
+
+        return view('/tipopagamento/gerenciar-tp-desconto', compact('desc', 'pesquisa'));
     }
 
     /**
@@ -21,8 +29,7 @@ class GerenciarTipoDesconto extends Controller
      */
     public function create()
     {
-        $tpDesc = DB::select('select * from tipo_desconto');
-        return view('/tipopagamento/incluir-tp-desconto', compact('tpDesc'));
+        return view('/tipopagamento/incluir-tp-desconto');
     }
 
     /**
@@ -30,15 +37,11 @@ class GerenciarTipoDesconto extends Controller
      */
     public function store(Request $request)
     {
-
-
-
         DB::table('tipo_desconto')->insert([
             'description' => $request->input('tpdesc'),
-            'percDesconto' => $request->input('pecdesc')
+            'percDesconto' => $request->input('pecdesc'),
         ]);
-
-        app('flasher')->addSuccess('Entidade cadastrada com sucesso');
+        app('flasher')->addSuccess('Tipo de desconto cadastrada com sucesso');
         return redirect()->route('indexTipoDesconto');
     }
 
@@ -55,7 +58,7 @@ class GerenciarTipoDesconto extends Controller
      */
     public function edit(string $id)
     {
-        $info = DB::table('setor')
+        $info = DB::table('tipo_desconto')
             ->where('id', $id)
             ->first();
 
@@ -68,7 +71,14 @@ class GerenciarTipoDesconto extends Controller
     //Request $request, string $id
     public function update(Request $request, string $id)
     {
-        app('flasher')->addSuccess('Entidade cadastrada com sucesso');
+        DB::table('tipo_desconto')
+            ->where('id', $id)
+            ->update([
+                'description' => $request->input('edittpdesc'),
+                'percDesconto' => $request->input('editpecdesc'),
+            ]);
+
+        app('flasher')->addwarning('Tipo de desconto atualizada com sucesso');
         return redirect()->route('indexTipoDesconto');
     }
 
@@ -77,10 +87,11 @@ class GerenciarTipoDesconto extends Controller
      */
     public function destroy(string $id)
     {
-
-
-        $dest = DB::table('tipo_desconto')->where('id', $id)->delete();
+        
+        $dest = DB::table('tipo_desconto')
+            ->where('id', $id)
+            ->delete();
+        app('flasher')->addError('Tipo de desconto excluído com sucesso');
         return redirect()->route('indexTipoDesconto');
-
     }
 }
