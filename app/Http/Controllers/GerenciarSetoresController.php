@@ -28,11 +28,11 @@ class GerenciarSetoresController extends Controller
             's.dt_fim', 
             's.status', 
             'setor_pai.nome AS setor_pai', 
-            'substituto.sigla AS nome_substituto')->get();
+            'substituto.sigla AS nome_substituto');
                 
       
             
-            dd($lista);
+            //dd($lista);
 
         $ids = $request->ids;
 
@@ -68,12 +68,13 @@ class GerenciarSetoresController extends Controller
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
+        $nivel = DB::select('select id, nome from tp_nivel_setor');
+            
 
 
-
-        return view('/setores/incluir-setor');
+        return view('/setores/incluir-setor', compact( 'nivel','id', 'nome'));
     }
 
 

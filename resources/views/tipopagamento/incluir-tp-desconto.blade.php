@@ -19,12 +19,12 @@
                         <center>
                             <div class="row col-10 " style="margin-top:none">
 
-                                <div class="col-8">
+                                <div class="col-md-8 col-12">
                                     <input type="text" class="form-control" aria-label="Sizing example input"
-                                        placeholder="Tipo de desconto..." name = "tpdesc">
+                                        placeholder="Tipo de desconto..." name = "tpdesc" required="Required" maxlength="50">
                                 </div>
-                                <div class="col-4">
-                                    <input type="text" class="form-control" aria-label="Sizing example input"
+                                <div class="col-md-4 col-12 mt-3 mt-md-0 ">
+                                    <input type="number" class="form-control" aria-label="Sizing example input"
                                         placeholder="Porcentagem do desconto..." name = "pecdesc">
                                 </div>
                             </div>

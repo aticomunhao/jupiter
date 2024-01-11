@@ -6,36 +6,55 @@
 
 <div class="container">
 
+
     <div class="card">
         <div class="card-header">
-            Featured
+            Criar Setor
         </div>
         <div class="card-body">
-            <h5 class="card-title">Special title treatment</h5>
+
             <p class="card-text">
-            <div class="row">
-                <div class="col-6">
-                    <input type="text" class="form-control" placeholder="Nome">
-                </div>
-                <div class="col-2">
-                    <input type="text" class="form-control" placeholder="Sigla">
-                </div>
-                <br>
+            <form method='POST' action="/incluir-setores">
+
+                @csrf
+
                 <div class="row">
-                <div class="col-6">
-                    <input type="select" class="form-control" placeholder="Setor Pai">
-                </div>J
-                <div class="col-2">
-                    <input type="select" class="form-control" placeholder="">
-                </div>
-            </div>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <div class="col-5 ">
+                        <label for="1">Nome</label>
+                        <input type="text" class="form-control" id="1" name="nome_setor">
+                    </div>
+                    <div class="col-2">
+                        <label for="2">Sigla</label>
+                        <input type="text" class="form-control" id="2" name="sigla">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="row">
+                        <div class="col-2">
+                            <label for="3">Nivel</label>
+                            <select> class="form-select" name="nivel" id="3"
+                                <value="{{ old('nome') }}">
+                                    <option value=""></option>
+                                    @foreach ($cnh as $cnhs)
+                                    <option value="{{ $cnhs->id }}">{{ $cnhs->nome_cat }}</option>
+                                    @endforeach
+
+                            </select>
+                        </div>
+
+                        <div class="col-2 offset-3">
+                            <label for="4">Data de Inicio</label>
+                            <input type="date" class="form-control" name="dt_inicio" id="4">
+                        </div>
+                    </div>
+
+
+
+            </form>
         </div>
-
-
-
-
     </div>
 </div>
+<a href="/gerenciar-setor" class="btn btn-danger">Cancelar</a>
+<a href="submit" class="btn btn-primary offset-5">Confirmar</a>
 
 @endsection
