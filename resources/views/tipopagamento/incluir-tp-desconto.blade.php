@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('head')
+    <title>Adicionar Tipo de Desconto</title>
+@endsection
 @section('content')
     <br />
 
@@ -25,7 +27,7 @@
                                 </div>
                                 <div class="col-md-4 col-12 mt-3 mt-md-0 ">
                                     <input type="number" class="form-control" aria-label="Sizing example input"
-                                        placeholder="Porcentagem do desconto..." name = "pecdesc">
+                                        placeholder="Porcentagem do desconto..." name = "pecdesc" min="0.01" max="100" step="0.01">
                                 </div>
                             </div>
                         </center>

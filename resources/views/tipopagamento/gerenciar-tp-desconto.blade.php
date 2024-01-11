@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('head')
+    <title>Gerenciar Tipo de Desconto</title>
+@endsection
 @section('content')
     <br />
     <div class="container">
@@ -20,8 +22,8 @@
                             <button class="btn btn-secondary col-md-3 col-12 mt-5 mt-md-0 " type="submit">Pesquisar</button>
 
                             <a href="/incluir-tipo-desconto"
-                                class="btn btn-success col-md-2 col-12 offset-md-6 offset-0 mt-2 mt-md-0">
-                                Novo
+                                class="btn btn-success col-md-3 col-12 offset-md-5 offset-0 mt-2 mt-md-0">
+                                Novo+
                             </a>
 
 
@@ -48,7 +50,7 @@
                             <tr>
 
                                 <td>{{ $descrpt->description }}</td>
-                                <td>{{ $descrpt->percDesconto }}</td>
+                                <td style="text-align:center;">{{ $descrpt->percDesconto }}%</td>
 
                                 <td style="text-align: center;">
                                     <a href="/editar-tipo-desconto/{{ $descrpt->id }}" class="btn btn-outline-warning">

@@ -29,6 +29,7 @@
                     <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a></li>
                     <li><a href="/gerenciar-cargos-regulares" class="dropdown-item">Gerenciar Cargos Regulares</a></li>
                     <li><a href="/gerenciar-funcao-gratificada"class="dropdown-item">Gerenciar Funcao Gratificada</a></li>
+                    <li><a href="/gerenciar-tipo-desconto"class="dropdown-item">Gerenciar Tipo de Desconto</a></li>
                 </ul>
             </div>
 

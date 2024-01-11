@@ -1,37 +1,33 @@
 @extends('layouts.app')
-
-<title>Gerenciar Dependentes</title>
-
+@section('head')
+    <title>Cadastrar Funcionário</title>
+@endsection
 @section('content')
     <br />
-    <div class="container">
+    <div class="container"> {{-- Container completo da página  --}}
         <div class="card" style="border-color: #5C7CB6;">
             <div class="card-header">
                 Gerenciar dependentes
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-6">
-                        <fieldset
-                            style="border: 1px solid #c0c0c0; border-radius: 3px; padding: 7 10 7 10; background-color: #ebebeb;">
+                <div class="row"> {{-- Linha com o nome e botão novo --}}
+                    <div class="col-md-6 col-12">
+                        <fieldset {{-- Gera a barra ao redor do nome do funcionario --}}
+                            style="border: 1px solid #c0c0c0; border-radius: 3px;padding-bottom: 7px; padding-top: 7px; padding-left: 10px; background-color: #ebebeb;">
                             {{ $funcionario->nome_completo }}</fieldset>
                     </div>
-                    <div class="col-6">
-                        <div class="col-6 offset-7">
-                            <a href="/incluir-dependentes/{{ $funcionario->id }}" class="col-6"><button type="button"
-                                    class="btn btn-success col-8">Novo</button></a>
-                        </div>
+                    <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
+                        <a href="/incluir-dependentes/{{ $funcionario->id }}" class="col-6"><button type="button"
+                                class="btn btn-success col-md-8 col-12">Novo+</button></a>
                     </div>
                 </div>
-                <div class="col-2"></div>
             </div>
             <hr />
-            <div class="container-fluid table-responsive">
+            <div class="container-fluid table-responsive"> {{-- Faz com que a tabela não grude nas bordas --}}
                 <div class="table">
                     <table class="table table-striped table-bordered border-secondary table-hover align-middle">
-                        <thead style="text-align: center;">
-
-                            <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                        <thead style="text-align: center;"> {{-- Text-align gera responsividade abaixo de Large --}}
+                            <tr class="align-middle" style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                 <th class="col-2">Parentesco</th>
                                 <th class="col-4">Nome</th>
                                 <th class="col-2">Data de Nascimento</th>
@@ -41,15 +37,17 @@
                         </thead>
                         <tbody style="font-size: 15px; color:#000000;">
                             @foreach ($dependentes as $dependente)
-                                {{--  Foreach gera a tabela  --}}
                                 <tr>
-                                    <td scope="">{{ $dependente->nome }}</td>{{--  Parentesco  --}}
-                                    <td scope="">{{ $dependente->nome_dependente }}</td>{{--  Nome  --}}
-                                    <td scope="">{{--  Data de nascimento  --}}
+                                    <td>{{ $dependente->nome }}</td>{{--  Parentesco  --}}
+                                    <td>{{ $dependente->nome_dependente }}</td>{{--  Nome  --}}
+                                    <td>{{--  Data de nascimento  --}}
                                         {{ \Carbon\Carbon::parse($dependente->dt_nascimento)->format('d/m/Y') }}</td>
-                                    <td scope="" id="cpf">{{ $dependente->cpf }}</td>{{--  CPF  --}}
+                                    <td id="cpf">{{ $dependente->cpf }}</td>{{--  CPF  --}}
                                     <td> {{--  Área de ações  --}}
                                         <center>
+                                            <a href="/editar-dependentes/{{ $dependente->id }}"
+                                                class="btn btn-outline-warning">{{--  Botão editar  --}}
+                                                <i class="bi bi-pencil"></i></a>
                                             <button class="btn btn-outline-danger" {{-- Botão que aciona o modal  --}}
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}">
@@ -89,15 +87,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <a href="/editar-dependentes/{{ $dependente->id }}">{{--  Botão editar  --}}
-                                                <button class="btn btn-outline-warning"><i
-                                                        class="bi bi-pencil"></i></button>
-
-                                            </a>
-                                        </center>
-                                    </td>
-                                </tr>
                             @endforeach
                         </tbody>
                     </table>

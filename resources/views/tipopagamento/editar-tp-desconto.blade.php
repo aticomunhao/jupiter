@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('head')
+    <title>Editar Tipo de Desconto</title>
+@endsection
 @section('content')
     <br />
 
