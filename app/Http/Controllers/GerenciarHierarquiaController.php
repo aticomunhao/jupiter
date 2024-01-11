@@ -14,7 +14,10 @@ class GerenciarHierarquiaController extends Controller
 {
     public function index(Request $request)
     {
-        $nivel = DB::table('tp_nivel_setor')->select('tp_nivel_setor.id AS id_nivel', 'tp_nivel_setor.nome as nome_nivel')->get();
+        $nivel = DB::table('tp_nivel_setor')
+            ->select('tp_nivel_setor.id AS id_nivel', 'tp_nivel_setor.nome as nome_nivel')
+
+            ->get();
 
         $setor = DB::table('setor')
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
@@ -50,7 +53,7 @@ class GerenciarHierarquiaController extends Controller
         if ($request->nome_setor) {
             $lista->where('st.id', '=', $request->nome_setor);
            // $lista->whereIn('tns.id', ['1', '2'], 'st.setor_pai', '=', $request->nome_setor);
-            $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
+            $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
         }
 
 
