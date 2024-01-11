@@ -14,8 +14,9 @@
                     Área de pessoal
                 </div>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="../gerenciar-funcionario">Gerenciar Funcionarios</a></li>
+                    <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar Funcionarios</a></li>
                     <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
+                    <li><a class="dropdown-item" href="teste-bla">Teste</a></li>
 
                 </ul>
                 <div class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"

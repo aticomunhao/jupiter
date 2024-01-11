@@ -14,38 +14,52 @@ class GerenciarHierarquiaController extends Controller
 {
     public function index(Request $request)
     {
+        $nivel = DB::table('tp_nivel_setor')
+            ->select('tp_nivel_setor.id AS id_nivel', 'tp_nivel_setor.nome as nome_nivel')
 
-        $nivel = DB::table('tp_nivel_setor')->select('tp_nivel_setor.id AS id_nivel', 'tp_nivel_setor.nome as nome_nivel')->get();
-
+            ->get();
 
         $setor = DB::table('setor')
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
-            ->select('setor.id AS id_setor', 'setor.nome AS nome_setor', 'setor.sigla', 'setor.dt_inicio', 'setor.status', 'substituto.sigla AS nome_substituto')->get();
+            ->select('setor.id AS id_setor', 'setor.nome AS nome_setor', 'setor.sigla', 'setor.dt_inicio', 'setor.status', 'substituto.sigla AS nome_substituto')
+            ->get();
 
-        $lista = DB::table('setor AS st')
-            ->leftJoin('tp_nivel_setor AS tns', 'st.id_nivel', 'tns.id')
-            ->select('st.nome AS nome_setor', 'st.sigla', 'st.dt_inicio', 'st.status', 'st.substituto AS nome_substituto')
-            ->where('status', true);
+
+        $lista = DB::table('tp_nivel_setor AS tns')
+            ->leftJoin('setor AS st', 'tns.id', '=', 'st.id_nivel')
+            ->leftJoin('setor AS substituto', 'st.substituto', '=', 'substituto.id')
+            ->leftJoin('setor AS setor_pai', 'st.setor_pai', '=', 'setor_pai.id')
+            ->select(
+                'st.id AS ids',
+                'st.nome',
+                'st.sigla',
+                'st.dt_inicio',
+                'st.dt_fim',
+                'st.status',
+                'st.nome AS nome_setor',
+                'setor_pai.nome AS st_pai',
+                'substituto.sigla AS nome_substituto'
+            );
+
 
         $nm_nivel = $request->nivel;
         $nome_setor = $request->nome_setor;
-        //dd($nm_nivel);
+        $id_nivel = $request->id_nivel;
+        $st_pai = $request->st_pai;
 
-        if ($request->nivel) {
-            $lista->where('st.id_nivel', '=', $request->nivel);
-        }
+
 
 
         if ($request->nome_setor) {
             $lista->where('st.id', '=', $request->nome_setor);
+           // $lista->whereIn('tns.id', ['1', '2'], 'st.setor_pai', '=', $request->nome_setor);
+            $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
         }
 
-        $lista = $lista->orderby('st.status', 'ASC')->get();
 
+        $lista = $lista->orderby('tns.id', 'ASC')->orderBy('st.setor_pai', 'ASC')->get();
 
-
-
-        return view('/setores/Gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista'));
+        return view('/setores/Gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'st_pai'));
     }
 
 

@@ -40,6 +40,7 @@
                         <th scope="col">Cidade</th>
                         <th scope="col">Grupo</th>
                         <th scope="col">Ações</th>
+<<<<<<< Updated upstream
                     </tr>
                 </thead>
                 <tbody style="font-size: 12px;">
@@ -55,6 +56,23 @@
                     @endforeach
                 </tbody>
             </table>
+=======
+                        </tr>
+                    </thead>
+                    <tbody style="font-size: 12px;">
+                        <tr>
+                            <td scope="2">Grupo</td>
+                            <td scope="2">Botões</td>
+                       
+                            <td scope="2"></td>
+                            <td scope="2"></td>
+                            <td scope="2">Grupo</td>
+                            <td scope="2">Botões</td>
+                        </tr>
+                        
+                    </tbody>
+                </table>
+>>>>>>> Stashed changes
 
         </div>
     </div>

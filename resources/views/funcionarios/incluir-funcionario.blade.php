@@ -30,7 +30,7 @@
                                         <div class="col-md-4 col-sm-12">Nome completo
                                             <input class="form-control" type="text" maxlength="45"
                                                 oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                                id="2" name="nome_completo" value="" required="required">
+                                                id="idnome_completo" name="nome_completo" value="" required="required">
                                         </div>
                                         <div class="col-md-3 col-sm-12">Data nascimento
                                             <input class="form-control" type="date" value="{{ old('dt_nascimento') }}"
@@ -319,6 +319,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('scripts')
@@ -347,6 +348,13 @@
                 theme: 'bootstrap-5',
                 width: '100%'
             });
+            $('#idlimpar').click(function (e) {
+                $('#idnome_completo').val("");
+
+
+            });
+
+
             $('#iduf').change(function(e) {
                 e.preventDefault();
 
@@ -383,5 +391,6 @@
             });
 
         });
+
     </script>
 @endsection

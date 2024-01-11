@@ -180,6 +180,7 @@ class GerenciarDadosBancariosController extends Controller
         return redirect()->back();
     }
 
+<<<<<<< Updated upstream
     public function agencias($id)
     {
         $agenciasdoselect =DB::table('tp_banco_ag')
@@ -188,4 +189,18 @@ class GerenciarDadosBancariosController extends Controller
             ->get();
         return response()->json($agenciasdoselect);
     }
+=======
+    public function teste()
+    {
+
+    $lista = DB::select('select id, banco, desc_ban from tp_banco_ag group by id, banco, desc_ban');
+
+  
+    return view ('/dadosBancarios/teste-bla', compact('lista'));
+
+
+
+    }
+
+>>>>>>> Stashed changes
 }
