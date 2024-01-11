@@ -27,7 +27,7 @@
                         <div class="col" style="padding-top:25px">
                             <a href="/gerenciar-hierarquia" type="button" value="" class="btn btn-danger">Cancelar</a>
                             <a href="/gerenciar-hierarquia" type="button" class="btn btn-primary" value="">Limpar</a>
-                            <input type="submit" value="Confirmar" class="btn btn-success">
+                            <input type="submit" value="Pesquisar" class="btn btn-success">
                         </div>
                     </div>
                 </form>
@@ -36,13 +36,14 @@
                     <table
                         class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                         <thead style="text-align: center;">
-                        <tr style="background-color: #365699; font-size:19px; color:#ffffff">
+                        <tr style="background-color: #365699; font-size:18px; color:#ffffff">
                             <th class="col-1"><input type="checkbox" id="masterCheckBox"></th>
                             <th class="col-4">Nome</th>
-                            <th class="col-2">Sigla</th>
-                            <th class="col-2">Data de Inicio</th>
+                            <th class="col-1">Sigla</th>
+                            <th class="col-1">Data Inicio</th>
                             <th class="col-1">Status</th>
-                            <th class="col-2">Substituto</th>
+                            <th class="col-1">Substituto</th>
+                            <th class="col-4">Hierarquia</th>
                         </tr>
                         </thead>
                         <tbody style="font-size: 15px; color:#000000;">
@@ -65,6 +66,9 @@
                                 </td>
                                 <td scope="">
                                     <center>{{ $listas->nome_substituto }}</center>
+                                </td>
+                                <td scope="">
+                                    <center>{{ $listas->st_pai}}</center>
                                 </td>
                         </tr>
                         @endforeach
