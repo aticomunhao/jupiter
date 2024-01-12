@@ -16,7 +16,6 @@ class GerenciarHierarquiaController extends Controller
     {
         $nivel = DB::table('tp_nivel_setor')
             ->select('tp_nivel_setor.id AS id_nivel', 'tp_nivel_setor.nome as nome_nivel')
-
             ->get();
 
         $setor = DB::table('setor')
@@ -47,17 +46,32 @@ class GerenciarHierarquiaController extends Controller
         $id_nivel = $request->id_nivel;
         $st_pai = $request->st_pai;
 
+        
 
 
-
+     //if($lista->orwhereNull('st.setor_pai')){
+    
         if ($request->nome_setor) {
-            $lista->where('st.id', '=', $request->nome_setor);
-           // $lista->whereIn('tns.id', ['1', '2'], 'st.setor_pai', '=', $request->nome_setor);
-            $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
-        }
+            $lista->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
 
 
+
+            if ($nm_nivel == 1) {
+                $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
+            }
+
+            if($nm_nivel == 2){
+                $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
+
+            }
+
+            
+        //}
+
+    }
         $lista = $lista->orderby('tns.id', 'ASC')->orderBy('st.setor_pai', 'ASC')->get();
+
+       //dd($lista);
 
         return view('/setores/Gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'st_pai'));
     }
