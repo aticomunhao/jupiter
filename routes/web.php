@@ -87,7 +87,7 @@ Route::get('/historico-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGra
 Route::get('/gerenciar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index']);
 Route::get('/pesquisar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index'])->name('pesquisar');
 Route::get('/incluir-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'create']);
-Route::any('/incluir-setores', [App\Http\Controllers\GerenciarSetoresController::class, 'insert']);
+Route::post('/incluir-setores', [App\Http\Controllers\GerenciarSetoresController::class, 'store']);
 Route::get('/editar-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'edit']);
 Route::get('/setor-pessoas', [App\Http\Controllers\GerenciarSetoresController::class, 'consult']);
 Route::post('/atualizar-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'update']);

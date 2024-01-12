@@ -16,23 +16,24 @@ class GerenciarSetoresController extends Controller
     {
 
         $lista = DB::table('tp_nivel_setor AS tns')
-        ->whereIn('tns.id', ['1', '2'])
-        ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
-        ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
-        ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
-        ->select(
-            's.id AS ids', 
-            's.nome', 
-            's.sigla', 
-            's.dt_inicio', 
-            's.dt_fim', 
-            's.status', 
-            'setor_pai.nome AS setor_pai', 
-            'substituto.sigla AS nome_substituto');
-                
-      
-            
-            //dd($lista);
+            ->whereIn('tns.id', ['1', '2', '3'])
+            ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
+            ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
+            ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
+            ->select(
+                's.id AS ids',
+                's.nome',
+                's.sigla',
+                's.dt_inicio',
+                's.dt_fim',
+                's.status',
+                'setor_pai.nome AS setor_pai',
+                'substituto.sigla AS nome_substituto'
+            );
+
+
+
+        //dd($lista);
 
         $ids = $request->ids;
 
@@ -49,7 +50,7 @@ class GerenciarSetoresController extends Controller
         $nome_substituto = $request->nome_substituto;
 
         $status = $request->status;
- 
+
         if ($request->nome) {
             $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
         }
@@ -58,48 +59,45 @@ class GerenciarSetoresController extends Controller
             $lista->where('s.sigla', '=', $request->sigla);
         }
 
-        if ($request->nome_substituto){
+        if ($request->nome_substituto) {
             $lista->where('s.substituto', '=', $request->nome_substituto);
         }
         $lista = $lista->orderBy('s.sigla', 'asc')->orderBy('s.nome', 'asc')->orderBy('nome_substituto', 'asc')->paginate(10);
 
 
-        return view('/setores/gerenciar-setor', compact('lista','nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai', 'status'));
+        return view('/setores/gerenciar-setor', compact('lista', 'nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai', 'status'));
     }
 
 
     public function create(Request $request)
     {
-        $nivel = DB::select('select id, nome from tp_nivel_setor');
-            
+        $nivel = DB::select('select id AS idset, nome from tp_nivel_setor');
 
 
-        return view('/setores/incluir-setor', compact( 'nivel','id', 'nome'));
+
+        return view('/setores/incluir-setor', compact('nivel'));
     }
 
 
 
-    public function insert(Request $request)
+    public function store(Request $request)
     {
-
+        
         DB::table('setor')
             ->insert([
-                'nome' => $request->input('nome'),
+                'nome' => $request->input('nome_setor'),
                 'sigla' => $request->input('sigla'),
                 'dt_inicio' => $request->input('dt_inicio'),
-                'dt_fim' => $request->input('dt_fim'),
-                'usuario' => $request->input('usuario')
+                'id_nivel' => $request->input('nivel'),
+                'status' => '1',
+                
             ]);
 
-        $id_setor = DB::table('setor')
-            ->select(DB::raw('MAX(id) as max_id'))
-            ->value('max_id');
 
-        app('flasher')->addSuccess('Edição feita com Sucesso!');
+
+        app('flasher')->addSuccess('Setor cadastrado com Sucesso!');
 
         return redirect('/gerenciar-setor');
-
-
     }
 
 
@@ -114,7 +112,6 @@ class GerenciarSetoresController extends Controller
 
 
         return view('/setores/editar-setor', compact('editar'));
-
     }
 
 
@@ -146,51 +143,51 @@ class GerenciarSetoresController extends Controller
         app('flasher')->addSuccess('Edição feita com Sucesso!');
 
         return redirect()->action([GerenciarSetoresController::class, 'index']);
-
     }
 
-   public function consult(Request $request){
+    public function consult(Request $request)
+    {
 
 
-            
-  
-        
+
+
+
         //dd($lista);
 
-    $ids = $request->ids;
+        $ids = $request->ids;
 
-    $nome = $request->nome;
+        $nome = $request->nome;
 
-    $sigla = $request->sigla;
+        $sigla = $request->sigla;
 
-    $dt_inicio = $request->dt_inicio;
+        $dt_inicio = $request->dt_inicio;
 
-    $dt_fim = $request->dt_fim;
+        $dt_fim = $request->dt_fim;
 
-    $setor_pai = $request->setor_pai;
+        $setor_pai = $request->setor_pai;
 
-    $nome_substituto = $request->nome_substituto;
+        $nome_substituto = $request->nome_substituto;
 
-    $status = $request->status;
+        $status = $request->status;
 
-    if ($request->nome) {
-        $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
+        if ($request->nome) {
+            $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
+        }
+
+        if ($request->sigla) {
+            $lista->where('s.sigla', '=', $request->sigla);
+        }
+
+        if ($request->nome_substituto) {
+            $lista->where('s.substituto', '=', $request->nome_substituto);
+        }
+        $lista = $lista->orderBy('s.sigla', 'asc')->orderBy('s.nome', 'asc')->orderBy('nome_substituto', 'asc')->paginate(10);
+
+
+        return view('/setores/gerenciar-setor', compact('lista', 'nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai', 'status'));
     }
 
-    if ($request->sigla) {
-        $lista->where('s.sigla', '=', $request->sigla);
-    }
 
-    if ($request->nome_substituto){
-        $lista->where('s.substituto', '=', $request->nome_substituto);
-    }
-    $lista = $lista->orderBy('s.sigla', 'asc')->orderBy('s.nome', 'asc')->orderBy('nome_substituto', 'asc')->paginate(10);
-
-
-    return view('/setores/gerenciar-setor', compact('lista','nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai', 'status'));
-}    
-  
-   
 
 
 
