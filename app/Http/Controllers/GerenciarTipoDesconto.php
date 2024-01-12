@@ -18,7 +18,9 @@ class GerenciarTipoDesconto extends Controller
                 ->where('description', 'ilike', '%' . $pesquisa . '%')
                 ->get();
         } else {
-            $desc = DB::table('tipo_desconto')->orderBy('description', 'asc')->get();
+            $desc = DB::table('tipo_desconto')
+                ->orderBy('description', 'asc')
+                ->get();
         }
 
         return view('/tipopagamento/gerenciar-tp-desconto', compact('desc', 'pesquisa'));
@@ -37,9 +39,24 @@ class GerenciarTipoDesconto extends Controller
      */
     public function store(Request $request)
     {
+        $id_increment = DB::table('tipo_desconto')
+            ->get()
+            ->last();
+
+
+            
+         if ($id_increment->id_tipo != null) {
+             $idd = $id_increment->id_tipo + 1;
+         } else {
+
+             $idd = 1;
+         }
+
         DB::table('tipo_desconto')->insert([
             'description' => $request->input('tpdesc'),
             'percDesconto' => $request->input('pecdesc'),
+            'dt_inicio' => $request->input('dtdesc'),
+            'id_tipo' => $idd,
         ]);
         app('flasher')->addSuccess('Tipo de desconto cadastrada com sucesso');
         return redirect()->route('indexTipoDesconto');
@@ -76,6 +93,7 @@ class GerenciarTipoDesconto extends Controller
             ->update([
                 'description' => $request->input('edittpdesc'),
                 'percDesconto' => $request->input('editpecdesc'),
+                'dt_inicio' => $request->input('dtdesc'),
             ]);
 
         app('flasher')->addwarning('Tipo de desconto atualizada com sucesso');
@@ -87,7 +105,6 @@ class GerenciarTipoDesconto extends Controller
      */
     public function destroy(string $id)
     {
-        
         $dest = DB::table('tipo_desconto')
             ->where('id', $id)
             ->delete();

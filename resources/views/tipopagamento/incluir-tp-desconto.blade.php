@@ -14,6 +14,7 @@
             </div>
 
             <div class="card-body">
+
                 <br>
                 <div class="row justify-content-start">
                     <form method="POST" action="/armazenar-tipo-desconto">
@@ -21,13 +22,18 @@
                         <center>
                             <div class="row col-10 " style="margin-top:none">
 
-                                <div class="col-md-8 col-12">
+                                <div class="col-md-6 col-12">
                                     <input type="text" class="form-control" aria-label="Sizing example input"
                                         placeholder="Tipo de desconto..." name = "tpdesc" required="Required" maxlength="50">
                                 </div>
-                                <div class="col-md-4 col-12 mt-3 mt-md-0 ">
+                                <div class="col-md-3 col-12 mt-3 mt-md-0 ">
+
                                     <input type="number" class="form-control" aria-label="Sizing example input"
-                                        placeholder="Porcentagem do desconto..." name = "pecdesc" min="0.01" max="100" step="0.01">
+                                        placeholder="Porcentagem..." name = "pecdesc" min="0.01" max="100" step="0.01">
+                                </div>
+                                <div class="col-md-3 col-12 mt-3 mt-md-0 ">
+                                    <input type="date" class="form-control" aria-label="Sizing example input"
+                                         name = "dtdesc">
                                 </div>
                             </div>
                         </center>
@@ -39,7 +45,7 @@
                                     Cancelar
                                 </a>
 
-                                <button type = "submit" class="btn btn-success col-3 offset-3">
+                                <button type = "submit" class="btn btn-primary col-3 offset-3">
                                     Confirmar
                                 </button>
                             </div>
