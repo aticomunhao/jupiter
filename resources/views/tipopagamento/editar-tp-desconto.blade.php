@@ -20,16 +20,19 @@
                         @csrf
                         <center>
                             <div class="row col-10 " style="margin-top:none">
-
-                                <div class="col-md-8 col-12">
+                                <div class="col-md-6 col-12">
                                     <input type="text" class="form-control" aria-label="Sizing example input"
                                         placeholder="Tipo de desconto..." name = "edittpdesc" required="Required"
                                         value = '{{ $info->description }}' maxlength="50">
                                 </div>
-                                <div class="col-md-4 col-12 mt-3 mt-md-0 ">
+                                <div class="col-md-3 col-12 mt-3 mt-md-0 ">
                                     <input type="number" class="form-control" aria-label="Sizing example input"
                                         placeholder="Porcentagem do desconto..." name = "editpecdesc" required="Required"
                                         value = '{{ $info->percDesconto }}'>
+                                </div>
+                                <div class="col-md-3 col-12 mt-3 mt-md-0 ">
+                                    <input type="date" class="form-control" aria-label="Sizing example input"
+                                         name = "dtdesc" value="{{ $info->dt_inicio }}">
                                 </div>
                             </div>
                         </center>

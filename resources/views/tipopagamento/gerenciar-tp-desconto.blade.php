@@ -40,6 +40,8 @@
                         <tr style="background-color: #d6e3ff; font-size:19px; color:#000;">
                             <th>Tipo de desconto</th>
                             <th>Desconto</th>
+                            <th>Data Inicial</th>
+                            <th>Data Final</th>
                             <th>Ações</th>
                         </tr>
                     </thead>
@@ -51,6 +53,8 @@
 
                                 <td>{{ $descrpt->description }}</td>
                                 <td style="text-align:center;">{{ $descrpt->percDesconto }}%</td>
+                                <td style="text-align:center;">{{ $descrpt->dt_inicio }}</td>
+                                <td style="text-align:center;">{{ $descrpt->dt_final }}</td>
 
                                 <td style="text-align: center;">
                                     <a href="/editar-tipo-desconto/{{ $descrpt->id }}" class="btn btn-outline-warning">
