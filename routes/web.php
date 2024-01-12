@@ -72,6 +72,14 @@ Route::any('/editar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRe
 Route::any('/alterar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'update']);
 Route::get('/historico-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'show']);
 Route::any('/fechar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'destroy']);
+
+// Gerenciar Base Salarial
+
+Route::any('/gerenciar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'index'])->name('GerenciarBaseSalarial');
+Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'create'])->name('IncluirBaseSalarial');
+Route::any('/vizualizar-base-salarial/{id}', [App\Http\Controllers\GerenciarBaseSalarial::class,'show'])->name('VisualizarBaseSalarial');
+
+
 /*Gerenciar Funcao Gratificada*/
 
 Route::get('/gerenciar-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'index'])->name('IndexGerenciarFuncaoGratificada');
