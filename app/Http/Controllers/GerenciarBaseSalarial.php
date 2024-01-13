@@ -12,14 +12,14 @@ class GerenciarBaseSalarial extends Controller
      */
     public function index($idf)
     {
-        $this->idf = $idf; // Store the value in the class property
+
 
         $rel_base_salarial = DB::table('rel_base_salarial')
             ->where('id_bs', $idf)
             ->get();
 
         if ($rel_base_salarial->isEmpty()) {
-            return redirect()->route('IncluirBaseSalarial', ['id' => $idf]);
+            return redirect()->route('IncluirBaseSalarial', ['idf' => $idf]);
         } else {
             // Add your logic here if needed
         }
@@ -30,19 +30,20 @@ class GerenciarBaseSalarial extends Controller
      */
     public function create($idf)
     {
-   
+
         $cargosregulares = DB::table('cargo_regular')->get();
         $funcaogratificada =  DB::table('funcao_gratificada')-> get();
 
-        return view('basesalarial.cadastrar-base-salarial', compact('cargosregulares', 'funcaogratificada'));
+        return view('basesalarial.cadastrar-base-salarial', compact('cargosregulares', 'funcaogratificada','idf'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $idf)
     {
-        //
+       
+        dd($idf);
     }
 
     /**

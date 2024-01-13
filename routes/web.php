@@ -21,7 +21,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\LoginController::class, 'index']);
+Route::any('/', [App\Http\Controllers\LoginController::class, 'index']);
 Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'validaUserLogado'])->name('home.post');
 Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -77,8 +77,8 @@ Route::any('/fechar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRe
 
 Route::any('/gerenciar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'index'])->name('GerenciarBaseSalarial');
 Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'create'])->name('IncluirBaseSalarial');
-Route::any('/vizualizar-base-salarial/{id}', [App\Http\Controllers\GerenciarBaseSalarial::class,'show'])->name('VisualizarBaseSalarial');
-Route::get('/armazenar-base-salarial/{id}',[App\Http\Controllers\GerenciarBaseSalarial::class,'store']);
+Route::any('/vizualizar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class,'show'])->name('VisualizarBaseSalarial');
+Route::any('/armazenar-base-salarial/{idf}',[App\Http\Controllers\GerenciarBaseSalarial::class,'store'])->name('ArmazenarBaseSalarial');
 
 
 /*Gerenciar Funcao Gratificada*/
@@ -144,7 +144,7 @@ Route::any('/excluir-acordo/{id}', [App\Http\Controllers\GerenciarAcordosControl
 Route::any('/editar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'edit']);
 Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'update']);
 
-/**Rotas para Tipo de Pagamento**/
+/**Rotas para Tipo de Desconto**/
 
 Route::get('/gerenciar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'index'])->name('indexTipoDesconto');
 Route::get('/incluir-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'create']);

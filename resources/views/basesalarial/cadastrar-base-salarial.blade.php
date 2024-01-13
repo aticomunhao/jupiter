@@ -8,12 +8,13 @@
                 <span style="color: blue"> Incluir Cargo </span>
             </h5>
             <div class="card-body">
-                <form action="/" method="POST">
+                <form action="{{route('ArmazenarBaseSalarial', ['idf' => $idf])}}" method="POST">
+                    @csrf
                     <div class="container-fluid">
                         <div class="row-fluid d-flex justify-content-evenly">
                             <div class="col-4">
                                 <p>Cargo Regular</p>
-                                <select class="form-select" aria-label="Default select example" id="idCargoRegular">
+                                <select class="form-select" aria-label="Default select example" id="idCargoRegular" required>
                                     @foreach ($cargosregulares as $cargoregular)
                                         @if ($cargoregular->nomeCR == null)
                                             <option value="{{ $cargoregular->id }}">{{ $cargoregular->nomeCC }}</option>
@@ -27,7 +28,7 @@
                                 <div class="container-fluid align-content-center">
                                     <div class="form-check">
                                         <label class="form-check-label" for="idteste">Função Gratificada</label>
-                                        <input class="form-check-input" type="checkbox" name="teste" id="idteste" >
+                                        <input class="form-check-input" type="checkbox" name="teste" id="idteste">
                                     </div>
                                 </div>
                             </div>
@@ -37,14 +38,17 @@
                             <div class="col-4" id="FuncaoGratificada">
                                 <p>Função Gratificada</p>
                                 <select class="form-select" name="funcaogratificada" id="idfuncaogratificada">
-                                   @foreach ($funcaogratificada as $funcaogratificadas)
-                                    <option value="{{$funcaogratificadas->id}}">{{$funcaogratificadas->nomeFG}}</option>
-                                   @endforeach
+                                    @foreach ($funcaogratificada as $funcaogratificadas)
+                                        <option value="{{ $funcaogratificadas->id }}">{{ $funcaogratificadas->nomeFG }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
-                        <div class="row-fluid d-flex justify-content-evenly">
-                            <!-- Additional content can be added here if needed -->
+                        <br>
+                        <div class="row-fluid d-flex justify-content-around">
+                            <a href="{{route('gerenciar')}}"><button class="btn btn-danger">cancelar</button></a>
+                           <button class="btn btn-success" type="submit">Confirmar</button>
                         </div>
                     </div>
                 </form>
