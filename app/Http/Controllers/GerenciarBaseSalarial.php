@@ -12,25 +12,25 @@ class GerenciarBaseSalarial extends Controller
      */
     public function index($idf)
     {
+        $this->idf = $idf; // Store the value in the class property
+
         $rel_base_salarial = DB::table('rel_base_salarial')
             ->where('id_bs', $idf)
             ->get();
 
-
         if ($rel_base_salarial->isEmpty()) {
-            return redirect()->route('IncluirBaseSalarial', ['id', $idf]);
+            return redirect()->route('IncluirBaseSalarial', ['id' => $idf]);
         } else {
-
+            // Add your logic here if needed
         }
-
-
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($idf)
     {
+   
         $cargosregulares = DB::table('cargo_regular')->get();
         $funcaogratificada =  DB::table('funcao_gratificada')-> get();
 

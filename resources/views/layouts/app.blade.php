@@ -41,6 +41,7 @@
 <!-- JAVASCRIPT -->
 
 
+
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
@@ -49,6 +50,7 @@
 
 <!-- footerScript -->
 @yield('footerScript')
+
 
 <!-- App js -->
 <script src="{{ URL::asset('/js/app.min.js')}}"></script>

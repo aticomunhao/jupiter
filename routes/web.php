@@ -78,6 +78,7 @@ Route::any('/fechar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRe
 Route::any('/gerenciar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'index'])->name('GerenciarBaseSalarial');
 Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'create'])->name('IncluirBaseSalarial');
 Route::any('/vizualizar-base-salarial/{id}', [App\Http\Controllers\GerenciarBaseSalarial::class,'show'])->name('VisualizarBaseSalarial');
+Route::get('/armazenar-base-salarial/{id}',[App\Http\Controllers\GerenciarBaseSalarial::class,'store']);
 
 
 /*Gerenciar Funcao Gratificada*/
