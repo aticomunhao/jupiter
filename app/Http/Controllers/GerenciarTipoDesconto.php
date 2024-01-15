@@ -19,7 +19,7 @@ class GerenciarTipoDesconto extends Controller
                 ->get();
         } else {
             $desc = DB::table('tipo_desconto')
-                ->orderBy('description', 'asc')
+                ->orderBy('dt_final', 'desc')
                 ->get();
         }
 
@@ -39,17 +39,19 @@ class GerenciarTipoDesconto extends Controller
      */
     public function store(Request $request)
     {
-        $id_increment = DB::table('tipo_desconto')
+        $id_increment = DB::table('tipo_desconto') // Pega o ultimo id lancado no banco
             ->get()
             ->last();
 
+        $ss = DB::table('tipo_desconto')->count(); //conta o numero de linhas da tabela
 
-            
-         if ($id_increment->id_tipo != null) {
-             $idd = $id_increment->id_tipo + 1;
-         } else {
+
+         if (round($ss) == 0) { //
 
              $idd = 1;
+         } else {
+            $idd = $id_increment->id_tipo + 1;
+
          }
 
         DB::table('tipo_desconto')->insert([
@@ -85,7 +87,6 @@ class GerenciarTipoDesconto extends Controller
     /**
      * Update the specified resource in storage.
      */
-    //Request $request, string $id
     public function update(Request $request, string $id)
     {
         DB::table('tipo_desconto')
@@ -95,6 +96,42 @@ class GerenciarTipoDesconto extends Controller
                 'percDesconto' => $request->input('editpecdesc'),
                 'dt_inicio' => $request->input('dtdesc'),
             ]);
+
+        app('flasher')->addwarning('Tipo de desconto modificada com sucesso');
+        return redirect()->route('indexTipoDesconto');
+    }
+
+
+    public function renew(string $id)
+    {
+        $inf = DB::table('tipo_desconto')
+            ->where('id', $id)
+            ->first();
+
+        return view('/tipopagamento/atualizar-tp-desconto', compact('inf'));
+    }
+
+
+
+    public function modify(Request $request, string $id)
+    {
+
+        $lst = DB::table('tipo_desconto')
+        ->where('id', $id)->first();
+        DB::table('tipo_desconto')
+            ->insert([
+                'description' => $request->input('edittpdesc'),
+                'percDesconto' => $request->input('editpecdesc'),
+                'dt_inicio' => $request->input('dtdesc'),
+                'id_tipo' => $lst->id_tipo,
+            ]);
+
+            DB::table('tipo_desconto')
+            ->where('id', $id)
+            ->update([
+                'dt_final' => $request->input('dtdesc'),
+            ]);
+
 
         app('flasher')->addwarning('Tipo de desconto atualizada com sucesso');
         return redirect()->route('indexTipoDesconto');

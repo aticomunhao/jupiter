@@ -19,24 +19,34 @@
                 <div class="row justify-content-start">
                     <form method="POST" action="/armazenar-tipo-desconto">
                         @csrf
-                        <center>
-                            <div class="row col-10 " style="margin-top:none">
+
+
+
+
+
+
+
+
+
+                            <div class="row col-10 offset-1" style="margin-top:none">
 
                                 <div class="col-md-6 col-12">
+                                    <div>Tipo de desconto</div>
                                     <input type="text" class="form-control" aria-label="Sizing example input"
-                                        placeholder="Tipo de desconto..." name = "tpdesc" required="Required" maxlength="50">
+                                         name = "tpdesc" required="Required" maxlength="50">
                                 </div>
                                 <div class="col-md-3 col-12 mt-3 mt-md-0 ">
-
+                                    <div>Porcentagem</div>
                                     <input type="number" class="form-control" aria-label="Sizing example input"
-                                        placeholder="Porcentagem..." name = "pecdesc" min="0.01" max="100" step="0.01">
+                                         name = "pecdesc" min="0.01" max="100" step="0.01">
                                 </div>
                                 <div class="col-md-3 col-12 mt-3 mt-md-0 ">
+                                    <div>Data de inicio</div>
                                     <input type="date" class="form-control" aria-label="Sizing example input"
                                          name = "dtdesc">
                                 </div>
                             </div>
-                        </center>
+
 
 
                         <center>

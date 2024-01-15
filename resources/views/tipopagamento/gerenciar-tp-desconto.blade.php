@@ -10,7 +10,11 @@
                 Gerenciar Tipo de Desconto
             </div>
             <div class="card-body">
+
+
+
                 <form method="GET" action="/gerenciar-tipo-desconto">
+
                     @csrf
                     <div class="row justify-content-start">
                         <div class="col-md-4 col-sm-12">
@@ -19,7 +23,8 @@
                         </div>
                         <div class="col-md-8 col-12">
 
-                            <button class="btn btn-secondary col-md-3 col-12 mt-5 mt-md-0 " type="submit">Pesquisar</button>
+                            <button class="btn btn-secondary col-md-3 col-12 mt-5 mt-md-0 "
+                                type="submit">Pesquisar</button>
 
                             <a href="/incluir-tipo-desconto"
                                 class="btn btn-success col-md-3 col-12 offset-md-5 offset-0 mt-2 mt-md-0">
@@ -58,11 +63,16 @@
 
                                 <td style="text-align: center;">
                                     <a href="/editar-tipo-desconto/{{ $descrpt->id }}" class="btn btn-outline-warning">
-                                        <i class="bi bi-pencil" style="font-size: ; color:#000;"></i>
+                                        <i class="bi bi-pencil"></i>
                                     </a>
+                                    @if ($descrpt->dt_final == null)
+                                        <a href="/renovar-tipo-desconto/{{ $descrpt->id }}" class="btn btn-outline-primary">
+                                            <i class="bi bi-arrow-clockwise"></i></i>
+                                        </a>
+                                    @endif
                                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal{{ $descrpt->id }}">
-                                        <i class="bi bi-trash" style="font-size: 1rem; color:#000;"></i>
+                                        <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -95,4 +105,5 @@
             </div>
         </div>
     </div>
+    
 @endsection

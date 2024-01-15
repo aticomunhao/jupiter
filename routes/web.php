@@ -152,6 +152,8 @@ Route::get('/editar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesc
 Route::post('/armazenar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'store']);
 Route::any('/atualizar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'update']);
 Route::any('/exluir-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'destroy']);
+Route::any('/renovar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'renew']);
+Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'modify']);
 
 /**Rotas de Entrada**/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
