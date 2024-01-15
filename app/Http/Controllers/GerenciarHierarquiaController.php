@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models;
 use iluminate\Support\Facades\Route;
@@ -35,6 +36,7 @@ class GerenciarHierarquiaController extends Controller
                 'st.dt_inicio',
                 'st.dt_fim',
                 'st.status',
+                'st.id_nivel',
                 'st.nome AS nome_setor',
                 'setor_pai.nome AS st_pai',
                 'substituto.sigla AS nome_substituto'
@@ -46,13 +48,13 @@ class GerenciarHierarquiaController extends Controller
         $id_nivel = $request->id_nivel;
         $st_pai = $request->st_pai;
 
-        
 
 
-     //if($lista->orwhereNull('st.setor_pai')){
-    
+
+        //if($lista->orwhereNull('st.setor_pai')){
+
         if ($request->nome_setor) {
-            $lista->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
+            $lista->where('st.id_nivel', '>=', 3)->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
 
 
 
@@ -60,18 +62,17 @@ class GerenciarHierarquiaController extends Controller
                 $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
             }
 
-            if($nm_nivel == 2){
+            if ($nm_nivel == 2) {
                 $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
-
             }
 
-            
-        //}
 
-    }
+            //}
+
+        }
         $lista = $lista->orderby('tns.id', 'ASC')->orderBy('st.setor_pai', 'ASC')->get();
 
-       //dd($lista);
+        // dd($lista);
 
         return view('/setores/Gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'st_pai'));
     }
@@ -187,4 +188,38 @@ class GerenciarHierarquiaController extends Controller
             }
         }
     }
+    public function atualizarhierarquia(Request $request)
+    {
+        // Verifica se o campo checkboxes foi enviado e se é um array
+        $checkboxes = $request->input('checkboxes', []);
+
+       dd($checkboxes);
+
+     
+        
+
+        if (!is_array($checkboxes)) {
+            // Se não for um array, transforma em um array
+            $checkboxes = [$checkboxes];
+
+            
+        }
+
+        foreach ($checkboxes as $nome_setor) {
+            $setor = DB::table('setor')->where('nome', $nome_setor)->first();
+
+           
+
+            if ($setor) {
+                // Atualiza o campo st_pai com base no estado do checkbox
+                $updateData = [
+                    'setor_pai' => $request->input("checkbox_$nome_setor") ? true : false,
+                ];
+              
+                
+                DB::table('setor')->where('id', $nome_setor)->update($updateData);
+            }
+        return redirect('/gerenciar-hierarquia')->with('success', 'Setores atualizados com sucesso!');
+    }
+}
 }
