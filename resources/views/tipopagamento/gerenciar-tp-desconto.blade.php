@@ -62,14 +62,15 @@
                                 <td style="text-align:center;">{{ $descrpt->dt_final }}</td>
 
                                 <td style="text-align: center;">
+                                    @if ($descrpt->dt_final == null)
+                                    <a href="/renovar-tipo-desconto/{{ $descrpt->id }}" class="btn btn-outline-primary">
+                                        <i class="bi bi-arrow-clockwise"></i></i>
+                                    </a>
+                                @endif
                                     <a href="/editar-tipo-desconto/{{ $descrpt->id }}" class="btn btn-outline-warning">
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    @if ($descrpt->dt_final == null)
-                                        <a href="/renovar-tipo-desconto/{{ $descrpt->id }}" class="btn btn-outline-primary">
-                                            <i class="bi bi-arrow-clockwise"></i></i>
-                                        </a>
-                                    @endif
+
                                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
                                         data-bs-target="#exampleModal{{ $descrpt->id }}">
                                         <i class="bi bi-trash"></i>
@@ -105,5 +106,5 @@
             </div>
         </div>
     </div>
-    
+
 @endsection

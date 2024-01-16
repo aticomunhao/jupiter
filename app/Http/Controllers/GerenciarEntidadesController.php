@@ -13,11 +13,22 @@ class GerenciarEntidadesController extends Controller
      */
     public function index()
     {
-        $entidades = DB::table('tp_entidades_ensino')->get();
 
 
+        $pesquisa = request('pesquisa');
 
-        return view('entidadesensino.gerenciar-entidades-ensino', compact('entidades'));
+        if ($pesquisa) {
+            $entidades = DB::table('tp_entidades_ensino')
+                ->where('nome_tpentensino', 'ilike', '%' . $pesquisa . '%')
+                ->get();
+        } else {
+            $entidades = DB::table('tp_entidades_ensino')
+                ->orderBy('nome_tpentensino', 'desc')
+                ->get();
+        }
+
+
+        return view('entidadesensino.gerenciar-entidades-ensino', compact('entidades', 'pesquisa'));
     }
 
     /**
