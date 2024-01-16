@@ -32,9 +32,9 @@ class GerenciarBaseSalarial extends Controller
     {
 
         $cargosregulares = DB::table('cargo_regular')->get();
-        $funcaogratificada =  DB::table('funcao_gratificada')-> get();
+        $funcaogratificada = DB::table('funcao_gratificada')->get();
 
-        return view('basesalarial.cadastrar-base-salarial', compact('cargosregulares', 'funcaogratificada','idf'));
+        return view('basesalarial.cadastrar-base-salarial', compact('cargosregulares', 'funcaogratificada', 'idf'));
     }
 
     /**
@@ -42,8 +42,17 @@ class GerenciarBaseSalarial extends Controller
      */
     public function store(Request $request, $idf)
     {
-       
-        dd($idf);
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas as p','id_pessoa', '=','p.id')
+            ->where('funcionarios.id', $idf)
+            ->first();
+
+        dd($funcionario);
+        $cargoregular = $request->input('cargoregular');
+        $funcaograrificada = $request->input('funcaogratificada');
+        $idfuncionario = $idf;
+
+
     }
 
     /**
