@@ -190,36 +190,27 @@ class GerenciarHierarquiaController extends Controller
     }
     public function atualizarhierarquia(Request $request)
     {
-        // Verifica se o campo checkboxes foi enviado e se é um array
-        $checkboxes = $request->input('checkboxes', []);
-
-       dd($checkboxes);
-
-     
-        
-
-        if (!is_array($checkboxes)) {
-            // Se não for um array, transforma em um array
-            $checkboxes = [$checkboxes];
-
-            
-        }
-
-        foreach ($checkboxes as $nome_setor) {
-            $setor = DB::table('setor')->where('nome', $nome_setor)->first();
-
-           
-
-            if ($setor) {
-                // Atualiza o campo st_pai com base no estado do checkbox
-                $updateData = [
-                    'setor_pai' => $request->input("checkbox_$nome_setor") ? true : false,
-                ];
-              
-                
-                DB::table('setor')->where('id', $nome_setor)->update($updateData);
-            }
+        // Verifica se o campo checkboxes foi enviado e se é uma string
+        $checkboxes = $request->input('checkboxes', '');
+    
+        // Converte a string em um array de IDs
+        $checkboxArray = explode(',', $checkboxes);
+    
+        // Filtra IDs válidos (números positivos)
+        $validCheckboxArray = array_filter($checkboxArray, function ($value) {
+            return is_numeric($value) && $value > 0;
+        });
+    
+        $nome_setor = $request->input('nome_setor');
+    
+        // Obtém os dados do banco de dados com base nos IDs
+        $dados = DB::table('setor')->whereIn('id', $validCheckboxArray)->get();
+    
+        // Atualiza o campo setor_pai para todos os setores selecionados
+        DB::table('setor')->whereIn('id', $validCheckboxArray)->update([
+            'setor_pai' => $nome_setor,
+        ]);
+    
         return redirect('/gerenciar-hierarquia')->with('success', 'Setores atualizados com sucesso!');
     }
-}
 }
