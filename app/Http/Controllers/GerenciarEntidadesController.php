@@ -15,14 +15,14 @@ class GerenciarEntidadesController extends Controller
     {
 
 
-        $pesquisa = request('pesquisa');
+        $pesquisa = request('pesquisa');//Area de pesquisa, decide se algo esta sendo pesquisado ou não
 
         if ($pesquisa) {
-            $entidades = DB::table('tp_entidades_ensino')
+            $entidades = DB::table('tp_entidades_ensino')//faz uma pesquisa no banco apenas onde os valores batem
                 ->where('nome_tpentensino', 'ilike', '%' . $pesquisa . '%')
                 ->get();
         } else {
-            $entidades = DB::table('tp_entidades_ensino')
+            $entidades = DB::table('tp_entidades_ensino')//Busca todas as informacoes do banco
                 ->orderBy('nome_tpentensino', 'desc')
                 ->get();
         }
@@ -45,7 +45,7 @@ class GerenciarEntidadesController extends Controller
     public function store(Request $request)
     {
 
-        DB::table('tp_entidades_ensino')->insert([
+        DB::table('tp_entidades_ensino')->insert([//Coloca informacoes no banco
             'nome_tpentensino' => $request->input('nome_ent')
         ]);
         app('flasher')->addSuccess("Entidade cadastrada com sucesso");
@@ -65,7 +65,7 @@ class GerenciarEntidadesController extends Controller
      */
     public function edit(string $id)
     {
-        $entidade = DB::table('tp_entidades_ensino')->where('id', $id)->first();
+        $entidade = DB::table('tp_entidades_ensino')->where('id', $id)->first();//traz informacoes do banco para editar
 
         return view('entidadesensino.editar-entidade-ensino', compact('entidade'));
     }
@@ -76,7 +76,7 @@ class GerenciarEntidadesController extends Controller
     public function update(Request $request, string $id)
     {
 
-        DB::table('tp_entidades_ensino')
+        DB::table('tp_entidades_ensino')//envia as informacoes de para o banco e atualiza
             ->where('id', $id)
             ->update([
                 'id' => $id,
@@ -93,16 +93,16 @@ class GerenciarEntidadesController extends Controller
     public function destroy(string $id)
     {
 
-        $certificados = DB::select("select * from certificados where id_entidade_ensino = $id");
+        $certificados = DB::select("select * from certificados where id_entidade_ensino = $id");//seleciona informacoes do banco com ID especifico
 
-        foreach ($certificados as $certificado) {
+        foreach ($certificados as $certificado) {//Testa se tem algum certificado atrelado a esta entidade de ensino
 
             if($id == $certificado->id_entidade_ensino){
                 app('flasher')->addWarning("Não foi possivel excluir a entidade pois o certificado $certificado->nome, ainda está cadastrado");
                 return redirect()->back();
             }
         }
-        DB::table('tp_entidades_ensino')->where('id', $id)->delete();
+        DB::table('tp_entidades_ensino')->where('id', $id)->delete();//Apaga a entidade de ensino
         app('flasher')->addWarning("Entidade excluida com sucesso");
 
         return redirect()->back();

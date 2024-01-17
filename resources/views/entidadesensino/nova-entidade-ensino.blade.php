@@ -17,14 +17,14 @@
 
                 <br>
                 <div class="row justify-content-start">
-                    <form method="POST" action="/armazenar-entidade">
+                    <form method="POST" action="/armazenar-entidade">{{-- Formulario de envio  --}}
                         @csrf
 
                             <div class="row col-10 offset-1" style="margin-top:none">
 
                                 <div class=" col-12">
                                     <div>Entidade de ensino</div>
-                                    <input class="form-control" type="text" maxlength="100"
+                                    <input class="form-control" type="text" maxlength="100"{{-- input de entidade de ensino --}}
                                     id="2"name="nome_ent" value="" required="required">
                                 </div>
 
@@ -33,11 +33,11 @@
 
                         <center>
                             <div class="col-12" style="margin-top: 70px;">
-                                <a href="/gerenciar-entidades-de-ensino" class="btn btn-secondary col-4">
+                                <a href="/gerenciar-entidades-de-ensino" class="btn btn-secondary col-4">{{-- Botao de cancelar com link para o index --}}
                                     Cancelar
                                 </a>
 
-                                <button type = "submit" class="btn btn-primary col-4 offset-3">
+                                <button type = "submit" class="btn btn-primary col-4 offset-3">{{-- Botao submit --}}
                                     Confirmar
                                 </button>
                             </div>

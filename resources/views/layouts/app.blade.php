@@ -27,7 +27,11 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
-
+    <style>
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+    </style>
 </head>
 <body>
 

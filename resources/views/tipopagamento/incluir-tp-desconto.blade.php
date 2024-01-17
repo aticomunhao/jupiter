@@ -32,17 +32,17 @@
 
                                 <div class="col-md-6 col-12">
                                     <div>Tipo de desconto</div>
-                                    <input type="text" class="form-control" aria-label="Sizing example input"
+                                    <input type="text" class="form-control" aria-label="Sizing example input"{{-- Input de tipo de desconto --}}
                                          name = "tpdesc" required="Required" maxlength="50">
                                 </div>
                                 <div class="col-md-3 col-12 mt-3 mt-md-0 ">
                                     <div>Porcentagem</div>
-                                    <input type="number" class="form-control" aria-label="Sizing example input"
+                                    <input type="number" class="form-control" aria-label="Sizing example input"{{-- Input de porcentagem, com minimo de 0.01 e maximo de 100 --}}
                                          name = "pecdesc" min="0.01" max="100" step="0.01">
                                 </div>
                                 <div class="col-md-3 col-12 mt-3 mt-md-0 ">
                                     <div>Data de inicio</div>
-                                    <input type="date" class="form-control" aria-label="Sizing example input"
+                                    <input type="date" class="form-control" aria-label="Sizing example input"{{-- Input de data --}}
                                          name = "dtdesc">
                                 </div>
                             </div>
