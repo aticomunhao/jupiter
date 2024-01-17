@@ -60,6 +60,7 @@ class GerenciarCargosRegularesController extends Controller
     {
         $dataDeHoje = Carbon::today()->toDateString();
 
+
         if ($request->input('data_inicial') > $request->input('data_final') and $request->input('data_final') != null) {
             app('flasher')->addWarning("A data inicial é maior que a data final");
             return redirect()->route('IndexGerenciarCargoRegular');
@@ -72,11 +73,12 @@ class GerenciarCargosRegularesController extends Controller
                 'dt_fimCR' => $request->input('data_final'),
                 'salariobase' => $request->input('salario'),
                 'nomeCC' => null,
-                'status' => true
+                'status' => true,
+                'dt_inicioSal' => $dataDeHoje
             ]);
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $idcargoregular,
-                'dt_alteracao' => $dataDeHoje,
+                'dt_inicio' => $dataDeHoje,
                 'salarionovo' => $request->input('salario'),
                 'motivoalt' => 'Criacao do Cargo Regular'
             ]);
@@ -88,11 +90,12 @@ class GerenciarCargosRegularesController extends Controller
                 'dt_fimCR' => $request->input('data_final'),
                 'salariobase' => $request->input('salario'),
                 'nomeCR' => null,
-                'status' => true
+                'status' => true,
+                'dt_inicioSal' => $dataDeHoje
             ]);
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $idcargoregular,
-                'dt_alteracao' => $dataDeHoje,
+                'dt_inicio' => $dataDeHoje,
                 'salarionovo' => $request->input('salario'),
                 'motivoalt' => 'Criacao do Cargo Regular'
             ]);
@@ -108,11 +111,18 @@ class GerenciarCargosRegularesController extends Controller
     public function show(string $id)
     {
 
+        $ultimoContrato = DB::table('hist_cargo_regular')
+            ->where('id_cargoalterado', $id)
+            ->orderBy('dt_inicio', 'desc')
+            ->first();
+
+
         $cargoregular = DB::table('cargo_regular')->where('id', $id)->first();
 
         $historicocargoregular = DB::table('hist_cargo_regular')
             ->where('id_cargoalterado', $id)->orderBy('id_hist', 'desc')
             ->get();
+
 
         return view('cargosregulares.hist-cargo-regular', compact('historicocargoregular', 'cargoregular'));
     }
@@ -124,7 +134,6 @@ class GerenciarCargosRegularesController extends Controller
     {
         $cargoregular = DB::table('cargo_regular')->where('id', $id)->first();
 
-
         return view('cargosregulares.editar-cargo-regular', compact('cargoregular'));
     }
 
@@ -133,14 +142,18 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
         $dataDeHoje = Carbon::today()->toDateString();
+        $dataDeOntem = Carbon::yesterday()->toDateString();
+        $ultimoContrato = DB::table('hist_cargo_regular')
+            ->where('id_cargoalterado', $id)
+            ->orderBy('dt_inicio')
+            ->first();
+
 
         if ($request->input('data_inicial') > $request->input('data_final') and $request->input('data_final') != null) {
             app('flasher')->addWarning("A data inicial é maior que a data final");
             return redirect()->route('IndexGerenciarCargoRegular');
         }
-
         if ($request->input('tipo_cargo') == 1) {
             DB::table('cargo_regular')->where('id', $id)->update([
                 'nomeCR' => $request->input('nomecargo'),
@@ -149,9 +162,14 @@ class GerenciarCargosRegularesController extends Controller
                 'salariobase' => $request->input('salario'),
                 'nomeCC' => null
             ]);
+
+            DB::table('hist_cargo_regular')
+                ->where('id_hist', $ultimoContrato->id_hist)
+                ->update(['dt_fim' => $dataDeOntem]);
+
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $id,
-                'dt_alteracao' => $dataDeHoje,
+                'dt_inicio' => $dataDeOntem,
                 'salarionovo' => $request->input('salario'),
                 'motivoalt' => $request->input('motivoalteracao')
             ]);
@@ -165,9 +183,13 @@ class GerenciarCargosRegularesController extends Controller
                 'nomeCR' => null
 
             ]);
+            DB::table('hist_cargo_regular')
+                ->where('id_hist', $ultimoContrato->id_hist)
+                ->update(['dt_fim' => $dataDeOntem]);
+
             DB::table('hist_cargo_regular')->insert([
                 'id_cargoalterado' => $id,
-                'dt_alteracao' => $dataDeHoje,
+                'dt_inicio' => $dataDeOntem,
                 'salarionovo' => $request->input('salario'),
                 'motivoalt' => $request->input('motivoalteracao')
             ]);
@@ -181,6 +203,7 @@ class GerenciarCargosRegularesController extends Controller
      */
     public function destroy(string $id)
     {
+
         $dataDeHoje = Carbon::today()->toDateString();
         $cargo = DB::table('cargo_regular')
             ->where('id', $id)

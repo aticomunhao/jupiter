@@ -188,29 +188,37 @@ class GerenciarHierarquiaController extends Controller
             }
         }
     }
+
     public function atualizarhierarquia(Request $request)
-    {
-        // Verifica se o campo checkboxes foi enviado e se é uma string
-        $checkboxes = $request->input('checkboxes', '');
-    
-        // Converte a string em um array de IDs
-        $checkboxArray = explode(',', $checkboxes);
-    
-        // Filtra IDs válidos (números positivos)
-        $validCheckboxArray = array_filter($checkboxArray, function ($value) {
-            return is_numeric($value) && $value > 0;
-        });
-    
-        $nome_setor = $request->input('nome_setor');
-    
-        // Obtém os dados do banco de dados com base nos IDs
-        $dados = DB::table('setor')->whereIn('id', $validCheckboxArray)->get();
-    
-        // Atualiza o campo setor_pai para todos os setores selecionados
-        DB::table('setor')->whereIn('id', $validCheckboxArray)->update([
-            'setor_pai' => $nome_setor,
-        ]);
-    
-        return redirect('/gerenciar-hierarquia')->with('success', 'Setores atualizados com sucesso!');
-    }
+{
+    // Verifica se o campo checkboxes foi enviado e se é uma string
+    $checkboxes = $request->input('checkboxes', '');
+
+    // Converte a string em um array de IDs
+    $checkboxArray = explode(',', $checkboxes);
+
+    // Filtra IDs válidos (números positivos)
+    $validCheckboxArray = array_filter($checkboxArray, function ($value) {
+        return is_numeric($value) && $value > 0;
+    });
+
+    // Obtém os dados do banco de dados com base nos IDs
+    $dados = DB::table('setor')->whereIn('id', $validCheckboxArray)
+        ->select('id', 'nome', 'dt_inicio', 'status', 'setor_pai', 'substituto', 'id_nivel')
+        ->get();
+
+    // Exibe os dados para depuração
+    //dd($dados);
+
+    // Obtém o primeiro ID no array
+    $primeiroId = reset($validCheckboxArray);
+
+    // Atualiza o campo setor_pai para todos os setores selecionados, mantendo o valor original do primeiro setor
+    DB::table('setor')->whereIn('id', $validCheckboxArray)->update([
+        'setor_pai' => DB::raw("CASE WHEN id = $primeiroId THEN setor_pai ELSE $primeiroId END"),
+    ]);
+
+    return redirect('/gerenciar-hierarquia')->with('success', 'Setores atualizados com sucesso!');
 }
+
+}    

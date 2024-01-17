@@ -47,12 +47,13 @@
                     </thead>
                     <tbody style="font-size: 15px; color:#000000;">
                         <tr>
+                            @php $index = 0; @endphp
                             @foreach ($lista as $listas)
                             <td scope="">
                                 <center>
-                                    <input type="checkbox" class="checkBox" name="checkbox[]" value="{{ $listas->ids }}" {{ $listas->st_pai ? 'checked' : '' }}>
+                                    <!-- Adiciona o atributo disabled ao primeiro checkbox -->
+                                    <input type="checkbox" class="checkBox" name="checkbox[]" value="{{ $listas->ids }}" {{ $index === 0 ? 'disabled' : '' }} {{ $listas->st_pai ? 'checked' : '' }}>
                                 </center>
-                            </td>
                             <td scope="">
                                 <center>{{ $listas->nome_setor }}</center>
                             </td>
@@ -72,6 +73,7 @@
                                 <center>{{ $listas->st_pai }}</center>
                             </td>
                         </tr>
+                        @php $index++; @endphp
                         @endforeach
                     </tbody>
                 </table>
@@ -80,90 +82,90 @@
             </div>
 
             <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-        const masterCheckBox = document.getElementById('masterCheckBox');
-        const checkBoxes = Array.from(document.querySelectorAll('.checkBox'));
+            <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function() {
+                    const masterCheckBox = document.getElementById('masterCheckBox');
+                    const checkBoxes = Array.from(document.querySelectorAll('.checkBox'));
 
-        // Marca ou desmarca todas as checkboxes de acordo com a checkbox master
-        masterCheckBox.addEventListener('change', function(event) {
-            checkBoxes.forEach(function(e) {
-                e.checked = event.target.checked;
-                changeBackground(e);
-            });
-        });
-
-        // Marca masterCheckBox se todas as outras estiverem marcadas
-        // Desmarca se pelo menos uma estiver desmarcada
-        checkBoxes.forEach(function(e) {
-            e.addEventListener('change', function(event) {
-                masterCheckBox.checked = checkBoxes.every(function(f) {
-                    return f.checked;
-                });
-                changeBackground(e);
-            });
-        });
-
-        // Destaca background das linhas selecionadas
-        function changeBackground(input) {
-            const tableRow = input.parentElement.parentElement;
-            if (input.checked) tableRow.style.background = '#aaa';
-            else tableRow.style.background = '';
-        }
-
-        // Início do código AJAX
-        $('#idsetor').change(function() {
-            var selectedSetor = $(this).val();
-            console.log("Valor selecionado no campo Setor:", selectedSetor);
-            // Se precisar, faça algo com o valor selecionado aqui
-        });
-
-        // Ao submeter o formulário
-        $('#updateForm').submit(function(event) {
-            console.log('Formulário enviado!');
-
-            const checkboxes = Array.from(document.querySelectorAll('.checkBox:checked')).map(e => e.value);
-            console.log('Valores dos checkboxes:', checkboxes);
-
-            $('#hiddenCheckboxes').val(checkboxes.join(','));
-        });
-
-        $('#idsetor').change(function() {
-            var selectedSetor = $(this).val();
-            console.log("Valor selecionado no campo Setor:", selectedSetor);
-            // Se precisar, faça algo com o valor selecionado aqui
-        });
-
-        $('#idnivel option:nth-child(4)').hide();
-
-        $('#idnivel').change(function() {
-            var nivel_id = $(this).val();
-
-            $.ajax({
-                url: '/obter-setores/' + nivel_id,
-                type: 'GET',
-                dataType: 'json',
-                success: function(data) {
-                    $('#idsetor').removeAttr('disabled');
-                    $('#idsetor').empty();
-                    $.each(data, function(indexInArray, item) {
-                        $('#idsetor').append('<option value="' + item.id + '">' +
-                            item.nome + '</option>');
+                    // Marca ou desmarca todas as checkboxes de acordo com a checkbox master
+                    masterCheckBox.addEventListener('change', function(event) {
+                        checkBoxes.forEach(function(e) {
+                            e.checked = event.target.checked;
+                            changeBackground(e);
+                        });
                     });
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
-    });
-</script>
+
+                    // Marca masterCheckBox se todas as outras estiverem marcadas
+                    // Desmarca se pelo menos uma estiver desmarcada
+                    checkBoxes.forEach(function(e) {
+                        e.addEventListener('change', function(event) {
+                            masterCheckBox.checked = checkBoxes.every(function(f) {
+                                return f.checked;
+                            });
+                            changeBackground(e);
+                        });
+                    });
+
+                    // Destaca background das linhas selecionadas
+                    function changeBackground(input) {
+                        const tableRow = input.parentElement.parentElement;
+                        if (input.checked) tableRow.style.background = '#aaa';
+                        else tableRow.style.background = '';
+                    }
+
+                    // Início do código AJAX
+                    $('#idsetor').change(function() {
+                        var selectedSetor = $(this).val();
+                        console.log("Valor selecionado no campo Setor:", selectedSetor);
+                        // Se precisar, faça algo com o valor selecionado aqui
+                    });
+
+                    // Ao submeter o formulário
+                    $('#updateForm').submit(function(event) {
+                        console.log('Formulário enviado!');
+
+                        const checkboxes = Array.from(document.querySelectorAll('.checkBox:checked')).map(e => e.value);
+                        console.log('Valores dos checkboxes:', checkboxes);
+
+                        $('#hiddenCheckboxes').val(checkboxes.join(','));
+                    });
+
+                    $('#idsetor').change(function() {
+                        var selectedSetor = $(this).val();
+                        console.log("Valor selecionado no campo Setor:", selectedSetor);
+                        // Se precisar, faça algo com o valor selecionado aqui
+                    });
+
+                    $('#idnivel option:nth-child(4)').hide();
+
+                    $('#idnivel').change(function() {
+                        var nivel_id = $(this).val();
+
+                        $.ajax({
+                            url: '/obter-setores/' + nivel_id,
+                            type: 'GET',
+                            dataType: 'json',
+                            success: function(data) {
+                                $('#idsetor').removeAttr('disabled');
+                                $('#idsetor').empty();
+                                $.each(data, function(indexInArray, item) {
+                                    $('#idsetor').append('<option value="' + item.id + '">' +
+                                        item.nome + '</option>');
+                                });
+                            },
+                            error: function(xhr) {
+                                console.log(xhr.responseText);
+                            }
+                        });
+                    });
+                });
+            </script>
             <form id="updateForm" action="/atualizar-hierarquia" method="post">
-                    @csrf
-                    <a href="/home" type="button" value="" class="btn btn-danger">Cancelar</a>
-                    <input type="hidden" name="checkboxes" id="hiddenCheckboxes">
-                    <input type="submit" value="Confirmar" class="btn btn-primary">
-                </form>
+                @csrf
+                <a href="/home" type="button" value="" class="btn btn-danger">Cancelar</a>
+                <input type="hidden" name="checkboxes" id="hiddenCheckboxes">
+                <input type="submit" value="Confirmar" class="btn btn-primary">
+            </form>
         </div>
     </div>
 </div>
