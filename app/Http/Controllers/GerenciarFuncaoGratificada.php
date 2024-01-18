@@ -19,10 +19,6 @@ class GerenciarFuncaoGratificada extends Controller
             $funcoesgratificadas = DB::table('funcao_gratificada')
                 ->where('nomeFG', 'ilike', '%' . $search . '%')
                 ->get();
-
-
-// If you still want to group the results by 'status' in PHP, you can use the following code:
-
         } else {
             $funcoesgratificadas = DB::table('funcao_gratificada')->get();
         }
@@ -66,15 +62,17 @@ class GerenciarFuncaoGratificada extends Controller
                     'salarioFG' => $request->input('salario'),
                     'dt_inicioFG' => $request->input('data_inicial'),
                     'dt_fimFG' => $request->input('data_final'),
-                    'status' => false
+                    'status' => false,
+                    'dt_inicioSalFG' => $dataDeHoje
                 ]);
             DB::table('hist_funcao_gratificada')
                 ->insert([
                     'idFG' => $idfuncaoGratificada,
                     'salario' => $request->input('salario'),
                     'motivo' => 'Abertura da Cargo',
-                    'datamod' => $dataDeHoje
+                    'dt_inicio' => $dataDeHoje
                 ]);
+
             DB::table('hist_funcao_gratificada')
                 ->insert([
                     'idFG' => $idfuncaoGratificada,
@@ -91,7 +89,8 @@ class GerenciarFuncaoGratificada extends Controller
                     'salarioFG' => $request->input('salario'),
                     'dt_inicioFG' => $request->input('data_inicial'),
                     'dt_fimFG' => $request->input('data_final'),
-                    'status' => true
+                    'status' => true,
+                    'dt_inicioSalFG' => $dataDeHoje
                 ]);
             DB::table('hist_funcao_gratificada')
                 ->insert([
@@ -121,7 +120,7 @@ class GerenciarFuncaoGratificada extends Controller
             ->get();
 
 
-        return view('funcaogratificada.hist-funcao-gratificada', compact('funcaogratificada','funcao'));
+        return view('funcaogratificada.hist-funcao-gratificada', compact('funcaogratificada', 'funcao'));
     }
 
     /**

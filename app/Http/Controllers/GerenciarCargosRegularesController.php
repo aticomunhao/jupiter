@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Database\Query\Builder;
 use DateTime;
 use Carbon\Carbon;
 
@@ -208,18 +208,28 @@ class GerenciarCargosRegularesController extends Controller
         $cargo = DB::table('cargo_regular')
             ->where('id', $id)
             ->first();
+
+        $ultimoContrato = DB::table('hist_cargo_regular')
+            ->where('id_cargoalterado', $id)
+            ->orderBy('dt_inicio')
+            ->first();
+   dd($ultimoContrato);
         DB::table('cargo_regular')->where('id', $id)->update([
             'status' => false,
             'dt_fimCR' => $dataDeHoje
         ]);
-
-
-        DB::table('hist_cargo_regular')->insert([
+        $id_hist_cargo_regular = DB::table('hist_cargo_regular')->insertGetId([
             'id_cargoalterado' => $id,
             'dt_alteracao' => $dataDeHoje,
             'salarionovo' => $cargo->salariobase,
             'motivoalt' => 'Fechamento do Cargo'
         ]);
+
+        DB::table('hist_cargo_regular')
+            ->where('id', $id_hist_cargo_regular)
+            ->update([''])
+            ->first();
+
 
         return redirect()->route('IndexGerenciarCargoRegular');
     }

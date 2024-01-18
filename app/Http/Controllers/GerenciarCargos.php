@@ -11,6 +11,12 @@ class GerenciarCargos extends Controller
      */
     public function index()
     {
+        $cargos = DB::table('cargos')
+            ->join('tp_cargo', 'tp_cargo.idTpCargo', '=', 'cargos.id' )
+            ->select('cargos.id','cargos.nome', 'cargos.salario','cargos.dt_inicio','tp_cargo.nomeTpCargo' )
+            ->get();
+
+        dd($cargos);
 
 
         return view('/cargos/gerenciar-cargos');
