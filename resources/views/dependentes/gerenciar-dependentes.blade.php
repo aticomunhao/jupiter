@@ -3,6 +3,7 @@
     <title>Cadastrar Funcionário</title>
 @endsection
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <br />
     <div class="container"> {{-- Container completo da página  --}}
         <div class="card" style="border-color: #5C7CB6;">
@@ -46,11 +47,13 @@
                                     <td> {{--  Área de ações  --}}
                                         <center>
                                             <a href="/editar-dependentes/{{ $dependente->id }}"
-                                                class="btn btn-outline-warning">{{--  Botão editar  --}}
+                                                class="btn btn-outline-warning" data-tt="tooltip" data-placement="top"
+                                                title="Editar">{{--  Botão editar  --}}
                                                 <i class="bi bi-pencil"></i></a>
                                             <button class="btn btn-outline-danger" {{-- Botão que aciona o modal  --}}
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}">
+                                                data-bs-target="#A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}"
+                                                data-tt="tooltip" data-placement="top" title="Excluir">
                                                 <i class="bi bi-trash"></i></button>
                                             <div class="modal fade"{{--  Modal  --}}
                                                 id="A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}" tabindex="-1"
@@ -95,4 +98,10 @@
         </div>
         </fieldset>
     </div>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 @endsection

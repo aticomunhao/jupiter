@@ -145,6 +145,12 @@ Route::any('/excluir-acordo/{id}', [App\Http\Controllers\GerenciarAcordosControl
 Route::any('/editar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'edit']);
 Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'update']);
 
+/**Rotas para Cargos**/
+
+Route::get('/gerenciar-cargos', [App\Http\Controllers\GerenciarCargos::class, 'index'])->name('indexTipoDesconto');
+Route::get('/incluir-cargos', [App\Http\Controllers\GerenciarCargos::class, 'create']);
+Route::get('/editar-cargos/{id}', [App\Http\Controllers\GerenciarCargos::class, 'edit']);
+
 /**Rotas para Tipo de Desconto**/
 
 Route::get('/gerenciar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'index'])->name('indexTipoDesconto');
@@ -155,6 +161,8 @@ Route::any('/atualizar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoD
 Route::any('/exluir-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'destroy']);
 Route::any('/renovar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'renew']);
 Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'modify']);
+
+
 
 /**Rotas de Entrada**/
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -3,6 +3,7 @@
     <title>Gerenciar Entidade de Ensino</title>
 @endsection
 @section('content')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <br />
     <div class="container">
         <div class="card" style="border-color:#5C7CB6">
@@ -29,7 +30,8 @@
                 </form>
                 <br />
                 <hr>
-                <table class="table  table-striped table-bordered border-secondary table-hover align-middle">{{-- Tabela com todas as informacoes --}}
+                <table class="table  table-striped table-bordered border-secondary table-hover align-middle">
+                    {{-- Tabela com todas as informacoes --}}
                     <thead style="text-align: center; ">
                         <tr style="background-color: #d6e3ff; font-size:19px; color:#000;">
                             <th>Entidades de ensino</th>
@@ -37,21 +39,25 @@
                         </tr>
                     </thead>
                     <tbody style="font-size: 15px; color:#000000;">
-                        @foreach ($entidades as $entidade){{-- Foreach da tabela com os dados --}}
+                        @foreach ($entidades as $entidade)
+                            {{-- Foreach da tabela com os dados --}}
                             <tr style="text-align: center">
                                 <td>{{ $entidade->nome_tpentensino }}</td> {{-- Variavel que tras os nomes das entidades de ensino --}}
                                 <td>
-                                    <a href="/editar-entidade/{{ $entidade->id }}"><button type="submit"{{-- Botao de editar --}}
-                                            class="btn btn-outline-warning "><i class="bi bi-pencil sm"></i></button></a>
-                                    <button type="button" class="btn btn-outline-danger delete-btn" data-bs-toggle="modal"{{-- Botao de excluir que aciona o modal --}}
-                                        data-bs-target="#A{{ $entidade->id }}"><i class="bi bi-trash"></i></button>
-                                        <div class="modal fade"{{--  Modal  --}}
-                                        id="A{{ $entidade->id }}" tabindex="-1"
+                                    <a href="/editar-entidade/{{ $entidade->id }}"><button
+                                            type="submit" class="btn btn-outline-warning"{{-- Botao de editar --}}
+                                            data-tt="tooltip" data-placement="top" title="Editar"><i
+                                                class="bi bi-pencil sm"></i></button></a>
+                                    <button type="button" class="btn btn-outline-danger delete-btn"{{-- Botao de excluir que aciona o modal --}}
+                                        data-bs-toggle="modal" data-bs-target="#A{{ $entidade->id }}" data-tt="tooltip"
+                                        data-placement="top" title="Excluir"><i class="bi bi-trash"></i></button>
+                                    <div class="modal fade" id="A{{ $entidade->id }}" tabindex="-1"{{--  Modal  --}}
                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <div class="modal-header"
-                                                    style="background-color:rgba(202, 61, 61, 0.911);">{{-- Cor do header do modal --}}
+                                                    style="background-color:rgba(202, 61, 61, 0.911);">
+                                                    {{-- Cor do header do modal --}}
                                                     <div class="row">
                                                         <h2 style="color:white;">Excluir Entidade de Ensino</h2>
                                                     </div>
@@ -72,7 +78,8 @@
                                                         data-bs-dismiss="modal">Cancelar
                                                     </button>
                                                     <a href="/excluir-entidade/{{ $entidade->id }}">
-                                                        <button type="button" class="btn btn-danger">Excluir{{-- Botao de exclusao --}}
+                                                        <button type="button"
+                                                            class="btn btn-danger">Excluir{{-- Botao de exclusao --}}
                                                             permanentemente
                                                         </button>
                                                     </a>
@@ -89,4 +96,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
 @endsection

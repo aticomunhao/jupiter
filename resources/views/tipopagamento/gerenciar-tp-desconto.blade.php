@@ -54,17 +54,17 @@
                                     @if ($descrpt->dt_final == null)
                                         {{-- Apenas permite dados ativos a se atualizarem ao mostrar o botao apenas neles --}}
                                         <a href="/renovar-tipo-desconto/{{ $descrpt->id }}" class="btn btn-outline-primary"
-                                            data-toggle="tooltip" data-placement="top" title="Atualizar">
+                                            data-tt="tooltip" data-placement="top" title="Atualizar">
                                             <i class="bi bi-arrow-clockwise"></i></i>
                                         </a>
                                     @endif
                                     <a href="/editar-tipo-desconto/{{ $descrpt->id }}"
-                                        class="btn btn-outline-warning">{{-- Botao com rota para editar tipo de desconto --}}
+                                        class="btn btn-outline-warning" data-tt="tooltip" data-placement="top" title="Editar">{{-- Botao com rota para editar tipo de desconto --}}
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <button type="button" class="btn btn-outline-danger"
                                         data-bs-toggle="modal"{{-- Botao com rota para a modal de exclusao --}}
-                                        data-bs-target="#exampleModal{{ $descrpt->id }}">
+                                        data-bs-target="#exampleModal{{ $descrpt->id }}" data-tt="tooltip" data-placement="top" title="Excluir">
                                         <i class="bi bi-trash"></i>
                                     </button>
                                 </td>
@@ -98,7 +98,7 @@
     </div>
 
         <script>
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-toggle="tooltip"]'))
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
             var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
                 return new bootstrap.Tooltip(tooltipTriggerEl)
             })
