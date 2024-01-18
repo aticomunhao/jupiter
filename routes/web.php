@@ -108,7 +108,7 @@ Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetores
 Route::get('/gerenciar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'index'])->name('gerenciar-hierarquia');
 Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarHierarquiaController::class, 'obterSetoresPorNivel']);
 Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'show'])->name('consultar-hierarquia');
-Route::post('/atualizar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'atualizarhierarquia']);
+Route::any('/atualizar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'atualizarhierarquia']);
 
 
 

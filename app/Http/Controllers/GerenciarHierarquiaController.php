@@ -9,7 +9,8 @@ use iluminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\CollectionorderBy;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Collection;
 
 class GerenciarHierarquiaController extends Controller
 {
@@ -72,7 +73,10 @@ class GerenciarHierarquiaController extends Controller
         }
         $lista = $lista->orderby('tns.id', 'ASC')->orderBy('st.setor_pai', 'ASC')->get();
 
-        // dd($lista);
+        Session::flash('listas', $lista);
+
+        Session::flash('nome_setor', $nome_setor);
+
 
         return view('/setores/Gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'st_pai'));
     }
@@ -190,35 +194,30 @@ class GerenciarHierarquiaController extends Controller
     }
 
     public function atualizarhierarquia(Request $request)
-{
-    // Verifica se o campo checkboxes foi enviado e se é uma string
-    $checkboxes = $request->input('checkboxes', '');
+    {
+        $nome_setor = session('nome_setor');
+        $lista = session('listas') ?? [];
+        $checkboxesMarcados = collect($request->input('checkboxes'))->wrap([]);
+        $primeiroId = reset($validCheckboxArray);
+        
+        foreach ($lista as $listaItem) {
+            if ($checkboxesMarcados->contains($listaItem->ids)) {
+                // Se o id está entre os checkboxes marcados, atualiza o setor_pai
+                DB::table('setor')->where('id', $listaItem->ids)->update([
+                    'setor_pai' => DB::raw("CASE WHEN id = $primeiroId THEN setor_pai ELSE $primeiroId END"),
+                ]);
+            }  {
+                // Se o id não está entre os checkboxes marcados, define setor_pai como null
+                DB::table('setor')->where('id', $listaItem->ids)->update([
+                    'setor_pai' => null
+                ]);
+            }
+        }
+        
+        
 
-    // Converte a string em um array de IDs
-    $checkboxArray = explode(',', $checkboxes);
 
-    // Filtra IDs válidos (números positivos)
-    $validCheckboxArray = array_filter($checkboxArray, function ($value) {
-        return is_numeric($value) && $value > 0;
-    });
 
-    // Obtém os dados do banco de dados com base nos IDs
-    $dados = DB::table('setor')->whereIn('id', $validCheckboxArray)
-        ->select('id', 'nome', 'dt_inicio', 'status', 'setor_pai', 'substituto', 'id_nivel')
-        ->get();
-
-    // Exibe os dados para depuração
-    //dd($dados);
-
-    // Obtém o primeiro ID no array
-    $primeiroId = reset($validCheckboxArray);
-
-    // Atualiza o campo setor_pai para todos os setores selecionados, mantendo o valor original do primeiro setor
-    DB::table('setor')->whereIn('id', $validCheckboxArray)->update([
-        'setor_pai' => DB::raw("CASE WHEN id = $primeiroId THEN setor_pai ELSE $primeiroId END"),
-    ]);
-
-    return redirect('/gerenciar-hierarquia')->with('success', 'Setores atualizados com sucesso!');
+        return redirect('/gerenciar-hierarquia')->with('success', 'Setores atualizados com sucesso!');
+    }
 }
-
-}    

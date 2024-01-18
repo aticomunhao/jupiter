@@ -33,49 +33,48 @@
             </form>
             <hr>
             <div class="table" style="padding-top:20px">
-                <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
-                    <thead style="text-align: center;">
-                        <tr style="background-color: #365699; font-size:18px; color:#ffffff">
-                            <th class="col-1"><input type="checkbox" id="masterCheckBox"></th>
-                            <th class="col-4">Nome</th>
-                            <th class="col-1">Sigla</th>
-                            <th class="col-1">Data Inicio</th>
-                            <th class="col-1">Status</th>
-                            <th class="col-1">Substituto</th>
-                            <th class="col-4">Setor Responsável</th>
-                        </tr>
-                    </thead>
-                    <tbody style="font-size: 15px; color:#000000;">
-                        <tr>
-                            @php $index = 0; @endphp
-                            @foreach ($lista as $listas)
-                            <td scope="">
-                                <center>
-                                    <!-- Adiciona o atributo disabled ao primeiro checkbox -->
-                                    <input type="checkbox" class="checkBox" name="checkbox[]" value="{{ $listas->ids }}" {{ $index === 0 ? 'disabled' : '' }} {{ $listas->st_pai ? 'checked' : '' }}>
-                                </center>
-                            <td scope="">
-                                <center>{{ $listas->nome_setor }}</center>
-                            </td>
-                            <td scope="">
-                                <center>{{ $listas->sigla }}</center>
-                            </td>
-                            <td scope="">
-                                <center>{{ $listas->dt_inicio }}</center>
-                            </td>
-                            <td scope="">
-                                <center>{{ $listas->status ? 'Ativo' : 'Inativo' }}</center>
-                            </td>
-                            <td scope="">
-                                <center>{{ $listas->nome_substituto }}</center>
-                            </td>
-                            <td scope="">
-                                <center>{{ $listas->st_pai }}</center>
-                            </td>
-                        </tr>
-                        @php $index++; @endphp
-                        @endforeach
-                    </tbody>
+                <div class="table" style="padding-top:20px">
+    <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
+        <thead style="text-align: center;">
+            <tr style="background-color: #365699; font-size:18px; color:#ffffff">
+                <th class="col-1">
+                    <input type="checkbox" id="masterCheckBox" name="checkbox">
+                </th>
+                <th class="col-4">Nome</th>
+                <th class="col-1">Sigla</th>
+                <th class="col-1">Data Inicio</th>
+                <th class="col-1">Status</th>
+                <th class="col-1">Substituto</th>
+                <th class="col-4">Setor Responsável</th>
+            </tr>
+        </thead>
+        <tbody style="font-size: 15px; color:#000000;">
+            @foreach ($lista as $index => $listas)
+                <tr>
+                    <td scope="">
+                        <center>
+                            <!-- Adiciona o atributo disabled ao primeiro checkbox -->
+                            <input
+                                type="checkbox"
+                                class="checkBox"
+                                name="checkboxes[]"
+                                value="{{ $listas->ids }}"
+                                {{ $index === 0 ? 'disabled' : '' }}
+                                {{ $listas->st_pai ? 'checked' : '' }}
+                            >
+                        </center>
+                    </td>
+                    <td scope=""><center>{{ $listas->nome_setor }}</center></td>
+                    <td scope=""><center>{{ $listas->sigla }}</center></td>
+                    <td scope=""><center>{{ $listas->dt_inicio }}</center></td>
+                    <td scope=""><center>{{ $listas->status ? 'Ativo' : 'Inativo' }}</center></td>
+                    <td scope=""><center>{{ $listas->nome_substituto }}</center></td>
+                    <td scope=""><center>{{ $listas->st_pai }}</center></td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
                 </table>
 
 
