@@ -2,13 +2,16 @@
     <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;">
         <div class="container">
             <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;"
-                href="../">Júpiter</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="dropdown" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                </button>
-            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown" >
-                <ul class="navbar-nav" >
-                    <li class="nav-item dropdown" >
-                        <a class="nav-link dropdown-toggle" href="#" id="1" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Área de Pessoal</a>
+               href="../">Júpiter</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="dropdown"
+                    data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="1" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" style="color:#ffffff;">Área de Pessoal</a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar Funcionarios</a></li>
                             <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
@@ -18,15 +21,18 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="2" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="2" role="button" data-bs-toggle="dropdown"
+                           aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 
-                    <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar Entidades de Ensino</a>
-                        <li><a class="dropdown-item" href="/gerenciar-hierarquia">Gerenciar Hierarquia</a></li>
-                        <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a></li>
-                        <li><a href="/gerenciar-cargos-regulares" class="dropdown-item">Gerenciar Cargos Regulares</a></li>
-                        <li><a href="/gerenciar-funcao-gratificada"class="dropdown-item">Gerenciar Funcao Gratificada</a></li>
-                        <li><a href="/gerenciar-tipo-desconto"class="dropdown-item">Gerenciar Tipo de Desconto</a></li>
+                            <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar Entidades de
+                                    Ensino</a>
+                            <li><a class="dropdown-item" href="/gerenciar-hierarquia">Gerenciar Hierarquia</a></li>
+                            <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a></li>
+                            <!--<li><a href="/gerenciar-cargos-regulares" class="dropdown-item">Gerenciar Cargos Regulares</a></li>
+                       // <li><a href="/gerenciar-funcao-gratificada"class="dropdown-item">Gerenciar Funcao Gratificada</a></li> -->
+                            <li><a href="/gerenciar-tipo-desconto" class="dropdown-item">Gerenciar Tipo de Desconto</a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
@@ -37,7 +43,7 @@
                         @if (Route::has('login'))
                             <li class="nav-item">
                                 <a class="nav-link" style="color:#ffffff;"
-                                    href="{{ route('login') }}">{{ __('Login') }}</a>
+                                   href="{{ route('login') }}">{{ __('Login') }}</a>
                             </li>
                         @endif
                         {{--
@@ -49,12 +55,12 @@
                     @else
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                               data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
-                                    onclick="event.preventDefault();
+                                   onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
@@ -65,7 +71,7 @@
                         </li>
                     @endguest
                 </ul>
-                    </li>
+                </li>
                 </ul>
             </div>
         </div>
