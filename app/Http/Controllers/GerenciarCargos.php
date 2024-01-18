@@ -32,7 +32,7 @@ class GerenciarCargos extends Controller
 
 
 
-        return view('/cargos/gerenciar-cargos', compact('cargo'));
+        return view('cargos.gerenciar-cargos', compact('cargo'));
     }
 
     /**
@@ -40,7 +40,10 @@ class GerenciarCargos extends Controller
      */
     public function create()
     {
-        return view('/cargos/incluir-cargos');
+        $tiposCargo = DB::table('tp_cargo')
+           ->get();
+
+        return view('cargos.incluir-cargos', compact('tiposCargo'));
     }
 
     /**

@@ -3,6 +3,8 @@
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
+use App\Http\Controllers\GerenciarCargos;
+use App\Http\Controllers\GerenciarCargosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -147,9 +149,11 @@ Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosContr
 
 /**Rotas para Cargos**/
 
-Route::get('/gerenciar-cargos', [App\Http\Controllers\GerenciarCargos::class, 'index'])->name('indexTipoDesconto');
-Route::get('/incluir-cargos', [App\Http\Controllers\GerenciarCargos::class, 'create']);
-Route::get('/editar-cargos/{id}', [App\Http\Controllers\GerenciarCargos::class, 'edit']);
+Route::get('/gerenciar-cargos', [App\Http\Controllers\GerenciarCargosController::class, 'index'])->name('gerenciar.cargos');
+Route::get('/incluir-cargos', [App\Http\Controllers\GerenciarCargosController::class, 'create']);
+Route::get('/editar-cargos/{id}', [App\Http\Controllers\GerenciarCargosController::class, 'edit']);
+Route::post('/armazenar-cargo', [GerenciarCargosController::class, 'store'])->name('armazenaCargo');
+Route::delete('/deletar-cargos/{id}', [GerenciarCargosController::class,'destroy']);
 
 /**Rotas para Tipo de Desconto**/
 
