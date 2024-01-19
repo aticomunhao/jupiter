@@ -151,9 +151,10 @@ Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosContr
 
 Route::get('/gerenciar-cargos', [App\Http\Controllers\GerenciarCargosController::class, 'index'])->name('gerenciar.cargos');
 Route::get('/incluir-cargos', [App\Http\Controllers\GerenciarCargosController::class, 'create']);
-Route::get('/editar-cargos/{id}', [App\Http\Controllers\GerenciarCargosController::class, 'edit']);
+Route::get('/editar-cargos/{id}', [App\Http\Controllers\GerenciarCargosController::class, 'edit'])->name('Editar');
 Route::post('/armazenar-cargo', [GerenciarCargosController::class, 'store'])->name('armazenaCargo');
 Route::delete('/deletar-cargos/{id}', [GerenciarCargosController::class,'destroy']);
+Route::get('/vizualizar-historico/{id}', [GerenciarCargosController::class, 'show'])->name('vizualizarHistoricoCargo');
 
 /**Rotas para Tipo de Desconto**/
 

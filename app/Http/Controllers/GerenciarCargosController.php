@@ -57,11 +57,14 @@ class GerenciarCargosController extends Controller
 
         $idCargo = DB::table('cargos')
             ->insertGetId([
-                'nome' => $input['nome'] ?? null,
-                'salario' => $input['salario'] ?? null,
+                'nome' => $input['nome'] ,
+                'salario' => $input['salario'],
                 'dt_inicio' => $dataDeHoje,
-                'tp_cargo' => $input['tipoCargo'] ?? null
+                'tp_cargo' => $input['tipoCargo'],
+                'status' => true
             ]);
+
+
 
         $cargo = DB::table('cargos')
             ->select('cargos.nome')
@@ -85,7 +88,17 @@ class GerenciarCargosController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $cargoregular = DB::table('cargos')
+            ->where('id', $id)
+            ->select('id as idCR', 'nome as nomeCR')
+            ->get();
+        $hist_cargo_regular = DB::table('hist_cargo')
+            ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivoAlt')
+            ->get();
+        dd($hist_cargo_regular);
+        return view('cargos\visualizar-cargos', compact('cargoregular', 'hist_cargo_regular'));
+        //return redirect()->route('vizualizarHistoricoCargo')->with($cargoregular, $hist_cargo_regular);
+
     }
 
     /**
@@ -109,6 +122,6 @@ class GerenciarCargosController extends Controller
      */
     public function destroy(string $id)
     {
-        DB::table('cargos')->
+
     }
 }

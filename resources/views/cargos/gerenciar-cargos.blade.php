@@ -54,11 +54,12 @@
                                         class="btn btn-outline-warning" data-tt="tooltip" data-placement="top" title="Editar">{{-- Botao com rota para editar cargos --}}
                                         <i class="bi bi-pencil"></i>
                                     </a>
-                                    <button type="button" class="btn btn-outline-danger"
-                                    data-bs-toggle="modal"{{-- Botao com rota para a modal de exclusao --}}
-                                    data-bs-target="#exampleModal{{ $cargos->id }}" data-tt="tooltip" data-placement="top" title="Visualizar">
-                                    <i class="bi bi-x-circle"></i>
-                                </button>
+                                    <a href="{{ route('vizualizarHistoricoCargo', ['id' => $cargos->id]) }}">
+                                        <button type="button" class="btn btn-outline-danger" data-tt="tooltip" data-placement="top" title="Visualizar">
+                                            <i class="bi bi-x-circle"></i>
+                                        </button>
+                                    </a>
+
                                     <button type="button" class="btn btn-outline-danger"
                                         data-bs-toggle="modal"{{-- Botao com rota para a modal de exclusao --}}
                                         data-bs-target="#exampleModal{{ $cargos->id }}" data-tt="tooltip" data-placement="top" title="Desativar">
