@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Contracts\Foundation\CachesRoutes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use MongoDB\Driver\Session;
 
 class GerenciarCargosController extends Controller
 {
@@ -15,7 +17,6 @@ class GerenciarCargosController extends Controller
 
     public function index()
     {
-
 
 
         $cargo = DB::table('cargos as c')
@@ -46,16 +47,14 @@ class GerenciarCargosController extends Controller
         $dataDeHoje = Carbon::today()->toDateString();
 
 
-
         $idCargo = DB::table('cargos')
             ->insertGetId([
-                'nome' => $input['nome'] ,
+                'nome' => $input['nome'],
                 'salario' => $input['salario'],
                 'dt_inicio' => $dataDeHoje,
                 'tp_cargo' => $input['tipoCargo'],
                 'status' => true
             ]);
-
 
 
         $cargo = DB::table('cargos')
@@ -84,8 +83,10 @@ class GerenciarCargosController extends Controller
             ->where('id', $id)
             ->select('id as idCR', 'nome as nomeCR')
             ->get();
+
         $hist_cargo_regular = DB::table('hist_cargo')
             ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivoAlt')
+            ->where('idcargo', '= ')
             ->get();
 
 
@@ -99,13 +100,15 @@ class GerenciarCargosController extends Controller
      */
     public function edit(string $id)
     {
-       $cargo = DB::table('cargos')
-           ->where('id', $id)
-           ->first();
+        $cargo = DB::table('cargos as c')
+            ->where('c.id', $id)
+            ->first();
+
         $tiposCargo = DB::table('tp_cargo')
             ->get();
-    
-        return view('/cargos/editar-cargos', compact('cargo', 'tiposCargo'));
+        $id = $id;
+
+        return view('/cargos/editar-cargos', compact('cargo', 'tiposCargo','id'));
     }
 
     /**
@@ -113,7 +116,12 @@ class GerenciarCargosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $input = $request->all();
+        dd($input);
+        $dataDeHoje = Carbon::today()->toDateString();
+        $dataDeOntem = Carbon::yesterday()->toDateString();
+
+
     }
 
     /**
