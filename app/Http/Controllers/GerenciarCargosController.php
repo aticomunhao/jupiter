@@ -16,20 +16,14 @@ class GerenciarCargosController extends Controller
     public function index()
     {
 
-        $pesquisa = request('pesquisa');
 
-        if ($pesquisa) {
-            $cargo = DB::table('cargos')
-                ->join('tp_cargo', 'tp_cargo.idTpCargo', '=', 'cargos.id')
-                ->select('cargos.id', 'cargos.nome', 'cargos.salario', 'cargos.dt_inicio', 'tp_cargo.nomeTpCargo')
-                ->where('cargos.nome', 'ilike', '%' . $pesquisa . '%')
-                ->get();
-        } else {
-            $cargo = DB::table('cargos')
-                ->join('tp_cargo', 'tp_cargo.idTpCargo', '=', 'cargos.id')
-                ->select('cargos.id', 'cargos.nome', 'cargos.salario', 'cargos.dt_inicio', 'tp_cargo.nomeTpCargo')
-                ->get();
-        }
+
+        $cargo = DB::table('cargos as c')
+            ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
+            ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo')
+            ->get();
+
+
 
 
         return view('cargos.gerenciar-cargos', compact('cargo'));
@@ -53,6 +47,7 @@ class GerenciarCargosController extends Controller
     {
         $input = $request->all();
         $dataDeHoje = Carbon::today()->toDateString();
+
 
 
         $idCargo = DB::table('cargos')
