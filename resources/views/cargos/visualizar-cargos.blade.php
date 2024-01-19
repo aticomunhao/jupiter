@@ -14,7 +14,7 @@
                 <div class="col-md-6 col-12">
                     <fieldset {{-- Gera a barra ao redor do nome do funcionario --}}
                         style="border: 1px solid #c0c0c0; border-radius: 3px;padding-bottom: 7px; padding-top: 7px; padding-left: 10px; background-color: #ebebeb;">
-                        {{ $funcionario->nome_completo }}</fieldset>
+                        {{ $cargoregular[0]->nomeCR }}</fieldset>
                 </div>
                 <br />
                 <hr>
@@ -29,12 +29,12 @@
                         </tr>
                     </thead>
                     <tbody style="font-size: 15px; color:#000000;">
-                        @foreach ($desc as $descrpt)
+                        @foreach ($hist_cargo_regular as $infos)
                             <tr>
-                                <td style="text-align:center;">{{ $descrpt->dt_inicio }}</td>{{-- Adiciona a data de inicio --}}
-                                <td style="text-align:center;">{{ $descrpt->dt_final }}</td>{{-- Adiciona a data final  --}}
-                                <td style="text-align:center;">{{ $descrpt->dt_final }}</td>{{-- Adiciona o salario  --}}
-                                <td style="text-align:center;">{{ $descrpt->dt_final }}</td>{{-- Adiciona o Motivo  --}}
+                                <td style="text-align:center;">{{ $infos->data_inicio }}</td>{{-- Adiciona a data de inicio --}}
+                                <td style="text-align:center;">{{ $infos->data_fim }}</td>{{-- Adiciona a data final  --}}
+                                <td style="text-align:center;">{{ number_format($infos->salarioHist, 2, ',', '.') }}</td>{{-- Adiciona o salario  --}}
+                                <td style="text-align:center;">{{ $infos->motivoAlt }}</td>{{-- Adiciona o Motivo  --}}
                         @endforeach
                     </tbody>
                 </table>
