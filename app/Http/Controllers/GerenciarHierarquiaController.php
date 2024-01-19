@@ -195,25 +195,29 @@ class GerenciarHierarquiaController extends Controller
 
     public function atualizarhierarquia(Request $request)
     {
+        
         $nome_setor = session('nome_setor');
         $lista = session('listas') ?? [];
-        $checkboxesMarcados = collect($request->input('checkboxes'))->wrap([]);
-        $primeiroId = reset($validCheckboxArray);
+        $checkboxesMarcados = $request->input('checkboxes');
         
-        foreach ($lista as $listaItem) {
-            if ($checkboxesMarcados->contains($listaItem->ids)) {
-                // Se o id está entre os checkboxes marcados, atualiza o setor_pai
-                DB::table('setor')->where('id', $listaItem->ids)->update([
-                    'setor_pai' => DB::raw("CASE WHEN id = $primeiroId THEN setor_pai ELSE $primeiroId END"),
-                ]);
-            }  {
-                // Se o id não está entre os checkboxes marcados, define setor_pai como null
-                DB::table('setor')->where('id', $listaItem->ids)->update([
-                    'setor_pai' => null
-                ]);
-            }
+        $checkboxesArray = explode(',', $checkboxesMarcados);
+        
+        // Converte os valores para inteiros no array original
+        foreach ($checkboxesArray as &$valor) {
+            $valor = intval($valor);
         }
         
+        foreach ($lista as $listaItem) {
+            // Verifica se o ID está presente nos checkboxes marcados
+            $idPresente = in_array($listaItem->ids, $checkboxesArray);
+        
+            // Atualiza setor_pai com base nas condições
+            DB::table('setor')
+                ->where('id', $listaItem->ids)
+                ->update([
+                    'setor_pai' => $idPresente ? $nome_setor : null
+                ]);
+        }
         
 
 
