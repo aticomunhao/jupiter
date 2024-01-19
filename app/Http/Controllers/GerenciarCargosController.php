@@ -23,9 +23,6 @@ class GerenciarCargosController extends Controller
             ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo')
             ->get();
 
-
-
-
         return view('cargos.gerenciar-cargos', compact('cargo'));
     }
 
@@ -90,7 +87,8 @@ class GerenciarCargosController extends Controller
         $hist_cargo_regular = DB::table('hist_cargo')
             ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivoAlt')
             ->get();
-        dd($hist_cargo_regular);
+
+
         return view('cargos\visualizar-cargos', compact('cargoregular', 'hist_cargo_regular'));
         //return redirect()->route('vizualizarHistoricoCargo')->with($cargoregular, $hist_cargo_regular);
 
@@ -101,7 +99,13 @@ class GerenciarCargosController extends Controller
      */
     public function edit(string $id)
     {
-        return view('/cargos/editar-cargos');
+       $cargo = DB::table('cargos')
+           ->where('id', $id)
+           ->first();
+        $tiposCargo = DB::table('tp_cargo')
+            ->get();
+    
+        return view('/cargos/editar-cargos', compact('cargo', 'tiposCargo'));
     }
 
     /**
