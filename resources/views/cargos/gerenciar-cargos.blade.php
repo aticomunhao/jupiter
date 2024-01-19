@@ -55,10 +55,16 @@
                                         <i class="bi bi-pencil"></i>
                                     </a>
                                     <button type="button" class="btn btn-outline-danger"
+                                    data-bs-toggle="modal"{{-- Botao com rota para a modal de exclusao --}}
+                                    data-bs-target="#exampleModal{{ $cargos->id }}" data-tt="tooltip" data-placement="top" title="Visualizar">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                                    <button type="button" class="btn btn-outline-danger"
                                         data-bs-toggle="modal"{{-- Botao com rota para a modal de exclusao --}}
-                                        data-bs-target="#exampleModal{{ $cargos->id }}" data-tt="tooltip" data-placement="top" title="Excluir">
-                                        <i class="bi bi-trash"></i>
+                                        data-bs-target="#exampleModal{{ $cargos->id }}" data-tt="tooltip" data-placement="top" title="Desativar">
+                                        <i class="bi bi-x-circle"></i>
                                     </button>
+
                                 </td>
                             </tr>
                             <div class="modal fade"{{--  Modal  --}}
