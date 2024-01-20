@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Contracts\Foundation\CachesRoutes;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use MongoDB\Driver\Session;
+
 
 class GerenciarCargosController extends Controller
 {
@@ -14,17 +14,27 @@ class GerenciarCargosController extends Controller
      * Display a listing of the resource.
      */
 
-
     public function index()
     {
+        $pesquisa = request('pesquisa');
+
+        if ($pesquisa) {
+            $cargo = DB::table('cargos as c')
+                ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
+                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo') //faz uma pesquisa no banco apenas onde os valores batem
+                ->where('c.nome', 'ilike', '%' . $pesquisa . '%')
+                ->orWhere('tp.nomeTpCargo', 'ilike', '%' . $pesquisa . '%')
+                ->get();
+        } else {
+            $cargo = DB::table('cargos as c')
+                ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
+                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo')
+                ->get();
+        }
 
 
-        $cargo = DB::table('cargos as c')
-            ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
-            ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo')
-            ->get();
 
-        return view('cargos.gerenciar-cargos', compact('cargo'));
+        return view('cargos.gerenciar-cargos', compact('cargo', 'pesquisa'));
     }
 
     /**
@@ -32,8 +42,7 @@ class GerenciarCargosController extends Controller
      */
     public function create()
     {
-        $tiposCargo = DB::table('tp_cargo')
-            ->get();
+        $tiposCargo = DB::table('tp_cargo')->get();
 
         return view('cargos.incluir-cargos', compact('tiposCargo'));
     }
@@ -46,32 +55,27 @@ class GerenciarCargosController extends Controller
         $input = $request->all();
         $dataDeHoje = Carbon::today()->toDateString();
 
-
-        $idCargo = DB::table('cargos')
-            ->insertGetId([
-                'nome' => $input['nome'],
-                'salario' => $input['salario'],
-                'dt_inicio' => $dataDeHoje,
-                'tp_cargo' => $input['tipoCargo'],
-                'status' => true
-            ]);
-
+        $idCargo = DB::table('cargos')->insertGetId([
+            'nome' => $input['nome'],
+            'salario' => $input['salario'],
+            'dt_inicio' => $dataDeHoje,
+            'tp_cargo' => $input['tipoCargo'],
+            'status' => true,
+        ]);
 
         $cargo = DB::table('cargos')
             ->select('cargos.nome')
             ->where('id', $idCargo)
             ->first();
 
-        DB::table('hist_cargo')
-            ->insert([
-                'salario' => $input['salario'] ?? null,
-                'data_inicio' => $dataDeHoje,
-                'idcargo' => $idCargo,
-                'motivoAlt' => "Primeira Criação do Cargo"
-            ]);
+        DB::table('hist_cargo')->insert([
+            'salario' => $input['salario'] ?? null,
+            'data_inicio' => $dataDeHoje,
+            'idcargo' => $idCargo,
+            'motivoAlt' => 'Primeira Criação do Cargo',
+        ]);
         app('flasher')->addSuccess("Cargo $cargo->nome adicionado com sucesso");
         return redirect()->route('gerenciar.cargos');
-
     }
 
     /**
@@ -93,7 +97,6 @@ class GerenciarCargosController extends Controller
 
         return view('cargos\visualizar-cargos', compact('cargo', 'hist_cargo_regular'));
         //return redirect()->route('vizualizarHistoricoCargo')->with($cargoregular, $hist_cargo_regular);
-
     }
 
     /**
@@ -105,8 +108,7 @@ class GerenciarCargosController extends Controller
             ->where('c.id', $id)
             ->first();
 
-        $tiposCargo = DB::table('tp_cargo')
-            ->get();
+        $tiposCargo = DB::table('tp_cargo')->get();
         $id = $id;
 
         return view('/cargos/editar-cargos', compact('cargo', 'tiposCargo', 'id'));
@@ -163,6 +165,5 @@ class GerenciarCargosController extends Controller
      */
     public function destroy(string $id)
     {
-
     }
 }

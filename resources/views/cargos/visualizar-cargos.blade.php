@@ -29,13 +29,14 @@
                         </tr>
                     </thead>
                     <tbody style="font-size: 15px; color:#000000;">
+
                         @foreach ($hist_cargo_regular as $hist_cargo_regulars)
                             <tr>
                                 <td style="text-align:center;"></td>{{-- Adiciona a data de inicio --}}
                                 <td style="text-align:center;"></td>{{-- Adiciona a data final  --}}
                                 <td style="text-align:center;"></td>{{-- Adiciona o salario  --}}
                                 <td style="text-align:center;"></td>{{-- Adiciona o Motivo  --}}
-                        @endforeach
+
                     </tbody>
                 </table>
             </div>

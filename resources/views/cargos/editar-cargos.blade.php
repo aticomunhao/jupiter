@@ -28,15 +28,25 @@
                                     <option value="{{ $tipoCargo->idTpCargo }}">{{ $tipoCargo->nomeTpCargo }}</option>
                                 @endforeach
 
-                                {{-- Espaco para foreach de options --}}
+
 
                             </select>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-12 mt-3 mt-md-0 ">
+                            <div>Salario</div>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text" id="basic-addon1">R$</span>
+                                <input type="number" class="form-control" id="salario" name="salario" min="1"
+                                    step="0.01" placeholder="Digite o salário" required = "required"
+                                    value="{{ $cargo->salario }}">
+                            </div>{{-- input salario --}}
                         </div>
                         <div class="col-lg-6 col-12 mt-3 mt-md-0 mt-md-3 mt-lg-0">{{-- Div input Nome --}}
                             <div>Nome</div>
                             <input type="text" class="form-control" aria-label="Sizing example input" name = "name"
                                 maxlength="50" value="{{ $cargo->nome }}" required = "required">{{-- input de nome com value do item editado --}}
                         </div>
+
                     </div>
                     <div class="row">
                         <label for="exampleFormControlTextarea1">Motivo</label>
@@ -45,7 +55,7 @@
 
                     <center>
                         <div class="col-12" style="margin-top: 70px;">{{-- Botao de cancelar com rota para index --}}
-                            <a href="/gerenciar-cargos" class="btn btn-secondary col-3">
+                            <a href="{{ route('gerenciar.cargos') }}" class="btn btn-secondary col-3">
                                 Cancelar
                             </a>
 
