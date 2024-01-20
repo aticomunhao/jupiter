@@ -79,18 +79,19 @@ class GerenciarCargosController extends Controller
      */
     public function show(string $id)
     {
-        $cargoregular = DB::table('cargos')
+        $cargo = DB::table('cargos')
             ->where('id', $id)
             ->select('id as idCR', 'nome as nomeCR')
-            ->get();
+            ->first();
 
         $hist_cargo_regular = DB::table('hist_cargo')
             ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivoAlt')
-            ->where('idcargo', '= ')
+            ->where('idcargo', '=', $id)
             ->get();
 
 
-        return view('cargos\visualizar-cargos', compact('cargoregular', 'hist_cargo_regular'));
+
+        return view('cargos\visualizar-cargos', compact('cargo', 'hist_cargo_regular'));
         //return redirect()->route('vizualizarHistoricoCargo')->with($cargoregular, $hist_cargo_regular);
 
     }
@@ -108,7 +109,7 @@ class GerenciarCargosController extends Controller
             ->get();
         $id = $id;
 
-        return view('/cargos/editar-cargos', compact('cargo', 'tiposCargo','id'));
+        return view('/cargos/editar-cargos', compact('cargo', 'tiposCargo', 'id'));
     }
 
     /**
@@ -116,11 +117,44 @@ class GerenciarCargosController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $cargo = DB::table('cargos as c')
+            ->where('c.id', $id)
+            ->first();
+
+
         $input = $request->all();
-        dd($input);
         $dataDeHoje = Carbon::today()->toDateString();
         $dataDeOntem = Carbon::yesterday()->toDateString();
 
+
+        $ultimaModificacao = DB::table('hist_cargo')
+            ->where('idcargo', '=', $id)
+            ->where('data_fim', null)->first();
+
+
+
+
+
+        DB::table('hist_cargo')
+            ->where('id', $ultimaModificacao->id)
+            ->update([
+                'data_fim' => $dataDeOntem,
+            ]);
+        DB::table('cargos')
+            ->where('id', $id)
+            ->update([
+                'nome' => $input['name'],
+                'salario' => $input['salario'],
+                'dt_inicio' => $dataDeHoje,
+                'tp_cargo' => $input['tipocargo']
+            ]);
+        DB::table('hist_cargo')->insert([
+            'salario' => $input['salario'],
+            'data_inicio' => $dataDeHoje,
+            'idcargo' => $id,
+            'motivoAlt' => $input['motivo']
+        ]);
+        return redirect()->route('gerenciar.cargos');
 
     }
 
