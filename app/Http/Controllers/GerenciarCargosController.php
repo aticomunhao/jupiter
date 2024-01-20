@@ -21,17 +21,16 @@ class GerenciarCargosController extends Controller
         if ($pesquisa) {
             $cargo = DB::table('cargos as c')
                 ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
-                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo') //faz uma pesquisa no banco apenas onde os valores batem
+                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo','c.status') //faz uma pesquisa no banco apenas onde os valores batem
                 ->where('c.nome', 'ilike', '%' . $pesquisa . '%')
                 ->orWhere('tp.nomeTpCargo', 'ilike', '%' . $pesquisa . '%')
                 ->get();
         } else {
             $cargo = DB::table('cargos as c')
                 ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
-                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo')
+                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo','c.status')
                 ->get();
         }
-
 
 
         return view('cargos.gerenciar-cargos', compact('cargo', 'pesquisa'));
@@ -83,6 +82,7 @@ class GerenciarCargosController extends Controller
      */
     public function show(string $id)
     {
+
         $cargo = DB::table('cargos')
             ->where('id', $id)
             ->select('id as idCR', 'nome as nomeCR')
@@ -91,8 +91,8 @@ class GerenciarCargosController extends Controller
         $hist_cargo_regular = DB::table('hist_cargo')
             ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivoAlt')
             ->where('idcargo', '=', $id)
+            ->orderBy('id', 'desc')
             ->get();
-
 
 
         return view('cargos\visualizar-cargos', compact('cargo', 'hist_cargo_regular'));
@@ -134,9 +134,6 @@ class GerenciarCargosController extends Controller
             ->where('data_fim', null)->first();
 
 
-
-
-
         DB::table('hist_cargo')
             ->where('id', $ultimaModificacao->id)
             ->update([
@@ -156,6 +153,10 @@ class GerenciarCargosController extends Controller
             'idcargo' => $id,
             'motivoAlt' => $input['motivo']
         ]);
+        $cargo = DB::table('cargos as c')
+            ->where('c.id', $id)
+            ->first();
+        app('flasher')->addUpdated("$cargo->nome");
         return redirect()->route('gerenciar.cargos');
 
     }
@@ -165,5 +166,38 @@ class GerenciarCargosController extends Controller
      */
     public function destroy(string $id)
     {
+
+        $dataDeHoje = Carbon::today()->toDateString();
+         $ultimaModificacao = DB::table('hist_cargo')
+            ->where('idcargo', '=', $id)
+            ->where('data_fim', null)->first();
+
+
+        DB::table('hist_cargo')
+            ->where('id', $ultimaModificacao->id)
+            ->update([
+                'data_fim'=> $dataDeHoje
+            ]);
+
+        DB::table('hist_cargo')
+            ->insert([
+                'salario' => $ultimaModificacao->salario,
+                'data_inicio' => $dataDeHoje,
+                'idcargo' => $ultimaModificacao->idcargo,
+                'motivoAlt' => 'Fim do Cargo'
+            ]);
+
+
+        $cargofechado = DB::table('cargos')->where('id', $ultimaModificacao->idcargo)->first();
+        DB::table('cargos')
+            ->where('id', $ultimaModificacao->idcargo)
+            ->update([
+                'dt_inicio' => $dataDeHoje,
+                'status' =>false
+                ]);
+
+        app('flasher')->addDeleted("$cargofechado->nome");
+        return  redirect()->route('gerenciar.cargos');
+
     }
 }
