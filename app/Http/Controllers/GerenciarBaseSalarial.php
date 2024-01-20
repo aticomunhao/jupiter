@@ -14,8 +14,8 @@ class GerenciarBaseSalarial extends Controller
     {
 
 
-        $rel_base_salarial = DB::table('rel_base_salarial')
-            ->where('id_bs', $idf)
+        $rel_base_salarial = DB::table('base_salarial')
+            ->where('id_funcionario', $idf)
             ->get();
 
         if ($rel_base_salarial->isEmpty()) {
@@ -30,11 +30,16 @@ class GerenciarBaseSalarial extends Controller
      */
     public function create($idf)
     {
+        $tp_cargo = DB::table('tp_cargo')->get();
 
-        $cargosregulares = DB::table('cargo_regular')->get();
-        $funcaogratificada = DB::table('funcao_gratificada')->get();
+        $cargos = DB::table('cargos')->get();
+        $cargosRegulares = DB::table('cargos')->where('tp_cargo','=','1')->get();
+        $funcaoGratificada =  DB::table('cargos')->where('tp_cargo','=','2')->get();
+        $cargoDeConfianca =  DB::table('cargos')->where('tp_cargo','=','3')->get();
+        $jovemAprediz =  DB::table('cargos')->where('tp_cargo','=','4')->get();
 
-        return view('basesalarial.cadastrar-base-salarial', compact('cargosregulares', 'funcaogratificada', 'idf'));
+        return view('basesalarial.cadastrar-base-salarial', compact('cargosRegulares', 'funcaoGratificada',
+            'idf','cargoDeConfianca','jovemAprediz','tp_cargo','cargos'));
     }
 
     /**
@@ -42,16 +47,7 @@ class GerenciarBaseSalarial extends Controller
      */
     public function store(Request $request, $idf)
     {
-        $funcionario = DB::table('funcionarios')
-            ->join('pessoas as p','id_pessoa', '=','p.id')
-            ->where('funcionarios.id', $idf)
-            ->first();
-
-        dd($funcionario);
-        $cargoregular = $request->input('cargoregular');
-        $funcaograrificada = $request->input('funcaogratificada');
-        $idfuncionario = $idf;
-
+      echo 'okay';
 
     }
 

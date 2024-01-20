@@ -5,52 +5,96 @@
     <div class="container-fluid">
         <div class="card">
             <h5 class="card-header">
-                <span style="color: blue"> Incluir Cargo </span>
+                <span style="color: blue"> Cadastrar Cargo</span>
             </h5>
             <div class="card-body">
                 <form action="{{ route('ArmazenarBaseSalarial', ['idf' => $idf]) }}" method="POST">
                     @csrf
-                    <div class="container-fluid">
-                        <div class="row-fluid d-flex justify-content-evenly">
-                            <div class="col-4">
-                                <p>Cargo Regular</p>
-                                <select class="form-select" aria-label="Default select example" id="idCargoRegular"
-                                    name="cargoregular" required>
-                                    @foreach ($cargosregulares as $cargoregular)
-                                        @if ($cargoregular->nomeCR == null)
-                                            <option value="{{ $cargoregular->id }}">{{ $cargoregular->nomeCC }}</option>
-                                        @elseif ($cargoregular->nomeCR != null)
-                                            <option value="{{ $cargoregular->id }}">{{ $cargoregular->nomeCR }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-3">
-                                <div class="container-fluid align-content-center">
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="idteste">Função Gratificada</label>
-                                        <input class="form-check-input" type="checkbox" name="teste" id="idteste">
-                                    </div>
-                                </div>
-                            </div>
+                    <div class="container">
+                        <div class="row d-flex justify-content-between">
+                            <table class="table table-striped table-bordered border-secondary table-hover align-middle">
+                                <thead style="text-align: center;">
+                                    <th class="col-3">Tipo de Cargo</th>
+                                    <th class="col-1">Confirmação</th>
+                                    <th class="col">Cargo</th>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr id="linha1">
+                                        <td>
+                                            Cargo Regular
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input checkbox" type="checkbox" value="1"
+                                                    id="1">
+
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+
+
+                                    </tr>
+                                    <tr id="linha2">
+                                        <td>
+                                            Função Gratificada
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input checkbox" type="checkbox" value="2"
+                                                    id="2">
+
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+
+
+                                    </tr>
+                                    <tr id="linha">
+                                        <td>
+                                            Cargo De Confiança
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input checkbox" type="checkbox" value="3"
+                                                    id="3">
+
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+
+
+                                    </tr>
+                                    <tr id="linha1">
+                                        <td>
+                                            Jovem Aprendiz
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input class="form-check-input checkbox" type="checkbox" value="4"
+                                                    id="4">
+
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
                         </div>
-                        <br>
-                        <div class="row justify-content-center">
-                            <div class="col-4" id="FuncaoGratificada" >
-                                <p>Função Gratificada</p>
-                                <select class="form-select" name="funcaogratificada" id="idfuncaogratificada">
-                                    @foreach ($funcaogratificada as $funcaogratificadas)
-                                        <option value="{{ $funcaogratificadas->id }}">{{ $funcaogratificadas->nomeFG }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                        <br>
-                        <div class="row-fluid d-flex justify-content-around">
-                            <a href="{{ route('gerenciar') }}"><button class="btn btn-danger">cancelar</button></a>
-                            <button class="btn btn-success" type="submit">Confirmar</button>
-                        </div>
+
                     </div>
                 </form>
             </div>
@@ -59,17 +103,20 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            $('#FuncaoGratificada').hide();
+        $(document).ready(function() {
+            $('.checkbox').change(function(e) {
+                var checkbox = $(this).val();
 
-            $('#idteste').change(function (e) {
-                if ($(this).is(":checked")) {
-                    $('#FuncaoGratificada').show();
+                if (checkbox == 1) {
+
+                } else if (checkbox == 2) {
+                    alert("Checkbox é 2");
+                } else if (checkbox == 3) {
+                    alert("Checkbox é 3");
                 } else {
-                    $('#FuncaoGratificada').hide();
+                    alert("Checkbox não é 1, 2 ou 3");
                 }
             });
         });
     </script>
-
 @endsection
