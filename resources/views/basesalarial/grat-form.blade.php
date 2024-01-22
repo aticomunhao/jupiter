@@ -4,14 +4,14 @@
     <div class="container mt-4">
         <div class="card">
             <h5 class="card-header">
-                <span style="color: blue">{{ $tp_cargo->nomeTpCargo }}</span>
+                <span style="color: blue">Função Gratificada</span>
             </h5>
             <div class="card-body">
                 <form action="{{ route('ArmazenarBaseSalarial', ['idf' => $idf]) }}" method="POST">
                     @csrf
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="cargo" class="form-label">Selecione o Cargo:</label>
+                            <label for="cargo" class="form-label">Cargo:</label>
                             <select class="form-select" aria-label="Cargo" name="cargo">
                                 @foreach ($cargo as $cargos)
                                     <option value="{{ $cargos->id }}">{{ $cargos->nome }}</option>
@@ -19,9 +19,16 @@
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-success mt-4">Submit</button>
+                            <label for="funcaog" class="form-label">Função Gratificada:</label>
+                            <select class="form-select" aria-label="Função Gratificada" name="funcaog">
+                                @foreach ($funcaoGratificada as $funcaoGratificadas)
+                                    <option value="{{ $funcaoGratificadas->id }}">{{ $funcaoGratificadas->nome }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
+
+                    <button type="submit" class="btn btn-success mt-3">Submit</button>
                 </form>
             </div>
         </div>

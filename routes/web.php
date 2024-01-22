@@ -81,17 +81,11 @@ Route::any('/gerenciar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBase
 Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'create'])->name('IncluirBaseSalarial');
 Route::any('/vizualizar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class,'show'])->name('VisualizarBaseSalarial');
 Route::any('/armazenar-base-salarial/{idf}',[App\Http\Controllers\GerenciarBaseSalarial::class,'store'])->name('ArmazenarBaseSalarial');
+Route::any('/retorna-formulario/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class,'retornaFormulario'])->name('retornaFormulario');
 
 
 /*Gerenciar Funcao Gratificada*/
 
-Route::get('/gerenciar-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'index'])->name('IndexGerenciarFuncaoGratificada');
-Route::get('/criar-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'create']);
-Route::get('/incluir-funcao-gratificada', [Controllers\GerenciarFuncaoGratificada::class, 'store']);
-Route::any('/editar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'edit']);
-Route::any('/alterar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'update']);
-Route::any('/fechar-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'close']);
-Route::get('/historico-funcao-gratificada/{id}', [Controllers\GerenciarFuncaoGratificada::class, 'show']);
 
 /*Gerenciar setores*/
 
