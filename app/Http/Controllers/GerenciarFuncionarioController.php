@@ -93,6 +93,7 @@ class GerenciarFuncionarioController extends Controller
 
     public function store(Request $request)
     {
+        //dd($request->all());
 
 
         $sexo = DB::select('select id, tipo from tp_sexo');
