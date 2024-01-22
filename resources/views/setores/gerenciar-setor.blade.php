@@ -59,7 +59,7 @@
                             <center>{{ $listas->dt_fim }}</center>
                         </td>
                         <td scope="">
-                            <center>{{ $listas->status?'Ativo':'Inativo'}}</center>
+                            <center>{{ $listas->status}}</center>
                         </td>
                         <td scope="">
                             <center>{{ $listas->nome_substituto}}</center>

@@ -22,7 +22,7 @@ class GerenciarHierarquiaController extends Controller
 
         $setor = DB::table('setor')
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
-            ->select('setor.id AS id_setor', 'setor.nome AS nome_setor', 'setor.sigla', 'setor.dt_inicio', 'setor.status', 'substituto.sigla AS nome_substituto')
+            ->select('setor.id AS id_setor', 'setor.nome AS nome_setor', 'setor.sigla', 'setor.dt_inicio', 'substituto.sigla AS nome_substituto')
             ->get();
 
 
@@ -36,7 +36,6 @@ class GerenciarHierarquiaController extends Controller
                 'st.sigla',
                 'st.dt_inicio',
                 'st.dt_fim',
-                'st.status',
                 'st.id_nivel',
                 'st.nome AS nome_setor',
                 'setor_pai.nome AS st_pai',
@@ -78,7 +77,7 @@ class GerenciarHierarquiaController extends Controller
         Session::flash('nome_setor', $nome_setor);
 
 
-        return view('/setores/Gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'st_pai'));
+        return view('/setores/Gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'st_pai', 'nm_nivel', 'setor'));
     }
 
 
@@ -207,17 +206,20 @@ class GerenciarHierarquiaController extends Controller
             $valor = intval($valor);
         }
         
-        foreach ($lista as $listaItem) {
+        foreach ($lista as $index => $listaItem) {
             // Verifica se o ID está presente nos checkboxes marcados
             $idPresente = in_array($listaItem->ids, $checkboxesArray);
         
             // Atualiza setor_pai com base nas condições
-            DB::table('setor')
-                ->where('id', $listaItem->ids)
-                ->update([
-                    'setor_pai' => $idPresente ? $nome_setor : null
-                ]);
+            if ($index !== 0) {
+                DB::table('setor')
+                    ->where('id', $listaItem->ids)
+                    ->update([
+                        'setor_pai' => $idPresente ? $nome_setor : null
+                    ]);
+            }
         }
+        
         
 
 
