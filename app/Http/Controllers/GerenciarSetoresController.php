@@ -193,7 +193,11 @@ class GerenciarSetoresController extends Controller
 
 
 
+    public function substituir(){
 
+        
+
+    }
 
     public function delete($ids, $idsb)
     {

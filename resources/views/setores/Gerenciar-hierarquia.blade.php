@@ -20,7 +20,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <label for="1">Setor</label>
                             <select id="idsetor" class="form-select" name="nome_setor" disabled>
                                 <option></option>
