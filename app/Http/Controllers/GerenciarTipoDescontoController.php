@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-class GerenciarTipoDesconto extends Controller
+class GerenciarTipoDescontoController extends Controller
 {
     /**
      * Display a listing of the resource.
