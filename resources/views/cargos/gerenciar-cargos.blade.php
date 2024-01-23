@@ -60,29 +60,27 @@
                                             title="Visualizar">
                                             <i class="bi bi-search"></i>
                                         </a>
-
                                         <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                            {{-- Botao com rota para a modal de exclusao --}} data-bs-target="#exampleModal{{ $cargos->id }}"
-                                            data-tt="tooltip" data-placement="top" title="Desativar">
+                                            data-bs-target="#exampleModal{{ $cargos->id }}" data-tt="tooltip"
+                                            data-placement="top" title="Desativar">
                                             <i class="bi bi-x-circle"></i>
-                                        </button>
+                                        </button>{{-- Botao com rota para a modal de exclusao --}}
                                     @else
-                                        <a href="{{ route('visualizarHistoricoCargo', ['id' => $cargos->id]) }}"
+                                        <a href="{{ route('visualizarHistoricoCargo', ['id' => $cargos->id]) }}"{{-- Botao com rota para visualizar --}}
                                             class="btn btn-outline-primary" data-tt="tooltip" data-placement="top"
                                             title="Visualizar">
                                             <i class="bi bi-search"></i>
                                         </a>
                                     @endif
-
                                 </td>
                             </tr>
-                            <div class="modal fade" {{--  Modal  --}} id="exampleModal{{ $cargos->id }}"
+                            <div class="modal fade" id="exampleModal{{ $cargos->id }}"{{--  Modal  --}}
                                 tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header" style="background-color:rgba(202, 61, 61, 0.911);">
                                             <div class="row">
-                                                <h2 style="color:white;">Fechar Cargo</h2>
+                                                <h2 style="color:white;">Desativar Cargo</h2>
                                             </div>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
@@ -90,24 +88,24 @@
                                         <div class="modal-body" style="color:#e24444;">
                                             <br />
                                             <p class="fw-bold alert  text-center">Você
-                                                realmente deseja fechar
+                                                realmente deseja desativar
                                                 <br>
                                                 <span class="fw-bolder fs-5">
                                                     {{ $cargos->nome }}</span>
                                             </p>
                                         </div>
-                                        <div class="modal-footer  ">
+                                        <div class="modal-footer  ">{{-- Botao cancelar com rota para index --}}
                                             <button type="button" class="btn btn-secondary"
                                                 data-bs-dismiss="modal">Cancelar
                                             </button>
-                                            <a href="/deletar-cargos/{{ $cargos->id }}">
-                                                <button type="button" class="btn btn-danger">Fechar Permanentemente
+                                            <a href="/deletar-cargos/{{ $cargos->id }}">{{-- Botao de desativar --}}
+                                                <button type="button" class="btn btn-danger">Desativar Permanentemente
                                                 </button>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div>{{-- Fim do modal --}}
                         @endforeach
                     </tbody>
                     {{-- Fim body da tabela --}}
