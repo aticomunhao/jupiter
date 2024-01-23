@@ -139,6 +139,8 @@ class GerenciarCargosController extends Controller
             ->update([
                 'data_fim' => $dataDeOntem,
             ]);
+
+
         DB::table('cargos')
             ->where('id', $id)
             ->update([
@@ -147,15 +149,18 @@ class GerenciarCargosController extends Controller
                 'dt_inicio' => $dataDeHoje,
                 'tp_cargo' => $input['tipocargo']
             ]);
+
         DB::table('hist_cargo')->insert([
             'salario' => $input['salario'],
             'data_inicio' => $dataDeHoje,
             'idcargo' => $id,
             'motivoAlt' => $input['motivo']
         ]);
+
         $cargo = DB::table('cargos as c')
             ->where('c.id', $id)
             ->first();
+
         app('flasher')->addUpdated("$cargo->nome");
         return redirect()->route('gerenciar.cargos');
 
