@@ -8,7 +8,7 @@
     <div class="container">
         <div class="card" style="border-color:#5C7CB6">
             <div class="card-header">
-                Gerenciar Entidade de Ensino
+                <span>Gerenciar Entidade de Ensino</span>
             </div>
             <div class="card-body">
                 <form method="GET" action="/gerenciar-entidades-de-ensino">{{-- Formulario para o botao e input de pesquisa --}}
