@@ -140,7 +140,15 @@ class GerenciarCargosController extends Controller
                 'data_fim' => $dataDeOntem,
             ]);
 
+<<<<<<< HEAD
         DB::table('cargos') //Atualiza todos os dados da tabela cargos
+=======
+<<<<<<< HEAD
+
+=======
+>>>>>>> refs/remotes/origin/main
+        DB::table('cargos')
+>>>>>>> f27c5f464e67f8456cd319106cb05438aa689cb5
             ->where('id', $id)
             ->update([
                 'nome' => $input['nome'],
@@ -159,7 +167,12 @@ class GerenciarCargosController extends Controller
         $cargo = DB::table('cargos as c') // Pega o nome do cargo atualizado
             ->where('c.id', $id)
             ->first();
+<<<<<<< HEAD
         app('flasher')->addSuccess("O Cargo $cargo->nome foi atualizado");
+=======
+
+        app('flasher')->addUpdated("$cargo->nome");
+>>>>>>> f27c5f464e67f8456cd319106cb05438aa689cb5
         return redirect()->route('gerenciar.cargos');
     }
 
