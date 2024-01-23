@@ -24,11 +24,13 @@ class GerenciarCargosController extends Controller
                 ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo','c.status') //faz uma pesquisa no banco apenas onde os valores batem
                 ->where('c.nome', 'ilike', '%' . $pesquisa . '%')
                 ->orWhere('tp.nomeTpCargo', 'ilike', '%' . $pesquisa . '%')
+                ->orderBy('c.status', 'desc')
                 ->get();
         } else {
             $cargo = DB::table('cargos as c')
                 ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
                 ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo','c.status')
+                ->orderBy('c.status', 'desc')
                 ->get();
         }
 
@@ -133,26 +135,28 @@ class GerenciarCargosController extends Controller
             ->where('idcargo', '=', $id)
             ->where('data_fim', null)->first();
 
-
         DB::table('hist_cargo')
             ->where('id', $ultimaModificacao->id)
             ->update([
                 'data_fim' => $dataDeOntem,
             ]);
+
         DB::table('cargos')
             ->where('id', $id)
             ->update([
-                'nome' => $input['name'],
+                'nome' => $input['nome'],
                 'salario' => $input['salario'],
                 'dt_inicio' => $dataDeHoje,
                 'tp_cargo' => $input['tipocargo']
             ]);
+
         DB::table('hist_cargo')->insert([
             'salario' => $input['salario'],
             'data_inicio' => $dataDeHoje,
             'idcargo' => $id,
             'motivoAlt' => $input['motivo']
         ]);
+
         $cargo = DB::table('cargos as c')
             ->where('c.id', $id)
             ->first();

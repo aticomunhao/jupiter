@@ -49,7 +49,7 @@
                                 <td>{{ $descrpt->description }}</td>{{-- Adiciona o tipo de desconto a tabela --}}
                                 <td style="text-align:center;">{{ $descrpt->percDesconto }}%</td>{{-- Adiciona a porcentagem do desconto  --}}
                                 <td style="text-align:center;">{{ $descrpt->dt_inicio }}</td>{{-- Adiciona a data de inicio --}}
-                                <td style="text-align:center;">{{ $descrpt->dt_final }}</td>{{-- Adiciona a data final  --}}
+                                <td style="text-align:center;">{{ !is_null($descrpt->dt_final) ? date('d-m-Y', strtotime($descrpt->dt_final))  : '--' }}</td>{{-- Adiciona a data final  --}}
                                 <td style="text-align: center;">
                                     @if ($descrpt->dt_final == null)
                                         {{-- Apenas permite dados ativos a se atualizarem ao mostrar o botao apenas neles --}}

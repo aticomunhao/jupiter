@@ -2,7 +2,6 @@
 @section('head')
     <title>Adicionar Cargos</title>
 @endsection
-
 @section('content')
     <br />
     <div class="container">

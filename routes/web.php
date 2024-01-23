@@ -153,14 +153,14 @@ Route::any('/atualiza-cargo/{id}', [ GerenciarCargosController::class,'update'])
 
 /**Rotas para Tipo de Desconto**/
 
-Route::get('/gerenciar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'index'])->name('indexTipoDesconto');
-Route::get('/incluir-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'create']);
-Route::get('/editar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'edit']);
-Route::post('/armazenar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDesconto::class, 'store']);
-Route::any('/atualizar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'update']);
-Route::any('/exluir-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'destroy']);
-Route::any('/renovar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'renew']);
-Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesconto::class, 'modify']);
+Route::get('/gerenciar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'index'])->name('indexTipoDesconto');
+Route::get('/incluir-tipo-desconto', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'create']);
+Route::get('/editar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'edit']);
+Route::post('/armazenar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'store']);
+Route::any('/atualizar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'update']);
+Route::any('/exluir-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'destroy']);
+Route::any('/renovar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'renew']);
+Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'modify']);
 
 
 
