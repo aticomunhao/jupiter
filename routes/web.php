@@ -148,7 +148,7 @@ Route::get('/incluir-cargos', [App\Http\Controllers\GerenciarCargosController::c
 Route::get('/editar-cargos/{id}', [App\Http\Controllers\GerenciarCargosController::class, 'edit'])->name('Editar');
 Route::post('/armazenar-cargo', [GerenciarCargosController::class, 'store'])->name('armazenaCargo');
 Route::any('/deletar-cargos/{id}', [GerenciarCargosController::class,'destroy']);
-Route::get('/vizualizar-historico/{id}', [GerenciarCargosController::class, 'show'])->name('vizualizarHistoricoCargo');
+Route::get('/vizualizar-historico/{id}', [GerenciarCargosController::class, 'show'])->name('visualizarHistoricoCargo');
 Route::any('/atualiza-cargo/{id}', [ GerenciarCargosController::class,'update'])->name('AtualizaCargo');
 
 /**Rotas para Tipo de Desconto**/

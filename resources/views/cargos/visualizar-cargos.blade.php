@@ -18,12 +18,12 @@
                     <div class="col-md-7 col-12">
                         <a href="{{ route('gerenciar.cargos') }}">
                             <button type="button"
-                                class="btn btn-primary col-md-3 col-12 offset-md-8 offset-0 mt-2 mt-md-0">Retorne</button>
+                                class="btn btn-primary col-md-3 col-12 offset-md-8 offset-0 mt-2 mt-md-0">Retornar</button>
                         </a>
                     </div>
                 </div>
                 <hr>
-                <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
+                <table class="table table-striped table-bordered border-secondary table-hover align-middle">
                     <thead style="text-align: center;">
                         <tr style="background-color: #d6e3ff; font-size:19px; color:#000;" class="align-middle">
                             <th class="col-2">Data Inicial</th>
@@ -35,9 +35,13 @@
                     <tbody style="font-size: 15px; color:#000000;">
                         @foreach ($hist_cargo_regular as $hist_cargo_regulars)
                             <tr>
-                                <td style="text-align:center;">{{ date('d-m-Y', strtotime($hist_cargo_regulars->data_inicio )) }}</td>
-                                <td style="text-align:center;">{{ !is_null($hist_cargo_regulars->data_fim) ? date('d-m-Y', strtotime($hist_cargo_regulars->data_fim))  : '--' }}</td>
-                                <td style="text-align:center;">{{ number_format($hist_cargo_regulars->salarioHist  , 2, ',', '.') }}</td>
+                                <td style="text-align:center;">
+                                    {{ date('d-m-Y', strtotime($hist_cargo_regulars->data_inicio)) }}</td>
+                                <td style="text-align:center;">
+                                    {{ !is_null($hist_cargo_regulars->data_fim) ? date('d-m-Y', strtotime($hist_cargo_regulars->data_fim)) : '--' }}
+                                </td>
+                                <td style="text-align:center;">
+                                    {{ number_format($hist_cargo_regulars->salarioHist, 2, ',', '.') }}</td>
                                 <td style="text-align:center;">{{ $hist_cargo_regulars->motivoAlt }}</td>
                             </tr>
                         @endforeach

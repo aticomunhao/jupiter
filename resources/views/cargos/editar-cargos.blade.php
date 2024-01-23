@@ -33,10 +33,8 @@
                         </div>
                         <div class="col-lg-6 col-12 mt-3 mt-md-0 mt-md-1 mt-lg-0">{{-- Div input Nome --}}
                             <div>Nome</div>
-
                             <input type="text" class="form-control" aria-label="Sizing example input" name = "nome"
                                 maxlength="50" required="Required" value="{{ $cargo->nome }}">
-
                         </div>
                     </div>
                     <div class="row col-10 offset-1 mt-3 mt-md-0 mt-md-3 mt-lg-0" style="margin-top:none">
