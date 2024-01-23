@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isEmpty;
 
 class GerenciarBaseSalarial extends Controller
 {
@@ -14,14 +16,29 @@ class GerenciarBaseSalarial extends Controller
     {
 
 
-        $rel_base_salarial = DB::table('base_salarial')
-            ->where('id_funcionario', $idf)
+        $base_salarial = DB::table('base_salarial as bs')
+            ->where('bs.id_funcionario', $idf)
+            ->join('cargos as cr', 'bs.cargo', '=', 'cr.id')
+            ->join('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
+            ->join('funcionarios as f', 'f.id', '=', 'bs.id_funcionario')
+            ->select('bs.id as bsid', 'bs.anuenio as bsanuenio', 'bs.dt_inicio as bsdti', 'bs.dt_fim as bsdtf',
+                'cr.id as crid', 'cr.nome as crnome', 'cr.salario as crsalario',
+                'fg.id as fgid', 'fg.nome as fgnome', 'fg.salario as fgsalario',
+                'f.id as fid')
             ->get();
+        dd($base_salarial);
 
-        if ($rel_base_salarial->isEmpty()) {
+        if ($base_salarial->isEmpty()) {
             return redirect()->route('retornaFormulario', ['idf' => $idf]);
         } else {
-            // Add your logic here if needed
+            $salarioatual = DB::table('base_salarial')
+                ->where('id_funcionario', $idf)
+                ->where('dt_fim', '=', null)
+                ->first();
+
+            dd($salarioatual);
+            return view('basesalarial.gerenciar-base-salarial', compact('base_salarial', 'salarioatual'));
+
         }
     }
 
@@ -58,11 +75,26 @@ class GerenciarBaseSalarial extends Controller
      */
     public function store(Request $request, $idf)
     {
-        $cargo = $request->input('cargo');
-        $funcaogratificada = $request->input('funcaog');
 
-        if (empty($funcaogratificada)) {
+        $dataDeHoje = Carbon::today()->toDateString();
+        $input = $request->all();
 
+        if ($request->input('funcaog') == null) {
+            DB::table('base_salarial')->insert([
+                'cargo' => $input['cargo'],
+                'funcao_gratificada' => null,
+                'dt_inicio' => $dataDeHoje,
+                'id_funcionario' => $idf
+            ]);
+        } else {
+            DB::table('base_salarial')->insert([
+                'cargo' => $input['cargo'],
+                'funcao_gratificada' => $input['funcaog'],
+                'dt_inicio' => $dataDeHoje,
+                'id_funcionario' => $idf
+            ]);
+
+            return redirect()->route('GerenciarBaseSalarial', ['idf' => $idf]);
         }
 
 
