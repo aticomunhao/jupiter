@@ -49,12 +49,10 @@ class GerenciarHierarquiaController extends Controller
         $st_pai = $request->st_pai;
 
 
+       
 
-
-        //if($lista->orwhereNull('st.setor_pai')){
-
-        if ($request->nome_setor) {
-            $lista->where('st.id_nivel', '>=', 3)->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
+        if ($nome_setor == 1) {
+            $lista->where('st.id_nivel', '>=', 2)->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
 
 
 
@@ -65,11 +63,24 @@ class GerenciarHierarquiaController extends Controller
             if ($nm_nivel == 2) {
                 $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
             }
-
-
-            //}
-
         }
+            else{
+                $lista->where('st.id_nivel', '>', 2)->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
+
+
+                if ($nm_nivel == 1) {
+                    $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
+                }
+    
+                if ($nm_nivel == 2) {
+                    $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
+                }
+
+            }
+
+        
+
+        
         $lista = $lista->orderby('tns.id', 'ASC')->orderBy('st.setor_pai', 'ASC')->get();
 
         Session::flash('listas', $lista);
