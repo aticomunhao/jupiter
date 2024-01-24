@@ -93,6 +93,8 @@ Route::get('/pesquisar-setor', [App\Http\Controllers\GerenciarSetoresController:
 Route::get('/incluir-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'create']);
 Route::post('/incluir-setores', [App\Http\Controllers\GerenciarSetoresController::class, 'store']);
 Route::get('/editar-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'edit']);
+Route::get('/carregar-dados/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'carregar_dados'])->name('substituir');
+Route::post('/substituir-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'subst']);
 Route::get('/setor-pessoas', [App\Http\Controllers\GerenciarSetoresController::class, 'consult']);
 Route::post('/atualizar-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'update']);
 
