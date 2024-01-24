@@ -82,6 +82,7 @@ Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSa
 Route::any('/vizualizar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class,'show'])->name('VisualizarBaseSalarial');
 Route::any('/armazenar-base-salarial/{idf}',[App\Http\Controllers\GerenciarBaseSalarialController::class,'store'])->name('ArmazenarBaseSalarial');
 Route::any('/retorna-formulario/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class,'retornaFormulario'])->name('retornaFormulario');
+Route::any('/editar-base-salarial/{idf}',[Controllers\GerenciarBaseSalarialController::class, 'edit'])->name('EditarBaseSalarial');
 
 
 

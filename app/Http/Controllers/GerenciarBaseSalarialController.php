@@ -18,7 +18,7 @@ class GerenciarBaseSalarialController extends Controller
 
         $base_salarial = DB::table('base_salarial as bs')
             ->join('cargos as cr', 'bs.cargo', '=', 'cr.id')
-            ->join('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
+            ->leftJoin('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
             ->join('funcionarios as f', 'f.id', '=', 'bs.id_funcionario')
             ->where('bs.id_funcionario', $idf)
             ->select(
@@ -39,15 +39,12 @@ class GerenciarBaseSalarialController extends Controller
             ->get();
 
 
-        $bs = DB::table('base_salarial')->where('id', '=', $idf)->get();
-
-
         if ($base_salarial->isEmpty()) {
             return redirect()->route('retornaFormulario', ['idf' => $idf]);
         } else {
             $salarioatual = DB::table('base_salarial as bs')
                 ->join('cargos as cr', 'bs.cargo', '=', 'cr.id')
-                ->join('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
+                ->leftJoin('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
                 ->join('funcionarios as f', 'f.id', '=', 'bs.id_funcionario')
                 ->where('bs.id_funcionario', $idf)
                 ->where('dt_fim', '=', null)
@@ -135,10 +132,12 @@ class GerenciarBaseSalarialController extends Controller
                 'funcao_gratificada' => $input['funcaog'],
                 'dt_inicio' => $dataDeHoje,
                 'id_funcionario' => $idf
+
             ]);
 
-            return redirect()->route('GerenciarBaseSalarialController', ['idf' => $idf]);
+
         }
+        return redirect()->route('GerenciarBaseSalarialController', ['idf' => $idf]);
 
 
     }
@@ -156,7 +155,7 @@ class GerenciarBaseSalarialController extends Controller
      */
     public function edit(string $id)
     {
-        //
+       echo 'Deu certo!';
     }
 
     /**

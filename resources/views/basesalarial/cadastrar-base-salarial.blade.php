@@ -23,7 +23,7 @@
                                     <option value="{{ $cargos->id }}">{{ $cargos->nome }}</option>
                                 @endforeach
                             </select>
-                        </form>
+
                     </div>
                     <center>
                         <div class="col-12" style="margin-top: 70px;">
@@ -35,6 +35,7 @@
                             </button>
                         </div>
                     </center>
+                </form>
                 </div>
             </div>
         </div>
