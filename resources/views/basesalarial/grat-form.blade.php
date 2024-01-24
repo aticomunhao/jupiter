@@ -40,19 +40,20 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <center>
+                                    <div class="col-12" style="margin-top: 70px;">
+                                        <a href="/retorna-formulario/{{ $idf }}" class="btn btn-secondary col-3">
+                                            Cancelar
+                                        </a>
+                                        <button type = "submit" class="btn btn-primary col-3 offset-3">
+                                            Confirmar
+                                        </button>
+                                    </div>
+                                </center>
                             </form>
                         </div>
                     </div>
-                    <center>
-                        <div class="col-12" style="margin-top: 70px;">
-                            <a href="/retorna-formulario/{{ $idf }}" class="btn btn-secondary col-3">
-                                Cancelar
-                            </a>
-                            <button type = "submit" class="btn btn-primary col-3 offset-3">
-                                Confirmar
-                            </button>
-                        </div>
-                    </center>
+
                 </div>
             </div>
         </div>

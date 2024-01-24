@@ -77,14 +77,13 @@ Route::any('/fechar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRe
 
 // Gerenciar Base Salarial
 
-Route::any('/gerenciar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'index'])->name('GerenciarBaseSalarial');
-Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class, 'create'])->name('IncluirBaseSalarial');
-Route::any('/vizualizar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class,'show'])->name('VisualizarBaseSalarial');
-Route::any('/armazenar-base-salarial/{idf}',[App\Http\Controllers\GerenciarBaseSalarial::class,'store'])->name('ArmazenarBaseSalarial');
-Route::any('/retorna-formulario/{idf}', [App\Http\Controllers\GerenciarBaseSalarial::class,'retornaFormulario'])->name('retornaFormulario');
+Route::any('/gerenciar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'index'])->name('GerenciarBaseSalarialController');
+Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'create'])->name('IncluirBaseSalarial');
+Route::any('/vizualizar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class,'show'])->name('VisualizarBaseSalarial');
+Route::any('/armazenar-base-salarial/{idf}',[App\Http\Controllers\GerenciarBaseSalarialController::class,'store'])->name('ArmazenarBaseSalarial');
+Route::any('/retorna-formulario/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class,'retornaFormulario'])->name('retornaFormulario');
 
 
-/*Gerenciar Funcao Gratificada*/
 
 
 /*Gerenciar setores*/

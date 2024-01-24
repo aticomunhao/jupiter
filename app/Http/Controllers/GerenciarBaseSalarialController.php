@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function PHPUnit\Framework\isEmpty;
 
-class GerenciarBaseSalarial extends Controller
+class GerenciarBaseSalarialController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,26 +17,70 @@ class GerenciarBaseSalarial extends Controller
 
 
         $base_salarial = DB::table('base_salarial as bs')
-            ->where('bs.id_funcionario', $idf)
             ->join('cargos as cr', 'bs.cargo', '=', 'cr.id')
             ->join('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
             ->join('funcionarios as f', 'f.id', '=', 'bs.id_funcionario')
-            ->select('bs.id as bsid', 'bs.anuenio as bsanuenio', 'bs.dt_inicio as bsdti', 'bs.dt_fim as bsdtf',
-                'cr.id as crid', 'cr.nome as crnome', 'cr.salario as crsalario',
-                'fg.id as fgid', 'fg.nome as fgnome', 'fg.salario as fgsalario',
-                'f.id as fid')
+            ->where('bs.id_funcionario', $idf)
+            ->select(
+                'bs.id as bsid',
+                'bs.anuenio as bsanuenio',
+                'bs.dt_inicio as bsdti',
+                'bs.dt_fim as bsdtf',
+                'bs.id_funcionario as bsidf',
+                'cr.id as crid',
+                'cr.nome as crnome',
+                'cr.salario as crsalario',
+                'fg.id as fgid',
+                'fg.nome as fgnome',
+                'fg.salario as fgsalario',
+                'f.id as fid',
+                'f.dt_inicio as fdti'
+            )
             ->get();
-     
+
+
+        $bs = DB::table('base_salarial')->where('id', '=', $idf)->get();
+
 
         if ($base_salarial->isEmpty()) {
             return redirect()->route('retornaFormulario', ['idf' => $idf]);
         } else {
-            $salarioatual = DB::table('base_salarial')
-                ->where('id_funcionario', $idf)
+            $salarioatual = DB::table('base_salarial as bs')
+                ->join('cargos as cr', 'bs.cargo', '=', 'cr.id')
+                ->join('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
+                ->join('funcionarios as f', 'f.id', '=', 'bs.id_funcionario')
+                ->where('bs.id_funcionario', $idf)
                 ->where('dt_fim', '=', null)
+                ->select(
+                    'bs.id as bsid',
+                    'bs.anuenio as bsanuenio',
+                    'bs.dt_inicio as bsdti',
+                    'bs.dt_fim as bsdtf',
+                    'bs.id_funcionario as bsidf',
+                    'cr.id as crid',
+                    'cr.nome as crnome',
+                    'cr.salario as crsalario',
+                    'fg.id as fgid',
+                    'fg.nome as fgnome',
+                    'fg.salario as fgsalario',
+                    'f.id as fid',
+                    'f.id_pessoa  as fidp',
+                    'f.dt_inicio as fdti'
+                )->first();
+
+            $funcionario = DB::table('pessoas')
+                ->where('id', $salarioatual->fidp)
                 ->first();
 
-            return view('basesalarial.gerenciar-base-salarial', compact('base_salarial', 'salarioatual'));
+            foreach ($base_salarial as $basesalarials) {
+                $dataDeHoje = Carbon::now();
+                $dataDaContratacao = Carbon::parse($basesalarials->fdti);
+                $basesalarials->anuenio = intval(($dataDeHoje->diffInDays($dataDaContratacao)) / 365);
+
+            }
+
+
+            return view('basesalarial.gerenciar-base-salarial', compact('base_salarial', 'salarioatual', 'funcionario'));
 
         }
     }
@@ -93,7 +137,7 @@ class GerenciarBaseSalarial extends Controller
                 'id_funcionario' => $idf
             ]);
 
-            return redirect()->route('GerenciarBaseSalarial', ['idf' => $idf]);
+            return redirect()->route('GerenciarBaseSalarialController', ['idf' => $idf]);
         }
 
 
