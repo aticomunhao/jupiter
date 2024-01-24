@@ -8,6 +8,8 @@ use iluminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\CollectionorderBy;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Collection;
 
 
 class GerenciarSetoresController extends Controller
@@ -16,7 +18,7 @@ class GerenciarSetoresController extends Controller
     {
 
 
-        
+
 
         $lista = DB::table('tp_nivel_setor AS tns')
             ->whereIn('tns.id', ['1', '2', '3'])
@@ -33,10 +35,10 @@ class GerenciarSetoresController extends Controller
                 'setor_pai.nome AS setor_pai',
                 'substituto.sigla AS nome_substituto'
             );
-       
-        
 
-       // dd($lista);
+
+
+        //dd($lista);
 
         $ids = $request->ids;
 
@@ -86,7 +88,7 @@ class GerenciarSetoresController extends Controller
 
     public function store(Request $request)
     {
-        
+
         DB::table('setor')
             ->insert([
                 'nome' => $request->input('nome_setor'),
@@ -94,7 +96,7 @@ class GerenciarSetoresController extends Controller
                 'dt_inicio' => $request->input('dt_inicio'),
                 'id_nivel' => $request->input('nivel'),
                 'status' => '1',
-                
+
             ]);
 
 
@@ -149,54 +151,67 @@ class GerenciarSetoresController extends Controller
         return redirect()->action([GerenciarSetoresController::class, 'index']);
     }
 
-    public function consult(Request $request)
+
+    public function  carregar_dados($ids)
     {
 
 
 
 
 
-        //dd($lista);
+        $setor = DB::table('setor')->get();
 
-        $ids = $request->ids;
-
-        $nome = $request->nome;
-
-        $sigla = $request->sigla;
-
-        $dt_inicio = $request->dt_inicio;
-
-        $dt_fim = $request->dt_fim;
-
-        $setor_pai = $request->setor_pai;
-
-        $nome_substituto = $request->nome_substituto;
-
-        $status = $request->status;
-
-        if ($request->nome) {
-            $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
-        }
-
-        if ($request->sigla) {
-            $lista->where('s.sigla', '=', $request->sigla);
-        }
-
-        if ($request->nome_substituto) {
-            $lista->where('s.substituto', '=', $request->nome_substituto);
-        }
-        $lista = $lista->orderBy('s.sigla', 'asc')->orderBy('s.nome', 'asc')->orderBy('nome_substituto', 'asc')->paginate(10);
+        Session::flash('ids', $ids);
 
 
-        return view('/setores/gerenciar-setor', compact('lista', 'nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai', 'status'));
+
+
+
+
+
+        return view('/setores/substituir-setor', compact('setor'));
     }
 
+    public function subst(Request $request, $ids)
+    {
 
+        $ids = session('ids');
+        $up = $request->input('setor_substituto');
 
-    public function substituir(){
+        $resultado = [
+            $ids,
+            $up,
+        ];
+       
 
-        
+        //dd($resultado);
 
+        $lista = DB::table('tp_nivel_setor AS tns')
+        ->whereIn('tns.id', ['3'])->whereNot('s.setor_pai',$ids)
+        ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
+        ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
+        ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
+        ->select(
+            DB::raw('CASE WHEN s.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
+            's.id AS ids',
+            's.nome',
+            's.sigla',
+            's.dt_inicio',
+            's.dt_fim',
+            's.setor_pai',
+            's.substituto'
+        )->update([
+                's.substituto'=> $up,
+                's.setor_pai' => $up
+
+            ]);
+            
+
+       
+       
+
+        app('flasher')->addSuccess('Setor foi substituido com Sucesso.');
+        return redirect()->action([GerenciarSetoresController::class, 'index']);
     }
 
     public function delete($ids, $idsb)
