@@ -26,7 +26,7 @@ class GerenciarBaseSalarial extends Controller
                 'fg.id as fgid', 'fg.nome as fgnome', 'fg.salario as fgsalario',
                 'f.id as fid')
             ->get();
-        dd($base_salarial);
+     
 
         if ($base_salarial->isEmpty()) {
             return redirect()->route('retornaFormulario', ['idf' => $idf]);
@@ -36,7 +36,6 @@ class GerenciarBaseSalarial extends Controller
                 ->where('dt_fim', '=', null)
                 ->first();
 
-            dd($salarioatual);
             return view('basesalarial.gerenciar-base-salarial', compact('base_salarial', 'salarioatual'));
 
         }
