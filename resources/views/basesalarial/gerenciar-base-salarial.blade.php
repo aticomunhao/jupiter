@@ -37,25 +37,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($base_salarial as $base_salariais)
+                            @forelse ($hist_base_salarial as $hist_base_salarials)
                                 <tr>
-                                    <td class="text-center">{{ $base_salariais->crnome }}</td>
-                                    <td class="text-center">{{ formatSalary($base_salariais->crsalario) }}</td>
+                                    <td class="text-center">{{ $hist_base_salarials->crnome }}</td>
+                                    <td class="text-center">{{ formatSalary($hist_base_salarials->crsalario) }}</td>
                                     @if ($salarioatual->fgid != null)
-                                        @if ($base_salariais->fgsalario !== null)
-                                            <td class="text-center">{{ $base_salariais->fgnome }}</td>
+                                        @if ($hist_base_salarials->hist_bs_fg_salario !== null)
+                                            <td class="text-center">{{ $hist_base_salarials->fgnome }}</td>
                                             <td class="text-center">
-                                                {{ formatSalary($base_salariais->fgsalario - $base_salariais->crsalario) }}
+                                                {{ formatSalary($hist_base_salarials->hist_bs_fg_salario - $hist_base_salarials->hist_bs_cr_salario) }}
                                             </td>
                                         @else
                                             <td class="text-center">--</td>
                                             <td class="text-center">--</td>
                                         @endif
                                     @endif
-                                    <td class="text-center">{{ $base_salariais->anuenio }} %</td>
-                                    <td class="text-center">{{ $base_salariais->bsdti }}</td>
-                                    <td class="text-center">{{ $base_salariais->bsdtf ?? '--' }}</td>
-                                    <td>{{ isset($base_salariais->fgsalario) ? formatSalary($base_salariais->fgsalario) : formatSalary($base_salariais->crsalario + ($base_salariais->anuenio / 100) * $base_salariais->crsalario) }}
+                                    <td class="text-center">{{ calculaAnuenio($hist_base_salarials, $funcionario) }} %</td>
+                                    <td class="text-center">
+
+                                        {{ \Carbon\Carbon::parse($hist_base_salarials->hist_bs_dtinicio)->format('d/m/Y') }}
+                                    </td>
+                                    <td class="text-center">
+
+                                        {{ optional($hist_base_salarials->hist_bs_dtfim)->format('d/m/Y') ?? '----' }}
+                                    </td>
+
+
+                                    <td>
+                                        {{ isset($hist_base_salarials->hist_bs_fg_salario)
+                                            ? formatSalary($hist_base_salarials->hist_bs_fg_salario)
+                                            : formatSalary(
+                                                $hist_base_salarials->crsalario +
+                                                    (calculaAnuenio($hist_base_salarials, $funcionario) / 100) * $hist_base_salarials->crsalario,
+                                            ) }}
                                     </td>
                                 </tr>
                             @empty
@@ -68,7 +82,7 @@
                 </div>
                 <div class="row d-flex justify-content-around">
                     <div class="col-4">
-                        <a href={{ route('gerenciar') }}>
+                        <a href="{{ route('gerenciar') }}">
                             <button class="btn btn-primary" style="width: 100%">Retornar </button>
                         </a>
                     </div>
@@ -77,10 +91,25 @@
         </div>
     </div>
 
-    @php
-        function formatSalary($salary)
-        {
-            return number_format($salary, 2, ',', '.');
-        }
-    @endphp
 @endsection
+
+@php
+    function formatSalary($salary)
+    {
+        return number_format($salary, 2, ',', '.');
+    }
+
+    function calculaAnuenio($hist_base_salarial, $funcionario)
+    {
+        if ($hist_base_salarial->hist_bs_dtfim == null) {
+            $dataDeHoje = \Carbon\Carbon::now();
+            $dataDeContratacao = \Carbon\Carbon::parse($funcionario->dt_inicio);
+            $calculoFinal = intval($dataDeHoje->diffInDays($dataDeContratacao) / 365);
+            return $calculoFinal >= 10 ? 10 : $calculoFinal;
+        } else {
+            $dataFim = \Carbon\Carbon::parse($hist_base_salarial->hist_bs_dtfim);
+            $dataDeContratacao = \Carbon\Carbon::parse($funcionario->dt_inicio);
+            return intval($funcionario->dt_inicio->diffInDays($dataDeContratacao) / 365);
+        }
+    }
+@endphp

@@ -16,43 +16,42 @@ class GerenciarBaseSalarialController extends Controller
     {
 
 
-        $base_salarial = DB::table('base_salarial as bs')
-            ->join('cargos as cr', 'bs.cargo', '=', 'cr.id')
-            ->leftJoin('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
-            ->join('funcionarios as f', 'f.id', '=', 'bs.id_funcionario')
-            ->where('bs.id_funcionario', $idf)
+        $hist_base_salarial = DB::table('hist_base_salarial as hist_bs')
+            ->join('cargos as cr', 'hist_bs.id_cargo_regular', '=', 'cr.id')
+            ->leftJoin('cargos as fg', 'hist_bs.id_funcao_gratificada', '=', 'fg.id')
+            ->join('funcionarios as f', 'f.id', '=', 'hist_bs.id_funcionario')
+            ->where('hist_bs.id_funcionario', $idf)
             ->select(
-                'bs.id as bsid',
-                'bs.anuenio as bsanuenio',
-                'bs.dt_inicio as bsdti',
-                'bs.dt_fim as bsdtf',
-                'bs.id_funcionario as bsidf',
-                'cr.id as crid',
+                'hist_bs.id as hist_bs_id',
+                'hist_bs.data_inicio as hist_bs_dtinicio',
+                'hist_bs.data_fim as hist_bs_dtfim',
+                'hist_bs.id_funcionario as hist_bs_bsidf',
+                'hist_bs.id_funcao_gratificada as hist_bs_idfg',
+                'hist_bs.salario_funcao_gratificada as hist_bs_fg_salario',
+                'hist_bs.id_cargo_regular as hist_bs_idfg',
+                'hist_bs.salario_cargo as hist_bs_cr_salario',
                 'cr.nome as crnome',
                 'cr.salario as crsalario',
-                'fg.id as fgid',
                 'fg.nome as fgnome',
-                'fg.salario as fgsalario',
                 'f.id as fid',
                 'f.dt_inicio as fdti'
             )
             ->get();
 
 
-        if ($base_salarial->isEmpty()) {
+
+        if ($hist_base_salarial->isEmpty()) {
             return redirect()->route('retornaFormulario', ['idf' => $idf]);
         } else {
             $salarioatual = DB::table('base_salarial as bs')
-                ->join('cargos as cr', 'bs.cargo', '=', 'cr.id')
+                ->leftJoin('cargos as cr', 'bs.cargo', '=', 'cr.id')
                 ->leftJoin('cargos as fg', 'bs.funcao_gratificada', '=', 'fg.id')
-                ->join('funcionarios as f', 'f.id', '=', 'bs.id_funcionario')
+                ->leftJoin('funcionarios as f', 'f.id', '=', 'bs.id_funcionario')
                 ->where('bs.id_funcionario', $idf)
-                ->where('dt_fim', '=', null)
                 ->select(
                     'bs.id as bsid',
                     'bs.anuenio as bsanuenio',
                     'bs.dt_inicio as bsdti',
-                    'bs.dt_fim as bsdtf',
                     'bs.id_funcionario as bsidf',
                     'cr.id as crid',
                     'cr.nome as crnome',
@@ -65,11 +64,13 @@ class GerenciarBaseSalarialController extends Controller
                     'f.dt_inicio as fdti'
                 )->first();
 
-            $funcionario = DB::table('pessoas')
-                ->where('id', $salarioatual->fidp)
+            $funcionario = DB::table('pessoas as p')
+                ->where('p.id', $salarioatual->fidp)
+                ->join('funcionarios as f', 'f.id_pessoa', '=', 'p.id')
                 ->first();
 
-            foreach ($base_salarial as $basesalarials) {
+
+            foreach ($hist_base_salarial as $basesalarials) {
                 $dataDeHoje = Carbon::now();
                 $dataDaContratacao = Carbon::parse($basesalarials->fdti);
                 $basesalarials->anuenio = intval(($dataDeHoje->diffInDays($dataDaContratacao)) / 365);
@@ -77,7 +78,7 @@ class GerenciarBaseSalarialController extends Controller
             }
 
 
-            return view('basesalarial.gerenciar-base-salarial', compact('base_salarial', 'salarioatual', 'funcionario'));
+            return view('basesalarial.gerenciar-base-salarial', compact('hist_base_salarial', 'salarioatual', 'funcionario', 'idf'));
 
         }
     }
@@ -119,6 +120,10 @@ class GerenciarBaseSalarialController extends Controller
         $dataDeHoje = Carbon::today()->toDateString();
         $input = $request->all();
 
+
+        $cargo = DB::table('cargos')->where('id', $input['cargo'])->first();
+
+
         if ($request->input('funcaog') == null) {
             DB::table('base_salarial')->insert([
                 'cargo' => $input['cargo'],
@@ -126,7 +131,20 @@ class GerenciarBaseSalarialController extends Controller
                 'dt_inicio' => $dataDeHoje,
                 'id_funcionario' => $idf
             ]);
+
+            DB::table('hist_base_salarial')
+                ->insert([
+                    'id_cargo_regular' => $input['cargo'],
+                    'salario_cargo' => $cargo->salario,
+                    'data_inicio' => $dataDeHoje,
+                    'motivo' => 'Inicio Base Salarial',
+                    'id_funcionario' => $idf,
+                ]);
+
+
         } else {
+            $funcaoGratificada = DB::table('cargos')->where('id', $input['funcaog'])->first();
+
             DB::table('base_salarial')->insert([
                 'cargo' => $input['cargo'],
                 'funcao_gratificada' => $input['funcaog'],
@@ -134,11 +152,30 @@ class GerenciarBaseSalarialController extends Controller
                 'id_funcionario' => $idf
 
             ]);
+            DB::table('hist_base_salarial')->insert([
+                'id_cargo_regular' => $input['cargo'],
+                'salario_cargo' => $cargo->salario,
+                'id_funcao_gratificada' => $funcaoGratificada->id,
+                'salario_funcao_gratificada' => $funcaoGratificada->salario,
+                'data_inicio' => $dataDeHoje,
+                'motivo' => 'Inicio Base Salarial',
+                'id_funcionario' => $idf,
+
+
+            ]);
 
 
         }
         return redirect()->route('GerenciarBaseSalarialController', ['idf' => $idf]);
 
+
+    }
+
+    public function retornaFormulario(string $idf)
+    {
+        $tp_cargo = DB::table('tp_cargo')->get();
+
+        return view('basesalarial.tipo-cargo', compact('tp_cargo', 'idf'));
 
     }
 
@@ -153,9 +190,10 @@ class GerenciarBaseSalarialController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $idf)
+
     {
-       echo 'Deu certo!';
+
     }
 
     /**
@@ -174,11 +212,5 @@ class GerenciarBaseSalarialController extends Controller
         //
     }
 
-    public function retornaFormulario(string $idf)
-    {
-        $tp_cargo = DB::table('tp_cargo')->get();
 
-        return view('basesalarial.tipo-cargo', compact('tp_cargo', 'idf'));
-
-    }
 }

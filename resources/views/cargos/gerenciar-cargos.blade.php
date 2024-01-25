@@ -30,11 +30,11 @@
                 </form>{{-- Final Formulario de pesquisa --}}
                 <br />
                 <hr>
-                <table{{-- Inicio da tabela de informacoes --}}
+                <table {{-- Inicio da tabela de informacoes --}}
                     class
                 = "table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                     <thead style="text-align: center; ">{{-- inicio header tabela --}}
-                        <tr> style="background-color: #d6e3ff; font-size:19px; color:#000;" class="align-middle">
+                        <tr style="background-color: #d6e3ff; font-size:19px; color:#000;" class="align-middle">
                             <th>Nome</th>
                             <th>Tipo de Cargo</th>
                             <th>Salário</th>
@@ -109,7 +109,7 @@
                         @endforeach
                     </tbody>
                     {{-- Fim body da tabela --}}
-                    </table>
+                </table>
             </div>
         </div>
     </div>
