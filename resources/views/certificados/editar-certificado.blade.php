@@ -1,34 +1,28 @@
 @extends('layouts.app')
+@section('head')
+    <title>Editar Certificado</title>
+@endsection
 @section('content')
-    <div class="container">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <br />
+    <div class="container"> {{-- Container completo da página  --}}
+        <div class="card" style="border-color: #5C7CB6;">
+            <div class="card-header">
+                Editar Certificado
+            </div>
+            <div class="card-body">
+                <div class="row"> {{-- Linha com o nome e botão novo --}}
+                    <div class="col-md-6 col-12">
+                        <fieldset {{-- Gera a barra ao redor do nome do funcionario --}}
+                            style="border: 1px solid #c0c0c0; border-radius: 3px;padding-bottom: 7px; padding-top: 7px; padding-left: 10px; background-color: #ebebeb;">
+                            {{ $funcionario[0]->nome_completo }}</fieldset>
+                    </div>
+                </div>
+                <hr />
+                <form action="/atualizar-certificado/{{ $certificado->id }}">
 
-        <div class="container">
-            <div class="justify-content-center">
-                <div class="col-12">
-                    <br>
-                    <fieldset class="border rounded border-primary ">
-                        <div class="card">
-                            <div class="card-header">
-                                <DIV class="ROW">
-                                    <div class="col-12">
-                                        <span style="color: rgb(16, 19, 241); font-size:15px;">Editar Certificado</span>
-                                    </div>
-                                </DIV>
-                            </div>
-                            <div class="card-body">
-                                <form method="post" action="/atualizar-certificado/{{ $certificado->id }}">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-5">
-                                            <div class="card" style="padding: 0px">
-                                                <div class="card-body bg-body-secondary" value="">
-                                                    <span
-                                                        style="color: rgb(16, 19, 241)">{{ $funcionario[0]->nome_completo }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <hr>
+                    @csrf
+                                    
                                     <div class="form-group row">
                                         <div class="col-2">Grau Acadêmico
                                             <select class="form-select" id="4" name="grau_academico"
@@ -100,10 +94,65 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
-                        </div>
-                </div>
+                </fieldset>
             </div>
         </div>
     </div>
+    <!--JQUERY-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <!--
+                            <script>
+                                $(document).ready(function() {
+                                            $('#idbanco').change(function() {
+                                                    var banco = $(this).val();
+
+                                                    $.ajax({
+                                                            url: '/recebe-agencias/' + banco,
+                                                            type: 'get',
+                                                            success: function(data) {
+                                                                $('#idagencia').removeAttr('disabled');
+                                                                $('#idagencia').empty();;
+                                                                $.each(data, function(index, agencia) {
+                                                                    $('#idsetor').append('<option value="' + item.id + '">' +
+                                                                        item.nome + '</option>');
+                                                                });
+                                                                {
+
+
+                                                                },
+                                                                error: function(xhr, status, error) {
+                                                                    alert('Error occurred while fetching agencies');
+                                                                }
+                                                            });
+                                                    });
+                                            });
+                            </script>
+                        -->
+
+    <script>
+        $(document).ready(function() {
+            $('#idbanco').change(function(e) {
+                var idbanco = $(this).val();
+                e.preventDefault();
+                $('#idagencia').removeAttr('disabled');
+
+                $.ajax({
+                    type: "GET",
+                    url: "/recebe-agencias/" + idbanco,
+                    dataType: "json",
+                    success: function(response) {
+                        $('#idagencia').empty();
+                        $.each(response, function(index, item) {
+                            $('#idagencia').append("<option value =" + item.id + "> " +
+                                item.agencia + " - " + item.desc_agen + "</option>");
+
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
 @endsection
