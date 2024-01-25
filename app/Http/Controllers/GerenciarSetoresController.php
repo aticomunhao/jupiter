@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
 use App\Models;
 use iluminate\Support\Facades\Route;
@@ -178,39 +179,18 @@ class GerenciarSetoresController extends Controller
         $ids = session('ids');
         $up = $request->input('setor_substituto');
 
-        $resultado = [
-            $ids,
-            $up,
-        ];
-       
 
-        //dd($resultado);
+         //dd($ids);
 
-        $lista = DB::table('tp_nivel_setor AS tns')
-        ->whereIn('tns.id', ['3'])->whereNot('s.setor_pai',$ids)
-        ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
-        ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
-        ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
-        ->select(
-            DB::raw('CASE WHEN s.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
-            's.id AS ids',
-            's.nome',
-            's.sigla',
-            's.dt_inicio',
-            's.dt_fim',
-            's.setor_pai',
-            's.substituto'
-        )->update([
-                's.substituto'=> $up,
-                's.setor_pai' => $up
+        
+        $setoresFilhos = DB::table('setor')->where('setor_pai', $ids)->update([
+            'setor_pai' => $up,
+            'substituto'=> $up,
+        ])->get();
+        
+  
 
-            ]);
-            
-
-       
-       
-
-        app('flasher')->addSuccess('Setor foi substituido com Sucesso.');
+        app('flasher')->addSuccess('Setor foi substituído com sucesso.');
         return redirect()->action([GerenciarSetoresController::class, 'index']);
     }
 
