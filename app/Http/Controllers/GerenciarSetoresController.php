@@ -173,21 +173,39 @@ class GerenciarSetoresController extends Controller
         return view('/setores/substituir-setor', compact('setor'));
     }
 
-    public function subst(Request $request, $ids)
+    public function subst(Request $request, String $ids)
     {
 
         $ids = session('ids');
         $up = $request->input('setor_substituto');
 
 
-         //dd($ids);
+       
 
         
-        $setoresFilhos = DB::table('setor')->where('setor_pai', $ids)->update([
-            'setor_pai' => $up,
-            'substituto'=> $up,
-        ])->get();
+
         
+         $alterar_setor_pai = DB::table('setor')
+         ->where('setor_pai', $ids)
+         ->update([
+            'setor_pai' => $up,
+         ]);
+     
+
+         $alterar_setor_substituto = DB::table('setor')
+         ->where('id', $ids)
+         ->update([
+            'substituto' => $up,
+         ]);
+
+   $dataFim = DB::table('setor')->where('id', $up)->get();
+ 
+   DB::table('setor')->where('id', $ids)->update(['dt_fim' => $dataFim[0]->dt_inicio]);
+
+
+
+     
+         
   
 
         app('flasher')->addSuccess('Setor foi substituído com sucesso.');

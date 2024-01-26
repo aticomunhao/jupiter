@@ -73,7 +73,7 @@
                                 <center>{{ $listas->dt_inicio }}</center>
                             </td>
                             <td scope="">
-                                <center></center>
+                                <center>{{ $listas->status }}</center>
                             </td>
                             <td scope="">
                                 <center>{{ $listas->nome_substituto }}</center>
