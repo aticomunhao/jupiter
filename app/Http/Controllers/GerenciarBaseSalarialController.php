@@ -227,6 +227,7 @@ class GerenciarBaseSalarialController extends Controller
                 'funcionarios.id as id_funcionario'
             ])
             ->first();
+        dd($funcionario);
 
         return view('basesalarial.editar-base-salarial',  compact('base_salarial', 'cargos_regulares', 'funcao_gratificada', 'cargos_confianca', 'jovem_aprendiz','funcionario'));
     }
