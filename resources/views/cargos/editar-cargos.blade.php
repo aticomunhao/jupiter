@@ -39,7 +39,9 @@
                     </div>
                     <div class="row col-10 offset-1 mt-3 mt-md-0 mt-md-3 mt-lg-0" style="margin-top:none">
                         <div>Motivo</div>
-                        <div class="col-12 "><textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="motivo" required = "required"></textarea></div>
+                        <div class="col-12 ">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="motivo" required = "required"></textarea>
+                        </div>
                     </div>
                     <center>
                         <div class="col-12" style="margin-top: 70px;">{{-- Botao de cancelar com rota para index --}}

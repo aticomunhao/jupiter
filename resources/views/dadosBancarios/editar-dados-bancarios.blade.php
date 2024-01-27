@@ -91,41 +91,19 @@
     </div>
     <!--JQUERY-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!--
-                            <script>
-                                $(document).ready(function() {
-                                            $('#idbanco').change(function() {
-                                                    var banco = $(this).val();
 
-                                                    $.ajax({
-                                                            url: '/recebe-agencias/' + banco,
-                                                            type: 'get',
-                                                            success: function(data) {
-                                                                $('#idagencia').removeAttr('disabled');
-                                                                $('#idagencia').empty();;
-                                                                $.each(data, function(index, agencia) {
-                                                                    $('#idsetor').append('<option value="' + item.id + '">' +
-                                                                        item.nome + '</option>');
-                                                                });
-                                                                {
-
-
-                                                                },
-                                                                error: function(xhr, status, error) {
-                                                                    alert('Error occurred while fetching agencies');
-                                                                }
-                                                            });
-                                                    });
-                                            });
-                            </script>
-                        -->
 
     <script>
         $(document).ready(function() {
+            $('#idagencia').select2({
+                theme: 'bootstrap-5',
+                disabled: true, // Initialize the select2 with disabled state
+            });
             $('#idbanco').change(function(e) {
                 var idbanco = $(this).val();
                 e.preventDefault();
                 $('#idagencia').removeAttr('disabled');
+
 
                 $.ajax({
                     type: "GET",

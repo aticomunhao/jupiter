@@ -48,11 +48,20 @@ class GerenciarDadosBancariosController extends Controller
             ->where('funcionarios.id', "$idf")
             ->first();
 
-        $desc_bancos = DB::select('select * from desc_ban order by id_db');
-        $tp_banco_ags = DB::select("SELECT * FROM public.tp_banco_ag order by agencia");
-        $tp_contas = DB::select('select * from tp_conta');
-        $tp_sub_tp_contas = DB::select('select * from tp_sub_tp_conta');
+        //$desc_bancos = DB::select('select * from desc_ban order by id_db');
+        $desc_bancos = DB::table('desc_ban')
+            ->orderBy('id_db')
+            ->get();
+        //$tp_banco_ags = DB::select("SELECT * FROM public.tp_banco_ag order by agencia");
+        $tp_banco_ags = DB::table('tp_banco_ag')
+            ->orderBy('agencia')
+            ->get();
+        //$tp_contas = DB::select('select * from tp_conta');
+        $tp_contas = DB::table('tp_conta')
+            ->get();
 
+        $tp_sub_tp_contas = DB::table('tp_sub_tp_conta')
+            ->get();
 
         return view('dadosBancarios.incluir-dados-bancarios', compact('funcionario', 'tp_banco_ags', 'desc_bancos', 'tp_contas', 'tp_sub_tp_contas'));
     }
@@ -182,7 +191,7 @@ class GerenciarDadosBancariosController extends Controller
 
     public function agencias($id)
     {
-        $agenciasdoselect =DB::table('tp_banco_ag')
+        $agenciasdoselect = DB::table('tp_banco_ag')
             ->where('banco', $id)
             ->orderBy('agencia')
             ->get();

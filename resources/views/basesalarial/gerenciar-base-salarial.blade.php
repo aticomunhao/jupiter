@@ -26,11 +26,11 @@
                             <tr style="background-color: #d6e3ff; font-size:19px; color:#000;">
                                 <th class="text-center">Nome Cargo</th>
                                 <th class="text-center">Salário</th>
+                                <th class="text-center">Anuênio</th>
                                 @if ($salarioatual->fgid != null)
                                     <th>Função Gratificada</th>
                                     <th>Gratificação</th>
                                 @endif
-                                <th class="text-center">Anuênio</th>
                                 <th class="text-center">Data Inicial</th>
                                 <th class="text-center">Data Final</th>
                                 <th class="text-center">Salário Final</th>
@@ -41,28 +41,24 @@
                                 <tr>
                                     <td class="text-center">{{ $hist_base_salarials->crnome }}</td>
                                     <td class="text-center">{{ formatSalary($hist_base_salarials->crsalario) }}</td>
+                                    <td class="text-center">{{ calculaAnuenio($hist_base_salarials, $funcionario) }} %</td>
                                     @if ($salarioatual->fgid != null)
                                         @if ($hist_base_salarials->hist_bs_fg_salario !== null)
                                             <td class="text-center">{{ $hist_base_salarials->fgnome }}</td>
                                             <td class="text-center">
-                                                {{ formatSalary($hist_base_salarials->hist_bs_fg_salario - $hist_base_salarials->hist_bs_cr_salario) }}
+                                                {{ formatSalary($hist_base_salarials->hist_bs_fg_salario - ($hist_base_salarials->hist_bs_cr_salario + ($hist_base_salarials->hist_bs_cr_salario * calculaAnuenio($hist_base_salarials, $funcionario))/100)) }}
                                             </td>
                                         @else
                                             <td class="text-center">--</td>
                                             <td class="text-center">--</td>
                                         @endif
                                     @endif
-                                    <td class="text-center">{{ calculaAnuenio($hist_base_salarials, $funcionario) }} %</td>
                                     <td class="text-center">
-
                                         {{ \Carbon\Carbon::parse($hist_base_salarials->hist_bs_dtinicio)->format('d/m/Y') }}
                                     </td>
                                     <td class="text-center">
-
                                         {{ optional($hist_base_salarials->hist_bs_dtfim)->format('d/m/Y') ?? '----' }}
                                     </td>
-
-
                                     <td>
                                         {{ isset($hist_base_salarials->hist_bs_fg_salario)
                                             ? formatSalary($hist_base_salarials->hist_bs_fg_salario)
@@ -90,7 +86,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @php

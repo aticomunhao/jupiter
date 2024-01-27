@@ -66,7 +66,7 @@
                                                 id="uf1">
                                                 <option value=""></option>
                                                 @foreach ($tp_uf as $tp_ufs)
-                                                
+
                                                     <option @if (old('uf_nat') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
                                                     </option>
@@ -161,7 +161,7 @@
                                                 <@foreach ($fator as $fators)
                                                 <option @if (old('frh') == $fators->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $fators->id }}">{{ $fators->nome_fator }}
-                                                    </option>                                            
+                                                    </option>
                                                     @endforeach
                                             </select>
                                         </div>
@@ -220,9 +220,9 @@
                                                 <option @if (old('uf_ctps') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
                                                     </option>
-                                                @endforeach    
-                                             
-                                                    
+                                                @endforeach
+
+
                                             </select>
                                         </div>
                                         <div class="col-md-3 col-sm-12">Data emissão
@@ -254,7 +254,7 @@
                                                 @foreach ($cnh as $cnhs)
                                                 <option @if (old('cnh') ==  $cnhs->id) {{ 'selected="selected"' }} @endif
                                                         value="{{  $cnhs->id }}">{{ $cnhs->nome_cat }}
-                                                    </option>                                            
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -287,7 +287,7 @@
                                             @foreach ($tp_uf as $tp_ufs)
                                             <option @if (old('uf_end') ==  $tp_ufs->id) {{ 'selected="selected"' }} @endif
                                             value="{{  $tp_ufs->id }}">{{ $tp_ufs->sigla }}
-                                            </option>                                                
+                                            </option>
                                             @endforeach
                                         </select>
                                     </div>

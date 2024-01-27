@@ -102,59 +102,37 @@
 
     <!--JQUERY-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <!--
-                    <script>
-                        $(document).ready(function() {
-                                    $('#idbanco').change(function() {
-                                            var banco = $(this).val();
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-                                            $.ajax({
-                                                    url: '/recebe-agencias/' + banco,
-                                                    type: 'get',
-                                                    success: function(data) {
-                                                        $('#idagencia').removeAttr('disabled');
-                                                        $('#idagencia').empty();;
-                                                        $.each(data, function(index, agencia) {
-                                                            $('#idsetor').append('<option value="' + item.id + '">' +
-                                                                item.nome + '</option>');
-                                                        });
-                                                        {
-
-
-                                                        },
-                                                        error: function(xhr, status, error) {
-                                                            alert('Error occurred while fetching agencies');
-                                                        }
-                                                    });
-                                            });
-                                    });
-                    </script>
-                -->
 
     <script>
-        $(document).ready(function() {
-            $('#idbanco').change(function(e) {
-                var idbanco = $(this).val();
-                e.preventDefault();
-                $('#idagencia').removeAttr('disabled');
+      $(document).ready(function() {
+    $('#idagencia').select2({
+        theme: 'bootstrap-5',
+        disabled: true, // Initialize the select2 with disabled state
+    });
 
-                $.ajax({
-                    type: "GET",
-                    url: "/recebe-agencias/" + idbanco,
-                    dataType: "json",
-                    success: function(response) {
-                        $('#idagencia').empty();
-                        $.each(response, function(index, item) {
-                            $('#idagencia').append("<option value =" + item.id + "> " +
-                                item.agencia + " - " + item.desc_agen + "</option>");
+    $('#idbanco').change(function(e) {
+        var idbanco = $(this).val();
+        e.preventDefault();
+        $('#idagencia').prop('disabled', false); // Enable the #idagencia dropdown
 
-                        });
-                    },
-                    error: function(xhr) {
-                        console.log(xhr.responseText);
-                    }
+        $.ajax({
+            type: "GET",
+            url: "/recebe-agencias/" + idbanco,
+            dataType: "json",
+            success: function(response) {
+                $('#idagencia').empty();
+                $.each(response, function(index, item) {
+                    $('#idagencia').append("<option value =" + item.id + "> " +
+                        item.agencia + " - " + item.desc_agen + "</option>");
                 });
-            });
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+            }
         });
+    });
+});
     </script>
 @endsection

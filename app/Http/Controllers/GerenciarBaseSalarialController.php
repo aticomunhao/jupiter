@@ -192,7 +192,7 @@ class GerenciarBaseSalarialController extends Controller
                 'bs.id_funcionario as base_salarial_id_funcionario',
                 'cr.id as cargo_regular_id',
                 'cr.nome as cargo_regular_nome',
-                'cr.salario as cargo_regular_salario',
+                'cr.salario as salario_cargo_regular',
                 'fg.id as funcao_gratificada_id',
                 'fg.nome as funcao_gratificada_nome',
                 'fg.salario as funcao_gratificada_salario',
@@ -200,6 +200,7 @@ class GerenciarBaseSalarialController extends Controller
                 'f.id_pessoa  as funcionario_id_pessoa',
                 'f.dt_inicio as funcionario_dt_inicio'
             )->first();
+
 
         $cargos_regulares = DB::table('cargos')
             ->where('tp_cargo', '=', 1)
@@ -218,6 +219,7 @@ class GerenciarBaseSalarialController extends Controller
             ->where('tp_cargo', '=', 4)
             ->where('status', '=', true)
             ->get();
+        dd($cargos_regulares);
 
         $funcionario = DB::table('funcionarios')->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
             ->where('funcionarios.id', '=', $base_salarial->base_salarial_id_funcionario)
@@ -227,9 +229,9 @@ class GerenciarBaseSalarialController extends Controller
                 'funcionarios.id as id_funcionario'
             ])
             ->first();
-        dd($funcionario);
+        $tp_cargo = DB::table('tp_cargo')->get();
 
-        return view('basesalarial.editar-base-salarial',  compact('base_salarial', 'cargos_regulares', 'funcao_gratificada', 'cargos_confianca', 'jovem_aprendiz','funcionario'));
+        return view('basesalarial.editar-base-salarial',  compact('base_salarial', 'cargos_regulares', 'funcao_gratificada', 'cargos_confianca', 'jovem_aprendiz','funcionario','tp_cargo'));
     }
 
     /**
