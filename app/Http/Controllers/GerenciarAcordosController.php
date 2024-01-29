@@ -82,41 +82,40 @@ class GerenciarAcordosController extends Controller
             ->where('funcionarios.id', $idf)
             ->first();
 
-
         if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null) {
-            $caminho = $request->file('ficheiro')->store('public/images');
+            $caminho = $request->file('ficheiro')->storeAs('public/images', $request->file('ficheiro')->getClientOriginalName());
+            $caminhoNoStorage = 'storage/images/' . $request->file('ficheiro')->getClientOriginalName();
             app('flasher')->addError('A data inicial é maior que a data final');
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
 
         } elseif ($request->input('dt_fim') == null) {
-            $caminho = $request->file('ficheiro')->store('public/images');
+            $caminho = $request->file('ficheiro')->storeAs('public/images', $request->file('ficheiro')->getClientOriginalName());
+            $caminhoNoStorage = 'storage/images/' . $request->file('ficheiro')->getClientOriginalName();
             DB::table('acordos')->insert([
                 'id_tp_acordo' => $request->input('tipo_acordo'),
                 'data_inicio' => $request->input('dt_inicio'),
                 'id_funcionario' => $idf,
                 'observacao' => $request->input('observacao'),
-                'caminho' => $caminho
+                'caminho' => $caminhoNoStorage
             ]);
             app('flasher')->addSuccess('O cadastro do Acordo foi realizado com sucesso.');
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
 
         } else {
-            $caminho = $request->file('ficheiro')->store('public/images');
+            $caminho = $request->file('ficheiro')->storeAs('public/images', $request->file('ficheiro')->getClientOriginalName());
+            $caminhoNoStorage = 'storage/images/' . $request->file('ficheiro')->getClientOriginalName();
             DB::table('acordos')->insert([
                 'id_tp_acordo' => $request->input('tipo_acordo'),
                 'data_inicio' => $request->input('dt_inicio'),
                 'data_fim' => $request->input('dt_fim'),
                 'id_funcionario' => $idf,
                 'observacao' => $request->input('observacao'),
-                'caminho' => $caminho
+                'caminho' => $caminhoNoStorage
             ]);
             app('flasher')->addSuccess('O cadastro do Acordo foi realizado com sucesso.');
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
         }
-
-
     }
-
     /**
      * Display the specified resource.
      */

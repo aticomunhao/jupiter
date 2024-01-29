@@ -91,7 +91,7 @@
 @php
     function formatSalary($salary)
     {
-        return number_format($salary, 2, ',', '.');
+        return 'R$' . number_format($salary, 2, ',', '.');
     }
 
     function calculaAnuenio($hist_base_salarial, $funcionario)

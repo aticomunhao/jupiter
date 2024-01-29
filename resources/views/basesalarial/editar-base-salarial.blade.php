@@ -57,30 +57,23 @@
                 @endif
                 <hr>
 
-                    <h5>Selecione o novo Tipo de Cargo</h5>
-                    <label for="opcoesDeTipoDeCargo">Escolha uma opção:</label>
-                    <select class="form-control" id="opcoesDeTipoDeCargo">
-                    @foreach ( $tp_cargo as $tp_cargos )
-                    <option value="{{ $tp_cargos->idTpCargo }}">{{ $tp_cargos->nomeTpCargo }} </option>
+                <h5>Selecione o novo Tipo de Cargo</h5>
+                <label for="opcoesDeTipoDeCargo">Escolha uma opção:</label>
+                <select class="form-control" id="opcoesDeTipoDeCargo">
+                    @foreach ($tp_cargo as $tp_cargos)
+                        <option value="{{ $tp_cargos->idTpCargo }}">{{ $tp_cargos->nomeTpCargo }} </option>
                     @endforeach
 
-                    <div class="input-block" id="1">
-                        <div class="form-group">
-                            <select name="cargoregular" id="idcargoregular">
-                                @foreach ( $cargos_regulares as  $cargos_regulars)
-                                <option value="{{ $cargos_regulars->id }}">{{ $cargos_regulars->nome }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                    </div>
-
+                  
             </div>
+
         </div>
+    </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function () {
-            alert('Ola Mundo!')
+        $(document).ready(function() {
+
         });
     </script>
 @endsection
@@ -89,7 +82,5 @@
     {
         return 'R$ ' . number_format($salary, 2, ',', '.');
     }
-
-
 
 @endphp

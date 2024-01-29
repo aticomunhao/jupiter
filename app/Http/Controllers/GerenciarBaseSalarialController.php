@@ -219,7 +219,7 @@ class GerenciarBaseSalarialController extends Controller
             ->where('tp_cargo', '=', 4)
             ->where('status', '=', true)
             ->get();
-        dd($cargos_regulares);
+     
 
         $funcionario = DB::table('funcionarios')->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
             ->where('funcionarios.id', '=', $base_salarial->base_salarial_id_funcionario)

@@ -64,10 +64,15 @@
                                                 <td scope="">
                                                     {{ \Carbon\Carbon::parse($acordo->data_fim)->format('d/m/Y') }}</td>
                                                 <td scope="">{{ $acordo->observacao }}</td>
-                                                <td scope = ""><a href="{{ asset("storage/$acordo->caminho") }}"><button
-                                                            type="button" class="btn btn-sm btn-outline-secondary"><i
-                                                                class="bi bi-archive"></i></button>
-                                                    </a></td>
+                                                <td scope="">
+                                                    <a href="{{ asset("$acordo->caminho") }}"
+                                                        class="btn btn-sm btn-outline-secondary">
+                                                        <i class="bi bi-archive"></i> 
+                                                    </a>
+                                                </td>
+
+
+
                                                 <td scope="">
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
