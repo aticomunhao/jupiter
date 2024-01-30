@@ -168,7 +168,8 @@ Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoD
 
 /**Gerenciar Ferias**/
 
-Route::get('/gerenciar-ferias',[App\Http\Controllers\GerenciarFeriasController::class,'index'])->name('IndexGerenciarFerias');
+Route::get('/gerenciar-ferias/',[App\Http\Controllers\GerenciarFeriasController::class,'index'])->name('IndexGerenciarFerias');
+Route::get('/incluir-ferias/',[App\Http\Controllers\GerenciarFeriasController::class, 'create'])->name('CriarFerias');
 
 
 
