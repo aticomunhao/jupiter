@@ -116,6 +116,7 @@ class GerenciarAcordosController extends Controller
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
         }
     }
+
     /**
      * Display the specified resource.
      */

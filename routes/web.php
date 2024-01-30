@@ -164,6 +164,10 @@ Route::any('/exluir-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesc
 Route::any('/renovar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'renew']);
 Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'modify']);
 
+/**Gerenciar Ferias**/
+
+Route::get('/gerenciar-ferias',[App\Http\Controllers\GerenciarFeriasController::class,'index'])->name('IndexGerenciarFerias');
+
 
 
 /**Rotas de Entrada**/
