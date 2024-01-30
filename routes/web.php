@@ -98,7 +98,6 @@ Route::get('/carregar-dados/{ids}', [App\Http\Controllers\GerenciarSetoresContro
 Route::post('/substituir-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'subst']);
 Route::get('/setor-pessoas', [App\Http\Controllers\GerenciarSetoresController::class, 'consult']);
 Route::post('/atualizar-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'update']);
-
 Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'delete']);
 
 /*Gerenciar-Hierarquia*/
@@ -108,6 +107,9 @@ Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarHierarqui
 Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'show'])->name('consultar-hierarquia');
 Route::any('/atualizar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'atualizarhierarquia']);
 
+/*Gerenciar-Associado*/
+
+Route::get('/gerenciar-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'index']);
 
 
 /*Rotas dos Dependentes */
