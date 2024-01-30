@@ -15,7 +15,7 @@
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar Funcionarios</a></li>
                             <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
-                            <li><a class="dropdown-item" href="teste-bla">Teste</a></li>
+                            <li><a class="dropdown-item" href="/gerenciar-associado">Gerenciar Associados</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -25,10 +25,9 @@
                            aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
 
-                            <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar Entidades de
-                                    Ensino</a>
-                            <li><a class="dropdown-item" href="/gerenciar-hierarquia">Gerenciar Hierarquia</a></li>
+                            <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar Entidades de Ensino</a>
                             <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a></li>
+                            <li><a class="dropdown-item" href="/gerenciar-hierarquia">Gerenciar Hierarquia</a></li>
                             <!--<li><a href="/gerenciar-cargos-regulares" class="dropdown-item">Gerenciar Cargos Regulares</a></li>
                        // <li><a href="/gerenciar-funcao-gratificada"class="dropdown-item">Gerenciar Funcao Gratificada</a></li> -->
                             <li><a href="/gerenciar-tipo-desconto" class="dropdown-item">Gerenciar Tipo de Desconto</a>
