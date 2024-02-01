@@ -4,13 +4,14 @@
             <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;" href="../">Júpiter</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="dropdown" data-bs-target="#navbarNavDarkDropdown"
                 aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="navbar-collapse" id="navbarNavDarkDropdown">
-                <ul class="navbar-nav">
+            <div class=" navbar-collapse" id="navbarNavDarkDropdown">
+                <ul class="navbar-nav" >
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Área de Pessoal</a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar Funcionarios</a></li>
                             <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
                             <li><a class="dropdown-item" href="/gerenciar-associado">Gerenciar Associados</a></li>
@@ -21,7 +22,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
 
                             <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar Entidades de Ensino</a>
                             <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a></li>
@@ -41,7 +42,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Direitos
                             Remuneratórios</a>
-                        <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a href="{{ route('IndexGerenciarFerias') }}" class="dropdown-item">Gerenciar Ferias</a>
                             </li>
                         </ul>
