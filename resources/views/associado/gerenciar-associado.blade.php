@@ -3,22 +3,26 @@
 @section('content')
 <div class="container-fluid">
     <div class="col-12">
-        <div class="row justify-content-center" class="form-horizontal mt-4" method="GET">
+          <form action="{{route('pesquisar')}}" class="form-horizontal mt-4" method="GET">
             <div class="row" style="padding-left:5%">
-                <div class="col-3">Nr Associado
-                    <input class="form-control" maxlength="50" type="text" id="2" name="nome" value="">
+                <div class="col-1">Nr Associado
+                    <input class="form-control" maxlength="50" type="text" id="2" name="nr_associado" value="{{$nr_associado}}">
                 </div>
-                <div class="col-1">Nome
-                    <input class="form-control" maxlength="30" type="text" id="3" name="sigla" value="">
+                <div class="col-3">Nome
+                    <input class="form-control" maxlength="30" type="text" id="3" name="nome_completo" value="{{$nome_completo}}">
                 </div>
                 <div class="col-1">Data de Início
-                    <input class="form-control" maxlength="30" type="date" id="3" name="dt_inicio" value="">
+                    <input class="form-control" maxlength="30" type="date" id="3" name="dt_inicio" value="{{$dt_inicio}}">
                 </div>
                 <div class="col-1">Data de Fim
-                    <input class="form-control" maxlength="30" type="date" id="3" name="dt_fim" value="">
+                    <input class="form-control" maxlength="30" type="date" id="3" name="dt_fim" value="{{$dt_fim}}">
                 </div>
-                <div class="col-1">Status
-                    <input class="form-control" maxlength="30" type="select" id="3" name="dt_fim" value="">
+                <div class="col-1">Status   
+                <select class="form-select" id="4" name="status" type="number">
+                                <option value="">Todos</option>
+                                <option value="1">Ativo</option>
+                                <option value="2">Inativo</option>
+                            </select>
                 </div>
                 <div class="col" style="padding-left:20%"><br>
                     <input class="btn btn-light btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Pesquisar">
@@ -62,10 +66,10 @@
                             <center>{{ $lista_associados->nome_completo }}</center>
                         </td>
                         <td scope="">
-                            <center>{{ $lista_associados->voluntario ? 'sim': 'nao' }}</center>
+                            <center></center>
                         </td>
                        <td scope="">
-                            <center>{{ $lista_associados->votante  ? 'sim': 'nao'}}</center>
+                            <center></center>
                         </td>
                         <td scope="">
                             <center>{{ $lista_associados->dt_inicio }}</center>
@@ -74,7 +78,7 @@
                             <center>{{ $lista_associados->dt_fim }}</center>
                         </td>
                         <td scope="">
-                            <center></center>
+                            <center>{{ $lista_associados->status}}</center>
                         </td>
 
                         <td scope="">

@@ -15,27 +15,68 @@ use Illuminate\Support\Collection;
 
 class GerenciarAssociadoController extends Controller
 {
-   public function index(Request $request){
+   public function index(Request $request)
+   {
 
 
-    $lista_associado = DB::table('associado AS ass')
-    ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
-    ->select('ass.nr_associado', 'ass.id', 'p.nome_completo', 'ass.isento', 'ass.voluntario', 'ass.votante', 'ass.dt_inicio', 'ass.dt_fim')
-    ->get();
+      $lista_associado = DB::table('associado AS ass')
+         ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
+         ->select(
+            DB::raw('CASE WHEN ass.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
+            'ass.nr_associado',
+            'ass.id',
+            'p.nome_completo',
+            'ass.dt_inicio',
+            'ass.dt_fim'
+         );
 
-    $id = $request->input('ass.id');
-    $nr_associado = $request->input('ass.nr_associado');
-    $nome = $request->input('p.nome_completo');
-    $isento = $request->input('ass.isento');
-    $voluntario = $request->input('ass.voluntario');
-    $votante = $request->input('ass.votante');
-    $dt_inicio = $request->input('ass.dt_inicio');
-    $dt_fim = $request->input('ass.dt_fim');
-
-    //dd($lista_associado);
+      $id = $request->id;
+      $nr_associado = $request->nr_associado;
+      $nome_completo = $request->nome_completo;
+      $voluntario = $request->voluntario;
+      $votante = $request->votante;
+      $dt_inicio = $request->dt_inicio;
+      $dt_fim = $request->dt_fim;
+      $status = $request->status;
 
 
 
-    return view('/associado/gerenciar-associado', compact('lista_associado', 'id', 'nr_associado', 'nome', 'isento', 'voluntario', 'votante', 'dt_inicio', 'dt_fim'));
+      //dd($lista_associado);
+      if ($request->nr_associado) {
+         $lista_associado->where('ass.nr_associado', $request->nr_associado);
+      }
+
+
+      if ($request->nome_completo) {
+         $lista_associado->where('p.nome_completo', 'LIKE', '%' . $request->nome_completo . '%');
+      }
+
+      if ($request->dt_inicio) {
+         $lista_associado->where('ass.dt_inicio', '=', $request->dt_inicio);
+      }
+
+
+      if ($request->dt_fim) {
+         $lista_associado->where('ass.dt_fim', '=', $request->dt_fim);
+      }
+
+   
+
+      if ($request->status == 1) {
+         $lista_associado->where('ass.dt_fim', null);
+      } elseif ($request->status == 2) {
+         $lista_associado->whereNotNull('ass.dt_fim');
+      }
+
+
+      $lista_associado = $lista_associado->orderBy('status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
+
+
+
+      return view('/associado/gerenciar-associado', compact('lista_associado', 'id', 'nr_associado', 'nome_completo', 'voluntario', 'votante', 'dt_inicio', 'dt_fim', 'status'));
    }
 }
+
+
+
+

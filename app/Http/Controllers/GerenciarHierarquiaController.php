@@ -37,7 +37,7 @@ class GerenciarHierarquiaController extends Controller
                 'st.sigla',
                 'st.dt_inicio',
                 'st.dt_fim',
-                'st.id_nivel',
+                'st.id_nivel', 
                 'st.nome AS nome_setor',
                 'setor_pai.nome AS st_pai',
                 'substituto.sigla AS nome_substituto'
