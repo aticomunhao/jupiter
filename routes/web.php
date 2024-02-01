@@ -167,6 +167,7 @@ Route::any('/atualizar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaCon
 
 Route::get('/pesquisar-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'index'])->name('pesquisar');
 Route::get('/gerenciar-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'index']);
+Route::get('/informar-dados-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'create']);
 
 
 

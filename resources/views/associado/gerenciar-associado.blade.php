@@ -2,7 +2,11 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="col-12">
+     <div class="card">
+        <div class="card-header">
+            Gerenciar Associado
+        </div>
+        <div class="card-body">
           <form action="{{route('pesquisar')}}" class="form-horizontal mt-4" method="GET">
             <div class="row" style="padding-left:5%">
                 <div class="col-1">Nr Associado
@@ -30,7 +34,7 @@
                     <a href="/gerenciar-associado"><button class="btn btn-light btn-sm" type="button" value="" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">Limpar</button></a>
                     </form>
 
-                    <a href="/incluir-associado"><input class="btn btn-success btn-sm" type="button" name="6" value="Novo Cadastro +" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>
+                    <a href="/informar-dados-associado"><input class="btn btn-success btn-sm" type="button" name="6" value="Novo Cadastro +" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>
 
                 </div>
             </div>
