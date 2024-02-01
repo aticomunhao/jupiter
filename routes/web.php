@@ -16,6 +16,7 @@ use App\Http\Controllers\GerenciarCargosController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+/*Gerenciar login*/
 
 Route::get('/', function () {
     return view('home');
@@ -28,6 +29,14 @@ Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'valid
 Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+
+
+
+
+
+/*Gerenciar funcionario*/
+
 Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
 Route::get('/informar-dados', [App\Http\Controllers\GerenciarFuncionarioController::class, 'create']);
 Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
@@ -35,6 +44,15 @@ Route::get('/editar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionar
 Route::get('/excluir-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
 Route::get('/pessoa-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
 Route::get('/retorna-cidade-dados-residenciais/{id}',[App\Http\Controllers\GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
+Route::post('/atualizar-funcionario/{idp}/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
+
+
+
+
+
+
+
+/*Gerenciar usuário*/
 
 Route::name('usuario')
     ->middleware('validaUsuario')
@@ -49,14 +67,20 @@ Route::name('usuario')
         Route::get('/usuario/gerar-Senha/{id}', 'UsuarioController@gerarSenha');
     });
 
-Route::post('/atualizar-funcionario/{idp}/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
 
-//Route::post('/editar-funcionario/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('editar-funcionario.index');
 
-Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
-Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
+
+
+
+
+//Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
+//Route::get('/incluir-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'store']);
+
+
 
 /*Gerenciar dados Bancarios*/
+
+
 Route::get('/gerenciar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'index'])->name('DadoBanc');
 Route::get('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'create']);
 Route::get('/armazenar-dados-bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'store']);
@@ -65,7 +89,14 @@ Route::any('/editar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBan
 Route::any('/alterar-dado-bancario/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'update']);
 Route::get('/recebe-agencias/{id}', [App\Http\Controllers\GerenciarDadosBancariosController::class, 'agencias']);
 
+
+
+
+
+
+
 /*Gerenciar Cargos Regulares*/
+
 
 Route::get('/gerenciar-cargos-regulares', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'index'])->name('IndexGerenciarCargoRegular');
 Route::get('/criar-cargo-regular', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'create']);
@@ -75,7 +106,14 @@ Route::any('/alterar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosR
 Route::get('/historico-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'show']);
 Route::any('/fechar-cargo-regular/{id}', [App\Http\Controllers\GerenciarCargosRegularesController::class, 'destroy']);
 
+
+
+
+
+
+
 // Gerenciar Base Salarial
+
 
 Route::any('/gerenciar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'index'])->name('GerenciarBaseSalarialController');
 Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'create'])->name('IncluirBaseSalarial');
@@ -87,7 +125,11 @@ Route::any('/editar-base-salarial/{idf}',[Controllers\GerenciarBaseSalarialContr
 
 
 
+
+
+
 /*Gerenciar setores*/
+
 
 Route::get('/gerenciar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index']);
 Route::get('/pesquisar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index'])->name('pesquisar');
@@ -100,19 +142,41 @@ Route::get('/setor-pessoas', [App\Http\Controllers\GerenciarSetoresController::c
 Route::post('/atualizar-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'update']);
 Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'delete']);
 
+
+
+
+
+
+
 /*Gerenciar-Hierarquia*/
+
 
 Route::get('/gerenciar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'index'])->name('gerenciar-hierarquia');
 Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarHierarquiaController::class, 'obterSetoresPorNivel']);
 Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'show'])->name('consultar-hierarquia');
 Route::any('/atualizar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'atualizarhierarquia']);
 
+
+
+
+
+
+
 /*Gerenciar-Associado*/
+
+
 Route::get('/pesquisar-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'index'])->name('pesquisar');
 Route::get('/gerenciar-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'index']);
 
 
+
+
+
+
+
 /*Rotas dos Dependentes */
+
+
 Route::get('/gerenciar-dependentes/{id}', [App\Http\Controllers\GerenciarDependentesController::class, 'index'])->name('IndexGerenciarDependentes');
 Route::get('/incluir-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'create']);
 Route::any('/armazenar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'store']);
@@ -120,16 +184,31 @@ Route::any('/deletar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependen
 Route::any('/editar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'edit']);
 Route::any('/atualizar-dependentes/{id}', [\App\Http\Controllers\GerenciarDependentesController::class, 'update']);
 
-/** Rotas dos Certificados */
-Route::get('/gerenciar-certificados/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'index'])->name('viewGerenciarCertificados');
 
+
+
+
+
+
+/** Rotas dos Certificados */
+
+
+Route::get('/gerenciar-certificados/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'index'])->name('viewGerenciarCertificados');
 Route::get('/incluir-certificados/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'create']);
 Route::any('/adicionar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'store']);
 Route::any('/deletar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'destroy']);
 Route::any('/editar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'edit']);
 Route::any('/atualizar-certificado/{id}', [\App\Http\Controllers\GerenciarCertificadosController::class, 'update']);
 
+
+
+
+
+
+
 /**Rota para Entidades Escolares */
+
+
 Route::get('/gerenciar-entidades-de-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'index'])->name('IndexGerenciarEntidades');
 Route::get('/incluir-entidades-ensino', [App\Http\Controllers\GerenciarEntidadesController::class, 'create']);
 Route::any('/armazenar-entidade', [App\Http\Controllers\GerenciarEntidadesController::class, 'store']);
@@ -137,7 +216,15 @@ Route::any('/excluir-entidade/{id}', [App\Http\Controllers\GerenciarEntidadesCon
 Route::any('/editar-entidade/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'edit']);
 Route::any('/atualizar-entidade-ensino/{id}', [App\Http\Controllers\GerenciarEntidadesController::class, 'update']);
 
+
+
+
+
+
+
 /* Rota Para Tipos de Acordos*/
+
+
 Route::get('/gerenciar-acordos/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'index'])->name('indexGerenciarAcordos');
 Route::get('/incluir-acordos/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'create']);
 Route::any('/armazenar-acordos/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'store']);
@@ -145,7 +232,14 @@ Route::any('/excluir-acordo/{id}', [App\Http\Controllers\GerenciarAcordosControl
 Route::any('/editar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'edit']);
 Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAcordosController::class, 'update']);
 
+
+
+
+
+
+
 /**Rotas para Cargos**/
+
 
 Route::get('/gerenciar-cargos', [App\Http\Controllers\GerenciarCargosController::class, 'index'])->name('gerenciar.cargos');
 Route::get('/incluir-cargos', [App\Http\Controllers\GerenciarCargosController::class, 'create']);
@@ -155,7 +249,14 @@ Route::any('/deletar-cargos/{id}', [GerenciarCargosController::class,'destroy'])
 Route::get('/vizualizar-historico/{id}', [GerenciarCargosController::class, 'show'])->name('visualizarHistoricoCargo');
 Route::any('/atualiza-cargo/{id}', [ GerenciarCargosController::class,'update'])->name('AtualizaCargo');
 
+
+
+
+
+
+
 /**Rotas para Tipo de Desconto**/
+
 
 Route::get('/gerenciar-tipo-desconto', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'index'])->name('indexTipoDesconto');
 Route::get('/incluir-tipo-desconto', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'create']);
@@ -166,7 +267,14 @@ Route::any('/exluir-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDesc
 Route::any('/renovar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'renew']);
 Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoDescontoController::class, 'modify']);
 
+
+
+
+
+
+
 /**Gerenciar Ferias**/
+
 
 Route::get('/gerenciar-ferias/',[App\Http\Controllers\GerenciarFeriasController::class,'index'])->name('IndexGerenciarFerias');
 Route::get('/incluir-ferias/',[App\Http\Controllers\GerenciarFeriasController::class, 'create'])->name('CriarFerias');
@@ -174,6 +282,18 @@ Route::any('/armazenar-ferias/',[App\Http\Controllers\GerenciarFeriasController:
 
 
 
+
+
+
+
 /**Rotas de Entrada**/
+
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+
+
+
+
