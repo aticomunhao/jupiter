@@ -75,8 +75,19 @@ class GerenciarAssociadoController extends Controller
 
       return view('/associado/gerenciar-associado', compact('lista_associado', 'id', 'nr_associado', 'nome_completo', 'voluntario', 'votante', 'dt_inicio', 'dt_fim', 'status'));
    }
+   
+   public function create(Request $request){
+
+      $cidade = DB::select('select id_cidade, descricao from tp_cidade');
+
+      $tp_uf = DB::select('select id, sigla from tp_uf');
+
+      $cep = DB::select('select id, cep, descricao, descricao_bairro from tp_logradouro');
+
+      $logra = DB::select('select distinct(id), descricao from tp_logradouro');
+
+      $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
+      
+      return view('/associado/incluir-associado',compact('cidade', 'tp_uf', 'cep', 'logra', 'ddd'));
+   }
 }
-
-
-
-
