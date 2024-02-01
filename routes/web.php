@@ -108,7 +108,7 @@ Route::any('/consultar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaCon
 Route::any('/atualizar-hierarquia', [App\Http\Controllers\GerenciarHierarquiaController::class, 'atualizarhierarquia']);
 
 /*Gerenciar-Associado*/
-
+Route::get('/pesquisar-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'index'])->name('pesquisar');
 Route::get('/gerenciar-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'index']);
 
 
