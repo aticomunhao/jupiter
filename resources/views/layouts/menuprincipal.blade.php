@@ -1,17 +1,17 @@
 <div id="app">
-    <nav class="navbar navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;">
+    <nav class="navbar navbar-dark navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;">
         <div class="container">
             <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;" href="../">Júpiter</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="dropdown" data-bs-target="#navbarNavDarkDropdown"
-                aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkdropdown"
+                aria-controls="navbarNavDarkdropdown" aria-expanded="false" aria-label="Toggle navigation" style="border:none; color:#3d5b9c;">
+                <span class="navbar-toggler-icon" style="color:"></span>
             </button>
-            <div class=" navbar-collapse" id="navbarNavDarkDropdown">
+            <div class=" navbar-collapse" id="navbarNavDarkdropdown">
                 <ul class="navbar-nav" >
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Área de Pessoal</a>
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
                             <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar Funcionarios</a></li>
                             <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
                             <li><a class="dropdown-item" href="/gerenciar-associado">Gerenciar Associados</a></li>
@@ -22,7 +22,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
 
                             <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar Entidades de Ensino</a>
                             <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a></li>
@@ -42,7 +42,7 @@
                         <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
                             data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Direitos
                             Remuneratórios</a>
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
                             <li><a href="{{ route('IndexGerenciarFerias') }}" class="dropdown-item">Gerenciar Ferias</a>
                             </li>
                         </ul>
@@ -67,11 +67,11 @@
                             @endif --}}
                     @else
                         <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
+                            <a id="navbardropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }}
                             </a>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbardropdown">
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
