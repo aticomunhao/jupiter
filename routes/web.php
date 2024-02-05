@@ -175,6 +175,7 @@ Route::get('/informar-dados-associado', [App\Http\Controllers\GerenciarAssociado
 
 
 
+
 /*Rotas dos Dependentes */
 
 
@@ -293,6 +294,16 @@ Route::any('/armazenar-ferias/',[App\Http\Controllers\GerenciarFeriasController:
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+
+
+
+/*Gerenciar Afastamentos*/
+
+
+Route::any('/gerenciar-afastamentos/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'index']);
+Route::any('/incluir-afastamentos/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'create']);
+Route::any('/editar-afastamentos/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'create']);
+Route::any('/armazenar-afastamentos/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'store']);
 
 
 
