@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GerenciarFeriasController extends Controller
 {
@@ -13,7 +14,7 @@ class GerenciarFeriasController extends Controller
     {
 
 
-       return view('ferias.gerenciar-ferias');
+        return view('ferias.gerenciar-ferias');
     }
 
     /**
@@ -29,8 +30,9 @@ class GerenciarFeriasController extends Controller
      */
     public function store(Request $request)
     {
-       dd($request->all());
+        dd($request->all());
     }
+
 
     /**
      * Display the specified resource.
@@ -62,5 +64,10 @@ class GerenciarFeriasController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function InsereERetornaFuncionarios($setor)
+    {
+
     }
 }

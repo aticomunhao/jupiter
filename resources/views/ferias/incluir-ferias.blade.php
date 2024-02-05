@@ -28,27 +28,31 @@
                             <h5>Informações sobre ferias</h5>
                             <div class="row justify-content-around">
 
-                                    <div class="col-3 ">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" name="venderferias" id="flexCheckVender">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                                Vender Ferias
-                                            </label>
-                                            </div>
+                                <div class="col-3 ">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="venderferias"
+                                            id="flexCheckVender">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Vender Ferias
+                                        </label>
                                     </div>
+                                </div>
 
 
-                                    <div class="col-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" name="decimoterceiro" id="flexCheckVender">
-                                            <label class="form-check-label" for="flexCheckDefault">
-                                               Adiantar Decimo Terceiro
-                                            </label>
-                                        </div>
+                                <div class="col-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" name="decimoterceiro"
+                                            id="flexCheckVender">
+                                        <label class="form-check-label" for="flexCheckDefault">
+                                            Adiantar Decimo Terceiro
+                                        </label>
                                     </div>
-
+                                </div>
                             </div>
 
+                            <DIV class="row d-flex justify-content-around" id="decimoterceiro">
+
+                            </DIV>
                             <div class="row justify-content-center">
                                 <div class="col">
                                     <h5>Informe em quantos períodos deseja tirar suas férias</h5>
@@ -58,25 +62,25 @@
                             <div class="row justify-content-center">
                                 <div class="col-3 radio-label">
                                     <label>
-                                        <input type="radio" id="umperiodo" name="radioOption" value="1"> Opção 1
+                                        <input type="radio" id="umperiodo" name="radioOption" value="1"> Um periodo
                                     </label>
                                 </div>
                                 <div class="col-3 radio-label">
                                     <label>
-                                        <input type="radio" id="doisperiodos" name="radioOption" value="2"> Opção 2
+                                        <input type="radio" id="doisperiodos" name="radioOption" value="2"> Dois
+                                        periodos
                                     </label>
                                 </div>
                                 <div class="col-3 radio-label">
                                     <label>
-                                        <input type="radio" id="tresperiodos" name="radioOption" value="3"> Opção 3
+                                        <input type="radio" id="tresperiodos" name="radioOption" value="3"> Tres
+                                        Periodos
                                     </label>
                                 </div>
                             </div>
 
-
                             <br>
                             <div class="row" id="dates">
-
 
                             </div>
                             <div class="row">
@@ -102,13 +106,62 @@
 
     <script>
         $(document).ready(function() {
+
+            $('.form-check-input').prop('checked', false);
+
             $('#flexCheckVender').change(function(e) {
                 if ($(this).is(':checked')) {
                     console.log("Férias serão vendidas.");
                     $('#doisperiodos, #tresperiodos').prop('disabled', true);
+                    var numeroInputDates = 1;
+                    $('#dates').empty();
+                    for (var i = 0; i < numeroInputDates; i++) {
+                        var dateInput = $(
+                            '<div class="col-md-6 col-sm-12 mb-3">' +
+                            '<label for="dateini' + i + '">Início ' + (i + 1) +
+                            ' ° Periodo </label>' +
+                            '<input type="date" id="dateini' + i + '" name="dateini' + i +
+                            '" class="form-control" required="required">' +
+                            '</div>' +
+                            '<div class="col-md-6 col-sm-12 mb-3">' +
+                            '<label for="datefim' + i + '">Fim ' + (i + 1) + '° Periodo </label>' +
+                            '<input type="date" id="datefim' + i + '" name="datefim' + i +
+                            '" class="form-control" required="required">' +
+                            '</div>'
+                        );
+                        $('#dates').append(dateInput);
+
+                        $('#decimoterceiro').append(
+                            '<div class="col-3" radio-label> <input type="radio" id="idprimeirosdezdias" name="dezdias" value="1" style = "border: 2px solid #3498db; padding: 5px;"><label>Primeiros Dez Dias</label></div>' +
+                            '<div class="col-3" radio-label><input type="radio" id="idultimosdezdias" name="dezdias" value="2" style = "border: 2px solid #3498db; padding: 5px;"><label> Ultimos Dez Dias</label></div>'
+                        );
+                    }
+
+
                 } else {
+                    $('#dates').empty();
                     console.log("Férias não serão vendidas.");
                     $('#doisperiodos, #tresperiodos').prop('disabled', false);
+                    var numeroInputDates = 1;
+                    $('#dates').empty();
+                    for (var i = 0; i < numeroInputDates; i++) {
+                        var dateInput = $(
+                            '<div class="col-md-6 col-sm-12 mb-3">' +
+                            '<label for="dateini' + i + '">Início ' + (i + 1) +
+                            ' ° Periodo </label>' +
+                            '<input type="date" id="dateini' + i + '" name="dateini' + i +
+                            '" class="form-control" required="required">' +
+                            '</div>' +
+                            '<div class="col-md-6 col-sm-12 mb-3">' +
+                            '<label for="datefim' + i + '">Fim ' + (i + 1) + '° Periodo </label>' +
+                            '<input type="date" id="datefim' + i + '" name="datefim' + i +
+                            '" class="form-control" required="required">' +
+                            '</div>'
+                        );
+                        $('#dates').append(dateInput);
+                    }
+                    $('#decimoterceiro').empty();
+
                 }
             });
 
@@ -119,17 +172,16 @@
 
                 $('#dates').empty();
 
-
                 for (var i = 0; i < numeroInputDates; i++) {
                     var dateInput = $(
-                        '<div class="col-6 mb-3">' +
-                        '<label for="dateini' + i + '">Data de Início ' + (i + 1) +
+                        '<div class="col-md-6 col-sm-12 mb-3">' +
+                        '<label for="dateini' + i + '">Início ' + (i + 1) +
                         ' ° Periodo </label>' +
                         '<input type="date" id="dateini' + i + '" name="dateini' + i +
                         '" class="form-control" required="required">' +
                         '</div>' +
-                        '<div class="col-6 mb-3">' +
-                        '<label for="datefim' + i + '">Data Fim ' + (i + 1) + '° Periodo </label>' +
+                        '<div class="col-md-6 col-sm-12 mb-3">' +
+                        '<label for="datefim' + i + '">Fim ' + (i + 1) + '° Periodo </label>' +
                         '<input type="date" id="datefim' + i + '" name="datefim' + i +
                         '" class="form-control" required="required">' +
                         '</div>'
