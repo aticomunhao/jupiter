@@ -60,7 +60,7 @@ class GerenciarAssociadoController extends Controller
          $lista_associado->where('ass.dt_fim', '=', $request->dt_fim);
       }
 
-   
+
 
       if ($request->status == 1) {
          $lista_associado->where('ass.dt_fim', null);
@@ -75,19 +75,59 @@ class GerenciarAssociadoController extends Controller
 
       return view('/associado/gerenciar-associado', compact('lista_associado', 'id', 'nr_associado', 'nome_completo', 'voluntario', 'votante', 'dt_inicio', 'dt_fim', 'status'));
    }
-   
-   public function create(Request $request){
+
+   public function create(Request $request)
+   {
 
       $cidade = DB::select('select id_cidade, descricao from tp_cidade');
 
       $tp_uf = DB::select('select id, sigla from tp_uf');
 
-      $cep = DB::select('select id, cep, descricao, descricao_bairro from tp_logradouro');
-
-      $logra = DB::select('select distinct(id), descricao from tp_logradouro');
-
       $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
-      
-      return view('/associado/incluir-associado',compact('cidade', 'tp_uf', 'cep', 'logra', 'ddd'));
+
+
+
+      return view('/associado/incluir-associado', compact('cidade', 'tp_uf', 'ddd'));
    }
-}
+   public function retornaCidadeDadosResidenciais($id)
+   {
+      $cidadeDadosResidenciais = DB::table('tp_cidade')
+         ->where('id_uf', $id)
+         ->get();
+
+      return response()->json($cidadeDadosResidenciais);
+   }
+
+   public function store(Request $request)
+   {
+      DB::table('pessoas')
+         ->insert([
+            'nome_completo' => $request->input('nome'),
+            'cpf' => $request->input('cpf'),
+            'ddd' => $request->input('ddd'),
+            'celular' => $request->input('telefone'),
+            'email' => $request->input('email')
+         ]);
+
+      DB::table('associado')
+         ->insert([
+            'dt_inicio' => $request->input('dt_inicio'),
+
+         ]);
+
+      DB::table('endereco_pessoas')->insert([
+         'cep' => str_replace('-', '', $request->input('cep')),
+         'id_uf_end' => $request->input('uf_end'),
+         'id_cidade' => $request->input('cidade'),
+         'logradouro' => $request->input('logradouro'),
+         'numero' => $request->input('numero'),
+         'bairro' => $request->input('bairro'),
+         'complemento' => $request->input('comple'),
+      ]);
+
+
+      app('flasher')->addSuccess('O cadastro do Associado foi realizado com sucesso.');
+
+      return redirect('/gerenciar-associado');
+   }
+ss}
