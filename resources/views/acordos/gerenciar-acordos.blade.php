@@ -67,7 +67,7 @@
                                                 <td scope="">
                                                     <a href="{{ asset("$acordo->caminho") }}"
                                                         class="btn btn-sm btn-outline-secondary">
-                                                        <i class="bi bi-archive"></i> 
+                                                        <i class="bi bi-archive"></i>
                                                     </a>
                                                 </td>
 
