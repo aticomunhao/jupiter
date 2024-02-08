@@ -83,18 +83,11 @@ class GerenciarAssociadoController extends Controller
 
       $tp_uf = DB::select('select id, sigla from tp_uf');
 
-      $nm_sigla = $request->sigla;
-      $nm_cidade = $request->descricao;
-
-      $cep = DB::select('select id, cep, descricao, descricao_bairro from tp_logradouro');
-
-      $logra = DB::select('select distinct(id), descricao from tp_logradouro');
-
       $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
 
 
 
-      return view('/associado/incluir-associado', compact('cidade', 'tp_uf', 'cep', 'logra', 'ddd', 'nm_sigla', 'nm_cidade'));
+      return view('/associado/incluir-associado', compact('cidade', 'tp_uf', 'ddd'));
    }
    public function retornaCidadeDadosResidenciais($id)
    {
@@ -104,4 +97,37 @@ class GerenciarAssociadoController extends Controller
 
       return response()->json($cidadeDadosResidenciais);
    }
-}
+
+   public function store(Request $request)
+   {
+      DB::table('pessoas')
+         ->insert([
+            'nome_completo' => $request->input('nome'),
+            'cpf' => $request->input('cpf'),
+            'ddd' => $request->input('ddd'),
+            'celular' => $request->input('telefone'),
+            'email' => $request->input('email')
+         ]);
+
+      DB::table('associado')
+         ->insert([
+            'dt_inicio' => $request->input('dt_inicio'),
+
+         ]);
+
+      DB::table('endereco_pessoas')->insert([
+         'cep' => str_replace('-', '', $request->input('cep')),
+         'id_uf_end' => $request->input('uf_end'),
+         'id_cidade' => $request->input('cidade'),
+         'logradouro' => $request->input('logradouro'),
+         'numero' => $request->input('numero'),
+         'bairro' => $request->input('bairro'),
+         'complemento' => $request->input('comple'),
+      ]);
+
+
+      app('flasher')->addSuccess('O cadastro do Associado foi realizado com sucesso.');
+
+      return redirect('/gerenciar-associado');
+   }
+ss}

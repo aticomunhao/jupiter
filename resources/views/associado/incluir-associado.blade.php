@@ -3,10 +3,11 @@
 @section('content')
 <br>
 <div class="container">
+<legend style="color:rgb(16, 19, 241); font-size:15px;">Criar Associado</legend>
     <div class="border border-primary" style="border-radius: 5px;">
         <div class="card">
             <div class="card-header">
-                Criar Associado
+                Dados Pessoais
             </div>
             <div class="card-body">
                 <form class="form-horizontal mt-4" method='POST' action="/incluir-setores">
@@ -16,40 +17,35 @@
                         <div class="row d-flex justify-content-around">
                             <div class="col-md-4 col-sm-12">
                                 <label for="1">Nome Completo</label>
-                                <input type="text" class="form-control" id="1" name="nome_setor" value="">
+                                <input type="text" class="form-control" name="nome_completo" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <label for="2">CPF</label>
-                                <input type="text" class="form-control" id="2" name="sigla" value="">
+                                <input type="text" class="form-control" name="cpf" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                             </div>
                             <div class="col-md-1 col-sm-12">
                                 <label for="3">DDD</label>
-                                <select class="form-select" name="nivel" id="3" value="">
-                                    <value="">
+                                <select class="form-select" name="ddd" id="3" value="">
+                                    <option></option>
+                                    @foreach ($ddd as $ddds)
+                                    <option value="{{ $ddds->id }}">{{ $ddds->descricao }}</option>
+                                    @endforeach
+                                </select>
 
                                 </select>
                             </div>
+
                             <div class="col-md-3 col-sm-12">
                                 <label for="2">Telefone</label>
-                                <input type="text" class="form-control" id="2" name="sigla" value="" style="width: 100;">
+                                <input type="text" class="form-control" id="2"  maxlength="12" name="telefone" value="">
                             </div>
                             <div class="row d-flex justify-content-around">
                                 <div class="col-md-4 col-sm-12">
                                     <label for="2">Email</label>
-                                    <input type="text" class="form-control" id="2" name="sigla" value="">
+                                    <input type="text" class="form-control" id="2"  maxlength="50"name="email" value="">
                                 </div>
                                 <div class="col-md-2 col-sm-12">
                                     <label for="4">Data de Inicio</label>
-                                    <input type="date" class="form-control" name="dt_inicio" id="4">
-                                </div>
-                                <br>
-                                <br>
-                                <div class="col-md-2 col-sm-12">
-                                    <label for="2">Valor</label>
-                                    <input type="text" class="form-control" id="2" name="sigla" value="">
-                                </div>
-                                <div class="col-md-2 col-sm-12">
-                                    <label for="4">Data de Vencimento</label>
                                     <input type="date" class="form-control" name="dt_inicio" id="4">
                                 </div>
                             </div>
@@ -69,7 +65,7 @@
             <div class="row d-flex justify-content-around">
                 <div class="form-group col-xl-2 col-md-4 mt-3 ">
                     <label for="1">CEP</label>
-                    <input type="text" class="form-control" id="1" name="nome_setor" value="">
+                    <input type="text" class="form-control" id="1" name="cep" value="">
                 </div>
                 <div class="form-group col-xl-1 col-md-4 mt-3 ">
                     <label for="id_uf">UF</label>
@@ -89,20 +85,20 @@
                 </div>
                 <div class="form-group col-xl-3 col-md-4 mt-3 ">
                     <label for="1">Logradouro</label>
-                    <input type="text" class="form-control" id="1" name="nome_setor" value="">
+                    <input type="text" class="form-control" id="1" name="logradouro" value="">
                 </div>
                 <div class="form-group col-xl-1 col-md-4 mt-3 ">
                     <label for="1">Número</label>
-                    <input type="text" class="form-control" id="1" name="nome_setor" value="">
+                    <input type="text" class="form-control" id="1" name="numero" value="">
                 </div>
                 <div class="row d-flex justify-content-around">
                     <div class="form-group col-xl-3 col-md-4 mt-3 ">
                         <label for="1">Complemento</label>
-                        <input type="text" class="form-control" id="1" name="nome_setor" value="">
+                        <input type="text" class="form-control" id="1" name="complemento" value="">
                     </div>
                     <div class="form-group col-xl-2 col-md-4 mt-3 ">
                         <label for="1">Bairro</label>
-                        <input type="text" class="form-control" id="1" name="nome_setor" value="">
+                        <input type="text" class="form-control" id="1" name="bairro" value="">
                     </div>
                 </div>
             </div>
