@@ -32,8 +32,10 @@
                                 <hr>
                                 <div class="form-group row">
                                     <div class="form-group col-2">Tipo de Afastamento
-                                        <select class="form-select"  name="tipo_acordo" required="required">
-
+                                        <select class="form-select"  name="tipo_afastamento" required="required">
+                                            @foreach ($tipoafastamento as $tiposafastamentos)
+                                                <option value="{{ $tiposafastamentos->id }}">{{ $tiposafastamentos->nome }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
 
@@ -52,8 +54,8 @@
                                 <br>
                                 <div class="row">
                                     <div class="mb-3">
-                                        <label for="exampleFormControlTextarea1" class="form-label">Motivo do Afastamento</label>
-                                        <textarea class="form-control " id="idobservacao" rows="1" name="observacao"></textarea>
+                                        <label for="exampleFormControlTextarea1" class="form-label">Observação</label>
+                                        <textarea class="form-control " id="idobservacao" rows="1" name=""></textarea>
                                     </div>
                                 </div>
                                 <br>
