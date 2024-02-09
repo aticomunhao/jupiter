@@ -14,6 +14,7 @@ class GerenciarFeriasController extends Controller
     {
 
 
+
         return view('ferias.gerenciar-ferias');
     }
 
@@ -32,7 +33,6 @@ class GerenciarFeriasController extends Controller
     {
         dd($request->all());
     }
-
 
     /**
      * Display the specified resource.
