@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers;
 use App\Http\Controllers\GerenciarCargos;
 use App\Http\Controllers\GerenciarCargosController;
+use App\Http\Controllers\GerenciarFeriasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -279,9 +280,10 @@ Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoD
 /**Gerenciar Ferias**/
 
 
-Route::get('/gerenciar-ferias/',[App\Http\Controllers\GerenciarFeriasController::class,'index'])->name('IndexGerenciarFerias');
-Route::get('/incluir-ferias/{id}',[App\Http\Controllers\GerenciarFeriasController::class, 'create'])->name('CriarFerias');
-Route::any('/armazenar-ferias/{id}',[App\Http\Controllers\GerenciarFeriasController::class, 'store'])->name('ArmazenarFerias');
+Route::get('/gerenciar-ferias/',[GerenciarFeriasController::class,'index'])->name('IndexGerenciarFerias');
+Route::get('/incluir-ferias/{id}',[GerenciarFeriasController::class, 'create'])->name('CriarFerias');
+Route::any('/armazenar-ferias/{id}',[GerenciarFeriasController::class, 'store'])->name('ArmazenarFerias');
+Route::any('/abrir-ferias',[GerenciarFeriasController::class,'InsereERetornaFuncionarios'])->name('AbreFerias');
 
 
 
