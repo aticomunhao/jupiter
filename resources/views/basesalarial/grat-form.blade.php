@@ -23,22 +23,26 @@
                             <hr />
                             <form action="{{ route('ArmazenarBaseSalarial', ['idf' => $idf]) }}" method="POST">
                                 @csrf
-                                <div class="col-md-6 col-sm-12 mt-3 mt-md-0">
-                                    <div>Função Gratificada</div>
-                                    <select class="form-select" aria-label="Função Gratificada" name="funcaog">
-                                        @foreach ($funcaoGratificada as $funcaoGratificadas)
-                                            <option value="{{ $funcaoGratificadas->id }}">{{ $funcaoGratificadas->nome }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                <div class="row">
 
-                                </div>
-                                <div class="col-md-6 col-sm-12 mt-3 mt-md-0">
-                                    <select class="form-select" aria-label="Cargo" name="cargo">
-                                        @foreach ($cargo as $cargos)
-                                            <option value="{{ $cargos->id }}">{{ $cargos->nome }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="col-md-6 col-sm-12 mt-3 mt-md-0">
+                                        <div>Função Gratificada</div>
+                                    <select class="form-select" aria-label="Função Gratificada" name="funcaog">
+                                            @foreach ($funcaoGratificada as $funcaoGratificadas)
+                                                <option value="{{ $funcaoGratificadas->id }}">{{ $funcaoGratificadas->nome }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-6 col-sm-12 mt-3 mt-md-0">
+                                        <div>Cargo Regular</div>
+                                        <select class="form-select" aria-label="Cargo" name="cargo">
+                                            @foreach ($cargo as $cargos)
+                                                <option value="{{ $cargos->id }}">{{ $cargos->nome }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <center>
                                     <div class="col-12" style="margin-top: 70px;">
