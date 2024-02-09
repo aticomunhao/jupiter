@@ -9,7 +9,7 @@
                     <div class="col-6">
                         <div class="card">
                             <div class="card-body">
-                                1234567890123456789012345678901234567890123456789012345678
+                                {{ $periodo_aquisitivo->nome_completo_funcionario }}
                             </div>
                         </div>
                     </div>
@@ -23,7 +23,8 @@
                     </div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('ArmazenarFerias') }}">
+                        <form method="POST"
+                            action="{{ route('ArmazenarFerias', ['id', $periodo_aquisitivo->id_funcionario]) }}">
                             @csrf
                             <h5>Informações sobre ferias</h5>
                             <div class="row justify-content-around">
@@ -37,8 +38,6 @@
                                         </label>
                                     </div>
                                 </div>
-
-
                                 <div class="col-3">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value="" name="decimoterceiro"
@@ -50,9 +49,9 @@
                                 </div>
                             </div>
 
-                            <DIV class="row d-flex justify-content-around" id="decimoterceiro">
+                            <div id="decimoterceiro" class="mb-3">
 
-                            </DIV>
+                            </div>
                             <div class="row justify-content-center">
                                 <div class="col">
                                     <h5>Informe em quantos períodos deseja tirar suas férias</h5>
@@ -96,10 +95,7 @@
     </div>
 
     <style>
-        .radio-label {
-            display: block;
-            margin-bottom: 10px;
-        }
+       
     </style>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -132,8 +128,18 @@
                         $('#dates').append(dateInput);
 
                         $('#decimoterceiro').append(
-                            '<div class="col-3" radio-label> <input type="radio" id="idprimeirosdezdias" name="dezdias" value="1" style = "border: 2px solid #3498db; padding: 5px;"><label>Primeiros Dez Dias</label></div>' +
-                            '<div class="col-3" radio-label><input type="radio" id="idultimosdezdias" name="dezdias" value="2" style = "border: 2px solid #3498db; padding: 5px;"><label> Ultimos Dez Dias</label></div>'
+                            '<h4>Informe quais dias de Suas Férias deseja vender</h4>' +
+                            '<div class="row justify-content-around">' +
+                            '<div class="col-3 radio-label">' +
+                            '<input type="radio" id="idprimeirosdezdias" name="dezdias" value="1" style="border: 2px solid #3498db; padding: 10px;">' +
+                            '<label for="idprimeirosdezdias">Primeiros Dez Dias</label>' +
+                            '</div>' +
+                            '<div class="col-3 radio-label">' +
+                            '<input type="radio" id="idultimosdezdias" name="dezdias" value="2" style="border: 2px solid #3498db; padding: 10px;">' +
+                            '<label for="idultimosdezdias">Ultimos Dez Dias</label>' +
+                            '</div>' +
+                            '</div>' +
+                            '<hr>'
                         );
                     }
 

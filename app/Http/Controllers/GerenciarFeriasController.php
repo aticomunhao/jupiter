@@ -13,8 +13,29 @@ class GerenciarFeriasController extends Controller
      */
     public function index()
     {
-
-        $periodo_aquisitivo = DB::table('ferias')->get();
+        $ano_referente = Carbon::now()->year - 1;
+        $periodo_aquisitivo = DB::table('ferias')
+            ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+            ->select(
+                'pessoas.nome_completo as nome_completo_funcionario',
+                'pessoas.id as id_pessoa',
+                'ferias.dt_ini_a',
+                'ferias.dt_fim_a',
+                'ferias.dt_ini_b',
+                'ferias.dt_fim_b',
+                'ferias.dt_ini_c',
+                'ferias.dt_fim_c',
+                'ferias.id as id_ferias',
+                'funcionarios.dt_inicio',
+                'ferias.ano_de_referencia',
+                'ferias.id_funcionario',
+                'status_pedido_ferias.id as id_status_pedido_ferias',
+                'status_pedido_ferias.nome as status_pedido_ferias'
+            )
+            ->where('ano_de_referencia', $ano_referente)
+            ->get();
 
 
         return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo'));
@@ -23,9 +44,35 @@ class GerenciarFeriasController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
-        return view('ferias.incluir-ferias');
+
+        $ano_referente = Carbon::now()->year - 1;
+        $periodo_aquisitivo = DB::table('ferias')
+            ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+            ->select(
+                'pessoas.nome_completo as nome_completo_funcionario',
+                'pessoas.id as id_pessoa',
+                'ferias.dt_ini_a',
+                'ferias.dt_fim_a',
+                'ferias.dt_ini_b',
+                'ferias.dt_fim_b',
+                'ferias.dt_ini_c',
+                'ferias.dt_fim_c',
+                'ferias.id as id_ferias',
+                'funcionarios.dt_inicio',
+                'ferias.ano_de_referencia',
+                'ferias.id_funcionario',
+                'status_pedido_ferias.id as id_status_pedido_ferias',
+                'status_pedido_ferias.nome as status_pedido_ferias'
+            )
+            ->where('ano_de_referencia', $ano_referente)
+            ->where('id_funcionario', $id)
+            ->first();
+        
+        return view('ferias.incluir-ferias', compact('ano_referente',"periodo_aquisitivo"));
     }
 
     /**
@@ -89,19 +136,22 @@ class GerenciarFeriasController extends Controller
             ->where('ano_de_referencia', '=', $ano_referencia)
             ->get();
 
-        if($ferias->isEmpty()){
+        if ($ferias->isEmpty()) {
             foreach ($funcionarios as $funcionario) {
+
 
                 DB::table('ferias')
                     ->insert([
                         'ano_de_referencia' => $ano_referencia,
                         'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
                         'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
-                        'status_periodo_de_ferias' => 1
+                        'status_periodo_de_ferias' => 1,
+                        'id_funcionario' => $funcionario->id_funcionario
+
                     ]);
             }
             app('flasher')->addSuccess("Periodo de ferias de " . $ano_referencia . "foi criado");
-        }else{
+        } else {
             app('flasher')->addError("Já existe periodo e ferias criado");
         }
         return redirect()->route('IndexGerenciarFerias');
