@@ -303,11 +303,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 /*Gerenciar Afastamentos*/
 
 
-Route::any('/gerenciar-afastamentos/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'index']);
-Route::any('/incluir-afastamentos/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'create']);
-Route::any('/editar-afastamentos/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'create']);
-Route::any('/armazenar-afastamentos/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'store']);
-
+Route::any('/gerenciar-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'index'])->name('indexGerenciarAfastamentos');
+Route::any('/incluir-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'create']);
+Route::any('/editar-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'edit']);
+Route::any('/armazenar-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'store']);
+Route::any('/excluir-afastamento/{idf}', [App\Http\Controllers\GerenciarAcordosController::class, 'destroy']);
 
 
 

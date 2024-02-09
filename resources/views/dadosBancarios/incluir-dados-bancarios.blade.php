@@ -27,7 +27,7 @@
                                 required>
                                 @foreach ($desc_bancos as $desc_banco)
                                     <option value="{{ $desc_banco->id_db }}">
-                                        {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }}</option>
+                                        {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }} - {{ $desc_banco->nome }}</option>
                                 @endforeach
                             </select>
                         </div>

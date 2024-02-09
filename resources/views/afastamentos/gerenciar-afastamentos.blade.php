@@ -1,5 +1,5 @@
 @extends('layouts.app')
-<title>Gerenciar Acordos </title>
+<title>Gerenciar Afastamentos </title>
 @section('content')
     <div class="container">
         <div class="justify-content-center">
@@ -10,7 +10,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6"><span
-                                        style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar-Acordos</span>
+                                        style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar-Afastamentos</span>
                                 </div>
                                 <div class="col-6">
                                 </div>
@@ -31,8 +31,8 @@
 
                                     <div class="row">
                                         <span style="margin-top: 15px; margin-left: -18px"><a
-                                                href="/incluir-acordos/{{ $funcionario->id }}"><button type="button"
-                                                    class="btn btn-success btn-sm"
+                                                href="/incluir-afastamentos/{{ $funcionario->funcionario_id }}"><button
+                                                    type="button" class="btn btn-success btn-sm"
                                                     style="padding: 5px 80px;margin-right:100px;font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">Novo&plus;</button></a></span>
                                     </div>
                                 </div>
@@ -44,51 +44,55 @@
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-2">Tipo de Acordo</th>
+                                            <th class="col-2">Nome</th>
                                             <th class="col-2">Data de Inicio</th>
-                                            <th class="col-1">Valido</th>
+                                            <th class="col-2">Quantidade de dias</th>
                                             <th class="col-2">Data de Fim</th>
-                                            <th class="col-3">Observações</th>
-                                            <th class="col-1">Arquivo</th>
+                                            <th class="col-2">Dias Ultrapassados</th>
                                             <th class="col-1">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 14px; color:#000000;">
                                         <tr>
-                                            @foreach ($acordos as $acordo)
-                                                <td scope="">{{ $acordo->nome }}</td>
+                                            @foreach ($afastamentos as $afastamento)
+                                                <td scope="">{{ $afastamento->nome }}</td>
                                                 <td scope="">
-                                                    {{ \Carbon\Carbon::parse($acordo->data_inicio)->format('d/m/Y') }}</td>
+                                                    {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->format('d/m/Y') }}
+                                                </td>
 
-                                                <td scope="">{{ $acordo->valido }}</td>
                                                 <td scope="">
-                                                    {{ \Carbon\Carbon::parse($acordo->data_fim)->format('d/m/Y') }}</td>
-                                                <td scope="">{{ $acordo->observacao }}</td>
+                                                    {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
+                                                </td>
+
                                                 <td scope="">
-                                                    <a href="{{ asset("$acordo->caminho") }}"
-                                                        class="btn btn-sm btn-outline-secondary">
-                                                        <i class="bi bi-archive"></i>
-                                                    </a>
+                                                    {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}
+                                                </td>
+                                                <td scope="">
+
                                                 </td>
 
 
 
                                                 <td scope="">
+                                                    <a href="{{ asset("$afastamento->caminho") }}"
+                                                        class="btn btn-sm btn-outline-secondary">
+                                                        <i class="bi bi-archive"></i>
+                                                    </a>
                                                     <!-- Button trigger modal -->
                                                     <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
-                                                        data-bs-toggle="modal" data-bs-target="#A{{ $acordo->id }}"><i
+                                                        data-bs-toggle="modal" data-bs-target="#A{{ $afastamento->id }}"><i
                                                             class="bi bi-trash"></i></button>
 
 
                                                     <!-- Modal -->
 
-                                                    <div class="modal fade" id="A{{ $acordo->id }}" tabindex="-1"
+                                                    <div class="modal fade" id="A{{ $afastamento->id }}" tabindex="-1"
                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <div class="row">
-                                                                        <h2>Excluir Acordo</h2>
+                                                                        <h2>Excluir Afastamento</h2>
                                                                     </div>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal" aria-label="Close"></button>
@@ -98,14 +102,14 @@
                                                                         realmente deseja
                                                                         <br>
                                                                         <span class="fw-bolder fs-5">EXCLUIR
-                                                                            {{ $acordo->nome }}
+                                                                            {{ $afastamento->nome }}
                                                                         </span>
                                                                     </p>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
                                                                         data-bs-dismiss="modal">Cancelar</button>
-                                                                    <a href="/excluir-acordo/{{ $acordo->id }}"><button
+                                                                    <a href="/excluir-afastamento/{{ $afastamento->id }}"><button
                                                                             type="button"
                                                                             class="btn btn-danger">Excluir</button></a>
                                                                 </div>
@@ -116,12 +120,13 @@
 
 
                                                     <!--Fim Modal-->
-                                                    <a href="/editar-acordo/{{ $acordo->id }}"><button type="submit"
-                                                            class="btn btn-outline-warning btn-sm"><i
+                                                    <a href="/editar-afastamentos/{{ $afastamento->id }}"><button
+                                                            type="submit" class="btn btn-outline-warning btn-sm"><i
                                                                 class="bi bi-pencil"></i></button></a>
                                                 </td>
                                         </tr>
                                         @endforeach
+
                                     </tbody>
                                 </table>
                             </div>

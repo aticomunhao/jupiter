@@ -158,8 +158,7 @@ class GerenciarDadosBancariosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public
-    function update(Request $request, string $id)
+    public    function update(Request $request, string $id)
     {
         DB::table('rel_dados_bancarios')
             ->where('id', $id)

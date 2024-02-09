@@ -62,7 +62,7 @@
                         <a href="/pessoas-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                         <a href="/gerenciar-dependentes/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-people-fill" style="font-size: 1rem;color:#303030; "></i></button></a>
                         <a href="/gerenciar-dados-bancarios/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-bank" style="font-size: 1rem; color:#303030;"></i></button></a>
-                        <a href="/editar-funcionario/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-bandaid" style="font-size: 1rem;color:#303030;"></i></button></a>
+                        <a href="/gerenciar-afastamentos/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-bandaid" style="font-size: 1rem;color:#303030;"></i></button></a>
                         <a href="/gerenciar-certificados/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-mortarboard" style="font-size: 1rem; color:#303030;"></i></button></a>
                         <a href="/gerenciar-acordos/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil-square" style="font-size: 1rem; color:#303030;"></i></button></a>
                         <a href="/gerenciar-base-salarial/{{$listas->idf}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-currency-dollar" style="font-size: 1rem; color:#303030;"></i></button></a>
