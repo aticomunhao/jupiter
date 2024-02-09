@@ -10,7 +10,7 @@
                         <div class="card-header">
                             <div class="row">
                                 <div class="col-6"><span
-                                        style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar-Afastamentos</span>
+                                        style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar Afastamentos</span>
                                 </div>
                                 <div class="col-6">
                                 </div>
@@ -44,34 +44,35 @@
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-2">Nome</th>
-                                            <th class="col-2">Data de Inicio</th>
+                                            <th class="col-2">Tipo Afastamento</th>
+                                            <th class="col-2">Data de Início</th>
                                             <th class="col-2">Quantidade de dias</th>
-                                            <th class="col-2">Data de Fim</th>
-                                            <th class="col-2">Dias Ultrapassados</th>
+                                            <th class="col-2">Data de Retorno</th>
+                                            <th class="col-2">Justificado ?</th>
                                             <th class="col-1">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 14px; color:#000000;">
                                         <tr>
                                             @foreach ($afastamentos as $afastamento)
-                                                <td scope="">{{ $afastamento->nome }}</td>
-                                                <td scope="">
+                                                <td scope="">{{ $afastamento->nome_afa }}
+
+                                                </td>
+                                                <td scope="" style="text-align: center">
                                                     {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->format('d/m/Y') }}
                                                 </td>
 
-                                                <td scope="">
+                                                <td scope=""style="text-align: center">
                                                     {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
                                                 </td>
 
-                                                <td scope="">
+                                                <td scope=""style="text-align: center">
                                                     {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}
-                                                </td>
-                                                <td scope="">
 
                                                 </td>
+                                                <td scope=""style="text-align: center">
 
-
+                                                </td>
 
                                                 <td scope="">
                                                     <a href="{{ asset("$afastamento->caminho") }}"

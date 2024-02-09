@@ -17,7 +17,7 @@
                             </DIV>
                         </div>
                         <div class="card-body">
-                            <form method="post" action="/atualizar-afastamento/{{ $afastamento->id }}"
+                            <form method="post" action="/atualizar-afastamento/{{ $afastamentos->id }}"
                                   enctype="multipart/form-data">
                                 @csrf
                                 <div class="row">
@@ -34,29 +34,29 @@
                                 <div class="form-group row">
                                     <div class="form-group col-2">Motivo do Afastamento
                                         <select class="form-select" name="tipo_afastamento" required="required"
-                                                value="{{$afastamento->id_tp_afastamento}}">
-                                            @foreach ($tipoafastamento as $tiposafastamentos)
+                                                value="{{$afastamentos->id_tp_afastamento}}">
+                                            @foreach ($tipoafastamentos as $tipoafastamentos)
                                                 <option
-                                                    value="{{ $tiposafastamentos->id }}">{{ $tiposafastamentos->nome }}</option>
+                                                    value="{{ $tipoafastamentos->id }}">{{ $tipoafastamentos->nome }}</option>
                                             @endforeach
                                         </select>
                                     </div>
 
                                     <div class="form-group col-2">Data de Inicio
-                                        <input class="form-control" type="date" value="{{$afastamento->data_inicio}}" id="iddt_inicio"
+                                        <input class="form-control" type="date" value="{{$afastamentos->dt_inicio}}" id="iddt_inicio"
                                                name="dt_inicio" required="required">
                                     </div>
-                                    <div class="form-group col-2">Data de Fim
-                                        <input class="form-control" type="date" value="{{$afastamento->data_fim}}" id="iddt_fim"
+                                    <div class="form-group col-2">Data de Retorno
+                                        <input class="form-control" type="date" value="{{$afastamentos->dt_fim}}" id="iddt_fim"
                                                name="dt_fim">
                                     </div>
-                                    <div class="form-group col-2">Arquivo de Anexo
+                                    <div class="form-group col-2">Arquivo Anexado
                                         <p>
-                                            <a href="{{asset("storage/$afastamento->caminho")}}"><button type="button" class="btn btn-lg btn-outline-secondary" ><i class="bi bi-archive"></i></button>
+                                            <a href="{{asset("storage/$afastamentos->caminho")}}"><button type="button" class="btn btn-lg btn-outline-secondary" ><i class="bi bi-archive"></i></button>
                                             </a>
                                         </p>
                                     </div>
-                                    <div class="form-group col-3">Novo Arquivo ?
+                                    <div class="form-group col-3">Novo Arquivo
                                         <input type="file" class="form-control form-control-sm" name="ficheiroNovo"
                                                id="idficheiro" >
                                     </div>
@@ -67,7 +67,7 @@
                                     <div class="mb-3">
                                         <label for="exampleFormControlTextarea1" class="form-label">Observação</label>
                                         <input class="form-control" type="text" maxlength="40" id="2"class="form-control " id="idobservacao" rows="1"
-                                        name="observacao" value="{{$afastamento->observacao}}">
+                                        name="observacao" value="{{$afastamentos->observacao}}">
 
                                     </div>
                                 </div>

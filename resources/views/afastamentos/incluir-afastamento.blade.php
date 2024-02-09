@@ -31,7 +31,7 @@
                                 </div>
                                 <hr>
                                 <div class="form-group row">
-                                    <div class="form-group col-2">Tipo de Afastamento
+                                    <div class="form-group col-2">Motivo do Afastamento
                                         <select class="form-select"  name="tipo_afastamento" required="required">
                                             @foreach ($tipoafastamento as $tiposafastamentos)
                                                 <option value="{{ $tiposafastamentos->id }}">{{ $tiposafastamentos->nome }}</option>
@@ -39,11 +39,11 @@
                                         </select>
                                     </div>
 
-                                    <div class="form-group col-3">Data de Inicio
+                                    <div class="form-group col-3">Data de Início
                                         <input class="form-control" type="date" value="" id="iddt_inicio"
                                             name="dt_inicio" required="required">
                                     </div>
-                                    <div class="form-group col-3">Data de Fim
+                                    <div class="form-group col-3">Data de Retorno
                                         <input class="form-control" type="date" value="" id="iddt_fim"
                                             name="dt_fim">
                                     </div>
