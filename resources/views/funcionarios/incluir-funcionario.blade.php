@@ -30,7 +30,8 @@
                                         <div class="col-md-4 col-sm-12">Nome completo
                                             <input class="form-control" type="text" maxlength="45"
                                                 oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                                id="idnome_completo" name="nome_completo" value="{{ old('nome_completo') }}" required="required">
+                                                id="idnome_completo" name="nome_completo" value="{{ old('nome_completo') }}"
+                                                required="required">
                                         </div>
                                         <div class="col-md-3 col-sm-12">Data nascimento
                                             <input class="form-control" type="date" value="{{ old('dt_nascimento') }}"
@@ -54,20 +55,19 @@
                                                 value="{{ old('pais') }}" required="required">
                                                 <option value=""></option>
                                                 @foreach ($nac as $nacs)
-                                                <option
-                                                @if (old('pais') == $nacs->id) {{ 'selected="selected"' }} @endif
+                                                    <option
+                                                        @if (old('pais') == $nacs->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $nacs->id }}">{{ $nacs->local }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2 col-sm-12">UF
                                             <select select class="form-select" data-placeholder="Choose one thing"
-                                                name="uf_nat" required="required"
-                                                id="uf1">
+                                                name="uf_nat" required="required" id="uf1">
                                                 <option value=""></option>
                                                 @foreach ($tp_uf as $tp_ufs)
-
-                                                    <option @if (old('uf_nat') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
+                                                    <option
+                                                        @if (old('uf_nat') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
                                                     </option>
                                                 @endforeach
@@ -88,10 +88,12 @@
                                                 id="8" name="cpf" required="required">
                                         </div>
                                         <div class="col-md-2 col-sm-12">Tipo Programa
-                                            <select class="form-select" id="9" name="tp_programa" required="required">
+                                            <select class="form-select" id="9" name="tp_programa"
+                                                required="required">
                                                 <option value=""></option>
                                                 @foreach ($programa as $programas)
-                                                <option @if (old('tp_programa') == $programas->id) {{ 'selected="selected"' }} @endif
+                                                    <option
+                                                        @if (old('tp_programa') == $programas->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $programas->id }}">{{ $programas->programa }}
                                                     </option>
                                                 @endforeach
@@ -113,20 +115,22 @@
                                                 name="uf_idt" required="required">
                                                 <option value=""></option>
                                                 @foreach ($tp_uf as $tp_ufs)
-                                                <option @if (old('uf_idt') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
-                                                        value="{{ $tp_ufs->id }}">{{  $tp_ufs->sigla }}
-                                                </option>
+                                                    <option
+                                                        @if (old('uf_idt') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
+                                                        value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
+                                                    </option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2 col-sm-12">Órgão expedidor
                                             <select class="form-select" required="required" id="12"
-                                                name="orgexp"  required="required">
+                                                name="orgexp" required="required">
                                                 <option value=""></option>
                                                 <@foreach ($org_exp as $org_exps)
-                                                <option @if (old('orgexp') == $org_exps->id) {{ 'selected="selected"' }} @endif
-                                                        value="{{  $org_exps->id }}">{{  $org_exps->sigla }}
-                                                </option>
+                                                    <option
+                                                        @if (old('orgexp') == $org_exps->id) {{ 'selected="selected"' }} @endif
+                                                        value="{{ $org_exps->id }}">{{ $org_exps->sigla }}
+                                                    </option>
                                                     @endforeach
                                             </select>
                                         </div>
@@ -135,20 +139,24 @@
                                                 value="{{ old('dt_idt') }}" required="required">
                                         </div>
                                         <div class="col-md-2 col-sm-12">Cor pele
-                                            <select class="form-select" id="14" name="cor" required="required">
+                                            <select class="form-select" id="14" name="cor"
+                                                required="required">
                                                 <option value=""></option>
                                                 <@foreach ($cor as $cors)
-                                                <option @if (old('cor') == $cors->id) {{ 'selected="selected"' }} @endif
-                                                        value="{{ $cors->id }}">{{  $cors->nome_cor }}
-                                                </option>
+                                                    <option
+                                                        @if (old('cor') == $cors->id) {{ 'selected="selected"' }} @endif
+                                                        value="{{ $cors->id }}">{{ $cors->nome_cor }}
+                                                    </option>
                                                     @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2 col-sm-12">Tipo sangue
-                                            <select class="form-select" id="15" name="tps" required="required">
+                                            <select class="form-select" id="15" name="tps"
+                                                required="required">
                                                 <option value=""></option>
                                                 <@foreach ($sangue as $sangues)
-                                                <option @if (old('tps') == $sangues->id) {{ 'selected="selected"' }} @endif
+                                                    <option
+                                                        @if (old('tps') == $sangues->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $sangues->id }}">{{ $sangues->nome_sangue }}
                                                     </option>
                                                     @endforeach
@@ -159,7 +167,8 @@
                                                 required="required">
                                                 <option value=""></option>
                                                 <@foreach ($fator as $fators)
-                                                <option @if (old('frh') == $fators->id) {{ 'selected="selected"' }} @endif
+                                                    <option
+                                                        @if (old('frh') == $fators->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $fators->id }}">{{ $fators->nome_fator }}
                                                     </option>
                                                     @endforeach
@@ -189,10 +198,11 @@
                                                 required="required">
                                                 <option value=""></option>
                                                 <@foreach ($ddd as $ddds)
-                                                <option @if (old('ddd') == $ddds->id) {{ 'selected="selected"' }} @endif
+                                                    <option
+                                                        @if (old('ddd') == $ddds->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $ddds->id }}">{{ $ddds->descricao }}
                                                     </option>
-                                                @endforeach
+                                                    @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2 col-sm-12">Celular
@@ -217,7 +227,8 @@
                                                 id="uf_ctps" name="uf_ctps" required="required">
                                                 <option value=""></option>
                                                 @foreach ($tp_uf as $tp_ufs)
-                                                <option @if (old('uf_ctps') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
+                                                    <option
+                                                        @if (old('uf_ctps') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
                                                         value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
                                                     </option>
                                                 @endforeach
@@ -252,8 +263,9 @@
                                             <select class="form-select" id="32" name="cnh">
                                                 <option value=""></option>
                                                 @foreach ($cnh as $cnhs)
-                                                <option @if (old('cnh') ==  $cnhs->id) {{ 'selected="selected"' }} @endif
-                                                        value="{{  $cnhs->id }}">{{ $cnhs->nome_cat }}
+                                                    <option
+                                                        @if (old('cnh') == $cnhs->id) {{ 'selected="selected"' }} @endif
+                                                        value="{{ $cnhs->id }}">{{ $cnhs->nome_cat }}
                                                     </option>
                                                 @endforeach
                                             </select>
@@ -285,9 +297,10 @@
                                         <select class="js-example-responsive form-select" id="iduf" name="uf_end">
                                             <option value=""></option>
                                             @foreach ($tp_uf as $tp_ufs)
-                                            <option @if (old('uf_end') ==  $tp_ufs->id) {{ 'selected="selected"' }} @endif
-                                            value="{{  $tp_ufs->id }}">{{ $tp_ufs->sigla }}
-                                            </option>
+                                                <option
+                                                    @if (old('uf_end') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
+                                                    value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
+                                                </option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -336,7 +349,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('scripts')
@@ -357,57 +369,45 @@
     <script>
         $(document).ready(function() {
 
-            $('#idcidade').select2({
+            $('#idcidade, #cidade1').select2({
                 theme: 'bootstrap-5',
                 width: '100%',
             });
-            $('#cidade1').select2({
-                theme: 'bootstrap-5',
-                width: '100%'
-            });
-            $('#idlimpar').click(function (e) {
-                $('#idnome_completo').val("");
 
-
-            });
+            function populateCities(selectElement, stateValue) {
+                $.ajax({
+                    type: "get",
+                    url: "/retorna-cidade-dados-residenciais/" + stateValue,
+                    dataType: "json",
+                    success: function(response) {
+                        selectElement.empty();
+                        $.each(response, function(indexInArray, item) {
+                            selectElement.append('<option value="' + item.id_cidade + '">' +
+                                item.descricao + '</option>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("An error occurred:", error);
+                    }
+                });
+            }
 
 
             $('#iduf').change(function(e) {
-                e.preventDefault();
-
+                var stateValue = $(this).val();
                 $('#idcidade').removeAttr('disabled');
-                var cidadeDadosResidenciais = $(this).val();
-
-                $.ajax({
-                    type: "get",
-                    url: "/retorna-cidade-dados-residenciais/" + cidadeDadosResidenciais,
-                    dataType: "json",
-                    success: function(response) {
-                        $.each(response, function(indexInArray, item) {
-                            $('#idcidade').append('<option value = ' + item.id_cidade +
-                                '>' + item.descricao + '</option>');
-                        });
-                    },
-                });
+                populateCities($('#idcidade'), stateValue);
             });
+
             $('#uf1').change(function(e) {
-                var uf = $(this).val();
+                var stateValue = $(this).val();
                 $('#cidade1').removeAttr('disabled');
-                $.ajax({
-                    type: "get",
-                    url: "/retorna-cidade-dados-residenciais/" + uf,
-                    dataType: "json",
-                    success: function(response) {
-                        $.each(response, function(indexInArray, item) {
-                            $('#cidade1').append('<option value = ' + item.id_cidade +
-                                '>' + item.descricao + '</option>');
-                        });
-                    }
-                });
-
+                populateCities($('#cidade1'), stateValue);
             });
 
+            $('#idlimpar').click(function(e) {
+                $('#idnome_completo').val("");
+            });
         });
-
     </script>
 @endsection
