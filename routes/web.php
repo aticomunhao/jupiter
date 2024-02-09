@@ -169,8 +169,8 @@ Route::get('/pesquisar-associado', [App\Http\Controllers\GerenciarAssociadoContr
 Route::get('/gerenciar-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'index']);
 Route::get('/informar-dados-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'create']);
 Route::get('/retorna-cidade-dados-residenciais',[App\Http\Controllers\GerenciarAssociadoController::class, 'retornaCidadeDadosResidenciais']);
-
-
+Route::any('/incluir-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'store']);
+Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
 
 
 
