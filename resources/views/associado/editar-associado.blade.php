@@ -3,7 +3,7 @@
 @section('content')
 <br>
 <div class="container">
-<legend style="color:rgb(16, 19, 241); font-size:15px;">Criar Associado</legend>
+    <legend style="color:rgb(16, 19, 241); font-size:15px;">Criar Associado</legend>
     <div class="border border-primary" style="border-radius: 5px;">
         <div class="card">
             <div class="card-header">
@@ -17,36 +17,34 @@
                         <div class="row d-flex justify-content-around">
                             <div class="col-md-4 col-sm-12">
                                 <label for="1">Nome Completo</label>
-                                <input type="text" class="form-control" name="nome_completo" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                <input type="text" class="form-control" name="nome_completo" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="{{ $edit_associado[0]->nome_completo }}">
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <label for="2">CPF</label>
-                                <input type="text" class="form-control" name="cpf" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                <input type="text" class="form-control" name="cpf" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="{{ $edit_associado[0]->cpf }}">
                             </div>
                             <div class="col-md-1 col-sm-12">
                                 <label for="3">DDD</label>
-                                <select class="form-select" name="ddd" id="3" value="">
-                                    <option></option>
-                                    @foreach ($ddd as $ddds)
-                                    <option value="{{ $ddds->id }}">{{ $ddds->descricao }}</option>
+                                <select id="19" class="form-select" name="ddd">
+                                    <option value="{{ $edit_associado[0]->tpd }}">{{$edit_associado[0]->dddesc }}</option>
+                                    @foreach ($tpddd as $tpddds)
+                                    <option value="{{ $tpddds->id }}">{{ $tpddds->descricao }}</option>
                                     @endforeach
-                                </select>
-
                                 </select>
                             </div>
 
                             <div class="col-md-3 col-sm-12">
                                 <label for="2">Telefone</label>
-                                <input type="text" class="form-control" id="2"  maxlength="12" name="telefone" value="">
+                                <input type="text" class="form-control" id="2" maxlength="12" name="telefone" value="{{ $edit_associado[0]->celular }}">
                             </div>
                             <div class="row d-flex justify-content-around">
                                 <div class="col-md-4 col-sm-12">
                                     <label for="2">Email</label>
-                                    <input type="text" class="form-control" id="2"  maxlength="50"name="email" value="">
+                                    <input type="text" class="form-control" id="2" maxlength="50" name="email" value="{{ $edit_associado[0]->email }}">
                                 </div>
                                 <div class="col-md-2 col-sm-12">
                                     <label for="4">Data de Inicio</label>
-                                    <input type="date" class="form-control" name="dt_inicio" id="4">
+                                    <input type="date" class="form-control" name="dt_inicio" id="4" value="{{ $edit_associado[0]->dt_inicio }}">
                                 </div>
                             </div>
                         </div>
@@ -65,12 +63,12 @@
             <div class="row d-flex justify-content-around">
                 <div class="form-group col-xl-2 col-md-4 mt-3 ">
                     <label for="1">CEP</label>
-                    <input type="text" class="form-control" id="1" name="cep" value="">
+                    <input type="text" class="form-control" id="1" name="cep" value="{{ $edit_associado[0]->cep }}">
                 </div>
                 <div class="form-group col-xl-1 col-md-4 mt-3 ">
                     <label for="id_uf">UF</label>
                     <select class="js-example-responsive form-select" id="iduf" name="uf_end">
-                        <option value=""></option>
+                        <option value="{{ $edit_associado[0]->tuf }}">{{$edit_associado[0]->ufsgl}}</option>
                         @foreach ($tp_uf as $tp_ufs)
                         <option @if (old('uf_end')==$tp_ufs->id) {{ 'selected="selected"' }} @endif
                             value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
@@ -81,24 +79,25 @@
                 <div class="form-group col-xl-2 col-md-4 mt-3 ">
                     <label for="ciadade">Cidade</label>
                     <select class="js-example-responsive form-select" id="idcidade" name="cidade" value="{{ old('cidade') }}" disabled>
+                        <option value="{{ $edit_associado[0]->id_cidade }}">{{ $edit_associado[0]->nat }}</option>
                     </select>
                 </div>
                 <div class="form-group col-xl-3 col-md-4 mt-3 ">
                     <label for="1">Logradouro</label>
-                    <input type="text" class="form-control" id="1" name="logradouro" value="">
+                    <input type="text" class="form-control" id="1" name="logradouro" value="{{ $edit_associado[0]->logradouro }}">
                 </div>
                 <div class="form-group col-xl-1 col-md-4 mt-3 ">
                     <label for="1">Número</label>
-                    <input type="text" class="form-control" id="1" name="numero" value="">
+                    <input type="text" class="form-control" id="1" name="numero" value="{{ $edit_associado[0]->numero }}">
                 </div>
                 <div class="row d-flex justify-content-around">
                     <div class="form-group col-xl-3 col-md-4 mt-3 ">
                         <label for="1">Complemento</label>
-                        <input type="text" class="form-control" id="1" name="complemento" value="">
+                        <input type="text" class="form-control" id="1" name="complemento" value="{{ $edit_associado[0]->complemento }}">
                     </div>
                     <div class="form-group col-xl-2 col-md-4 mt-3 ">
                         <label for="1">Bairro</label>
-                        <input type="text" class="form-control" id="1" name="bairro" value="">
+                        <input type="text" class="form-control" id="1" name="bairro" value="{{ $edit_associado[0]->bairro }}">
                     </div>
                 </div>
             </div>
@@ -133,7 +132,7 @@
 
             $('#iduf').change(function(e) {
                 e.preventDefault();
-
+                $('#idcidade').empty();
                 $('#idcidade').removeAttr('disabled');
                 var cidadeDadosResidenciais = $(this).val();
 

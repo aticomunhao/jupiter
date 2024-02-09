@@ -102,27 +102,33 @@ class GerenciarAssociadoController extends Controller
    {
       DB::table('pessoas')
          ->insert([
-            'nome_completo' => $request->input('nome'),
+            'nome_completo' => $request->input('nome_completo'),
             'cpf' => $request->input('cpf'),
             'ddd' => $request->input('ddd'),
             'celular' => $request->input('telefone'),
             'email' => $request->input('email')
          ]);
 
+      $id_pessoa = DB::table('pessoas')
+         ->select(DB::raw('MAX(id) as max_id'))
+         ->value('max_id');
+
       DB::table('associado')
          ->insert([
+            'id_pessoa' => $id_pessoa,
             'dt_inicio' => $request->input('dt_inicio'),
 
          ]);
 
       DB::table('endereco_pessoas')->insert([
+         'id_pessoa' => $id_pessoa,
          'cep' => str_replace('-', '', $request->input('cep')),
          'id_uf_end' => $request->input('uf_end'),
          'id_cidade' => $request->input('cidade'),
          'logradouro' => $request->input('logradouro'),
          'numero' => $request->input('numero'),
          'bairro' => $request->input('bairro'),
-         'complemento' => $request->input('comple'),
+         'complemento' => $request->input('complemento'),
       ]);
 
 
@@ -130,4 +136,48 @@ class GerenciarAssociadoController extends Controller
 
       return redirect('/gerenciar-associado');
    }
-ss}
+
+   public function edit($id)
+   {
+      $edit_associado = DB::table('associado AS ass')
+         ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
+         ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
+         ->leftJoin('tp_uf', 'endp.id_uf_end', '=', 'tp_uf.id')
+         ->leftJoin('tp_ddd', 'tp_ddd.id', '=','p.ddd')
+         ->leftjoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
+         ->where('ass.id', $id)
+         ->select(
+            'ass.nr_associado',
+            'ass.dt_inicio',                                                                                            
+            'p.nome_completo',
+            'p.cpf',
+            'p.celular',
+            'p.email',
+            'tp_ddd.id AS tpd',
+            'tp_ddd.descricao AS dddesc',
+            'tp_uf.id AS tuf',
+            'tp_uf.sigla AS ufsgl',
+            'endp.cep',
+            'tc.descricao',
+            'endp.logradouro',
+            'endp.numero',
+            'endp.bairro',
+            'endp.complemento',
+            'tc.id_cidade',
+            'tc.descricao AS nat'
+         )->get();
+
+         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
+         $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
+         $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
+         
+      $tp_uf = DB::select('select id, sigla from tp_uf');
+
+
+      //dd($tpcidade);
+
+     // dd($edit_associado);
+
+      return view('associado/editar-associado', compact('edit_associado', 'tpddd', 'tpcidade', 'tpufidt', 'tp_uf'));
+   }
+}
