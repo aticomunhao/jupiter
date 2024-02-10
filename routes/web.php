@@ -308,7 +308,7 @@ Route::any('/incluir-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastam
 Route::any('/editar-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'edit']);
 Route::any('/armazenar-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'store']);
 Route::any('/excluir-afastamento/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'destroy']);
-Route::any('/atualizar-acordo/{id}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'update']);
+Route::any('/atualizar-afastamento/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'update']);
 
 
 

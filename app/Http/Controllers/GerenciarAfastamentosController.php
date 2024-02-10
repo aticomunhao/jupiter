@@ -16,21 +16,22 @@ class GerenciarAfastamentosController extends Controller
     public function index($idf)
     {
         $funcionario = DB::table('funcionarios')
-        ->leftjoin('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-        ->where ('funcionarios.id', '=', $idf)
-        ->select('funcionarios.id AS funcionario_id','pessoas.nome_completo','pessoas.id AS pessoas_id')
-        ->first();
+            ->leftjoin('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->where('funcionarios.id', '=', $idf)
+            ->select('funcionarios.id AS funcionario_id', 'pessoas.nome_completo', 'pessoas.id AS pessoas_id')
+            ->first();
 
 
         $afastamentos = DB::table('afastamento')
-        ->leftJoin('funcionarios AS f', 'afastamento.id_funcionario', 'f.id')
-        ->join('pessoas AS p', 'f.id_pessoa', 'p.id')
-        ->join('tp_afastamento', 'afastamento.id_tp_afastamento', 'tp_afastamento.id')
-        ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa',  'p.nome_completo AS nome', 'afastamento.dt_inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim')
-        ->get();
+            ->leftJoin('funcionarios AS f', 'afastamento.id_funcionario', 'f.id')
+            ->leftJoin('pessoas AS p', 'f.id_pessoa', 'p.id')
+            ->leftJoin('tp_afastamento', 'afastamento.id_tp_afastamento', 'tp_afastamento.id')
+            ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa',  'p.nome_completo AS nome', 'afastamento.dt_inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim')
+            ->where('afastamento.id_funcionario', '=', $idf)
+            ->get();
 
 
-        return view('afastamentos.gerenciar-afastamentos', compact('funcionario', 'afastamentos', ));
+        return view('afastamentos.gerenciar-afastamentos', compact('funcionario', 'afastamentos'));
     }
 
     /**
@@ -39,15 +40,15 @@ class GerenciarAfastamentosController extends Controller
     public function create($idf)
     {
         $tipoafastamento = DB::table('tp_afastamento AS afa')
-        ->select('afa.id', 'afa.nome', 'afa.limite')
-        ->get();
+            ->select('afa.id', 'afa.nome', 'afa.limite')
+            ->get();
 
 
         $funcionario = DB::table('funcionarios')
-        ->leftjoin('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-        ->where ('funcionarios.id', '=', $idf)
-        ->select('funcionarios.id as funcionario_id','pessoas.nome_completo','pessoas.id as pessoas_id')
-        ->first();
+            ->leftjoin('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->where('funcionarios.id', '=', $idf)
+            ->select('funcionarios.id as funcionario_id', 'pessoas.nome_completo', 'pessoas.id as pessoas_id')
+            ->first();
 
         return view('afastamentos.incluir-afastamento', compact('funcionario', 'tipoafastamento'));
     }
@@ -76,7 +77,7 @@ class GerenciarAfastamentosController extends Controller
                 'dt_fim' => $request->input('dt_fim'),
                 'id_funcionario' => $idf,
                 'observacao' => $request->input('observacao'),
-                'caminho'=>$caminho
+                'caminho' => $caminho
             ];
 
             DB::table('afastamento')->insert($data);
@@ -108,22 +109,24 @@ class GerenciarAfastamentosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        $afastamentos = DB::table('afastamento')->where('id', $id)->first();
-        $funcionario = $this->getFuncionarioData($afastamentos->id_funcionario);
+
+        $afastamento = DB::table('afastamento')->where('id', $id)->first();
+
+
 
         if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null) {
             app('flasher')->addError('A data inicial é maior que a data final');
-            return redirect()->route('indexGerenciarAfastamentos', ['id' => $afastamentos->id_funcionario]);
+            return redirect()->route('indexGerenciarAfastamentos', ['id' => $afastamento->id_funcionario]);
         } elseif ($request->file('ficheiroNovo') == null) {
-            $this->updateAfastamentosWithoutFile($afastamentos, $request);
+            $this->updateAfastamentosWithoutFile($afastamento, $request);
         } elseif ($request->hasFile('ficheiroNovo')) {
-            $this->updateAfastamentosWithFile($afastamentos, $request);
+            $this->updateAfastamentosWithFile($afastamento, $request);
         }
 
         app('flasher')->addWarning('O cadastro do afastamento foi alterado com sucesso.');
-        return redirect()->route('indexGerenciarAfastamentos', ['id' => $afastamentos->id_funcionario]);
+        return redirect()->route('indexGerenciarAfastamentos', ['idf' => $afastamento->id_funcionario]);
     }
 
     /**
@@ -140,7 +143,7 @@ class GerenciarAfastamentosController extends Controller
     }
 
 
-     // Métodos Auxiliares
+    // Métodos Auxiliares
 
     private function storeFile(Request $request)
     {
@@ -148,16 +151,15 @@ class GerenciarAfastamentosController extends Controller
         return 'storage/images/' . $request->file('ficheiro')->getClientOriginalName();
     }
 
-    private function updateAfastamentoWithoutFile($afastamento, Request $request)
+    private function updateAfastamentosWithoutFile($afastamento, Request $request)
     {
-        DB::table('afastamento')
-            ->where('id', $afastamentos->id)
-            ->update([
-                'id_tp_acordo' => $request->input('tp_afastamento'),
-                'data_inicio' => $request->input('dt_inicio'),
-                'data_fim' => $request->input('dt_fim'),
-                'observacao' => $request->input('observacao')
-            ]);
+
+        DB::table('afastamento')->where('id', $afastamento->id)->update([
+            'id_tp_afastamento' => $request->input('tipo_afastamento'),
+            'dt_inicio' => $request->input('dt_inicio'),
+            'dt_fim' => $request->input('dt_fim'),
+            'observacao' => $request->input('observacao')
+        ]);
     }
 
 
