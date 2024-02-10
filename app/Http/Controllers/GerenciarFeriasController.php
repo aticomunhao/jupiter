@@ -71,7 +71,7 @@ class GerenciarFeriasController extends Controller
             ->where('ano_de_referencia', $ano_referente)
             ->where('id_funcionario', $id)
             ->first();
-        
+
         return view('ferias.incluir-ferias', compact('ano_referente',"periodo_aquisitivo"));
     }
 
@@ -80,7 +80,9 @@ class GerenciarFeriasController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+
+    
+
     }
 
     /**
