@@ -9,8 +9,8 @@
                     <fieldset class="border rounded border-primary">
                         <div class="card-header">
                             <div class="row">
-                                <div class="col-6"><span
-                                        style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar Afastamentos</span>
+                                <div class="col-6"><span style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar
+                                        Afastamentos</span>
                                 </div>
                                 <div class="col-6">
                                 </div>
@@ -48,8 +48,8 @@
                                             <th class="col-2">Data de Início</th>
                                             <th class="col-2">Quantidade de dias</th>
                                             <th class="col-2">Data de Retorno</th>
-                                            <th class="col-2">Justificado ?</th>
-                                            <th class="col-1">Ações</th>
+                                            <th class="col-2">Justificado</th>
+                                            <th class="col-2">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 14px; color:#000000;">
@@ -70,20 +70,33 @@
                                                     {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}
 
                                                 </td>
-                                                <td scope=""style="text-align: center">
-
+                                                <td style="text-align: center">
+                                                    {{ $afastamento->justificado ? 'Sim' : 'Não' }}
                                                 </td>
 
-                                                <td scope="">
+                                                <!--Botao de Arquivo-->
+                                                <td scope="" style="text-align: center">
                                                     <a href="{{ asset("$afastamento->caminho") }}"
                                                         class="btn btn-sm btn-outline-secondary">
                                                         <i class="bi bi-archive"></i>
                                                     </a>
-                                                    <!-- Button trigger modal -->
-                                                    <button type="button" class="btn btn-outline-danger delete-btn btn-sm"
-                                                        data-bs-toggle="modal" data-bs-target="#A{{ $afastamento->id }}"><i
-                                                            class="bi bi-trash"></i></button>
 
+                                                    <!-- Botao de excluir, trigger modal -->
+                                                    <a>
+                                                        <button type="button"
+                                                            class="btn btn-outline-danger delete-btn btn-sm"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#A{{ $afastamento->id }}">
+                                                            <i class="bi bi-trash">
+                                                            </i>
+                                                        </button>
+                                                    </a>
+
+                                                    <!--Botao de Editar-->
+                                                    <a href="/editar-afastamentos/{{ $afastamento->id }}"><button
+                                                            type="submit" class="btn btn-outline-warning btn-sm"><i
+                                                                class="bi bi-pencil"></i></button>
+                                                    </a>
 
                                                     <!-- Modal -->
 
@@ -120,10 +133,7 @@
 
 
 
-                                                    <!--Fim Modal-->
-                                                    <a href="/editar-afastamentos/{{ $afastamento->id }}"><button
-                                                            type="submit" class="btn btn-outline-warning btn-sm"><i
-                                                                class="bi bi-pencil"></i></button></a>
+
                                                 </td>
                                         </tr>
                                         @endforeach
