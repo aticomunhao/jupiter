@@ -47,6 +47,7 @@ class GerenciarFeriasController extends Controller
     public function create($id)
     {
 
+
         $ano_referente = Carbon::now()->year - 1;
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -72,16 +73,18 @@ class GerenciarFeriasController extends Controller
             ->where('id_funcionario', $id)
             ->first();
 
-        return view('ferias.incluir-ferias', compact('ano_referente',"periodo_aquisitivo"));
+        return view('ferias.incluir-ferias', compact('ano_referente',"periodo_aquisitivo",'id'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
+       dd( $request->all());
 
-    
+
+
 
     }
 
