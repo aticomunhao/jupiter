@@ -143,12 +143,17 @@ class GerenciarAssociadoController extends Controller
          ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
          ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
          ->leftJoin('tp_uf', 'endp.id_uf_end', '=', 'tp_uf.id')
-         ->leftJoin('tp_ddd', 'tp_ddd.id', '=','p.ddd')
+         ->leftJoin('tp_ddd', 'tp_ddd.id', '=', 'p.ddd')
          ->leftjoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
          ->where('ass.id', $id)
          ->select(
+            'ass.id AS ida',
             'ass.nr_associado',
-            'ass.dt_inicio',                                                                                            
+            'p.id AS idp',
+            'endp.id AS ide',
+
+            'ass.dt_inicio',
+            'ass.dt_fim',
             'p.nome_completo',
             'p.cpf',
             'p.celular',
@@ -167,17 +172,106 @@ class GerenciarAssociadoController extends Controller
             'tc.descricao AS nat'
          )->get();
 
-         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
-         $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
-         $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
-         
+      $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
+      $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
+      $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
+
       $tp_uf = DB::select('select id, sigla from tp_uf');
 
 
       //dd($tpcidade);
 
-     // dd($edit_associado);
+      // dd($edit_associado);
 
       return view('associado/editar-associado', compact('edit_associado', 'tpddd', 'tpcidade', 'tpufidt', 'tp_uf'));
+   }
+   public function update(Request $request, $ida, $idp, $ide)
+   {
+
+      DB::table('pessoas')
+         ->where('id', $idp)
+         ->update([
+            'nome_completo' => $request->input('nome_completo'),
+            'cpf' => $request->input('cpf'),
+            'ddd' => $request->input('ddd'),
+            'celular' => $request->input('telefone'),
+            'email' => $request->input('email')
+         ]);
+
+      DB::table('associado')
+         ->where('id', $ida)
+         ->update([
+            'dt_inicio' => $request->input('dt_inicio'),
+            'dt_fim' => $request->input('dt_fim'),
+         ]);
+
+      DB::table('endereco_pessoas')
+         ->where('id', $ide)
+         ->update([
+            'cep' => $request->input('cep'),
+            'id_uf_end' => $request->input('uf_end'),
+            'id_cidade' => $request->input('cidade'),
+            'logradouro' => $request->input('logradouro'),
+            'numero' => $request->input('numero'),
+            'bairro' => $request->input('bairro'),
+            'complemento' => $request->input('complemento'),
+         ]);
+
+
+
+      app('flasher')->addSuccess('Edição do cadastro do Associado foi realizado com sucesso.');
+
+      return redirect('/gerenciar-associado');
+   }
+   public function visualizardadosbancarios($id)
+   {
+      return view('/associado/incluir-dados_bancarios');
+   }
+   public function incluirdadosbancarios(Request $request)
+   {
+
+      DB::table('forma_contribuicao_tesouraria')->insert([
+         'dinheiro' => $request->has('dinheiro'),
+         'cheque' => $request->has('cheque'),
+         'ct_de_debito' => $request->has('cartao_de_debito'),
+         'ct_de_credito' => $request->has('cartao_de_credito'),
+      ]);
+
+      DB::table('forma_contribuicao_boleto')->insert([
+         'mensal' => $request->has('mensal'),
+         'trimestral' => $request->has('trimestral'),
+         'semestral' => $request->has('semestral'),
+         'anual' => $request->has('anual'),
+      ]);
+
+      DB::table('forma_contribuicao_autorizacao')->insert([
+         'banco_do_brasil' => $request->has('banco_do_brasil'),
+         'brb' => $request->has('brb'),
+      ]);
+
+      $id_cont_tesouraria = DB::table('forma_contribuicao_tesouraria')
+         ->select(DB::raw('MAX(id) as max_id'))
+         ->value('max_id');
+
+      $id_cont_boleto = DB::table('forma_contribuicao_boleto')
+         ->select(DB::raw('MAX(id) as max_id'))
+         ->value('max_id');
+
+      $id_cont_boleto = DB::table('forma_contribuicao_autorizacao')
+         ->select(DB::raw('MAX(id) as max_id'))
+         ->value('max_id');
+
+      DB::table('contribuicao_associado')
+         ->insert([
+            'id_contribuicao_tesouraria' => $id_cont_tesouraria,
+            'id_contribuicao_boleto' => $id_cont_boleto,
+            'id_contribuicao_autorizacao' => $id_cont_boleto,
+            'valor' => $request->input('valor'),
+            'dt_vencimento' => $request->input('dt_vencimento'),
+         ]);
+
+      app('flasher')->addSuccess('Cadastro Dados Bancários do Associado foi realizado com sucesso.');
+
+      return redirect('/gerenciar-associado');
    }
 }

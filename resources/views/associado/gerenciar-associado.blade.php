@@ -44,7 +44,6 @@
             <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                 <thead style="text-align: center;">
                     <tr style="background-color: #365699; font-size:19px; color:#ffffff">
-                        <th class="col-1">ID</th>
                         <th class="col-1">Nr associado</th>
                         <th class="col-3">Nome</th>
                         <th class="col-1">Voluntário</th>
@@ -60,9 +59,6 @@
                     
                     @foreach ($lista_associado as $lista_associados)
                     <tr>    
-                    <td scope="">
-                            <center>{{ $lista_associados->id}}</center>
-                        </td>
                         <td scope="">
                             <center>{{ $lista_associados->nr_associado }}</center>
                         </td>
@@ -91,7 +87,7 @@
                                 <a href="/editar-associado/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href=""><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href=""><button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-archive" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                <a href=""><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-currency-dollar" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <a href="/visualizar-dados_bancarios/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-currency-dollar" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="" class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
                         </td>
                         

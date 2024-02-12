@@ -172,9 +172,10 @@ Route::get('/informar-dados-associado', [App\Http\Controllers\GerenciarAssociado
 Route::get('/retorna-cidade-dados-residenciais',[App\Http\Controllers\GerenciarAssociadoController::class, 'retornaCidadeDadosResidenciais']);
 Route::any('/incluir-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'store']);
 Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
-
-
-
+Route::post('/atualizar-associado/{ida}/{idp}/{ide}', [App\Http\Controllers\GerenciarAssociadoController::class, 'update']);
+Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
+Route::get('/visualizar-dados_bancarios/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'visualizardadosbancarios']);
+Route::any('/incluir-dados-bancarios', [App\Http\Controllers\GerenciarAssociadoController::class, 'incluirdadosbancarios']);
 
 
 

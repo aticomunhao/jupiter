@@ -3,14 +3,14 @@
 @section('content')
 <br>
 <div class="container">
-    <legend style="color:rgb(16, 19, 241); font-size:15px;">Criar Associado</legend>
+    <legend style="color:rgb(16, 19, 241); font-size:15px;">Editar Associado</legend>
     <div class="border border-primary" style="border-radius: 5px;">
         <div class="card">
             <div class="card-header">
                 Dados Pessoais
             </div>
             <div class="card-body">
-                <form class="form-horizontal mt-4" method='POST' action="/incluir-associado">
+                <form class="form-horizontal mt-4" method='POST' action ="/atualizar-associado/{{ $edit_associado[0]->ida}}/{{ $edit_associado[0]->idp}}/{{ $edit_associado[0]->ide}}">
                     @csrf
 
                     <div class="container-fluid">
@@ -45,6 +45,10 @@
                                 <div class="col-md-2 col-sm-12">
                                     <label for="4">Data de Inicio</label>
                                     <input type="date" class="form-control" name="dt_inicio" id="4" value="{{ $edit_associado[0]->dt_inicio }}">
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <label for="4">Data de Final</label>
+                                    <input type="date" class="form-control" name="dt_fim" id="4" value="{{ $edit_associado[0]->dt_fim }}">
                                 </div>
                             </div>
                         </div>
@@ -107,7 +111,7 @@
     <br>
 
     <div class="row d-flex justify-content-around">
-        <div class="col-2"><a href="/gerenciar-setor" class="btn btn-danger" style="width:150%">Cancelar</a></div>
+        <div class="col-2"><a href="/gerenciar-associado" class="btn btn-danger" style="width:150%">Cancelar</a></div>
         <div class="col-2"><button type="submit" class="btn btn-primary" style="width: 150%;">Confirmar</button></div>
     </div>
     </form>
