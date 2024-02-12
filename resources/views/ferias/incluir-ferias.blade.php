@@ -113,12 +113,10 @@
                     '</div></div>' +
                     '</div>'
                 );
-
+              
 
             });
-            $('#vendeferias').change(function (e) {
-                    alert($('input[name="radioOption"]').val();)
-                });
+
         });
     </script>
 @endsection
