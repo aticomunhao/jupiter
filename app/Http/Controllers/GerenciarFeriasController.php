@@ -46,8 +46,6 @@ class GerenciarFeriasController extends Controller
      */
     public function create($id)
     {
-
-
         $ano_referente = Carbon::now()->year - 1;
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -73,25 +71,64 @@ class GerenciarFeriasController extends Controller
             ->where('id_funcionario', $id)
             ->first();
 
-        return view('ferias.incluir-ferias', compact('ano_referente',"periodo_aquisitivo",'id'));
+
+        return view('ferias.incluir-ferias', compact('ano_referente', "periodo_aquisitivo", 'id'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request,$id)
+    public function store(Request $request, $id)
     {
-       dd( $request->all());
+        $resultado_formulario_de_ferias = $request->all();
+        $diasDeDireitoDoFuncionario = 30 - ($faltas = 0);
+        $ano_referente = Carbon::now()->year - 1;
+        $funcionario = DB::table('funcionarios')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')
+            ->first();
+        $ferias = DB::table('ferias')->where('id_funcionario', $id)
+            ->where('ano_de_referencia', '=', $ano_referente)
+            ->first();
 
 
+        if ($resultado_formulario_de_ferias['numeroPeriodoDeFerias'] == 1) {
+            $data_inicio = Carbon::parse($resultado_formulario_de_ferias["data_inicio_0"]);
+            $data_fim = Carbon::parse($resultado_formulario_de_ferias["data_fim_0"]);
+            $dias_DeFerias_utilizadas = $data_inicio->diffInDays($data_fim);
+
+            if ($dias_DeFerias_utilizadas > $diasDeDireitoDoFuncionario) {
+                $dias_excedentes = $dias_DeFerias_utilizadas - $diasDeDireitoDoFuncionario;
+                app('flasher')->addError("Foram utilizados $dias_excedentes dias a mais");
+                return redirect()->route('CriarFerias', ['id' => $id]);
+            } elseif ($dias_DeFerias_utilizadas < $diasDeDireitoDoFuncionario) {
+                $dias_restantes = $diasDeDireitoDoFuncionario - $dias_DeFerias_utilizadas;
+                app('flasher')->addError("Não foram utilizados todos os dias que tem direito, ainda é preciso utilizar $dias_restantes dias");
+                return redirect()->route('CriarFerias', ['id' => $id]);
+            } elseif ($data_fim->lt($data_inicio)) {
+                app('flasher')->addError('Você colocou uma data de fim excedendo a data de início');
+                return redirect()->route('CriarFerias', ['id' => $id]);
+            } elseif ($data_inicio->lt($ferias->fim_periodo_aquisitivo)) {
+                app('flasher')->addError('A data inicial do período de férias é inferior ao início do seu período de licensa que começa no dia ' . Carbon::parse($ferias->fim_periodo_aquisitivo)->format('dd/MM/yyyy'));
+                return redirect()->route('CriarFerias', ['id' => $id]);
+            }else{
+                echo 'Certin';            }
+
+        } else if ($resultado_formulario_de_ferias['numeroPeriodoDeFerias'] == 2) {
+
+        } else {
+
+        }
 
 
+        return redirect()->route('IndexGerenciarFerias');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public
+    function show(string $id)
     {
         //
     }
@@ -99,7 +136,8 @@ class GerenciarFeriasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public
+    function edit(string $id)
     {
         //
     }
@@ -107,7 +145,8 @@ class GerenciarFeriasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public
+    function update(Request $request, string $id)
     {
         //
     }
@@ -115,11 +154,13 @@ class GerenciarFeriasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public
+    function destroy(string $id)
     {
     }
 
-    public function InsereERetornaFuncionarios()
+    public
+    function InsereERetornaFuncionarios()
     {
         $data_do_ultimo_ano = Carbon::now()->subYear()->endOfYear()->toDateString();
         $ano_referencia = Carbon::now()->year - 1;
@@ -150,7 +191,7 @@ class GerenciarFeriasController extends Controller
                         'ano_de_referencia' => $ano_referencia,
                         'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
                         'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
-                        'status_periodo_de_ferias' => 1,
+                        'status_pedido_ferias' => 1,
                         'id_funcionario' => $funcionario->id_funcionario
 
                     ]);

@@ -95,20 +95,20 @@
                         <div class="form-check">
 
 
-                                <div id="periodo1" hidden>
-                                    <input class="form-check-input" type="radio"id="periodoFerias"
-                                        name=periodoDeVendaDeFerias value=0>
-                                    <label class="form-check-label" for="periodoFerias"> 1° Periodo</label>
-                                </div>
+                            <div id="periodo1" hidden>
+                                <input class="form-check-input" type="radio"id="periodoFerias" name=periodoDeVendaDeFerias
+                                    value=1>
+                                <label class="form-check-label" for="periodoFerias"> 1° Periodo</label>
+                            </div>
 
                             <div id="periodo2" hidden>
                                 <input class="form-check-input" type="radio"id="periodoFerias" name=periodoDeVendaDeFerias
-                                    value=1>
+                                    value=2>
                                 <label class="form-check-label" for="periodoFerias"> 2° Periodo</label>
                             </div>
                             <div id="periodo3" hidden>
                                 <input class="form-check-input" type="radio"id="periodoFerias" name=periodoDeVendaDeFerias
-                                value=2>
+                                    value=3>
                                 <label class="form-check-label" for="periodoFerias"> 3° Periodo</label>
                             </div>
                         </div>
@@ -117,17 +117,17 @@
             </div>
 
 
-    <div class="row justify-content-around">
-        <div class="col-4">
-            <a href="/gerenciar-ferias" class="btn btn-danger" style="width: 100%">
-                Cancelar
-            </a>
+            <div class="row justify-content-around">
+                <div class="col-4">
+                    <a href="/gerenciar-ferias" class="btn btn-danger" style="width: 100%">
+                        Cancelar
+                    </a>
+                </div>
+                <div class="col-4"><button type="submit" class="btn btn-primary" style="width: 100%">Enviar</button></div>
+            </div>
         </div>
-        <div class="col-4"><button type="submit" class="btn btn-primary" style="width: 100%">Enviar</button></div>
-    </div>
-    </div>
 
-    </form>
+        </form>
     </div>
 
     <style>
@@ -148,12 +148,12 @@
                         '<div class="col-md-6 col-sm-12 mb-3">' +
                         '<label for="dateini' + i + '">Início ' + (i + 1) +
                         ' ° Periodo </label>' +
-                        '<input type="date" id="dateini' + i + '" name="dateini' + i +
+                        '<input type="date" id="dateini' + i + '" name="data_inicio_' + i +
                         '" class="form-control" required="required">' +
                         '</div>' +
                         '<div class="col-md-6 col-sm-12 mb-3">' +
                         '<label for="datefim' + i + '">Fim ' + (i + 1) + '° Periodo </label>' +
-                        '<input type="date" id="datefim' + i + '" name="datefim' + i +
+                        '<input type="date" id="datefim' + i + '" name="data_fim_' + i +
                         '" class="form-control" required="required">' +
                         '</div>'
                     );
@@ -188,7 +188,7 @@
 
 
 
-  
+
 
             $(document).on('change', '.vendeferias', function() {
                 var numeroDePeriodos = $('input[name="numeroPeriodoDeFerias"]:checked').val();
@@ -198,14 +198,14 @@
 
                 if (estadoBotao) {
                     $('#containerPeriodos').prop('hidden', false);
-                }else{
+                } else {
 
                     $('#containerPeriodos').prop('hidden', true);
                 }
 
-                for (var i = 1; i <= numeroDePeriodos ; i++) {
+                for (var i = 1; i <= numeroDePeriodos; i++) {
 
-                    $('#periodo' + i ).prop('hidden', false);
+                    $('#periodo' + i).prop('hidden', false);
 
                 }
 
