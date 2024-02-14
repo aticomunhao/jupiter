@@ -175,7 +175,8 @@ Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoCon
 Route::post('/atualizar-associado/{ida}/{idp}/{ide}', [App\Http\Controllers\GerenciarAssociadoController::class, 'update']);
 Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
 Route::get('/visualizar-dados_bancarios/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'visualizardadosbancarios']);
-Route::any('/incluir-dados-bancarios', [App\Http\Controllers\GerenciarAssociadoController::class, 'incluirdadosbancarios']);
+Route::any('/incluir-dados-bancarios/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'incluirdadosbancarios']);
+
 
 
 
