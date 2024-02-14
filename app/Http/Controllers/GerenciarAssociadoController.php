@@ -224,10 +224,12 @@ class GerenciarAssociadoController extends Controller
       return redirect('/gerenciar-associado');
    }
    public function visualizardadosbancarios($id)
-   {
-      return view('/associado/incluir-dados_bancarios');
+   {  
+      $associado = DB::table('contribuicao_associado AS ca')
+      ->leftJoin('associado', 'ca.id')->where($id, 'ca.id')->select('ca.id AS ida');
+      return view('/associado/incluir-dados_bancarios', compact('associado'));
    }
-   public function incluirdadosbancarios(Request $request)
+   public function incluirdadosbancarios(Request $request, $id)
    {
 
       DB::table('forma_contribuicao_tesouraria')->insert([
@@ -261,6 +263,11 @@ class GerenciarAssociadoController extends Controller
          ->select(DB::raw('MAX(id) as max_id'))
          ->value('max_id');
 
+      $id_contribuicao= DB::table('contribuicao_associado')
+         ->select(DB::raw('MAX(id) as max_id'))
+         ->value('max_id');
+        // dd($id_contribuicao);
+
       DB::table('contribuicao_associado')
          ->insert([
             'id_contribuicao_tesouraria' => $id_cont_tesouraria,
@@ -269,6 +276,11 @@ class GerenciarAssociadoController extends Controller
             'valor' => $request->input('valor'),
             'dt_vencimento' => $request->input('dt_vencimento'),
          ]);
+
+      DB::table('associado')->where($id)
+      ->insert([
+         'id_contribuicao_associado' => $id_contribuicao,
+      ]);
 
       app('flasher')->addSuccess('Cadastro Dados Bancários do Associado foi realizado com sucesso.');
 

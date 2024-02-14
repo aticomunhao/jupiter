@@ -9,7 +9,7 @@
             Dados Pessoais
         </div>
         <div class="card-body">
-            <form class="form-horizontal mt-4" method='POST' action="/incluir-dados-bancarios">
+            <form class="form-horizontal mt-4" method='POST' action="/incluir-dados-bancarios/{{ $associado[0]->ida}}">
                 @csrf
 
                 <div class="container-fluid">
