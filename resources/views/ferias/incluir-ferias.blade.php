@@ -43,7 +43,10 @@
                                             required> Tres Periodos
                                     </label>
                                 </div>
-                            </div>
+                            </div><br />
+
+
+
 
                             <br>
                             <div class="row" id="dates">
@@ -82,17 +85,49 @@
                 </div>
             </div>
             <br>
-            <div class="row justify-content-around">
-                <div class="col-4">
-                    <a href="/gerenciar-ferias" class="btn btn-danger" style="width: 100%">
-                        Cancelar
-                    </a>
-                </div>
-                <div class="col-4"><button type="submit" class="btn btn-primary" style="width: 100%">Enviar</button></div>
-            </div>
-        </div>
+            <div class="container" id="containerPeriodos" hidden>
+                <div class="card">
+                    <div class="card-header">Qual periodo das Ferias Você deseja vender?</div>
+                    <div class="card-body">
 
-        </form>
+
+
+                        <div class="form-check">
+
+
+                                <div id="periodo1" hidden>
+                                    <input class="form-check-input" type="radio"id="periodoFerias"
+                                        name=periodoDeVendaDeFerias value=0>
+                                    <label class="form-check-label" for="periodoFerias"> 1° Periodo</label>
+                                </div>
+
+                            <div id="periodo2" hidden>
+                                <input class="form-check-input" type="radio"id="periodoFerias" name=periodoDeVendaDeFerias
+                                    value=1>
+                                <label class="form-check-label" for="periodoFerias"> 2° Periodo</label>
+                            </div>
+                            <div id="periodo3" hidden>
+                                <input class="form-check-input" type="radio"id="periodoFerias" name=periodoDeVendaDeFerias
+                                value=2>
+                                <label class="form-check-label" for="periodoFerias"> 3° Periodo</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    <div class="row justify-content-around">
+        <div class="col-4">
+            <a href="/gerenciar-ferias" class="btn btn-danger" style="width: 100%">
+                Cancelar
+            </a>
+        </div>
+        <div class="col-4"><button type="submit" class="btn btn-primary" style="width: 100%">Enviar</button></div>
+    </div>
+    </div>
+
+    </form>
     </div>
 
     <style>
@@ -132,7 +167,7 @@
                     '<div class="row justify-content-center">' +
                     '<div class="form-check">' +
                     '<div class="col-4">' +
-                    '<input class="form-check-input vendeferias" type="checkbox" id="vendeferias1" name="vendeFerias">' +
+                    '<input class="form-check-input vendeferias" type="checkbox" id="vendeferias1" name="vendeFerias" unchecked>' +
                     '<label class="form-check-label" for="vendeferias1">Vender Férias</label>' +
                     '</div>' +
                     '<div class="col-4">' +
@@ -147,7 +182,13 @@
                     '<br>' +
                     '<div id="periodosDeFerias"></div>'
                 );
+
+                $('#containerPeriodos').prop('hidden', true);
             });
+
+
+
+  
 
             $(document).on('change', '.vendeferias', function() {
                 var numeroDePeriodos = $('input[name="numeroPeriodoDeFerias"]:checked').val();
@@ -156,35 +197,18 @@
                     .empty();
 
                 if (estadoBotao) {
-                    var optionsHTML = '';
+                    $('#containerPeriodos').prop('hidden', false);
+                }else{
 
-                    for (var i = 0; i < numeroDePeriodos; i++) {
-                        optionsHTML +=
-                            '<div class="form-check">' +
-                            '<div class="col-4">' +
-                            '<input class="form-check-input" type="radio" id="periodoFerias' + i +
-                            '" name = periodoDeVendaDeFerias value = ' + i + '>' +
-                            '<label class="form-check-label" for="periodoFerias' + i +
-                            '"> ' + (i + 1) + '° Periodo </label>' +
-                            '</div>' +
-                            '</div>';
-                    }
-
-                    var card = $(
-                        '<div class="container">' +
-                        '<div class="card">' +
-                        '<div class="card-header">Qual periodo das Ferias Você deseja vender?</div>' +
-                        '<div class="card-body">' +
-                        '<div class="row justify-content-center">' +
-                        optionsHTML +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>'
-                    );
-
-                    $('#periodosDeFerias').append(card);
+                    $('#containerPeriodos').prop('hidden', true);
                 }
+
+                for (var i = 1; i <= numeroDePeriodos ; i++) {
+
+                    $('#periodo' + i ).prop('hidden', false);
+
+                }
+
             });
         });
     </script>
