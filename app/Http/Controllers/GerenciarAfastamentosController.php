@@ -99,7 +99,7 @@ class GerenciarAfastamentosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id, Request $request)
     {
         $afastamentos = DB::table('afastamento')->where('id', $id)->first();
 
@@ -109,6 +109,8 @@ class GerenciarAfastamentosController extends Controller
             ->where('afastamento.id', $id)
             ->select('afastamento.*', 'tp_afastamento.nome as nome_tp_afastamento')
             ->first();
+
+
 
         $funcionario = $this->getFuncionarioData($afastamentos->id_funcionario);
         $tipoafastamentos = DB::table('tp_afastamento')->get();
@@ -144,27 +146,32 @@ class GerenciarAfastamentosController extends Controller
     }
 
     public function updateAfastamentosWithFile($afastamento, Request $request)
-    {
-        $nomeArquivo = $request->file('ficheiroNovo')->getClientOriginalName();
-        $novoCaminho = $request->file('ficheiroNovo')->storeAs('public/images', $nomeArquivo);
-        $justificado=isset($request->justificado) ? true : false ;
+{
+    $nomeArquivo = $request->file('ficheiroNovo')->getClientOriginalName();
+    $nomeUnico = uniqid('', true);
+    $extensao = $request->file('ficheiroNovo')->getClientOriginalExtension();
+    $novoCaminho = $request->file('ficheiroNovo')->storeAs('public/images', $nomeUnico . '.' . $extensao);
 
+    // Verifica se o afastamento é justificado
+    $justificado = isset($request->justificado) ? true : false;
 
-        if ($novoCaminho) {
-            Storage::delete($afastamento->caminho); // Remove o arquivo antigo
+    if ($novoCaminho) {
+        // Remove o arquivo antigo
+        Storage::delete($afastamento->caminho);
 
-            DB::table('afastamento')
-                ->where('id', $afastamento->id)
-                ->update([
-                    'id_tp_afastamento' => $request->input('tipo_afastamento'),
-                    'dt_inicio' => $request->input('dt_inicio'),
-                    'dt_fim' => $request->input('dt_fim'),
-                    'observacao' => $request->input('observacao'),
-                    'justificado'=> $justificado,
-                    'caminho' => 'storage/images/' . $nomeArquivo
-                ]);
-        }
+        DB::table('afastamento')
+            ->where('id', $afastamento->id)
+            ->update([
+                'id_tp_afastamento' => $request->input('tipo_afastamento'),
+                'dt_inicio' => $request->input('dt_inicio'),
+                'dt_fim' => $request->input('dt_fim'),
+                'observacao' => $request->input('observacao'),
+                'justificado' => $justificado,
+                'caminho' => 'storage/images/' . $nomeUnico . '.' . $extensao
+            ]);
     }
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -183,10 +190,15 @@ class GerenciarAfastamentosController extends Controller
     // Métodos Auxiliares
 
     private function storeFile(Request $request)
-    {
-        $caminho = $request->file('ficheiro')->storeAs('public/images', $request->file('ficheiro')->getClientOriginalName());
-        return 'storage/images/' . $request->file('ficheiro')->getClientOriginalName();
-    }
+{
+    $file = $request->file('ficheiro');
+    $nomeUnico = uniqid('', true);
+    $extensao = $file->getClientOriginalExtension();
+    $caminho = $file->storeAs('public/images', $nomeUnico . '.' . $extensao);
+
+    return 'storage/images/' . $nomeUnico . '.' . $extensao;
+}
+
 
     private function updateAfastamentosWithoutFile($afastamento, Request $request)
     {

@@ -34,7 +34,7 @@
                                 <div class="form-group row">
                                     <div class="form-group col-3">Motivo do Afastamento
                                         <select class="form-select" name="tipo_afastamento" required="required">
-                                            <option value="{{ $afastamentos->id_tp_afastamento }}">{{ $afastamentos->nome }}
+                                            <option value="{{ $afastamentos->id_tp_afastamento }}">{{ $afastamento_com_tipo->nome_tp_afastamento }}
 
                                             </option>
                                             @foreach ($tipoafastamentos as $tipoafastamentos)
@@ -66,7 +66,7 @@
                                     </div>
                                     <div class="form-check mb-2">
                                         <input type="checkbox" data-toggle="toggle" data-on="Enabled" data-off="Disabled"
-                                            name="justificado"> Justificado?
+                                            name="justificado" value="justificado" id="justificado"> Justificado?
                                     </div>
 
                                 </div>
