@@ -54,7 +54,7 @@
                             </div>
 
                             <div class="form-check mb-3">
-                                <input type="checkbox" data-toggle="toggle" data-on="Enabled" data-off="Disabled" name="justificado" id="justificado"> Justificado?
+                                <input type="checkbox" class="form-check-input" data-toggle="toggle" data-on="Enabled" data-off="Disabled" name="justificado" id="justificado"> Justificado?
 
                             </div>
 
