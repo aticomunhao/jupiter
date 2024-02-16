@@ -151,7 +151,6 @@ class GerenciarAssociadoController extends Controller
             'ass.nr_associado',
             'p.id AS idp',
             'endp.id AS ide',
-
             'ass.dt_inicio',
             'ass.dt_fim',
             'p.nome_completo',
@@ -224,12 +223,16 @@ class GerenciarAssociadoController extends Controller
       return redirect('/gerenciar-associado');
    }
    public function visualizardadosbancarios($id)
-   {  
-      $associado = DB::table('contribuicao_associado AS ca')
-      ->leftJoin('associado', 'ca.id')->where($id, 'ca.id')->select('ca.id AS ida');
+   {
+      $associado = DB::table('associado')
+         ->where('id', $id)
+         ->select('associado.id AS ida')
+         ->get();
+
+
       return view('/associado/incluir-dados_bancarios', compact('associado'));
    }
-   public function incluirdadosbancarios(Request $request, $id)
+   public function incluirdadosbancarios(Request $request, $ida)
    {
 
       DB::table('forma_contribuicao_tesouraria')->insert([
@@ -263,10 +266,10 @@ class GerenciarAssociadoController extends Controller
          ->select(DB::raw('MAX(id) as max_id'))
          ->value('max_id');
 
-      $id_contribuicao= DB::table('contribuicao_associado')
+      $id_contribuicao = DB::table('contribuicao_associado')
          ->select(DB::raw('MAX(id) as max_id'))
          ->value('max_id');
-        // dd($id_contribuicao);
+      // dd($id_contribuicao);
 
       DB::table('contribuicao_associado')
          ->insert([
@@ -277,10 +280,14 @@ class GerenciarAssociadoController extends Controller
             'dt_vencimento' => $request->input('dt_vencimento'),
          ]);
 
-      DB::table('associado')->where($id)
-      ->insert([
-         'id_contribuicao_associado' => $id_contribuicao,
-      ]);
+      $oi = DB::table('associado')->where('associado.id', $ida)->first();
+      
+      $oi->id_contribuicao_associado = $id_contribuicao;
+   
+      dd($oi);
+     
+
+   
 
       app('flasher')->addSuccess('Cadastro Dados Bancários do Associado foi realizado com sucesso.');
 
