@@ -75,11 +75,14 @@
                                                 </td>
 
                                                 <!--Botao de Arquivo-->
+
                                                 <td scope="" style="text-align: center">
-                                                    <a href="{{ asset("$afastamento->caminho") }}"
-                                                        class="btn btn-sm btn-outline-secondary">
-                                                        <i class="bi bi-archive"></i>
-                                                    </a>
+                                                    @if ($afastamento->caminho)
+                                                        <a href="{{ asset($afastamento->caminho) }}"
+                                                            class="btn btn-sm btn-outline-secondary" target="_blank">
+                                                            <i class="bi bi-archive"></i>
+                                                        </a>
+                                                    @endif
 
                                                     <!-- Botao de excluir, trigger modal -->
                                                     <a>

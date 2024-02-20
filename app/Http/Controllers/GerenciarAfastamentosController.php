@@ -72,6 +72,7 @@ class GerenciarAfastamentosController extends Controller
         } else {
             $caminho = $this->storeFile($request);
             $data = [
+                'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
                 'id_tp_afastamento' => $request->input('tipo_afastamento'),
                 'dt_inicio' => $request->input('dt_inicio'),
                 'dt_fim' => $request->input('dt_fim'),
@@ -157,11 +158,13 @@ class GerenciarAfastamentosController extends Controller
 
     if ($novoCaminho) {
         // Remove o arquivo antigo
-        Storage::delete($afastamento->caminho);
-
+        if ($afastamento->caminho && Storage::exists($afastamento->caminho)) {
+            Storage::delete($afastamento->caminho);
+        }
         DB::table('afastamento')
             ->where('id', $afastamento->id)
             ->update([
+                'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
                 'id_tp_afastamento' => $request->input('tipo_afastamento'),
                 'dt_inicio' => $request->input('dt_inicio'),
                 'dt_fim' => $request->input('dt_fim'),
@@ -178,8 +181,18 @@ class GerenciarAfastamentosController extends Controller
      */
     public function destroy(string $id)
     {
-        $afastamentos = DB::table('afastamento')->where('id', $id)->first();
-        Storage::delete($afastamentos->caminho);
+        $afastamento = DB::table('afastamento')->where('id', $id)->first();
+        if (!$afastamento) {
+            app('flasher')->addError('Registro de afastamento não encontrado.');
+            return redirect()->back();
+        }
+
+        // Excluir o arquivo associado, se existir
+        if ($afastamento->caminho && Storage::exists($afastamento->caminho)) {
+            Storage::delete($afastamento->caminho);
+        }
+
+        // Excluir o registro do afastamento
         DB::table('afastamento')->where('id', $id)->delete();
 
         app('flasher')->addWarning('O cadastro do afastamento foi removido com sucesso.');
@@ -187,17 +200,23 @@ class GerenciarAfastamentosController extends Controller
     }
 
 
+
     // Métodos Auxiliares
 
     private function storeFile(Request $request)
-{
-    $file = $request->file('ficheiro');
-    $nomeUnico = uniqid('', true);
-    $extensao = $file->getClientOriginalExtension();
-    $caminho = $file->storeAs('public/images', $nomeUnico . '.' . $extensao);
+    {
+        if ($request->hasFile('ficheiro')) {
+            $file = $request->file('ficheiro');
+            $nomeUnico = uniqid('', true);
+            $extensao = $file->getClientOriginalExtension();
+            $caminho = $file->storeAs('public/images', $nomeUnico . '.' . $extensao);
 
-    return 'storage/images/' . $nomeUnico . '.' . $extensao;
-}
+            return 'storage/images/' . $nomeUnico . '.' . $extensao;
+        } else {
+            return null;
+        }
+    }
+
 
 
     private function updateAfastamentosWithoutFile($afastamento, Request $request)
@@ -207,6 +226,7 @@ class GerenciarAfastamentosController extends Controller
         DB::table('afastamento')
         ->where('id', $afastamento->id)
         ->update([
+            'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
             'id_tp_afastamento' => $request->input('tipo_afastamento'),
             'dt_inicio' => $request->input('dt_inicio'),
             'dt_fim' => $request->input('dt_fim'),
