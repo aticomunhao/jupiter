@@ -49,7 +49,7 @@
                                 </div>
                                 <div class="form-group col-4">Arquivo de Anexo
                                     <input type="file" class="form-control form-control-sm" name ="ficheiro"
-                                        id="idficheiro" required="required">
+                                        id="idficheiro">
                                 </div>
                             </div>
 

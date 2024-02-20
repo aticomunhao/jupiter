@@ -56,11 +56,15 @@
                                     <div class="form-group col-2">
                                         Arquivo Anexado
                                         <p>
-                                            <a href="{{ asset($afastamentos->caminho) }}">
-                                                <button type="button" class="btn btn-lg btn-outline-secondary">
-                                                    <i class="bi bi-archive"></i>
-                                                </button>
-                                            </a>
+                                            @if($afastamentos->caminho)
+                                                <a href="{{ asset($afastamentos->caminho) }}" target="_blank">
+                                                    <button type="button" class="btn btn-lg btn-outline-secondary">
+                                                        <i class="bi bi-archive"></i>
+                                                    </button>
+                                                </a>
+                                            @else
+                                                Nenhum arquivo anexado
+                                            @endif
                                         </p>
                                     </div>
                                     <div class="form-group col-3">Novo Arquivo
