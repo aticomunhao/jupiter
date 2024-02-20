@@ -90,6 +90,8 @@ class GerenciarFeriasController extends Controller
         $ferias = DB::table('ferias')->where('id_funcionario', $id)
             ->where('ano_de_referencia', '=', $ano_referente)
             ->first();
+            dd($resultado_formulario_de_ferias);
+
 
 
         if ($resultado_formulario_de_ferias['numeroPeriodoDeFerias'] == 1) {
@@ -111,10 +113,17 @@ class GerenciarFeriasController extends Controller
             } elseif ($data_inicio->lt($ferias->fim_periodo_aquisitivo)) {
                 app('flasher')->addError('A data inicial do período de férias é inferior ao início do seu período de licensa que começa no dia ' . Carbon::parse($ferias->fim_periodo_aquisitivo)->format('dd/MM/yyyy'));
                 return redirect()->route('CriarFerias', ['id' => $id]);
-            }else{
-                echo 'Certin';            }
+            } else {
+                echo 'Certin';
+            }
 
         } else if ($resultado_formulario_de_ferias['numeroPeriodoDeFerias'] == 2) {
+            $data_inicio_primeiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_inicio_0"]);
+            $data_fim_primeiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_fim_0"]);
+            $data_inicio_segundo_periodo = Carbon::parse($resultado_formulario_de_ferias["data_inicio_1"]);
+            $data_fim_segundo_periodo = Carbon::parse($resultado_formulario_de_ferias["data_fim_1"]);
+            $dias_de_ferias_utilizadas = $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo);
+            dd( $dias_de_ferias_utilizadas);
 
         } else {
 
@@ -171,16 +180,20 @@ class GerenciarFeriasController extends Controller
             ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'funcionarios.dt_inicio as data_de_inicio', 'pessoas.nome_completo')
             ->get();
 
+
         foreach ($funcionarios as $funcionario) {
             $data_inicio_periodo_aquisitivo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year - 1)->toDateString();
-            $data_fim_periodo_aquisitivo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year)->toDateString();
+            $data_fim_periodo_aquisitivo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year)->subDays(1)->toDateString();
             $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
             $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
+            $funcionario->data_inicio_periodo_de_gozo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year)->toDateString();
+            $funcionario->data_fim_periodo_de_gozo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year+1)->subDays(1)->toDateString();
         }
 
         $ferias = DB::table('ferias')
             ->where('ano_de_referencia', '=', $ano_referencia)
             ->get();
+
 
         if ($ferias->isEmpty()) {
             foreach ($funcionarios as $funcionario) {
@@ -192,7 +205,9 @@ class GerenciarFeriasController extends Controller
                         'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
                         'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
                         'status_pedido_ferias' => 1,
-                        'id_funcionario' => $funcionario->id_funcionario
+                        'id_funcionario' => $funcionario->id_funcionario,
+                        'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo,
+                        'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo
 
                     ]);
             }

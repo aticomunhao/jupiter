@@ -87,7 +87,7 @@
             <br>
             <div class="container" id="containerPeriodos" hidden>
                 <div class="card">
-                    <div class="card-header">Qual periodo das Ferias Você deseja vender?</div>
+                    <div class="card-header">Qual período das Ferias Você deseja vender um terço?</div>
                     <div class="card-body">
 
 
