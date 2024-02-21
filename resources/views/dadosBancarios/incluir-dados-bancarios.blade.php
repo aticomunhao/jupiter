@@ -27,7 +27,8 @@
                                 required>
                                 @foreach ($desc_bancos as $desc_banco)
                                     <option value="{{ $desc_banco->id_db }}">
-                                        {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }} - {{ $desc_banco->nome }}</option>
+                                        {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }} - {{ $desc_banco->nome }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -43,17 +44,15 @@
 
                         <div class="form-group col-xl-3 col-md-6 mt-3 mt-xl-0">
                             <div>Data de Inicio</div>
-                                <input class="form-control" type="date" value="" id="3" name="dt_inicio"
-                                    required="required">
+                            <input class="form-control" type="date" value="" id="3" name="dt_inicio"
+                                required="required">
 
                         </div>
                         <div class="form-group col-xl-3 col-md-6 mt-3 mt-xl-0">
                             <div>Data de Fim</div>
-                                <input class="form-control" type="date" value="" id="3" name="dt_fim">
+                            <input class="form-control" type="date" value="" id="3" name="dt_fim">
 
                         </div>
-
-
 
 
                         <div class="form-group col-xl-4 col-md-4 mt-3 ">Numero da Conta
@@ -87,12 +86,20 @@
                     </div>
 
 
-                    <center>
-                        <a class="btn btn-danger col-md-3 col-5 mt-5" href="/gerenciar-dados-bancarios/{{ $funcionario->id }}"
-                            role="button">Cancelar</a>
-                        <button type="submit" class="btn btn-primary col-md-3 col-5 mt-5 offset-md-5 offset-1 " id="sucesso">Confirmar
-                        </button>
-                    </center>
+                    <div class="row justify-content-around">
+
+                        <div class="col-3">
+                            <a class="btn btn-danger col-md-3 col-5 mt-5"
+                                href="/gerenciar-dados-bancarios/{{ $funcionario->id }}" role="button"
+                                style="width: 100%">Cancelar</a>
+                        </div>
+                        <div class="col-3">
+                            <button type="submit" class="btn btn-primary col-md-3 col-5 mt-5 offset-md-5 offset-1 "
+                                id="sucesso" style="width: 100%">Confirmar
+                            </button>
+                        </div>
+                    </div>
+
 
                 </form>
                 </fieldset>
@@ -106,33 +113,34 @@
 
 
     <script>
-      $(document).ready(function() {
-    $('#idagencia').select2({
-        theme: 'bootstrap-5',
-        disabled: true, // Initialize the select2 with disabled state
-    });
+        $(document).ready(function() {
+            $('#idagencia').select2({
+                theme: 'bootstrap-5',
+                disabled: true, // Initialize the select2 with disabled state
+            });
 
-    $('#idbanco').change(function(e) {
-        var idbanco = $(this).val();
-        e.preventDefault();
-        $('#idagencia').prop('disabled', false); // Enable the #idagencia dropdown
 
-        $.ajax({
-            type: "GET",
-            url: "/recebe-agencias/" + idbanco,
-            dataType: "json",
-            success: function(response) {
-                $('#idagencia').empty();
-                $.each(response, function(index, item) {
-                    $('#idagencia').append("<option value =" + item.id + "> " +
-                        item.agencia + " - " + item.desc_agen + "</option>");
+            $('#idbanco').change(function(e) {
+                var idbanco = $(this).val();
+                e.preventDefault();
+                $('#idagencia').prop('disabled', false); // Enable the #idagencia dropdown
+
+                $.ajax({
+                    type: "GET",
+                    url: "/recebe-agencias/" + idbanco,
+                    dataType: "json",
+                    success: function(response) {
+                        $('#idagencia').empty();
+                        $.each(response, function(index, item) {
+                            $('#idagencia').append("<option value =" + item.id + "> " +
+                                item.agencia + " - " + item.desc_agen + "</option>");
+                        });
+                    },
+                    error: function(xhr) {
+                        console.log(xhr.responseText);
+                    }
                 });
-            },
-            error: function(xhr) {
-                console.log(xhr.responseText);
-            }
+            });
         });
-    });
-});
     </script>
 @endsection
