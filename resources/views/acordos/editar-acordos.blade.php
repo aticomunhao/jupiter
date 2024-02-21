@@ -1,20 +1,20 @@
 @extends('layouts.app')
-
-<title>Editar Acordo</title>
-
+@section('head')
+    <title>Editar Acordos</title>
+@endsection
 @section('content')
     <div class="container">
-        <div class="justify-content-center">
-            <div class="col-12">
-                <br>
-                <fieldset class="border rounded border-primary ">
-                    <div class="card">
+        <div class="container">
+            <div class="justify-content-center">
+                <div class="col-12">
+                    <br>
+                    <div class="card" style="border-color: #355089">
                         <div class="card-header">
-                            <DIV class="ROW">
-                                <div class="col-12">
-                                    <span style="color: rgb(16, 19, 241); font-size:15px;">Editar Acordo</span>
-                                </div>
-                            </DIV>
+                            <div class="ROW">
+                                <h5 class="col-12" style="color: #355089">
+                                    Editar Acordo
+                                </h5>
+                            </div>
                         </div>
                         <div class="card-body">
                             <form method="post" action="/atualizar-acordo/{{ $acordo->id }}"
@@ -22,12 +22,8 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-5">
-                                        <div class="card" style="padding: 0px">
-                                            <div class="card-body bg-body-secondary" value="{{$funcionario->id }}">
-                                                <span
-                                                    style="color: rgb(16, 19, 241)">{{ $funcionario->nome_completo }}</span>
-                                            </div>
-                                        </div>
+                                        <input class="form-control" type="text" value="{{ $funcionario->nome_completo }}"
+                                            id="iddt_inicio" name="dt_inicio" required="required" disabled>
                                     </div>
                                 </div>
                                 <hr>

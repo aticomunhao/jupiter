@@ -1,151 +1,133 @@
 @extends('layouts.app')
-<title>Gerenciar Afastamentos </title>
+@section('head')
+    <title>Gerenciar Afastamentos</title>
+@endsection
 @section('content')
-    <div class="container">
-        <div class="justify-content-center">
-            <div class="col-12">
-                <br>
-                <div class="card">
-                    <fieldset class="border rounded border-primary">
-                        <div class="card-header">
-                            <div class="row">
-                                <div class="col-6"><span style=" color: rgb(26, 53, 173); font-size:15px;">Gerenciar
-                                        Afastamentos</span>
-                                </div>
-                                <div class="col-6">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="card">
-                                        <div class="card-body bg-body-secondary">
-                                            <div style="color: rgb(26, 53, 173); font-size:15px;">
-                                                {{ $funcionario->nome_completo }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4"></div>
-                                <div class="col-1">
+    <br />
+    <div class="container"> {{-- Container completo da página  --}}
+        <div class="card" style="border-color: #355089;">
+            <h5 class="card-header" style="color: #355089">
+                Gerenciar Afastamentos
+            </h5>
+            <div class="card-body">
+                <div class="row"> {{-- Linha com o nome e botão novo --}}
+                    <div class="col-md-6 col-12">
+                        <input class="form-control" type="text" value="{{ $funcionario->nome_completo }}" id="iddt_inicio"
+                            name="dt_inicio" required="required" disabled>
+                    </div>
+                    <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
+                        <a href="/incluir-afastamentos/{{ $funcionario->funcionario_id }}" class="col-6">
+                            <button type="button" class="btn btn-success col-md-8 col-12">
+                                Novo+
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <br />
+                <hr />
+                <div class="table-responsive">
+                    <div class="table">
+                        <table class="table table-striped table-bordered border-secondary table-hover align-middle">
+                            <thead style="text-align: center;">
+                                <tr class="align-middle" style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                    <th class="col-2">Tipo Afastamento</th>
+                                    <th class="col-2">Data de Início</th>
+                                    <th class="col-2">Quantidade de dias</th>
+                                    <th class="col-2">Data de Retorno</th>
+                                    <th class="col-2">Justificado</th>
+                                    <th class="col-2">Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody style="font-size: 15px; color:#000000;">
+                                @foreach ($afastamentos as $afastamento)
+                                    <tr>
+                                        <td scope="">
+                                            {{ $afastamento->nome_afa }}
+                                        </td>
+                                        <td scope="" style="text-align: center">
+                                            {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->format('d/m/Y') }}
+                                        </td>
+                                        <td scope=""style="text-align: center">
+                                            {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
+                                        </td>
+                                        <td scope=""style="text-align: center">
+                                            {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}
+                                        </td>
+                                        <td style="text-align: center">
+                                            {{ $afastamento->justificado ? 'Sim' : 'Não' }}
+                                        </td>
 
-                                    <div class="row">
-                                        <span style="margin-top: 15px; margin-left: -18px"><a
-                                                href="/incluir-afastamentos/{{ $funcionario->funcionario_id }}"><button
-                                                    type="button" class="btn btn-success btn-sm"
-                                                    style="padding: 5px 80px;margin-right:100px;font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">Novo&plus;</button></a></span>
-                                    </div>
-                                </div>
-                                <div class="col-2"></div>
-                            </div>
-                            <hr>
-                            <div class="table">
-                                <table
-                                    class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
-                                    <thead style="text-align: center;">
-                                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-2">Tipo Afastamento</th>
-                                            <th class="col-2">Data de Início</th>
-                                            <th class="col-2">Quantidade de dias</th>
-                                            <th class="col-2">Data de Retorno</th>
-                                            <th class="col-2">Justificado</th>
-                                            <th class="col-2">Ações</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody style="font-size: 14px; color:#000000;">
-                                        <tr>
-                                            @foreach ($afastamentos as $afastamento)
-                                                <td scope="">{{ $afastamento->nome_afa }}
+                                        <!--Botao de Arquivo-->
+                                        <td scope="" style="text-align: center">
+                                            @if ($afastamento->caminho)
+                                                <a href="{{ asset($afastamento->caminho) }}"
+                                                    class="btn btn-outline-secondary" target="_blank">
+                                                    <i class="bi bi-archive">
+                                                    </i>
+                                                </a>
+                                            @endif
 
-                                                </td>
-                                                <td scope="" style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->format('d/m/Y') }}
-                                                </td>
+                                            <!--Botao de Editar-->
+                                            <a href="/editar-afastamentos/{{ $afastamento->id }}"
+                                                class="btn btn-outline-warning" data-tt="tooltip" data-placement="top"
+                                                title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
 
-                                                <td scope=""style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
-                                                </td>
+                                            <!-- Botao de excluir, trigger modal -->
+                                            <a>
+                                                <button type="button" class="btn btn-outline-danger delete-btn"
+                                                    data-bs-toggle="modal" data-bs-target="#A{{ $afastamento->id }}">
+                                                    <i class="bi bi-trash">
+                                                    </i>
+                                                </button>
+                                            </a>
 
-                                                <td scope=""style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}
+                                            <!-- Modal -->
 
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $afastamento->justificado ? 'Sim' : 'Não' }}
-                                                </td>
-
-                                                <!--Botao de Arquivo-->
-
-                                                <td scope="" style="text-align: center">
-                                                    @if ($afastamento->caminho)
-                                                        <a href="{{ asset($afastamento->caminho) }}"
-                                                            class="btn btn-sm btn-outline-secondary" target="_blank">
-                                                            <i class="bi bi-archive"></i>
-                                                        </a>
-                                                    @endif
-
-                                                    <!-- Botao de excluir, trigger modal -->
-                                                    <a>
-                                                        <button type="button"
-                                                            class="btn btn-outline-danger delete-btn btn-sm"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#A{{ $afastamento->id }}">
-                                                            <i class="bi bi-trash">
-                                                            </i>
-                                                        </button>
-                                                    </a>
-
-                                                    <!--Botao de Editar-->
-                                                    <a href="/editar-afastamentos/{{ $afastamento->id }}"><button
-                                                            type="submit" class="btn btn-outline-warning btn-sm"><i
-                                                                class="bi bi-pencil"></i></button>
-                                                    </a>
-
-                                                    <!-- Modal -->
-
-                                                    <div class="modal fade" id="A{{ $afastamento->id }}" tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <div class="row">
-                                                                        <h2>Excluir Afastamento</h2>
-                                                                    </div>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    <p class="fw-bold alert alert-danger text-center">Você
-                                                                        realmente deseja
-                                                                        <br>
-                                                                        <span class="fw-bolder fs-5">EXCLUIR
-                                                                            {{ $afastamento->nome }}
-                                                                        </span>
-                                                                    </p>
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                                    <a href="/excluir-afastamento/{{ $afastamento->id }}"><button
-                                                                            type="button"
-                                                                            class="btn btn-danger">Excluir</button></a>
-                                                                </div>
+                                            <div class="modal fade" id="A{{ $afastamento->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <div class="row">
+                                                                <h2>
+                                                                    Excluir Afastamento
+                                                                </h2>
                                                             </div>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close">
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p class="fw-bold alert alert-danger text-center">
+                                                                Você realmente deseja
+                                                                <br>
+                                                                <span class="fw-bolder fs-5">
+                                                                    EXCLUIR {{ $afastamento->nome }}
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">
+                                                                Cancelar
+                                                            </button>
+                                                            <a href="/excluir-afastamento/{{ $afastamento->id }}">
+                                                                <button type="button" class="btn btn-danger">
+                                                                    Excluir
+                                                                </button>
+                                                            </a>
                                                         </div>
                                                     </div>
-
-
-
-
-                                                </td>
-                                        </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

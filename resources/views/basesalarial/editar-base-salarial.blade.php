@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-12">
-                        <h5 class="card-tittle"> Salario Cargo Regular</h5>
+                        <h5 class="card-title"> Salario Cargo Regular</h5>
                         <div class="card">
                             <div class="card-body">
                                 {{ formatSalary($base_salarial->salario_cargo_regular) }}
@@ -63,10 +63,21 @@
                     @foreach ($tp_cargo as $tp_cargos)
                         <option value="{{ $tp_cargos->idTpCargo }}">{{ $tp_cargos->nomeTpCargo }} </option>
                     @endforeach
-
-                  
+                </select>
             </div>
-
+            <div class="row mt-4" >
+                <div class="d-grid gap-1 col-2 mx-auto">
+                    <a class="btn btn-danger btn-sm"
+                        href="/gerenciar-base-salarial/{{ $funcionario->id_funcionario }}"
+                        role="button">Cancelar</a>
+                </div>
+                <div class="d-grid gap-2 col-2 mx-auto">
+                    <button type="submit" class="btn btn-primary btn-sm"
+                        id="sucesso">Confirmar</button>
+                </div>
+            </div>
+            </div>
+            </div>
         </div>
     </div>
     </div>
@@ -82,5 +93,6 @@
     {
         return 'R$ ' . number_format($salary, 2, ',', '.');
     }
+
 
 @endphp

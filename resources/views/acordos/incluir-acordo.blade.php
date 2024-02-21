@@ -4,22 +4,19 @@
 @endsection
 @section('content')
     <div class="container">
-
         <div class="container">
             <div class="justify-content-center">
                 <div class="col-12">
                     <br>
-
-                    <div class="card" style="border-color: #5C7CB6;">
+                    <div class="card" style="border-color: #355089">
                         <div class="card-header">
                             <div class="ROW">
-                                <div class="col-12">
+                                <h5 class="col-12" style="color: #355089">
                                     Novo Acordo
-                                </div>
+                                </h5>
                             </div>
                         </div>
                         <div class="card-body">
-
                             <form method="post" action="/armazenar-acordos/{{ $funcionario->id }}"
                                 enctype="multipart/form-data">
                                 @csrf
@@ -38,18 +35,17 @@
                                             @endforeach
                                         </select>
                                     </div>
-
-                                    <div class="form-group col-md-6 col-lg-3 mt-lg-0 mt-md-0 mt-3">Data de Inicio
+                                    <div class="form-group col-2">Data de Início
                                         <input class="form-control" type="date" value="" id="iddt_inicio"
                                             name="dt_inicio" required="required">
                                     </div>
-                                    <div class="form-group col-md-6 col-lg-3 mt-lg-0  mt-3">Data de Fim
+                                    <div class="form-group col-2">Data de Fim
                                         <input class="form-control" type="date" value="" id="iddt_fim"
                                             name="dt_fim">
                                     </div>
-                                    <div class="form-group col-md-6 col-lg-3 mt-lg-0  mt-3">Arquivo
+                                    <div class="form-group col-4">Arquivo de Anexo
                                         <input type="file" class="form-control form-control-sm mb-2" name="ficheiro"
-                                            id="idficheiro" required="required" >
+                                            id="idficheiro" required="required">
                                     </div>
                                 </div>
                                 <br>
@@ -59,13 +55,16 @@
                                         <textarea class="form-control " id="idobservacao" rows="1" name="observacao" style="height:100px"></textarea>
                                     </div>
                                 </div>
-                                <center>
-                                    <a class="btn btn-danger col-md-3 col-5 mt-3"
-                                        href="/gerenciar-acordos/{{ $funcionario->id }}" role="button">Cancelar</a>
-                                    <button type="submit" class="btn btn-primary col-md-3 col-5 mt-5 offset-md-5 offset-1 "
-                                        id="sucesso">Confirmar
+                                <div>
+                                    <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1"
+                                        href="/gerenciar-acordos/{{ $funcionario->id }}" role="button">
+                                        Cancelar
+                                    </a>
+                                    <button type="submit" class="btn btn-primary col-md-3 col-1 mt-4 offset-md-3"
+                                        id="sucesso">
+                                        Confirmar
                                     </button>
-                                </center>
+                                </div>
                             </form>
                         </div>
                     </div>
