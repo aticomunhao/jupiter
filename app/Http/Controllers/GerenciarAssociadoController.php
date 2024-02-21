@@ -253,9 +253,9 @@ class GerenciarAssociadoController extends Controller
          )
          ->get();
 
-      dd($associado);
+  ///    dd($associado);
 
-      $nm_completo = $request->nome_completo;
+//$nm_completo = $request->nome_completo;
 
 
       return view('associado/gerenciar-dados-bancarios-associado', compact('associado'));
@@ -330,4 +330,34 @@ class GerenciarAssociadoController extends Controller
 
       return redirect('/gerenciar-associado');
    }
+    //  public function visualizardadosbancarios($id)
+   //{
+
+     // $associado = DB::table('associado AS as')
+         //  ->leftJoin('contribuicao_associado AS cont', 'as.id', '=', 'cont.id_associado')
+      //   ->leftJoin('forma_contribuicao_autorizacao AS contaut', 'cont.id_contribuicao_autorizacao', '=', 'contaut.id')
+         //->leftJoin('pessoas AS p', 'as.id_pessoa', '=', 'p.id')
+         //->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
+         //->leftjoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
+         //->where('as.id', $id)
+         //->select(
+           // 'p.nome_completo',
+            //'p.cpf',
+            //'p.idt',
+            //'p.celular',
+            //'p.email',
+            //'endp.cep',
+            //'tc.descricao',
+            //'cont.valor',
+            //'contaut.banco_do_brasil',
+            //'contaut.brb',
+
+         //)
+         //->get();
+
+     // $pdf = PDF::loadView('associado.documento', ['associado' => $associado]);
+
+      //return $pdf->download('Autorização Debito conta corrente.pdf');
+   //}
+
 }
