@@ -57,20 +57,20 @@ class GerenciarDependentesController extends Controller
      */
     public function store(Request $request, $id)
     {
-            $funcionario = DB::table('funcionarios')
+        $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
             ->where('funcionarios.id', $id)
-            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id')->first();
-        //$funcionario = DB::select("select f.id, p.dt_nascimento, p.nome_completo from funcionarios f left join pessoas p on f.id_pessoa = p.id where f.id = $id");
-        $dependentes = DB::select('select * from dependentes');
+            ->select('pessoas.cpf', 'pessoas.nome_completo', 'funcionarios.id', 'pessoas.dt_nascimento')
+            ->first();
 
-        $dataHoje = Carbon::now();
+        $dependentes = DB::table('dependentes')->get();
+
         foreach ($dependentes as $dependente) {
-            if (intval($request->input('cpf_dep')) == $dependente->cpf) {
+            if ($request->input('cpf_dep') == $dependente->cpf) {
                 app('flasher')->addError('Existe outro cadastro usando este número de CPF');
                 return redirect()->route('IndexGerenciarDependentes', ['id' => $id]);
-            } elseif (intval($request->input('relacao_dep')) == 6 && intval($request->input('dtnasc_dep')) <= intval($funcionario->dt_nascimento)) {
-                app('flasher')->addError('A data do Filho cadastrado é mais velha ou igual a do funcionario');
+            } elseif ($request->input('relacao_dep') == 6 && Carbon::createFromFormat('Y-m-d', $request->input('dtnasc_dep')) >= Carbon::createFromFormat('Y-m-d', $funcionario->dt_nascimento)) {
+                app('flasher')->addError('A data de nascimento do dependente é mais nova ou igual à do funcionário');
                 return redirect()->route('IndexGerenciarDependentes', ['id' => $id]);
             }
         }
@@ -101,7 +101,20 @@ class GerenciarDependentesController extends Controller
      */
     public function edit($id)
     {
-        $dependente = DB::table('dependentes')->where('id', $id)->first();
+        $dependente = DB::table('dependentes')
+            ->join('tp_parentesco', 'dependentes.id_parentesco', '=', 'tp_parentesco.id')
+            ->where('dependentes.id', $id)
+            ->select(
+                'dependentes.id_funcionario',
+                'dependentes.id_parentesco',
+                'dependentes.id',
+                'tp_parentesco.id as id_tp_parentesco',
+                'tp_parentesco.nome',
+                'dependentes.nome_dependente',
+                'dt_nascimento',
+                'dependentes.cpf'
+            )
+            ->first();
         $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
             ->where('funcionarios.id', $dependente->id_funcionario)
@@ -111,7 +124,7 @@ class GerenciarDependentesController extends Controller
         $tp_relacao = DB::select("select * from tp_parentesco");
 
 
-        return view('dependentes.editar-dependentes', compact('dependente', 'tp_relacao', 'funcionario'));
+        return view('dependentes.editar-dependentes', compact('dependente', 'tp_relacao', 'funcionario', 'id'));
     }
 
     /**
@@ -119,6 +132,7 @@ class GerenciarDependentesController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $dependente = Db::table('dependentes')->where('id', $id)->first();
 
         $funcionario = DB::table('funcionarios')

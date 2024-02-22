@@ -6,20 +6,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <br />
     <div class="container"> {{-- Container completo da página  --}}
-        <div class="card" style="border-color: #5C7CB6;">
-            <div class="card-header">
+        <div class="card" style="border-color: #355089;">
+            <h5 class="card-header" style="color: #355089;">
                 Gerenciar Dados Bancarios
-            </div>
+            </h5>
             <div class="card-body">
                 <div class="row"> {{-- Linha com o nome e botão novo --}}
                     <div class="col-md-6 col-12">
-                        <fieldset {{-- Gera a barra ao redor do nome do funcionario --}}
-                            style="border: 1px solid #c0c0c0; border-radius: 3px;padding-bottom: 7px; padding-top: 7px; padding-left: 10px; background-color: #ebebeb;">
-                            {{ $funcionario->nome_completo }}</fieldset>
+                        <input class="form-control" type="text" value="{{ $funcionario->nome_completo }}" id="iddt_inicio"
+                            name="dt_inicio" required="required" disabled>
                     </div>
                     <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
-                        <a href="/incluir-dados-bancarios/{{ $funcionario->id }}" class="col-6"><button type="button"
-                                class="btn btn-success col-md-8 col-12">Novo+</button></a>
+                        <a href="/incluir-afastamentos/{{ $funcionario->id }}" class="col-6">
+                            <button type="button" class="btn btn-success col-md-8 col-12">
+                                Novo+
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>

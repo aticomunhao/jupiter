@@ -41,23 +41,23 @@
                                 @foreach ($acordos as $acordo)
                                     <tr>
                                         {{-- tipo de acordo --}}
-                                        <td class="text-center">
+                                        <td>
                                             {{ $acordo->nome }}
                                         </td>
                                         {{-- data de inicio --}}
-                                        <td class="text-center">
+                                        <td style="text-align: center">
                                             {{ \Carbon\Carbon::parse($acordo->data_inicio)->format('d/m/Y') }}
-                                        </td>
+                                        </td >
                                         {{-- Se é válido --}}
-                                        <td>
+                                        <td style="text-align: center">
                                             {{ $acordo->valido }}
                                         </td>
                                         {{-- data de fim --}}
-                                        <td>
+                                        <td style="text-align: center">
                                             {{ \Carbon\Carbon::parse($acordo->data_fim)->format('d/m/Y') }}
                                         </td>
                                         {{-- Observação --}}
-                                        <td class="text-center">
+                                        <td style="text-align: center">
                                             {{ $acordo->observacao }}
                                         </td>
                                         {{--  Área de ações  --}}

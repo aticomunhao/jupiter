@@ -34,7 +34,8 @@
                                                 {{ $afastamento_com_tipo->nome_tp_afastamento }}
                                             </option>
                                             @foreach ($tipoafastamentos as $tipoafastamentos)
-                                                <option value="{{ $tipoafastamentos->id }}">{{ $tipoafastamentos->nome }}
+                                                <option value="{{ $tipoafastamentos->id }}">
+                                                    {{ $tipoafastamentos->nome }}
                                                 </option>
                                             @endforeach
                                         </select>
