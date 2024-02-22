@@ -38,6 +38,7 @@ class GerenciarFeriasController extends Controller
             ->get();
 
 
+
         return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo'));
     }
 
@@ -65,11 +66,14 @@ class GerenciarFeriasController extends Controller
                 'ferias.ano_de_referencia',
                 'ferias.id_funcionario',
                 'status_pedido_ferias.id as id_status_pedido_ferias',
-                'status_pedido_ferias.nome as status_pedido_ferias'
+                'status_pedido_ferias.nome as status_pedido_ferias',
+                'ferias.dt_fim_periodo_de_licenca',
+                'ferias.dt_inicio_periodo_de_licenca'
             )
             ->where('ano_de_referencia', $ano_referente)
             ->where('id_funcionario', $id)
             ->first();
+
 
 
         return view('ferias.incluir-ferias', compact('ano_referente', "periodo_aquisitivo", 'id'));
@@ -231,64 +235,64 @@ class GerenciarFeriasController extends Controller
             } else {
                 // Nenhuma condição de erro foi encontrada
             }
-        }/**
-       * public
-       * function store2(Request $request, $id)
-       * {
-      *      $resultado_formulario_de_ferias = $request->all();
-       *     $diasDeDireitoDoFuncionario = 30 - ($faltas = 0);
-         *  $ano_referente = Carbon::now()->year - 1;
-          *  $funcionario = DB::table('funcionarios')
-          *      ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-           *     ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')
-          *      ->first();
-           * $ferias = DB::table('ferias')->where('id_funcionario', $id)
-           *     ->where('ano_de_referencia', '=', $ano_referente)
-           *     ->first();
-*
-           * // Verifica se a quantidade de períodos de férias é válida
-           * if (!isset($resultado_formulario_de_ferias['numeroPeriodoDeFerias']) || !in_array($resultado_formulario_de_ferias['numeroPeriodoDeFerias'], [1, 2, 3])) {
-           *     app('flasher')->addError('Número inválido de períodos de férias');
-           *     return redirect()->route('CriarFerias', ['id' => $id]);
-           * }
-
+        }
+    }
+    /**
+     * public
+     * function store2(Request $request, $id)
+     * {
+     *      $resultado_formulario_de_ferias = $request->all();
+     *     $diasDeDireitoDoFuncionario = 30 - ($faltas = 0);
+     *  $ano_referente = Carbon::now()->year - 1;
+     *  $funcionario = DB::table('funcionarios')
+     *      ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+     *     ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')
+     *      ->first();
+     * $ferias = DB::table('ferias')->where('id_funcionario', $id)
+     *     ->where('ano_de_referencia', '=', $ano_referente)
+     *     ->first();
+     *
+     * // Verifica se a quantidade de períodos de férias é válida
+     * if (!isset($resultado_formulario_de_ferias['numeroPeriodoDeFerias']) || !in_array($resultado_formulario_de_ferias['numeroPeriodoDeFerias'], [1, 2, 3])) {
+     *     app('flasher')->addError('Número inválido de períodos de férias');
+     *     return redirect()->route('CriarFerias', ['id' => $id]);
+     * }
      *       // Verifica cada período de férias
-      *      for ($i = 0; $i < $resultado_formulario_de_ferias['numeroPeriodoDeFerias']; $i++) {
-      *          $data_inicio = Carbon::parse($resultado_formulario_de_ferias["data_inicio_$i"]);
+     *      for ($i = 0; $i < $resultado_formulario_de_ferias['numeroPeriodoDeFerias']; $i++) {
+     *          $data_inicio = Carbon::parse($resultado_formulario_de_ferias["data_inicio_$i"]);
      *           $data_fim = Carbon::parse($resultado_formulario_de_ferias["data_fim_$i"]);
-**
-      *          // Verifica se as datas estão corretas
-      *          if ($data_fim->lt($data_inicio)) {
-      *              app('flasher')->addError("Período $i: A data final é anterior à data de início");
-      *          }
-*
-      *          // Verifica se o período de férias se sobrepõe ao período de licença
-  *              if (($data_inicio < $ferias->dt_inicio_periodo_de_licenca && $data_fim > $ferias->dt_inicio_periodo_de_licenca) ||
-      *              ($data_inicio < $ferias->dt_fim_periodo_de_licenca && $data_fim > $ferias->dt_fim_periodo_de_licenca)) {
-  *                  app('flasher')->addError("Período $i: O período de férias se sobrepõe ao período de licença");
-   *             }
-  *          }
-
-  *          // Se houver erros, redireciona de volta ao formulário de férias
-    *        if (app('flasher')->hasErrors()) {
-   *             return redirect()->route('CriarFerias', ['id' => $id]);
-  *          }
-*
-  *          // Se não houver erros, redireciona para a página de índice de gerenciamento de férias
-   *         return redirect()->route('IndexGerenciarFerias');
- *       }
-*
-    *    // Se houver erros, redireciona de volta ao formulário de férias
-  *      if (app('flasher')->hasErrors()) {
-   *         return redirect()->route('CriarFerias', ['id' => $id]);
- *       }
-*
+     **
+     *          // Verifica se as datas estão corretas
+     *          if ($data_fim->lt($data_inicio)) {
+     *              app('flasher')->addError("Período $i: A data final é anterior à data de início");
+     *          }
+     *
+     *          // Verifica se o período de férias se sobrepõe ao período de licença
+     *              if (($data_inicio < $ferias->dt_inicio_periodo_de_licenca && $data_fim > $ferias->dt_inicio_periodo_de_licenca) ||
+     *              ($data_inicio < $ferias->dt_fim_periodo_de_licenca && $data_fim > $ferias->dt_fim_periodo_de_licenca)) {
+     *                  app('flasher')->addError("Período $i: O período de férias se sobrepõe ao período de licença");
+     *             }
+     *          }
+     *          // Se houver erros, redireciona de volta ao formulário de férias
+     *        if (app('flasher')->hasErrors()) {
+     *             return redirect()->route('CriarFerias', ['id' => $id]);
+     *          }
+     *
+     *          // Se não houver erros, redireciona para a página de índice de gerenciamento de férias
+     *         return redirect()->route('IndexGerenciarFerias');
+     *       }
+     *
+     *    // Se houver erros, redireciona de volta ao formulário de férias
+     *      if (app('flasher')->hasErrors()) {
+     *         return redirect()->route('CriarFerias', ['id' => $id]);
+     *       }
+     *
      *   // Se não houver erros, redireciona para a página de índice de gerenciamento de férias
-    *    return redirect()->route('IndexGerenciarFerias');
-   * }
-   * 
-   * 
-   * */
+     *    return redirect()->route('IndexGerenciarFerias');
+     * }
+     *
+     *
+     * */
 
     /**
      * Display the specified resource.

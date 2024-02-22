@@ -16,7 +16,39 @@
                 </div>
             </div>
 
+
             <div class="card-body">
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        Datas Do Período de Licensa para Férias
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row d-flex justify-content-around" style="text-align: center">
+                            <div class="col-4">
+                                <h5 class="card-title">A partir de:</h5>
+                                <div class="card">
+
+                                    <div class="card-body">
+                                       {{  \Carbon\Carbon::parse($periodo_aquisitivo->dt_inicio_periodo_de_licenca)->format('d/m/Y') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="card-title">Não mais que:</h5>
+                                <div class="card">
+
+                                    <div class="card-body">
+                                       {{     \Carbon\Carbon::parse($periodo_aquisitivo->dt_fim_periodo_de_licenca)->format('d/m/Y')    }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
                 <div class="card">
                     <div class="card-header">Número de Períodos </div>
                     <div class="card-body">
