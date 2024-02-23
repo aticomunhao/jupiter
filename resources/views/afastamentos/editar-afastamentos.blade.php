@@ -3,7 +3,6 @@
     <title>Editar Afastamento</title>
 @endsection
 @section('content')
-
     <div class="container"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
             <div class="col-12">

@@ -8,12 +8,15 @@
             <div class="col-12">
                 <br>
                 <div class="card" style="border-color: #355089">
-                    <h5 class="col-12" style="color: #355089">
-                        Incluir Dependentes
-                    </h5>
+                    <div class="card-header">
+                        <div class="ROW">
+                            <h5 class="col-12" style="color: #355089">
+                                Incluir Dependentes
+                            </h5>
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <form method="post" action="/armazenar-dependentes/{{ $funcionario_atual[0]->id }}"
-                            enctype="multipart/form-data">
+                        <form method="post" action="/armazenar-dependentes/{{ $funcionario_atual[0]->id }}">
                             @csrf
                             <div class="row">
                                 <div class="col-5">
@@ -37,15 +40,16 @@
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         name="nomecomp_dep" value="" required="required">
                                 </div>
-                                <div class="col-md-3 mt-3 mt-md-0">Data nascimento
+                                <div class="col-2 mt-3 mt-md-0">Data nascimento
                                     <input class="form-control" type="date" value="" id="3"
                                         name="dtnasc_dep" required="required">
                                 </div>
-                                <div class="col-md-2 mt-3 mt-md-0">CPF
+                                <div class="col-3 mt-3 mt-md-0">CPF
                                     <input class="form-control" type="text" maxlength="14" value="" id="cpf"
                                         name="cpf_dep" required="required" oninput="formatarCPF(this); validarCPF(this);">
                                 </div>
                             </div>
+                            <br>
                             <div>
                                 <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1"
                                     href="/gerenciar-dependentes/{{ $funcionario_atual[0]->id }}" role="button">

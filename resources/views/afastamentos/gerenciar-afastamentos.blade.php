@@ -78,7 +78,8 @@
                                                     <a href="/editar-afastamentos/{{ $afastamento->id }}"
                                                         class="btn btn-outline-warning" data-tt="tooltip"
                                                         data-placement="top" title="Editar">
-                                                        <i class="bi bi-pencil"></i>
+                                                        <i class="bi bi-pencil">
+                                                        </i>
                                                     </a>
 
                                                     <!-- Botao de excluir, trigger modal -->
