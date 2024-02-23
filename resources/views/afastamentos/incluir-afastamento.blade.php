@@ -26,6 +26,7 @@
                                             id="iddt_inicio" name="dt_inicio" required="required" disabled>
                                     </div>
                                 </div>
+                                <br />
                                 <hr>
                                 <div class="form-group row">
                                     <div class="form-group col-3 mb-2">Motivo do Afastamento
