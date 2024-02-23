@@ -6,6 +6,7 @@ use App\Http\Controllers;
 use App\Http\Controllers\GerenciarCargos;
 use App\Http\Controllers\GerenciarCargosController;
 use App\Http\Controllers\GerenciarFeriasController;
+use App\Http\Controllers\PhotoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -176,7 +177,11 @@ Route::post('/atualizar-associado/{ida}/{idp}/{ide}', [App\Http\Controllers\Gere
 Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
 Route::get('/visualizar-dados_bancarios/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'visualizardadosbancarios']);
 Route::any('/incluir-dados-bancarios/{ida}', [App\Http\Controllers\GerenciarAssociadoController::class, 'incluirdadosbancarios']);
-
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/capture-photo', [PhotoController::class, 'showCaptureForm'])->name('capture.form');
+    Route::post('/capture-photo', [PhotoController::class, 'storeCapturedPhoto']);
+    
+});
 
 
 
