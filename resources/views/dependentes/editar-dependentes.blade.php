@@ -25,6 +25,7 @@
                         </div>
                     </div>
                 </div>
+                <hr>
                 <div class="card-body">
                     <form method="post" action="/atualizar-dependentes/{{ $dependente->id }}">
                         @csrf

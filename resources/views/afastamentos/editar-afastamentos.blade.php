@@ -3,7 +3,6 @@
     <title>Editar Afastamento</title>
 @endsection
 @section('content')
-    <div class="container">
         <div class="container">
             <div class="justify-content-center">
                 <div class="col-12">
@@ -26,9 +25,10 @@
                                             id="iddt_inicio" name="dt_inicio" required="required" disabled>
                                     </div>
                                 </div>
+                                <br />
                                 <hr>
                                 <div class="form-group row">
-                                    <div class="form-group col-3 mb-2">Motivo do Afastamento
+                                    <div class="form-group col-3">Motivo do Afastamento
                                         <select class="form-select" name="tipo_afastamento" required="required">
                                             <option value="{{ $afastamentos->id_tp_afastamento }}">
                                                 {{ $afastamento_com_tipo->nome_tp_afastamento }}
@@ -66,7 +66,7 @@
                                             id="idficheiro">
                                     </div>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check mb-2">
                                     <input type="checkbox" class="form-check-input" id="justificado" name="justificado"
                                         value="justificado" {{ $afastamentos->justificado ? 'checked' : '' }}>
                                     <label class="form-check-label" for="justificado">
@@ -97,5 +97,4 @@
                 </div>
             </div>
         </div>
-    </div>
 @endsection

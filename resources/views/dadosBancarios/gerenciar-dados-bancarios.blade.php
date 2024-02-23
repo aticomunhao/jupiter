@@ -8,7 +8,7 @@
     <div class="container"> {{-- Container completo da página  --}}
         <div class="card" style="border-color: #355089;">
             <h5 class="card-header" style="color: #355089;">
-                Gerenciar Dados Bancarios
+                Gerenciar Dados Bancários
             </h5>
             <div class="card-body">
                 <div class="row"> {{-- Linha com o nome e botão novo --}}
@@ -17,7 +17,7 @@
                             name="dt_inicio" required="required" disabled>
                     </div>
                     <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
-                        <a href="/incluir-afastamentos/{{ $funcionario->id }}" class="col-6">
+                        <a href="/incluir-dados-bancarios/{{ $funcionario->id }}" class="col-6">
                             <button type="button" class="btn btn-success col-md-8 col-12">
                                 Novo+
                             </button>
