@@ -85,9 +85,9 @@
                             <br>
                             <div>
                                 <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1"
-                                    href="/gerenciar-dependentes/{{ $funcionario[0]->id }}" role="button">
-                                    Cancelar
-                                </a>
+                                        href="/gerenciar-certificados/{{ $funcionario[0]->id }}" role="button">
+                                        Cancelar
+                                    </a>
                                 <button type="submit" class="btn btn-primary col-md-3 col-1 mt-4 offset-md-3"
                                     id="sucesso">
                                     Confirmar

@@ -36,13 +36,13 @@
                                 <thead style="text-align: center;">
                                     <tr class="align-middle"
                                         style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                        <th class="col-1">Nivel Ensino</th>
-                                        <th class="col-3">Nome</th>
-                                        <th class="col-1">Etapa</th>
-                                        <th class="col-2">Grau Academico</th>
-                                        <th class="col-1">Entidade/Autor</th>
-                                        <th class="col-1">Dt Conlusão</th>
-                                        <th class="col-1">Ações</th>
+                                        <th class="col">Nivel Ensino</th>
+                                        <th class="col-4">Nome</th>
+                                        <th class="col">Etapa</th>
+                                        <th class="col">Grau Academico</th>
+                                        <th class="col">Entidade/Autor</th>
+                                        <th class="col">Dt Conlusão</th>
+                                        <th class="col">Ações</th>
 
                                     </tr>
                                 </thead>
@@ -128,13 +128,13 @@
                 </div>
             </div>
             <br>
-                <div class="row d-flex justify-content-around">
-                    <div class="col-4">
-                        <a href="{{ route('gerenciar') }}">
-                            <button class="btn btn-primary" style="width: 100%">Retornar </button>
-                        </a>
-                    </div>
+            <div class="row d-flex justify-content-around">
+                <div class="col-4">
+                    <a href="{{ route('gerenciar') }}">
+                        <button class="btn btn-primary" style="width: 100%">Retornar </button>
+                    </a>
                 </div>
+            </div>
         </div>
     </div>
 @endsection

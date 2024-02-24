@@ -65,7 +65,9 @@
                                                 </td>
 
                                                 <!--Botao de Arquivo-->
-                                                <td scope="" style="font-size: 1rem; color:#303030; text-align: center">
+                                                <td scope=""
+                                                    style="font-size: 1rem; color:#303030; text-align: center">
+
                                                     @if ($afastamento->caminho)
                                                         <a href="{{ asset($afastamento->caminho) }}"
                                                             class="btn btn-outline-secondary" target="_blank">
@@ -73,24 +75,26 @@
                                                             </i>
                                                         </a>
                                                     @endif
+                                                            <!--Botao de Editar-->
+                                                            <a href="/editar-afastamentos/{{ $afastamento->id }}"
+                                                                class="btn btn-outline-warning" data-tt="tooltip"
+                                                                style="font-size: 1rem; color:#303030" data-placement="top"
+                                                                title="Editar">
+                                                                <i class="bi bi-pencil">
+                                                                </i>
+                                                            </a>
 
-                                                    <!--Botao de Editar-->
-                                                    <a href="/editar-afastamentos/{{ $afastamento->id }}"
-                                                        class="btn btn-outline-warning" data-tt="tooltip" style="font-size: 1rem; color:#303030"
-                                                        data-placement="top" title="Editar">
-                                                        <i class="bi bi-pencil">
-                                                        </i>
-                                                    </a>
-
-                                                    <!-- Botao de excluir, trigger modal -->
-                                                    <a>
-                                                        <button type="button" class="btn btn-outline-danger delete-btn" style="font-size: 1rem; color:#303030"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#A{{ $afastamento->id }}">
-                                                            <i class="bi bi-trash">
-                                                            </i>
-                                                        </button>
-                                                    </a>
+                                                            <!-- Botao de excluir, trigger modal -->
+                                                            <a>
+                                                                <button type="button"
+                                                                    class="btn btn-outline-danger delete-btn"
+                                                                    style="font-size: 1rem; color:#303030"
+                                                                    data-bs-toggle="modal"
+                                                                    data-bs-target="#A{{ $afastamento->id }}">
+                                                                    <i class="bi bi-trash">
+                                                                    </i>
+                                                                </button>
+                                                            </a>
 
                                                     <!-- Modal -->
 
