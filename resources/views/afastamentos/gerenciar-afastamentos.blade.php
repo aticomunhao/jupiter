@@ -65,7 +65,7 @@
                                                 </td>
 
                                                 <!--Botao de Arquivo-->
-                                                <td scope="" style="text-align: center">
+                                                <td scope="" style="font-size: 1rem; color:#303030; text-align: center">
                                                     @if ($afastamento->caminho)
                                                         <a href="{{ asset($afastamento->caminho) }}"
                                                             class="btn btn-outline-secondary" target="_blank">
@@ -76,7 +76,7 @@
 
                                                     <!--Botao de Editar-->
                                                     <a href="/editar-afastamentos/{{ $afastamento->id }}"
-                                                        class="btn btn-outline-warning" data-tt="tooltip"
+                                                        class="btn btn-outline-warning" data-tt="tooltip" style="font-size: 1rem; color:#303030"
                                                         data-placement="top" title="Editar">
                                                         <i class="bi bi-pencil">
                                                         </i>
@@ -84,7 +84,7 @@
 
                                                     <!-- Botao de excluir, trigger modal -->
                                                     <a>
-                                                        <button type="button" class="btn btn-outline-danger delete-btn"
+                                                        <button type="button" class="btn btn-outline-danger delete-btn" style="font-size: 1rem; color:#303030"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#A{{ $afastamento->id }}">
                                                             <i class="bi bi-trash">
@@ -138,6 +138,14 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row d-flex justify-content-around">
+                    <div class="col-4">
+                        <a href="{{ route('gerenciar') }}">
+                            <button class="btn btn-primary" style="width: 100%">Retornar </button>
+                        </a>
                     </div>
                 </div>
             </div>

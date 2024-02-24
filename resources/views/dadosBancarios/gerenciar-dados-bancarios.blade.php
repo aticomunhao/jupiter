@@ -68,11 +68,11 @@
                                                     <a href="/editar-dado-bancario/{{ $contaBancaria->id }}"
                                                         class="btn btn-outline-warning" data-tt="tooltip"
                                                         data-placement="top" title="Editar">{{--  Botão editar  --}}
-                                                        <i class="bi bi-pencil"></i></a>
+                                                        <i class="bi bi-pencil" style="font-size: 1rem; color:#303030"></i></a>
                                                     <button class="btn btn-outline-danger" {{-- Botão que aciona o modal  --}}
                                                         data-bs-toggle="modal" data-bs-target="#A{{ $contaBancaria->id }}"
                                                         data-tt="tooltip" data-placement="top" title="Excluir">
-                                                        <i class="bi bi-trash"></i></button>
+                                                        <i class="bi bi-trash" style="font-size: 1rem; color:#303030"></i></button>
                                                     <div class="modal fade"{{--  Modal  --}}
                                                         id="A{{ $contaBancaria->id }}" tabindex="-1"
                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -121,6 +121,14 @@
                     </fieldset>
                 </div>
             </div>
+            <br>
+                <div class="row d-flex justify-content-around">
+                    <div class="col-4">
+                        <a href="{{ route('gerenciar') }}">
+                            <button class="btn btn-primary" style="width: 100%">Retornar </button>
+                        </a>
+                    </div>
+                </div>
             <script>
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
                 var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {

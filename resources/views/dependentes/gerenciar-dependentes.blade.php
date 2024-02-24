@@ -49,64 +49,74 @@
                                     <tbody style="font-size: 15px; color:#000000;">
                                         @foreach ($dependentes as $dependente)
                                             <tr>
-                                                <td>{{ $dependente->nome }}</td>{{--  Parentesco  --}}
-                                                <td style="text-align: center">{{ $dependente->nome_dependente }}</td>
-                                                {{--  Nome  --}}
+                                                <td>{{--  Parentesco  --}}
+                                                    {{ $dependente->nome }}
+                                                </td>
+                                                <td style="text-align: center">{{--  Nome  --}}
+                                                    {{ $dependente->nome_dependente }}
+                                                </td>
                                                 <td style="text-align: center">{{--  Data de nascimento  --}}
                                                     {{ \Carbon\Carbon::parse($dependente->dt_nascimento)->format('d/m/Y') }}
+                                                </td>{{--  CPF  --}}
+                                                <td id="cpf" style="text-align: center">
+                                                    {{ $dependente->cpf }}
                                                 </td>
-                                                <td id="cpf" style="text-align: center">{{ $dependente->cpf }}</td>
-                                                {{--  CPF  --}}
-                                                <td> {{--  Área de ações  --}}
-                                                    <center>
-                                                        <a href="/editar-dependentes/{{ $dependente->id }}"
-                                                            class="btn btn-outline-warning" data-tt="tooltip"
-                                                            data-placement="top" title="Editar">{{--  Botão editar  --}}
-                                                            <i class="bi bi-pencil"></i></a>
-                                                        <button class="btn btn-outline-danger" {{-- Botão que aciona o modal  --}}
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}"
-                                                            data-tt="tooltip" data-placement="top" title="Excluir">
-                                                            <i class="bi bi-trash"></i></button>
-                                                        <div class="modal fade"{{--  Modal  --}}
-                                                            id="A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}"
-                                                            tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                            aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header"
-                                                                        style="background-color:rgba(202, 61, 61, 0.911);">
-                                                                        <div class="row">
-                                                                            <h2 style="color:white;">Excluir Dependente</h2>
-                                                                        </div>
-                                                                        <button type="button" class="btn-close"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close"></button>
+                                                <td style="text-align: center"> {{--  Área de ações  --}}
+                                                    <a href="/editar-dependentes/{{ $dependente->id }}"
+                                                        class="btn btn-outline-warning" data-tt="tooltip"
+                                                        data-placement="top" title="Editar">{{--  Botão editar  --}}
+                                                        <i class="bi bi-pencil"
+                                                            style="font-size: 1rem; color:#303030">
+                                                        </i>
+                                                    </a>
+                                                    <button class="btn btn-outline-danger" {{-- Botão que aciona o modal  --}}
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}"
+                                                        data-tt="tooltip" data-placement="top" title="Excluir">
+                                                        <i class="bi bi-trash" style="font-size: 1rem; color:#303030">
+                                                        </i>
+                                                    </button>
+                                                    <div class="modal fade"{{--  Modal  --}}
+                                                        id="A{{ $dependente->dt_nascimento }}-{{ $dependente->id }}"
+                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header"
+                                                                    style="background-color:rgba(202, 61, 61, 0.911);">
+                                                                    <div class="row">
+                                                                        <h2 style="color:white;">
+                                                                            Excluir Dependente
+                                                                        </h2>
                                                                     </div>
-                                                                    <div class="modal-body" style="color:#e24444;">
-                                                                        <br />
-                                                                        <p class="fw-bold alert  text-center">Você
-                                                                            realmente deseja excluir
-                                                                            <br>
-                                                                            <span class="fw-bolder fs-5">
-                                                                                {{ $dependente->nome_dependente }}</span>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="modal-footer  ">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Cancelar
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close">
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body" style="color:#e24444;">
+                                                                    <br />
+                                                                    <p class="fw-bold alert  text-center">Você
+                                                                        realmente deseja excluir
+                                                                        <br>
+                                                                        <span class="fw-bolder fs-5">
+                                                                            {{ $dependente->nome_dependente }}</span>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="modal-footer  ">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Cancelar
+                                                                    </button>
+                                                                    <a href="/deletar-dependentes/{{ $dependente->id }}">
+                                                                        <button type="button"
+                                                                            class="btn btn-danger">Excluir
+                                                                            permanentemente
                                                                         </button>
-                                                                        <a
-                                                                            href="/deletar-dependentes/{{ $dependente->id }}">
-                                                                            <button type="button"
-                                                                                class="btn btn-danger">Excluir
-                                                                                permanentemente
-                                                                            </button>
-                                                                        </a>
-                                                                    </div>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                    </div>
+                                                </td>
                                         @endforeach
                                     </tbody>
                                 </table>
@@ -114,7 +124,14 @@
                         </div>
                     </div>
                 </div>
-                </fieldset>
+                <br>
+                <div class="row d-flex justify-content-around">
+                    <div class="col-4">
+                        <a href="{{ route('gerenciar') }}">
+                            <button class="btn btn-primary" style="width: 100%">Retornar </button>
+                        </a>
+                    </div>
+                </div>
             </div>
             <script>
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))

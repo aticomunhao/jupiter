@@ -29,6 +29,7 @@
                                             required="required" disabled>
                                     </div>
                                 </div>
+                                <br>
                                 <hr>
                                 <div class="form-group row">
                                     <div class="col-2">Grau Acadêmico
