@@ -109,29 +109,33 @@ class GerenciarFeriasController extends Controller
             // Condições para um único período de férias
             $data_inicio = Carbon::parse($resultado_formulario_de_ferias["data_inicio_0"]);
             $data_fim = Carbon::parse($resultado_formulario_de_ferias["data_fim_0"]);
-            $dias_DeFerias_utilizadas = $data_inicio->diffInDays($data_fim);
+            $dias_de_ferias_utilizadas = $data_inicio->diffInDays($data_fim) + 1;
+
             $data_de_retorno_em_dia_da_semana = Carbon::parse($data_fim)->format('n');
 
             // Verifica se o número de dias utilizados excede os dias de direito do funcionário
-            if ($dias_DeFerias_utilizadas > $diasDeDireitoDoFuncionario) {
-                $dias_excedentes = $dias_DeFerias_utilizadas - $diasDeDireitoDoFuncionario;
-                app('flasher')->addError("Foram utilizados $dias_excedentes dias a mais");
+            if ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
+                $dias_excedentes = $dias_de_ferias_utilizadas - $diasDeDireitoDoFuncionario;
+                app('flasher')->addError("Foram utilizados $dias_excedentes dias a mais. Deveria assim retornar dia " . Carbon::parse($data_inicio->addDays(29))->format('d-m-y'));
             } // Verifica se o número de dias utilizados é inferior aos dias de direito do funcionário
-            elseif ($dias_DeFerias_utilizadas < $diasDeDireitoDoFuncionario) {
-                $dias_restantes = $diasDeDireitoDoFuncionario - $dias_DeFerias_utilizadas;
-                app('flasher')->addError("Não foram utilizados todos os dias que tem direito, ainda é preciso utilizar $dias_restantes dias");
-            } // Verifica se a data de fim é anterior à data de início
+            elseif ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
+                $dias_restantes = $diasDeDireitoDoFuncionario - $dias_de_ferias_utilizadas;
+                app('flasher')->addError("Não foram utilizados todos os dias que tem direito, ainda é preciso utilizar $dias_restantes dias. Deveria assim retornar dia " . Carbon::parse($data_inicio->addDays(29))->format('d-m-y'));
+                // Verifica se a data de início das férias é anterior ao início do período de licença
+            } elseif ($data_inicio < $ferias->dt_inicio_periodo_de_licenca) {
+                app('flasher')->addError('A data inicial do período de férias é inferior ao início do seu período de licença que começa no dia ' . Carbon::parse($ferias->fim_periodo_aquisitivo)->format('dd/MM/yyyy'));
+            }//Verifica se a data final é depois do periodo de licensa
+            elseif ($data_fim > $ferias->dt_fim_periodo_de_licenca) {
+                app('flasher')->addError('Data Final depois do periodo de licensa');
+            }// Verifica se a data de fim é anterior à data de início
             elseif ($data_fim < $data_inicio) {
                 app('flasher')->addError('Você colocou uma data de fim excedendo a data de início');
-            } // Verifica se a data de início das férias é anterior ao início do período de licença
-            elseif ($data_inicio < $ferias->dt_inicio_periodo_de_licenca) {
-                app('flasher')->addError('A data inicial do período de férias é inferior ao início do seu período de licença que começa no dia ' . Carbon::parse($ferias->fim_periodo_aquisitivo)->format('dd/MM/yyyy'));
-                //Verifica se a data inicial se encontra dentro do periodo de Licensa
-            } elseif ($data_fim < $ferias->dt_fim_periodo_de_licenca) {
-                app('flasher')->addError('Data Final depois do periodo de licensa');
             } else {
-                // Nenhuma condição de erro foi encontrada
+                DB::table('ferias')->insert([]);
             }
+            return redirect()->route('IndexGerenciarFerias');
+        }
+    }
             /*
         } elseif ($resultado_formulario_de_ferias['numeroPeriodoDeFerias'] == 2) {
             // Condições para dois períodos de férias
@@ -237,67 +241,9 @@ class GerenciarFeriasController extends Controller
     }
             */
     /**
-     * public
-     * function store2(Request $request, $id)
-     * {
-     *      $resultado_formulario_de_ferias = $request->all();
-     *     $diasDeDireitoDoFuncionario = 30 - ($faltas = 0);
-     *  $ano_referente = Carbon::now()->year - 1;
-     *  $funcionario = DB::table('funcionarios')
-     *      ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-     *     ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')
-     *      ->first();
-     * $ferias = DB::table('ferias')->where('id_funcionario', $id)
-     *     ->where('ano_de_referencia', '=', $ano_referente)
-     *     ->first();
-     *
-     * // Verifica se a quantidade de períodos de férias é válida
-     * if (!isset($resultado_formulario_de_ferias['numeroPeriodoDeFerias']) || !in_array($resultado_formulario_de_ferias['numeroPeriodoDeFerias'], [1, 2, 3])) {
-     *     app('flasher')->addError('Número inválido de períodos de férias');
-     *     return redirect()->route('CriarFerias', ['id' => $id]);
-     * }
-     *       // Verifica cada período de férias
-     *      for ($i = 0; $i < $resultado_formulario_de_ferias['numeroPeriodoDeFerias']; $i++) {
-     *          $data_inicio = Carbon::parse($resultado_formulario_de_ferias["data_inicio_$i"]);
-     *           $data_fim = Carbon::parse($resultado_formulario_de_ferias["data_fim_$i"]);
-     **
-     *          // Verifica se as datas estão corretas
-     *          if ($data_fim->lt($data_inicio)) {
-     *              app('flasher')->addError("Período $i: A data final é anterior à data de início");
-     *          }
-     *
-     *          // Verifica se o período de férias se sobrepõe ao período de licença
-     *              if (($data_inicio < $ferias->dt_inicio_periodo_de_licenca && $data_fim > $ferias->dt_inicio_periodo_de_licenca) ||
-     *              ($data_inicio < $ferias->dt_fim_periodo_de_licenca && $data_fim > $ferias->dt_fim_periodo_de_licenca)) {
-     *                  app('flasher')->addError("Período $i: O período de férias se sobrepõe ao período de licença");
-     *             }
-     *          }
-     *          // Se houver erros, redireciona de volta ao formulário de férias
-     *        if (app('flasher')->hasErrors()) {
-     *             return redirect()->route('CriarFerias', ['id' => $id]);
-     *          }
-     *
-     *          // Se não houver erros, redireciona para a página de índice de gerenciamento de férias
-     *         return redirect()->route('IndexGerenciarFerias');
-     *       }
-     *
-     *    // Se houver erros, redireciona de volta ao formulário de férias
-     *      if (app('flasher')->hasErrors()) {
-     *         return redirect()->route('CriarFerias', ['id' => $id]);
-     *       }
-     *
-     *   // Se não houver erros, redireciona para a página de índice de gerenciamento de férias
-     *    return redirect()->route('IndexGerenciarFerias');
-     * }
-     *
-     *
-     * */
-
-    /**
      * Display the specified resource.
      */
-    public
-    function show(string $id)
+    public    function show(string $id)
     {
         //
     }
@@ -357,8 +303,6 @@ class GerenciarFeriasController extends Controller
 
         if ($ferias->isEmpty()) {
             foreach ($funcionarios as $funcionario) {
-
-
                 DB::table('ferias')
                     ->insert([
                         'ano_de_referencia' => $ano_referencia,
