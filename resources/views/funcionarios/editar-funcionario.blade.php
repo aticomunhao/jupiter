@@ -3,21 +3,22 @@
     <title>Editar Cadastro de Funcionário</title>
 @endsection
 @section('content')
-    <div class="container">
-        <div class="justify-content-center">
-            <div class="col-12">
-                <br>
-                <div class="card" style="border-color: #355089">
-                    <div class="card-header">
-                        <div class="ROW">
-                            <h5 class="col-12" style="color: #355089">
-                                Editar Cadastro do Funcionário
-                            </h5>
+    <form method='POST' action="/atualizar-funcionario/{{ $editar[0]->idf }}/{{ $editar[0]->idp }}">
+        @csrf
+        <div class="container-fluid">
+            <div class="justify-content-center">
+                <div class="col-12">
+                    <br>
+                    <div class="card" style="border-color: #355089">
+                        <div class="card-header">
+                            <div class="ROW">
+                                <h5 class="col-12" style="color: #355089">
+                                    Editar Cadastro do Funcionário
+                                </h5>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <form method='POST' action="/atualizar-funcionario/{{ $editar[0]->idf }}/{{ $editar[0]->idp }}">
-                            @csrf
+
+                        <div class="card-body">
                             <div class="row">
                                 <div class="form-group col-2 mb-3">
                                     <label for="1">Matrícula</label>
@@ -410,39 +411,42 @@
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <div>
-                                <div class="botões">
-                                    <a href="/gerenciar-funcionario" type="button" value=""
-                                        class="btn btn-danger col-md-3 col-2 mt-4 offset-md-2">Cancelar</a>
-                                    <input type="submit" value="Confirmar"
-                                        class="btn btn-primary col-md-3 col-1 mt-4 offset-md-2">
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                        <br>
+                        <div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <br>
+        <div class="botões">
+            <a href="/gerenciar-funcionario" type="button" value=""
+                class="btn btn-danger col-md-3 col-2 mt-4 offset-md-2">Cancelar</a>
+            <input type="submit" value="Confirmar" class="btn btn-primary col-md-3 col-1 mt-4 offset-md-2">
+        </div>
+        <br>
+    </form>
 
-        <script>
-            // Exemplo de JavaScript inicial para desativar envios de formulário, se houver campos inválidos.
-            (function() {
-                'use strict';
-                window.addEventListener('load', function() {
-                    // Pega todos os formulários que nós queremos aplicar estilos de validação Bootstrap personalizados.
-                    var forms = document.getElementsByClassName('needs-validation');
-                    // Faz um loop neles e evita o envio
-                    var validation = Array.prototype.filter.call(forms, function(form) {
-                        form.addEventListener('submit', function(event) {
-                            if (form.checkValidity() === false) {
-                                event.preventDefault();
-                                event.stopPropagation();
-                            }
-                            form.classList.add('was-validated');
-                        }, false);
-                    });
-                }, false);
-            })();
-        </script>
-    @endsection
+    <script>
+        // Exemplo de JavaScript inicial para desativar envios de formulário, se houver campos inválidos.
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                // Pega todos os formulários que nós queremos aplicar estilos de validação Bootstrap personalizados.
+                var forms = document.getElementsByClassName('needs-validation');
+                // Faz um loop neles e evita o envio
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+@endsection

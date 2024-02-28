@@ -3,7 +3,7 @@
     <title>Gerenciar Funcionários</title>
 @endsection
 @section('content')
-    <div class="container fluid"> {{-- Container completo da página  --}}
+    <div class="container-fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
             <div class="col-12">
                 <br>
