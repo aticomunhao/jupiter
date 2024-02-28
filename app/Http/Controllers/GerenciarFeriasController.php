@@ -87,7 +87,6 @@ class GerenciarFeriasController extends Controller
 
         // Calcula os dias de direito do funcionário (exemplo: 30 dias de férias - dias de falta)
         $diasDeDireitoDoFuncionario = 30 - ($faltas = 0);
-
         // Obtém o ano de referência
         $ano_referente = Carbon::now()->year - 1;
 
@@ -96,12 +95,13 @@ class GerenciarFeriasController extends Controller
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
             ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')
             ->first();
-
+dd($resultado_formulario_de_ferias);
         // Obtém informações sobre as férias do funcionário
         $ferias = DB::table('ferias')
             ->where('id_funcionario', $id)
             ->where('ano_de_referencia', '=', $ano_referente)
             ->first();
+        dd($ferias);
 
 
         // Verifica o número de períodos de férias
@@ -109,7 +109,8 @@ class GerenciarFeriasController extends Controller
             // Condições para um único período de férias
             $data_inicio = Carbon::parse($resultado_formulario_de_ferias["data_inicio_0"]);
             $data_fim = Carbon::parse($resultado_formulario_de_ferias["data_fim_0"]);
-            $dias_de_ferias_utilizadas = $data_inicio->diffInDays($data_fim) + 1;
+            $dias_de_ferias_utilizadas = $data_inicio->diffInDays($data_fim);
+
 
             $data_de_retorno_em_dia_da_semana = Carbon::parse($data_fim)->format('n');
 
@@ -131,7 +132,11 @@ class GerenciarFeriasController extends Controller
             elseif ($data_fim < $data_inicio) {
                 app('flasher')->addError('Você colocou uma data de fim excedendo a data de início');
             } else {
-                DB::table('ferias')->insert([]);
+                DB::table('ferias')->where('id', $ferias->id)->update([
+                    'dt_ini_a' => $data_inicio,
+                    'dt_fim_a' => $data_fim
+                    //'adianta_13sal' =>
+                ]);
             }
             return redirect()->route('IndexGerenciarFerias');
         }

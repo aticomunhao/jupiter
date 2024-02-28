@@ -199,7 +199,7 @@
                     '<div class="row justify-content-center">' +
                     '<div class="form-check">' +
                     '<div class="col-4">' +
-                    '<input class="form-check-input vendeferias" type="checkbox" id="vendeferias1" name="vendeFerias" unchecked>' +
+                    '<input class="form-check-input vendeferias" type="checkbox" id="vendeferias1" name="vendeFerias">' +
                     '<label class="form-check-label" for="vendeferias1">Vender Férias</label>' +
                     '</div>' +
                     '<div class="col-4">' +
