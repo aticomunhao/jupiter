@@ -3,7 +3,7 @@
     <title>Gerenciar Funcionários</title>
 @endsection
 @section('content')
-    <div class="container"> {{-- Container completo da página  --}}
+    <div class="container fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
             <div class="col-12">
                 <br>
@@ -16,27 +16,6 @@
                         </div>
                     </div>
                     <div>
-                        <style>
-                            /* Estilo para a borda dos campos de entrada */
-                            .form-control {
-                                border-color: #000000;
-                                /* Cor preta para a borda */
-                            }
-
-                            .custom-select {
-                                border: 1px solid #000000;
-                                /* Adiciona borda */
-                                padding: 0.375rem 1.75rem 0.375rem 0.75rem;
-                                /* Ajusta o padding */
-                            }
-
-                            .custom-btn {
-                                border: 1px solid #000000;
-                                font-size: 1rem;
-                                box-shadow: 1px 2px 5px #000000;
-                                margin:5px;
-                            }
-                        </style>
                         <div class="card-body">
                             <form action="{{ route('gerenciar') }}" class="form-horizontal mt-4" method="GET">
                                 <div class="row">
@@ -48,7 +27,7 @@
                                         <input class="form-control" maxlength="9" type="text" id="2"
                                             name="idt" value="{{ $idt }}">
                                     </div>
-                                    <div class="col-3">Nome
+                                    <div class="col-2">Nome
                                         <input class="form-control" maxlength="50" type="text" id="3"
                                             name="nome"value="{{ $nome }}">
                                     </div>
@@ -60,22 +39,25 @@
                                             <option value="2">Inativo</option>
                                         </select>
                                     </div>
-                                    <div class="col">
-                                        <br>
-                                        <input class="btn btn-light btn-lg custom-btn" type="submit" value="Pesquisar">
+                                    <div class="col" style="margin-top: 20px">
+                                        <input class="btn btn-light btn-sm"
+                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
+                                            type="submit" value="Pesquisar">
 
-                                        <a href="/gerenciar-funcionario">
-                                            <button class="btn btn-light btn-lg custom-btn" type="button" value="">
-                                                Limpar
-                                            </button>
+                                        <a href="/gerenciar-funcionario" class="btn btn-light btn-sm"
+                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
+                                            type="button" value="">
+                                            Limpar
+                                        </a>
+
+                                        <a href="/informar-dados">
+                                            <input class="btn btn-success btn-sm" type="button" name="6"
+                                                value="Novo Cadastro +"
+                                                style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">
                                         </a>
                                     </div>
                             </form>
                         </div>
-                        <a href="/informar-dados">
-                            <input class="btn btn-success mt-2 " type="button" name="6" value="Novo Cadastro +"
-                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;">
-                        </a>
                         <br>
                         <hr>
                         <div class="table">
@@ -140,7 +122,7 @@
 
 
                                                 <!-- <a href="/excluir-funcionario/{{ $listas->idf }}"><button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal fader" data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idf }}"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                                                            -->
+                                                                                    -->
                                             </td>
 
 
