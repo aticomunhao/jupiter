@@ -21,13 +21,20 @@
                     </fieldset>
                 </div>
                 <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
-                    <a href="/incluir-dados-bancarios/" class="col-6"><button type="button" class="btn btn-success col-md-8 col-12">Novo+</button></a>
+                    <a href="/incluir-dados-bancarios/" class="col-6"><button type="button" class="btn btn-success col-md-8 col-12">+Novo Cadastro</button></a>
                 </div>
             </div>
         </div>
         <hr />
-        <div class="row d-flex justify-content-evenly">
-            <div class="col">
+        <div class="d-flex justify-content-between">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Título do card</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Subtitulo do card</h6>
+                        <p class="card-text">Um exemplo de texto rápido para construir o título do card e fazer preencher o conteúdo do card.</p>
+                        <a href="#" class="card-link">Link do card</a>
+                        <a href="#" class="card-link">Outro link</a>
+                    </div>
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title">Título do card</h5>
