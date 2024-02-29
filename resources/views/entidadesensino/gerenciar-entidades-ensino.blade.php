@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <div class="container"> {{-- Container completo da página  --}}
+    <div class="container-fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
             <div class="col-12">
                 <br>
@@ -36,14 +36,13 @@
                                     </a>
                                 </div>
                             </div>
-
                         </form>
                         <br>
                         <hr>
                         <table class="table  table-striped table-bordered border-secondary table-hover align-middle">
                             {{-- Tabela com todas as informacoes --}}
                             <thead style="text-align: center; ">
-                                <tr style="background-color: #d6e3ff; font-size:19px; color:#000;">
+                                <tr style="background-color: #d6e3ff; font-size:17px; color:#000;">
                                     <th>Entidades de ensino</th>
                                     <th>Ações</th>
                                 </tr>

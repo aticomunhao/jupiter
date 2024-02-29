@@ -22,29 +22,29 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-2 col-sm-12">Matrícula
-                                    <input class="form-control" type="numeric" maxlength="11"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="numeric" maxlength="11"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="1" name="matricula" value="{{ old('matricula') }}" required="required">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Data Início
-                                    <input class="form-control" type="date" id="13" name="dt_ini"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" id="13" name="dt_ini"
                                         value="{{ old('dt_ini') }}" required="required">
                                 </div>
                                 <div class="col-md-4 col-sm-12">Nome completo
-                                    <input class="form-control" type="text" maxlength="45"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="text" maxlength="45"
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="idnome_completo" name="nome_completo" value="{{ old('nome_completo') }}"
                                         required="required">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Data nascimento
-                                    <input class="form-control" type="date" value="{{ old('dt_nascimento') }}"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" value="{{ old('dt_nascimento') }}"
                                         id="3" name="dt_nascimento" required="required">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-2 col-sm-12">Sexo
-                                    <select class="form-select" id="4" name="sex" required="required">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="4" name="sex" required="required">
                                         <option value=""></option>
                                         @foreach ($sexo as $sexos)
                                             <option @if (old('sex') == $sexos->id) {{ 'selected="selected"' }} @endif
@@ -53,7 +53,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4 col-sm-12">Nacionalidade
-                                    <select class="form-select" id="nacionalidade" name="pais"
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="nacionalidade" name="pais"
                                         value="{{ old('pais') }}" required="required">
                                         <option value=""></option>
                                         @foreach ($nac as $nacs)
@@ -63,7 +63,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">UF
-                                    <select select class="form-select" data-placeholder="Choose one thing" name="uf_nat"
+                                    <select select class="form-select" style="border: 1px solid #999999; padding: 5px;" data-placeholder="Choose one thing" name="uf_nat"
                                         required="required" id="uf1">
                                         <option value=""></option>
                                         @foreach ($tp_uf as $tp_ufs)
@@ -73,8 +73,8 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-4 col-sm-12">Naturalidade
-                                    <select class="form-select" id="cidade1" name="natura" value="{{ old('natura') }}"
+                                <div class="col-md-4 col-sm-12" >Naturalidade
+                                    <select class="form-select"  id="cidade1" name="natura" value="{{ old('natura') }}"
                                         required="required" disabled>
                                     </select>
                                 </div>
@@ -82,12 +82,12 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-3 col-sm-12">CPF
-                                    <input class="form-control" type="numeric" maxlength="11" placeholder="888.888.888-88"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="numeric" maxlength="11" placeholder="888.888.888-88"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="8" name="cpf" required="required">
                                 </div>
                                 <div class="col-md-2 col-sm-12">Tipo Programa
-                                    <select class="form-select" id="9" name="tp_programa" required="required">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="9" name="tp_programa" required="required">
                                         <option value=""></option>
                                         @foreach ($programa as $programas)
                                             <option @if (old('tp_programa') == $programas->id) {{ 'selected="selected"' }} @endif
@@ -97,18 +97,18 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-sm-12">Nr PIS ou PASEP
-                                    <input class="form-control" maxlength="11" type="numeric" id="10"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="11" type="numeric" id="10"
                                         name="nr_programa" value="{{ old('nr_programa') }}" required="required">
                                 </div>
                                 <div class="col-md-4 col-sm-12">Identidade
-                                    <input class="form-control" maxlength="11" type="numeric" id="11"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="11" type="numeric" id="11"
                                         name="identidade" value="{{ old('identidade') }}" required="required">
                                 </div>
                             </div>
                             <br>
                             <div class="row">
                                 <div class="col-md-2 col-sm-12">UF
-                                    <select class="js-example-responsive form-select" id="uf-idt" name="uf_idt"
+                                    <select class="js-example-responsive form-select" style="border: 1px solid #999999; padding: 5px;" id="uf-idt" name="uf_idt"
                                         required="required">
                                         <option value=""></option>
                                         @foreach ($tp_uf as $tp_ufs)
@@ -119,7 +119,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">Órgão expedidor
-                                    <select class="form-select" required="required" id="12" name="orgexp"
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" required="required" id="12" name="orgexp"
                                         required="required">
                                         <option value=""></option>
                                         <@foreach ($org_exp as $org_exps)
@@ -130,11 +130,11 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">Data emissão
-                                    <input class="form-control" type="date" id="13" name="dt_idt"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" id="13" name="dt_idt"
                                         value="{{ old('dt_idt') }}" required="required">
                                 </div>
                                 <div class="col-md-2 col-sm-12">Cor pele
-                                    <select class="form-select" id="14" name="cor" required="required">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="14" name="cor" required="required">
                                         <option value=""></option>
                                         <@foreach ($cor as $cors)
                                             <option @if (old('cor') == $cors->id) {{ 'selected="selected"' }} @endif
@@ -144,7 +144,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">Tipo sangue
-                                    <select class="form-select" id="15" name="tps" required="required">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="15" name="tps" required="required">
                                         <option value=""></option>
                                         <@foreach ($sangue as $sangues)
                                             <option @if (old('tps') == $sangues->id) {{ 'selected="selected"' }} @endif
@@ -154,7 +154,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">Fator RH
-                                    <select class="form-select" id="16" name="frh" required="required">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="16" name="frh" required="required">
                                         <option value=""></option>
                                         <@foreach ($fator as $fators)
                                             <option @if (old('frh') == $fators->id) {{ 'selected="selected"' }} @endif
@@ -167,23 +167,23 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-2 col-sm-12">Título eleitor
-                                    <input class="form-control" maxlength="12" type="numeric" id="17"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="12" type="numeric" id="17"
                                         name="titele" value="{{ old('titele') }}">
                                 </div>
                                 <div class="col-md-2 col-sm-12">Zona
-                                    <input class="form-control" maxlength="5" type="numeric" id="18"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="5" type="numeric" id="18"
                                         name="zona" value="{{ old('zona') }}">
                                 </div>
                                 <div class="col-md-1 col-sm-12">Seção
-                                    <input class="form-control" maxlength="5" type="numeric" id="19"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="5" type="numeric" id="19"
                                         name="secao" value="{{ old('secao') }}">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Data emissão
-                                    <input class="form-control" type="date" id="20" name="dt_titulo"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" id="20" name="dt_titulo"
                                         value="{{ old('dt_titulo') }}">
                                 </div>
                                 <div class="col-md-2 col-sm-12">DDD
-                                    <select class="form-select" id="16" name="ddd" required="required">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="16" name="ddd" required="required">
                                         <option value=""></option>
                                         <@foreach ($ddd as $ddds)
                                             <option @if (old('ddd') == $ddds->id) {{ 'selected="selected"' }} @endif
@@ -193,7 +193,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">Celular
-                                    <input class="form-control" maxlength="9" type="numeric"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="9" type="numeric"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         placeholder="Ex.: 99999-9999" value="{{ old('celular') }}" id="22"
                                         name="celular">
@@ -202,15 +202,15 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-2 col-sm-12">CTPS
-                                    <input class="form-control" maxlength="8" type="numeric" id="23"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="8" type="numeric" id="23"
                                         name="ctps" value="{{ old('ctps') }}" required="required">
                                 </div>
                                 <div class="col-md-2 col-sm-12">Série
-                                    <input class="form-control" maxlength="5" type="numeric" id="26"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="5" type="numeric" id="26"
                                         name="serie_ctps" value="{{ old('serie_ctps') }}" required="required">
                                 </div>
                                 <div class="col-md-2 col-sm-12">UF
-                                    <select class="js-example-responsive form-select" required="required" id="uf_ctps"
+                                    <select class="js-example-responsive form-select" style="border: 1px solid #999999; padding: 5px;" required="required" id="uf_ctps"
                                         name="uf_ctps" required="required">
                                         <option value=""></option>
                                         @foreach ($tp_uf as $tp_ufs)
@@ -223,7 +223,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-3 col-sm-12">Data emissão
-                                    <input class="form-control" type="date" id="24" name="dt_ctps"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" id="24" name="dt_ctps"
                                         value="{{ old('dt_ctps') }}" required="required">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Reservista
@@ -234,19 +234,19 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-5 col-sm-12">Nome mãe
-                                    <input class="form-control" type="text" maxlength="45"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="text" maxlength="45"
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="29" name="nome_mae" value="{{ old('nome_mae') }}"
                                         required="required">
                                 </div>
                                 <div class="col-md-5 col-sm-12">Nome pai
-                                    <input class="form-control" type="text" maxlength="45"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="text" maxlength="45"
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="30" name="nome_pai" value="{{ old('nome_pai') }}"
                                         required="required">
                                 </div>
                                 <div class="col-md-2 col-sm-12">Cat CNH
-                                    <select class="form-select" id="32" name="cnh">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="32" name="cnh">
                                         <option value=""></option>
                                         @foreach ($cnh as $cnhs)
                                             <option @if (old('cnh') == $cnhs->id) {{ 'selected="selected"' }} @endif
@@ -259,7 +259,7 @@
                             <br>
                             <div class="row">
                                 <div class="col-12">E-mail
-                                    <input class="form-control" maxlength="45" type="email" id="31"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="45" type="email" id="31"
                                         name="email" value="{{ old('email') }}">
                                 </div>
                             </div>
@@ -283,13 +283,13 @@
                         <div class="card-body">
                             <div class="row ">
                                 <div class="col-md-4 col-sm-12">CEP
-                                    <input class="form-control" maxlength="8" type="numeric"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="8" type="numeric"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="35" name="cep" value="{{ old('cep') }}">
                                 </div>
                                 <div class="col-md-4 col-sm-12">UF
                                     <br>
-                                    <select class="js-example-responsive form-select" id="iduf" name="uf_end">
+                                    <select class="js-example-responsive form-select" style="border: 1px solid #999999; padding: 5px;" id="iduf" name="uf_end">
                                         <option value=""></option>
                                         @foreach ($tp_uf as $tp_ufs)
                                             <option @if (old('uf_end') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
@@ -300,7 +300,7 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">Cidade
                                     <br>
-                                    <select class="js-example-responsive form-select" id="idcidade" name="cidade"
+                                    <select class="js-example-responsive form-select" style="border: 1px solid #999999; padding: 5px;" id="idcidade" name="cidade"
                                         value="{{ old('cidade') }}" disabled>
                                     </select>
                                 </div>
@@ -308,19 +308,19 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-3 col-sm-12">Logradouro
-                                    <input class="form-control" maxlength="45" type="text" id="36"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="45" type="text" id="36"
                                         name="logradouro" value="{{ old('logradouro') }}">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Número
-                                    <input class="form-control" maxlength="10" type="text" id="35"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="10" type="text" id="35"
                                         name="numero" value="{{ old('numero') }}">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Complemento
-                                    <input type="text" maxlength="45" class="form-control" id="36"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" maxlength="45" class="form-control" id="36"
                                         name="comple" value="{{ old('comple') }}">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Bairro:
-                                    <input type="text" maxlength="45" class="form-control" id="36"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" maxlength="45" class="form-control" id="36"
                                         name="bairro" value="{{ old('bairro') }}">
                                 </div>
                             </div>
