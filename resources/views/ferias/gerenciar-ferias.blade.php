@@ -45,15 +45,20 @@
                             @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
                                 <tr>
                                     <td style="text-align: center">{{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
-                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_ini_a ?? '--' }}</td>
-                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_fim_a ?? '--' }}</td>
-                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_ini_b ?? '--' }}</td>
-                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_fim_b ?? '--' }}</td>
-                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_ini_c ?? '--' }}</td>
-                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_fim_c ?? '--' }}</td>
+
+                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}</td>
+                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_fim_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}</td>
+                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_ini_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--'}}</td>
+                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_fim_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--'}}</td>
+                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--'}}</td>
+                                    <td style="text-align: center">{{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--'}}</td>
                                     <td style="text-align: center">{{ $periodos_aquisitivos->status_pedido_ferias }}</td>
                                     <td></td>
-                                    <td><a href="{{ route('CriarFerias', ['id'  => $periodos_aquisitivos->id_funcionario]) }}"><button class="btn btn-outline-success"><i class="bi bi-plus-circle"></i></button></a></td>
+                                    <td>
+                                        <a href="{{ route('CriarFerias', ['id'  => $periodos_aquisitivos->id_funcionario]) }}">
+                                            <button class="btn btn-outline-success"><i class="bi bi-plus-circle"></i>
+                                            </button>
+                                        </a></td>
                                 </tr>
                             @endforeach
                             </tbody>
