@@ -3,6 +3,8 @@
     <title>Editar Acordos</title>
 @endsection
 @section('content')
+<form method="post" action="/atualizar-acordo/{{ $acordo->id }}" enctype="multipart/form-data">
+    @csrf
     <div class="container-fluid">
         <div class="justify-content-center">
             <div class="col-12">
@@ -16,8 +18,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="/atualizar-acordo/{{ $acordo->id }}" enctype="multipart/form-data">
-                            @csrf
+
                             <div class="row">
                                 <div class="col-5">
                                     <input class="form-control" type="text" value="{{ $funcionario->nome_completo }}"
@@ -68,21 +69,20 @@
 
                                 </div>
                             </div>
-                            <br>
-                            <div class="row">
-                                <div class="d-grid gap-1 col-2 mx-auto">
-                                    <a class="btn btn-danger btn-sm" href="/gerenciar-acordos/{{ $funcionario->id }}"
-                                        role="button">Cancelar</a>
-                                </div>
-                                <div class="d-grid gap-2 col-2 mx-auto">
-                                    <button type="submit" class="btn btn-primary btn-sm" id="sucesso">Confirmar
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <br>
+    <div>
+        <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1"
+        href="/gerenciar-acordos/{{ $funcionario->id }}" role="button">
+            Cancelar
+        </a>
+        <button type="submit" class="btn btn-primary col-md-3 col-1 mt-4 offset-md-3" id="sucesso">
+            Confirmar
+        </button>
+    </div>
+</form>
 @endsection
