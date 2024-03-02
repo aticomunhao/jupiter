@@ -110,7 +110,7 @@
                                                         style="font-size: 1rem; color:#303030;"></i></button></a>
 
 
-                                            <button type="button" class="btn btn-outline-danger btn-sm"
+                                            <button type="button" class="btn btn-outline-danger"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idf }}"class="btn btn-outline-danger btn-sm"><i
                                                     class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>

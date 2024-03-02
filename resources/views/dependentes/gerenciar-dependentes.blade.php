@@ -25,7 +25,7 @@
                             </div>
                             <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
                                 <a href="/incluir-dependentes/{{ $funcionario->id }}" class="col-6">
-                                    <button type="button" class="btn btn-success col-md-8 col-12">
+                                    <button type="button" class="btn btn-success col-md-8 col-12" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;">
                                         Novo+
                                     </button>
                                 </a>
@@ -128,7 +128,7 @@
                 <div class="row d-flex justify-content-around">
                     <div class="col-4">
                         <a href="{{ route('gerenciar') }}">
-                            <button class="btn btn-primary" style="width: 100%">Retornar </button>
+                            <button class="btn btn-primary" style="width: 100%;">Retornar </button>
                         </a>
                     </div>
                 </div>

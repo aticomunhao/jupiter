@@ -24,7 +24,8 @@
                             </div>
                             <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
                                 <a href="/incluir-dados-bancarios/{{ $funcionario->id }}" class="col-6">
-                                    <button type="button" class="btn btn-success col-md-8 col-12">
+                                    <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;"
+                                        class="btn btn-success col-md-8 col-12">
                                         Novo+
                                     </button>
                                 </a>
@@ -63,58 +64,54 @@
                                                 <td class="text-center">
                                                     {{ \Carbon\Carbon::parse($contaBancaria->dt_fim)->format('d/m/Y') }}
                                                 </td>
-                                                <td> {{--  Área de ações  --}}
-                                                    <center>
-                                                        <a href="/editar-dado-bancario/{{ $contaBancaria->id }}"
-                                                            class="btn btn-outline-warning" data-tt="tooltip"
-                                                            data-placement="top" title="Editar">{{--  Botão editar  --}}
-                                                            <i class="bi bi-pencil"
-                                                                style="font-size: 1rem; color:#303030"></i></a>
-                                                        <button class="btn btn-outline-danger" {{-- Botão que aciona o modal  --}}
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#A{{ $contaBancaria->id }}" data-tt="tooltip"
-                                                            data-placement="top" title="Excluir">
-                                                            <i class="bi bi-trash"
-                                                                style="font-size: 1rem; color:#303030"></i></button>
-                                                        <div class="modal fade"{{--  Modal  --}}
-                                                            id="A{{ $contaBancaria->id }}" tabindex="-1"
-                                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header"
-                                                                        style="background-color:rgba(202, 61, 61, 0.911);">
-                                                                        <div class="row">
-                                                                            <h2 style="color:white;">Excluir Dependente</h2>
-                                                                        </div>
-                                                                        <button type="button" class="btn-close"
-                                                                            data-bs-dismiss="modal"
-                                                                            aria-label="Close"></button>
+                                                <td style="text-align: center"> {{--  Área de ações  --}}
+                                                    <a href="/editar-dado-bancario/{{ $contaBancaria->id }}"
+                                                        class="btn btn-outline-warning" data-tt="tooltip"
+                                                        data-placement="top" title="Editar">{{--  Botão editar  --}}
+                                                        <i class="bi bi-pencil"
+                                                            style="font-size: 1rem; color:#303030"></i></a>
+                                                    <button class="btn btn-outline-danger" {{-- Botão que aciona o modal  --}}
+                                                        data-bs-toggle="modal" data-bs-target="#A{{ $contaBancaria->id }}"
+                                                        data-tt="tooltip" data-placement="top" title="Excluir">
+                                                        <i class="bi bi-trash"
+                                                            style="font-size: 1rem; color:#303030"></i></button>
+                                                    <div class="modal fade"{{--  Modal  --}}
+                                                        id="A{{ $contaBancaria->id }}" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header"
+                                                                    style="background-color:rgba(202, 61, 61, 0.911);">
+                                                                    <div class="row">
+                                                                        <h2 style="color:white;">Excluir Dependente</h2>
                                                                     </div>
-                                                                    <div class="modal-body" style="color:#e24444;">
-                                                                        <br />
-                                                                        <p class="fw-bold alert  text-center">Você
-                                                                            realmente deseja excluir
-                                                                            <br>
-                                                                            <span class="fw-bolder fs-5">
-                                                                                {{ $contaBancaria->nmr_conta }}</span>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div class="modal-footer  ">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Cancelar
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body" style="color:#e24444;">
+                                                                    <br />
+                                                                    <p class="fw-bold alert  text-center">Você
+                                                                        realmente deseja excluir
+                                                                        <br>
+                                                                        <span class="fw-bolder fs-5">
+                                                                            {{ $contaBancaria->nmr_conta }}</span>
+                                                                    </p>
+                                                                </div>
+                                                                <div class="modal-footer  ">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Cancelar
+                                                                    </button>
+                                                                    <a
+                                                                        href="/deletar-dado-bancario/{{ $contaBancaria->id }}">
+                                                                        <button type="button"
+                                                                            class="btn btn-danger">Excluir
+                                                                            permanentemente
                                                                         </button>
-                                                                        <a
-                                                                            href="/deletar-dado-bancario/{{ $contaBancaria->id }}">
-                                                                            <button type="button"
-                                                                                class="btn btn-danger">Excluir
-                                                                                permanentemente
-                                                                            </button>
-                                                                        </a>
-                                                                    </div>
+                                                                    </a>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </center>
+                                                    </div>
                                                 </td>
                                             </tr>
                                         @endforeach

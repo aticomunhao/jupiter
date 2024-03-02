@@ -24,14 +24,14 @@
                             @csrf
                             <div class="row justify-content-start">
                                 <div class="col-md-4 col-sm-12">
-                                    <input type="text" class="form-control" aria-label="Sizing example input"
+                                    <input type="text" style="border: 1px solid #999999;" class="form-control" aria-label="Sizing example input"
                                         name="pesquisa" value= "{{ $pesquisa }}" maxlength="40">{{-- Input de pesquisa --}}
                                 </div>
                                 <div class="col-md-8 col-12">
-                                    <button class="btn btn-secondary col-md-3 col-12 mt-5 mt-md-0 "
+                                    <button class="btn btn-light col-md-3 col-12 mt-5 mt-md-0 " style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
                                         type="submit">Pesquisar</button>{{-- Botao submit da pesquisa --}}
                                     <a href="/incluir-entidades-ensino"{{-- Botao com rota para incluir entidades --}}
-                                        class="btn btn-success col-md-3 col-12 offset-md-5 mt-4 mt-md-0">
+                                        class="btn btn-success col-md-3 col-12 offset-md-5 mt-4 mt-md-0" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;">
                                         Novo+
                                     </a>
                                 </div>

@@ -29,21 +29,21 @@
                             <hr>
                             <div class="form-group row mt-2">
                                 <div class="form-group col-md-6 col-lg-3 mt-lg-0 mt-md-0 mt-2">Tipo de Acordo
-                                    <select class="form-select" name="tipo_acordo" required="required">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" name="tipo_acordo" required="required">
                                         @foreach ($tipoacordo as $tiposacordos)
                                             <option value="{{ $tiposacordos->id }}">{{ $tiposacordos->nome }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group col-2">Data de Início
-                                    <input class="form-control" type="date" value="" id="iddt_inicio"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" value="" id="iddt_inicio"
                                         name="dt_inicio" required="required">
                                 </div>
                                 <div class="form-group col-2">Data de Fim
-                                    <input class="form-control" type="date" value="" id="iddt_fim" name="dt_fim">
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" value="" id="iddt_fim" name="dt_fim">
                                 </div>
                                 <div class="form-group col-4">Arquivo de Anexo
-                                    <input type="file" class="form-control form-control-sm mb-2" name="ficheiro"
+                                    <input type="file" style="border: 1px solid #999999; padding: 5px;" class="form-control form-control-sm mb-2" name="ficheiro"
                                         id="idficheiro" required="required">
                                 </div>
                             </div>
@@ -51,7 +51,7 @@
                             <div class="row">
                                 <div class="mb-3 mt-md-0 mt-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Observação</label>
-                                    <textarea class="form-control " id="idobservacao" rows="1" name="observacao" style="height:100px"></textarea>
+                                    <textarea class="form-control" style="border: 1px solid #999999; padding: 5px;" id="idobservacao" rows="1" name="observacao" style="height:100px"></textarea>
                                 </div>
                             </div>
                             <div>

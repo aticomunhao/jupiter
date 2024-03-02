@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
                                 <a href="{{ route('EditarBaseSalarial', ['idf' => $idf]) }}" class="col-6">
-                                    <button type="button" class="btn btn-success col-md-8 col-12">
+                                    <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;" class="btn btn-success col-md-8 col-12">
                                         Editar Salário Atual
                                     </button>
                                 </a>

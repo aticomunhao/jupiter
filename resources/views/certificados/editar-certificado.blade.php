@@ -30,7 +30,7 @@
                             <hr>
                             <div class="form-group row">
                                 <div class="col-2">Grau Acadêmico
-                                    <select class="form-select" id="4" name="grau_academico" required="required"
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="4" name="grau_academico" required="required"
                                         value="{{ $certificado->id_grau_acad }}">
 
                                         @foreach ($graus_academicos as $grau_academico)
@@ -40,11 +40,11 @@
                                     </select>
                                 </div>
                                 <div class="col-7">Nome do Certificado
-                                    <input class="form-control" type="text" maxlength="40" name="nome_curso"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="text" maxlength="40" name="nome_curso"
                                         value="{{ $certificado->nome }}" required="required">
                                 </div>
                                 <div class="col-3">Data de Conclusão
-                                    <input class="form-control" type="date" value="{{ $certificado->dt_conclusao }}"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" value="{{ $certificado->dt_conclusao }}"
                                         id="3" name="dtconc_cert" required="required">
                                 </div>
 
@@ -54,7 +54,7 @@
                                 <div class="form-group row">
                                     <div class="col-4">
                                         Nivel de Ensino
-                                        <select class="form-select" id="4" name="nivel_ensino" required="required"
+                                        <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="4" name="nivel_ensino" required="required"
                                             value="{{ $certificado->id_nivel_ensino }}">
 
                                             @foreach ($tp_niveis_ensino as $nivel_ensino)
@@ -65,7 +65,7 @@
 
                                     </div>
                                     <div class="col-4">Etapa de Ensino
-                                        <select class="form-select" id="4" name="etapa_ensino" required="required"
+                                        <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="4" name="etapa_ensino" required="required"
                                             value>
 
                                             @foreach ($tp_etapas_ensino as $etapas_ensino)
@@ -75,7 +75,7 @@
                                         </select>
                                     </div>
                                     <div class="col-4">Entidade de Ensino
-                                        <select class="form-select" id="4" name="entidade_ensino"
+                                        <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="4" name="entidade_ensino"
                                             required="required" value="{{ $certificado->id_entidade_ensino }}">
 
                                             @foreach ($tp_entidades_ensino as $entidade_ensino)

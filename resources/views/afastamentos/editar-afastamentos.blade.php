@@ -29,7 +29,7 @@
                             <hr>
                             <div class="form-group row">
                                 <div class="form-group col-3">Motivo do Afastamento
-                                    <select class="form-select" name="tipo_afastamento" required="required">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" name="tipo_afastamento" required="required">
                                         <option value="{{ $afastamentos->id_tp_afastamento }}">
                                             {{ $afastamento_com_tipo->nome_tp_afastamento }}
                                         </option>
@@ -41,14 +41,14 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-2">Data de Inicio
-                                    <input class="form-control" type="date" value="{{ $afastamentos->dt_inicio }}"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" value="{{ $afastamentos->dt_inicio }}"
                                         id="iddt_inicio" name="dt_inicio" required="required">
                                 </div>
                                 <div class="form-group col-2">Data de Retorno
-                                    <input class="form-control" type="date" value="{{ $afastamentos->dt_fim }}"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" value="{{ $afastamentos->dt_fim }}"
                                         id="iddt_fim" name="dt_fim" required="required">
                                 </div>
-                                <div class="form-group col-2">Arquivo Anexado
+                                <div class="form-group col-2" style="text-align: center">Arquivo Anexado
                                     <p>
                                         @if ($afastamentos->caminho)
                                             <a href="{{ asset($afastamentos->caminho) }}" target="_blank">
@@ -62,12 +62,12 @@
                                     </p>
                                 </div>
                                 <div class="form-group col-3">Novo Arquivo
-                                    <input type="file" class="form-control form-control-sm" name="ficheiroNovo"
+                                    <input type="file" style="border: 1px solid #999999; padding: 5px;" class="form-control form-control-sm" name="ficheiroNovo"
                                         id="idficheiro">
                                 </div>
                             </div>
                             <div class="form-check mb-2">
-                                <input type="checkbox" class="form-check-input" id="justificado" name="justificado"
+                                <input type="checkbox" style="border: 1px solid #999999; padding: 5px;" class="form-check-input" id="justificado" name="justificado"
                                     value="justificado" {{ $afastamentos->justificado ? 'checked' : '' }}>
                                 <label class="form-check-label" for="justificado">
                                     Justificado?
@@ -77,7 +77,7 @@
                                 <label for="exampleFormControlTextarea1" class="form-label">
                                     Observação
                                 </label>
-                                <input class="form-control" value="{{ $afastamentos->observacao }}" type="text"
+                                <input class="form-control" style="border: 1px solid #999999; padding: 5px;" value="{{ $afastamentos->observacao }}" type="text"
                                     maxlength="40" id="2"class="form-control " id="idobservacao" rows="3"
                                     value="" name="observacao">
                             </div>

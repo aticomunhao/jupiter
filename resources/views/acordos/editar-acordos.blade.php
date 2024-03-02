@@ -28,7 +28,7 @@
                             <hr>
                             <div class="form-group row">
                                 <div class="form-group col-2">Tipo de Acordo
-                                    <select class="form-select" name="tipo_acordo" required="required"
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;" name="tipo_acordo" required="required"
                                         value="{{ $acordo->id_tp_acordo }}">
                                         @foreach ($tipoacordo as $tiposacordos)
                                             <option value="{{ $tiposacordos->id }}">{{ $tiposacordos->nome }}</option>
@@ -37,14 +37,14 @@
                                 </div>
 
                                 <div class="form-group col-2">Data de Inicio
-                                    <input class="form-control" type="date" value="{{ $acordo->data_inicio }}"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" value="{{ $acordo->data_inicio }}"
                                         id="iddt_inicio" name="dt_inicio" required="required">
                                 </div>
                                 <div class="form-group col-2">Data de Fim
-                                    <input class="form-control" type="date" value="{{ $acordo->data_fim }}"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="date" value="{{ $acordo->data_fim }}"
                                         id="iddt_fim" name="dt_fim">
                                 </div>
-                                <div class="form-group col-2">Arquivo atual
+                                <div class="form-group col-2" style="text-align: center">Arquivo atual
                                     <p>
                                         <a href="{{ asset("$acordo->caminho") }}"><button type="button"
                                                 class="btn btn-lg btn-outline-secondary"><i
@@ -52,8 +52,8 @@
                                         </a>
                                     </p>
                                 </div>
-                                <div class="form-group col-3">Novo Arquivo ?
-                                    <input type="file" class="form-control form-control-sm" name="ficheiroNovo"
+                                <div class="form-group col-3">Novo Arquivo
+                                    <input type="file" style="border: 1px solid #999999; padding: 5px;" class="form-control form-control-sm" name="ficheiroNovo"
                                         id="idficheiro">
                                 </div>
 
@@ -62,7 +62,7 @@
                             <div class="row">
                                 <div class="mb-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Observação</label>
-                                    <input class="form-control" type="text" maxlength="40"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="text" maxlength="40"
                                         id="2"class="form-control " id="idobservacao" rows="1"
                                         name="observacao" value="{{ $acordo->observacao }}">
 

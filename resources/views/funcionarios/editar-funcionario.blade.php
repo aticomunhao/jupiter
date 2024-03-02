@@ -21,7 +21,7 @@
                             <div class="row">
                                 <div class="form-group col-2 mb-3">
                                     <label for="1">Matrícula</label>
-                                    <input class="form-control" name="matricula" maxlength="32"
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" name="matricula" maxlength="32"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="1" value="{{ $editar[0]->matricula }}">
                                     <div class="invalid-feedback">
@@ -32,7 +32,7 @@
                                     <label for="2">
                                         Nome Completo
                                     </label>
-                                    <input type="text" class="form-control" name="nome_completo" maxlength="45"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="nome_completo" maxlength="45"
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="2" value="{{ $editar[0]->nome_completo }}">
                                 </div>
@@ -41,7 +41,7 @@
                                     <label for="3">
                                         Data de Nascimento
                                     </label>
-                                    <input type="date" class="form-control" name="dt_nascimento" id="3"
+                                    <input type="date" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="dt_nascimento" id="3"
                                         value="{{ $editar[0]->dt_nascimento }}">
                                     <div class="invalid-feedback">
                                         Por favor, selecione a Data de Nascimento.
@@ -51,7 +51,7 @@
                                     <label for="4">
                                         Sexo
                                     </label>
-                                    <select id="4" class="form-select" name="sexo" type="text">
+                                    <select id="4" class="form-select" style="border: 1px solid #999999; padding: 5px;" name="sexo" type="text">
                                         <option value="{{ $editar[0]->id_tps }}">{{ $editar[0]->tps }}</option>
                                         @foreach ($tpsexo as $tpsexos)
                                             <option value="{{ $tpsexos->id }}">
@@ -65,11 +65,11 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <div class="form-group col-3 ">
+                                <div class="form-group col-3">
                                     <label for="5">
                                         Nacionalidade
                                     </label>
-                                    <select id="5" class="form-select" name="pais">
+                                    <select id="5" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="pais">
                                         <option value="{{ $editar[0]->tpnac }}">
                                             {{ $editar[0]->tnl }}
                                         </option>
@@ -88,7 +88,7 @@
                                     <label for="6">
                                         Naturalidade UF
                                     </label>
-                                    <select id="6" class="form-select" name="uf_nat" type="numeric">
+                                    <select id="6" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="uf_nat" type="numeric">
                                         <option value="{{ $editar[0]->tuf }}">
                                             {{ $editar[0]->ufsgl }}
                                         </option>
@@ -106,7 +106,7 @@
                                     <label for="7">
                                         Naturalidade-Cidade
                                     </label>
-                                    <select id="7" class="form-select" name="natura" type="numeric">
+                                    <select id="7" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="natura" type="numeric">
                                         <option value="{{ $editar[0]->id_cidade }}">
                                             {{ $editar[0]->nat }}
                                         </option>
@@ -124,7 +124,7 @@
                                     <label for="8">
                                         CPF
                                     </label>
-                                    <input type="text" class="form-control" name="cpf" maxlength="11"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="cpf" maxlength="11"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="8" value="{{ $editar[0]->cpf }}">
                                     <div class="invalid-feedback">
@@ -135,7 +135,7 @@
                                     <label for="9">
                                         PIS/PASEP
                                     </label>
-                                    <select id="9" name="programa" class="form-select">
+                                    <select id="9" style="border: 1px solid #999999; padding: 5px;" name="programa" class="form-select">
                                         <option value="{{ $editar[0]->tpprog }}">
                                             {{ $editar[0]->prog }}
                                         </option>
@@ -155,7 +155,7 @@
                                     <label for="10">
                                         Identidade
                                     </label>
-                                    <input type="text" class="form-control" name="identidade" name="matricula"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="identidade" name="matricula"
                                         maxlength="8"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="10" value="{{ $editar[0]->idt }}">
@@ -168,7 +168,7 @@
                                     <label for="11">
                                         Orgão Exp
                                     </label>
-                                    <input type="text" class="form-control" name="orgexp" name="matricula"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="orgexp" name="matricula"
                                         maxlength="30"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="11" value="{{ $editar[0]->orgao_expedidor }}">
@@ -180,7 +180,7 @@
                                     <label for="12">
                                         Data de Emissão
                                     </label>
-                                    <input type="date" class="form-control" name="dt_idt" id="12"
+                                    <input type="date" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="dt_idt" id="12"
                                         value="{{ $editar[0]->dt_emissao_idt }}">
                                     <div class="invalid-feedback">
                                         Por favor, selecione a Data de Emissão.
@@ -190,7 +190,7 @@
                                     <label for="13">
                                         Cor Pele
                                     </label>
-                                    <select id="13" name="cor" class="form-select" type="bigint">
+                                    <select id="13" style="border: 1px solid #999999; padding: 5px;" name="cor" class="form-select" type="bigint">
                                         <option value="{{ $editar[0]->tpcor }}">
                                             {{ $editar[0]->nmpele }}
                                         </option>
@@ -208,7 +208,7 @@
                                     <label for="14">
                                         Tipo Sanguineo
                                     </label>
-                                    <select id="14" name="tps" class="form-select">
+                                    <select id="14" style="border: 1px solid #999999; padding: 5px;" name="tps" class="form-select">
                                         <option value="{{ $editar[0]->tpsang }}">
                                             {{ $editar[0]->nmsangue }}
                                         </option>
@@ -227,7 +227,7 @@
                                     <label for="15">
                                         Titulo eleitor Nr
                                     </label>
-                                    <input type="text" class="form-control" name="titele" name="matricula"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="titele" name="matricula"
                                         maxlength="12"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="15" value="{{ $editar[0]->titulo_eleitor }}">
@@ -240,7 +240,7 @@
                                     <label for="16">
                                         Zona
                                     </label>
-                                    <input type="text" class="form-control" name="zona" name="matricula"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="zona" name="matricula"
                                         maxlength="3"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="16" value="{{ $editar[0]->zona_tit }}">
@@ -252,7 +252,7 @@
                                     <label for="17">
                                         Seção
                                     </label>
-                                    <input type="text" class="form-control" name="secao" name="matricula"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="secao" name="matricula"
                                         maxlength="4"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="17" value="{{ $editar[0]->secao_tit }}">
@@ -264,7 +264,7 @@
                                     <label for="18">
                                         Data de Emissão
                                     </label>
-                                    <input type="date" class="form-control" name="dt_titulo" id="18"
+                                    <input type="date" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="dt_titulo" id="18"
                                         value="{{ $editar[0]->dt_titulo }}">
                                     <div class="invalid-feedback">
                                         Por favor, selecione a Data de Emissão.
@@ -274,7 +274,7 @@
                                     <label for="19">
                                         DDD
                                     </label>
-                                    <select id="19" class="form-select" name="ddd">
+                                    <select id="19" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="ddd">
                                         <option value="{{ $editar[0]->tpd }}">
                                             {{ $editar[0]->dddesc }}
                                         </option>
@@ -292,7 +292,7 @@
                                     <label for="20">
                                         Celular
                                     </label>
-                                    <input type="text" class="form-control" name="celular" maxlength="12"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="celular" maxlength="12"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="20" value="{{ $editar[0]->celular }}">
                                     <div class="invalid-feedback">
@@ -305,7 +305,7 @@
                                     <label for="21">
                                         CTPS Nr
                                     </label>
-                                    <input type="text" class="form-control" name="ctps" maxlength="6"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="ctps" maxlength="6"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="21" value="{{ $editar[0]->ctps }}">
                                     <div class="invalid-feedback">
@@ -317,7 +317,7 @@
                                     <label for="22">
                                         Data de Emissão
                                     </label>
-                                    <input type="date" class="form-control" name="dt_ctps" id="22"
+                                    <input type="date" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="dt_ctps" id="22"
                                         value="{{ $editar[0]->dt_emissao_ctps }}">
                                     <div class="invalid-feedback">
                                         Por favor, selecione a Data de Emissão.
@@ -327,7 +327,7 @@
                                     <label for="23">
                                         Série
                                     </label>
-                                    <input type="text" class="form-control" name="serie_ctps" maxlength="4"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="serie_ctps" maxlength="4"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="23" value="{{ $editar[0]->serie }}">
                                     <div class="invalid-feedback">
@@ -338,7 +338,7 @@
                                     <label for="24">
                                         UF
                                     </label>
-                                    <select id="24" class="form-select" name="uf_idt">
+                                    <select id="24" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="uf_idt">
                                         <option value="{{ $editar[0]->tuf }}">
                                             {{ $editar[0]->ufsgl }}
                                         </option>
@@ -356,7 +356,7 @@
                                     <label for="25">
                                         Reservista
                                     </label>
-                                    <input type="text" class="form-control" name="reservista" maxlength="12"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="reservista" maxlength="12"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="25" value="{{ $editar[0]->reservista }}">
                                 </div>
@@ -366,7 +366,7 @@
                                     <label for="26">
                                         Nome da Mãe
                                     </label>
-                                    <input type="text" class="form-control" name="nome_mae" maxlength="45"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="nome_mae" maxlength="45"
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="26" value="{{ $editar[0]->nome_mae }}">
                                     <div class="invalid-feedback">
@@ -378,7 +378,7 @@
                                     <label for="27">
                                         Nome do Pai
                                     </label>
-                                    <input type="text" class="form-control" name="nome_pai" maxlength="45"
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="nome_pai" maxlength="45"
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="27" value="{{ $editar[0]->nome_pai }}">
                                 </div>
@@ -388,14 +388,14 @@
                                     <label for="28">
                                         Email
                                     </label>
-                                    <input type="email" class="form-control" name="email" maxlength="50"
+                                    <input type="email" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="email" maxlength="50"
                                         id="28" value="{{ $editar[0]->email }}">
                                 </div>
                                 <div class="form-group col-3">
                                     <label for="validationCustomUsername">
                                         Cat CNH
                                     </label>
-                                    <select id="validationCustomUsername" class="form-select" name="cnh">
+                                    <select id="validationCustomUsername" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="cnh">
                                         <option value="{{ $editar[0]->tpcn }}">
                                             {{ $editar[0]->nmcnh }}
                                         </option>
