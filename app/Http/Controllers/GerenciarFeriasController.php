@@ -83,7 +83,8 @@ class GerenciarFeriasController extends Controller
     public function store(Request $request, $id)
     {
         // Obtém os dados do formulário de férias
-        $resultado_formulario_de_ferias = $request->all();
+        $formulario_de_ferias = $request->all();
+
 
         // Calcula os dias de direito do funcionário (exemplo: 30 dias de férias - dias de falta)
         $diasDeDireitoDoFuncionario = 30 - ($faltas = 0);
@@ -102,13 +103,18 @@ class GerenciarFeriasController extends Controller
             ->where('ano_de_referencia', '=', $ano_referente)
             ->first();
         // Verifica o número de períodos de férias
-        if ($resultado_formulario_de_ferias['numeroPeriodoDeFerias'] == 1) {
+        if ($formulario_de_ferias['numeroPeriodoDeFerias'] == 1) {
             // Condições para um único período de férias
-            $data_inicio = Carbon::parse($resultado_formulario_de_ferias["data_inicio_0"]);
-            $data_fim = Carbon::parse($resultado_formulario_de_ferias["data_fim_0"]);
+            $data_inicio = Carbon::parse($formulario_de_ferias["data_inicio_0"]);
+            $data_fim = Carbon::parse($formulario_de_ferias["data_fim_0"]);
             $dias_de_ferias_utilizadas = $data_inicio->diffInDays($data_fim);
+            $adiantar_decimo_terceiro = false;
 
-
+            if (isset($formulario_de_ferias->adiantaDecimoTerceiro) == true){
+                $adiantar_decimo_terceiro = isset($formulario_de_ferias->adiantaDecimoTerceiro);
+            }else{
+                $adiantar_decimo_terceiro = false;
+            }
             $data_de_retorno_em_dia_da_semana = Carbon::parse($data_fim)->format('n');
 
             // Verifica se o número de dias utilizados excede os dias de direito do funcionário
@@ -132,9 +138,9 @@ class GerenciarFeriasController extends Controller
                 DB::table('ferias')->where('id', $ferias->id)->update([
                     'dt_ini_a' => $data_inicio,
                     'dt_fim_a' => $data_fim,
-                    'adianta_13sal' => $resultado_formulario_de_ferias['adiantaDecimoTerceiro'],
+                    'adianta_13sal' => $adiantar_decimo_terceiro,
                     'status_pedido_ferias' => 3,
-
+                    'nr_dias_per_a' => $data_inicio->diffInDays($data_fim)
                 ]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             }
