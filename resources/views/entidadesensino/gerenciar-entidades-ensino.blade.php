@@ -16,10 +16,8 @@
                             </h5>
                         </div>
                     </div>
+                    <br>
                     <div class="card-body">
-                        <style>
-
-                        </style>
                         <form method="GET" action="/gerenciar-entidades-de-ensino">{{-- Formulario para o botao e input de pesquisa --}}
                             @csrf
                             <div class="row justify-content-start">
