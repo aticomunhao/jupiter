@@ -53,12 +53,14 @@
                                     <td style="text-align: center">{{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--'}}</td>
                                     <td style="text-align: center">{{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--'}}</td>
                                     <td style="text-align: center">{{ $periodos_aquisitivos->status_pedido_ferias }}</td>
-                                    <td></td>
+                                    <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}</td>
                                     <td>
+                                        @if($periodos_aquisitivos->id_status_pedido_ferias == 1)
                                         <a href="{{ route('CriarFerias', ['id'  => $periodos_aquisitivos->id_funcionario]) }}">
                                             <button class="btn btn-outline-success"><i class="bi bi-plus-circle"></i>
                                             </button>
                                         </a></td>
+                                    @endif
                                 </tr>
                             @endforeach
                             </tbody>
