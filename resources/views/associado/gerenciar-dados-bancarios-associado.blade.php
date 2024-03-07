@@ -11,7 +11,7 @@
             Gerenciar Dados Bancarios Associado
         </div>
         <div class="card-body">
-            <div class="row"> {{-- Linha com o nome e botão novo --}}
+            <div class="row"> {{-- Linha com o nom--}}
                 <div class="col-md-4 col-10">
                     <fieldset {{-- Gera a barra ao redor do nome do funcionario --}} style="border: 1px solid #c0c0c0; border-radius: 3px;padding-bottom: 7px; padding-top: 30px; padding-left: 10px; background-color: #ebebeb;">
                     </fieldset>
