@@ -36,7 +36,7 @@
                             <center>
                                 <hr>
                                 <div class="col-md-5 col-sm-12">
-                                    <input type="text" class="form-control" name="">
+                                    <input type="text" class="form-control" name="" value = {{$bb}}>
                                 </div>
                     </div>
                 </div>

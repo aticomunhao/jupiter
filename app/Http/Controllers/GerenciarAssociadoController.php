@@ -38,6 +38,7 @@ class GerenciarAssociadoController extends Controller
       $dt_inicio = $request->dt_inicio;
       $dt_fim = $request->dt_fim;
       $status = $request->status;
+   
 
 
       //dd($lista_associado);
