@@ -33,6 +33,7 @@
                             </li>
                             <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">Gerenciar Cargos</a>
                             </li>
+                            <li><a class="dropdown-item" href="/gerenciar-efetivo">Gerenciar Efetivo</a></li>
 
                         </ul>
                     </li>

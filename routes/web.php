@@ -180,7 +180,7 @@ Route::any('/incluir-dados-bancarios-associado/{ida}', [App\Http\Controllers\Ger
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/capture-photo', [PhotoController::class, 'showCaptureForm'])->name('capture.form');
     Route::post('/capture-photo', [PhotoController::class, 'storeCapturedPhoto']);
-    
+
 });
 
 
@@ -316,6 +316,16 @@ Route::any('/editar-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastame
 Route::any('/armazenar-afastamentos/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'store']);
 Route::any('/excluir-afastamento/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'destroy']);
 Route::any('/atualizar-afastamento/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'update']);
+
+
+
+/*Gerenciar-Hierarquia*/
+
+
+Route::get('/gerenciar-efetivo', [App\Http\Controllers\GerenciarEfetivoController::class, 'index'])->name('gerenciar-efetivo');
+Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarEfetivoController::class, 'obterSetoresPorNivel']);
+Route::any('/consultar-efetivo', [App\Http\Controllers\GerenciarEfetivoController::class, 'show'])->name('consultar-efetivo');
+Route::any('/atualizar-efetivo', [App\Http\Controllers\GerenciarEfetivoController::class, 'atualizarefetivo']);
 
 
 
