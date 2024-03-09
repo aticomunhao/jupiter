@@ -14,7 +14,6 @@ class GerenciarEntidadesController extends Controller
     public function index()
     {
 
-
         $pesquisa = request('pesquisa');//Area de pesquisa, decide se algo esta sendo pesquisado ou não
 
         if ($pesquisa) {

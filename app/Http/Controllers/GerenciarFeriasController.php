@@ -203,17 +203,17 @@ class GerenciarFeriasController extends Controller
             elseif
             ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
 
-                app('flasher')->addError('Ainda não utilizou todos os dias de ferias. Faltam:' .   ($diasDeDireitoDoFuncionario - $dias_de_ferias_utilizadas) . ' dias.');
+                app('flasher')->addError('Ainda não utilizou todos os dias de ferias. Faltam:' . ($diasDeDireitoDoFuncionario - $dias_de_ferias_utilizadas) . ' dias.');
             } elseif
             ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
                 app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
                     'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo periodo');
             } else {
                 DB::table('ferias')->where('id', $ferias->id)->update([
-                    'dt_ini_a' =>  $data_inicio_primeiro_periodo,
-                    'dt_fim_a' =>  $data_fim_primeiro_periodo ,
-                    'dt_ini_b' =>  $data_inicio_segundo_periodo,
-                    'dt_fim_b' =>  $data_fim_segundo_periodo ,
+                    'dt_ini_a' => $data_inicio_primeiro_periodo,
+                    'dt_fim_a' => $data_fim_primeiro_periodo,
+                    'dt_ini_b' => $data_inicio_segundo_periodo,
+                    'dt_fim_b' => $data_fim_segundo_periodo,
                     'adianta_13sal' => $adiantar_decimo_terceiro,
                     'status_pedido_ferias' => 3,
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
@@ -221,66 +221,83 @@ class GerenciarFeriasController extends Controller
                 ]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             }
-            return redirect()->route('IndexGerenciarFerias');
+
+        } elseif
+        ($resultado_formulario_de_ferias['numeroPeriodoDeFerias'] == 3) {
+            // Condições para três períodos de férias
+            $data_inicio_primeiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_inicio_0"]);
+            $data_fim_primeiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_fim_0"]);
+            $data_inicio_segundo_periodo = Carbon::parse($resultado_formulario_de_ferias["data_inicio_1"]);
+            $data_fim_segundo_periodo = Carbon::parse($resultado_formulario_de_ferias["data_fim_1"]);
+            $data_inicio_terceiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_inicio_2"]);
+            $data_fim_terceiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_fim_2"]);
+            $dias_de_ferias_utilizadas = $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo);
+
+
+            // Verifica se a data inicial do primeiro período é maior que a data final do primeiro período
+            if ($data_inicio_primeiro_periodo > $data_fim_primeiro_periodo) {
+                app('flasher')->addError('A Data Inicial do Primeiro Período é maior que a Data Final do Primeiro Período');
+            } // Verifica se a data inicial do segundo período é maior que a data final do segundo período
+            elseif
+            ($data_inicio_segundo_periodo > $data_fim_segundo_periodo) {
+                app('flasher')->addError('A Data Inicial do Segundo Período é maior que a Data Final do Segundo Período');
+            } // Verifica se a data inicial do terceiro período é maior que a data final do terceiro período
+            elseif
+            ($data_inicio_terceiro_periodo > $data_fim_terceiro_periodo) {
+                app('flasher')->addError('A Data Inicial do Terceiro Período é maior que a Data Final do Terceiro Período');
+            } // Verifica se a data final do segundo período é anterior à data de início ou à data final do primeiro período
+            elseif
+            ($data_fim_segundo_periodo < $data_inicio_primeiro_periodo || $data_fim_segundo_periodo < $data_fim_primeiro_periodo) {
+                app('flasher')->addError('A Data Final do Segundo Período é anterior ao Primeiro Período');
+            } // Verifica se a data inicial do segundo período está dentro do primeiro período
+            elseif
+            ($data_inicio_segundo_periodo > $data_inicio_primeiro_periodo && $data_inicio_segundo_periodo < $data_fim_primeiro_periodo) {
+                app('flasher')->addError('A Data Inicial do Segundo Período entra em conflito com o Primeiro Período');
+            } // Verifica se a data final do segundo período está dentro do primeiro período
+            elseif
+            ($data_fim_segundo_periodo > $data_inicio_primeiro_periodo && $data_fim_segundo_periodo < $data_fim_primeiro_periodo) {
+                app('flasher')->addError('A Data Final do Segundo Período entra em conflito com o Primeiro Período');
+            } // Verifica se a data inicial do terceiro período é anterior à data final do segundo período
+            elseif
+            ($data_inicio_terceiro_periodo < $data_fim_segundo_periodo) {
+                app('flasher')->addError('A Data Inicial do Terceiro Período é menor que a Data Final do Segundo Período');
+            } // Verifica se a data final do terceiro período é anterior à data de início ou à data final do segundo período
+            elseif
+            ($data_fim_terceiro_periodo < $data_inicio_segundo_periodo || $data_fim_terceiro_periodo < $data_fim_segundo_periodo) {
+                app('flasher')->addError('A Data Final do Terceiro Período é anterior ao Segundo Período');
+            } // Verifica se a data inicial do terceiro período está dentro do segundo período
+            elseif
+            ($data_inicio_terceiro_periodo > $data_inicio_segundo_periodo && $data_inicio_terceiro_periodo < $data_fim_segundo_periodo) {
+                app('flasher')->addError('A Data Inicial do Terceiro Período entra em conflito com o Segundo Período');
+            } // Verifica se a data final do terceiro período está dentro do segundo período
+            elseif
+            ($data_fim_terceiro_periodo > $data_inicio_segundo_periodo && $data_fim_terceiro_periodo < $data_fim_segundo_periodo) {
+                app('flasher')->addError('A Data Final do Terceiro Período entra em conflito com o Segundo Período');
+            } elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario){
+                app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
+                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo . <br>' .
+                $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) . " no terceiro periodo");
+            }
+            else {
+                DB::table('ferias')->where('id', $ferias->id)->update([
+                    'dt_ini_a' => $data_inicio_primeiro_periodo,
+                    'dt_fim_a' => $data_fim_primeiro_periodo,
+                    'dt_ini_b' => $data_inicio_segundo_periodo,
+                    'dt_fim_b' => $data_fim_segundo_periodo,
+                    'dt_ini_c' => $data_inicio_terceiro_periodoo,
+                    'dt_fim_c' => $data_fim_terceiro_periodo,
+                    'adianta_13sal' => $adiantar_decimo_terceiro,
+                    'status_pedido_ferias' => 3,
+                    'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
+                    'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo),
+                    'nr_dias_per_b'  =>  $data_inicio_terceiro_periodo->diff($data_fim_terceiro_periodo)
+                ]);
+                app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
+            }
         }
+        return redirect()->route('IndexGerenciarFerias');
     }
 
-    /*
-    } elseif
-    ($resultado_formulario_de_ferias['numeroPeriodoDeFerias'] == 3){
-        // Condições para três períodos de férias
-    $data_inicio_primeiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_inicio_0"]);
-    $data_fim_primeiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_fim_0"]);
-    $data_inicio_segundo_periodo = Carbon::parse($resultado_formulario_de_ferias["data_inicio_1"]);
-    $data_fim_segundo_periodo = Carbon::parse($resultado_formulario_de_ferias["data_fim_1"]);
-    $data_inicio_terceiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_inicio_2"]);
-    $data_fim_terceiro_periodo = Carbon::parse($resultado_formulario_de_ferias["data_fim_2"]);
-
-    // Verifica se a data inicial do primeiro período é maior que a data final do primeiro período
-    if ($data_inicio_primeiro_periodo > $data_fim_primeiro_periodo) {
-        app('flasher')->addError('A Data Inicial do Primeiro Período é maior que a Data Final do Primeiro Período');
-    } // Verifica se a data inicial do segundo período é maior que a data final do segundo período
-    elseif
-    ($data_inicio_segundo_periodo > $data_fim_segundo_periodo) {
-        app('flasher')->addError('A Data Inicial do Segundo Período é maior que a Data Final do Segundo Período');
-    } // Verifica se a data inicial do terceiro período é maior que a data final do terceiro período
-    elseif
-    ($data_inicio_terceiro_periodo > $data_fim_terceiro_periodo) {
-        app('flasher')->addError('A Data Inicial do Terceiro Período é maior que a Data Final do Terceiro Período');
-    } // Verifica se a data final do segundo período é anterior à data de início ou à data final do primeiro período
-    elseif
-    ($data_fim_segundo_periodo < $data_inicio_primeiro_periodo || $data_fim_segundo_periodo < $data_fim_primeiro_periodo) {
-        app('flasher')->addError('A Data Final do Segundo Período é anterior ao Primeiro Período');
-    } // Verifica se a data inicial do segundo período está dentro do primeiro período
-    elseif
-    ($data_inicio_segundo_periodo > $data_inicio_primeiro_periodo && $data_inicio_segundo_periodo < $data_fim_primeiro_periodo) {
-        app('flasher')->addError('A Data Inicial do Segundo Período entra em conflito com o Primeiro Período');
-    } // Verifica se a data final do segundo período está dentro do primeiro período
-    elseif
-    ($data_fim_segundo_periodo > $data_inicio_primeiro_periodo && $data_fim_segundo_periodo < $data_fim_primeiro_periodo) {
-        app('flasher')->addError('A Data Final do Segundo Período entra em conflito com o Primeiro Período');
-    } // Verifica se a data inicial do terceiro período é anterior à data final do segundo período
-    elseif
-    ($data_inicio_terceiro_periodo < $data_fim_segundo_periodo) {
-        app('flasher')->addError('A Data Inicial do Terceiro Período é menor que a Data Final do Segundo Período');
-    } // Verifica se a data final do terceiro período é anterior à data de início ou à data final do segundo período
-    elseif
-    ($data_fim_terceiro_periodo < $data_inicio_segundo_periodo || $data_fim_terceiro_periodo < $data_fim_segundo_periodo) {
-        app('flasher')->addError('A Data Final do Terceiro Período é anterior ao Segundo Período');
-    } // Verifica se a data inicial do terceiro período está dentro do segundo período
-    elseif
-    ($data_inicio_terceiro_periodo > $data_inicio_segundo_periodo && $data_inicio_terceiro_periodo < $data_fim_segundo_periodo) {
-        app('flasher')->addError('A Data Inicial do Terceiro Período entra em conflito com o Segundo Período');
-    } // Verifica se a data final do terceiro período está dentro do segundo período
-    elseif
-    ($data_fim_terceiro_periodo > $data_inicio_segundo_periodo && $data_fim_terceiro_periodo < $data_fim_segundo_periodo) {
-        app('flasher')->addError('A Data Final do Terceiro Período entra em conflito com o Segundo Período');
-    } else {
-        // Nenhuma condição de erro foi encontrada
-    }
-    }
-    }
-    */
     /**
      * Display the specified resource.
      */

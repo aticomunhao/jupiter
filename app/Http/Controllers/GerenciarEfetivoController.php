@@ -236,6 +236,7 @@ class GerenciarEfetivoController extends Controller
 
 
 
+
         return redirect('/gerenciar-efetivo')->with('success', 'Setores atualizados com sucesso!');
     }
 }
