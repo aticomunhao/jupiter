@@ -44,7 +44,7 @@ class GerenciarEfetivoController extends Controller
             );
 
 
-        $nm_nivel = $request->nivel;
+        $nm_setor = $request->setor;
         $nome_setor = $request->nome_setor;
         $id_nivel = $request->id_nivel;
         $st_pai = $request->st_pai;
@@ -57,11 +57,11 @@ class GerenciarEfetivoController extends Controller
 
 
 
-            if ($nm_nivel == 1) {
+            if ($nm_setor == 1) {
                 $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
             }
 
-            if ($nm_nivel == 2) {
+            if ($nm_setor == 2) {
                 $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
             }
         }
@@ -69,11 +69,11 @@ class GerenciarEfetivoController extends Controller
                 $lista->where('st.id_nivel', '>', 2)->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
 
 
-                if ($nm_nivel == 1) {
+                if ($nm_setor == 1) {
                     $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
                 }
 
-                if ($nm_nivel == 2) {
+                if ($nm_setor == 2) {
                     $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
                 }
 
@@ -89,7 +89,7 @@ class GerenciarEfetivoController extends Controller
         Session::flash('nome_setor', $nome_setor);
 
 
-        return view('/efetivo/gerenciar-efetivo', compact('nome_setor', 'nivel', 'lista', 'st_pai', 'nm_nivel', 'setor'));
+        return view('/efetivo/gerenciar-efetivo', compact('nome_setor', 'nivel', 'lista', 'st_pai', 'nm_setor', 'setor'));
     }
 
 

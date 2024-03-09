@@ -57,7 +57,7 @@
                                 <table
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
-                                        <tr style="background-color: #365699; font-size:19px; color:#ffffff">
+                                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th class="col-3">Setor</th>
                                             <th class="col-1">Sigla</th>
                                             <th class="col-2">Data Inicio</th>
