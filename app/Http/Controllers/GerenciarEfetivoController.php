@@ -31,7 +31,7 @@ class GerenciarEfetivoController extends Controller
             ->leftJoin('setor AS substituto', 'st.substituto', '=', 'substituto.id')
             ->leftJoin('setor AS setor_pai', 'st.setor_pai', '=', 'setor_pai.id')
             ->select(
-                DB::raw('CASE WHEN st.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
+                DB::raw('st.dt_fim'),
                 'st.id AS ids',
                 'st.nome',
                 'st.sigla',

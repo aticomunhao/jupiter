@@ -41,125 +41,105 @@
                             </div>
                             <br>
                             <hr>
+                            <div style="text-align: center;">
+                                <div style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px;">
+                                    <label style="margin-bottom: 5px;">Quantidade atual de Funcionários</label>
+                                    <div style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                        <span style="display: inline-block;">10</span>
+                                    </div>
+                                </div>
+
+                                <div style="display: inline-block; position: relative;">
+                                    <label style="margin-bottom: 5px;">Quantidade máxima de Funcionários</label>
+                                    <div style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                        <span style="display: inline-block;">50</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <hr>
+                            <h5 style="margin-left: 5px; color: #355089; margin-bottom: -10px">
+                                Funcionários
+                            </h5>
                             <div class="table" style="padding-top:20px">
                                 <table
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-1">
-                                                <input type="checkbox" id="masterCheckBox" name="checkbox">
-                                            </th>
-                                            <th class="col-4">Nome</th>
-                                            <th class="col-1">Sigla</th>
-                                            <th class="col-1">Data Inicio</th>
-                                            <th class="col-1">Status</th>
-                                            <th class="col-1">Substituto</th>
-                                            <th class="col-4">Setor Responsável</th>
+                                            <th class="col-1">CPF</th>
+                                            <th class="col-1">Identidade</th>
+                                            <th class="col-4">Nome Completo</th>
+                                            <th class="col-2">Cargo</th>
+                                            <th class="col-3">Email</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;">
                                         @foreach ($lista as $index => $listas)
                                             <tr style="text-align: center">
                                                 <td scope="">
-                                                    <input type="checkbox" class="checkBox" name="checkboxes[]"
-                                                        value="{{ $listas->ids }}" {{ $index === 0 ? 'disabled' : '' }}
-                                                        {{ $listas->st_pai ? 'checked' : '' }}>
+                                                    Teste
                                                 </td>
                                                 <td scope="">
-                                                    {{ $listas->nome_setor }}
+
                                                 </td>
                                                 <td scope="">
-                                                    {{ $listas->sigla }}
+
                                                 </td>
                                                 <td scope="">
-                                                    {{ $listas->dt_inicio }}
+
                                                 </td>
                                                 <td scope="">
-                                                    {{ $listas->status }}
-                                                </td>
-                                                <td scope="">
-                                                    {{ $listas->nome_substituto }}
-                                                </td>
-                                                <td scope="">
-                                                    {{ $listas->st_pai }}
+
                                                 </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
                                 </table>
                             </div>
+                            <br>
+                            <hr>
+                            <h5 style="margin-left: 5px; color: #355089; margin-bottom: -10px">
+                                Menor Aprendiz
+                            </h5>
+                            <div class="table" style="padding-top:20px">
+                                <table
+                                    class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
+                                    <thead style="text-align: center;">
+                                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                            <th class="col-1">CPF</th>
+                                            <th class="col-1">Identidade</th>
+                                            <th class="col-4">Nome Completo</th>
+                                            <th class="col-2">Cargo</th>
+                                            <th class="col-3">Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="font-size: 15px; color:#000000;">
+                                        @foreach ($lista as $index => $listas)
+                                            <tr style="text-align: center">
+                                                <td scope="">
+                                                    Teste
+                                                </td>
+                                                <td scope="">
 
+                                                </td>
+                                                <td scope="">
 
+                                                </td>
+                                                <td scope="">
 
-                            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                            <script type="text/javascript">
-                                $(document).ready(function() {
-                                    const masterCheckBox = $('#masterCheckBox');
-                                    const checkBoxes = $('.checkBox');
+                                                </td>
+                                                <td scope="">
 
-                                    masterCheckBox.change(function() {
-                                        checkBoxes.prop('checked', masterCheckBox.prop('checked')).trigger('change');
-                                    });
-
-                                    checkBoxes.change(function() {
-                                        masterCheckBox.prop('checked', checkBoxes.length === checkBoxes.filter(':checked').length);
-                                        changeBackground($(this));
-                                    });
-
-                                    function changeBackground(input) {
-                                        const tableRow = input.closest('tr');
-                                        if (input.prop('checked')) {
-                                            tableRow.css('background', '#aaa');
-                                        } else {
-                                            tableRow.css('background', '');
-                                        }
-                                    }
-
-                                    $('#idsetor').change(function() {
-                                        var selectedSetor = $(this).val();
-                                        console.log("Valor selecionado no campo Setor:", selectedSetor);
-                                        // Se precisar, faça algo com o valor selecionado aqui
-                                    });
-                                    $('#idnivel option:nth-child(4)').hide();
-                                    $('#idnivel').change(function() {
-                                        var nivel_id = $(this).val();
-
-                                        $.ajax({
-                                            url: '/obter-setores/' + nivel_id,
-                                            type: 'GET',
-                                            dataType: 'json',
-                                            success: function(data) {
-                                                $('#idsetor').removeAttr('disabled');
-                                                $('#idsetor').empty();
-                                                $.each(data, function(indexInArray, item) {
-                                                    $('#idsetor').append('<option value="' + item.id + '">' +
-                                                        item.nome + '</option>');
-                                                });
-                                            },
-                                            error: function(xhr) {
-                                                console.log(xhr.responseText);
-                                            }
-                                        });
-                                    });
-
-                                    // Ao submeter o formulário
-                                    $('#updateForm').submit(function(event) {
-                                        console.log('Formulário enviado!');
-
-                                        const checkboxes = $('.checkBox:checked').map(function() {
-                                            return $(this).val();
-                                        }).get();
-
-                                        console.log('Valores dos checkboxes:', checkboxes);
-
-                                        $('#hiddenCheckboxes').val(checkboxes.join(','));
-                                    });
-                                });
-                            </script>
-                            <form id="updateForm" action="/atualizar-efetivo" method="post">
-                                @csrf
-                                <a href="/home" type="button" value="" class="btn btn-danger">Cancelar</a>
-                                <input type="hidden" name="checkboxes" id="hiddenCheckboxes">
-                                <input type="submit" value="Confirmar" class="btn btn-primary">
-                            </form>
-                        @endsection
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+@endsection
