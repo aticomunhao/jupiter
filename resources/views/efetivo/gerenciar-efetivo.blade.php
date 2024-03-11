@@ -20,32 +20,19 @@
                             <hr>
                             <div class="card-body">
                                 <div class="row" style="margin-left:5px">
-                                    <div class="col-2">
-                                        <label for="1">Nivel</label>
-                                        <select id="idnivel" class="form-select" name="nivel">
+                                    <div class="col">
+                                        <label for="1">Selecione o Setor Desejado</label>
+                                        <select id="idsetor" class="form-select" name="setor">
                                             <option></option>
-                                            @foreach ($nivel as $niveis)
-                                                <option value="{{ $niveis->id_nivel }}"
-                                                    {{ old('nivel', $nm_nivel) == $niveis->id_nivel ? 'selected' : '' }}>
-                                                    {{ $niveis->nome_nivel }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col-4">
-                                        <label for="1">Setor</label>
-                                        <select id="idsetor" class="form-select" name="nome_setor" disabled>
-                                            <option></option>
-                                            @foreach ($setor as $setor)
-                                                <option value="{{ $setor->id_setor }}"
-                                                    {{ old('nome_setor', $nome_setor) == $setor->id_setor ? 'selected' : '' }}>
-                                                    {{ $setor->nome_setor }}
+                                            @foreach ($setor as $setores)
+                                                <option value="{{ $setores->id_setor }}"
+                                                    {{ old('setor', $nm_setor) == $setores->id_setor ? 'selected' : '' }}>
+                                                    {{ $setores->nome_setor }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col" style="padding-top:25px">
-                                        <a href="/home" type="button" value="" class="btn btn-danger">Cancelar</a>
                                         <a href="/gerenciar-efetivo" type="button" class="btn btn-primary"
                                             value="">Limpar</a>
                                         <input type="submit" value="Pesquisar" class="btn btn-success">
@@ -58,7 +45,7 @@
                                 <table
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
-                                        <tr style="background-color: #365699; font-size:18px; color:#ffffff">
+                                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th class="col-1">
                                                 <input type="checkbox" id="masterCheckBox" name="checkbox">
                                             </th>
@@ -72,31 +59,29 @@
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;">
                                         @foreach ($lista as $index => $listas)
-                                            <tr>
+                                            <tr style="text-align: center">
                                                 <td scope="">
-                                                    <center>
-                                                        <input type="checkbox" class="checkBox" name="checkboxes[]"
-                                                            value="{{ $listas->ids }}" {{ $index === 0 ? 'disabled' : '' }}
-                                                            {{ $listas->st_pai ? 'checked' : '' }}>
-                                                    </center>
+                                                    <input type="checkbox" class="checkBox" name="checkboxes[]"
+                                                        value="{{ $listas->ids }}" {{ $index === 0 ? 'disabled' : '' }}
+                                                        {{ $listas->st_pai ? 'checked' : '' }}>
                                                 </td>
                                                 <td scope="">
-                                                    <center>{{ $listas->nome_setor }}</center>
+                                                    {{ $listas->nome_setor }}
                                                 </td>
                                                 <td scope="">
-                                                    <center>{{ $listas->sigla }}</center>
+                                                    {{ $listas->sigla }}
                                                 </td>
                                                 <td scope="">
-                                                    <center>{{ $listas->dt_inicio }}</center>
+                                                    {{ $listas->dt_inicio }}
                                                 </td>
                                                 <td scope="">
-                                                    <center>{{ $listas->status }}</center>
+                                                    {{ $listas->status }}
                                                 </td>
                                                 <td scope="">
-                                                    <center>{{ $listas->nome_substituto }}</center>
+                                                    {{ $listas->nome_substituto }}
                                                 </td>
                                                 <td scope="">
-                                                    <center>{{ $listas->st_pai }}</center>
+                                                    {{ $listas->st_pai }}
                                                 </td>
                                             </tr>
                                         @endforeach

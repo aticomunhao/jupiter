@@ -37,7 +37,7 @@ class GerenciarHierarquiaController extends Controller
                 'st.sigla',
                 'st.dt_inicio',
                 'st.dt_fim',
-                'st.id_nivel', 
+                'st.id_nivel',
                 'st.nome AS nome_setor',
                 'setor_pai.nome AS st_pai',
                 'substituto.sigla AS nome_substituto'
@@ -50,7 +50,7 @@ class GerenciarHierarquiaController extends Controller
         $st_pai = $request->st_pai;
 
 
-       
+
 
         if ($nome_setor == 1) {
             $lista->where('st.id_nivel', '>=', 2)->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
@@ -72,16 +72,16 @@ class GerenciarHierarquiaController extends Controller
                 if ($nm_nivel == 1) {
                     $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
                 }
-    
+
                 if ($nm_nivel == 2) {
                     $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
                 }
 
             }
 
-        
 
-        
+
+
         $lista = $lista->orderby('tns.id', 'ASC')->orderBy('st.setor_pai', 'ASC')->get();
 
         Session::flash('listas', $lista);
@@ -206,22 +206,22 @@ class GerenciarHierarquiaController extends Controller
 
     public function atualizarhierarquia(Request $request)
     {
-        
+
         $nome_setor = session('nome_setor');
         $lista = session('listas') ?? [];
         $checkboxesMarcados = $request->input('checkboxes');
-        
+
         $checkboxesArray = explode(',', $checkboxesMarcados);
-        
+
         // Converte os valores para inteiros no array original
         foreach ($checkboxesArray as &$valor) {
             $valor = intval($valor);
         }
-        
+
         foreach ($lista as $index => $listaItem) {
             // Verifica se o ID está presente nos checkboxes marcados
             $idPresente = in_array($listaItem->ids, $checkboxesArray);
-        
+
             // Atualiza setor_pai com base nas condições
             if ($index !== 0) {
                 DB::table('setor')
@@ -231,8 +231,8 @@ class GerenciarHierarquiaController extends Controller
                     ]);
             }
         }
-        
-        
+
+
 
 
 
