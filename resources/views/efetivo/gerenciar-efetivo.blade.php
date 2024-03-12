@@ -13,7 +13,7 @@
                         <div class="card-header">
                             <div class="ROW">
                                 <h5 class="col-12" style="color: #355089">
-                                    Gerenciar Efetivo
+                                    Controle de Efetivo
                                 </h5>
                             </div>
                             <br>
@@ -32,10 +32,10 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col" style="padding-top:25px">
-                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-primary"
+                                    <div class="col" style="padding-top:24px">
+                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-light" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px;"
                                             value="">Limpar</a>
-                                        <input type="submit" value="Pesquisar" class="btn btn-success">
+                                        <input type="submit" value="Pesquisar" class="btn btn-success btn-light" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 200px;">
                                     </div>
                                 </div>
                             </div>

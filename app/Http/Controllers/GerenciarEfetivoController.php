@@ -94,21 +94,6 @@ class GerenciarEfetivoController extends Controller
 
 
 
-    public function obterSetoresPorNivel($id_nivel)
-    {
-        $set = DB::table('setor as s')
-            ->where('id_nivel', $id_nivel)
-            ->select('s.nome', 's.id')
-            ->get();
-
-        if ($set->isNotEmpty()) {
-            return response()
-                ->json($set);
-        }
-
-        return response()->json(['message' => 'Nenhum setor encontrado para o ID de nível fornecido']);
-    }
-
     public function show(Request $request)
     {
 
