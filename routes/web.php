@@ -173,10 +173,11 @@ Route::get('/informar-dados-associado', [App\Http\Controllers\GerenciarAssociado
 Route::get('/retorna-cidade-dados-residenciais',[App\Http\Controllers\GerenciarAssociadoController::class, 'retornaCidadeDadosResidenciais']);
 Route::any('/incluir-associado', [App\Http\Controllers\GerenciarAssociadoController::class, 'store']);
 Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
-Route::post('/atualizar-associado/{ida}/{idp}/{ide}', [App\Http\Controllers\GerenciarAssociadoController::class, 'update']);
+Route::any('/atualizar-associado/{ida}/{idp}/{ide}', [App\Http\Controllers\GerenciarAssociadoController::class, 'update']);
 Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
-Route::get('/visualizar-dados_bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'index']);
-Route::any('/incluir-dados-bancarios-associado/{ida}', [App\Http\Controllers\GerenciarAssociadoController::class, 'incluirdadosbancarios']);
+Route::get('/gerenciar-dados_bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'index'])->name('gerenciar-dados-bancario-associado');
+Route::get('/visualizar-dados/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'store']);
+Route::any('/incluir-dados_bancarios-associado/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'incluirdadosbancarios']);
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/capture-photo', [PhotoController::class, 'showCaptureForm'])->name('capture.form');
     Route::post('/capture-photo', [PhotoController::class, 'storeCapturedPhoto']);

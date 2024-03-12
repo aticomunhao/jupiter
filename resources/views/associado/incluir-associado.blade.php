@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-md-2 col-sm-12">
                                 <label for="2">CPF</label>
-                                <input type="text" class="form-control" name="cpf" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                                <input type="text" class="form-control" name="cpf" maxlength="11" >
                             </div>
                             <div class="col-md-1 col-sm-12">
                                 <label for="3">DDD</label>
@@ -37,7 +37,7 @@
 
                             <div class="col-md-3 col-sm-12">
                                 <label for="2">Telefone</label>
-                                <input type="text" class="form-control" id="2"  maxlength="12" name="telefone" value="">
+                                <input type="text" class="form-control" id="2"  maxlength="12" name="telefone" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                             </div>
                             <div class="row d-flex justify-content-around">
                                 <div class="col-md-4 col-sm-12">

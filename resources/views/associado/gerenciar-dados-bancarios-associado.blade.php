@@ -24,7 +24,7 @@
                     </fieldset>
                 </div>
                 <div class="col-md-3 offset-md-4 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
-                    <a href="/visualizar-dados-bancarios-associado/{{$associado->ida}}" class="col-6"><button type="button" class="btn btn-success col-md-8 col-12">+Novo Cadastro</button></a>
+                    <a href="/visualizar-dados/{{$associado->ida}}" class="col-6"><button type="button" class="btn btn-success col-md-8 col-12">+Novo Cadastro</button></a>
                 </div>
             </div>
         </div>
@@ -108,7 +108,7 @@
                             <center>
                                 <hr>
                                 <div class="col-md-5 col-sm-12">
-                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{$dataformatada}}">
+                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{$associado->dt_vencimento}}">
                                 </div>
                     </div>
                 </div>
