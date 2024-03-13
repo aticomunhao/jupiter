@@ -44,7 +44,7 @@ class GerenciarDadosBancariosAssociadoController extends Controller
          )
          ->first();
 
-       //dd($associado);
+      dd($associado);
       $ida = $request->ida;
       $nome_completo = $request->nome_completo;
       $valor = $request->valor;
@@ -63,43 +63,46 @@ class GerenciarDadosBancariosAssociadoController extends Controller
       $cheque = $request->cheque;
       $ct_de_debito = $request->ct_de_debito;
       $ct_de_credito = $request->ct_de_credito;
+
+
+
+      if ($associado->mensal !== null && $associado->mensal == TRUE) {
+         $mes = "Mensal";
+      } else if ($associado->trimestral !== null && $associado->trimestral == TRUE) {
+         $mes = "Trimestral";
+      } else if ($associado->semestral !== null && $associado->semestral == TRUE) {
+         $mes = "Semestral";
+      } else if ($associado->anual !== null && $associado->anual == TRUE) {
+         $mes = "Anual";
+      } else {
+         $mes = "";
+      }
+
+      //dd($mes);
+
+
       
 
-    
-
-if ($associado->mensal !== null) {
-    if ($associado->mensal == TRUE) {
-        $mes = "Mensal";
-    } else if ($associado->trimestral == TRUE) {
-        $mes = "Trimestral";
-    } else if ($associado->semestral == TRUE) {
-        $mes = "Semestral";
-    } else if ($associado->anual == TRUE) {
-        $mes = "Anual";
-    }
-}
-
-   // dd($mes);
-
-
-      $banco = "";
-
-      if ($associado->banco_do_brasil == TRUE) {
+      if ($associado->banco_do_brasil !== null && $associado->banco_do_brasil == TRUE) {
          $banco = "Banco do Brasil";
-      } else if ($associado->brb == TRUE) {
+      } else if ($associado->brb !== null && $associado->brb == TRUE) {
          $banco = "BRB";
+      } else{
+         $banco = "";
       }
 
       $tesouraria = "";
 
-      if ($associado->dinheiro == TRUE) {
+      if ($associado->dinheiro !== null &&  $associado->dinheiro == TRUE) {
          $tesouraria = "dinheiro";
-      } else if ($associado->ct_de_debito == TRUE) {
+      } else if ($associado->ct_de_debito !== null && $associado->ct_de_debito == TRUE) {
          $tesouraria = "Cartão de Débito";
-      } else if ($associado->ct_de_credito == TRUE) {
+      } else if ($associado->ct_de_credito !== null && $associado->ct_de_credito == TRUE) {
          $tesouraria = "Cartão de Crédito";
-      } else  if ($associado->cheque == TRUE) {
+      } else  if ($associado->cheque !== null && $associado->cheque == TRUE) {
          $tesouraria = "Cheque";
+      } else {
+         $tesouraria = "";
       }
 
 
@@ -150,29 +153,43 @@ if ($associado->mensal !== null) {
          ->where('as.id', $ida)
          ->get();
 
-    //  dd($associado);
+      //  dd($associado);
       return view('associado/incluir-dados_bancarios', compact('associado', 'ida'));
    }
    public function incluirdadosbancarios(Request $request, $ida)
    {
+      $dinheiro = $request->has('tesouraria') && $request->tesouraria === 'dinheiro';
+      $cheque = $request->has('tesouraria') && $request->tesouraria === 'cheque';
+      $ct_de_debito = $request->has('tesouraria') && $request->tesouraria === 'ct_de_debito';
+      $ct_de_credito = $request->has('tesouraria') && $request->tesouraria === 'ct_de_credito';
 
       DB::table('forma_contribuicao_tesouraria')->insert([
-         'dinheiro' => $request->has('dinheiro'),
-         'cheque' => $request->has('cheque'),
-         'ct_de_debito' => $request->has('cartao_de_debito'),
-         'ct_de_credito' => $request->has('cartao_de_credito'),
+         'dinheiro' => $dinheiro,
+         'cheque' => $cheque,
+         'ct_de_debito' => $ct_de_debito,
+         'ct_de_credito' => $ct_de_credito,
       ]);
+
+
+
+      $mensal = $request->has('boleto') && $request->boleto === 'mensal';
+      $trimestral = $request->has('boleto') && $request->boleto === 'trimestral';
+      $semestral = $request->has('boleto') && $request->boleto === 'semestral';
+      $anual = $request->has('boleto') && $request->boleto === 'anual';
 
       DB::table('forma_contribuicao_boleto')->insert([
-         'mensal' => $request->has('mensal'),
-         'trimestral' => $request->has('trimestral'),
-         'semestral' => $request->has('semestral'),
-         'anual' => $request->has('anual'),
+         'mensal' => $mensal,
+         'trimestral' => $trimestral,
+         'semestral' => $semestral,
+         'anual' => $anual,
       ]);
 
+      $banco_do_brasil = $request->has('autorizacao') && $request->autorizacao === 'banco_do_brasil';
+      $brb = $request->has('autorizacao') && $request->autorizacao === 'brb';
+
       DB::table('forma_contribuicao_autorizacao')->insert([
-         'banco_do_brasil' => $request->has('banco_do_brasil'),
-         'brb' => $request->has('brb'),
+         'banco_do_brasil' => $banco_do_brasil,
+         'brb' => $brb
       ]);
 
       $id_cont_tesouraria = DB::table('forma_contribuicao_tesouraria')
@@ -206,7 +223,7 @@ if ($associado->mensal !== null) {
             'dt_vencimento' => $request->input('dt_vencimento'),
          ]);
 
-
+       //  dd($request->input('mensal'));
       //    dd($associado_dados_bancarios);
 
       //        DB::table('associado AS as')
