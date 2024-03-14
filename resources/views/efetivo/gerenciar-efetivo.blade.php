@@ -32,26 +32,31 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col" style="padding-top:24px">
-                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-light" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px;"
+                                    <div class="col" style="padding-top:24px;">
+                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-light"
+                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px; margin-right: 5px"
                                             value="">Limpar</a>
-                                        <input type="submit" value="Pesquisar" class="btn btn-success btn-light" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 200px;">
+                                        <input type="submit" value="Pesquisar" class="btn btn-success btn-light"
+                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 200px;">
                                     </div>
                                 </div>
                             </div>
                             <br>
                             <hr>
                             <div style="text-align: center;">
-                                <div style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px;">
+                                <div
+                                    style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px;">
                                     <label style="margin-bottom: 5px;">Quantidade atual de Funcionários</label>
-                                    <div style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                    <div
+                                        style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
                                         <span style="display: inline-block;">10</span>
                                     </div>
                                 </div>
 
                                 <div style="display: inline-block; position: relative;">
                                     <label style="margin-bottom: 5px;">Quantidade máxima de Funcionários</label>
-                                    <div style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                    <div
+                                        style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
                                         <span style="display: inline-block;">50</span>
                                     </div>
                                 </div>
