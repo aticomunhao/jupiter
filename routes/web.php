@@ -178,6 +178,8 @@ Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoCon
 Route::get('/gerenciar-dados_bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'index'])->name('gerenciar-dados-bancario-associado');
 Route::get('/visualizar-dados/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'store']);
 Route::any('/incluir-dados_bancarios-associado/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'incluirdadosbancarios']);
+Route::get('/editar-dados-bancarios-associado/{ida}',[App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'edit']);
+Route::any('/atualizar-dados-bancarios-associado/{ida}/{idt}/{idb}/{idc}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'update']);
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/capture-photo', [PhotoController::class, 'showCaptureForm'])->name('capture.form');
     Route::post('/capture-photo', [PhotoController::class, 'storeCapturedPhoto']);

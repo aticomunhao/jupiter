@@ -86,8 +86,10 @@ class GerenciarFuncionarioController extends Controller
         $logra = DB::select('select distinct(id), descricao from tp_logradouro');
 
         $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
+        
+        $setor = DB::select('select id, nome from setor');
 
-        return view('/funcionarios.incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd'));
+        return view('/funcionarios.incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd', 'setor'));
 
     }
 
@@ -178,7 +180,8 @@ class GerenciarFuncionarioController extends Controller
                     'reservista' => $request->input('reservista'),
                     'nome_mae' => $request->input('nome_mae'),
                     'nome_pai' => $request->input('nome_pai'),
-                    'id_cat_cnh' => $request->input('cnh')
+                    'id_cat_cnh' => $request->input('cnh'),
+                    'id_setor' => $request->input('setor')
                 ]);
 
                 DB::table('endereco_pessoas')->insert([
@@ -193,6 +196,8 @@ class GerenciarFuncionarioController extends Controller
 
 
                 ]);
+
+                
 
 
                 app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
@@ -219,6 +224,7 @@ class GerenciarFuncionarioController extends Controller
             ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_natural')
             ->leftjoin('tp_cidade AS tc', 'tc.id_cidade', 'p.naturalidade')
             ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
+            ->leftjoin('setor AS s', 's.id', 'f.id_setor')
             ->select(
                 'f.id_pessoa AS idp',
                 'f.id AS idf',
@@ -263,12 +269,15 @@ class GerenciarFuncionarioController extends Controller
                 'p.uf_natural',
                 'p.naturalidade',
                 'tc.id_cidade',
-                'tc.descricao AS nat'
+                'tc.descricao AS nat',
+                'f.id_setor',
+                's.id AS ids',
+                's.nome AS setnome'
             )
             ->where('f.id', $idf)
             ->get();
 
-        //dd($editar);
+  //  dd($editar);
 
 
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
@@ -280,11 +289,14 @@ class GerenciarFuncionarioController extends Controller
         $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
         $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
         $tpprograma = DB::table('tp_programa')->select('id', 'programa')->get();
+        $tpsetor = DB::table('setor')->select('id', 'nome')->get();
 
-        //dd($tpsexo);
 
 
-        return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tpufidt', 'tpcnh', 'tpcidade', 'tpprograma'));
+       // dd($tpsetor);
+
+
+        return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tpufidt', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor'));
     }
 
 
@@ -373,7 +385,8 @@ class GerenciarFuncionarioController extends Controller
                     'reservista' => $request->input('reservista'),
                     'nome_mae' => $request->input('nome_mae'),
                     'nome_pai' => $request->input('nome_pai'),
-                    'id_cat_cnh' => $request->input('cnh')
+                    'id_cat_cnh' => $request->input('cnh'),
+                    'id_setor' => $request->input('setor')
 
                 ]);
 
