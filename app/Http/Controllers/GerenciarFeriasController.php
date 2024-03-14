@@ -118,7 +118,7 @@ class GerenciarFeriasController extends Controller
             // Condições para um único período de férias
             $data_inicio = Carbon::parse($formulario_de_ferias["data_inicio_0"]);
             $data_fim = Carbon::parse($formulario_de_ferias["data_fim_0"]);
-            $dias_de_ferias_utilizadas = $data_inicio->diffInDays($data_fim);
+            $dias_de_ferias_utilizadas = $data_inicio->diffInDays($data_fim) + 1;
 
             $data_de_retorno_em_dia_da_semana = Carbon::parse($data_fim)->format('n');
 
@@ -157,7 +157,7 @@ class GerenciarFeriasController extends Controller
             $data_fim_primeiro_periodo = Carbon::parse($formulario_de_ferias["data_fim_0"]);
             $data_inicio_segundo_periodo = Carbon::parse($formulario_de_ferias["data_inicio_1"]);
             $data_fim_segundo_periodo = Carbon::parse($formulario_de_ferias["data_fim_1"]);
-            $dias_de_ferias_utilizadas = $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo);
+            $dias_de_ferias_utilizadas = $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 2;
 
 
             // Verifica se a data inicial do primeiro período é maior que a data final do primeiro período
@@ -202,7 +202,8 @@ class GerenciarFeriasController extends Controller
             } //Verifica se o funcionario usou o seu tempo de ferias corretamente para menos
             elseif
             ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
-                app('flasher')->addError('Ainda não utilizou todos os dias de ferias. Faltam:' . ($diasDeDireitoDoFuncionario - $dias_de_ferias_utilizadas) . ' dias.');
+                app('flasher')->addError('Ainda não utilizou todos os dias de ferias. Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
+                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo periodo');
             } //Verifica se o funcionario utilizou dias a mais
             elseif
             ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
@@ -231,7 +232,7 @@ class GerenciarFeriasController extends Controller
             $data_fim_segundo_periodo = Carbon::parse($formulario_de_ferias["data_fim_1"]);
             $data_inicio_terceiro_periodo = Carbon::parse($formulario_de_ferias["data_inicio_2"]);
             $data_fim_terceiro_periodo = Carbon::parse($formulario_de_ferias["data_fim_2"]);
-            $dias_de_ferias_utilizadas = $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo);
+            $dias_de_ferias_utilizadas = $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 3;
 
 
             // Verifica se a data inicial do primeiro período é maior que a data final do primeiro período
@@ -276,9 +277,14 @@ class GerenciarFeriasController extends Controller
 
             } //Verifica se o funcionario utilizou dias a mais
             elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
-                app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
-                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo . <br>' .
-                    $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) . " no terceiro periodo");
+                app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 .
+                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' .
+                    $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro periodo");
+                //Verifica se o funcionario utililizou dias a menos
+            } elseif ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
+                app('flasher')->addError('Ainda não utilizou todos os dias de ferias. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 .
+                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' .
+                    $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro periodo");
             } else {
                 DB::table('ferias')->where('id', $ferias->id)->update([
                     'dt_ini_a' => $data_inicio_primeiro_periodo,
@@ -409,7 +415,6 @@ class GerenciarFeriasController extends Controller
             )
             ->where('ano_de_referencia', '=', $ano_referente)
             ->where('status_pedido_ferias.id', '=', 3)
-
             ->get();
 
 
@@ -418,7 +423,31 @@ class GerenciarFeriasController extends Controller
 
     public function autorizarferias($id)
     {
-        dd($id);
+
+        $periodo_aquisitivo = DB::table('ferias')
+            ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+            ->select(
+                'pessoas.nome_completo as nome_completo_funcionario',
+                'pessoas.id as id_pessoa',
+                'ferias.dt_ini_a',
+                'ferias.dt_fim_a',
+                'ferias.dt_ini_b',
+                'ferias.dt_fim_b',
+                'ferias.dt_ini_c',
+                'ferias.dt_fim_c',
+                'ferias.motivo_retorno',
+                'ferias.id as id_ferias',
+                'funcionarios.dt_inicio',
+                'ferias.ano_de_referencia',
+                'ferias.id_funcionario',
+                'status_pedido_ferias.id as id_status_pedido_ferias',
+                'status_pedido_ferias.nome as status_pedido_ferias'
+            )
+            ->where('ferias.id', '=', $id)
+            ->first();
+        dd($periodo_aquisitivo);
     }
 
     public function recusarPeriodoDeFerias($id)
