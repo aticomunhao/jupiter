@@ -28,28 +28,28 @@
                 <br>
                 <div class="row d-flex justify-content-evenly">
                     <div class="col">
-                        <h6>Tesouraria</h6>
+                        <!-- Tesouraria -->
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tesouraria" id="dinheiro" value="true"{{ $dados_bancarios_associado[0]->dinheiro ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="dinheiro" value="dinheiro" {{ $dados_bancarios_associado[0]->tesouraria === 'dinheiro' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="dinheiro">
                                 Dinheiro
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tesouraria" id="cheque" value="true"{{ $dados_bancarios_associado[0]->cheque ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="cheque" value="cheque" {{ $dados_bancarios_associado[0]->tesouraria === 'cheque' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="cheque">
                                 Cheque
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_debito" vvalue="true"{{ $dados_bancarios_associado[0]->ct_de_debito ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_debito" value="ct_de_debito" {{ $dados_bancarios_associado[0]->tesouraria === 'ct_de_debito' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="ct_de_debito">
                                 Cartão de Débito
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_credito" value="true"{{ $dados_bancarios_associado[0]->ct_de_credito ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_credito" value="ct_de_credito" {{ $dados_bancarios_associado[0]->tesouraria === 'ct_de_credito' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="ct_de_credito">
                                 Cartão de Crédito
                             </label>
                         </div>
@@ -57,41 +57,40 @@
                     <div class="col">
                         <h6>Boleto Bancário</h6>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boleto" id="mensal" value="true"{{ $dados_bancarios_associado[0]->mensal ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="boleto" id="mensal" value="mensal" {{ $dados_bancarios_associado[0]->mensal ? 'checked' : '' }}>
+                            <label class="form-check-label" for="mensal">
                                 Mensal
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boleto" id="trimestral" value="true"{{ $dados_bancarios_associado[0]->trimestral ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="boleto" id="trimestral" value="trimestral" {{ $dados_bancarios_associado[0]->trimestral ? 'checked' : '' }}>
+                            <label class="form-check-label" for="trimestral">
                                 Trimestral
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boleto" id="semestral" value="true"{{ $dados_bancarios_associado[0]->semestral ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="boleto" id="semestral" value="semestral" {{ $dados_bancarios_associado[0]->semestral ? 'checked' : '' }}>
+                            <label class="form-check-label" for="semestral">
                                 Semestral
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boleto" id="anual" value="true"{{ $dados_bancarios_associado[0]->anual ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="boleto" id="anual" value="anual" {{ $dados_bancarios_associado[0]->anual ? 'checked' : '' }}>
+                            <label class="form-check-label" for="anual">
                                 Anual
                             </label>
                         </div>
                     </div>
                     <div class="col">
-                        <h6>Autorização em Débito em conta</h6>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="autorizacao" id="banco_do_brasil" value="true"{{ $dados_bancarios_associado[0]->banco_do_brasil ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="autorizacao" id="banco_do_brasil" value="banco_do_brasil" {{ $dados_bancarios_associado[0]->autorizacao === 'banco_do_brasil' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="banco_do_brasil">
                                 Banco do Brasil
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="autorizacao" id="brb" value="true"{{ $dados_bancarios_associado[0]->brb ? 'checked' : ''}}>
-                            <label class="form-check-label" for="flexRadioDefault1">
+                            <input class="form-check-input" type="radio" name="autorizacao" id="brb" value="brb" {{ $dados_bancarios_associado[0]->autorizacao === 'brb' ? 'checked' : '' }}>
+                            <label class="form-check-label" for="brb">
                                 BRB
                             </label>
                         </div>
