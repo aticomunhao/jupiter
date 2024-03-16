@@ -16,6 +16,10 @@ class GerenciarEfetivoController extends Controller
 {
     public function index(Request $request)
     {
+        $funcionario = DB::table('funcionarios')
+        ->leftJoin('setor', 'funcionarios.id_setor', 'setor.id')
+        ->get();
+        dd($funcionario);
 
 
         $base = DB::table('base_salarial AS bs')
