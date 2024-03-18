@@ -18,9 +18,6 @@ class GerenciarSetoresController extends Controller
     public function index(Request $request)
     {
 
-
-
-
         $lista = DB::table('tp_nivel_setor AS tns')
             ->whereIn('tns.id', ['1', '2', '3'])
             ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
@@ -38,7 +35,6 @@ class GerenciarSetoresController extends Controller
             );
 
 
-
         //dd($lista);
 
         $ids = $request->ids;
@@ -54,7 +50,6 @@ class GerenciarSetoresController extends Controller
         $setor_pai = $request->setor_pai;
 
         $nome_substituto = $request->nome_substituto;
-
 
 
         if ($request->nome) {
@@ -81,10 +76,8 @@ class GerenciarSetoresController extends Controller
         $nivel = DB::select('select id AS idset, nome from tp_nivel_setor');
 
 
-
         return view('/setores/incluir-setor', compact('nivel'));
     }
-
 
 
     public function store(Request $request)
@@ -101,12 +94,10 @@ class GerenciarSetoresController extends Controller
             ]);
 
 
-
         app('flasher')->addSuccess('Setor cadastrado com Sucesso!');
 
         return redirect('/gerenciar-setor');
     }
-
 
 
     public function edit($idsb)
@@ -124,7 +115,6 @@ class GerenciarSetoresController extends Controller
 
     public function update(Request $request, $idsb, $ids)
     {
-
 
 
         DB::table('setor')
@@ -146,18 +136,14 @@ class GerenciarSetoresController extends Controller
             ]);
 
 
-
         app('flasher')->addSuccess('Edição feita com Sucesso!');
 
         return redirect()->action([GerenciarSetoresController::class, 'index']);
     }
 
 
-    public function  carregar_dados($ids)
+    public function carregar_dados($ids)
     {
-
-
-
 
 
         $setor = DB::table('setor')->get();
@@ -165,48 +151,32 @@ class GerenciarSetoresController extends Controller
         Session::flash('ids', $ids);
 
 
-
-
-
-
-
         return view('/setores/substituir-setor', compact('setor'));
     }
 
-    public function subst(Request $request, String $ids)
+    public function subst(Request $request, string $ids)
     {
 
         $ids = session('ids');
         $up = $request->input('setor_substituto');
 
-
-       
-
-        
-
-        
-         $alterar_setor_pai = DB::table('setor')
-         ->where('setor_pai', $ids)
-         ->update([
-            'setor_pai' => $up,
-         ]);
-     
-
-         $alterar_setor_substituto = DB::table('setor')
-         ->where('id', $ids)
-         ->update([
-            'substituto' => $up,
-         ]);
-
-   $dataFim = DB::table('setor')->where('id', $up)->get();
- 
-   DB::table('setor')->where('id', $ids)->update(['dt_fim' => $dataFim[0]->dt_inicio]);
+        $alterar_setor_pai = DB::table('setor')
+            ->where('setor_pai', $ids)
+            ->update([
+                'setor_pai' => $up,
+            ]);
 
 
+        $alterar_setor_substituto = DB::table('setor')
+            ->where('id', $ids)
+            ->update([
+                'substituto' => $up,
+            ]);
 
-     
-         
-  
+        $dataFim = DB::table('setor')->where('id', $up)->get();
+
+        DB::table('setor')->where('id', $ids)->update(['dt_fim' => $dataFim[0]->dt_inicio]);
+
 
         app('flasher')->addSuccess('Setor foi substituído com sucesso.');
         return redirect()->action([GerenciarSetoresController::class, 'index']);

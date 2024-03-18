@@ -15,7 +15,7 @@
                         border: 2px solid #355089; border-radius: 5px; background-color: #f8f9fa;">
                     </div>
                     <div class="col-md-3">
-                       
+
                     </div>
                 </div>
                 <br>
@@ -50,16 +50,16 @@
                                     <td style="text-align: center">{{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--'}}</td>
                                     <td style="text-align: center">{{ $periodos_aquisitivos->status_pedido_ferias }}</td>
                                     <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}</td>
-                                    <td >
+                                    <td>
 
-                                            <a href="{{route('autorizarFerias', ["id" => $periodos_aquisitivos->id_ferias ])}}">
-                                                <button class="btn btn-outline-success"><i class="bi bi-check2"></i>
-                                                </button>
-                                            </a>
-                                            <a href="{{route('recusarFerias', ["id" => $periodos_aquisitivos->id_ferias ])}}">
-                                                <button class="btn btn-outline-danger"><i class="bi bi-x"></i>
-                                                </button>
-                                            </a>
+                                        <a href="{{route('autorizarFerias', ["id" => $periodos_aquisitivos->id_ferias ])}}">
+                                            <button class="btn btn-outline-success"><i class="bi bi-check2"></i>
+                                            </button>
+                                        </a>
+                                        <a href="{{route('recusarFerias', ["id" => $periodos_aquisitivos->id_ferias ])}}">
+                                            <button class="btn btn-outline-danger"><i class="bi bi-x"></i>
+                                            </button>
+                                        </a>
 
                                     </td>
                                 </tr>
