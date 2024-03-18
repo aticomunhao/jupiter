@@ -123,21 +123,21 @@
                         <div class="form-check">
                             <div id="periodo1" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name=periodoDeVendaDeFerias
-                                       value=1>
+                                       name= periodoDeVendaDeFerias
+                                       value= 1>
                                 <label class="form-check-label" for="periodoFerias"> 1° Periodo</label>
                             </div>
 
                             <div id="periodo2" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name=periodoDeVendaDeFerias
-                                       value=2>
+                                       name= periodoDeVendaDeFerias
+                                       value= 2>
                                 <label class="form-check-label" for="periodoFerias"> 2° Periodo</label>
                             </div>
                             <div id="periodo3" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name=periodoDeVendaDeFerias
-                                       value=3>
+                                       name= periodoDeVendaDeFerias
+                                       value= 3>
                                 <label class="form-check-label" for="periodoFerias"> 3° Periodo</label>
                             </div>
                         </div>

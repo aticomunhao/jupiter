@@ -15,12 +15,7 @@
                         border: 2px solid #355089; border-radius: 5px; background-color: #f8f9fa;">
                     </div>
                     <div class="col-md-3">
-                        <a href="{{ route('AbreFerias') }}">
-                            <button class="btn btn-outline-success"
-                                    style="width: 100%">Criar
-                                Ferias
-                            </button>
-                        </a>
+                       
                     </div>
                 </div>
                 <br>
