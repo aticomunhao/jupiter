@@ -30,25 +30,25 @@
                     <div class="col">
                         <!-- Tesouraria -->
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tesouraria" id="dinheiro" value="dinheiro" {{ $dados_bancarios_associado[0]->tesouraria === 'dinheiro' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="tesouraria" id="dinheiro" value="dinheiro" {{ $dados_bancarios_associado[0]->dinheiro ? 'checked' : '' }}>
                             <label class="form-check-label" for="dinheiro">
                                 Dinheiro
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tesouraria" id="cheque" value="cheque" {{ $dados_bancarios_associado[0]->tesouraria === 'cheque' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="tesouraria" id="cheque" value="cheque" {{ $dados_bancarios_associado[0]->cheque ? 'checked' : '' }}>
                             <label class="form-check-label" for="cheque">
                                 Cheque
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_debito" value="ct_de_debito" {{ $dados_bancarios_associado[0]->tesouraria === 'ct_de_debito' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_debito" value="ct_de_debito" {{ $dados_bancarios_associado[0]->ct_de_debito ? 'checked' : '' }}>
                             <label class="form-check-label" for="ct_de_debito">
                                 Cartão de Débito
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_credito" value="ct_de_credito" {{ $dados_bancarios_associado[0]->tesouraria === 'ct_de_credito' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_credito" value="ct_de_credito" {{ $dados_bancarios_associado[0]->ct_de_credito ? 'checked' : '' }}>
                             <label class="form-check-label" for="ct_de_credito">
                                 Cartão de Crédito
                             </label>
@@ -83,13 +83,13 @@
                     </div>
                     <div class="col">
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="autorizacao" id="banco_do_brasil" value="banco_do_brasil" {{ $dados_bancarios_associado[0]->autorizacao === 'banco_do_brasil' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="autorizacao" id="banco_do_brasil" value="banco_do_brasil" {{ $dados_bancarios_associado[0]->banco_do_brasil ? 'checked' : '' }}>
                             <label class="form-check-label" for="banco_do_brasil">
                                 Banco do Brasil
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="autorizacao" id="brb" value="brb" {{ $dados_bancarios_associado[0]->autorizacao === 'brb' ? 'checked' : '' }}>
+                            <input class="form-check-input" type="radio" name="autorizacao" id="brb" value="brb" {{ $dados_bancarios_associado[0]->brb ? 'checked' : '' }}>
                             <label class="form-check-label" for="brb">
                                 BRB
                             </label>

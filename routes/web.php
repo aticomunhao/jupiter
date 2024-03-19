@@ -7,6 +7,8 @@ use App\Http\Controllers\GerenciarCargos;
 use App\Http\Controllers\GerenciarCargosController;
 use App\Http\Controllers\GerenciarFeriasController;
 use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\GerenciarDadosBancariosController;
+use App\Http\Controllers\GerenciarFuncionarioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,14 +36,14 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 /*Gerenciar funcionario*/
 
-Route::get('/gerenciar-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
-Route::get('/informar-dados', [App\Http\Controllers\GerenciarFuncionarioController::class, 'create']);
-Route::any('/incluir-funcionario', [App\Http\Controllers\GerenciarFuncionarioController::class, 'store']);
-Route::get('/editar-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'edit']);
-Route::get('/excluir-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
-Route::get('/pessoa-funcionario/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'delete']);
-Route::get('/retorna-cidade-dados-residenciais/{id}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
-Route::post('/atualizar-funcionario/{idp}/{idf}', [App\Http\Controllers\GerenciarFuncionarioController::class, 'update']);
+Route::get('/gerenciar-funcionario', [GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
+Route::get('/informar-dados', [GerenciarFuncionarioController::class, 'create']);
+Route::any('/incluir-funcionario', [GerenciarFuncionarioController::class, 'store']);
+Route::get('/editar-funcionario/{idf}', [GerenciarFuncionarioController::class, 'edit']);
+Route::get('/excluir-funcionario/{idf}', [GerenciarFuncionarioController::class, 'delete']);
+Route::get('/pessoa-funcionario/{idf}', [GerenciarFuncionarioController::class, 'delete']);
+Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
+Route::post('/atualizar-funcionario/{idp}/{idf}', [GerenciarFuncionarioController::class, 'update']);
 
 
 /*Gerenciar usuário*/

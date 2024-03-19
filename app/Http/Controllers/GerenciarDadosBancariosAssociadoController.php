@@ -148,25 +148,25 @@ class GerenciarDadosBancariosAssociadoController extends Controller
    }
    public function store($ida)
    {
-      $validacao = DB::table('contribuicao_associado AS ca')->where('id_associado', $ida)
-      ->select('ca.id AS idca');
+     // $validacao = DB::table('contribuicao_associado AS ca')->where('id_associado', $ida)
+     // ->select('ca.id AS idca');
 
      
 
          
     
     //  dd($validacao);
-      if ($validacao->select('idca') == []) {
+    //  if ($validacao->select('idca') == []) {
 
-         app('flasher')->addSuccess('Associado Já possui cadastro bancario!');
+       //  app('flasher')->addSuccess('Associado Já possui cadastro bancario!');
 
-         $associado = DB::table('associado AS as')
-         ->select('as.id AS ida')
-         ->where('as.id', $ida)
-         ->get();
+         //$associado = DB::table('associado AS as')
+         //->select('as.id AS ida')
+         //->where('as.id', $ida)
+         //->get();
 
-         return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida, 'associado'=>$associado]);
-      } else {
+         //return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida, 'associado'=>$associado]);
+      //} else {
 
          $associado = DB::table('associado AS as')
             ->select('as.id AS ida')
@@ -177,7 +177,7 @@ class GerenciarDadosBancariosAssociadoController extends Controller
          //  dd($associado);
          return view('associado/incluir-dados_bancarios', compact('associado', 'ida'));
       }
-   }
+   
    public function incluirdadosbancarios(Request $request, $ida)
    {
       $dinheiro = $request->has('tesouraria') && $request->tesouraria === 'dinheiro';
