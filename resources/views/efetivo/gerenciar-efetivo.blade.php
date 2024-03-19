@@ -44,23 +44,36 @@
                             <br>
                             <hr>
                             <div style="text-align: center;">
-                                <div
-                                    style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px">
-                                    <label style="margin-bottom: 5px;">Quantidade atual<br>de Funcionários</label>
+                                @if (!$setorId)
                                     <div
-                                        style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
-                                        <span style="display: inline-block;">
-                                            10
-                                        </span>
+                                        style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
+                                        <label style="margin-bottom: 5px;">Quantidade total<br>de Funcionários</label>
+                                        <div
+                                            style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                            <span style="display: inline-block;">
+                                                {{ $totalFuncionariosTotal }}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
 
-                                <div style="display: inline-block; position: relative;">
-                                    <label style="margin-bottom: 5px;">Vagas<br>Autorizadas</label>
+                                @if ($setorId)
                                     <div
-                                        style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                        style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
+                                        <label style="margin-bottom: 5px;">Quantidade atual<br>de Funcionários</label>
+                                        <div
+                                            style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                            <span style="display: inline-block;">
+                                                {{ $totalFuncionariosSetor }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                @endif
+                                <div style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
+                                    <label style="margin-bottom: 5px;">Vagas<br>Autorizadas</label>
+                                    <div style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
                                         <span style="display: inline-block;">
-                                            50
+                                            {{ $totalVagasAutorizadas }}
                                         </span>
                                     </div>
                                 </div>
@@ -92,13 +105,13 @@
                                                     {{ $bases->nome_cargo_regular }}
                                                 </td>
                                                 <td scope="">
-                                                        {{ $bases->nome_funcao_gratificada }}
+                                                    {{ $bases->nome_funcao_gratificada }}
                                                 </td>
                                                 <td scope="">
                                                     {{ \Carbon\Carbon::parse($bases->dt_inicio_funcionario)->format('d/m/Y') }}
                                                 </td>
                                                 <td scope="">
-
+                                                    {{ $bases->celular }}
                                                 </td>
                                             </tr>
                                         @endforeach
