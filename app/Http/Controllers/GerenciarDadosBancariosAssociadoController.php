@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 use App\Models;
 use iluminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use PDF;
 use Illuminate\Support\CollectionorderBy;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\View;
 
 
 class GerenciarDadosBancariosAssociadoController extends Controller
@@ -345,4 +348,47 @@ class GerenciarDadosBancariosAssociadoController extends Controller
 
       return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida]);
    }
-}
+
+   
+   public function documentobancariopdf($id)
+{
+
+     $associado = DB::table('associado AS as')
+           ->leftJoin('contribuicao_associado AS cont', 'as.id', '=', 'cont.id_associado')
+         ->leftJoin('forma_contribuicao_autorizacao AS contaut', 'cont.id_contribuicao_autorizacao', '=', 'contaut.id')
+         ->leftJoin('pessoas AS p', 'as.id_pessoa', '=', 'p.id')
+         ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
+         ->leftjoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
+         ->where('as.id', $id)
+         ->select(
+            'p.nome_completo',
+            'p.cpf',
+            'p.idt',
+            'p.celular',
+            'p.email',
+            'endp.cep',
+            'tc.descricao',
+            'cont.valor',
+            'contaut.banco_do_brasil',
+            'contaut.brb',
+
+         )
+         ->get();
+
+         $html = View::make('associado/documento-bancario')->render();
+        
+         // Cria uma instância do Dompdf
+         $dompdf = new Dompdf();
+         
+         // Carrega o HTML no Dompdf
+         $dompdf->loadHtml($html);
+         
+         // Renderiza o PDF
+         $dompdf->render();
+         
+         // Saída do PDF no navegador
+         return $dompdf->stream();
+     }
+ }
+
+   
