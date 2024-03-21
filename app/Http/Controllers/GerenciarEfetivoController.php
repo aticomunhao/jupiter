@@ -41,10 +41,8 @@ class GerenciarEfetivoController extends Controller
 
         if ($setorId) {
             $baseQuery->where('f.id_setor', $setorId);
-            // Obtendo a quantidade de vagas autorizadas filtrada por setor
             $totalVagasAutorizadas = DB::table('setor')->where('id', $setorId)->value('vagas_autorizadas');
         } else {
-            // Obtendo o total geral de vagas autorizadas
             $totalVagasAutorizadas = DB::table('setor')->sum('vagas_autorizadas');
         }
 
