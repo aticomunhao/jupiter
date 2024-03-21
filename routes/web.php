@@ -252,9 +252,6 @@ Route::any('/atualizar-afastamento/{idf}', [App\Http\Controllers\GerenciarAfasta
 
 
 Route::get('/gerenciar-efetivo', [App\Http\Controllers\GerenciarEfetivoController::class, 'index'])->name('gerenciar-efetivo');
-Route::get('/obter-setores/{id_nivel}', [App\Http\Controllers\GerenciarEfetivoController::class, 'obterSetoresPorNivel']);
-Route::any('/consultar-efetivo', [App\Http\Controllers\GerenciarEfetivoController::class, 'show'])->name('consultar-efetivo');
-Route::any('/atualizar-efetivo', [App\Http\Controllers\GerenciarEfetivoController::class, 'atualizarefetivo']);
 
 
 
