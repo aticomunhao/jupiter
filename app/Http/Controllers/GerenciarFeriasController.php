@@ -13,9 +13,15 @@ class GerenciarFeriasController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $ano_referente = Carbon::now()->year - 1;
+        if ($request->input('search')){
+            $ano_referente = $request->input('search');
+        }else{
+            $ano_referente = Carbon::now()->year - 1;
+        }dd($request->input('search'));
+
+
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -40,8 +46,15 @@ class GerenciarFeriasController extends Controller
             ->where('ano_de_referencia', $ano_referente)
             ->get();
 
+        $anos_possiveis = DB::table('ferias')
+            ->select('ano_de_referencia')
+            ->groupBy('ano_de_referencia')
+            ->get();
 
-        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo'));
+
+
+
+        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'ano_referente','anos_possiveis'));
     }
 
     /**
@@ -321,8 +334,7 @@ class GerenciarFeriasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public
-    function edit(string $id)
+    public function edit(string $id)
     {
         //
     }
@@ -330,8 +342,7 @@ class GerenciarFeriasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public
-    function update(Request $request, string $id)
+    public function update(Request $request, string $id)
     {
         //
     }
@@ -339,14 +350,12 @@ class GerenciarFeriasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public
-    function destroy(string $id)
+    public function destroy(string $id)
     {
 
     }
 
-    public
-    function InsereERetornaFuncionarios()
+    public function InsereERetornaFuncionarios()
     {
         $data_do_ultimo_ano = Carbon::now()->subYear()->endOfYear()->toDateString();
         $ano_referencia = Carbon::now()->year - 1;
@@ -486,4 +495,6 @@ class GerenciarFeriasController extends Controller
 
         return redirect()->back();
     }
+
+
 }
