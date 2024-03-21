@@ -10,7 +10,7 @@
                 Dados Pessoais
             </div>
             <div class="card-body">
-                <form class="form-horizontal mt-4" method='POST' action ="/atualizar-associado/{{ $edit_associado[0]->ida}}/{{ $edit_associado[0]->idp}}/{{ $edit_associado[0]->ide}}">
+                <form class="form-horizontal mt-4" method='POST' action="/atualizar-associado/{{ $edit_associado[0]->ida}}/{{ $edit_associado[0]->idp}}/{{ $edit_associado[0]->ide}}">
                     @csrf
 
                     <div class="container-fluid">
@@ -23,21 +23,25 @@
                                 <label for="2">CPF</label>
                                 <input type="text" class="form-control" name="cpf" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="{{ $edit_associado[0]->cpf }}">
                             </div>
-                            <div class="col-md-1 col-sm-12">
-                                <label for="3">DDD</label>
-                                <select id="19" class="form-select" name="ddd">
-                                    <option value="{{ $edit_associado[0]->tpd }}">{{$edit_associado[0]->dddesc }}</option>
-                                    @foreach ($tpddd as $tpddds)
-                                    <option value="{{ $tpddds->id }}">{{ $tpddds->descricao }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="col-md-3 col-sm-12">
-                                <label for="2">Telefone</label>
-                                <input type="text" class="form-control" id="2" maxlength="12" name="telefone" value="{{ $edit_associado[0]->celular }}">
+                            <div class="col-md-2 col-sm-12">
+                                <label for="2">identidade</label>
+                                <input type="text" class="form-control" name="idt" maxlength="9" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="{{ $edit_associado[0]->idt }}">
                             </div>
                             <div class="row d-flex justify-content-around">
+                                <div class="col-md-1 col-sm-12">
+                                    <label for="3">DDD</label>
+                                    <select id="19" class="form-select" name="ddd">
+                                        <option value="{{ $edit_associado[0]->tpd }}">{{$edit_associado[0]->dddesc }}</option>
+                                        @foreach ($tpddd as $tpddds)
+                                        <option value="{{ $tpddds->id }}">{{ $tpddds->descricao }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-md-3 col-sm-12">
+                                    <label for="2">Telefone</label>
+                                    <input type="text" class="form-control" id="2" maxlength="12" name="telefone" value="{{ $edit_associado[0]->celular }}">
+                                </div>
                                 <div class="col-md-4 col-sm-12">
                                     <label for="2">Email</label>
                                     <input type="text" class="form-control" id="2" maxlength="50" name="email" value="{{ $edit_associado[0]->email }}">
