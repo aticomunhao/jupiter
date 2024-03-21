@@ -60,7 +60,7 @@ class GerenciarEfetivoController extends Controller
 
         $setor = DB::table('setor')
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
-            ->select('setor.id AS id_setor', 'setor.nome', 'setor.sigla', 'setor.dt_inicio', 'substituto.sigla AS nome_substituto')
+            ->select('setor.id AS id_setor', 'setor.nome')
             ->get();
 
         return view('efetivo.gerenciar-efetivo', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId'));

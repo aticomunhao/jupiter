@@ -26,7 +26,7 @@
                                             <option></option>
                                             @foreach ($setor as $setores)
                                                 <option value="{{ $setores->id_setor }}"
-                                                    {{ old('setor', $setores->nome) == $setores->id_setor ? 'selected' : '' }}>
+                                                    {{ ( $setores->nome) == $setores->id_setor ? 'selected' : '' }}>
                                                     {{ $setores->nome }}
                                                 </option>
                                             @endforeach
