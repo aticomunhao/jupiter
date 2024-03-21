@@ -151,36 +151,49 @@ class GerenciarDadosBancariosAssociadoController extends Controller
    }
    public function store($ida)
    {
-     // $validacao = DB::table('contribuicao_associado AS ca')->where('id_associado', $ida)
-     // ->select('ca.id AS idca');
+      // $validacao = DB::table('contribuicao_associado AS ca')->where('id_associado', $ida)
+      // ->select('ca.id AS idca');
 
-     
 
-         
-    
-    //  dd($validacao);
-    //  if ($validacao->select('idca') == []) {
 
-       //  app('flasher')->addSuccess('Associado Já possui cadastro bancario!');
 
-         //$associado = DB::table('associado AS as')
-         //->select('as.id AS ida')
-         //->where('as.id', $ida)
-         //->get();
 
-         //return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida, 'associado'=>$associado]);
+      //  dd($validacao);
+      //  if ($validacao->select('idca') == []) {
+
+      //  app('flasher')->addSuccess('Associado Já possui cadastro bancario!');
+
+      //$associado = DB::table('associado AS as')
+      //->select('as.id AS ida')
+      //->where('as.id', $ida)
+      //->get();
+
+      //return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida, 'associado'=>$associado]);
       //} else {
 
-         $associado = DB::table('associado AS as')
-            ->select('as.id AS ida')
-            ->where('as.id', $ida)
-            ->get();
+      $associado = DB::table('associado AS as')
+         ->select('as.id AS ida')
+         ->where('as.id', $ida)
+         ->get();
 
 
-         //  dd($associado);
-         return view('associado/incluir-dados_bancarios', compact('associado', 'ida'));
-      }
-   
+      $desc_bancos = DB::table('desc_ban')
+         ->orderBy('id_db')
+         ->get();
+
+
+      //  dd($associado);
+      return view('associado/incluir-dados_bancarios', compact('associado', 'ida', 'desc_bancos'));
+   }
+   public function agenciaselect($id)
+   {
+      $agenciasdoselect = DB::table('tp_banco_ag')
+         ->where('banco', $id)
+         ->orderBy('agencia')
+         ->get();
+      return response()->json($agenciasdoselect);
+   }
+
    public function incluirdadosbancarios(Request $request, $ida)
    {
       $dinheiro = $request->has('tesouraria') && $request->tesouraria === 'dinheiro';
@@ -194,7 +207,6 @@ class GerenciarDadosBancariosAssociadoController extends Controller
          'ct_de_debito' => $ct_de_debito,
          'ct_de_credito' => $ct_de_credito,
       ]);
-
 
 
       $mensal = $request->has('boleto') && $request->boleto === 'mensal';
@@ -237,6 +249,9 @@ class GerenciarDadosBancariosAssociadoController extends Controller
 
       DB::table('contribuicao_associado')
          ->insert([
+
+            'id_banco' => $request->input('desc_banco'),
+            'id_agencia' => $request->input('tp_banco_ag'),
             'id_associado' => $ida,
             'id_contribuicao_tesouraria' => $id_cont_tesouraria,
             'id_contribuicao_boleto' => $id_cont_boleto,
@@ -279,6 +294,8 @@ class GerenciarDadosBancariosAssociadoController extends Controller
             'cont.ultima_contribuicao',
             'contaut.banco_do_brasil',
             'contaut.brb',
+            'cont.id_agencia',
+            'cont.id_banco',
             'contbolt.mensal',
             'contbolt.trimestral',
             'contbolt.semestral',
@@ -290,8 +307,14 @@ class GerenciarDadosBancariosAssociadoController extends Controller
          )
          ->get();
 
+
+      $desc_bancos = DB::table('desc_ban')
+         ->orderBy('id_db')
+         ->get();
+
+
       //dd($dados_bancarios_associado);
-      return view('associado/editar-dados-bancarios-associado', compact('dados_bancarios_associado'));
+      return view('associado/editar-dados-bancarios-associado', compact('dados_bancarios_associado', 'desc_bancos'));
    }
    public function update(Request $request, $ida, $idc, $idt, $idb)
    {
@@ -303,11 +326,11 @@ class GerenciarDadosBancariosAssociadoController extends Controller
 
          ]);
 
-         $dinheiro = $request->input('tesouraria') === 'dinheiro';
-         $cheque = $request->input('tesouraria') === 'cheque';
-         $ct_de_debito = $request->input('tesouraria') === 'ct_de_debito';
-         $ct_de_credito = $request->input('tesouraria') === 'ct_de_credito';
-         
+      $dinheiro = $request->input('tesouraria') === 'dinheiro';
+      $cheque = $request->input('tesouraria') === 'cheque';
+      $ct_de_debito = $request->input('tesouraria') === 'ct_de_debito';
+      $ct_de_credito = $request->input('tesouraria') === 'ct_de_credito';
+
 
       DB::table('forma_contribuicao_tesouraria AS fct')
          ->where('fct.id', $idc)
@@ -317,7 +340,7 @@ class GerenciarDadosBancariosAssociadoController extends Controller
             'ct_de_debito' => $ct_de_debito,
             'ct_de_credito' => $ct_de_credito,
          ]);
-     
+
 
       $mensal = $request->has('boleto') && $request->boleto === 'mensal';
       $trimestral = $request->has('boleto') && $request->boleto === 'trimestral';
@@ -333,10 +356,10 @@ class GerenciarDadosBancariosAssociadoController extends Controller
             'anual' => $anual,
          ]);
 
-         
 
-         $banco_do_brasil = $request->input('autorizacao') === 'banco_do_brasil';
-         $brb = $request->input('autorizacao') === 'brb';
+
+      $banco_do_brasil = $request->input('autorizacao') === 'banco_do_brasil';
+      $brb = $request->input('autorizacao') === 'brb';
 
       DB::table('forma_contribuicao_autorizacao AS fca')
          ->where('fca.id', $idt)
@@ -349,46 +372,52 @@ class GerenciarDadosBancariosAssociadoController extends Controller
       return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida]);
    }
 
-   
-   public function documentobancariopdf($id)
-{
 
-     $associado = DB::table('associado AS as')
-           ->leftJoin('contribuicao_associado AS cont', 'as.id', '=', 'cont.id_associado')
+   public function documentobancariopdf($id)
+   {
+
+      $associado = DB::table('associado AS as')
+         ->leftJoin('contribuicao_associado AS cont', 'as.id', '=', 'cont.id_associado')
          ->leftJoin('forma_contribuicao_autorizacao AS contaut', 'cont.id_contribuicao_autorizacao', '=', 'contaut.id')
          ->leftJoin('pessoas AS p', 'as.id_pessoa', '=', 'p.id')
          ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
          ->leftjoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
          ->where('as.id', $id)
          ->select(
+            'as.nr_associado',
             'p.nome_completo',
             'p.cpf',
             'p.idt',
             'p.celular',
             'p.email',
             'endp.cep',
+            'endp.logradouro',
+            'endp.numero',
+            'endp.bairro',
+            'endp.complemento',
             'tc.descricao',
             'cont.valor',
             'contaut.banco_do_brasil',
             'contaut.brb',
+            'cont.dt_vencimento'
 
          )
-         ->get();
+         ->first();
 
-         $html = View::make('associado/documento-bancario')->render();
-        
-         // Cria uma instância do Dompdf
-         $dompdf = new Dompdf();
-         
-         // Carrega o HTML no Dompdf
-         $dompdf->loadHtml($html);
-         
-         // Renderiza o PDF
-         $dompdf->render();
-         
-         // Saída do PDF no navegador
-         return $dompdf->stream();
-     }
- }
+      //dd($associado);
 
-   
+      $html = View::make('associado/documento-bancario', compact('associado'))->render();
+
+      // Cria uma instância do Dompdf
+      $dompdf = new Dompdf();
+
+      // Carrega o HTML no Dompdf
+      $dompdf->loadHtml($html);
+
+      // Renderiza o PDF
+      $dompdf->render();
+
+      // Saída do PDF no navegador
+      return $dompdf->stream();
+   }
+}

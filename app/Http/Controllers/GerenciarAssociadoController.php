@@ -110,7 +110,8 @@ class GerenciarAssociadoController extends Controller
             'cpf' => $request->input('cpf'),
             'ddd' => $request->input('ddd'),
             'celular' => $request->input('telefone'),
-            'email' => $request->input('email')
+            'email' => $request->input('email'),
+            'idt' => $request->input('idt')
          ]);
 
       $id_pessoa = DB::table('pessoas')
@@ -161,6 +162,7 @@ class GerenciarAssociadoController extends Controller
             'p.cpf',
             'p.celular',
             'p.email',
+            'p.idt',
             'tp_ddd.id AS tpd',
             'tp_ddd.descricao AS dddesc',
             'tp_uf.id AS tuf',
@@ -198,7 +200,8 @@ class GerenciarAssociadoController extends Controller
             'cpf' => $request->input('cpf'),
             'ddd' => $request->input('ddd'),
             'celular' => $request->input('telefone'),
-            'email' => $request->input('email')
+            'email' => $request->input('email'),
+            'idt' => $request->input('idt')
          ]);
 
       DB::table('associado')

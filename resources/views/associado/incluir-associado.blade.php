@@ -23,6 +23,11 @@
                                 <label for="2">CPF</label>
                                 <input type="text" class="form-control" name="cpf" maxlength="11" >
                             </div>
+                            <div class="col-md-2 col-sm-12">
+                                <label for="2">Identidade</label>
+                                <input type="text" class="form-control" name="idt" maxlength="9" >
+                            </div>
+                            <div class="row d-flex justify-content-around">
                             <div class="col-md-1 col-sm-12">
                                 <label for="3">DDD</label>
                                 <select class="form-select" name="ddd" id="3" value="">
@@ -39,7 +44,6 @@
                                 <label for="2">Telefone</label>
                                 <input type="text" class="form-control" id="2"  maxlength="12" name="telefone" value="" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                             </div>
-                            <div class="row d-flex justify-content-around">
                                 <div class="col-md-4 col-sm-12">
                                     <label for="2">Email</label>
                                     <input type="text" class="form-control" id="2"  maxlength="50"name="email" value="">
