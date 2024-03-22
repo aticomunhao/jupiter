@@ -66,7 +66,7 @@
                                         <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}</td>
 
                                         <td style="text-align: center">
-                                            @if ($periodos_aquisitivos->dt_ini_a != null )
+                                            @if ($periodos_aquisitivos->dt_ini_a == 2 )
                                                 <a
                                                     href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
                                                     <button class="btn btn-outline-success"><i class="bi bi-check2"></i>
@@ -78,7 +78,7 @@
                                                     </button>
                                                 </a>
                                             @else
-                                                <p>--</p>
+                                              Autorizado
                                             @endif
                                         </td>
                                     </tr>

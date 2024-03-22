@@ -22,6 +22,7 @@ class GerenciarFeriasController extends Controller
         }
 
 
+
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -394,7 +395,7 @@ class GerenciarFeriasController extends Controller
                 'status_pedido_ferias.nome as status_pedido_ferias'
             )
             ->where('ano_de_referencia', '=', $ano_referente)
-            ->where('status_pedido_ferias.id', '=', 2)
+            ->where('status_pedido_ferias.id', '!=', 1)
             ->get();
 
 
