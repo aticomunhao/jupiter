@@ -23,11 +23,12 @@ class GerenciarEfetivoController extends Controller
             ->groupBy('id_setor')
             ->get();
 
-        $baseQuery = DB::table('base_salarial AS bs')
-            ->leftJoin('funcionarios AS f', 'f.id', 'bs.id_funcionario')
-            ->leftJoin('pessoas as p', 'p.id', 'f.id_pessoa')
+        $baseQuery = DB::table('funcionarios AS f')
+            ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
+            ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
             ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')
-            ->leftJoin('cargos as fg', 'fg.id', 'bs.funcao_gratificada')
+            ->leftJoin('cargos AS fg', 'fg.id', 'bs.funcao_gratificada')
+            ->leftJoin('setor','setor.id', 'f.id_setor')
             ->select(
                 'bs.id_funcionario',
                 'bs.cargo',
@@ -36,7 +37,8 @@ class GerenciarEfetivoController extends Controller
                 'p.nome_completo',
                 'cr.nome as nome_cargo_regular',
                 'fg.nome as nome_funcao_gratificada',
-                'p.celular'
+                'p.celular',
+                'id_setor'
             );
 
         if ($setorId) {

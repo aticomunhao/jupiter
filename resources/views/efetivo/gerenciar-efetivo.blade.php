@@ -90,13 +90,13 @@
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th class="col-4">Nome Completo</th>
                                             <th class="col-2">Cargo Regular</th>
-                                            <th class="col-2">Função</th>
+                                            <th class="col-2">Função Gratificada</th>
                                             <th class="col-2">Data de Admissão</th>
                                             <th class="col-2">Telefone</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;">
-                                        @foreach ($base as $index => $bases)
+                                        @foreach ($base as $bases)
                                             <tr style="text-align: center">
                                                 <td scope="">
                                                     {{ $bases->nome_completo }}
