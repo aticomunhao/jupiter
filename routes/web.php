@@ -224,7 +224,7 @@ Route::any('/modificar-tipo-desconto/{id}', [App\Http\Controllers\GerenciarTipoD
 
 Route::get('/periodo-de-ferias/', [GerenciarFeriasController::class, 'index'])->name('IndexGerenciarFerias');
 Route::get('/incluir-ferias/{id}', [GerenciarFeriasController::class, 'create'])->name('CriarFerias');
-Route::any('/armazenar-ferias/{id}', [GerenciarFeriasController::class, 'store'])->name('ArmazenarFerias');
+Route::any('/armazenar-ferias/{id}', [GerenciarFeriasController::class, 'update'])->name('ArmazenarFerias');
 Route::any('/abrir-ferias', [GerenciarFeriasController::class, 'InsereERetornaFuncionarios'])->name('AbreFerias');
 Route::any('/administrar-ferias', [GerenciarFeriasController::class, 'administraferias'])->name('AdministrarFerias');
 Route::any('/autorizar-ferias/{id}', [GerenciarFeriasController::class, 'autorizarferias'])->name('autorizarFerias');
