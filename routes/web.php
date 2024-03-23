@@ -228,7 +228,8 @@ Route::any('/armazenar-ferias/{id}', [GerenciarFeriasController::class, 'update'
 Route::any('/abrir-ferias', [GerenciarFeriasController::class, 'InsereERetornaFuncionarios'])->name('AbreFerias');
 Route::any('/administrar-ferias', [GerenciarFeriasController::class, 'administraferias'])->name('AdministrarFerias');
 Route::any('/autorizar-ferias/{id}', [GerenciarFeriasController::class, 'autorizarferias'])->name('autorizarFerias');
-Route::any('/recusar-ferias/{id}', [GerenciarFeriasController::class, 'recusarPeriodoDeFerias'])->name('recusarFerias');
+Route::any('/formulario-recusar-ferias/{id}', [GerenciarFeriasController::class, 'formulario_recusa_periodo_de_ferias'])->name('FormularioFerias');
+Route::any('/recusa-ferias/{id}', [GerenciarFeriasController::class,'recusa_pedido_de_ferias'])->name('RecusaFerias');
 
 
 /**Rotas de Entrada**/

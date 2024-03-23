@@ -7,9 +7,11 @@
         <div class="card" style="border-color: #355089">
             <h5 class="card-header" style="color: #355089">Gerenciar Férias</h5>
             <div class="card-body">
+                <hr>
+
                 <div class="row justify-content-around">
                     <div class="col-md-3">
-                        <h5>Fomulario de Pesquisa</h5>
+
                         <form action="{{route('IndexGerenciarFerias')}}" method="get">
                         <select class="form-select" aria-label="Ano" name="search">
 
@@ -18,7 +20,7 @@
                             @endforeach
                           </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-1">
                         <button type="submit" class="btn btn-outline-success" style="width: 100%">Enviar</button>
                     </div>
                     </form>

@@ -66,19 +66,18 @@
                                         <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}</td>
 
                                         <td style="text-align: center">
-                                            @if ($periodos_aquisitivos->dt_ini_a == 2 )
+
+                                            @if ($periodos_aquisitivos->id_status_pedido_ferias == 3)
                                                 <a
                                                     href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
                                                     <button class="btn btn-outline-success"><i class="bi bi-check2"></i>
                                                     </button>
                                                 </a>
                                                 <a
-                                                    href="{{ route('recusarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
+                                                    href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
                                                     <button class="btn btn-outline-danger"><i class="bi bi-x"></i>
                                                     </button>
                                                 </a>
-                                            @else
-                                              Autorizado
                                             @endif
                                         </td>
                                     </tr>

@@ -22,7 +22,6 @@ class GerenciarFeriasController extends Controller
         }
 
 
-
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -435,7 +434,7 @@ class GerenciarFeriasController extends Controller
         return redirect()->back();
     }
 
-    public function recusarPeriodoDeFerias($id)
+    public function formulario_recusa_periodo_de_ferias($id)
     {
         $periodos_aquisitivos = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -461,6 +460,23 @@ class GerenciarFeriasController extends Controller
             ->where('ferias.id', '=', $id)
             ->first();
 
-        return view('ferias.recusa-ferias', compact('periodos_aquisitivos'));
+        return view('ferias.recusa-ferias', compact('periodos_aquisitivos', 'id'));
     }
+
+    public function recusa_pedido_de_ferias(Request $request, $id)
+    {
+
+        $request->input('motivo_da_recusa');
+
+
+        DB::table('ferias')
+        ->update([
+            'motivo_retorno' =>  $request->input('motivo_da_recusa'),
+            'status_pedido_ferias' => 1
+        ])
+        ->where('id', $id);
+
+        return  redirect()->route('AdministrarFerias');
+    }
+
 }
