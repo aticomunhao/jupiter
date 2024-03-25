@@ -369,9 +369,14 @@ class GerenciarFeriasController extends Controller
         return redirect()->route('IndexGerenciarFerias');
     }
 
-    public function administraferias()
+    public function administraferias(Request $request)
     {
-        $ano_referente = Carbon::now()->year - 1;
+        if ($request->input('search')) {
+            $ano_referente = $request->input('search');
+        } else {
+            $ano_referente = Carbon::now()->year - 1;
+        }
+
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -397,8 +402,13 @@ class GerenciarFeriasController extends Controller
             ->where('status_pedido_ferias.id', '!=', 1)
             ->get();
 
+        $anos_possiveis = DB::table('ferias')
+            ->select('ano_de_referencia')
+            ->groupBy('ano_de_referencia')
+            ->get();
 
-        return view('ferias.administrar-ferias', compact('periodo_aquisitivo'));
+
+        return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis'));
     }
 
     public function autorizarferias($id)
@@ -470,13 +480,13 @@ class GerenciarFeriasController extends Controller
 
 
         DB::table('ferias')
-        ->update([
-            'motivo_retorno' =>  $request->input('motivo_da_recusa'),
-            'status_pedido_ferias' => 1
-        ])
-        ->where('id', $id);
+            ->update([
+                'motivo_retorno' => $request->input('motivo_da_recusa'),
+                'status_pedido_ferias' => 1
+            ])
+            ->where('id', $id);
 
-        return  redirect()->route('AdministrarFerias');
+        return redirect()->route('AdministrarFerias');
     }
 
 }
