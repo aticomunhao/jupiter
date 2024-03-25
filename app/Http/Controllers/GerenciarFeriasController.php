@@ -366,7 +366,7 @@ class GerenciarFeriasController extends Controller
         } else {
             app('flasher')->addError("Já existe periodo e ferias criado");
         }
-        return redirect()->route('IndexGerenciarFerias');
+        return redirect()->route('AdministrarFerias');
     }
 
     public function administraferias(Request $request)
