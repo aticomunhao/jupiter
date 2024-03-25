@@ -480,11 +480,12 @@ class GerenciarFeriasController extends Controller
 
 
         DB::table('ferias')
+            ->where('id', $id)
             ->update([
                 'motivo_retorno' => $request->input('motivo_da_recusa'),
                 'status_pedido_ferias' => 1
             ])
-            ->where('id', $id);
+            ;
 
         return redirect()->route('AdministrarFerias');
     }
