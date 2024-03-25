@@ -16,7 +16,6 @@
                                     Controle de Efetivo
                                 </h5>
                             </div>
-                            <br>
                             <hr>
                             <div class="card-body">
                                 <div class="row" style="margin-left:5px">
