@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+@section('head')
+    <title>Gerenciar Férias</title>
+@endsection
 @section('content')
     <br>
 
