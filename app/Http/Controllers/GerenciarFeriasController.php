@@ -483,7 +483,7 @@ class GerenciarFeriasController extends Controller
             ->where('id', $id)
             ->update([
                 'motivo_retorno' => $request->input('motivo_da_recusa'),
-                'status_pedido_ferias' => 1
+                'status_pedido_ferias' => 4
             ])
             ;
 
