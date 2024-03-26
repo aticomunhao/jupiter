@@ -17,9 +17,9 @@
                     </div>
                     <br>
                     <div class="card-body">
-                        <form action="{{ route('IndexGerenciarFerias') }}" method="get">
                             <div class="row justify-content-around">
                                 <div class="col-md-4 col-sm-12">
+                                    <form action="{{ route('IndexGerenciarFerias') }}" method="get">
                                     <select class="form-select" aria-label="Ano" name="search">
                                         @foreach ($anos_possiveis as $ano_possivel)
                                             <option value="{{ $ano_possivel->ano_de_referencia }}">

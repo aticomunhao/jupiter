@@ -460,18 +460,31 @@ class GerenciarDadosBancariosAssociadoController extends Controller
       return $dompdf->stream();
    }
 
-   public function carregar_documento(){
-      $request->validate([
-         'file' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048', 
-     ]);
+   public function salvardocumentobancario(Request $request, $ida)
+   {
+       if ($request->hasFile('arquivo')) {
+           $arquivo = $request->file('arquivo');
+           $nomeArquivo = $arquivo->getClientOriginalName();
+           // Salve o arquivo no local desejado
+           $arquivo->storeAs('public/documentos-bancarios-associado', $nomeArquivo);
+          // dd($arquivo);
+           // Redirecione ou faça qualquer outra coisa após salvar o arquivo
+           app('flasher')->addSuccess('Documento Armazenado!');
+           return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida]);
 
-   
-     $file = $request->file('file');
-     $fileName = time() . '_' . $file->getClientOriginalName();
-     $file->move(public_path('uploads'), $fileName);
+       }
+   }
 
-     
-     return back()->with('success', 'Arquivo enviado com sucesso.');
- }
+   public function visualizardocumentobancario()
+   {
+       $caminhoArquivo = 'caminho/para/salvar/arquivo.txt'; // Substitua pelo caminho real do arquivo
+       if (file_exists($caminhoArquivo)) {
+           return response()->file($caminhoArquivo);
+       } else {
+           // Lidere com o caso em que o arquivo não existe
+           return abort(404);
+       }
+   }
 }
+
    
