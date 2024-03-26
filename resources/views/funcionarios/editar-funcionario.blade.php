@@ -60,7 +60,16 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="form-group col-3">
+                            <div class="form-group col-2">
+                                <label for="3">
+                                    Data de Inicio
+                                </label>
+                                <input type="date" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="dt_ini" id="3" value="{{ $editar[0]->dt_inicio }}">
+                                <div class="invalid-feedback">
+                                    Por favor, selecione a Data de Inicio.
+                                </div>
+                            </div>
+                            <div class="form-group col-2">
                                 <label for="5">
                                     Nacionalidade
                                 </label>
@@ -124,7 +133,7 @@
                                     Por favor, informe um CPF válido.
                                 </div>
                             </div>
-                            <div class="form-group col-2">
+                            <div class="form-group col-1">
                                 <label for="9">
                                     PIS/PASEP
                                 </label>

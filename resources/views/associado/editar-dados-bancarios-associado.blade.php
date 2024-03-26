@@ -19,17 +19,14 @@
                             <label for="2">Valor</label>
                             <input type="text" class="form-control" name="valor" placeholder="R$ 0,00" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="{{ $dados_bancarios_associado[0]->valor}}">
                         </div>
-                        <div class="col-md-2 col-sm-12">
-                            <label for="4">Data de Vencimento</label>
-                            <input type="date" class="form-control" name="dt_vencimento" id="4" value="{{ $dados_bancarios_associado[0]->dt_vencimento}}">
-                        </div>
                         <div class="col-md-4 col-sm-12">
                             <label for="Banco">
                                 Banco
                             </label>
                             <select id="idbanco" style="border: 1px solid #999999; padding: 5px;" class="form-select" aria-label="Default select example" name="desc_banco" required>
+                                <option value="{{ $tpbanco->id_banco }}">{{$tpbanco->banco}}</option>
                                 @foreach ($desc_bancos as $desc_banco)
-                                <option value="{{ $dados_bancarios_associado[0]->id_banco }}">
+                                <option value="{{ $desc_banco->id_db }}">
                                     {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }} -
                                     {{ $desc_banco->nome }}
                                 </option>
@@ -40,12 +37,20 @@
                             <label for="agencia">
                                 Agência
                             </label>
-                            <select id="idagencia" style="border: 1px solid #999999; padding: 5px;" class="form-select" aria-label="Default select example" name="tp_banco_ag" required disabled>
-                            <option value="{{ $dados_bancarios_associado[0]->id_agencia}}" selected>
-                             {{ $tp_banco_ag->desc_agen }}
-                                        </option>
-                                    </select>
+                            <select id="idagencia" style="border: 1px solid #999999; padding: 5px;" class="form-select" aria-label="Default select example" name="tp_banco_ag" required>
+                                <option value="{{ $tpagencia->id_agencia }}">{{ $tpagencia->descricao }}</option>
                             </select>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row d-flex justify-content-around">
+                        <div class="col-md-2 col-sm-12">
+                            <label for="4">Data de Vencimento</label>
+                            <input type="date" class="form-control" name="dt_vencimento" id="4" value="{{ $dados_bancarios_associado[0]->dt_vencimento}}">
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <label for="2">Conta Corrente</label>
+                            <input type="text" class="form-control" name="conta_corrente" maxlength="6" value="{{ $dados_bancarios_associado[0]->nr_cont_corrente}}">
                         </div>
                     </div>
                 </div>
@@ -133,7 +138,7 @@
     $(document).ready(function() {
         $('#idagencia').select2({
             theme: 'bootstrap-5',
-            disabled: true, // Initialize the select2 with disabled state
+            // Initialize the select2 with disabled state
         });
 
 

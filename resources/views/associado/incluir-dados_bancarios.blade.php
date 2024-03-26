@@ -19,17 +19,12 @@
                             <label for="2">Valor</label>
                             <input type="text" class="form-control" name="valor" placeholder="R$ 0,00" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="">
                         </div>
-                        <div class="col-md-2 col-sm-12">
-                            <label for="4">Data de Vencimento</label>
-                            <input type="date" class="form-control" name="dt_vencimento" id="4" value="">
-                        </div>
                         <div class="col-md-4 col-sm-12">
                             <label for="Banco">
                                 Banco
                             </label>
                             <select id="idbanco" style="border: 1px solid #999999; padding: 5px;" class="form-select" aria-label="Default select example" name="desc_banco" required>
                                 @foreach ($desc_bancos as $desc_banco)
-                                <option></option>
                                 <option value="{{ $desc_banco->id_db }}">
                                     {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }} -
                                     {{ $desc_banco->nome }}
@@ -45,82 +40,94 @@
                             </select>
                         </div>
                     </div>
+                    <br>
                 </div>
-        </div>
-        <br>
-        <div class="row d-flex justify-content-evenly">
-            <div class="col">
-                <h6>Tesouraria</h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tesouraria" id="dinheiro" value="dinheiro">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Dinheiro
-                    </label>
+                <div class="container-fluid">
+                    <div class="row d-flex justify-content-around">
+                        <div class="col-md-2 col-sm-12">
+                            <label for="4">Data de Vencimento</label>
+                            <input type="date" class="form-control" name="dt_vencimento" id="4" value="">
+                        </div>
+                        <div class="col-md-2 col-sm-12">
+                            <label for="2">Conta Corrente</label>
+                            <input type="text" class="form-control" name="conta_corrente" maxlength="6">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tesouraria" id="cheque" value="cheque">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Cheque
-                    </label>
+                <br>
+                <div class="row d-flex justify-content-evenly">
+                    <div class="col">
+                        <h6>Tesouraria</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="dinheiro" value="dinheiro">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Dinheiro
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="cheque" value="cheque">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Cheque
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_debito" value="ct_de_debito">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Cartão de Débito
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_credito" value="ct_de_credito">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Cartão de Crédito
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h6>Boleto Bancário</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="boleto" id="mensal" value="mensal">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Mensal
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="boleto" id="trimestral" value="trimestral">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Trimestral
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="boleto" id="semestral" value="semestral">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Semestral
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="boleto" id="anual" value="anual">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Anual
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <h6>Autorização em Débito em conta</h6>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="autorizacao" id="banco_do_brasil" value="banco_do_brasil">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Banco do Brasil
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="autorizacao" id="brb" value="brb">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                BRB
+                            </label>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_debito" value="ct_de_debito">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Cartão de Débito
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="tesouraria" id="ct_de_credito" value="ct_de_credito">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Cartão de Crédito
-                    </label>
-                </div>
-            </div>
-            <div class="col">
-                <h6>Boleto Bancário</h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="boleto" id="mensal" value="mensal">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Mensal
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="boleto" id="trimestral" value="trimestral">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Trimestral
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="boleto" id="semestral" value="semestral">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Semestral
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="boleto" id="anual" value="anual">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Anual
-                    </label>
-                </div>
-            </div>
-            <div class="col">
-                <h6>Autorização em Débito em conta</h6>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="autorizacao" id="banco_do_brasil" value="banco_do_brasil">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        Banco do Brasil
-                    </label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="autorizacao" id="brb" value="brb">
-                    <label class="form-check-label" for="flexRadioDefault1">
-                        BRB
-                    </label>
-                </div>
-            </div>
         </div>
     </div>
-</div>
 </div>
 
 
