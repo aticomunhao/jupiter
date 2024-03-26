@@ -294,7 +294,7 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addError('Ainda não utilizou todos os dias de ferias. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 .
                     'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' .
                     $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro periodo");
-            } elseif (($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 > 15) || ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 > 15) || ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) > 15) {
+            } elseif (($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 >= 15) || ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 >= 15) || ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) += 1) > 15) {
                 DB::table('ferias')->where('id', $ferias->id)->update([
                     'dt_ini_a' => $data_inicio_primeiro_periodo,
                     'dt_fim_a' => $data_fim_primeiro_periodo,
@@ -311,7 +311,7 @@ class GerenciarFeriasController extends Controller
                 ]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             } else {
-                app('flasher')->addError('É essencial que pelo menos um periodos tenha o minimo de 14 dias.');
+                app('flasher')->addError('É essencial que pelo menos um periodos tenha o minimo de 15 dias.');
             }
         }
         return redirect()->route('IndexGerenciarFerias');
