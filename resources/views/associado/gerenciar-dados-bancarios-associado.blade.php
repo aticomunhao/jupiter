@@ -39,7 +39,7 @@
                             <center>
                                 <hr>
                                 <div class="col-md-7 col-sm-12">
-                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{ ucwords(strtolower($tesouraria))}}">
+                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{ ucwords(strtolower($tesouraria))}}"  disabled="">
                                 </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                             <center>
                                 <hr>
                                 <div class="col-md-5 col-sm-12">
-                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{ ucwords(strtolower($mes))}}">
+                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{ ucwords(strtolower($mes))}}"  disabled="">
                                 </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                             <center>
                                 <hr>
                                 <div class="col-md-7 col-sm-12">
-                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{ ucwords(strtolower($banco)) }}">
+                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{ ucwords(strtolower($banco)) }}"  disabled="">
                                 </div>
                     </div>
                 </div>
@@ -80,6 +80,7 @@
                             <a href="/editar-dados-bancarios-associado/{{$associado->ida}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
                             <a href=""><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                             <a href="/documento-bancario/{{$associado->ida}}"><button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-archive" style="font-size: 1rem; color:#303030;"></i></button></a>
+                            <a href="carregar-documento"><button type="button" class="btn btn-outline-success btn-sm"><i  class="bi bi-box-arrow-in-down" style="font-size: 1rem; color:#303030;"></i></button></a>
                             <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="" class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
                         </center>
                     </div>
@@ -95,7 +96,7 @@
                             <center>
                                 <hr>
                                 <div class="col-md-4 col-sm-12">
-                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{$associado->ultima_contribuicao}}">
+                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{$associado->ultima_contribuicao}}"  disabled="">
                                 </div>
                     </div>
                 </div>
@@ -108,7 +109,7 @@
                             <center>
                                 <hr>
                                 <div class="col-md-5 col-sm-12">
-                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{$associado->dt_vencimento}}">
+                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{$associado->dt_vencimento}}"  disabled="">
                                 </div>
                     </div>
                 </div>
@@ -121,7 +122,7 @@
                             <center>
                                 <hr>
                                 <div class="col-md-4 col-sm-12">
-                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{$associado->valor}}">
+                                    <input style="text-align: center;" type="text" class="form-control" name="" value="{{$associado->valor}}"  disabled="">
                                 </div>
                     </div>
                 </div>

@@ -234,6 +234,7 @@ class GerenciarFuncionarioController extends Controller
                 'f.zona_tit',
                 'f.secao_tit',
                 'f.dt_titulo',
+                'f.dt_inicio',
                 'p.celular',
                 'f.dt_emissao_ctps',
                 'f.ctps',

@@ -13,7 +13,7 @@
     .tabe {
       width: 50%;
       font-size: 12px;
-      text-align: right;
+      text-align: left;
     }
 
     table {
@@ -30,7 +30,7 @@
       margin: 5px;
       text-align: justify;
       line-height: 150%;
-      
+
     }
 
     .assinatura {
@@ -46,6 +46,9 @@
     .data {
       text-align: center;
     }
+    .h8{
+      text-align: center;
+    }
   </style>
 </head>
 
@@ -55,10 +58,8 @@
   <table>
     <tr>
       <th class="tabe">
-        <img src="https://pbs.twimg.com/profile_images/1371837828754251786/aBHwD_Zs_400x400.jpg" alt="logo">
-
-        <p>COMUNHAO ESPÍRITA DE BRASÍLIA</p>
-        <p>Diretoria Administrativa e Financeira - DAF</p>
+        <h8>COMUNHAO ESPÍRITA DE BRASÍLIA<br>
+        Diretoria Administrativa e Financeira - DAF</h8>
       </th>
       <th class="tabe">
         <p class="autorizacao">AUTORIZAÇÃO PARA DÉBITO EM<br> CONTA CORRENTE - BANCO DO BRASIL</p>
@@ -68,7 +69,7 @@
   <br>
   <table>
     <th>
-      <p> Eu, <span style="text-decoration: underline;">{{$associado->nome_completo}}</span> portador (a) da Carteira de Identidade nº <span style="text-decoration: underline;">{{$associado->idt}}</span> e CPF <span style="text-decoration: underline;">{{$associado->cpf}}</span>, residente em <span style="text-decoration: underline;">{{$associado->descricao}}, {{$associado->bairro}}, {{$associado->numero}}</span> CEP <span style="text-decoration: underline;">{{$associado->cep}}</span> telefone <span style="text-decoration: underline;">{{$associado->celular}}</span> e e-mail <span style="text-decoration: underline;">{{$associado->email}}</span> AUTORIZO a Comunhão Espírita de Brasília a efetuar mensalmente, no dia <span style="text-decoration: underline;">{{substr($associado->dt_vencimento, -2)}}</span>, débito em minha Agência nº ______________________ Conta Corrente nº _______________________ do Banco do Brasil S.A., o valor da R$<span style="text-decoration: underline;">{{ substr($associado->valor, strpos($associado->valor, '-') + 1) }}</span> referente ao pagamento de mensalidade na qualidade de associado nº<span style="text-decoration: underline;">{{$associado->nr_associado}}</span> da Comunhão Espírita de Brasília.</p>
+      <p> Eu, <span style="text-decoration: underline;">{{$associado->nome_completo}}</span> portador (a) da Carteira de Identidade nº <span style="text-decoration: underline;">{{$associado->idt}}</span> e CPF <span style="text-decoration: underline;">{{$associado->cpf}}</span>, residente em <span style="text-decoration: underline;">{{$associado->descricao}}, {{$associado->bairro}}, {{$associado->numero}}</span> CEP <span style="text-decoration: underline;">{{$associado->cep}}</span> telefone <span style="text-decoration: underline;">{{$associado->celular}}</span> e e-mail <span style="text-decoration: underline;">{{$associado->email}}</span> AUTORIZO a Comunhão Espírita de Brasília a efetuar mensalmente, no dia <span style="text-decoration: underline;">{{substr($associado->dt_vencimento, -2)}}</span>, débito em minha Agência nº <span style="text-decoration: underline;">{{$tpagencia->agencia}}</span> Conta Corrente nº <span style="text-decoration: underline;">{{$associado->nr_cont_corrente}}</span> do Banco do Brasil S.A., o valor da R$<span style="text-decoration: underline;">{{ substr($associado->valor, strpos($associado->valor, '-') + 1) }}</span> referente ao pagamento de mensalidade na qualidade de associado nº<span style="text-decoration: underline;">{{$associado->nr_associado}}</span> da Comunhão Espírita de Brasília.</p>
       @php
       $meses = [
       1 => 'Janeiro',
