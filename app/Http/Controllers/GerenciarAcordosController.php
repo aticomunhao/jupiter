@@ -70,7 +70,7 @@ class GerenciarAcordosController extends Controller
             ->first();
 
         if ($request->input('dt_inicio') > $request->input('dt_fim') && $request->input('dt_fim') != null) {
-            $caminho = $this->storeFile($request);
+            //$caminho = $this->storeFile($request);
             app('flasher')->addError('A data inicial é maior que a data final');
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
         } else {

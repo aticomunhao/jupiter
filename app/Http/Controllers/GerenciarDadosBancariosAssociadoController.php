@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 
 class GerenciarDadosBancariosAssociadoController extends Controller
@@ -328,9 +330,9 @@ class GerenciarDadosBancariosAssociadoController extends Controller
             'db.id_db AS id_banco',
             'db.nome AS banco'
          )
-         ->first(); 
+         ->first();
 
-         $desc_bancos = DB::table('desc_ban')
+      $desc_bancos = DB::table('desc_ban')
          ->orderBy('id_db')
          ->get();
 
@@ -432,9 +434,9 @@ class GerenciarDadosBancariosAssociadoController extends Controller
          )
          ->first();
 
-         $id_agencia = $associado->id_agencia;
+      $id_agencia = $associado->id_agencia;
 
-         $tpagencia = DB::table('tp_banco_ag as tb')
+      $tpagencia = DB::table('tp_banco_ag as tb')
          ->where('id', $id_agencia)
          ->select(
             'tb.agencia AS agencia',
@@ -462,29 +464,41 @@ class GerenciarDadosBancariosAssociadoController extends Controller
 
    public function salvardocumentobancario(Request $request, $ida)
    {
-       if ($request->hasFile('arquivo')) {
-           $arquivo = $request->file('arquivo');
-           $nomeArquivo = $arquivo->getClientOriginalName();
-           // Salve o arquivo no local desejado
-           $arquivo->storeAs('public/documentos-bancarios-associado', $nomeArquivo);
-          // dd($arquivo);
-           // Redirecione ou faça qualquer outra coisa após salvar o arquivo
-           app('flasher')->addSuccess('Documento Armazenado!');
-           return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida]);
+      if ($request->hasFile('arquivo')) {
 
-       }
+         $arquivo = $request->file('arquivo');
+
+         $nomeArquivo = Hash::make($arquivo->getClientOriginalName());
+
+         $caminhoArquivo = $arquivo->storeAs('public/documentos-bancarios-associado', $nomeArquivo);
+
+         DB::table('contribuicao_associado')
+            ->where('id_associado', $ida)
+            ->update(['caminho_documento_bancario' => $caminhoArquivo]);
+
+         app('flasher')->addSuccess('Documento Armazenado!');
+         return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida]);
+      }
    }
 
-   public function visualizardocumentobancario()
+   public function visualizardocumentobancario($ida)
    {
-       $caminhoArquivo = 'caminho/para/salvar/arquivo.txt'; // Substitua pelo caminho real do arquivo
-       if (file_exists($caminhoArquivo)) {
-           return response()->file($caminhoArquivo);
-       } else {
-           // Lidere com o caso em que o arquivo não existe
-           return abort(404);
-       }
+      $caminhodocumento = DB::table('contribuicao_associado AS ca')
+         ->where('id_associado', $ida)
+         ->select(['ca.caminho_documento_bancario'])
+         ->first();
+      if ($caminhodocumento) {
+         $caminho = $caminhodocumento->caminho_documento_bancario;
+         //dd($caminho);
+
+         if (Storage::exists($caminho)) {
+            return response()->file(storage_path('app/' . $caminho));
+         } else {
+            return abort(404);
+         }
+      } else {
+
+         return abort(404);
+      }
    }
 }
-
-   

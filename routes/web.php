@@ -144,7 +144,7 @@ Route::any('/atualizar-dados-bancarios-associado/{ida}/{idt}/{idb}/{idc}', [App\
 Route::get('/documento-bancario/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'documentobancariopdf']);
 Route::post('/carregar-documento', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'carregar_documento']);
 Route::post('/salvar-documento-bancario/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'salvardocumentobancario']);
-Route::get('/visualizar-arquivo', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'visualizardocumentobancario']);
+Route::get('/visualizar-arquivo/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'visualizardocumentobancario']);
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/capture-photo', [PhotoController::class, 'showCaptureForm'])->name('capture.form');
