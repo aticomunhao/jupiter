@@ -80,7 +80,8 @@
                             <a href="/editar-dados-bancarios-associado/{{$associado->ida}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
                             <a href="/documento-bancario/{{$associado->ida}}"><button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-archive" style="font-size: 1rem; color:#303030;"></i></button></a>
                             <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modalExemplo"><i class="bi bi-box-arrow-in-down" style="font-size: 1rem; color:#303030;"></i></button>
-                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="" data-target="" class="btn btn-outline-danger btn-sm"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
+                            <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#excluir"><i class="bi bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
+
                         </center>
                     </div>
                 </div>
@@ -147,12 +148,11 @@
                             <div class="col-md-4">
                                 <center>
                                     <h6>Arquivo Atual</h6>
-
                                     <a href="/visualizar-arquivo/{{$associado->ida}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 2rem; color:#303030;"></i></button></a>
                                 </center>
                             </div>
                             <div class="col-md-5">
-                            <form method='POST' action="/salvar-documento-bancario/{{$associado->ida}}" enctype="multipart/form-data">
+                                <form method='POST' action="/salvar-documento-bancario/{{$associado->ida}}" enctype="multipart/form-data">
                                     @csrf
                                     <div class="form-group">
                                         <label for="exampleFormControlFile1">
@@ -160,22 +160,44 @@
                                         </label>
                                         <input type="file" class="form-control-file" id="exampleFormControlFile1" name="arquivo">
                                     </div>
+
                             </div>
                         </div>
+
+
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                        <button type="submit" class="btn btn-primary">Salvar mudanças</button>
-                    </div>
-                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="excluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Excluir Dados Bancários Associado</h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="fw-bold alert alert-danger text-center">Você realmente deseja excluir os Dados bancários do(a)</p>
+                    <center><h4>{{$associado->nome_completo}}</h4></center>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                    <a href="/excluir-dados-bancarios-associado/{{$associado->ida}}"><button type="button" class="btn btn-primary">Confirmar</button></a>
                 </div>
             </div>
         </div>
+    </div>
 
-        
 
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        @endsection
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    @endsection

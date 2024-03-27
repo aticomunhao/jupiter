@@ -260,7 +260,7 @@ class GerenciarDadosBancariosAssociadoController extends Controller
             'id_contribuicao_autorizacao' => $id_cont_boleto,
             'valor' => $request->input('valor'),
             'dt_vencimento' => $request->input('dt_vencimento'),
-            'nr_conta_corrente' => $request->input('conta_corrente')
+            'nr_cont_corrente' => $request->input('conta_corrente')
          ]);
 
 
@@ -500,5 +500,44 @@ class GerenciarDadosBancariosAssociadoController extends Controller
 
          return abort(404);
       }
+   }
+
+   public function delete($ida)
+   {
+      $dados_banc_associado = DB::table('contribuicao_associado AS ca')
+         ->where('id_associado', $ida)
+         ->select(
+            'ca.id_contribuicao_tesouraria',
+            'ca.id_contribuicao_boleto',
+            'ca.id_contribuicao_autorizacao'
+         )->get();
+
+      //   dd($deletar_dados_banc_associado);
+
+
+      $id_contribuicao_tesouraria =  $dados_banc_associado->first()->id_contribuicao_tesouraria;
+      $id_contribuicao_boleto =  $dados_banc_associado->first()->id_contribuicao_boleto;
+      $id_contribuicao_autorizacao =  $dados_banc_associado->first()->id_contribuicao_autorizacao;
+
+     // $deletar_cont_tesouraria = DB::table('forma_contribuicao_tesouraria')
+     // ->where('id', $id_contribuicao_tesouraria)
+     //->delete();
+
+      //$deletar_cont_boleto = DB::table('forma_contribuicao_boleto')
+     //->where('id', $id_contribuicao_boleto)
+     //->delete();
+    
+      //$deletar_cont_autorizacao = DB::table('forma_contribuicao_autorizacao')
+     // ->where('id', $id_contribuicao_autorizacao)
+    //  ->delete();
+
+      $deletar_dados_banc_associado = DB::table('contribuicao_associado')
+      ->where('id_associado', $ida)
+      ->delete();
+
+
+      app('flasher')->addSuccess('O dados bancarios do associado foi Removido com Sucesso.');
+
+      return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida]);
    }
 }
