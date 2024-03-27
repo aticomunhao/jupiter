@@ -175,6 +175,10 @@ class GerenciarFeriasController extends Controller
                 DB::table('ferias')->where('id', $ferias->id)->update([
                     'dt_ini_a' => $data_inicio,
                     'dt_fim_a' => $data_fim,
+                    'dt_ini_b' => null,
+                    'dt_fim_b' => null,
+                    'dt_ini_c' => null,
+                    'dt_fim_c' => null,
                     'adianta_13sal' => $request->input('adiantaDecimoTerceiro'),
                     'status_pedido_ferias' => 3,
                     'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias'),
@@ -236,6 +240,8 @@ class GerenciarFeriasController extends Controller
                     'dt_fim_a' => $data_fim_primeiro_periodo,
                     'dt_ini_b' => $data_inicio_segundo_periodo,
                     'dt_fim_b' => $data_fim_segundo_periodo,
+                    'dt_ini_c' => null,
+                    'dt_fim_c' => null,
                     'adianta_13sal' => $adiantar_decimo_terceiro,
                     'status_pedido_ferias' => 3,
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
@@ -377,7 +383,6 @@ class GerenciarFeriasController extends Controller
         } else {
             $ano_referente = Carbon::now()->year - 1;
         }
-
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -407,7 +412,6 @@ class GerenciarFeriasController extends Controller
             ->select('ano_de_referencia')
             ->groupBy('ano_de_referencia')
             ->get();
-
 
         return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis'));
     }
