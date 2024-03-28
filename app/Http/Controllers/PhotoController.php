@@ -3,32 +3,30 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class PhotoController extends Controller
 {
-    public function showCaptureForm()
-    {
-        return view('capture-form');
+    public function showCaptureForm($ida)
+    {    
+       //dd($ida);
+       return view('/associado/capture-form');
     }
 public function storeCapturedPhoto(Request $request)
 {
-    $user = auth()->user();
+         $photoData = $request->input('photo');
 
-    if ($user && $user->id) {
-        $photoData = $request->input('photo');
+         $nomeArquivo = Hash::make($photoData);
 
-        // Salva a foto diretamente no banco de dados
-        DB::table('user_photos')->insert([
-            'user_id' => $user->id,
-            'photo' => $photoData,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ]);
 
-        return redirect()->route('capture.form')->with('success', 'Photo captured and saved successfully!');
-    } else {
-        return redirect()->route('login')->with('error', 'You need to log in to capture photos.');
-    }
+         $caminhoArquivo = $photoData->storeAs('public/fotos-pessoas', $photoData);
+
+         DB::table('user_photos')->insert([
+            'caminho_foto'=>$caminhoArquivo]);
+
+         
+        
 }
 
     
