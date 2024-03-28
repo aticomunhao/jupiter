@@ -137,6 +137,7 @@ class GerenciarFeriasController extends Controller
             ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')
             ->first();
 
+
         // Obtém informações sobre as férias do funcionário
         $ferias = DB::table('ferias')
             ->where('id_funcionario', $id)
@@ -150,7 +151,8 @@ class GerenciarFeriasController extends Controller
             $data_inicio = Carbon::parse($formulario_de_ferias["data_inicio_0"]);
             $data_fim = Carbon::parse($formulario_de_ferias["data_fim_0"]);
             $dias_de_ferias_utilizadas = $data_inicio->diffInDays($data_fim) + 1;
-            $data_de_retorno_em_dia_da_semana = Carbon::parse($data_fim)->format('n');
+            $data_de_retorno_apos_as_ferias = Carbon::parse($data_fim)->dayOfWeek;
+
 
             // Verifica se o número de dias utilizados excede os dias de direito do funcionário
             if ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
@@ -170,6 +172,8 @@ class GerenciarFeriasController extends Controller
 
             elseif ($data_fim < $data_inicio) {
                 app('flasher')->addError('Você colocou uma data de fim excedendo a data de início');
+            } elseif ($data_de_retorno_apos_as_ferias = Carbon::parse($data_fim)->dayOfWeek == 6) {
+                app('flasher')->addError("Sua data de retorno ocorre em um domingo o que não é permitido");
             } else {
 
                 DB::table('ferias')->where('id', $ferias->id)->update([
@@ -179,6 +183,7 @@ class GerenciarFeriasController extends Controller
                     'dt_fim_b' => null,
                     'dt_ini_c' => null,
                     'dt_fim_c' => null,
+                    'motivo_retorno' => null,
                     'adianta_13sal' => $request->input('adiantaDecimoTerceiro'),
                     'status_pedido_ferias' => 3,
                     'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias'),
@@ -242,6 +247,7 @@ class GerenciarFeriasController extends Controller
                     'dt_fim_b' => $data_fim_segundo_periodo,
                     'dt_ini_c' => null,
                     'dt_fim_c' => null,
+                    'motivo_retorno' => null,
                     'adianta_13sal' => $adiantar_decimo_terceiro,
                     'status_pedido_ferias' => 3,
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
@@ -309,6 +315,7 @@ class GerenciarFeriasController extends Controller
                     'dt_ini_c' => $data_inicio_terceiro_periodo,
                     'dt_fim_c' => $data_fim_terceiro_periodo,
                     'adianta_13sal' => $adiantar_decimo_terceiro,
+                    'motivo_retorno' => null,
                     'status_pedido_ferias' => 3,
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
                     'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo),
