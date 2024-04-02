@@ -112,8 +112,8 @@
     Route::get('/carregar-dados/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'carregar_dados'])->name('substituir');
     Route::post('/substituir-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'subst']);
     Route::get('/setor-pessoas', [App\Http\Controllers\GerenciarSetoresController::class, 'consult']);
-    Route::post('/atualizar-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'update']);
-    Route::get('/excluir-setor/{idsb}/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'delete']);
+    Route::post('/atualizar-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'update']);
+    Route::get('/excluir-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'delete']);
 
 
     /*Gerenciar-Hierarquia*/

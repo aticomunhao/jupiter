@@ -470,6 +470,8 @@ class GerenciarDadosBancariosAssociadoController extends Controller
 
          $nomeArquivo = Hash::make($arquivo->getClientOriginalName());
 
+        // dd($arquivo);
+
          $caminhoArquivo = $arquivo->storeAs('public/documentos-bancarios-associado', $nomeArquivo);
 
          DB::table('contribuicao_associado')
