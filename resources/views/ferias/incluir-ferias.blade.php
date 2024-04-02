@@ -21,7 +21,7 @@
                 <br>
                 <div class="card">
                     <div class="card-header">
-                        Datas Do Período de Licensa para Férias
+                        Datas Do Período de Licença para Férias
                     </div>
                     <div class="card-body">
 
@@ -60,19 +60,19 @@
                                 <div class="col-3 radio-label">
                                     <label>
                                         <input type="radio" id="umperiodo" name="numeroPeriodoDeFerias" value="1"
-                                               required> Um periodo
+                                               required> Um período
                                     </label>
                                 </div>
                                 <div class="col-3 radio-label">
                                     <label>
                                         <input type="radio" id="doisperiodos" name="numeroPeriodoDeFerias" value="2"
-                                               required> Dois periodos
+                                               required> Dois períodos
                                     </label>
                                 </div>
                                 <div class="col-3 radio-label">
                                     <label>
                                         <input type="radio" id="tresperiodos" name="numeroPeriodoDeFerias" value="3"
-                                               required> Tres Periodos
+                                               required> Três períodos
                                     </label>
                                 </div>
                             </div>
@@ -100,7 +100,7 @@
                                     <div class="col-4">
                                         <input class="form-check-input " type="checkbox" id="adiantaDecimoTerceiro"
                                                name="adiantaDecimoTerceiro">
-                                        <label class="form-check-label" for="vendeferias2">Adianta Decimo
+                                        <label class="form-check-label" for="vendeferias2">Adiantar Décimo
                                             Terceiro</label>
                                     </div>
                                 </div>
@@ -117,28 +117,28 @@
             <br>
             <div class="container" id="containerPeriodos" hidden>
                 <div class="card">
-                    <div class="card-header">Qual período das Ferias Você deseja vender um terço?</div>
+                    <div class="card-header">Qual período das Férias Você deseja vender um terço?</div>
                     <div class="card-body">
 
                         <div class="form-check">
                             <div id="periodo1" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name= periodoDeVendaDeFerias
-                                       value= 1>
-                                <label class="form-check-label" for="periodoFerias"> 1° Periodo</label>
+                                       name=periodoDeVendaDeFerias
+                                       value=1>
+                                <label class="form-check-label" for="periodoFerias"> 1° Período</label>
                             </div>
 
                             <div id="periodo2" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name= periodoDeVendaDeFerias
-                                       value= 2>
-                                <label class="form-check-label" for="periodoFerias"> 2° Periodo</label>
+                                       name=periodoDeVendaDeFerias
+                                       value=2>
+                                <label class="form-check-label" for="periodoFerias"> 2° Período</label>
                             </div>
                             <div id="periodo3" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name= periodoDeVendaDeFerias
-                                       value= 3>
-                                <label class="form-check-label" for="periodoFerias"> 3° Periodo</label>
+                                       name=periodoDeVendaDeFerias
+                                       value=3>
+                                <label class="form-check-label" for="periodoFerias"> 3° Período</label>
                             </div>
                         </div>
                     </div>
@@ -173,12 +173,12 @@
                     var dateInput = $(
                         '<div class="col-md-6 col-sm-12 mb-3">' +
                         '<label for="dateini' + i + '">Início ' + (i + 1) +
-                        ' ° Periodo </label>' +
+                        ' ° Período </label>' +
                         '<input type="date" id="dateini' + i + '" name="data_inicio_' + i +
                         '" class="form-control" required="required">' +
                         '</div>' +
                         '<div class="col-md-6 col-sm-12 mb-3">' +
-                        '<label for="datefim' + i + '">Fim ' + (i + 1) + '° Periodo </label>' +
+                        '<label for="datefim' + i + '">Fim ' + (i + 1) + '° Período </label>' +
                         '<input type="date" id="datefim' + i + '" name="data_fim_' + i +
                         '" class="form-control" required="required">' +
                         '</div>'

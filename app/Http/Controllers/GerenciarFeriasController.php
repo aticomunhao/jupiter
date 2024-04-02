@@ -420,12 +420,15 @@ class GerenciarFeriasController extends Controller
                 'ferias.dt_fim_c',
                 'ferias.motivo_retorno',
                 'ferias.id as id_ferias',
+                'ferias.venda_um_terco',
                 'funcionarios.dt_inicio',
                 'ferias.ano_de_referencia',
                 'ferias.id_funcionario',
+                'ferias.adianta_13sal',
                 'status_pedido_ferias.id as id_status_pedido_ferias',
                 'status_pedido_ferias.nome as status_pedido_ferias',
-                's.sigla as sigla_do_setor'
+                's.sigla as sigla_do_setor',
+
             )
             ->where('ano_de_referencia', '=', $ano_referente)
             ->get();

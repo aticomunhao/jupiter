@@ -48,8 +48,7 @@
                             <div class="col-md-3">
                                 <a href="{{ route('AbreFerias') }}">
                                     <button class="btn btn-success"
-                                            style="width: 100%; box-shadow: 1px 2px 5px #000000">Criar
-                                        Ferias
+                                            style="width: 100%; box-shadow: 1px 2px 5px #000000">Liberar Férias
                                     </button>
                                 </a>
                             </div>
@@ -71,7 +70,7 @@
                                         <th scope="col">Início 3</th>
                                         <th scope="col">Fim 3</th>
                                         <th scope="col">Status</th>
-                                        <th scope="col">Motivo</th>
+
                                         <th scope="col">Ações</th>
                                     </tr>
                                     </thead>
@@ -104,8 +103,7 @@
                                             <td style="text-align: center">
                                                 {{ $periodos_aquisitivos->status_pedido_ferias }}
                                             </td>
-                                            <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}
-                                            </td>
+
 
                                             <td style="text-align: center">
 
@@ -119,6 +117,21 @@
                                                     <a
                                                         href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
                                                         <button class="btn btn-outline-danger"><i class="bi bi-x"></i>
+                                                        </button>
+                                                    </a>
+                                                @else
+                                                    <a href="#"
+                                                       class="disabled" aria-disabled="true">
+                                                        <button class="btn btn-outline-secondary" disabled
+                                                                aria-label="Close">
+                                                            <i class="bi bi-check2"></i>
+                                                        </button>
+                                                    </a>
+
+                                                    <a href="#"
+                                                       class="disabled" aria-disabled="true">
+                                                        <button class="btn btn-outline-secondary" disabled
+                                                                aria-label="Close"><i class="bi bi-x"></i>
                                                         </button>
                                                     </a>
                                                 @endif
