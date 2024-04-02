@@ -38,15 +38,28 @@ class GerenciarEfetivoController extends Controller
                 'cr.nome as nome_cargo_regular',
                 'fg.nome as nome_funcao_gratificada',
                 'p.celular',
-                'id_setor'
+                'id_setor',
             );
 
-        if ($setorId) {
+           // $vagas = DB::table('tp_vagas_autorizadas')
+           // ->leftJoin('setor AS s', 's.id', 'tp_vagas_autorizadas.id_setor')
+           // ->select('vagas_autorizadas');
+
+           if ($setorId) {
             $baseQuery->where('f.id_setor', $setorId);
             $totalVagasAutorizadas = DB::table('setor')->where('id', $setorId)->value('vagas_autorizadas');
         } else {
             $totalVagasAutorizadas = DB::table('setor')->sum('vagas_autorizadas');
         }
+
+        /*
+        if ($setorId) {
+            $baseQuery->where('tp_vagas_autorizadas.id_setor', $setorId);
+            $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->where('id_setor', $setorId)->value('vagas_autorizadas');
+        } else {
+            $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->sum('vagas_autorizadas');
+        }
+        */
 
         $base = $baseQuery->get();
 
