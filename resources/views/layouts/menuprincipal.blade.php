@@ -33,7 +33,6 @@
                             </li>
                             <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">Gerenciar Cargos</a>
                             </li>
-                            <li><a class="dropdown-item" href="/gerenciar-efetivo">Controle de Efetivo</a></li>
 
                         </ul>
                     </li>
@@ -48,6 +47,16 @@
                             </li>
                             <li><a href="{{ route('AdministrarFerias') }}" class="dropdown-item">Gerenciar Ferias</a>
                             </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="navbar-nav" >
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Relatórios</a>
+                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
+                            <li><a class="dropdown-item" href="/gerenciar-efetivo">Controle de Efetivo</a></li>
+                            <li><a class="dropdown-item" href="/controle-vagas">Controle de Vagas</a></li>
                         </ul>
                     </li>
                 </ul>

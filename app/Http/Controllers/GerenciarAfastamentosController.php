@@ -65,9 +65,9 @@ class GerenciarAfastamentosController extends Controller
 
 
 
-        if ($request->input('dt_inicio') > $request->input('dt_fim') && $request->input('dt_fim') != null) {
+        if ($request->input('dt_inicio') >= $request->input('dt_fim') && $request->input('dt_fim') != null) {
             $caminho = $this->storeFile($request);
-            app('flasher')->addError('A data inicial é maior que a data final');
+            app('flasher')->addError('A data inicial é maior ou igual a data final');
             return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
         } else {
             $caminho = $this->storeFile($request);

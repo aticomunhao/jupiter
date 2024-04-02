@@ -251,7 +251,13 @@
     Route::any('/atualizar-afastamento/{idf}', [App\Http\Controllers\GerenciarAfastamentosController::class, 'update']);
 
 
-    /*Gerenciar-Hierarquia*/
+    /*Controle de Efetivo*/
 
 
     Route::get('/gerenciar-efetivo', [App\Http\Controllers\GerenciarEfetivoController::class, 'index'])->name('gerenciar-efetivo');
+
+
+    /*Controle de Vagas*/
+
+    Route::get('/controle-vagas', [App\Http\Controllers\ControleVagasController::class, 'index'])->name('controle-vagas');
+
