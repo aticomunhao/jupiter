@@ -76,7 +76,7 @@ class GerenciarSetoresController extends Controller
         $nivel = DB::select('select id AS idset, nome from tp_nivel_setor');
 
 
-       // dd($nivel);
+        // dd($nivel);
 
         return view('/setores/incluir-setor', compact('nivel'));
     }
@@ -108,11 +108,12 @@ class GerenciarSetoresController extends Controller
     {
 
         $editar = DB::table('setor AS s')
-        ->letfJoin('')
-            ->select('s.id AS ids', 's.sigla',  's.nome', 's.dt_inicio', 's.dt_fim', 's.id_nivel')->where('s.id', $ids)->get();
-       // dd($editar);
+            ->leftJoin('tp_nivel_setor AS tns',  's.id_nivel', '=', 'tns.id')
+            ->select('s.id AS ids', 's.sigla',  's.nome', 's.dt_inicio', 's.dt_fim', 's.id_nivel', 'tns.nome AS nome_nivel')
+            ->where('s.id', $ids)->get();
+
         $nivel = DB::select('select id AS idset, nome from tp_nivel_setor');
-     
+
 
         return view('/setores/editar-setor', compact('editar', 'nivel'));
     }
@@ -179,14 +180,12 @@ class GerenciarSetoresController extends Controller
         return redirect()->action([GerenciarSetoresController::class, 'index']);
     }
 
-    public function delete($ids, $idsb)
+    public function delete($ids)
     {
 
-        $del = DB::table('subsetor AS sub')
-            ->leftJoin('setor AS s', 'sub.id_setor', '=', 's.id')
-            ->select('sub.id AS idsb', 's.id AS ids', 'sub.sigla', 'sub.nome_subsetor')->where('sub.id', $ids);
+        $deletar = DB::table('setor AS s')->where('s.id', $ids)->delete();
 
-        $del1 = DB::table('setor as s')->select('s.id AS ids', 's.nome', 's.sigla', 's.dt_inicio', 's.dt_fim', 's.usuario')->where('s.id', $idsb);
+
 
         app('flasher')->addSuccess('O cadastro do Setor foi Removido com Sucesso.');
         return redirect()->action([GerenciarSetoresController::class, 'index']);

@@ -105,7 +105,7 @@
                                                                 style="font-size: 1rem;color:#303030; "></i></button></a>
                                                     <button type="button" class="btn btn-outline-danger"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#A{{ $listas->nome }}-{{ $listas->ids }}"
+                                                        data-bs-target="#A{{ $listas->ids }}"
                                                         class="btn btn-outline-danger"><i class="bi-trash"
                                                             style="font-size: 1rem; color:#303030;"></i></button>
 
@@ -118,7 +118,7 @@
                                                     <!-- Modal -->
                                                     <div>
                                                         <div class="modal fade"
-                                                            id="A{{ $listas->nome }}-{{ $listas->ids }}" tabindex="-1"
+                                                            id="A{{ $listas->ids }}" tabindex="-1"
                                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
@@ -134,15 +134,13 @@
                                                                             realmente deseja excluir o setor:
                                                                             <br>
                                                                             {{ $listas->nome }}
-                                                                            <br>
-                                                                            com o subsetor: {{ $listas->nome }}
                                                                         </p>
                                                                     </div>
                                                                     <div class="modal-footer">
                                                                         <button type="button" class="btn btn-danger"
                                                                             data-bs-dismiss="modal">Cancelar</button>
                                                                         <a
-                                                                            href="/excluir-setor/{{ $listas->ids }}/{{ $listas->ids }}"><button
+                                                                            href="/excluir-setor/{{ $listas->ids }}"><button
                                                                                 type="button"
                                                                                 class="btn btn-primary">Confirmar</button></a>
                                                                     </div>

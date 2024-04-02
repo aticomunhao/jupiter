@@ -43,7 +43,7 @@
                     <div class="col-2">
                         <label for="3">Nivel</label>
                         <select class="form-select" name="nivel" id="3">
-                            <option value="{{ $editar[0]->id_nivel }}">{{$nivel[0]->nome }}</option>
+                            <option value="{{ $editar[0]->id_nivel }}">{{$editar[0]->nome_nivel }}</option>
                             @foreach ($nivel as $niveis)
                             <option value="{{ $niveis->idset }}">{{ $niveis->nome}}</option>
                             @endforeach
