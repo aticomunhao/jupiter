@@ -25,7 +25,7 @@
                     </div>
                     <div class="col-2">
                         <label for="2">Sigla</label>
-                        <input type="text" class="form-control" id="2" name="sigla" value="{{ old('sigla') }}">
+                        <input type="text" class="form-control" id="2" name="sigla" value="{{ old('sigla') }}" required>
                     </div>
                     <br>
                     <br>
