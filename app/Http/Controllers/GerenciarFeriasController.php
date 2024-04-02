@@ -239,12 +239,11 @@ class GerenciarFeriasController extends Controller
             elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
                 app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
                     'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo periodo');
-            }elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5){
+            } elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
-            } elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5){
+            } elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5) {
                 app('flasher')->addError('A data inicial do segundo periodo ocorre dois dias antes do descanso semanal remunerado');
-            }
-            else {
+            } else {
                 DB::table('ferias')->where('id', $ferias->id)->update([
                     'dt_ini_a' => $data_inicio_primeiro_periodo,
                     'dt_fim_a' => $data_fim_primeiro_periodo,
@@ -316,15 +315,13 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addError('Ainda não utilizou todos os dias de ferias. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 .
                     'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' .
                     $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro periodo");
-            }
-            elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5){
+            } elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
-            } elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5){
+            } elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5) {
                 app('flasher')->addError('A data inicial do segundo periodo ocorre dois dias antes do descanso semanal remunerado');
-            }elseif ($dia_da_semana_de_saida_do_terceiro_periodo == 5){
+            } elseif ($dia_da_semana_de_saida_do_terceiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do terceiro periodo ocorre dois dias antes do descanso semanal remunerado');
-            }
-            elseif (($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 >= 15) || ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 >= 15) || ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) >= 15) {
+            } elseif (($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 >= 15) || ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 >= 15) || ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) >= 15) {
                 DB::table('ferias')->where('id', $ferias->id)->update([
                     'dt_ini_a' => $data_inicio_primeiro_periodo,
                     'dt_fim_a' => $data_fim_primeiro_periodo,
@@ -365,7 +362,6 @@ class GerenciarFeriasController extends Controller
             ->where('dt_inicio', '<', $data_do_ultimo_ano)
             ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'funcionarios.dt_inicio as data_de_inicio', 'pessoas.nome_completo')
             ->get();
-
 
         foreach ($funcionarios as $funcionario) {
             $data_inicio_periodo_aquisitivo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year - 1)->toDateString();
@@ -412,6 +408,7 @@ class GerenciarFeriasController extends Controller
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
             ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+            ->join('setor as s', 's.id', '=', 'id_setor')
             ->select(
                 'pessoas.nome_completo as nome_completo_funcionario',
                 'pessoas.id as id_pessoa',
@@ -427,11 +424,12 @@ class GerenciarFeriasController extends Controller
                 'ferias.ano_de_referencia',
                 'ferias.id_funcionario',
                 'status_pedido_ferias.id as id_status_pedido_ferias',
-                'status_pedido_ferias.nome as status_pedido_ferias'
+                'status_pedido_ferias.nome as status_pedido_ferias',
+                's.sigla as sigla_do_setor'
             )
             ->where('ano_de_referencia', '=', $ano_referente)
-            ->where('status_pedido_ferias.id', '!=', 1)
             ->get();
+
 
         $anos_possiveis = DB::table('ferias')
             ->select('ano_de_referencia')
