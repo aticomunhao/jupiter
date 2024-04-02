@@ -135,6 +135,14 @@
                                                         </button>
                                                     </a>
                                                 @endif
+                                                    <a href="#"
+                                                       class="disabled" aria-disabled="true">
+                                                        <button class="btn btn-outline-secondary" disabled
+                                                                aria-label="Close">
+                                                            <i class="bi bi-search"></i>
+                                                        </button>
+                                                    </a>
+
                                             </td>
                                         </tr>
                                     @endforeach

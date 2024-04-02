@@ -431,6 +431,7 @@ class GerenciarFeriasController extends Controller
 
             )
             ->where('ano_de_referencia', '=', $ano_referente)
+            ->orderBy('sigla_do_setor')
             ->get();
 
 
@@ -470,6 +471,10 @@ class GerenciarFeriasController extends Controller
             ->first();
         DB::table('ferias')->where('id', '=', $id)->update([
             'status_pedido_ferias' => 5
+        ]);
+        DB::table('hist_recusa_ferias')->insert([
+            'id_periodo_de_ferias' => $id,
+            'motivo_retorno' => "Sucesso"
         ]);
         app('flasher')->addSuccess("As ferias do funcionario $periodo_de_ferias->nome_completo_funcionario foram autorizadas");
         return redirect()->back();
@@ -516,6 +521,11 @@ class GerenciarFeriasController extends Controller
                 'motivo_retorno' => $request->input('motivo_da_recusa'),
                 'status_pedido_ferias' => 4
             ]);
+
+        DB::table('hist_recusa_ferias')->insert([
+            'id_periodo_de_ferias' => $id,
+            'motivo_retorno' => $request->input('motivo_da_recusa')
+        ]);
 
         return redirect()->route('AdministrarFerias');
     }
