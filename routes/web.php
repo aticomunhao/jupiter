@@ -105,7 +105,7 @@
 
 
     Route::get('/gerenciar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index']);
-    Route::get('/pesquisar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index'])->name('pesquisar');
+    Route::get('/pesquisar-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'index'])->name('pesquisar-setor');
     Route::get('/incluir-setor', [App\Http\Controllers\GerenciarSetoresController::class, 'create']);
     Route::post('/incluir-setores', [App\Http\Controllers\GerenciarSetoresController::class, 'store']);
     Route::get('/editar-setor/{ids}', [App\Http\Controllers\GerenciarSetoresController::class, 'edit']);

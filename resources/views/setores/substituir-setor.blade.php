@@ -1,56 +1,53 @@
 @extends('layouts.app')
 @section('head')
-<title>Substituir-setor</title>
+<title>Substituir Setor</title>
 @endsection
 @section('content')
-<br />
-
-<div class="container">
-
-    <div class="card" style="border-color:#355089">
-
-        <div class="card-header">
-            Substituir Setor
-        </div>
-
-        <div class="card-body">
-
-            <br>
-            <div class="row justify-content-start">
-                <form method="POST" action="/substituir-setor/{ids}">{{-- Formulario de envio  --}}
-                    @csrf
-
-                    <div class="row col-10 offset-1" style="margin-top:none">
-
-                        <div class=" col-12">
-                            <div>Selecione Setor Substituto</div>
-                            <select class="form-select" name="setor_substituto">
-                                <value="">
-                                    <option value=""></option>
-                                    @foreach ($setor as $setores)
-                                    <option value="{{ $setores->id }}">{{ $setores->nome}}</option>
-                                    @endforeach
-
-                            </select>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<form method="POST" action="/substituir-setor/{ids}" enctype="multipart/form-data">
+    @csrf
+    <div class="container-fluid"> {{-- Container completo da página  --}}
+        <div class="justify-content-center">
+            <div class="col-12">
+                <br>
+                <div class="card" style="border-color: #355089">
+                    <div class="card-header">
+                        <div class="ROW">
+                            <h5 class="col-12" style="color: #355089">
+                                Substituir Setor
+                            </h5>
                         </div>
-
-
-
-
-                        <center>
-                            <div class="col-12" style="margin-top: 70px;">
-                                <a href="/gerenciar-setor" class="btn btn-secondary col-4">{{-- Botao de cancelar com link para o index --}}
-                                    Cancelar
-                                </a>
-
-                                <button type="submit" class="btn btn-primary col-4 offset-3">{{-- Botao submit --}}
-                                    Confirmar
-                                </button>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-5">
+                                <input class="form-control" type="text" value="{{ $setor[0]->nome}}" id="iddt_inicio" name="dt_inicio" required="required" disabled>
                             </div>
-                        </center>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                        </div>
+                        <br>
+                        <hr>
+                        @csrf
+                        <div class="row justify-content-start">
+                            @csrf
+                            <div class="row col-10 offset-1" style="margin-top:none">
+
+                                <div class=" col-12">
+                                    <div>Selecione Setor Substituto</div>
+                                    <select class="form-select" name="setor_substituto">
+                                        <value="">
+                                            <option value=""></option>
+                                            @foreach ($setor as $setores)
+                                            <option value="{{ $setores->id }}">{{ $setores->nome}}</option>
+                                            @endforeach
+                                    </select>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="/gerenciar-setor" type="button" value="" class="btn btn-danger col-md-3 col-2 mt-5 offset-md-1">Cancelar</a>
+                <input type="submit" value="Confirmar" class="btn btn-primary col-md-3 col-1 mt-5 offset-md-3">
+</form>
+
 @endsection

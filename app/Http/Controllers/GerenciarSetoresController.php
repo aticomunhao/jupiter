@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
 
 
+
 class GerenciarSetoresController extends Controller
 {
     public function index(Request $request)
     {
 
-        $lista = DB::table('tp_nivel_setor AS tns')
+        $lista_setor = DB::table('tp_nivel_setor AS tns')
             ->whereIn('tns.id', ['1', '2', '3'])
             ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
             ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
@@ -53,21 +54,35 @@ class GerenciarSetoresController extends Controller
 
 
         if ($request->nome) {
-            $lista->where('s.nome', 'LIKE', '%' . $request->nome . '%');
+            $lista_setor->where('s.nome', 'LIKE', '%' . $request->nome . '%');
         }
 
         if ($request->sigla) {
-            $lista->where('s.sigla', '=', $request->sigla);
+            $lista_setor->where('s.sigla', 'LIKE', '%' . $request->sigla . '%');
         }
 
         if ($request->nome_substituto) {
-            $lista->where('s.substituto', '=', $request->nome_substituto);
+            $lista_setor->where('s.substituto', 'LIKE', '%' . $request->nome_substituto . '%');
         }
 
-        $lista = $lista->orderBy('s.sigla', 'asc')->orderBy('s.nome', 'asc')->orderBy('nome_substituto', 'asc')->paginate(10);
+        if ($request->dt_inicio) {
+            $lista_setor->where('s.dt_inicio', '=', $request->dt_inicio);
+        }
+
+        if ($request->dt_inicio) {
+            $lista_setor->where('s.dt_fim', '=', $request->dt_fim);
+        }
+
+        if ($request->status == 1) {
+            $lista_setor->where('s.dt_fim', null);
+        } elseif ($request->status == 2) {
+            $lista_setor->whereNotNull('s.dt_fim');
+        }
+
+        $lista_setor = $lista_setor->orderBy('status', 'asc')->orderBy('s.nome', 'asc')->paginate(10);
 
 
-        return view('/setores/gerenciar-setor', compact('lista', 'nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai'));
+        return view('/setores/gerenciar-setor', compact('lista_setor', 'nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai'));
     }
 
 
