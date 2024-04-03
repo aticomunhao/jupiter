@@ -18,26 +18,42 @@
                             </div>
                             <hr>
                             <div class="card-body">
-                                <div class="row" style="margin-left:5px">
-                                    <div class="col">
-                                        <label for="1">Selecione o Setor Desejado</label>
-                                        <select id="idsetor" class="form-select" name="setor">
-                                            <option></option>
-                                            @foreach ($setor as $setores)
-                                                <option value="{{ $setores->id_setor }}"
-                                                    {{ ( $setores->nome) == $setores->id_setor ? 'selected' : '' }}>
-                                                    {{ $setores->nome }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="col" style="padding-top:24px;">
-                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-light"
-                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px; margin-right: 5px"
-                                            value="">Limpar</a>
-                                        <input type="submit" value="Pesquisar" class="btn btn-success btn-light"
-                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 200px;">
-                                    </div>
+                                <label for="1">Selecione a Forma de Pesquisa Desejada</label>
+                                <br>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault2" checked>
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                        Cargo
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="flexRadioDefault1">
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                        Setor
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="col">
+                                    <label for="1">Selecione o Setor Desejado</label>
+                                    <select id="idsetor" class="form-select" name="setor">
+                                        <option></option>
+                                        @foreach ($setor as $setores)
+                                            <option value="{{ $setores->id_setor }}"
+                                                {{ $setores->nome == $setores->id_setor ? 'selected' : '' }}>
+                                                {{ $setores->nome }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col" style="padding-top:24px;">
+                                    <a href="/gerenciar-efetivo" type="button" class="btn btn-light"
+                                        style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px; margin-right: 5px"
+                                        value="">Limpar</a>
+                                    <input type="submit" value="Pesquisar" class="btn btn-success btn-light"
+                                        style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 200px;">
                                 </div>
                             </div>
                             <br>
@@ -68,9 +84,11 @@
                                         </div>
                                     </div>
                                 @endif
-                                <div style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
+                                <div
+                                    style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
                                     <label style="margin-bottom: 5px;">Vagas<br>Autorizadas</label>
-                                    <div style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                    <div
+                                        style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
                                         <span style="display: inline-block;">
                                             {{ $totalVagasAutorizadas }}
                                         </span>
@@ -91,7 +109,7 @@
                                             <th class="col-2">Funcionários Existentes</th>
                                             <th class="col-2">Vagas Remanescentes</th>
                                             <th class="col-2">Vagas Totais</th>
-                                            <th class="col-2">Telefone</th>
+                                            <th class="col-2"></th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;">

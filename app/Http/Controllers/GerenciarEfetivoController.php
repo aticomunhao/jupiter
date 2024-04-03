@@ -28,38 +28,29 @@ class GerenciarEfetivoController extends Controller
             ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
             ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')
             ->leftJoin('cargos AS fg', 'fg.id', 'bs.funcao_gratificada')
-            ->leftJoin('setor','setor.id', 'f.id_setor')
+            ->leftJoin('setor AS s','s.id', 'f.id_setor')
+            ->leftJoin('tp_vagas_autorizadas AS va','va.id_setor', 's.id')
             ->select(
                 'bs.id_funcionario',
                 'bs.cargo',
                 'bs.funcao_gratificada',
                 'bs.dt_inicio as dt_inicio_funcionario',
                 'p.nome_completo',
-                'cr.nome as nome_cargo_regular',
-                'fg.nome as nome_funcao_gratificada',
+                'cr.nome AS nome_cargo_regular',
+                'fg.nome AS nome_funcao_gratificada',
                 'p.celular',
-                'id_setor',
+                'f.id_setor',
+                'va.vagas_autorizadas'
             );
 
-           // $vagas = DB::table('tp_vagas_autorizadas')
-           // ->leftJoin('setor AS s', 's.id', 'tp_vagas_autorizadas.id_setor')
-           // ->select('vagas_autorizadas');
 
-           if ($setorId) {
-            $baseQuery->where('f.id_setor', $setorId);
-            $totalVagasAutorizadas = DB::table('setor')->where('id', $setorId)->value('vagas_autorizadas');
-        } else {
-            $totalVagasAutorizadas = DB::table('setor')->sum('vagas_autorizadas');
-        }
-
-        /*
         if ($setorId) {
-            $baseQuery->where('tp_vagas_autorizadas.id_setor', $setorId);
-            $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->where('id_setor', $setorId)->value('vagas_autorizadas');
+            $baseQuery->where('s.id', $setorId);
+            $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->where('id', $setorId)->value('vagas_autorizadas');
         } else {
             $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->sum('vagas_autorizadas');
         }
-        */
+
 
         $base = $baseQuery->get();
 
