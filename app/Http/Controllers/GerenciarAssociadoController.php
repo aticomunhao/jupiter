@@ -26,7 +26,7 @@ class GerenciarAssociadoController extends Controller
             'ass.nr_associado',
             'ass.id',
             'p.nome_completo',
-            'ass.dt_inicio',
+            'ass.dt_inicio',  
             'ass.dt_fim'
          );
 

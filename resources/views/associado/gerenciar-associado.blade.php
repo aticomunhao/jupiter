@@ -2,33 +2,41 @@
 
 @section('content')
 <div class="container-fluid">
-     <div class="card">
-        <div class="card-header">
-            Gerenciar Associado
-        </div>
-        <div class="card-body">
-          <form action="{{route('pesquisar')}}" class="form-horizontal mt-4" method="GET">
-            <div class="row" style="padding-left:5%">
+    <div class="justify-content-center">
+        <div class="col-12">
+            <br>
+            <div class="card" style="border-color: #355089;">
+                <div class="card-header">
+                    <div class="ROW">
+                        <h5 class="col-12" style="color: #355089">
+                            Gerenciar Associado
+                        </h5>
+                    </div>
+                </div>
+                <div>
+                    <div class="card-body">
+          <form class="justify-content-center" action="{{route('pesquisar')}}" class="form-horizontal mt-4" method="GET">
+            <div class="row mt-2">
                 <div class="col-1">Nr Associado
-                    <input class="form-control" maxlength="50" type="text" id="2" name="nr_associado" value="{{$nr_associado}}">
+                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="50" type="text" id="2" name="nr_associado" value="{{$nr_associado}}">
                 </div>
                 <div class="col-3">Nome
-                    <input class="form-control" maxlength="30" type="text" id="3" name="nome_completo" value="{{$nome_completo}}">
+                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="30" type="text" id="3" name="nome_completo" value="{{$nome_completo}}">
                 </div>
-                <div class="col-1">Data de Início
-                    <input class="form-control" maxlength="30" type="date" id="3" name="dt_inicio" value="{{$dt_inicio}}">
+                <div class="col-2">Data de Início
+                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="30" type="date" id="3" name="dt_inicio" value="{{$dt_inicio}}">
                 </div>
-                <div class="col-1">Data de Fim
-                    <input class="form-control" maxlength="30" type="date" id="3" name="dt_fim" value="{{$dt_fim}}">
+                <div class="col-2">Data de Fim
+                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="30" type="date" id="3" name="dt_fim" value="{{$dt_fim}}">
                 </div>
                 <div class="col-1">Status   
-                <select class="form-select" id="4" name="status" type="number">
+                <select class="form-select" id="4" name="status" type="number" style="border: 1px solid #999999; padding: 5px;" >
                                 <option value="">Todos</option>
                                 <option value="1">Ativo</option>
                                 <option value="2">Inativo</option>
                             </select>
                 </div>
-                <div class="col" style="padding-left:20%"><br>
+                <div class="col" ><br>
                     <input class="btn btn-light btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Pesquisar">
 
                     <a href="/gerenciar-associado"><button class="btn btn-light btn-sm" type="button" value="" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">Limpar</button></a>
@@ -43,7 +51,7 @@
         <div class="table">
             <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                 <thead style="text-align: center;">
-                    <tr style="background-color: #365699; font-size:19px; color:#ffffff">
+                    <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                         <th class="col-1">Nr associado</th>
                         <th class="col-3">Nome</th>
                         <th class="col-1">Voluntário</th>
@@ -55,7 +63,7 @@
 
                     </tr>
                 </thead>
-                <tbody style="font-size: 16px; color:#000000;">
+                <tbody style="font-size: 16px; color:#000000; text-align: center">
                     
                     @foreach ($lista_associado as $lista_associados)
                     <tr>    
