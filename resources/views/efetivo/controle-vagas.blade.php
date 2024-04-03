@@ -59,77 +59,35 @@
                             </div>
                             <br>
                             <hr>
-                            <div style="text-align: center;">
-                                @if (!$setorId)
-                                    <div
-                                        style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
-                                        <label style="margin-bottom: 5px;">Quantidade total<br>de Funcionários</label>
-                                        <div
-                                            style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
-                                            <span style="display: inline-block;">
-                                                {{ $totalFuncionariosTotal }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if ($setorId)
-                                    <div
-                                        style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
-                                        <label style="margin-bottom: 5px;">Quantidade atual<br>de Funcionários</label>
-                                        <div
-                                            style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
-                                            <span style="display: inline-block;">
-                                                {{ $totalFuncionariosSetor }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                @endif
-                                <div
-                                    style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
-                                    <label style="margin-bottom: 5px;">Vagas<br>Autorizadas</label>
-                                    <div
-                                        style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
-                                        <span style="display: inline-block;">
-                                            {{ $totalVagasAutorizadas }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <hr>
-                            <h5 style="margin-left: 5px; color: #355089; margin-bottom: -10px">
-                                Empregados
-                            </h5>
                             <div class="table" style="padding-top:20px">
                                 <table
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-4">Cargos</th>
-                                            <th class="col-2">Funcionários Existentes</th>
+                                            <th class="col-4">Cargo</th>
+                                            <th class="col-2">Vagas Preenchidas</th>
                                             <th class="col-2">Vagas Remanescentes</th>
                                             <th class="col-2">Vagas Totais</th>
-                                            <th class="col-2"></th>
+                                            <th class="col-2">Setor</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;">
                                         @foreach ($base as $bases)
                                             <tr style="text-align: center">
                                                 <td scope="">
-                                                    {{ $bases->nome_completo }}
+                                                    {{ $bases->cargo }}
                                                 </td>
                                                 <td scope="">
-                                                    {{ $bases->nome_cargo_regular }}
+                                                    {{ $totalFuncionariosSetor }}
                                                 </td>
                                                 <td scope="">
-                                                    {{ $bases->nome_funcao_gratificada }}
+
                                                 </td>
                                                 <td scope="">
-                                                    {{ \Carbon\Carbon::parse($bases->dt_inicio_funcionario)->format('d/m/Y') }}
+                                                   {{ $totalVagasAutorizadas}}
                                                 </td>
                                                 <td scope="">
-                                                    {{ $bases->celular }}
+                                                    {{ $bases->nome}}
                                                 </td>
                                             </tr>
                                         @endforeach

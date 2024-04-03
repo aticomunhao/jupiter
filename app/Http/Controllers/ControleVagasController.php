@@ -28,19 +28,17 @@ class ControleVagasController extends Controller
             ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
             ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')
             ->leftJoin('cargos AS fg', 'fg.id', 'bs.funcao_gratificada')
-            ->leftJoin('setor AS s','s.id', 'f.id_setor')
-            ->leftJoin('tp_vagas_autorizadas AS va','va.id_setor', 's.id')
+            ->leftJoin('setor AS s', 's.id', 'f.id_setor')
+            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
             ->select(
                 'bs.id_funcionario',
                 'bs.cargo',
                 'bs.funcao_gratificada',
-                'bs.dt_inicio as dt_inicio_funcionario',
-                'p.nome_completo',
                 'cr.nome AS nome_cargo_regular',
                 'fg.nome AS nome_funcao_gratificada',
-                'p.celular',
                 'f.id_setor',
-                'va.vagas_autorizadas'
+                'va.vagas_autorizadas',
+                's.nome'
             );
 
 
@@ -54,6 +52,7 @@ class ControleVagasController extends Controller
 
         $base = $baseQuery->get();
 
+
         $totalFuncionariosSetor = 0;
         foreach ($quantidadeFuncionariosPorSetor as $quantidade) {
             if ($quantidade->id_setor == $setorId) {
@@ -63,6 +62,7 @@ class ControleVagasController extends Controller
         }
 
         $totalFuncionariosTotal = DB::table('funcionarios')->count();
+        
 
         $setor = DB::table('setor')
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
