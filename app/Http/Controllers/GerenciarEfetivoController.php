@@ -51,7 +51,6 @@ class GerenciarEfetivoController extends Controller
             $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->sum('vagas_autorizadas');
         }
 
-
         $base = $baseQuery->get();
 
         $totalFuncionariosSetor = 0;

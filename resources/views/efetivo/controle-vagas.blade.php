@@ -35,10 +35,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="card-body">
+                            <div class="row">
                                 <div class="col">
                                     <label for="1">Selecione o Setor Desejado</label>
-                                    <select id="idsetor" class="form-select" name="setor">
+                                    <select id="idsetor" class="form-select status select2" name="setor" multiple>
                                         <option></option>
                                         @foreach ($setor as $setores)
                                             <option value="{{ $setores->id_setor }}"
@@ -48,8 +48,9 @@
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="col" style="padding-top:24px;">
-                                    <a href="/gerenciar-efetivo" type="button" class="btn btn-light"
+                                    <a href="/controle-vagas" type="button" class="btn btn-light"
                                         style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px; margin-right: 5px"
                                         value="">Limpar</a>
                                     <input type="submit" value="Pesquisar" class="btn btn-success btn-light"
@@ -141,4 +142,14 @@
             </div>
         </div>
     </form>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            //Importa o select2 com tema do Bootstrap para a classe "select2"
+            $('.select2').select2( { theme: 'bootstrap-5'});
+
+        });
+    </script>
 @endsection
