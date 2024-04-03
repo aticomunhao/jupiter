@@ -135,7 +135,7 @@
                                                         </button>
                                                     </a>
                                                 @endif
-                                                    <a href="#"
+                                                    <a href="{{route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias])}}"
                                                        class="disabled" aria-disabled="true">
                                                         <button class="btn btn-outline-secondary" disabled
                                                                 aria-label="Close">

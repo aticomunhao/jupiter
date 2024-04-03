@@ -102,9 +102,18 @@ class GerenciarFeriasController extends Controller
     /**
      * Display the specified resource.
      */
+    /*Historico de Devoluções*/
     public function show(string $id)
     {
-        //
+        $ano_referencia = Carbon::now()->year - 1;
+
+        $id_periodo_de_ferias = DB::table('ferias')
+            ->where('id', '=', $id)
+            ->where('ano_de_referencia', 'LIKE', "%$ano_referencia%")
+            ->first();
+        dd($id_periodo_de_ferias);
+
+        // DB::table('hist_recusa_ferias')->where('id', $);
     }
 
     /**
@@ -233,12 +242,12 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addError('O Segundo Período inicia durante o Primeiro Período e termina antes do seu término');
             } //Verifica se o funcionario usou o seu tempo de ferias corretamente para menos
             elseif ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
-                app('flasher')->addError('Ainda não utilizou todos os dias de ferias. Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
-                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo periodo');
+                app('flasher')->addError('Ainda não utilizou todos os dias de férias. Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
+                    'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo período');
             } //Verifica se o funcionario utilizou dias a mais
             elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
                 app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
-                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo periodo');
+                    'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo período');
             } elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
             } elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5) {
@@ -308,19 +317,19 @@ class GerenciarFeriasController extends Controller
             } //Verifica se o funcionario utilizou dias a mais
             elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
                 app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 .
-                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' .
-                    $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro periodo");
+                    'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' .
+                    $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro período");
             } //Verifica se o funcionario utililizou dias a menos
             elseif ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
-                app('flasher')->addError('Ainda não utilizou todos os dias de ferias. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 .
-                    'no primeiro periodo.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' .
-                    $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro periodo");
+                app('flasher')->addError('Ainda não utilizou todos os dias de ferías. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 .
+                    'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' .
+                    $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro período");
             } elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
             } elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5) {
                 app('flasher')->addError('A data inicial do segundo periodo ocorre dois dias antes do descanso semanal remunerado');
             } elseif ($dia_da_semana_de_saida_do_terceiro_periodo == 5) {
-                app('flasher')->addError('A data inicial do terceiro periodo ocorre dois dias antes do descanso semanal remunerado');
+                app('flasher')->addError('A data inicial do terceiro período ocorre dois dias antes do descanso semanal remunerado');
             } elseif (($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 >= 15) || ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 >= 15) || ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) >= 15) {
                 DB::table('ferias')->where('id', $ferias->id)->update([
                     'dt_ini_a' => $data_inicio_primeiro_periodo,

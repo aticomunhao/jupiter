@@ -75,7 +75,7 @@
                                     <div class="col-4">Entidade de Ensino
                                         <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
                                             id="4" name="entidade_ensino" required="required">
-                                            <option selected>Entidade de Ensino</option>
+
                                             @foreach ($tp_entidades_ensino as $entidade_ensino)
                                                 <option value="{{ $entidade_ensino->id }}">
                                                     {{ $entidade_ensino->nome_tpentensino }}</option>

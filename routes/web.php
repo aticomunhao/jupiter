@@ -231,6 +231,7 @@
     Route::any('/autorizar-ferias/{id}', [GerenciarFeriasController::class, 'autorizarferias'])->name('autorizarFerias');
     Route::any('/formulario-recusar-ferias/{id}', [GerenciarFeriasController::class, 'formulario_recusa_periodo_de_ferias'])->name('FormularioFerias');
     Route::any('/recusa-ferias/{id}', [GerenciarFeriasController::class, 'recusa_pedido_de_ferias'])->name('RecusaFerias');
+    Route::any('/visualizar-historico-recusa-ferias/{id}',[GerenciarFeriasController::class,'show'])->name('HistoricoRecusaFerias');
 
 
     /**Rotas de Entrada**/
