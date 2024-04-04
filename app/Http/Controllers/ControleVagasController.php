@@ -31,15 +31,11 @@ class ControleVagasController extends Controller
             ->leftJoin('setor AS s', 's.id', 'f.id_setor')
             ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
             ->select(
-                'bs.id_funcionario',
-                'bs.cargo',
-                'bs.funcao_gratificada',
                 'cr.nome AS nome_cargo_regular',
                 'fg.nome AS nome_funcao_gratificada',
-                'f.id_setor',
                 'va.vagas_autorizadas',
-                's.nome'
             );
+
 
 
         if ($setorId) {
@@ -62,13 +58,18 @@ class ControleVagasController extends Controller
         }
 
         $totalFuncionariosTotal = DB::table('funcionarios')->count();
-        
+
 
         $setor = DB::table('setor')
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
             ->select('setor.id AS id_setor', 'setor.nome')
             ->get();
 
-        return view('efetivo.controle-vagas', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId'));
+        $cargo = DB::table('cargos')
+        ->select('cargos.nome', 'cargos.id')
+        ->get();
+
+
+        return view('efetivo.controle-vagas', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId', 'cargo'));
     }
 }

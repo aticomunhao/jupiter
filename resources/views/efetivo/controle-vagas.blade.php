@@ -21,33 +21,43 @@
                                 <label for="1">Selecione a Forma de Pesquisa Desejada</label>
                                 <br>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                        id="flexRadioDefault2" checked>
-                                    <label class="form-check-label" for="flexRadioDefault2">
+                                    <input class="form-check-input" type="radio" name="pesquisa" value="cargo"
+                                        id="pesquisaCargo">
+                                    <label class="form-check-label" for="pesquisaCargo">
                                         Cargo
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                        id="flexRadioDefault1">
-                                    <label class="form-check-label" for="flexRadioDefault1">
+                                    <input class="form-check-input" type="radio" name="pesquisa" value="setor"
+                                        id="pesquisaSetor" checked>
+                                    <label class="form-check-label" for="pesquisaSetor">
                                         Setor
                                     </label>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col">
-                                    <label for="1">Selecione o Setor Desejado</label>
-                                    <select id="idsetor" class="form-select status select2" name="setor" multiple>
+                                <div class="col" id="cargoSelectContainer" style="display: none;">
+                                    <label for="1">Selecione o Cargo Desejado</label>
+                                    <select id="cargoSelect" class="form-select status select2 pesquisa-select"
+                                        name="cargo" multiple>
                                         <option></option>
-                                        @foreach ($setor as $setores)
-                                            <option value="{{ $setores->id_setor }}"
-                                                {{ $setores->nome == $setores->id_setor ? 'selected' : '' }}>
-                                                {{ $setores->nome }}
-                                            </option>
+                                        @foreach ($cargo as $cargos)
+                                            <option value="{{ $cargos->id }}">{{ $cargos->nome }}</option>
                                         @endforeach
                                     </select>
                                 </div>
+
+                                <div class="col" id="setorSelectContainer">
+                                    <label for="1">Selecione o Setor Desejado</label>
+                                    <select id="setorSelect" class="form-select status select2 pesquisa-select"
+                                        name="setor" multiple>
+                                        <option></option>
+                                        @foreach ($setor as $setores)
+                                            <option value="{{ $setores->id_setor }}">{{ $setores->nome }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
 
                                 <div class="col" style="padding-top:24px;">
                                     <a href="/controle-vagas" type="button" class="btn btn-light"
@@ -68,14 +78,13 @@
                                             <th class="col-2">Vagas Preenchidas</th>
                                             <th class="col-2">Vagas Remanescentes</th>
                                             <th class="col-2">Vagas Totais</th>
-                                            <th class="col-2">Setor</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;">
                                         @foreach ($base as $bases)
                                             <tr style="text-align: center">
                                                 <td scope="">
-                                                    {{ $bases->cargo }}
+                                                    {{ $bases->nome_cargo_regular }}
                                                 </td>
                                                 <td scope="">
                                                     {{ $totalFuncionariosSetor }}
@@ -84,10 +93,7 @@
 
                                                 </td>
                                                 <td scope="">
-                                                   {{ $totalVagasAutorizadas}}
-                                                </td>
-                                                <td scope="">
-                                                    {{ $bases->nome}}
+                                                    {{ $totalVagasAutorizadas }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -100,14 +106,36 @@
             </div>
         </div>
     </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         $(document).ready(function() {
 
             //Importa o select2 com tema do Bootstrap para a classe "select2"
-            $('.select2').select2( { theme: 'bootstrap-5'});
+            $('.select2').select2({
+                theme: 'bootstrap-5'
+            });
 
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            // Monitorar a mudança nos botões de rádio
+            $("input[type='radio'][name='pesquisa']").change(function() {
+                // Verificar qual botão de rádio está selecionado
+                var pesquisaSelecionada = $(this).val();
+
+                // Esconder todos os dropdowns de seleção
+                $(".pesquisa-select").hide();
+
+                // Mostrar o dropdown de seleção correspondente à pesquisa selecionada
+                if (pesquisaSelecionada === 'cargo') {
+                    $("#cargoSelectContainer").show();
+                } else if (pesquisaSelecionada === 'setor') {
+                    $("#setorSelectContainer").show();
+                }
+            });
         });
     </script>
 @endsection

@@ -26,7 +26,7 @@ class GerenciarAfastamentosController extends Controller
             ->leftJoin('funcionarios AS f', 'afastamento.id_funcionario', 'f.id')
             ->leftJoin('pessoas AS p', 'f.id_pessoa', 'p.id')
             ->leftJoin('tp_afastamento', 'afastamento.id_tp_afastamento', 'tp_afastamento.id')
-            ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa',  'p.nome_completo AS nome', 'afastamento.dt_inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim', 'afastamento.justificado')
+            ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa',  'p.nome_completo AS nome', 'afastamento.dt_inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim', 'afastamento.justificado', 'f.dt_inicio')
             ->where('afastamento.id_funcionario', '=', $idf)
             ->get();
 
@@ -61,15 +61,26 @@ class GerenciarAfastamentosController extends Controller
 
     {
 
+        $afastamentos = DB::table('afastamento')
+        ->leftJoin('funcionarios AS f', 'afastamento.id_funcionario', 'f.id')
+        ->select('f.dt_inicio');
+
+
        $justificado=isset($request->justificado) ? true : false ;
 
 
 
-        if ($request->input('dt_inicio') >= $request->input('dt_fim') && $request->input('dt_fim') != null) {
+        if ($request->input('dt_inicio') >= $request->input('dt_fim')) {
             $caminho = $this->storeFile($request);
             app('flasher')->addError('A data inicial é maior ou igual a data final');
             return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
-        } else {
+        }
+        elseif ($request->input('dt_inicio') < $afastamentos->get('f.dt_fim')) {
+            $caminho = $this->storeFile($request);
+            app('flasher')->addError('A data inicial é muito antiga');
+            return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
+        }
+        else {
             $caminho = $this->storeFile($request);
             $data = [
                 'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
