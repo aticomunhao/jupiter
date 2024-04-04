@@ -134,8 +134,6 @@ class GerenciarFeriasController extends Controller
 
         $adiantar_decimo_terceiro = false;
 
-        // Calcula os dias de direito do funcionário (exemplo: 30 dias de férias - dias de falta)
-        $diasDeDireitoDoFuncionario = 30 - ($faltas = 0);
 
         // Obtém o ano de referência
         $ano_referente = Carbon::now()->year - 1;
@@ -152,6 +150,49 @@ class GerenciarFeriasController extends Controller
             ->where('id_funcionario', $id)
             ->where('ano_de_referencia', '=', $ano_referente)
             ->first();
+
+
+        // Calcula os dias de direito do funcionário (exemplo: 30 dias de férias - dias de falta)
+        $faltas = 0;
+
+        $atestados = DB::table('afastamento')
+            ->join('tp_afastamento', 'afastamento.id_tp_afastamento', '=', 'tp_afastamento.id')
+            ->where('dt_inicio', '>=', $ferias->inicio_periodo_aquisitivo)
+            ->where('dt_fim', '<=', $ferias->fim_periodo_aquisitivo)
+            ->select('tp_afastamento.limite',
+                'afastamento.qtd_dias')
+            ->get();
+
+        foreach ($atestados as $atestado) {
+            $faltas += $atestado->qtd_dias - $atestado->limite;
+        }
+
+        if ($faltas <= 5) {
+            $diasDeDireitoDoFuncionario = 30;
+        } elseif ($faltas >= 6 && $faltas <= 14) {
+            $diasDeDireitoDoFuncionario = 24;
+        } elseif ($faltas >= 15 && $faltas <= 23) {
+            $diasDeDireitoDoFuncionario = 18;
+        } elseif ($faltas >= 24 && $faltas <= 32) {
+            $diasDeDireitoDoFuncionario = 12;
+        } else {
+            $diasDeDireitoDoFuncionario = 0;
+
+            DB::table('ferias')
+                ->where('id', '=', $ferias->id)
+                ->update([
+                    'status_pedido_ferias' => 5,
+                    'motivo_retorno' => "O funcionario não possui direito a  por ter faltado mais de 32 dias sem abono"
+                ]);
+            DB::table('hist_recusa_ferias')->insert([
+                'id_periodo_de_ferias' => $id,
+                'motivo_retorno' => "O funcionario não possui direito a  por ter faltado mais de 32 dias sem abono"
+            ]);
+            app('flasher')->addError('O funcionario não possui direito a  por ter faltado mais de 32 dias sem abono');
+            return redirect()->route('IndexGerenciarFerias');
+        }
+
+        $diasDeDireitoDoFuncionario = 30;
 
         // Verifica o número de períodos de férias
         if ($formulario_de_ferias['numeroPeriodoDeFerias'] == 1) {
@@ -248,10 +289,16 @@ class GerenciarFeriasController extends Controller
             elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
                 app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) .
                     'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo período');
-            } elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
+            }//Verifica se a data inicia do primeiro periodo de ferias ocorre em uma sexta-feira
+            elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
-            } elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5) {
+            } //Verifica se a data inicia do primeiro periodo de ferias ocorre em uma sexta-feira
+            elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5) {
                 app('flasher')->addError('A data inicial do segundo periodo ocorre dois dias antes do descanso semanal remunerado');
+            } elseif (Carbon::parse($data_inicio_primeiro_periodo)->diffInDays($data_fim_primeiro_periodo) < 5) {
+                app('flasher')->addError('O primeiro periodo é inferior a 5 dias');
+            } elseif (Carbon::parse($data_inicio_segundo_periodo)->diffInDays($data_fim_segundo_periodo) < 5) {
+                app('flasher')->addError('O segundo periodo é inferior a 5 dias');
             } else {
                 DB::table('ferias')->where('id', $ferias->id)->update([
                     'dt_ini_a' => $data_inicio_primeiro_periodo,
@@ -461,20 +508,7 @@ class GerenciarFeriasController extends Controller
             ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
             ->select(
                 'pessoas.nome_completo as nome_completo_funcionario',
-                'pessoas.id as id_pessoa',
-                'ferias.dt_ini_a',
-                'ferias.dt_fim_a',
-                'ferias.dt_ini_b',
-                'ferias.dt_fim_b',
-                'ferias.dt_ini_c',
-                'ferias.dt_fim_c',
-                'ferias.motivo_retorno',
-                'ferias.id as id_ferias',
-                'funcionarios.dt_inicio',
-                'ferias.ano_de_referencia',
-                'ferias.id_funcionario',
-                'status_pedido_ferias.id as id_status_pedido_ferias',
-                'status_pedido_ferias.nome as status_pedido_ferias'
+
             )
             ->where('ferias.id', '=', $id)
             ->first();
@@ -485,7 +519,7 @@ class GerenciarFeriasController extends Controller
             'id_periodo_de_ferias' => $id,
             'motivo_retorno' => "Sucesso"
         ]);
-        app('flasher')->addSuccess("As ferias do funcionario $periodo_de_ferias->nome_completo_funcionario foram autorizadas");
+        app('flasher')->addSuccess("As ferias do funcionario $periodo_de_ferias->nome_completo_funcionario foram autorizadas.");
         return redirect()->back();
     }
 
