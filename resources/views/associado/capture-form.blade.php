@@ -8,13 +8,10 @@
 <body>
     <h1>Capture Photo</h1>
 
-    @if(session('success'))
-        <p style="color: green;">{{ session('success') }}</p>
-    @endif
-
+    
     <form action="/capture-photo" method="post">
         @csrf
-        <video id="video" width="640" height="480" autoplay></video>
+        <video id="video" width="300" height="400" autoplay></video>
         <button type="button" id="capture-btn">Capture Photo</button>
         <input type="hidden" name="photo" id="photo-input">
         <br>

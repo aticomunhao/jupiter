@@ -69,7 +69,7 @@ class GerenciarSetoresController extends Controller
             $lista_setor->where('s.dt_inicio', '=', $request->dt_inicio);
         }
 
-        if ($request->dt_inicio) {
+        if ($request->dt_fim) {
             $lista_setor->where('s.dt_fim', '=', $request->dt_fim);
         }
 
@@ -79,8 +79,8 @@ class GerenciarSetoresController extends Controller
             $lista_setor->whereNotNull('s.dt_fim');
         }
 
-        $lista_setor = $lista_setor->orderBy('status', 'asc')->orderBy('s.nome', 'asc')->paginate(10);
-
+        $lista_setor = $lista_setor->orderBy('status', 'asc')->orderBy('s.nome', 'asc')->paginate(100);
+        
 
         return view('/setores/gerenciar-setor', compact('lista_setor', 'nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai'));
     }
@@ -163,8 +163,10 @@ class GerenciarSetoresController extends Controller
 
         Session::flash('ids', $ids);
 
+        $nome_setor = DB::table('setor')->where('setor.id', $ids)->get();
 
-        return view('/setores/substituir-setor', compact('setor'));
+
+        return view('/setores/substituir-setor', compact('setor', 'nome_setor'));
     }
 
     public function subst(Request $request, string $ids)

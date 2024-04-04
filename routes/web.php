@@ -148,6 +148,7 @@
     Route::get('/excluir-dados-bancarios-associado/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'delete']);
     Route::get('/capture-photo/{id}',  [App\Http\Controllers\PhotoController::class, 'showCaptureForm'])->name('capture.form');
     Route::post('/capture-photo', [App\Http\Controllers\PhotoController::class, 'storeCapturedPhoto']);
+    Route::any('/visualizar-foto', [App\Http\Controllers\PhotoController::class, 'visualizarfoto']);
 
 
 

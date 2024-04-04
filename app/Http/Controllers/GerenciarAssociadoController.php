@@ -87,6 +87,7 @@ class GerenciarAssociadoController extends Controller
 
 
 
+
       return view('/associado/incluir-associado', compact('cidade', 'tp_uf', 'ddd'));
    }
    public function retornaCidadeDadosResidenciais($id)
@@ -154,6 +155,8 @@ class GerenciarAssociadoController extends Controller
          ->select(
             'ass.id AS ida',
             'ass.nr_associado',
+            'ass.dt_inicio',
+            'ass.dt_fim',
             'p.id AS idp',
             'endp.id AS ide',
             'ass.dt_inicio',
@@ -186,7 +189,7 @@ class GerenciarAssociadoController extends Controller
 
       //dd($tpcidade);
 
-      // dd($edit_associado);
+      //dd($edit_associado);
 
       return view('associado/editar-associado', compact('edit_associado', 'tpddd', 'tpcidade', 'tpufidt', 'tp_uf'));
    }

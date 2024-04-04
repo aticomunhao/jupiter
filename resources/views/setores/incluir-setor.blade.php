@@ -24,7 +24,7 @@
                         <div class="row">
                                 <div class="form-group  col-xl-4 col-md-5 ">
                                     <label for="1">Nome</label>
-                                    <input type="text" class="form-control" style="border: 1px solid #999999; padding: 5px;" id="1" name="nome_setor" value="{{ old('nome_setor') }}">
+                                    <input type="text" class="form-control" style="border: 1px solid #999999; padding: 5px;" id="1" name="nome_setor" value="{{ old('nome_setor') }}"  required>
                                 </div>
                                 <div class="form-group  col-xl-2 col-md-2">
                                     <label for="2">Sigla</label>
@@ -34,7 +34,7 @@
 
                                 <div class="form-group  col-xl-4 col-md-2">
                                     <label for="3">Nivel</label>
-                                    <select class="form-select" name="nivel" id="3" value="{{ old('niv') }}" style="border: 1px solid #999999; padding: 5px;">
+                                    <select class="form-select" name="nivel" id="3" value="{{ old('niv') }}" style="border: 1px solid #999999; padding: 5px;"  required>
                                         <value="">
                                             <option value=""></option>
                                             @foreach ($nivel as $niveis)
@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group  col-xl-2 col-md-2">
                                     <label for="4">Data de Inicio</label>
-                                    <input type="date" class="form-control" style="border: 1px solid #999999; padding: 5px;" name="dt_inicio" id="4">
+                                    <input type="date" class="form-control" style="border: 1px solid #999999; padding: 5px;" name="dt_inicio" id="4"  required>
                                 </div>
                         </div>
                     </div>

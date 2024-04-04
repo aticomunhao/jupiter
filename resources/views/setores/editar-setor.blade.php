@@ -30,15 +30,15 @@
                         <div class="row">
                             <div class="form-group  col-xl-3 col-md-5 ">
                                 <label for="1">Nome</label>
-                                <input class="form-control" name="nome" style="border: 1px solid #999999; padding: 5px;"maxlength="60" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="1" value="{{$editar[0]->nome}}">
+                                <input class="form-control" name="nome" style="border: 1px solid #999999; padding: 5px;"maxlength="60" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="1" value="{{$editar[0]->nome}}" required>
                             </div>
                             <div class="form-group  col-xl-2 col-md-5">
                                 <label for="2">Sigla</label>
-                                <input type="text" class="form-control" style="border: 1px solid #999999; padding: 5px;"name="sigla" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" value="{{$editar[0]->sigla}}">
+                                <input type="text" class="form-control" style="border: 1px solid #999999; padding: 5px;"name="sigla" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="2" value="{{$editar[0]->sigla}}"  required>
                             </div>
                             <div class="form-group  col-xl-2 col-md-5 ">
                                 <label for="3">Data de Inicio</label>
-                                <input type="date" class="form-control" style="border: 1px solid #999999; padding: 5px;" name="dt_inicio" id="3" value="{{$editar[0]->dt_inicio}}">
+                                <input type="date" class="form-control" style="border: 1px solid #999999; padding: 5px;" name="dt_inicio" id="3" value="{{$editar[0]->dt_inicio}}"  required>
                             </div>
                             <div class="form-group  col-xl-2 col-md-5">
                                 <label for="4">Data Final</label>
@@ -46,7 +46,7 @@
                             </div>
                             <div class="form-group  col-xl-3 col-md-2">
                                 <label for="3">Nível</label>
-                                <select class="form-select" style="border: 1px solid #999999; padding: 5px;" name="nivel" id="3">
+                                <select class="form-select" style="border: 1px solid #999999; padding: 5px;" name="nivel" id="3"  required>
                                     <option value="{{ $editar[0]->id_nivel }}">{{$editar[0]->nome_nivel }}</option>
                                     @foreach ($nivel as $niveis)
                                     <option value="{{ $niveis->idset }}">{{ $niveis->nome}}</option>

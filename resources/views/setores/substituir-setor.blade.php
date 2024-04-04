@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-5">
-                                <input class="form-control" type="text" value="{{ $setor[0]->nome}}" id="iddt_inicio" name="dt_inicio" required="required" disabled>
+                                <input class="form-control" type="text" value="{{ $nome_setor[0]->nome}}" id="iddt_inicio" name="dt_inicio" required="required" disabled>
                             </div>
                         </div>
                         <br>
@@ -33,7 +33,7 @@
 
                                 <div class=" col-12">
                                     <div>Selecione Setor Substituto</div>
-                                    <select class="form-select" name="setor_substituto">
+                                    <select class="form-select"  style="border: 1px solid #999999; padding: 5px;" name="setor_substituto" required>
                                         <value="">
                                             <option value=""></option>
                                             @foreach ($setor as $setores)

@@ -74,7 +74,9 @@
                                     {{ Carbon\Carbon::parse($lista_setores->dt_inicio)->format('d-m-Y') }}
                                 </td>
                                 <td scope="">
-                                    {{ $lista_setores->dt_fim }}
+                                @if (!empty($lista_setores->dt_fim))
+                                {{ Carbon\Carbon::parse($lista_setores->dt_fim)->format('d-m-Y') }}
+                                @endif
                                 </td>
                                 <td scope="">
                                     {{ $lista_setores->status }}
