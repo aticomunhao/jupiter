@@ -491,7 +491,7 @@ class GerenciarDadosBancariosAssociadoController extends Controller
          ->first();
       if ($caminhodocumento) {
          $caminho = $caminhodocumento->caminho_documento_bancario;
-         //dd($caminho);
+
 
          if (Storage::exists($caminho)) {
             return response()->file(storage_path('app/' . $caminho));
@@ -525,8 +525,7 @@ class GerenciarDadosBancariosAssociadoController extends Controller
      // ->where('id', $id_contribuicao_tesouraria)
      //->delete();
 
-      //$deletar_cont_boleto = DB::table('forma_contribuicao_boleto')
-     //->where('id', $id_contribuicao_boleto)
+      //$deletar_cont_boleto = DB::table('forma_contribuicao_boleto')     //->where('id', $id_contribuicao_boleto)
      //->delete();
     
       //$deletar_cont_autorizacao = DB::table('forma_contribuicao_autorizacao')

@@ -26,9 +26,9 @@ class PhotoController extends Controller
 
         $nomeArquivo = Hash::make(time() . '_photo') . '.jpg';
 
-        $caminhoArquivo = Storage::disk('public')->put('public/fotos-pessoas/' . $nomeArquivo, $fotoConteudo);
+        $caminhoArquivo = Storage::disk('public')->put('fotos-pessoas/' . $nomeArquivo, $fotoConteudo);
 
-        $caminho = ('fotos-pessoas/' . $nomeArquivo);
+        $caminho = ('public/fotos-pessoas/' . $nomeArquivo);
 
 
         if ($caminhoArquivo) {
@@ -50,7 +50,7 @@ class PhotoController extends Controller
         $ultimoId = DB::table('user_photos')
         ->orderBy('id', 'desc')
         ->first()->id;
-        dd($ultimoId);
+       // dd($ultimoId);
 
         
         $caminhodocumento = DB::table('user_photos AS us')
@@ -58,10 +58,12 @@ class PhotoController extends Controller
         ->select(['us.caminho_foto'])
         ->first();
 
+      //  dd($caminho);
+
     if ($caminhodocumento) {
         $caminho = $caminhodocumento->caminho_foto;
 
-        dd($caminho);
+        //dd($caminho);
 
         if (Storage::exists($caminho)) {
             return response()->file(storage_path('app/' . $caminho));

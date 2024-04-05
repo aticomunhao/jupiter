@@ -67,6 +67,7 @@
                                 @foreach ($lista_setor as $lista_setores)
                                 <td scope="">
                                     {{ $lista_setores->nome }}
+                                </td>
                                 <td scope="">
                                     {{ $lista_setores->sigla }}
                                 </td>
