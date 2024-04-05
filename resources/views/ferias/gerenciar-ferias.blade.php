@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('head')
-    <title>Periodo de Férias</title>
+    <title>Período de Férias</title>
 @endsection
 @section('content')
     <div class="container-fluid"> {{-- Container completo da página  --}}
@@ -11,7 +11,7 @@
                     <div class="card-header">
                         <div class="ROW">
                             <h5 class="col-12" style="color: #355089">
-                                Periodo de Férias
+                                Período de Férias
                             </h5>
                         </div>
                     </div>
