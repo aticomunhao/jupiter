@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="row" style="margin-left:5px">
-                                <div class="col-6" id="cargoSelectContainer">
+                                <div class="col" id="cargoSelectContainer">
                                     <label for="1">Selecione o Cargo Desejado</label>
                                     <br>
                                     <select id="cargoSelect" class="form-select status select2 pesquisa-select"
@@ -47,7 +47,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-6" id="setorSelectContainer">
+                                <div class="col" id="setorSelectContainer">
                                     <label for="1">Selecione o Setor Desejado</label>
                                     <br>
                                     <select id="setorSelect" class="form-select status select2 pesquisa-select"
