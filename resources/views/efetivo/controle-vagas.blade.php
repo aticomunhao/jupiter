@@ -35,9 +35,10 @@
                                     </label>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col" id="cargoSelectContainer" style="display: none;">
+                            <div class="row" style="margin-left:5px">
+                                <div class="col-6" id="cargoSelectContainer">
                                     <label for="1">Selecione o Cargo Desejado</label>
+                                    <br>
                                     <select id="cargoSelect" class="form-select status select2 pesquisa-select"
                                         name="cargo" multiple>
                                         <option></option>
@@ -46,9 +47,9 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-                                <div class="col" id="setorSelectContainer">
+                                <div class="col-6" id="setorSelectContainer">
                                     <label for="1">Selecione o Setor Desejado</label>
+                                    <br>
                                     <select id="setorSelect" class="form-select status select2 pesquisa-select"
                                         name="setor" multiple>
                                         <option></option>
@@ -57,9 +58,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-
-
-                                <div class="col" style="padding-top:24px;">
+                                <div class="col" style="padding-top:20px;">
                                     <a href="/controle-vagas" type="button" class="btn btn-light"
                                         style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px; margin-right: 5px"
                                         value="">Limpar</a>
@@ -121,19 +120,19 @@
     </script>
     <script>
         $(document).ready(function() {
+            $("#cargoSelectContainer").hide();
             // Monitorar a mudança nos botões de rádio
             $("input[type='radio'][name='pesquisa']").change(function() {
                 // Verificar qual botão de rádio está selecionado
                 var pesquisaSelecionada = $(this).val();
 
-                // Esconder todos os dropdowns de seleção
-                $(".pesquisa-select").hide();
-
                 // Mostrar o dropdown de seleção correspondente à pesquisa selecionada
                 if (pesquisaSelecionada === 'cargo') {
-                    $("#cargoSelectContainer").show();
+                    $("#cargoSelectContainer").show()
+                    $("#setorSelectContainer").hide();
                 } else if (pesquisaSelecionada === 'setor') {
-                    $("#setorSelectContainer").show();
+                    $("#setorSelectContainer").show()
+                    $("#cargoSelectContainer").hide();
                 }
             });
         });

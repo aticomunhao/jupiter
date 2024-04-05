@@ -34,7 +34,7 @@ class GerenciarEfetivoController extends Controller
                 'bs.id_funcionario',
                 'bs.cargo',
                 'bs.funcao_gratificada',
-                'bs.dt_inicio as dt_inicio_funcionario',
+                'f.dt_inicio as dt_inicio_funcionario',
                 'p.nome_completo',
                 'cr.nome AS nome_cargo_regular',
                 'fg.nome AS nome_funcao_gratificada',
