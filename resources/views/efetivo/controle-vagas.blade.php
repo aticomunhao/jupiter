@@ -40,7 +40,7 @@
                                     <label for="1">Selecione o Cargo Desejado</label>
                                     <br>
                                     <select id="cargoSelect" class="form-select status select2 pesquisa-select"
-                                        name="cargo" multiple>
+                                        name="cargo" multiple=multiple>
                                         <option></option>
                                         @foreach ($cargo as $cargos)
                                             <option value="{{ $cargos->id }}">{{ $cargos->nome }}</option>
@@ -51,7 +51,7 @@
                                     <label for="1">Selecione o Setor Desejado</label>
                                     <br>
                                     <select id="setorSelect" class="form-select status select2 pesquisa-select"
-                                        name="setor" multiple>
+                                        name="setor" multiple=multiple>
                                         <option></option>
                                         @foreach ($setor as $setores)
                                             <option value="{{ $setores->id_setor }}">{{ $setores->nome }}</option>
@@ -79,7 +79,7 @@
                                             <th class="col-2">Vagas Totais</th>
                                         </tr>
                                     </thead>
-                                    <tbody style="font-size: 15px; color:#000000;">
+                                    <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
                                         @foreach ($base as $bases)
                                             <tr style="text-align: center">
                                                 <td scope="">
@@ -92,7 +92,25 @@
 
                                                 </td>
                                                 <td scope="">
-                                                    {{ $totalVagasAutorizadas }}
+                                                    {{ $totalFuncionariosSetor }}
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                    <tbody style="font-size: 15px; color:#000000;" id='cargoTabela'>
+                                        @foreach ($base as $bases)
+                                            <tr style="text-align: center">
+                                                <td scope="">
+                                                    4321
+                                                </td>
+                                                <td scope="">
+                                                    1234
+                                                </td>
+                                                <td scope="">
+
+                                                </td>
+                                                <td scope="">
+                                                   AAAAA
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -133,6 +151,25 @@
                 } else if (pesquisaSelecionada === 'setor') {
                     $("#setorSelectContainer").show()
                     $("#cargoSelectContainer").hide();
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#cargoTabela").hide();
+            // Monitorar a mudança nos botões de rádio
+            $("input[type='radio'][name='pesquisa']").change(function() {
+                // Verificar qual botão de rádio está selecionado
+                var pesquisaSelecionada = $(this).val();
+
+                // Mostrar o dropdown de seleção correspondente à pesquisa selecionada
+                if (pesquisaSelecionada === 'cargo') {
+                    $("#cargoTabela").show()
+                    $("#setorTabela").hide();
+                } else if (pesquisaSelecionada === 'setor') {
+                    $("#setorTabela").show()
+                    $("#cargoTabela").hide();
                 }
             });
         });

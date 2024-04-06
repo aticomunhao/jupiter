@@ -16,23 +16,14 @@ class ControleVagasController extends Controller
 {
     public function index(Request $request)
     {
-        $setorId = $request->input('setor');
-
-        $quantidadeFuncionariosPorSetor = DB::table('funcionarios')
-            ->select('id_setor', DB::raw('count(*) as total_funcionarios'))
-            ->groupBy('id_setor')
-            ->get();
-
         $baseQuery = DB::table('funcionarios AS f')
             ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
             ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
             ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')
-            ->leftJoin('cargos AS fg', 'fg.id', 'bs.funcao_gratificada')
             ->leftJoin('setor AS s', 's.id', 'f.id_setor')
             ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
             ->select(
                 'cr.nome AS nome_cargo_regular',
-                'fg.nome AS nome_funcao_gratificada',
                 'va.vagas_autorizadas',
             );
 
@@ -47,6 +38,7 @@ class ControleVagasController extends Controller
 
 
         $base = $baseQuery->get();
+
 
 
         $totalFuncionariosSetor = 0;
@@ -66,8 +58,8 @@ class ControleVagasController extends Controller
             ->get();
 
         $cargo = DB::table('cargos')
-        ->select('cargos.nome', 'cargos.id')
-        ->get();
+            ->select('cargos.nome', 'cargos.id')
+            ->get();
 
 
         return view('efetivo.controle-vagas', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId', 'cargo'));
