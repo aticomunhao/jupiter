@@ -112,7 +112,7 @@ class GerenciarAcordosController extends Controller
 
         if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null) {
             app('flasher')->addError('A data inicial é maior que a data final');
-            return redirect()->route('indexGerenciarAcosrdos', ['id' => $acordo->id_funcionario]);
+            return redirect()->route('indexGerenciarAcordos', ['id' => $acordo->id_funcionario]);
         } elseif ($request->file('ficheiroNovo') == null) {
             $this->updateAcordoWithoutFile($acordo, $request);
         } elseif ($request->hasFile('ficheiroNovo')) {
