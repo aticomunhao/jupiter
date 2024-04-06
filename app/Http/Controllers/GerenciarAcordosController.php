@@ -117,9 +117,10 @@ class GerenciarAcordosController extends Controller
             $this->updateAcordoWithoutFile($acordo, $request);
         } elseif ($request->hasFile('ficheiroNovo')) {
             $this->updateAcordoWithFile($acordo, $request);
+        }else{
+            app('flasher')->addWarning('O cadastro do Acordo foi Alterado com Sucesso.');
         }
 
-        app('flasher')->addWarning('O cadastro do Acordo foi Alterado com Sucesso.');
         return redirect()->route('indexGerenciarAcordos', ['id' => $acordo->id_funcionario]);
     }
 
