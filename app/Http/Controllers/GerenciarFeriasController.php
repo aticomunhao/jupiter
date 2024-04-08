@@ -503,6 +503,11 @@ class GerenciarFeriasController extends Controller
                         'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo
 
                     ]);
+                DB::table('hist_recusa_ferias')->insert([
+                    'id_periodo_de_ferias' => $id_ferias,
+                    'motivo_retorno' => "Criação do Formulario de Férias",
+                    'data_de_acontecimento' => Carbon::now()->toDateString()
+                ]);
 
             }
             app('flasher')->addSuccess("Periodo de ferias de " . $ano_referencia . "foi criado");
