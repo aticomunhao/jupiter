@@ -147,7 +147,7 @@
 
             <div class="row justify-content-around">
                 <div class="col-4">
-                    <a href="/gerenciar-ferias" class="btn btn-danger" style="width: 100%">
+                    <a href="{{URL::previous()}}" class="btn btn-danger" style="width: 100%">
                         Cancelar
                     </a>
                 </div>

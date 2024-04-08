@@ -141,6 +141,7 @@
                     url: "/recebe-agencias/" + idbanco,
                     dataType: "json",
                     success: function(response) {
+                        e.preventDefault();
                         $('#idagencia').empty();
                         $.each(response, function(index, item) {
                             $('#idagencia').append("<option value =" + item.id + "> " +

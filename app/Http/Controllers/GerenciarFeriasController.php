@@ -124,6 +124,11 @@ class GerenciarFeriasController extends Controller
         $historico_recusa_ferias = DB::table('hist_recusa_ferias')
             ->where('id_periodo_de_ferias', $id)
             ->get();
+        if (!empty($historico_recusa_ferias)){
+            app('flasher')->addInfo("Não há nenhuma recusa das ferias do funcionario:  $funcionario->nome_completo."  );
+            return  redirect()->back();
+        }
+
 
 
         return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
@@ -487,8 +492,8 @@ class GerenciarFeriasController extends Controller
 
         if ($ferias->isEmpty()) {
             foreach ($funcionarios as $funcionario) {
-                DB::table('ferias')
-                    ->insert([
+                $id_ferias =DB::table('ferias')
+                    ->insertGetId([
                         'ano_de_referencia' => $ano_referencia,
                         'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
                         'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
@@ -498,6 +503,7 @@ class GerenciarFeriasController extends Controller
                         'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo
 
                     ]);
+
             }
             app('flasher')->addSuccess("Periodo de ferias de " . $ano_referencia . "foi criado");
         } else {

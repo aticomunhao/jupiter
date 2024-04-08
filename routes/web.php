@@ -9,6 +9,7 @@
     use App\Http\Controllers\PhotoController;
     use App\Http\Controllers\GerenciarDadosBancariosController;
     use App\Http\Controllers\GerenciarFuncionarioController;
+    use App\Http\Controllers\GerenciarBaseSalarialController;
 
     /*
 |--------------------------------------------------------------------------
@@ -84,12 +85,14 @@
     // Gerenciar Base Salarial
 
 
-    Route::any('/gerenciar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'index'])->name('GerenciarBaseSalarialController');
-    Route::any('/incluir-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'create'])->name('IncluirBaseSalarial');
-    Route::any('/vizualizar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'show'])->name('VisualizarBaseSalarial');
-    Route::any('/armazenar-base-salarial/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'store'])->name('ArmazenarBaseSalarial');
-    Route::any('/retorna-formulario/{idf}', [App\Http\Controllers\GerenciarBaseSalarialController::class, 'retornaFormulario'])->name('retornaFormulario');
-    Route::any('/editar-base-salarial/{idf}', [Controllers\GerenciarBaseSalarialController::class, 'edit'])->name('EditarBaseSalarial');
+    Route::any('/gerenciar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'index'])->name('GerenciarBaseSalarialController');
+    Route::any('/incluir-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'create'])->name('IncluirBaseSalarial');
+    Route::any('/vizualizar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'show'])->name('VisualizarBaseSalarial');
+    Route::any('/armazenar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'store'])->name('ArmazenarBaseSalarial');
+    Route::any('/retorna-formulario/{idf}', [GerenciarBaseSalarialController::class, 'retornaFormulario'])->name('retornaFormulario');
+    Route::any('/editar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'edit'])->name('EditarBaseSalarial');
+    Route::any('/retorna-cargos-editar/{id}', [GerenciarBaseSalarialController::class, 'retornaCargos']);
+    Route::any('/retorna-funcao-gratificada/{id}', [GerenciarBaseSalarialController::class,'retornaFG']);
 
 
     /*Gerenciar setores*/
@@ -223,7 +226,7 @@
     Route::any('/autorizar-ferias/{id}', [GerenciarFeriasController::class, 'autorizarferias'])->name('autorizarFerias');
     Route::any('/formulario-recusar-ferias/{id}', [GerenciarFeriasController::class, 'formulario_recusa_periodo_de_ferias'])->name('FormularioFerias');
     Route::any('/recusa-ferias/{id}', [GerenciarFeriasController::class, 'recusa_pedido_de_ferias'])->name('RecusaFerias');
-    Route::any('/visualizar-historico-recusa-ferias/{id}',[GerenciarFeriasController::class,'show'])->name('HistoricoRecusaFerias');
+    Route::any('/visualizar-historico-recusa-ferias/{id}', [GerenciarFeriasController::class, 'show'])->name('HistoricoRecusaFerias');
 
 
     /**Rotas de Entrada**/
@@ -253,4 +256,3 @@
     /*Controle de Vagas*/
 
     Route::get('/controle-vagas', [App\Http\Controllers\ControleVagasController::class, 'index'])->name('controle-vagas');
-

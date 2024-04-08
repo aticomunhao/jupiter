@@ -202,24 +202,8 @@ class GerenciarBaseSalarialController extends Controller
             )->first();
 
 
-        $cargos_regulares = DB::table('cargos')
-            ->where('tp_cargo', '=', 1)
-            ->where('status', '=', true)
-            ->get();
 
-        $funcao_gratificada = DB::table('cargos')
-            ->where('tp_cargo', '=', 2)
-            ->where('status', '=', true)
-            ->get();
-        $cargos_confianca = DB::table('cargos')
-            ->where('tp_cargo', '=', 3)
-            ->where('status', '=', true)
-            ->get();
-        $jovem_aprendiz = DB::table('cargos')
-            ->where('tp_cargo', '=', 4)
-            ->where('status', '=', true)
-            ->get();
-     
+
 
         $funcionario = DB::table('funcionarios')->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
             ->where('funcionarios.id', '=', $base_salarial->base_salarial_id_funcionario)
@@ -231,7 +215,7 @@ class GerenciarBaseSalarialController extends Controller
             ->first();
         $tp_cargo = DB::table('tp_cargo')->get();
 
-        return view('basesalarial.editar-base-salarial',  compact('base_salarial', 'cargos_regulares', 'funcao_gratificada', 'cargos_confianca', 'jovem_aprendiz','funcionario','tp_cargo'));
+        return view('basesalarial.editar-base-salarial',  compact('base_salarial', 'funcionario', 'tp_cargo'));
     }
 
     /**
@@ -248,5 +232,22 @@ class GerenciarBaseSalarialController extends Controller
     public function destroy(string $idf)
     {
         //
+    }
+
+    public function retornaCargos(string $id)
+    {
+
+        if ($id == 2) {
+            $cargos = DB::table('cargos')->where('tp_cargo', '=', 1)->get();
+            return response()->json($cargos);
+        } else {
+            $cargos = DB::table('cargos')->where('tp_cargo', '=', $id)->get();
+            return response()->json($cargos);
+        }
+    }
+    public function retornaFG()
+    {
+        $funcao_gratificada = DB::table('cargos')->where('tp_cargo', '=', 2)->get();
+        return response()->json($funcao_gratificada);
     }
 }
