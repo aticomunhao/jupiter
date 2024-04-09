@@ -15,53 +15,46 @@ use Illuminate\Support\Collection;
 class ControleVagasController extends Controller
 {
     public function index(Request $request)
-    {
-        $baseQuery = DB::table('funcionarios AS f')
-            ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
-            ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
-            ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')
-            ->leftJoin('setor AS s', 's.id', 'f.id_setor')
-            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
-            ->select(
-                'cr.nome AS nome_cargo_regular',
-                'va.vagas_autorizadas',
-            );
+{
+    $cargo = DB::table('cargos AS cr')
+        ->leftJoin('base_salarial AS bs', 'bs.cargo', 'cr.id')
+        ->leftJoin('funcionarios AS f', 'f.id', 'bs.id_funcionario')
+        ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
+        ->leftJoin('setor AS s', 's.id', 'f.id_setor')
+        ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
+        ->select('cr.id', 'cr.nome', 'bs.cargo', DB::raw('COUNT(bs.cargo) as total_funcionarios'))
+        ->groupBy('cr.id', 'bs.cargo');
 
+    $pesquisa = $request->input('pesquisa');
 
-
-        if ($setorId) {
-            $baseQuery->where('s.id', $setorId);
-            $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->where('id', $setorId)->value('vagas_autorizadas');
-        } else {
-            $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->sum('vagas_autorizadas');
-        }
-
-
-        $base = $baseQuery->get();
-
-
-
-        $totalFuncionariosSetor = 0;
-        foreach ($quantidadeFuncionariosPorSetor as $quantidade) {
-            if ($quantidade->id_setor == $setorId) {
-                $totalFuncionariosSetor = $quantidade->total_funcionarios;
-                break;
-            }
-        }
-
-        $totalFuncionariosTotal = DB::table('funcionarios')->count();
-
-
-        $setor = DB::table('setor')
-            ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
-            ->select('setor.id AS id_setor', 'setor.nome')
-            ->get();
-
-        $cargo = DB::table('cargos')
-            ->select('cargos.nome', 'cargos.id')
-            ->get();
-
-
-        return view('efetivo.controle-vagas', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId', 'cargo'));
+   if ($pesquisa === 'cargo') {
+        $cargoId = $request->input('cargo');
+        $cargo->where('cr.id', $cargoId);
     }
+
+    $cargo = $cargo->get();
+
+    $setor = DB::table('setor AS s')
+        ->leftJoin('funcionarios AS f', 's.id', 'f.id_setor')
+        ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
+        ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
+        ->leftJoin('cargos AS c', 'bs.cargo', 'c.id')
+        ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
+        ->select('s.id', 's.nome','c.nome AS nomeCargo', DB::raw('COUNT(bs.cargo) as total_funcionarios'))
+        ->groupBy('s.id', 's.nome', 'nomeCargo');
+
+    if ($pesquisa === 'setor') {
+        $setorId = $request->input('setor');
+        $setor->where('s.id', $setorId);
+    }
+
+    $setor = $setor->get();
+
+
+
+    return view('efetivo.controle-vagas', compact('cargo', 'setor', 'pesquisa'));
+}
+
+
+
 }
