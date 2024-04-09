@@ -1,81 +1,82 @@
-@extends('layouts.master')
+@extends('layouts.app')
 
 @section('title') Incluir usuário @endsection
 
 @section('content')
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
                     <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body">
+                        <div class="col">
+                            SELECIONAR PESSOA
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row justify-content-center">
+                        <form action="" class="form-horizontal mt-4" method="GET">
+                            <div class="row mb-4">
+                                <div class="col-4">Nome
+                                    <input class="form-control" type="text" maxlength="45"
+                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="1" name="nome">
+                                </div>
+                                <div class="col-2">CPF
+                                    <input class="form-control" type="text" maxlength="45"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="1" name="cpf">
+                                </div>
 
-                                    <!-- <form class="form-horizontal mt-4" method="POST" action="/pesquisar-entidade">
-                                        @csrf
-                                    <div class="row">
-									   	<div class="col-md-4">
-									    	<label for="cnpj" class="form-label">Cnpj</label>
-									    	<input type="text" class="form-control" id="cnpj" name="cnpj">
-									  	</div>
-									  	<div class="col-md-4">
-									    	<label for="nome_fantasia" class="form-label">Nome Fansasia</label>
-									    	<input type="text" class="form-control" id="nome_fantasia" name="nome_fantasia">
-									  	</div>
-									</div>
-									<div class="col-12 mt-3">
-									    <button type="submit" class="btn btn-primary">Pesquisar</button>
-
-                                        <a href="/usuario-incluir">
-                                            <input class="btn btn-primary" type="button" value="Incluir Novo">
-                                        </a>
-								  	</div>
-                                </form>      -->
-                        <h4 class="card-title">Selecionar Pessoa</h4>
-                    <hr>
-
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-body"> <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-                                        <thead>
-                                            <tr style="text-align: center;">
-                                                <th>ID</th>
-                                                <th>NAME</th>
-                                                <th>CPF</th>
-                                                <th>IDENTIDADE</th>
-                                                <th>EMAIL</th>
-                                                <th>AÇÃO</th>
-                                            </tr>
-                                        </thead>
-
-                                        <tbody>
-                                          @foreach($result as $results)
-                                             <tr>
-                                                <td>{{$results->id}}</td>
-                                                <td>{{$results->nome}}</td>
-                                                <td>{{$results->cpf}}</td>
-                                                <td>{{$results->identidade}}</td>
-                                                <td>{{$results->email}}</td>
-                                                 <td style="text-align: center;">
-                                                    <a href="cadastrar-usuarios/configurar/{{$results->id}}">
-                                                        <input class="btn btn-info" type="button" value="Selecionar">
-                                                    </a>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
+                                <div class="col"><br>
+                                    <input class="btn btn-light btn-sm me-md-2"
+                                        style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit"
+                                        value="Pesquisar">
+                                    <a href="/usuario-incluir"><input class="btn btn-light btn-sm me-md-2"
+                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="button"
+                                            value="Limpar"></a>
                                 </div>
                             </div>
                         </div>
-                        <!-- end col -->
-                    </div>
-                        <!-- end col -->
-                    </div>
+                        </form>
 
+                    <table id="datatable" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                        <thead>
+                            <tr style="text-align: center;">
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>CPF</th>
+                                <th>IDENTIDADE</th>
+                                <th>EMAIL</th>
+                                <th>AÇÃO</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach($result as $results)
+                                <tr>
+                                <td>{{$results->id}}</td>
+                                <td>{{$results->nome_completo}}</td>
+                                <td>{{$results->cpf}}</td>
+                                <td>{{$results->idt}}</td>
+                                <td>{{$results->email}}</td>
+                                    <td style="text-align: center;">
+                                    <a href="cadastrar-usuarios/configurar/{{$results->id}}">
+                                        <input class="btn btn-secondary" type="button" value="Selecionar">
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
             </div>
-            <!-- end col -->
         </div>
-        <!-- end row -->
+    </div>
+</div>
+
 @endsection
 
 @section('footerScript')
