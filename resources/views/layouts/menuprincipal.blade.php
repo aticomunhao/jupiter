@@ -31,6 +31,8 @@
                        // <li><a href="/gerenciar-funcao-gratificada"class="dropdown-item">Gerenciar Funcao Gratificada</a></li> -->
                             <li><a href="/gerenciar-tipo-desconto" class="dropdown-item">Gerenciar Tipo de Desconto</a>
                             </li>
+                            <li><a href="/gerenciar-usuario" class="dropdown-item">Gerenciar Usuários</a>
+                            </li>
                             <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">Gerenciar Cargos</a>
                             </li>
 
