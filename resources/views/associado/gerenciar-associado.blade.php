@@ -95,14 +95,14 @@
                             <td scope="" style="text-align: center">
 
                                     <a href="/editar-associado/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#camera"><i class="bi bi-camera" style="font-size: 1rem; color:#303030;"></i></button>
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#camera{{$lista_associados->id}}"><i class="bi bi-camera" style="font-size: 1rem; color:#303030;"></i></button>
                                     <a href="/capture-photo/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                                     <a href="/gerenciar-dados_bancarios/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-currency-dollar" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluir{{$lista_associado->ida}}" class="btn btn-outline-danger"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
+                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluir{{$lista_associados->id}}" class="btn btn-outline-danger"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
 
                                     <!-- Modal -->
                                     <div>
-                                        <div class="modal fade" id="excluir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="excluir{{$lista_associados->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header" style="background-color:rgba(202, 61, 61, 0.911);">
@@ -137,7 +137,7 @@
                                     <!--Fim Modal-->
                                     <!-- Modal -->
                                     <div>
-                                        <div class="modal fade" id="camera" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="camera{{$lista_associados->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header" style="background-color:#355089;">

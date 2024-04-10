@@ -39,6 +39,8 @@ class GerenciarAssociadoController extends Controller
       $dt_fim = $request->dt_fim;
       $status = $request->status;
    
+   
+   
 
 
       //dd($lista_associado);
@@ -69,7 +71,7 @@ class GerenciarAssociadoController extends Controller
       }
 
 
-      $lista_associado = $lista_associado->orderBy('status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
+      $lista_associado = $lista_associado->orderBy('status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(100);
 
 
 
@@ -104,7 +106,18 @@ class GerenciarAssociadoController extends Controller
    }
 
    public function store(Request $request)
-   {
+   {  $comparar_cpf = DB::table('pessoas')->pluck('cpf')->toArray();
+      $validacaocpf = $request->input('cpf');
+
+     //dd($comparar_cpf);
+      
+      foreach ($comparar_cpf as $cpf) {
+          if ($validacaocpf == $cpf) {
+              app('flasher')->adderror('Associado tem o mesmo CPF de uma pessoa');
+              return redirect('/gerenciar-associado');
+          }
+      }
+   
       DB::table('pessoas')
          ->insert([
             'nome_completo' => $request->input('nome_completo'),
@@ -195,6 +208,18 @@ class GerenciarAssociadoController extends Controller
    }
    public function update(Request $request, $ida, $idp, $ide)
    {
+
+      $comparar_cpf = DB::table('pessoas')->pluck('cpf')->toArray();
+      $validacaocpf = $request->input('cpf');
+
+     //dd($comparar_cpf);
+      
+      foreach ($comparar_cpf as $cpf) {
+          if ($validacaocpf == $cpf) {
+              app('flasher')->adderror('Associado tem o mesmo CPF de uma pessoa');
+              return redirect('/gerenciar-associado');
+          }
+      }
 
       DB::table('pessoas')
          ->where('id', $idp)
