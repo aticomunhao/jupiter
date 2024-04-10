@@ -13,8 +13,9 @@
                             </h5>
                         </div>
                     </div>
+
                     <div class="card-body">{{-- Faltando caminho para update --}}
-                        <form method="post" action="" enctype="multipart/form-data">
+                        <form method="post" action="{{ route('AtualizarBaseSalarial', ['idf' => $idf]) }}" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
                                 <div class="col-5">
@@ -92,7 +93,8 @@
                                         <div id="funcaograt" hidden>
                                             <h5>Função Gratificada</h5>
                                             <label for="funcaogratificadaopcoes">Escolha uma opção:</label>
-                                            <select class="form-control" name="funcao_gratificada" id="funcaogratificadaopcoes">
+                                            <select class="form-control" name="funcao_gratificada"
+                                                id="funcaogratificadaopcoes">
 
                                             </select>
                                         </div>
@@ -102,8 +104,7 @@
                             </div>
                             <div class="row mt-4">
                                 <div class="d-grid gap-1 col-2 mx-auto">
-                                    <a class="btn btn-danger btn-sm"
-                                        href="/gerenciar-base-salarial/{{ $funcionario->id_funcionario }}"
+                                    <a class="btn btn-danger btn-sm" href="{{ URL::previous() }}"
                                         role="button">Cancelar</a>
                                 </div>
                                 <div class="d-grid gap-2 col-2 mx-auto">
@@ -118,7 +119,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-
             $("#opcoesDeTipoDeCargo").change(function(e) {
                 var tipocargo = $(this).val();
                 if (tipocargo == 2) {
@@ -145,7 +145,8 @@
                         success: function(response) {
                             $('#funcaograt').prop('hidden', false)
                             $.each(response, function(index, item) {
-                                $("#funcaogratificadaopcoes").append("<option value =" + item.id + "> " +
+                                $("#funcaogratificadaopcoes").append("<option value =" +
+                                    item.id + "> " +
                                     item.nome + "</option>");
                             });
 

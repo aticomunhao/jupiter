@@ -191,9 +191,6 @@ class GerenciarBaseSalarialController extends Controller
             )->first();
 
 
-
-
-
         $funcionario = DB::table('funcionarios')->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
             ->where('funcionarios.id', '=', $base_salarial->base_salarial_id_funcionario)
             ->select([
@@ -204,15 +201,17 @@ class GerenciarBaseSalarialController extends Controller
             ->first();
         $tp_cargo = DB::table('tp_cargo')->get();
 
-        return view('basesalarial.editar-base-salarial',  compact('base_salarial', 'funcionario', 'tp_cargo'));
+        return view('basesalarial.editar-base-salarial',  compact('base_salarial', 'funcionario', 'tp_cargo','idf'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $idf)
     {
-        //
+        $resultado_form = $request->all();
+
+        dd($resultado_form);
     }
 
     /**

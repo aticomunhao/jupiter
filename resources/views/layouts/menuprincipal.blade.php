@@ -46,10 +46,10 @@
                             data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Direitos
                             Remuneratórios</a>
                         <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                            <li><a href="{{ route('IndexGerenciarFerias') }}" class="dropdown-item">Periodo de
-                                    Ferias</a>
+                            <li><a href="{{ route('IndexGerenciarFerias') }}" class="dropdown-item">Período de
+                                    Férias</a>
                             </li>
-                            <li><a href="{{ route('AdministrarFerias') }}" class="dropdown-item">Gerenciar Ferias</a>
+                            <li><a href="{{ route('AdministrarFerias') }}" class="dropdown-item">Gerenciar Férias</a>
                             </li>
                         </ul>
                     </li>

@@ -48,7 +48,7 @@
                             <div class="col-md-3">
                                 <a href="{{ route('AbreFerias') }}">
                                     <button class="btn btn-success"
-                                            style="width: 100%; box-shadow: 1px 2px 5px #000000">Liberar Férias
+                                            style="width: 100%; box-shadow: 1px 2px 5px #000000">Gerar Novo Periodo
                                     </button>
                                 </a>
                             </div>

@@ -91,8 +91,9 @@ Route::any('/gerenciar-base-salarial/{idf}', [GerenciarBaseSalarialController::c
 Route::any('/incluir-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'create'])->name('IncluirBaseSalarial');
 Route::any('/vizualizar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'show'])->name('VisualizarBaseSalarial');
 Route::any('/armazenar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'store'])->name('ArmazenarBaseSalarial');
-Route::any('/retorna-formulario/{idf}', [GerenciarBaseSalarialController::class, 'retornaFormulario'])->name('retornaFormulario');
+//Route::any('/retorna-formulario/{idf}', [GerenciarBaseSalarialController::class, 'retornaFormulario'])->name('retornaFormulario');
 Route::any('/editar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'edit'])->name('EditarBaseSalarial');
+Route::any('/atualizar-base-sallarial/{idf}',[GerenciarBaseSalarialController::class,'update'])->name('AtualizarBaseSalarial');
 Route::any('/retorna-cargos-editar/{id}', [GerenciarBaseSalarialController::class, 'retornaCargos']);
 Route::any('/retorna-funcao-gratificada', [GerenciarBaseSalarialController::class, 'retornaFG']);
 
