@@ -107,7 +107,7 @@
                                                     {{ $setores->cargoFuncionario }}
                                                 </td>
                                                 <td scope="">
-                                                    {{ $setores->totalCargo }}
+                                                    {{ $setores->total_funcionarios }}
                                                 </td>
                                                 <td scope="">
 

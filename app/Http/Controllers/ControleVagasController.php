@@ -39,10 +39,11 @@ class ControleVagasController extends Controller
     $setor = DB::table('funcionarios AS f')
     ->leftJoin('setor AS s', 'f.id_setor', 's.id')
     ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
-    ->leftJoin('cargos AS c', 'bs.cargo', 'c.id')
+    ->leftJoin('cargos AS c', 'c.id', 'bs.cargo')
     ->leftJoin('tp_vagas_autorizadas AS va', 's.id', 'va.id_setor')
     ->leftJoin('tp_cargo', 'tp_cargo.idTpCargo', 'c.tp_cargo')
-    ->select('s.nome AS nomeSetor', 's.id AS idSetor', 'c.cargo AS cargoFuncionario', DB::raw('COUNT(bs.cargo) as totalCargo'));
+    ->select('s.nome AS nomeSetor', 's.id AS idSetor', 'c.nome AS cargoFuncionario', DB::raw('COUNT(bs.cargo) as total_funcionarios'))
+    ->groupBy('nomeSetor', 'idSetor', 'cargoFuncionario');
 
 
     if ($pesquisa === 'setor') {
