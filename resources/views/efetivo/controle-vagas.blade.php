@@ -51,11 +51,11 @@
                                 <div class="col" id="setorSelectContainer" style="display: none">
                                     <label for="1">Selecione o Setor Desejado</label>
                                     <br>
-                                    <select id="setorSelect" class="form-select status select2 pesquisa-select" style="min-width: 600px"
+                                    <select id="setorSelect" class="form-select status select2 pesquisa-select"
                                         name="setor" multiple=multiple>
                                         <option></option>
                                         @foreach ($setor as $setores)
-                                            <option value="{{ $setores->id }}">{{ $setores->nome }}</option>
+                                            <option value="{{ $setores->idSetor }}">{{ $setores->nomeSetor }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -95,7 +95,7 @@
 
                                                 </td>
                                                 <td scope="">
-
+                                                    {{ $cargos->vagas_autorizadas }}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -104,16 +104,16 @@
                                         @foreach ($setor as $setores)
                                             <tr style="text-align: center">
                                                 <td scope="">
-                                                    {{ $setores->nomeCargo }}
+                                                    {{ $setores->cargoFuncionario }}
                                                 </td>
                                                 <td scope="">
-                                                    {{ $setores->total_funcionarios }}
+                                                    {{ $setores->totalCargo }}
                                                 </td>
                                                 <td scope="">
 
                                                 </td>
                                                 <td scope="">
-                                                    AAAAA
+
                                                 </td>
                                             </tr>
                                         @endforeach
