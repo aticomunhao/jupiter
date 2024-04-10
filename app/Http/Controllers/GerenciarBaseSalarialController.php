@@ -184,7 +184,7 @@ class GerenciarBaseSalarialController extends Controller
                 'cr.salario as salario_cargo_regular',
                 'fg.id as funcao_gratificada_id',
                 'fg.nome as funcao_gratificada_nome',
-                'fg.salario as funcao_gratificada_salario',
+                'fg.salario as salario_funcao_gratificada',
                 //     'f.id as funcionario',
                 'f.id_pessoa  as funcionario_id_pessoa',
                 'f.dt_inicio as funcionario_dt_inicio'

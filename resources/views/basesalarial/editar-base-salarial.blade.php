@@ -57,7 +57,7 @@
                                             <h5 class="card-title">Salario Função Gratificada</h5>
                                             <div class="card">
                                                 <div class="card-body">
-                                                    {{ $base_salarial->funcao_gratificada_nome }}
+                                                    {{ formatSalary($base_salarial->salario_funcao_gratificada) }}
                                                 </div>
                                             </div>
                                         </div>
