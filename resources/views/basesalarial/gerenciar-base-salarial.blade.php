@@ -35,16 +35,16 @@
                                     class="table table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr class="align-middle" style="background-color: #d6e3ff; font-size:19px; color:#000;">
-                                            <th class="col-2">Nome Cargo</th>
-                                            <th class="col-2">Salário</th>
-                                            <th class="col-2">Anuênio</th>
+                                            <th class="col">Nome Cargo</th>
+                                            <th class="col">Salário</th>
+                                            <th class="col">Anuênio</th>
                                             @if ($salarioatual->fgid != null)
                                                 <th>Função Gratificada</th>
                                                 <th>Gratificação</th>
                                             @endif
-                                            <th class="col-2">Data Inicial</th>
-                                            <th class="col-2">Data Final</th>
-                                            <th class="col-2">Salário Final</th>
+                                            <th class="col">Data Inicial</th>
+                                            <th class="col">Data Final</th>
+                                            <th class="col">Salário Final</th>
                                         </tr>
                                     </thead>
                                     <tbody>
