@@ -20,7 +20,7 @@
 
 
                         <div class="col-12 mt-3 mt-md-0">
-                            <hr />
+                            <hr/>
                             <form action="{{ route('ArmazenarBaseSalarial', ['idf' => $idf]) }}" method="POST">
                                 @csrf
                                 <div class="row">

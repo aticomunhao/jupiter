@@ -94,7 +94,7 @@ Route::any('/armazenar-base-salarial/{idf}', [GerenciarBaseSalarialController::c
 Route::any('/retorna-formulario/{idf}', [GerenciarBaseSalarialController::class, 'retornaFormulario'])->name('retornaFormulario');
 Route::any('/editar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'edit'])->name('EditarBaseSalarial');
 Route::any('/retorna-cargos-editar/{id}', [GerenciarBaseSalarialController::class, 'retornaCargos']);
-Route::any('/retorna-funcao-gratificada/{id}', [GerenciarBaseSalarialController::class, 'retornaFG']);
+Route::any('/retorna-funcao-gratificada', [GerenciarBaseSalarialController::class, 'retornaFG']);
 
 
 /*Gerenciar setores*/

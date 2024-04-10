@@ -64,13 +64,41 @@
                                 @endif
                                 <hr>
 
-                                <h5>Selecione o novo Tipo de Cargo</h5>
-                                <label for="opcoesDeTipoDeCargo">Escolha uma opção:</label>
-                                <select class="form-control" id="opcoesDeTipoDeCargo">
-                                    @foreach ($tp_cargo as $tp_cargos)
-                                        <option value="{{ $tp_cargos->idTpCargo }}">{{ $tp_cargos->nomeTpCargo }} </option>
-                                    @endforeach
-                                </select>
+                                <div class="row">
+                                    <div class="col">
+                                        <h5>Selecione o novo Tipo de Cargo</h5>
+                                        <label for="opcoesDeTipoDeCargo">Escolha uma opção:</label>
+                                        <select class="form-control" id="opcoesDeTipoDeCargo">
+                                            @foreach ($tp_cargo as $tp_cargos)
+                                                <option value="{{ $tp_cargos->idTpCargo }}">{{ $tp_cargos->nomeTpCargo }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col">
+                                        <h5>Cargo : </h5>
+                                        <label for="cargos">Escolha uma opção:</label>
+                                        <select name="cargo_normal" class="form-control" id="cargos" disabled>
+
+                                        </select>
+                                    </div>
+
+
+                                    <div class="col">
+                                        <div id="funcaograt" hidden>
+                                            <h5>Função Gratificada</h5>
+                                            <label for="funcaogratificadaopcoes">Escolha uma opção:</label>
+                                            <select class="form-control" name="funcao_gratificada" id="funcaogratificadaopcoes">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="row mt-4">
                                 <div class="d-grid gap-1 col-2 mx-auto">
@@ -89,9 +117,66 @@
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-      $(document).ready(function () {
-        console.log("AAAAAA");
-      });
+        $(document).ready(function() {
+
+            $("#opcoesDeTipoDeCargo").change(function(e) {
+                var tipocargo = $(this).val();
+                if (tipocargo == 2) {
+                    $('#cargos').empty()
+                    $.ajax({
+                        type: "GET",
+                        url: "/retorna-cargos-editar/" + tipocargo,
+                        dataType: "json",
+                        success: function(response) {
+                            $('#cargos').prop('disabled', false);
+                            $('#cargos').prop('required', true);;
+                            $.each(response, function(index, item) {
+                                $("#cargos").append("<option value =" + item.id + "> " +
+                                    item.nome + "</option>");
+                            });
+
+                        }
+                    });
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/retorna-funcao-gratificada",
+                        dataType: "json",
+                        success: function(response) {
+                            $('#funcaograt').prop('hidden', false)
+                            $.each(response, function(index, item) {
+                                $("#funcaogratificadaopcoes").append("<option value =" + item.id + "> " +
+                                    item.nome + "</option>");
+                            });
+
+                        }
+                    });
+                } else {
+
+                    $('#cargos').empty();
+                    $('#funcaograt').prop('hidden', true);
+                    $.ajax({
+                        type: "GET",
+                        url: "/retorna-cargos-editar/" + tipocargo,
+                        dataType: "json",
+                        success: function(response) {
+                            $("#funcaogratificadaopcoes").empty();
+                            $('#cargos').prop('disabled', false);
+                            $('#cargos').prop('required', true);;
+                            $.each(response, function(index, item) {
+                                $("#cargos").append("<option value =" + item.id + "> " +
+                                    item.nome + "</option>");
+                            });
+
+                        }
+                    });
+
+
+
+                }
+
+            });
+        });
     </script>
 @endsection
 @php
