@@ -40,7 +40,7 @@ class GerenciarBaseSalarialController extends Controller
 
 
         if ($hist_base_salarial->isEmpty()) {
-            return redirect()->route('retornaFormulario', ['idf' => $idf]);
+            return redirect()->route('IncluirBaseSalarial', ['idf' => $idf]);
         } else {
             $salarioatual = DB::table('base_salarial as bs')
                 ->leftJoin('cargos as cr', 'bs.cargo', '=', 'cr.id')
@@ -83,27 +83,22 @@ class GerenciarBaseSalarialController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($idf, Request $request)
+    public function create($idf)
     {
-        $input = $request->input("tipocargo");
+        $funcionario = DB::table('funcionarios')->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
+            ->where('funcionarios.id', '=', $idf)
+            ->select([
+                'pessoas.nome_completo',
+                'pessoas.id as id_pessoa',
+                'funcionarios.id as id_funcionario'
+            ])
+            ->first();
+            $tp_cargo = DB::table('tp_cargo')->get();
 
-        if ($input == 1) {
-            $cargo = DB::table('cargos')->where('tp_cargo', '=', '1')->where('status', '=', 'true')->get();
-            $tp_cargo = DB::table('tp_cargo')->where('idTpCargo', $input)->first();
-            return view('basesalarial.cadastrar-base-salarial', compact('cargo', 'idf', 'tp_cargo'));
-        } else if ($input == 2) {
-            $cargo = DB::table('cargos')->where('tp_cargo', '=', '1')->where('status', '=', 'true')->get();
-            $funcaoGratificada = DB::table('cargos')->where('tp_cargo', '=', '2')->where('status', '=', 'true')->get();
-            return view('basesalarial.grat-form', compact('cargo', 'idf', 'funcaoGratificada'));
-        } else if ($input == 3) {
-            $cargo = DB::table('cargos')->where('tp_cargo', '=', '3')->where('status', '=', 'true')->get();
-            $tp_cargo = DB::table('tp_cargo')->where('idTpCargo', $input)->first();
-            return view('basesalarial.cadastrar-base-salarial', compact('cargo', 'idf', 'tp_cargo'));
-        } else if ($input == 4) {
-            $cargo = DB::table('cargos')->where('tp_cargo', '=', '4')->where('status', '=', 'true')->get();
-            $tp_cargo = DB::table('tp_cargo')->where('idTpCargo', $input)->first();
-            return view('basesalarial.cadastrar-base-salarial', compact('cargo', 'idf', 'tp_cargo'));
-        }
+
+
+            return view('basesalarial.cadastrar-base-salarial', compact('funcionario', 'tp_cargo', 'idf'));
+
     }
 
     /**
@@ -160,12 +155,6 @@ class GerenciarBaseSalarialController extends Controller
         return redirect()->route('GerenciarBaseSalarialController', ['idf' => $idf]);
     }
 
-    public function retornaFormulario(string $idf)
-    {
-        $tp_cargo = DB::table('tp_cargo')->get();
-
-        return view('basesalarial.tipo-cargo', compact('tp_cargo', 'idf'));
-    }
 
     /**
      * Display the specified resource.

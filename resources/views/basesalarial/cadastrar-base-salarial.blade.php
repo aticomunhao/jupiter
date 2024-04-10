@@ -1,46 +1,152 @@
 @extends('layouts.app')
-@section('head')
-    <title>Incluir Base Salarial</title>
-@endsection
+
 @section('content')
-    <div class="container mt-4">
-        <div class="card" style="border-color:#355089">
-            <div class="card-header">
-                Incluir Base Salarial
-            </div>
-            <div class="card-body">
-                <div class="row d-flex justify-content-between">
-                    <div class="col-md-6 col-sm-12">
-                        <input class="form-control" type="text" value="{{ $tp_cargo->nomeTpCargo }}"
-                            aria-label="Disabled input example" disabled>
+    <div class="container-fluid"> {{-- Container completo da página  --}}
+        <div class="justify-content-center">
+            <div class="col-12">
+                <br>
+                <div class="card" style="border-color: #355089">
+                    <div class="card-header">
+                        <div class="ROW">
+                            <h5 class="col-12" style="color: #355089">
+                                Editar Salário
+                            </h5>
+                        </div>
                     </div>
-                    <div class="col-md-6 col-sm-12 mt-3 mt-md-0">
-                        <form action="{{ route('ArmazenarBaseSalarial', ['idf' => $idf]) }}" method="POST">
+                    <div class="card-body">{{-- Faltando caminho para update --}}
+                        <form method="post" action="{{ route('ArmazenarBaseSalarial', ['idf' => $idf]) }}" enctype="multipart/form-data">
                             @csrf
-                            <select class="form-select" aria-label="Cargo" name="cargo">
-                                <option value="">Escolha o Cargo</option>
-                                @foreach ($cargo as $cargos)
-                                    <option value="{{ $cargos->id }}">{{ $cargos->nome }}</option>
-                                @endforeach
-                            </select>
+                            <div class="row">
+                                <div class="col-5">
+                                    <input class="form-control" type="text" value="{{ $funcionario->nome_completo }}"
+                                        id="iddt_inicio" name="dt_inicio" required="required" disabled>
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Selecione o novo Tipo de Cargo</h5>
+                                    <label for="opcoesDeTipoDeCargo">Escolha uma opção:</label>
+                                    <select class="form-control" id="opcoesDeTipoDeCargo">
+                                        @foreach ($tp_cargo as $tp_cargos)
+                                            <option value="{{ $tp_cargos->idTpCargo }}">{{ $tp_cargos->nomeTpCargo }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Cargo : </h5>
+                                    <label for="cargos">Escolha uma opção:</label>
+                                    <select name="cargo" class="form-control" id="cargos" disabled>
+
+                                    </select>
+                                </div>
+
+
+                                <div class="col">
+                                    <div id="funcaograt" hidden>
+                                        <h5>Função Gratificada</h5>
+                                        <label for="funcaogratificadaopcoes">Escolha uma opção:</label>
+                                        <select class="form-control" name="funcaog" id="funcaogratificadaopcoes">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
 
                     </div>
-                    <center>
-                        <div class="col-12" style="margin-top: 70px;">
-                            <a href="/retorna-formulario/{{ $idf }}" class="btn btn-secondary col-3">
-                                Cancelar
-                            </a>
-                            <button type = "submit" class="btn btn-primary col-3 offset-3">
-                                Confirmar
-                            </button>
+                    <div class="row mt-4">
+                        <div class="d-grid gap-1 col-2 mx-auto">
+                            <a class="btn btn-danger btn-sm"
+                                href="/gerenciar-base-salarial/{{ $funcionario->id_funcionario }}"
+                                role="button">Cancelar</a>
                         </div>
-                    </center>
-                </form>
+                        <div class="d-grid gap-2 col-2 mx-auto">
+                            <button type="submit" class="btn btn-primary btn-sm" id="sucesso">Confirmar</button>
+                        </div>
+                    </div>
+
+
+
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+
+            $("#opcoesDeTipoDeCargo").change(function(e) {
+                var tipocargo = $(this).val();
+                if (tipocargo == 2) {
+                    $('#cargos').empty()
+                    $.ajax({
+                        type: "GET",
+                        url: "/retorna-cargos-editar/" + tipocargo,
+                        dataType: "json",
+                        success: function(response) {
+                            $('#cargos').prop('disabled', false);
+                            $('#cargos').prop('required', true);;
+                            $.each(response, function(index, item) {
+                                $("#cargos").append("<option value =" + item.id + "> " +
+                                    item.nome + "</option>");
+                            });
+
+                        }
+                    });
+
+                    $.ajax({
+                        type: "GET",
+                        url: "/retorna-funcao-gratificada",
+                        dataType: "json",
+                        success: function(response) {
+                            $('#funcaograt').prop('hidden', false)
+                            $.each(response, function(index, item) {
+                                $("#funcaogratificadaopcoes").append("<option value =" +
+                                    item.id + "> " +
+                                    item.nome + "</option>");
+                            });
+
+                        }
+                    });
+                } else {
+
+                    $('#cargos').empty();
+                    $('#funcaograt').prop('hidden', true);
+                    $.ajax({
+                        type: "GET",
+                        url: "/retorna-cargos-editar/" + tipocargo,
+                        dataType: "json",
+                        success: function(response) {
+                            $("#funcaogratificadaopcoes").empty();
+                            $('#cargos').prop('disabled', false);
+                            $('#cargos').prop('required', true);;
+                            $.each(response, function(index, item) {
+                                $("#cargos").append("<option value =" + item.id + "> " +
+                                    item.nome + "</option>");
+                            });
+
+                        }
+                    });
 
 
+
+                }
+
+            });
+        });
+    </script>
 @endsection
+@php
+    function formatSalary($salary)
+    {
+        return 'R$ ' . number_format($salary, 2, ',', '.');
+    }
 
+@endphp
