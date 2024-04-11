@@ -17,7 +17,7 @@
 
                         <div class="col-md-2 col-sm-12">
                             <label for="2">Valor</label>
-                            <input type="text" class="form-control" name="valor" placeholder="R$ 0,00" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="">
+                            <input type="text" class="form-control"  style="border: 1px solid #999999; padding: 5px;" name="valor" placeholder="R$ 0,00" maxlength="11" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="">
                         </div>
                         <div class="col-md-4 col-sm-12">
                             <label for="Banco">
@@ -44,13 +44,13 @@
                 </div>
                 <div class="container-fluid">
                     <div class="row d-flex justify-content-around">
-                        <div class="col-md-2 col-sm-12">
+                        <div class="col-md-1 col-sm-12">
                             <label for="4">Data de Vencimento</label>
-                            <input type="date" class="form-control" name="dt_vencimento" id="4" value="">
+                            <input type="text" class="form-control" name="dt_vencimento" style="border: 1px solid #999999; padding: 5px;" id="2"  maxlength="2" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="">
                         </div>
                         <div class="col-md-2 col-sm-12">
                             <label for="2">Conta Corrente</label>
-                            <input type="text" class="form-control" name="conta_corrente" maxlength="6">
+                            <input type="text" class="form-control" name="conta_corrente" style="border: 1px solid #999999; padding: 5px;" maxlength="6">
                         </div>
                     </div>
                 </div>
@@ -86,25 +86,25 @@
                     <div class="col">
                         <h6>Boleto Bancário</h6>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boleto" id="mensal" value="mensal">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="mensal" value="mensal">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Mensal
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boleto" id="trimestral" value="trimestral">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="trimestral" value="trimestral">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Trimestral
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boleto" id="semestral" value="semestral">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="semestral" value="semestral">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Semestral
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="boleto" id="anual" value="anual">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="anual" value="anual">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Anual
                             </label>
@@ -113,13 +113,13 @@
                     <div class="col">
                         <h6>Autorização em Débito em conta</h6>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="autorizacao" id="banco_do_brasil" value="banco_do_brasil">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="banco_do_brasil" value="banco_do_brasil">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 Banco do Brasil
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="autorizacao" id="brb" value="brb">
+                            <input class="form-check-input" type="radio" name="tesouraria" id="brb" value="brb">
                             <label class="form-check-label" for="flexRadioDefault1">
                                 BRB
                             </label>

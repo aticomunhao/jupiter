@@ -12,7 +12,21 @@ class PhotoController extends Controller
     public function showCaptureForm($ida)
     {
         //dd($ida);
-        return view('/associado/capture-form');
+
+        $lista_associado = DB::table('associado AS ass')
+        ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
+        ->where('ass.id', $ida)
+        ->select(
+           'ass.nr_associado',
+           'ass.id',
+           'p.nome_completo',
+           'ass.dt_inicio',  
+           'ass.dt_fim'
+        )->get();
+
+    //    dd($foto_associado);
+
+        return view('/associado/capture-form', compact('lista_associado'));
     }
     public function storeCapturedPhoto(Request $request)
     {

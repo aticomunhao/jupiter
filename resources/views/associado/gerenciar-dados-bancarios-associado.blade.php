@@ -112,7 +112,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <center>
-                                    <h5 class="card-title">Dia de Vencimento</h5>
+                                    <h5 class="card-title">Dia do Vencimento</h5>
                                     <center>
                                         <hr>
                                         <div class="col-md-5 col-sm-12">

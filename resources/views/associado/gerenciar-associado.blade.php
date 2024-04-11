@@ -94,82 +94,82 @@
 
                             <td scope="" style="text-align: center">
 
-                                    <a href="/editar-associado/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#camera{{$lista_associados->id}}"><i class="bi bi-camera" style="font-size: 1rem; color:#303030;"></i></button>
-                                    <a href="/capture-photo/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                    <a href="/gerenciar-dados_bancarios/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-currency-dollar" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                    <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluir{{$lista_associados->id}}" class="btn btn-outline-danger"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
+                                <a href="/editar-associado/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#camera{{$lista_associados->id}}"><i class="bi bi-camera" style="font-size: 1rem; color:#303030;"></i></button> 
+                                <a href="/capture-photo/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <a href="/gerenciar-dados_bancarios/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-currency-dollar" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluir{{$lista_associados->id}}" class="btn btn-outline-danger"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
 
-                                    <!-- Modal -->
-                                    <div>
-                                        <div class="modal fade" id="excluir{{$lista_associados->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header" style="background-color:rgba(202, 61, 61, 0.911);">
-                                                        <div class="row">
-                                                            <h2 style="color:white;">Excluir Setor</h2>
-                                                        </div>
+                                <!-- Modal -->
+                                <div>
+                                    <div class="modal fade" id="excluir{{$lista_associados->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background-color:rgba(202, 61, 61, 0.911);">
+                                                    <div class="row">
+                                                        <h2 style="color:white;">Excluir Setor</h2>
+                                                    </div>
 
-                                                    </div>
-                                                    <div class="modal-body" style="color:#e24444;">
-                                                        <p class="fw-bold alert alert text-center">
-                                                            Você
-                                                            realmente deseja excluir o Associado:
-                                                           <span>{{ $lista_associados->nome_completo}}</span>
+                                                </div>
+                                                <div class="modal-body" style="color:#e24444;">
+                                                    <p class="fw-bold alert alert text-center">
+                                                        Você
+                                                        realmente deseja excluir o Associado:
+                                                        <span>{{ $lista_associados->nome_completo}}</span>
 
-                                                        </p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                        <a href=""><button type="button" class="btn btn-danger">Desativar
-                                                                Permanentemente
-                                                            </button></a>
-                                                    </div>
+                                                    </p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a href=""><button type="button" class="btn btn-danger">Desativar
+                                                            Permanentemente
+                                                        </button></a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
 
 
 
 
-                                    <!--Fim Modal-->
-                                    <!-- Modal -->
-                                    <div>
-                                        <div class="modal fade" id="camera{{$lista_associados->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header" style="background-color:#355089;">
-                                                        <div class="row">
-                                                            <h2 style="color:white;">Foto Associado</h2>
-                                                        </div>
-
+                                <!--Fim Modal-->
+                                <!-- Modal -->
+                                <div>
+                                    <div class="modal fade" id="camera{{$lista_associados->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header" style="background-color:#355089;">
+                                                    <div class="row">
+                                                        <h2 style="color:white;">Foto Associado</h2>
                                                     </div>
 
-                                                    <div class="modal-body">
-                                                        <div class="container-fluid">
-
-                                                            <form action="/capture-photo" method="post">
-                                                                <center>
-                                                                    @csrf
-                                                                    <video id="video" width="300" height="300" autoplay></video>
-                                                                    <input type="hidden" name="photo" id="photo-input">
-                                                                </center>
-                                                                <br>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                                        <button type="button" class="btn btn-secondary" id="capture-btn">Tirar foto</button>
-                                                        <button type="submit" class="btn btn-primary">Salvar mudanças</button>
-                                                    </div>
-                                                    </form>
                                                 </div>
+
+                                                <div class="modal-body">
+                                                    <div class="container-fluid">
+
+                                                        <form action="/capture-photo" method="post">
+                                                            <center>
+                                                                @csrf
+                                                                <video id="video" width="300" height="300" autoplay></video>
+                                                                <input type="hidden" name="photo" id="photo-input">
+                                                            </center>
+                                                            <br>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                                    <button type="button" class="btn btn-secondary" id="capture-btn">Tirar foto</button>
+                                                    <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                                                </div>
+                                                </form>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        <!--Fim Modal-->
+                                    <!--Fim Modal-->
                             </td>
                         </tr>
                         </tr>
@@ -179,10 +179,9 @@
                     <script>
                         document.addEventListener("DOMContentLoaded", function() {
                             const video = document.getElementById('video');
-                            const canvas = document.createElement('canvas');
-                            const context = canvas.getContext('2d');
                             const captureBtn = document.getElementById('capture-btn');
                             const photoInput = document.getElementById('photo-input');
+                            const canvas = document.createElement('canvas');
 
                             navigator.mediaDevices.getUserMedia({
                                     video: true
@@ -202,6 +201,7 @@
                             });
                         });
                     </script>
+                    
 
                     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
                     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
