@@ -44,7 +44,7 @@
                                         multiple=multiple>
                                         <option></option>
                                         @foreach ($cargo as $cargos)
-                                            <option value="{{ $cargos->id }}">{{ $cargos->nome }}</option>
+                                            <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -86,16 +86,16 @@
                                         @foreach ($cargo as $cargos)
                                             <tr style="text-align: center">
                                                 <td scope="">
-                                                    {{ $cargos->nome }}
+                                                    {{ $cargos->nomeCargo }}
                                                 </td>
                                                 <td scope="">
-                                                    {{ $cargos->total_funcionarios }}
+                                                    {{ $cargos->numero_funcionario }}
                                                 </td>
                                                 <td scope="">
 
                                                 </td>
                                                 <td scope="">
-                                                    {{ $cargos->vagas_autorizadas }}
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -104,10 +104,12 @@
                                         @foreach ($setor as $setores)
                                             <tr style="text-align: center">
                                                 <td scope="">
-                                                    {{ $setores->cargoFuncionario }}
+                                                   @if ($setores->nomeCargo !== null)
+                                                   {{ $setores->nomeCargo }}
+                                                   @endif
                                                 </td>
                                                 <td scope="">
-                                                    {{ $setores->total_funcionarios }}
+
                                                 </td>
                                                 <td scope="">
 
