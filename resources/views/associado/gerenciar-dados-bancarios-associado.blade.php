@@ -129,7 +129,7 @@
                                     <center>
                                         <hr>
                                         <div class="col-md-4 col-sm-12">
-                                            <input style="text-align: center;" type="text" class="form-control" name="" value="{{$associado->valor}}" disabled="">
+                                            <input style="text-align: center;" type="text" class="form-control" name="" value="R${{$associado->valor}}" disabled="">
                                         </div>
                             </div>
                         </div>

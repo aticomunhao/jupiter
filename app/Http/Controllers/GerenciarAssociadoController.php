@@ -257,5 +257,8 @@ class GerenciarAssociadoController extends Controller
 
       return redirect('/gerenciar-associado');
    }
+      function delete($id){
+         $delete_associado = DB::table('associado')->where('associado.id', $id)->delete();
+      }
 
 }

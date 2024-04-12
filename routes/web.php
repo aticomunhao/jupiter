@@ -133,6 +133,7 @@ Route::any('/incluir-associado', [App\Http\Controllers\GerenciarAssociadoControl
 Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
 Route::any('/atualizar-associado/{ida}/{idp}/{ide}', [App\Http\Controllers\GerenciarAssociadoController::class, 'update']);
 Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
+Route::get('/excluir-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'delete']);
 Route::get('/gerenciar-dados_bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'index'])->name('gerenciar-dados-bancario-associado');
 Route::get('/visualizar-dados/{id}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'store']);
 Route::any('/incluir-dados_bancarios-associado/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'incluirdadosbancarios']);
