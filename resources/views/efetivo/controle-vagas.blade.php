@@ -95,7 +95,7 @@
 
                                                 </td>
                                                 <td scope="">
-
+                                                    {{ $cargos->vagasTotais}}
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -106,16 +106,26 @@
                                                 <td scope="">
                                                    @if ($setores->nomeCargo !== null)
                                                    {{ $setores->nomeCargo }}
+                                                   @else
                                                    @endif
                                                 </td>
                                                 <td scope="">
-
+                                                    @if ($setores->nomeCargo !== null)
+                                                    {{ $setores->numero_funcionario }}
+                                                    @else
+                                                    @endif
                                                 </td>
                                                 <td scope="">
-
+                                                    @if ($setores->nomeCargo !== null)
+                                                    {{ $setores->nomeCargo }}
+                                                    @else
+                                                    @endif
                                                 </td>
                                                 <td scope="">
-
+                                                    @if ($setores->nomeCargo !== null)
+                                                    {{ $setores->vagasTotais }}
+                                                    @else
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach
