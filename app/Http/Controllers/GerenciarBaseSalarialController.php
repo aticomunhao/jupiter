@@ -93,11 +93,10 @@ class GerenciarBaseSalarialController extends Controller
                 'funcionarios.id as id_funcionario'
             ])
             ->first();
-            $tp_cargo = DB::table('tp_cargo')->get();
+        $tp_cargo = DB::table('tp_cargo')->get();
 
 
-
-            return view('basesalarial.cadastrar-base-salarial', compact('funcionario', 'tp_cargo', 'idf'));
+        return view('basesalarial.cadastrar-base-salarial', compact('funcionario', 'tp_cargo', 'idf'));
 
     }
 
@@ -201,7 +200,7 @@ class GerenciarBaseSalarialController extends Controller
             ->first();
         $tp_cargo = DB::table('tp_cargo')->get();
 
-        return view('basesalarial.editar-base-salarial',  compact('base_salarial', 'funcionario', 'tp_cargo','idf'));
+        return view('basesalarial.editar-base-salarial', compact('base_salarial', 'funcionario', 'tp_cargo', 'idf'));
     }
 
     /**
@@ -233,6 +232,7 @@ class GerenciarBaseSalarialController extends Controller
             return response()->json($cargos);
         }
     }
+
     public function retornaFG()
     {
         $funcao_gratificada = DB::table('cargos')->where('tp_cargo', '=', 2)->get();

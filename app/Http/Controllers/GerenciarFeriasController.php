@@ -122,13 +122,41 @@ class GerenciarFeriasController extends Controller
 
 
         $historico_recusa_ferias = DB::table('hist_recusa_ferias')
-            ->where('id_periodo_de_ferias', '=',$id)
+            ->where('id_periodo_de_ferias', '=', $id)
             ->get();
 
         if (empty($historico_recusa_ferias)) {
-            app('flasher')->addInfo("Não há nenhuma recusa das férias do funcionário:  $funcionario->nome_completo.");
+            app('flasher')->addInfo("Não há nenhuma informação das férias do funcionário:  $funcionario->nome_completo.");
             return redirect()->back();
         }
+
+        $aaaaa = DB::table('ferias')
+            ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+            ->select(
+                'pessoas.nome_completo as nome_completo_funcionario',
+                'pessoas.id as id_pessoa',
+                'ferias.dt_ini_a',
+                'ferias.dt_fim_a',
+                'ferias.dt_ini_b',
+                'ferias.dt_fim_b',
+                'ferias.dt_ini_c',
+                'ferias.dt_fim_c',
+                'ferias.id as id_ferias',
+                'ferias.motivo_retorno',
+                'funcionarios.dt_inicio',
+                'ferias.ano_de_referencia',
+                'ferias.id_funcionario',
+                'status_pedido_ferias.id as id_status_pedido_ferias',
+                'status_pedido_ferias.nome as status_pedido_ferias',
+                'ferias.dt_fim_periodo_de_licenca',
+                'ferias.dt_inicio_periodo_de_licenca'
+            )
+            ->where('ano_de_referencia', $ano_referencia)
+            ->where('id_funcionario', $id)
+            ->first();
+        dd($aaaaa);
 
 
         return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
@@ -544,7 +572,7 @@ class GerenciarFeriasController extends Controller
             ->where('ferias.id', '=', $id)
             ->first();
         DB::table('ferias')->where('id', '=', $id)->update([
-            'status_pedido_ferias' => 5
+            'status_pedido_ferias' => 6
         ]);
         DB::table('hist_recusa_ferias')->insert([
             'id_periodo_de_ferias' => $id,
@@ -593,7 +621,7 @@ class GerenciarFeriasController extends Controller
             ->where('id', $id)
             ->update([
                 'motivo_retorno' => $request->input('motivo_da_recusa'),
-                'status_pedido_ferias' => 4
+                'status_pedido_ferias' => 5
             ]);
 
         DB::table('hist_recusa_ferias')->insert([
@@ -605,4 +633,44 @@ class GerenciarFeriasController extends Controller
         return redirect()->route('AdministrarFerias');
     }
 
+    public function enviarFerias()
+    {
+        $ferias_funcionarios = DB::table('ferias')
+            ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+            ->select(
+                'pessoas.nome_completo as nome_completo_funcionario',
+                'pessoas.id as id_pessoa',
+                'ferias.dt_ini_a',
+                'ferias.dt_fim_a',
+                'ferias.dt_ini_b',
+                'ferias.dt_fim_b',
+                'ferias.dt_ini_c',
+                'ferias.dt_fim_c',
+                'ferias.motivo_retorno',
+                'ferias.id as id_ferias',
+                'funcionarios.dt_inicio',
+                'ferias.ano_de_referencia',
+                'ferias.id_funcionario',
+                'status_pedido_ferias.id as id_status_pedido_ferias',
+                'status_pedido_ferias.nome as status_pedido_ferias'
+            )
+            ->where('ano_de_referencia', '=', ((Carbon::now()->year) - 1))
+            ->get();
+
+        foreach ($ferias_funcionarios as $ferias_funcinoario) {
+
+            if (empty($ferias_funcinoario->dt_ini_a)) {
+                app('flasher')->addError('Ainda é necessario preencher as férias do funcionario ' . $ferias_funcinoario->nome_completo_funcionario);
+                return redirect()->route('IndexGerenciarFerias');
+            }
+        }
+
+        DB::table('ferias')
+            ->update(['status_pedido_ferias' => 4]);
+
+
+        return redirect()->back();
+    }
 }
