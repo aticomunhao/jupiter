@@ -108,7 +108,7 @@
 
                                             <td style="text-align: center">
 
-                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 3)
+                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 4)
                                                     <a
                                                         href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
                                                         <button class="btn btn-outline-success"><i

@@ -27,11 +27,20 @@
                                         @endforeach
                                     </select>
                             </div>
-                            <div class="col-md-8 col-12">
+                            <div class="col-md-4 col-12">
                                 <button type="submit" class="btn btn-light col-md-3 col-12 mt-5 mt-md-0"
                                     style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;">
                                     Pesquisar
                                 </button>
+                            </div>
+                            <div class="col-md-2 col-12">
+                                <a href="{{ route('enviar-ferias') }}" class="btn btn-success col-md-3 col-12 mt-5 mt-md-0"
+                                    style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px; width:100%">
+
+                                    Enviar Ferias
+
+
+                                </a>
                             </div>
                         </div>
                         </form>
@@ -100,7 +109,7 @@
                                             <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}
                                             </td>
                                             <td>
-                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 1 or $periodos_aquisitivos->id_status_pedido_ferias == 4)
+                                                @if ($periodos_aquisitivos->id_status_pedido_ferias != 4 or $periodos_aquisitivos->id_status_pedido_ferias == 6)
                                                     <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_funcionario]) }}"
                                                         class="btn btn-outline-success">
                                                         <i class="bi bi-pencil-square"></i>
