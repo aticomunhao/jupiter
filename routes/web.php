@@ -258,4 +258,6 @@ Route::get('/gerenciar-efetivo', [App\Http\Controllers\GerenciarEfetivoControlle
 
 /*Controle de Vagas*/
 
-Route::get('/controle-vagas', [App\Http\Controllers\ControleVagasController::class, 'index'])->name('controle-vagas');
+Route::get('/controle-vagas', [App\Http\Controllers\ControleVagasController::class, 'index'])->name('indexControleVagas');
+Route::any('/incluir-vagas', [App\Http\Controllers\ControleVagasController::class, 'create']);
+Route::any('/armazenar-vagas', [App\Http\Controllers\ControleVagasController::class, 'store']);

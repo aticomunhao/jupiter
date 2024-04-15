@@ -94,10 +94,12 @@ class GerenciarAfastamentosController extends Controller
             ];
 
 
+
             DB::table('afastamento')->insert($data);
             app('flasher')->addSuccess('O cadastro do afastamentos foi realizado com sucesso.');
             return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
         }
+        dd($request);
     }
 
     /**

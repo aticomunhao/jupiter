@@ -17,6 +17,13 @@
                                 </h5>
                             </div>
                             <hr>
+                            <div class="col-md-3 offset-md-8 col-12"> {{-- Botão de incluir --}}
+                                <a href="/incluir-vagas/" class="col-6">
+                                    <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;" class="btn btn-success col-md-8 col-12">
+                                        Novo+
+                                    </button>
+                                </a>
+                            </div>
                             <div class="card-body">
                                 <label for="1">Selecione a Forma de Pesquisa Desejada</label>
                                 <br>
@@ -27,7 +34,7 @@
                                         Cargo
                                     </label>
                                 </div>
-                                <div class="form-check">
+                                <div class="form-check col-12">
                                     <input class="form-check-input" type="radio" name="pesquisa" value="setor"
                                         id="pesquisaSetor" {{ $pesquisa === 'setor' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="pesquisaSetor">
