@@ -11,40 +11,49 @@ use Illuminate\Support\CollectionorderBy;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
+use PhpParser\Node\Expr\AssignOp\ShiftLeft;
 
 class ControleVagasController extends Controller
 {
     public function index(Request $request)
     {
-        $cargo = DB::table('cargos AS cr')
-            ->leftJoin('base_salarial AS bs', 'bs.cargo', 'cr.id')
-            ->leftJoin('funcionarios AS f', 'f.id', 'bs.id_funcionario')
-            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_cargo', 'cr.id')
-            ->leftJoin('setor AS s', 's.id', 'va.id_setor')
-            ->leftJoin('funcionarios AS fu', 'fu.id_setor', 's.id')
-            ->select('cr.id AS idCargo', 'cr.nome AS nomeCargo', 'va.vagas_autorizadas AS vagasTotais', DB::raw('COUNT(bs.cargo) AS numero_funcionario'))
-            ->groupBy('idCargo', 'nomeCargo', 'vagasTotais');
+        /* $cargo = DB::table('cargos')
+        ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_cargo', 'cargos.id')
+        ->leftJoin('setor AS s', 's.id', 'va.id_setor')
+        ->leftJoin('funcionarios AS f', 'f.id_setor', 's.id')
+        ->leftJoin('base_salarial AS bs', 'bs.cargo', 'cargos.id')
+        ->select('cargos.id AS idCargo', 'cargos.nome AS nomeCargo', DB::raw('SUM(va.vagas_autorizadas) AS numero_funcionarios'), DB::raw('COUNT(bs.id_funcionario) AS numero_total'))
+        ->groupBy('idCargo', 'nomeCargo');
+        dd($cargo);
+*/
+
+        $cargo = DB::table('funcionarios AS f')
+            ->leftJoin('setor AS s', 's.id', 'f.id_setor')
+            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
+            ->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
+            ->leftJoin('base_salarial AS bs', 'bs.id_funcionario', 'f.id')
+            ->leftJoin('cargos AS c', 'bs.cargo', 'c.id')
+            ->select('c.id AS idCargo', 'c.nome AS nomeCargo');
 
         $pesquisa = $request->input('pesquisa');
 
-        if ($pesquisa === 'cargo') {
+        if ($pesquisa == 'cargo') {
             $cargoId = $request->input('cargo');
-            $cargo->whereNotNull('cr.id', $cargoId);
+            $cargo->whereNotNull('cargos.id', $cargoId);
         }
 
         $cargo = $cargo->get();
+        //dd($cargo);
 
-        $setor = DB::table('setor AS s')
-            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
-            ->leftJoin('funcionarios AS f', 'f.id_setor', 's.id')
-            ->leftJoin('base_salarial AS bs', 'bs.id_funcionario', 'f.id')
-            ->leftJoin('cargos AS c', 'c.id', 'bs.cargo')
-            ->select('s.id AS idSetor', 's.nome AS nomeSetor', 'va.vagas_autorizadas AS vagasTotais', 'c.nome AS nomeCargo', DB::raw('COUNT(bs.cargo) AS numero_funcionario'))
-            ->groupBy('idSetor', 'nomeSetor', 'nomeCargo', 'vagasTotais');
 
-        if ($pesquisa === 'setor') {
+
+
+        $setor = DB::table('setor')
+            ->select('setor.id AS idSetor', 'setor.nome AS nomeSetor');
+
+        if ($pesquisa == 'setor') {
             $setorId = $request->input('setor');
-            $setor->whereNotNull('s.id', $setorId);
+            $setor->where('setor.id', $setorId);
         }
 
         $setor = $setor->get();

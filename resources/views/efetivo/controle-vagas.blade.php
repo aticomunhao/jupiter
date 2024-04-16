@@ -29,14 +29,14 @@
                                 <br>
                                 <div class="form-check">
                                     <input class="form-check-input" type="radio" name="pesquisa" value="cargo"
-                                        {{ $pesquisa === 'cargo' ? 'checked' : '' }} id="pesquisaCargo">
+                                        {{ $pesquisa == 'cargo' ? 'checked' : '' }} id="pesquisaCargo">
                                     <label class="form-check-label" for="pesquisaCargo">
                                         Cargo
                                     </label>
                                 </div>
                                 <div class="form-check col-12">
                                     <input class="form-check-input" type="radio" name="pesquisa" value="setor"
-                                        id="pesquisaSetor" {{ $pesquisa === 'setor' ? 'checked' : '' }}>
+                                        id="pesquisaSetor" {{ $pesquisa == 'setor' ? 'checked' : '' }}>
                                     <label class="form-check-label" for="pesquisaSetor">
                                         Setor
                                     </label>
@@ -46,15 +46,22 @@
                                 <div class="col" id="cargoSelectContainer" style="display: none">
                                     <label for="1">Selecione o Cargo Desejado</label>
                                     <br>
-                                    <select id="cargoSelect"
-                                        class="form-select status select2 pesquisa-select" name="cargo"
-                                        multiple=multiple>
+                                    <select id="cargoSelect" class="form-select status select2 pesquisa-select" name="cargo" multiple=multiple>
                                         <option></option>
+                                        @php
+                                            $cargosExibidos = []; // Array para armazenar os cargos únicos já exibidos
+                                        @endphp
                                         @foreach ($cargo as $cargos)
-                                            <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
+                                            @if (!in_array($cargos->nomeCargo, $cargosExibidos))
+                                                <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
+                                                @php
+                                                    $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos únicos exibidos
+                                                @endphp
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
+
                                 <div class="col" id="setorSelectContainer" style="display: none">
                                     <label for="1">Selecione o Setor Desejado</label>
                                     <br>
@@ -90,49 +97,38 @@
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;" id='cargoTabela'>
+                                        @php
+                                            $cargosExibidos = []; // Array para armazenar os cargos já exibidos
+                                        @endphp
                                         @foreach ($cargo as $cargos)
+                                            @if (!in_array($cargos->nomeCargo, $cargosExibidos))
+                                                <tr style="text-align: center">
+                                                    <td scope="">{{ $cargos->nomeCargo }}</td>
+                                                    <td scope=""></td>
+                                                    <td scope=""></td>
+                                                    <td scope=""></td>
+                                                </tr>
+                                                @php
+                                                    $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos exibidos
+                                                @endphp
+                                            @endif
+                                        @endforeach
+                                    </tbody>
+
+                                    <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
+                                        @foreach ($setor as $setores)
                                             <tr style="text-align: center">
                                                 <td scope="">
-                                                    {{ $cargos->nomeCargo }}
-                                                </td>
-                                                <td scope="">
-                                                    {{ $cargos->numero_funcionario }}
+
                                                 </td>
                                                 <td scope="">
 
                                                 </td>
                                                 <td scope="">
-                                                    {{ $cargos->vagasTotais}}
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                    <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
-                                        @foreach ($setor as $setores)
-                                            <tr style="text-align: center">
-                                                <td scope="">
-                                                   @if ($setores->nomeCargo !== null)
-                                                   {{ $setores->nomeCargo }}
-                                                   @else
-                                                   @endif
+
                                                 </td>
                                                 <td scope="">
-                                                    @if ($setores->nomeCargo !== null)
-                                                    {{ $setores->numero_funcionario }}
-                                                    @else
-                                                    @endif
-                                                </td>
-                                                <td scope="">
-                                                    @if ($setores->nomeCargo !== null)
-                                                    {{ $setores->nomeCargo }}
-                                                    @else
-                                                    @endif
-                                                </td>
-                                                <td scope="">
-                                                    @if ($setores->nomeCargo !== null)
-                                                    {{ $setores->vagasTotais }}
-                                                    @else
-                                                    @endif
+
                                                 </td>
                                             </tr>
                                         @endforeach
