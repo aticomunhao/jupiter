@@ -5,7 +5,7 @@
     <div class="container">
         <div class="card">
             <h5 class="card-header">
-                <div class="row">
+                <div class="row d-flex justify-content-between">
                     <div class="col-sm-12 col-md-4">
                         <div class="card">
                             <div class="card-body">
@@ -13,11 +13,98 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-sm-12 col-md-4">
+
+                        <div class="card">
+                            <div class="card-body">
+                                {{ $funcionario->nome_completo }}
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </h5>
             <div class="card-body">
                 <div class="card">
                     <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="inicio_gozo_ferias">Data de Início do Período de Gozo de Férias:</label>
+                                <input type="date" id="inicio_gozo_ferias" class="form-control"
+                                       value="{{$periodo_de_ferias->dt_ini_a}}" readonly>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="fim_possivel_gozo_ferias">Data de Término do Período Possível de Gozo de
+                                    Férias:</label>
+                                <input type="date" id="fim_possivel_gozo_ferias" class="form-control"
+                                       value="{{$periodo_de_ferias->dt_fim_a}}" readonly>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
+                                    Férias:</label>
+                                <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
+                                       value="{{$periodo_de_ferias->dt_ini_a}}" readonly>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                    Férias:</label>
+                                <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
+                                       value="{{$periodo_de_ferias->dt_fim_a}}" readonly>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
+                                       value="{{$periodo_de_ferias->nr_dias_per_a}}" readonly>
+                            </div>
+                        </div>
+
+                        @if(!empty($periodo_de_ferias->dt_fim_b))
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
+                                        Férias:</label>
+                                    <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
+                                           value="{{$periodo_de_ferias->dt_ini_b}}" readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                        Férias:</label>
+                                    <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
+                                           value="{{$periodo_de_ferias->dt_fim_b}}" readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                    <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
+                                           value="{{$periodo_de_ferias->nr_dias_per_b}}" readonly>
+                                </div>
+                            </div>
+                        @endif
+                        @if(!empty($periodo_de_ferias->dt_fim_c))
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
+                                        Férias:</label>
+                                    <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
+                                           value="{{$periodo_de_ferias->dt_ini_c}}" readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                        Férias:</label>
+                                    <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
+                                           value="{{$periodo_de_ferias->dt_fim_c}}" readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                    <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
+                                           value="{{$periodo_de_ferias->nr_dias_per_c}}" readonly>
+                                </div>
+                            </div>
+                        @endif
+
 
                     </div>
                 </div>
