@@ -11,7 +11,8 @@ use Illuminate\Support\CollectionorderBy;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
-
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\View;
 
 class GerenciarAssociadoController extends Controller
 {
@@ -257,8 +258,77 @@ class GerenciarAssociadoController extends Controller
 
       return redirect('/gerenciar-associado');
    }
+   public function documentobancariopdf($id)
+   {
+
+
+ 
+      $associado = DB::table('associado AS as')
+         ->leftJoin('contribuicao_associado AS cont', 'as.id', '=', 'cont.id_associado')
+         ->leftJoin('forma_contribuicao_autorizacao AS contaut', 'cont.id_contribuicao_autorizacao', '=', 'contaut.id')
+         ->leftJoin('forma_contribuicao_boleto AS contbol', 'cont.id_contribuicao_boleto', '=', 'contbol.id')
+         ->leftJoin('forma_contribuicao_tesouraria AS conttes', 'cont.id_contribuicao_tesouraria', '=', 'conttes.id')
+         ->leftJoin('pessoas AS p', 'as.id_pessoa', '=', 'p.id')
+         ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
+         ->leftjoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
+         ->where('as.id', $id)
+         ->select(
+            'as.nr_associado',
+            'p.nome_completo',
+            'p.cpf',
+            'p.idt',
+            'p.celular',
+            'p.email',
+            'endp.cep',
+            'endp.logradouro',
+            'endp.numero',
+            'endp.bairro',
+            'endp.complemento',
+            'tc.descricao',
+            'cont.valor',
+            'contaut.banco_do_brasil',
+            'contaut.brb',
+            'cont.dt_vencimento',
+            'cont.id_agencia',
+            'cont.id_banco',
+            'contbol.mensal',
+            'contbol.trimestral',
+            'contbol.semestral',
+            'contbol.anual',
+            'conttes.dinheiro',
+            'conttes.cheque',
+            'conttes.ct_de_debito',
+            'conttes.ct_de_credito'
+
+         )
+         ->first();
+
+    // dd($associado);
+
+
+
+      //dd($associado);
+
+      $html = View::make('associado/documento-associado', compact('associado'))->render();
+
+      // Cria uma instância do Dompdf
+      $dompdf = new Dompdf();
+
+      // Carrega o HTML no Dompdf
+      $dompdf->loadHtml($html);
+
+      // Renderiza o PDF
+      $dompdf->render();
+
+      // Saída do PDF no navegador
+      return $dompdf->stream();
+         }
       function delete($id){
          $delete_associado = DB::table('associado')->where('associado.id', $id)->delete();
+
+         app('flasher')->addSuccess('O cadastro do Associado foi excluido com sucesso.');
+
+         return redirect('/gerenciar-associado');
       }
 
 }

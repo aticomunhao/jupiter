@@ -98,6 +98,8 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#camera{{$lista_associados->id}}"><i class="bi bi-camera" style="font-size: 1rem; color:#303030;"></i></button>
                                 <a href="/capture-photo/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/gerenciar-dados_bancarios/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-currency-dollar" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <a href="/documento-associado/{{$lista_associados->id}}"><button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-archive" style="font-size: 1rem; color:#303030;"></i></button></a>
+                                <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modalExemplo"><i class="bi bi-box-arrow-in-down" style="font-size: 1rem; color:#303030;"></i></button>
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluir{{$lista_associados->id}}" class="btn btn-outline-danger"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
 
                                 <!-- Modal -->
@@ -121,7 +123,7 @@
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <a href="/excluir-associado/{{ $lista_associado->id }}"><button type="button" class="btn btn-danger">Desativar
+                                                    <a href="/excluir-associado/{{ $lista_associados->id }}"><button type="button" class="btn btn-danger">Desativar
                                                             Permanentemente
                                                         </button></a>
                                                 </div>
