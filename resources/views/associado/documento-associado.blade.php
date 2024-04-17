@@ -27,7 +27,7 @@
       p {
         margin: 5px;
         text-align: justify;
-        line-height: 150%;
+        line-height: 100%;
       }
 
       .assinatura {
@@ -112,82 +112,60 @@
     <p>DIA DE VENCIMENTO:{{$associado->dt_vencimento}}</p>
   </th>
   <th class="tabe">
-  <p>REQUERIMENTO DE ISENÇÃO: ()Deferindo - () Indeferido</p>
+  <p>4)REQUERIMENTO DE ISENÇÃO: ()Deferindo - () Indeferido</p>
   </th>
 </tr>
 </table>
-<table>
-<tr>
-  <th class="tabe">
-    <p>CEP: {{$associado->descricao}}</p>
-  </th>
-  <th class="tabe">
-  <p>TELEFONE(S): {{$associado->celular}}</p>
-  </th>
-  <th class="tabe">
-  <p>E-MAIL: {{$associado->email}}</p>
-  </th>
-</tr>
-</table>
-    <br />
     <table>
       <th>
         <p>
-          Eu,
-          <span style="text-decoration: underline"
-            >{{$associado->nome_completo}}</span
-          >
-          portador (a) da Carteira de Identidade nº
-          <span style="text-decoration: underline">{{$associado->idt}}</span> e
-          CPF
-          <span style="text-decoration: underline">{{$associado->cpf}}</span>,
-          residente em
-          <span style="text-decoration: underline"
-            >{{$associado->descricao}}, {{$associado->bairro}},
-            {{$associado->numero}}</span
-          >
-          CEP
-          <span style="text-decoration: underline">{{$associado->cep}}</span>
-          telefone
-          <span style="text-decoration: underline"
-            >{{$associado->celular}}</span
-          >
-          e e-mail
-          <span style="text-decoration: underline">{{$associado->email}}</span>
-          AUTORIZO a Comunhão Espírita de Brasília a efetuar mensalmente, no dia
-          <span style="text-decoration: underline"
-            >{{substr($associado->dt_vencimento, -2)}}</span
-          >, débito em minha Agência nº
-          <span style="text-decoration: underline"></span> Conta Corrente nº
-          <span style="text-decoration: underline"></span> do Banco do Brasil
-          S.A., o valor da R$<span style="text-decoration: underline"
-            >{{ $associado->valor }}</span
-          >
-          referente ao pagamento de mensalidade na qualidade de associado
-          nº<span style="text-decoration: underline"
-            >{{$associado->nr_associado}}</span
-          >
-          da Comunhão Espírita de Brasília.
-        </p>
-        @php $meses = [ 1 => 'Janeiro', 2 => 'Fevereiro', 3 => 'Março', 4 =>
-        'Abril', 5 => 'Maio', 6 => 'Junho', 7 => 'Julho', 8 => 'Agosto', 9 =>
-        'Setembro', 10 => 'Outubro', 11 => 'Novembro', 12 => 'Dezembro' ];
-        $mesAtual = intval(date('n')); @endphp
+          OBSERVAÇÕES:
+          <br>
 
-        <p class="data">
-          Brasília,
-          <span style="text-decoration: underline">{{ date('d') }}</span> de
-          <span style="text-decoration: underline"
-            >{{ $meses[$mesAtual] }}</span
-          >
-          de <span style="text-decoration: underline">{{ date('Y') }}</span>
+          1) A CONTRIBUIÇÃO FEITA POR MEIO DE BOLETO E AUTORIZAÇÃO DE DÉBITO EM CONTA DEVERÁ TER O VALOR MÍNIMO DE R$ 25,00.
+          <br>
+          2) APÓS DEFINIDO O VALOR DA CONTRIBUIÇÃO PELO ASSOCIADO, ESSA IMPORTÂNCIA SERÁ OBRIGATÓRIA (ART. 9º DO ESTATUTO) ATÉ A DATA DE EVENTUAL
+          ALTERAÇÃO DO VALOR. ASSIM, NÃO HAVERÁ ALTERAÇÃO DO VALOR DA CONTRIBUIÇÃO VENCIDA, EXCETO SE AUTORIZADO PELO PRESIDENTE DO CD.
+          <br>
+          3) O ASSOCIADO EM DIA COM A CONTRIBUIÇÃO PODERÁ SUSPENDER SUA CONTRIBUIÇÃO IMEDIATAMENTE, MEDIANTE SOLICITAÇÃO À TESOURARIA.
+          <br>
+          4) QUALQUER ALTERAÇÃO DE “VALOR DE CONTRIBUIÇÃO” E/OU DE “DIA DE VENCIMENTO” DEVERÁ SER REQUERIDA NA TESOURARIA.
+          <br>
+          5) O ASSOCIADO AUTORIZA A DIRETORIA ADMINISTRATIVA E FINANCEIRA DA COMUNHÃO - DAF A CIENTIFICÁ-LO QUANDO FOR CONSTATADO QUE NÃO HOUVE
+          O REGISTRO DE PAGAMENTO EM SEU SISTEMA, POR MAIS DE 2 (DOIS) MESES.
+          <br>
+          6) O ASSOCIADO DECLARA QUE CUMPRIRÁ O ESTATUTO DA COMUNHÃO, BEM COMO AS NORMAS COMPLEMENTARES DECORRENTES.      
         </p>
 
-        <br />
-        <p class="assinatura">
-          _______________________________________________________
-        </p>
-        <br />
+  
+      </th>
+    </table>
+    <table>
+      <th>
+        <p>Autorizo o TRATAMENTO e o ARMAZENAMENTO dos dados acima para uso interno e restrito da COMUNHÃO, para fins de cumprimento de dispositivos
+estatutários e legais (Art. 5º, incisos XVI! a XX! da CF; Art. 53 a 61 CC; e, Art. 9º ao 11 e 14, inc. V do Estatuto) - Contribuição mensal do Associado.
+</p><br>
+@php
+      $meses = [
+      1 => 'Janeiro',
+      2 => 'Fevereiro',
+      3 => 'Março',
+      4 => 'Abril',
+      5 => 'Maio',
+      6 => 'Junho',
+      7 => 'Julho',
+      8 => 'Agosto',
+      9 => 'Setembro',
+      10 => 'Outubro',
+      11 => 'Novembro',
+      12 => 'Dezembro'
+      ];
+      $mesAtual = intval(date('n'));
+      @endphp
+
+      <p class="data"> Brasília, <span style="text-decoration: underline;">{{ date('d') }}</span> de <span style="text-decoration: underline;">{{ $meses[$mesAtual] }}</span> de <span style="text-decoration: underline;">{{ date('Y') }}</span></p>
+      <p style="text-left:10px;">ASSINATURA DO(A) ASSOCIADO(A)__________________________________________</p>
+
       </th>
     </table>
   </body>
