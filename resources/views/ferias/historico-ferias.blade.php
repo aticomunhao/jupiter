@@ -9,25 +9,44 @@
                     <div class="col-sm-12 col-md-4">
                         <div class="card">
                             <div class="card-body">
-                                {{ $funcionario->nome_completo }}
+                                <strong>Nome do Funcionario: {{ $funcionario->nome_completo }}</strong>
                             </div>
                         </div>
                     </div>
                     <div class="col-sm-12 col-md-4">
-
                         <div class="card">
                             <div class="card-body">
-                                {{ $funcionario->nome_completo }}
+                                <strong>Status do Pedido de Férias:</strong>
+                                @switch($periodo_de_ferias->status_pedido_ferias)
+                                    @case(1)
+                                        <span class="badge bg-success">Liberado</span>
+                                        @break
+                                    @case(2)
+                                        <span class="badge bg-warning text-dark">Em Elaboração</span>
+                                        @break
+                                    @case(3)
+                                        <span class="badge bg-info">Aguardando Envio</span>
+                                        @break
+                                    @case(4)
+                                        <span class="badge bg-primary">Enviado</span>
+                                        @break
+                                    @case(5)
+                                        <span class="badge bg-danger">Ajustar</span>
+                                        @break
+                                    @case(6)
+                                        <span class="badge bg-success">Aprovado</span>
+                                        @break
+                                    @default
+                                        <span class="badge bg-secondary">Desconhecido</span>
+                                @endswitch
                             </div>
                         </div>
-
                     </div>
                 </div>
             </h5>
             <div class="card-body">
                 <div class="card">
                     <div class="card-body">
-
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="inicio_gozo_ferias">Data de Início do Período de Gozo de Férias:</label>

@@ -130,6 +130,7 @@ class GerenciarFeriasController extends Controller
         }
 
 
+
         return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
     }
 
