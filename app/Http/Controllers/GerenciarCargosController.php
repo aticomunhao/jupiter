@@ -97,7 +97,7 @@ class GerenciarCargosController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-        return view('cargos\visualizar-cargos', compact('cargo', 'hist_cargo_regular'));
+        return view('cargos.visualizar-cargos', compact('cargo', 'hist_cargo_regular'));
 
     }
 
