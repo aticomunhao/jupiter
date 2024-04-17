@@ -52,10 +52,10 @@
                                                     {{ $afastamento->nome_afa }}
                                                 </td>
                                                 <td scope="" style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->format('d/m/Y') }}
+                                                    {{ date('d/m/Y', strtotime($afastamento->inicio)) }}
                                                 </td>
                                                 <td scope=""style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($afastamento->dt_inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
+                                                    {{ \Carbon\Carbon::parse($afastamento->inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
                                                 </td>
                                                 <td scope=""style="text-align: center">
                                                     {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}

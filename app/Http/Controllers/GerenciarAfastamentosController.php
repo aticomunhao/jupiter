@@ -26,7 +26,7 @@ class GerenciarAfastamentosController extends Controller
             ->leftJoin('funcionarios AS f', 'afastamento.id_funcionario', 'f.id')
             ->leftJoin('pessoas AS p', 'f.id_pessoa', 'p.id')
             ->leftJoin('tp_afastamento', 'afastamento.id_tp_afastamento', 'tp_afastamento.id')
-            ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa',  'p.nome_completo AS nome', 'afastamento.dt_inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim', 'afastamento.justificado', 'f.dt_inicio')
+            ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa',  'p.nome_completo AS nome', 'afastamento.dt_inicio AS inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim', 'afastamento.justificado', 'f.dt_inicio')
             ->where('afastamento.id_funcionario', '=', $idf)
             ->get();
 
@@ -61,26 +61,29 @@ class GerenciarAfastamentosController extends Controller
 
     {
 
-        $afastamentos = DB::table('afastamento')
-        ->leftJoin('funcionarios AS f', 'afastamento.id_funcionario', 'f.id')
-        ->select('f.dt_inicio');
+        $afastamentos = DB::table('funcionarios AS f')
+            ->leftJoin('afastamento', 'afastamento.id_funcionario', 'f.id')
+            //->select('f.dt_inicio')
+            ->where('f.id', $idf)
+            ->value('f.dt_inicio');
 
+        $bola = date(strtotime($afastamentos));
+        $canhao = $request->input('dt_inicio');
+        $fogo = date(strtotime($canhao));
 
-       $justificado=isset($request->justificado) ? true : false ;
+        $justificado = isset($request->justificado) ? true : false;
 
-
+        $teste = ($fogo < $bola);
 
         if ($request->input('dt_inicio') >= $request->input('dt_fim')) {
             $caminho = $this->storeFile($request);
             app('flasher')->addError('A data inicial é maior ou igual a data final');
             return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
-        }
-        elseif ($request->input('dt_inicio') < $afastamentos->get('f.dt_fim')) {
+        } elseif ($teste) {
             $caminho = $this->storeFile($request);
             app('flasher')->addError('A data inicial é muito antiga');
             return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
-        }
-        else {
+        } else {
             $caminho = $this->storeFile($request);
             $data = [
                 'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
@@ -88,7 +91,7 @@ class GerenciarAfastamentosController extends Controller
                 'dt_inicio' => $request->input('dt_inicio'),
                 'dt_fim' => $request->input('dt_fim'),
                 'id_funcionario' => $idf,
-                'justificado'=> $justificado,
+                'justificado' => $justificado,
                 'observacao' => $request->input('observacao'),
                 'caminho' => $caminho
             ];
@@ -99,13 +102,12 @@ class GerenciarAfastamentosController extends Controller
             app('flasher')->addSuccess('O cadastro do afastamentos foi realizado com sucesso.');
             return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
         }
-        dd($request);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $idf)
     {
         //
     }
@@ -113,14 +115,14 @@ class GerenciarAfastamentosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id, Request $request)
+    public function edit(string $idf, Request $request)
     {
-        $afastamentos = DB::table('afastamento')->where('id', $id)->first();
+        $afastamentos = DB::table('afastamento')->where('id', $idf)->first();
 
 
         $afastamento_com_tipo = DB::table('afastamento')
             ->join('tp_afastamento', 'afastamento.id_tp_afastamento', '=', 'tp_afastamento.id')
-            ->where('afastamento.id', $id)
+            ->where('afastamento.id', $idf)
             ->select('afastamento.*', 'tp_afastamento.nome as nome_tp_afastamento')
             ->first();
 
@@ -136,17 +138,31 @@ class GerenciarAfastamentosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $idf)
     {
 
-        $afastamento = DB::table('afastamento')->where('id', $id)->first();
+        $afastamento = DB::table('afastamento')->where('id', $idf)->first();
+
+        $afastamentos = DB::table('funcionarios AS f')
+            ->leftJoin('afastamento', 'afastamento.id_funcionario', 'f.id')
+            //->select('f.dt_inicio')
+            ->where('f.id', $idf)
+            ->value('f.dt_inicio');
+
+        $bola = date(strtotime($afastamentos));
+        $canhao = $request->input('dt_inicio');
+        $fogo = date(strtotime($canhao));
+
+        $teste = ($fogo < $bola);
+        dd($teste);
 
 
-
-
-        if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') != null) {
+        if ($request->input('dt_inicio') >= $request->input('dt_fim') and $request->input('dt_fim')) {
             app('flasher')->addError('A data inicial é maior que a data final');
-            return redirect()->route('indexGerenciarAfastamentos', ['id' => $afastamento->id_funcionario]);
+            return redirect()->route('indexGerenciarAfastamentos', ['idf' => $afastamento->id_funcionario]);
+        } elseif ($teste) {
+            app('flasher')->addError('A data inicial é muito antiga');
+            return redirect()->route('indexGerenciarAfastamentos', ['idf' => $afastamento->id_funcionario]);
         } elseif ($request->file('ficheiroNovo') == null) {
             $this->updateAfastamentosWithoutFile($afastamento, $request);
         } elseif ($request->hasFile('ficheiroNovo')) {
@@ -160,41 +176,41 @@ class GerenciarAfastamentosController extends Controller
     }
 
     public function updateAfastamentosWithFile($afastamento, Request $request)
-{
-    $nomeArquivo = $request->file('ficheiroNovo')->getClientOriginalName();
-    $nomeUnico = uniqid('', true);
-    $extensao = $request->file('ficheiroNovo')->getClientOriginalExtension();
-    $novoCaminho = $request->file('ficheiroNovo')->storeAs('public/images', $nomeUnico . '.' . $extensao);
+    {
+        $nomeArquivo = $request->file('ficheiroNovo')->getClientOriginalName();
+        $nomeUnico = uniqid('', true);
+        $extensao = $request->file('ficheiroNovo')->getClientOriginalExtension();
+        $novoCaminho = $request->file('ficheiroNovo')->storeAs('public/images', $nomeUnico . '.' . $extensao);
 
-    // Verifica se o afastamento é justificado
-    $justificado = isset($request->justificado) ? true : false;
+        // Verifica se o afastamento é justificado
+        $justificado = isset($request->justificado) ? true : false;
 
-    if ($novoCaminho) {
-        // Remove o arquivo antigo
-        if ($afastamento->caminho && Storage::exists($afastamento->caminho)) {
-            Storage::delete($afastamento->caminho);
+        if ($novoCaminho) {
+            // Remove o arquivo antigo
+            if ($afastamento->caminho && Storage::exists($afastamento->caminho)) {
+                Storage::delete($afastamento->caminho);
+            }
+            DB::table('afastamento')
+                ->where('id', $afastamento->id)
+                ->update([
+                    'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
+                    'id_tp_afastamento' => $request->input('tipo_afastamento'),
+                    'dt_inicio' => $request->input('dt_inicio'),
+                    'dt_fim' => $request->input('dt_fim'),
+                    'observacao' => $request->input('observacao'),
+                    'justificado' => $justificado,
+                    'caminho' => 'storage/images/' . $nomeUnico . '.' . $extensao
+                ]);
         }
-        DB::table('afastamento')
-            ->where('id', $afastamento->id)
-            ->update([
-                'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
-                'id_tp_afastamento' => $request->input('tipo_afastamento'),
-                'dt_inicio' => $request->input('dt_inicio'),
-                'dt_fim' => $request->input('dt_fim'),
-                'observacao' => $request->input('observacao'),
-                'justificado' => $justificado,
-                'caminho' => 'storage/images/' . $nomeUnico . '.' . $extensao
-            ]);
     }
-}
 
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $idf)
     {
-        $afastamento = DB::table('afastamento')->where('id', $id)->first();
+        $afastamento = DB::table('afastamento')->where('id', $idf)->first();
         if (!$afastamento) {
             app('flasher')->addError('Registro de afastamento não encontrado.');
             return redirect()->back();
@@ -206,7 +222,7 @@ class GerenciarAfastamentosController extends Controller
         }
 
         // Excluir o registro do afastamento
-        DB::table('afastamento')->where('id', $id)->delete();
+        DB::table('afastamento')->where('id', $idf)->delete();
 
         app('flasher')->addWarning('O cadastro do afastamento foi removido com sucesso.');
         return redirect()->back();
@@ -234,18 +250,18 @@ class GerenciarAfastamentosController extends Controller
 
     private function updateAfastamentosWithoutFile($afastamento, Request $request)
     {
-        $justificado=isset($request->justificado) ? true : false ;
+        $justificado = isset($request->justificado) ? true : false;
 
         DB::table('afastamento')
-        ->where('id', $afastamento->id)
-        ->update([
-            'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
-            'id_tp_afastamento' => $request->input('tipo_afastamento'),
-            'dt_inicio' => $request->input('dt_inicio'),
-            'dt_fim' => $request->input('dt_fim'),
-            'justificado'=> $justificado,
-            'observacao' => $request->input('observacao')
-        ]);
+            ->where('id', $afastamento->id)
+            ->update([
+                'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
+                'id_tp_afastamento' => $request->input('tipo_afastamento'),
+                'dt_inicio' => $request->input('dt_inicio'),
+                'dt_fim' => $request->input('dt_fim'),
+                'justificado' => $justificado,
+                'observacao' => $request->input('observacao')
+            ]);
     }
 
 
