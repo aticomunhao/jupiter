@@ -67,6 +67,8 @@ class GerenciarAfastamentosController extends Controller
             ->where('f.id', $idf)
             ->value('f.dt_inicio');
 
+
+
         $bola = date(strtotime($afastamentos));
         $canhao = $request->input('dt_inicio');
         $fogo = date(strtotime($canhao));
@@ -74,15 +76,16 @@ class GerenciarAfastamentosController extends Controller
         $justificado = isset($request->justificado) ? true : false;
 
         $teste = ($fogo < $bola);
+        //dd($teste);
 
         if ($request->input('dt_inicio') >= $request->input('dt_fim')) {
             $caminho = $this->storeFile($request);
-            app('flasher')->addError('A data inicial é maior ou igual a data final');
-            return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
+            app('flasher')->addError('A data inicial é precisa ser anterior a data final');
+            return redirect()->back()->withInput();
         } elseif ($teste) {
             $caminho = $this->storeFile($request);
-            app('flasher')->addError('A data inicial é muito antiga');
-            return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
+            app('flasher')->addError('O funcionário não pertencia a comunhão nessa data inicial');
+            return back()->withInput();
         } else {
             $caminho = $this->storeFile($request);
             $data = [
@@ -146,7 +149,7 @@ class GerenciarAfastamentosController extends Controller
         $afastamentos = DB::table('funcionarios AS f')
             ->leftJoin('afastamento', 'afastamento.id_funcionario', 'f.id')
             //->select('f.dt_inicio')
-            ->where('f.id', $idf)
+            ->where('afastamento.id', $idf)
             ->value('f.dt_inicio');
 
         $bola = date(strtotime($afastamentos));
@@ -154,15 +157,15 @@ class GerenciarAfastamentosController extends Controller
         $fogo = date(strtotime($canhao));
 
         $teste = ($fogo < $bola);
-        dd($teste);
+        //dd($teste, $bola, $fogo);
 
 
         if ($request->input('dt_inicio') >= $request->input('dt_fim') and $request->input('dt_fim')) {
-            app('flasher')->addError('A data inicial é maior que a data final');
-            return redirect()->route('indexGerenciarAfastamentos', ['idf' => $afastamento->id_funcionario]);
+            app('flasher')->addError('A data inicial precisa ser anterior a data final');
+            return redirect()->back()->withInput();
         } elseif ($teste) {
-            app('flasher')->addError('A data inicial é muito antiga');
-            return redirect()->route('indexGerenciarAfastamentos', ['idf' => $afastamento->id_funcionario]);
+            app('flasher')->addError('O funcionário não pertencia a comunhão nessa data inicial');
+            return redirect()->back()->withInput();
         } elseif ($request->file('ficheiroNovo') == null) {
             $this->updateAfastamentosWithoutFile($afastamento, $request);
         } elseif ($request->hasFile('ficheiroNovo')) {
@@ -251,6 +254,7 @@ class GerenciarAfastamentosController extends Controller
     private function updateAfastamentosWithoutFile($afastamento, Request $request)
     {
         $justificado = isset($request->justificado) ? true : false;
+
 
         DB::table('afastamento')
             ->where('id', $afastamento->id)
