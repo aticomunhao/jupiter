@@ -74,6 +74,7 @@ class GerenciarAfastamentosController extends Controller
         $fogo = date(strtotime($canhao));
 
         $justificado = isset($request->justificado) ? true : false;
+        //dd($justificado);
 
         $teste = ($fogo < $bola);
         //dd($teste);

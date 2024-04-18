@@ -57,17 +57,19 @@
 
                             <div class="form-check mb-2">
                                 <input type="checkbox" style="border: 1px solid #999999; padding: 5px;"
-                                    class="form-check-input" data-toggle="toggle" data-on="Enabled" data-off="Disabled"
-                                    name="justificado" id="justificado" value=""
-                                    > Justificado?
-
+                                    class="form-check-input" id="justificado" name="justificado"
+                                    @if(old('justificado')) checked @endif>
+                                <label class="form-check-label" for="justificado">
+                                    Justificado?
+                                </label>
                             </div>
+
 
                             <div class="row">
                                 <div class="mb-3 mt-md-0 mt-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Observação</label>
                                     <textarea class="form-control" style="border: 1px solid #999999; padding: 5px;" id="idobservacao" rows="3"
-                                        name="observacao" value="{{ old('observacao') }}"></textarea>
+                                        name="observacao" value=""></textarea>
                                 </div>
                             </div>
                         </div>
