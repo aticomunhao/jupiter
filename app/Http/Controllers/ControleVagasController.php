@@ -27,13 +27,48 @@ class ControleVagasController extends Controller
         dd($cargo);
 */
 
-        $cargo = DB::table('funcionarios AS f')
-            ->leftJoin('setor AS s', 's.id', 'f.id_setor')
-            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
-            ->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
+        /* $cargo = DB::table('funcionarios AS f')
+            ->leftJoin('setor AS se', 'se.id', 'f.id_setor')
+            ->leftJoin('tp_vagas_autorizadas AS vas', 'vas.id_setor', 'se.id')
+            //->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
             ->leftJoin('base_salarial AS bs', 'bs.id_funcionario', 'f.id')
             ->leftJoin('cargos AS c', 'bs.cargo', 'c.id')
-            ->select('c.id AS idCargo', 'c.nome AS nomeCargo');
+            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_cargo', 'c.id')
+            ->leftJoin('setor AS s', 's.id', 'va.id_setor')
+            ->select('c.id AS idCargo', 'c.nome AS nomeCargo', 'vas.vagas_autorizadas AS vagas_totais')
+            ->groupBy('idCargo', 'nomeCargo', 'vagas_totais')
+            ->get();
+            dd($cargo);*/
+
+
+        /* $cargo = db::table('tp_vagas_autorizadas AS va')
+            ->leftJoin('setor AS s', 's.id', 'va.id_setor')
+            ->leftJoin('cargos AS c', 'c.id', 'va.id_cargo')
+            ->leftJoin('funcionarios AS f', 'f.id_setor', 's.id')
+            //->leftJoin('base_salarial AS bs', 'bs.cargo', 'c.id')
+            //->leftJoin('funcionarios AS fu', 'fu.id', 'bs.id_funcionario')
+            ->select('c.id AS idCargo',
+                    'c.nome AS nomeCargo',
+                    DB::raw('SUM(va.vagas_autorizadas) AS vagas_totais'),
+                    DB::raw('COUNT(f.id) AS numero_funcionarios')
+                    )
+                    ->groupBy('idCargo', 'nomeCargo')
+            ->get();*/
+        $cargo = DB::table('cargos AS c')
+            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_cargo', '=', 'c.id')
+            ->leftJoin('setor AS s', 's.id', '=', 'va.id_setor')
+            ->leftJoin('funcionarios AS f', 'f.id_setor', '=', 's.id')
+            ->select(
+                'c.id AS idCargo',
+                'c.nome AS nomeCargo',
+                DB::raw('SUM(va.vagas_autorizadas) AS vagas_totais'),
+                DB::raw('COUNT(f.id) AS numero_funcionarios')
+            )
+            ->groupBy('idCargo', 'nomeCargo')
+            ->get();
+
+        dd($cargo);
+
 
         $pesquisa = $request->input('pesquisa');
 

@@ -52,13 +52,18 @@
                                             $cargosExibidos = []; // Array para armazenar os cargos únicos já exibidos
                                         @endphp
                                         @foreach ($cargo as $cargos)
+                                        @if ($cargos->nomeCargo)
+                                            <!-- Exibir apenas se o nome do cargo não for nulo -->
                                             @if (!in_array($cargos->nomeCargo, $cargosExibidos))
+                                                <!-- Adicionar à lista suspensa somente se o nome do cargo não tiver sido exibido anteriormente -->
                                                 <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
                                                 @php
                                                     $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos únicos exibidos
                                                 @endphp
                                             @endif
-                                        @endforeach
+                                        @endif
+                                    @endforeach
+
                                     </select>
                                 </div>
 
@@ -101,18 +106,18 @@
                                             $cargosExibidos = []; // Array para armazenar os cargos já exibidos
                                         @endphp
                                         @foreach ($cargo as $cargos)
-                                            @if (!in_array($cargos->nomeCargo, $cargosExibidos))
-                                                <tr style="text-align: center">
-                                                    <td scope="">{{ $cargos->nomeCargo }}</td>
-                                                    <td scope=""></td>
-                                                    <td scope=""></td>
-                                                    <td scope=""></td>
-                                                </tr>
-                                                @php
-                                                    $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos exibidos
-                                                @endphp
-                                            @endif
-                                        @endforeach
+                                        @if ($cargos->nomeCargo && !in_array($cargos->nomeCargo, $cargosExibidos))
+                                            <tr style="text-align: center">
+                                                <td scope="">{{ $cargos->nomeCargo }}</td>
+                                                <td scope="">{{ $cargos->vagas_totais }}</td>
+                                                <td scope=""></td>
+                                                <td scope=""></td>
+                                            </tr>
+                                            @php
+                                                $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos exibidos
+                                            @endphp
+                                        @endif
+                                    @endforeach
                                     </tbody>
 
                                     <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
