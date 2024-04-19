@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
 use Dompdf\Dompdf;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 
 class GerenciarAssociadoController extends Controller
 {
@@ -27,7 +29,7 @@ class GerenciarAssociadoController extends Controller
             'ass.nr_associado',
             'ass.id',
             'p.nome_completo',
-            'ass.dt_inicio',  
+            'ass.dt_inicio',
             'ass.dt_fim'
          );
 
@@ -39,9 +41,9 @@ class GerenciarAssociadoController extends Controller
       $dt_inicio = $request->dt_inicio;
       $dt_fim = $request->dt_fim;
       $status = $request->status;
-   
-   
-   
+
+
+
 
 
       //dd($lista_associado);
@@ -107,18 +109,19 @@ class GerenciarAssociadoController extends Controller
    }
 
    public function store(Request $request)
-   {  $comparar_cpf = DB::table('pessoas')->pluck('cpf')->toArray();
+   {
+      $comparar_cpf = DB::table('pessoas')->pluck('cpf')->toArray();
       $validacaocpf = $request->input('cpf');
 
-     //dd($comparar_cpf);
-      
+      //dd($comparar_cpf);
+
       foreach ($comparar_cpf as $cpf) {
-          if ($validacaocpf == $cpf) {
-              app('flasher')->adderror('Associado tem o mesmo CPF de uma pessoa');
-              return redirect('/gerenciar-associado');
-          }
+         if ($validacaocpf == $cpf) {
+            app('flasher')->adderror('Associado tem o mesmo CPF de uma pessoa');
+            return redirect('/gerenciar-associado');
+         }
       }
-   
+
       DB::table('pessoas')
          ->insert([
             'nome_completo' => $request->input('nome_completo'),
@@ -213,14 +216,7 @@ class GerenciarAssociadoController extends Controller
       $comparar_cpf = DB::table('pessoas')->pluck('cpf')->toArray();
       $validacaocpf = $request->input('cpf');
 
-     //dd($comparar_cpf);
-      
-      foreach ($comparar_cpf as $cpf) {
-          if ($validacaocpf == $cpf) {
-              app('flasher')->adderror('Associado tem o mesmo CPF de uma pessoa');
-              return redirect('/gerenciar-associado');
-          }
-      }
+      //dd($comparar_cpf);
 
       DB::table('pessoas')
          ->where('id', $idp)
@@ -262,7 +258,7 @@ class GerenciarAssociadoController extends Controller
    {
 
 
- 
+
       $associado = DB::table('associado AS as')
          ->leftJoin('contribuicao_associado AS cont', 'as.id', '=', 'cont.id_associado')
          ->leftJoin('forma_contribuicao_autorizacao AS contaut', 'cont.id_contribuicao_autorizacao', '=', 'contaut.id')
@@ -270,6 +266,7 @@ class GerenciarAssociadoController extends Controller
          ->leftJoin('forma_contribuicao_tesouraria AS conttes', 'cont.id_contribuicao_tesouraria', '=', 'conttes.id')
          ->leftJoin('pessoas AS p', 'as.id_pessoa', '=', 'p.id')
          ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
+         ->leftJoin('tp_uf AS tuf', 'endp.id_uf_end', '=', 'tuf.id')
          ->leftjoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
          ->where('as.id', $id)
          ->select(
@@ -298,12 +295,11 @@ class GerenciarAssociadoController extends Controller
             'conttes.dinheiro',
             'conttes.cheque',
             'conttes.ct_de_debito',
-            'conttes.ct_de_credito'
+            'conttes.ct_de_credito',
+            'tuf.sigla',
 
          )
          ->first();
-
-    // dd($associado);
 
 
 
@@ -322,13 +318,55 @@ class GerenciarAssociadoController extends Controller
 
       // Saída do PDF no navegador
       return $dompdf->stream();
-         }
-      function delete($id){
-         $delete_associado = DB::table('associado')->where('associado.id', $id)->delete();
+   }
+   public function salvardocumentobancario(Request $request, $ida)
+   {
+      if ($request->hasFile('arquivo')) {
 
-         app('flasher')->addSuccess('O cadastro do Associado foi excluido com sucesso.');
+         $arquivo = $request->file('arquivo');
 
-         return redirect('/gerenciar-associado');
+         $nomeArquivo = Hash::make($arquivo->getClientOriginalName());
+
+         // dd($arquivo);
+
+         $caminhoArquivo = $arquivo->storeAs('public/documentos-associado', $nomeArquivo);
+
+         DB::table('contribuicao_associado')
+            ->where('id_associado', $ida)
+            ->update(['caminho_documento_bancario' => $caminhoArquivo]);
+
+         app('flasher')->addSuccess('Documento Armazenado!');
+         return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida]);
       }
+   }
 
+   public function visualizardocumentobancario($ida)
+   {
+      $caminhodocumento = DB::table('contribuicao_associado AS ca')
+         ->where('id_associado', $ida)
+         ->select(['ca.caminho_documento_bancario'])
+         ->first();
+      if ($caminhodocumento) {
+         $caminho = $caminhodocumento->caminho_documento_bancario;
+
+
+         if (Storage::exists($caminho)) {
+            return response()->file(storage_path('app/' . $caminho));
+         } else {
+            return abort(404);
+         }
+      } else {
+
+         return abort(404);
+      }
+   }
+
+   function delete($id)
+   {
+      $delete_associado = DB::table('associado')->where('associado.id', $id)->delete();
+
+      app('flasher')->addSuccess('O cadastro do Associado foi excluido com sucesso.');
+
+      return redirect('/gerenciar-associado');
+   }
 }
