@@ -37,8 +37,8 @@ class ControleVagasController extends Controller
             ->leftJoin('setor AS s', 's.id', 'va.id_setor')
             ->select('c.id AS idCargo', 'c.nome AS nomeCargo', 'vas.vagas_autorizadas AS vagas_totais')
             ->groupBy('idCargo', 'nomeCargo', 'vagas_totais')
-            ->get();
-            dd($cargo);*/
+            ->get();*/
+
 
 
         /* $cargo = db::table('tp_vagas_autorizadas AS va')
@@ -54,17 +54,18 @@ class ControleVagasController extends Controller
                     )
                     ->groupBy('idCargo', 'nomeCargo')
             ->get();*/
+
         $cargo = DB::table('cargos AS c')
-            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_cargo', '=', 'c.id')
-            ->leftJoin('setor AS s', 's.id', '=', 'va.id_setor')
-            ->leftJoin('funcionarios AS f', 'f.id_setor', '=', 's.id')
+            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_cargo', 'c.id')
+            ->leftJoin('setor AS s', 's.id', 'va.id_setor')
+            ->leftJoin('funcionarios AS f', 'f.id_setor', 's.id')
             ->select(
                 'c.id AS idCargo',
                 'c.nome AS nomeCargo',
-                DB::raw('SUM(va.vagas_autorizadas) AS vagas_totais'),
-                DB::raw('COUNT(f.id) AS numero_funcionarios')
+                'f.id_setor AS numero_funcionarios',
+                DB::raw('SUM(va.vagas_autorizadas) AS vagas_totais')
             )
-            ->groupBy('idCargo', 'nomeCargo')
+            ->groupBy('idCargo', 'nomeCargo', 'numero_funcionarios')
             ->get();
 
         dd($cargo);
