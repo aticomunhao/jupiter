@@ -106,20 +106,29 @@
                                             $cargosExibidos = []; // Array para armazenar os cargos já exibidos
                                         @endphp
                                         @foreach ($cargo as $cargos)
-                                        @if ($cargos->nomeCargo && !in_array($cargos->nomeCargo, $cargosExibidos))
-                                            <tr style="text-align: center">
-                                                <td scope="">{{ $cargos->nomeCargo }}</td>
-                                                <td scope="">{{ $cargos->vagas_totais }}</td>
-                                                <td scope=""></td>
-                                                <td scope=""></td>
-                                            </tr>
-                                            @php
-                                                $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos exibidos
-                                            @endphp
-                                        @endif
-                                    @endforeach
+                                            @if ($cargos->nomeCargo && !in_array($cargos->nomeCargo, $cargosExibidos))
+                                                @php
+                                                    $vagasTotais = 0; // Inicializa as vagas totais para este cargo
+                                                @endphp
+                                                @foreach ($vaga as $v)
+                                                    @if ($v->idDoCargo == $cargos->idCargo)
+                                                        @php
+                                                            $vagasTotais += $v->total_vagas; // Soma as vagas totais para este cargo
+                                                        @endphp
+                                                    @endif
+                                                @endforeach
+                                                <tr style="text-align: center">
+                                                    <td scope="">{{ $cargos->nomeCargo }}</td>
+                                                    <td scope="">{{ $cargos->quantidade_funcionarios }}</td>
+                                                    <td scope=""></td> <!-- Exibe as vagas totais -->
+                                                    <td scope="">{{ $vagasTotais }}</td>
+                                                </tr>
+                                                @php
+                                                    $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos exibidos
+                                                @endphp
+                                            @endif
+                                        @endforeach
                                     </tbody>
-
                                     <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
                                         @foreach ($setor as $setores)
                                             <tr style="text-align: center">
