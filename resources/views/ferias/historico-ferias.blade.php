@@ -51,13 +51,13 @@
                             <div class="col-md-6 mb-3">
                                 <label for="inicio_gozo_ferias">Data de Início do Período de Gozo de Férias:</label>
                                 <input type="date" id="inicio_gozo_ferias" class="form-control"
-                                       value="{{$periodo_de_ferias->dt_ini_a}}" readonly>
+                                       value="{{$periodo_de_ferias->dt_inicio_periodo_de_licenca}}" readonly>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="fim_possivel_gozo_ferias">Data de Término do Período Possível de Gozo de
                                     Férias:</label>
                                 <input type="date" id="fim_possivel_gozo_ferias" class="form-control"
-                                       value="{{$periodo_de_ferias->dt_fim_a}}" readonly>
+                                       value="{{$periodo_de_ferias->dt_fim_periodo_de_licenca}}" readonly>
                             </div>
                         </div>
 

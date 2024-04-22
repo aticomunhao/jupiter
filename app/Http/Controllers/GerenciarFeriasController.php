@@ -21,6 +21,7 @@ class GerenciarFeriasController extends Controller
             $ano_referente = Carbon::now()->year - 1;
         }
 
+
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -57,8 +58,9 @@ class GerenciarFeriasController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create($id)
+    public function create($id_ferias)
     {
+
         $ano_referente = Carbon::now()->year - 1;
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -83,12 +85,15 @@ class GerenciarFeriasController extends Controller
                 'ferias.dt_fim_periodo_de_licenca',
                 'ferias.dt_inicio_periodo_de_licenca'
             )
-            ->where('ano_de_referencia', $ano_referente)
-            ->where('id_funcionario', $id)
+            ->where('ferias.id', $id_ferias)
+
             ->first();
 
 
-        return view('ferias.incluir-ferias', compact('ano_referente', "periodo_aquisitivo", 'id'));
+
+
+
+        return view('ferias.incluir-ferias', compact('ano_referente', "periodo_aquisitivo", 'id_ferias'));
     }
 
     /**
@@ -109,8 +114,9 @@ class GerenciarFeriasController extends Controller
 
         $periodo_de_ferias = DB::table('ferias')
             ->where('id', '=', $id)
-            ->where('ano_de_referencia', 'LIKE', "%$ano_referencia%")
             ->first();
+
+
 
 
         $funcionario = DB::table('funcionarios')
@@ -128,7 +134,6 @@ class GerenciarFeriasController extends Controller
             app('flasher')->addInfo("Não há nenhuma informação das férias do funcionário:  $funcionario->nome_completo.");
             return redirect()->back();
         }
-
 
 
         return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
@@ -150,11 +155,14 @@ class GerenciarFeriasController extends Controller
         // Obtém os dados do formulário de férias
         $formulario_de_ferias = $request->all();
 
-        $adiantar_decimo_terceiro = false;
 
+        $adiantar_decimo_terceiro = false;
+        $ferias = DB::table('ferias')
+            ->where('id', $id)
+            ->first();
 
         // Obtém o ano de referência
-        $ano_referente = Carbon::now()->year - 1;
+        $ano_referente = $ferias->ano_de_referencia;
 
         // Obtém informações do funcionário
         $funcionario = DB::table('funcionarios')
@@ -164,10 +172,7 @@ class GerenciarFeriasController extends Controller
 
 
         // Obtém informações sobre as férias do funcionário
-        $ferias = DB::table('ferias')
-            ->where('id_funcionario', $id)
-            ->where('ano_de_referencia', '=', $ano_referente)
-            ->first();
+
 
 
         // Calcula os dias de direito do funcionário (exemplo: 30 dias de férias - dias de falta)
@@ -199,7 +204,7 @@ class GerenciarFeriasController extends Controller
             DB::table('ferias')
                 ->where('id', '=', $ferias->id)
                 ->update([
-                    'status_pedido_ferias' => 5,
+                    'status_pedido_ferias' => 6,
                     'motivo_retorno' => "O funcionario não possui direito a  por ter faltado mais de 32 dias sem abono"
                 ]);
             DB::table('hist_recusa_ferias')->insert([
@@ -433,10 +438,18 @@ class GerenciarFeriasController extends Controller
     {
     }
 
-    public function InsereERetornaFuncionarios()
+    public function InsereERetornaFuncionarios(Request $request)
     {
+        $ano_referencia = $request->input('ano_referencia');
+        if (empty($ano_referencia)) {
+            $ano_referencia = Carbon::now()->year - 1;
+        } else {
+            $ano_referencia = $request->input('ano_referencia');
+        }
+
+
         $data_do_ultimo_ano = Carbon::now()->subYear()->endOfYear()->toDateString();
-        $ano_referencia = Carbon::now()->year - 1;
+
 
         $funcionarios = DB::table('funcionarios')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -445,12 +458,17 @@ class GerenciarFeriasController extends Controller
             ->get();
 
         foreach ($funcionarios as $funcionario) {
-            $data_inicio_periodo_aquisitivo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year - 1)->toDateString();
-            $data_fim_periodo_aquisitivo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year)->subDays(1)->toDateString();
+            $data_inicio = Carbon::parse($funcionario->data_de_inicio);
+
+
+
+            $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia - 1)->toDateString();
+            $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->subDay()->toDateString();
             $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
             $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
-            $funcionario->data_inicio_periodo_de_gozo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year)->toDateString();
-            $funcionario->data_fim_periodo_de_gozo = Carbon::parse($funcionario->data_de_inicio)->copy()->year(Carbon::now()->year + 1)->subDays(1)->toDateString();
+
+            $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
+            $funcionario->data_fim_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 2)->subDay()->toDateString();
         }
 
         $ferias = DB::table('ferias')
@@ -491,6 +509,8 @@ class GerenciarFeriasController extends Controller
         } else {
             $ano_referente = Carbon::now()->year - 1;
         }
+
+
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -527,7 +547,20 @@ class GerenciarFeriasController extends Controller
             ->groupBy('ano_de_referencia')
             ->get();
 
-        return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis'));
+
+// Obtém o ano atual ou qualquer ano específico
+        $anoAtual = Carbon::now()->year; // ou qualquer outro ano específico: Carbon::createFromDate(2024, 1, 1)->year;
+
+// Calcula os anos
+        $anoAnterior = $anoAtual - 2;
+        $doisAnosFrente = $anoAtual + 2;
+
+// Cria uma lista de anos
+        $listaAnos = range($anoAnterior, $doisAnosFrente);
+
+// Agora, $listaAnos contém os anos desejados: um ano antes e dois anos para frente
+
+        return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos'));
     }
 
     public function autorizarferias($id)
@@ -605,8 +638,11 @@ class GerenciarFeriasController extends Controller
         return redirect()->route('AdministrarFerias');
     }
 
-    public function enviarFerias()
+    public function enviarFerias(Request $request)
     {
+
+        $request->input('search');
+
         $ferias_funcionarios = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -628,7 +664,7 @@ class GerenciarFeriasController extends Controller
                 'status_pedido_ferias.id as id_status_pedido_ferias',
                 'status_pedido_ferias.nome as status_pedido_ferias'
             )
-            ->where('ano_de_referencia', '=', ((Carbon::now()->year) - 1))
+            ->where('ano_de_referencia', '=', )
             ->get();
 
         foreach ($ferias_funcionarios as $ferias_funcinoario) {

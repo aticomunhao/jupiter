@@ -40,19 +40,30 @@
                         <br>
                         <div class="row justify-content-around">
                             <div class="col-md-3">
-                                <input class="form-control" type="text" value="{{ \Carbon\Carbon::now()->year - 1 }}"
-                                       aria-label="Disabled input example" disabled readonly
-                                       style="text-align: center; color: #355089; font-size: 16px; font-weight: bold;
-                        border: 2px solid #355089; border-radius: 5px; background-color: #f8f9fa;">
+                                <form action="{{ route('AbreFerias') }}">
+                                    @csrf
+                                    <label for="ano" style=";">Período de Férias</label>
+                                    <select class="form-select custom-select" aria-label="Ano" name="ano_referencia" id="ano"
+                                             color: #355089;">
+                                        @foreach ($listaAnos as $ano)
+                                            <option value="{{ $ano }}"
+                                                    >{{ $ano+1 }}
+                                                - {{ $ano+2 }}</option>
+                                        @endforeach
+                                    </select>
+
                             </div>
+
+
                             <div class="col-md-3">
                                 <a href="{{ route('AbreFerias') }}">
-                                    <button class="btn btn-success"
-                                            style="width: 100%; box-shadow: 1px 2px 5px #000000">Gerar Novo Período
-
+                                    <button type="submit" class="btn btn-success"
+                                            style="width: 100%; box-shadow: 1px 2px 5px #000000;">Gerar Novo Período
                                     </button>
                                 </a>
                             </div>
+                            </form>
+
                         </div>
                         <br>
                         @if (!empty($periodo_aquisitivo))
@@ -117,7 +128,8 @@
                                                     </a>
                                                     <a
                                                         href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
-                                                        <button class="btn btn-outline-danger"><i class="bi bi-x"></i>
+                                                        <button class="btn btn-outline-danger"><i
+                                                                class="bi bi-x"></i>
                                                         </button>
                                                     </a>
                                                 @else

@@ -53,7 +53,7 @@
                     <div class="card-header">Número de Períodos</div>
                     <div class="card-body">
                         <form method="POST"
-                              action="{{ route('ArmazenarFerias', ['id' => $periodo_aquisitivo->id_funcionario]) }}">
+                              action="{{ route('ArmazenarFerias', ['id' => $periodo_aquisitivo->id_ferias]) }}">
                             @csrf
                             <br>
                             <div class="row justify-content-center">

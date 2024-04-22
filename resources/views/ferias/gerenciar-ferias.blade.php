@@ -110,7 +110,7 @@
                                             </td>
                                             <td>
                                                 @if ($periodos_aquisitivos->id_status_pedido_ferias != 4 or $periodos_aquisitivos->id_status_pedido_ferias == 6)
-                                                    <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_funcionario]) }}"
+                                                    <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
                                                         class="btn btn-outline-success">
                                                         <i class="bi bi-pencil-square"></i>
 
