@@ -66,16 +66,26 @@
 
                                     </select>
                                 </div>
-
                                 <div class="col" id="setorSelectContainer" style="display: none">
                                     <label for="1">Selecione o Setor Desejado</label>
                                     <br>
-                                    <select id="setorSelect" class="form-select status select2 pesquisa-select"
-                                        name="setor" multiple=multiple>
+                                    <select id="setorSelect" class="form-select status select2 pesquisa-select" name="setor" multiple=multiple>
                                         <option></option>
+                                        @php
+                                            $setoresExibidos = []; // Array para armazenar os setores únicos já exibidos
+                                        @endphp
                                         @foreach ($setor as $setores)
-                                            <option value="{{ $setores->idSetor }}">{{ $setores->nomeSetor }}</option>
-                                        @endforeach
+                                        @if ($setores->nomeSetor)
+                                            <!-- Exibir apenas se o nome do setor não for nulo -->
+                                            @if (!in_array($setores->nomeSetor, $setoresExibidos))
+                                                <!-- Adicionar à lista suspensa somente se o nome do setor não tiver sido exibido anteriormente -->
+                                                <option value="{{ $Setores->idSetor }}">{{ $setores->nomeSetor }}</option>
+                                                @php
+                                                    $setoresExibidos[] = $setores->nomesetor; // Adiciona o setor ao array de setores únicos exibidos
+                                                @endphp
+                                            @endif
+                                        @endif
+                                    @endforeach
                                     </select>
                                 </div>
                                 <div class="col" style="padding-top:20px;">
@@ -120,7 +130,7 @@
                                                 <tr style="text-align: center">
                                                     <td scope="">{{ $cargos->nomeCargo }}</td>
                                                     <td scope="">{{ $cargos->quantidade_funcionarios }}</td>
-                                                    <td scope=""></td> <!-- Exibe as vagas totais -->
+                                                    <td scope="">{{ $vagasTotais -  $cargos->quantidade_funcionarios}}</td> <!-- Exibe as vagas totais -->
                                                     <td scope="">{{ $vagasTotais }}</td>
                                                 </tr>
                                                 @php
@@ -129,24 +139,33 @@
                                             @endif
                                         @endforeach
                                     </tbody>
-                                    <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
+                                    <tbody style="font-size: 15px; color:#000000;" id='cargoTabela'>
+                                        @php
+                                            $setoresExibidos = []; // Array para armazenar os setores já exibidos
+                                        @endphp
                                         @foreach ($setor as $setores)
-                                            <tr style="text-align: center">
-                                                <td scope="">
-
-                                                </td>
-                                                <td scope="">
-
-                                                </td>
-                                                <td scope="">
-
-                                                </td>
-                                                <td scope="">
-
-                                                </td>
-                                            </tr>
+                                            @if ($setores->nomeSetor && !in_array($setores->nomeSetor, $setoresExibidos))
+                                                @php
+                                                    $vagasTotais = 0; // Inicializa as vagas totais para este cargo
+                                                @endphp
+                                                @foreach ($vaga as $v)
+                                                    @if ($v->idDoCargo == $setores->idSetor)
+                                                        @php
+                                                            $setoresTotais += $v->total_vagas; // Soma as vagas totais para este cargo
+                                                        @endphp
+                                                    @endif
+                                                @endforeach
+                                                <tr style="text-align: center">
+                                                    <td scope="">{{ $setores->nomeSetor }}</td>
+                                                    <td scope="">{{ $setores->quantidade_funcionarios }}</td>
+                                                    <td scope="">{{ $vagasTotais -  $setores->quantidade_funcionarios}}</td> <!-- Exibe as vagas totais -->
+                                                    <td scope="">{{ $vagasTotais }}</td>
+                                                </tr>
+                                                @php
+                                                    $cargosExibidos[] = $setores->nomeSetor; // Adiciona o setor ao array de setores exibidos
+                                                @endphp
+                                            @endif
                                         @endforeach
-                                    </tbody>
                                 </table>
                             </div>
                         </div>

@@ -21,13 +21,13 @@ class ControleVagasController extends Controller
         $cargo = DB::table('cargos AS c')
             ->leftJoin('base_salarial AS bs', 'bs.cargo', 'c.id')
             ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade_funcionarios'), 'c.id AS idCargo', 'c.nome AS nomeCargo')
-            ->groupBy('idCargo','nomeCargo');
+            ->groupBy('idCargo', 'nomeCargo');
 
 
         $vaga = DB::table('tp_vagas_autorizadas AS va')
-        ->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
-        ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'cr.id AS idDoCargo')
-        ->groupBy('idDoCargo');
+            ->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
+            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'cr.id AS idDoCargo')
+            ->groupBy('idDoCargo');
 
 
         $pesquisa = $request->input('pesquisa');
@@ -45,12 +45,21 @@ class ControleVagasController extends Controller
 
 
 
-        $setor = DB::table('setor')
-            ->select('setor.id AS idSetor', 'setor.nome AS nomeSetor');
+        $cargo = DB::table('cargos AS c')
+            ->leftJoin('base_salarial AS bs', 'bs.cargo', 'c.id')
+            ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade_funcionarios'), 'c.id AS idCargo', 'c.nome AS nomeCargo')
+            ->groupBy('idCargo', 'nomeCargo');
+
+        $setor = DB::table('tp_vagas_autorizadas AS va')
+            ->leftJoin('setor AS s', 's.id', 'va.id_setor')
+            ->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
+            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'cr.id AS idDoCargo', 's.id AS idSetor', 'cr.nome AS nomeCargo')
+            ->groupBy('idDoCargo', 'idSetor', 'nomeCargo');
+
 
         if ($pesquisa == 'setor') {
             $setorId = $request->input('setor');
-            $setor->where('setor.id', $setorId);
+            $setor->where('idSetor', $setorId);
         }
 
         $setor = $setor->get();
