@@ -37,32 +37,29 @@ class ControleVagasController extends Controller
             $cargo->where('c.id', $cargoId);
             $vaga->where('cr.id', $cargoId);
         }
-
+        
         $cargo = $cargo->get();
         $vaga = $vaga->get();
-        //dd($cargo);
 
-
-
-
-        $cargo = DB::table('cargos AS c')
-            ->leftJoin('base_salarial AS bs', 'bs.cargo', 'c.id')
-            ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade_funcionarios'), 'c.id AS idCargo', 'c.nome AS nomeCargo')
-            ->groupBy('idCargo', 'nomeCargo');
 
         $setor = DB::table('tp_vagas_autorizadas AS va')
             ->leftJoin('setor AS s', 's.id', 'va.id_setor')
             ->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
-            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'cr.id AS idDoCargo', 's.id AS idSetor', 'cr.nome AS nomeCargo')
-            ->groupBy('idDoCargo', 'idSetor', 'nomeCargo');
+            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'cr.id AS idDoCargo', 's.id AS idSetor', 'cr.nome AS nomeCargo', 's.nome AS nomeSetor')
+            ->groupBy('idDoCargo', 'idSetor', 'nomeCargo', 'nomeSetor');
 
 
         if ($pesquisa == 'setor') {
             $setorId = $request->input('setor');
-            $setor->where('idSetor', $setorId);
+            $setor->where('s.id', $setorId);
+            $cargo->where('c.id', $setorId);
+            $vaga->where('cr.id', $setorId);
         }
 
         $setor = $setor->get();
+
+        //dd($setor, $cargo, $vaga);
+
 
         return view('efetivo.controle-vagas', compact('cargo', 'setor', 'pesquisa', 'vaga'));
     }

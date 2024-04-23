@@ -19,7 +19,8 @@
                             <hr>
                             <div class="col-md-3 offset-md-8 col-12"> {{-- Botão de incluir --}}
                                 <a href="/incluir-vagas/" class="col-6">
-                                    <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;" class="btn btn-success col-md-8 col-12">
+                                    <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;"
+                                        class="btn btn-success col-md-8 col-12">
                                         Novo+
                                     </button>
                                 </a>
@@ -46,46 +47,49 @@
                                 <div class="col" id="cargoSelectContainer" style="display: none">
                                     <label for="1">Selecione o Cargo Desejado</label>
                                     <br>
-                                    <select id="cargoSelect" class="form-select status select2 pesquisa-select" name="cargo" multiple=multiple>
+                                    <select id="cargoSelect" class="form-select status select2 pesquisa-select"
+                                        name="cargo" multiple=multiple>
                                         <option></option>
                                         @php
                                             $cargosExibidos = []; // Array para armazenar os cargos únicos já exibidos
                                         @endphp
                                         @foreach ($cargo as $cargos)
-                                        @if ($cargos->nomeCargo)
-                                            <!-- Exibir apenas se o nome do cargo não for nulo -->
-                                            @if (!in_array($cargos->nomeCargo, $cargosExibidos))
-                                                <!-- Adicionar à lista suspensa somente se o nome do cargo não tiver sido exibido anteriormente -->
-                                                <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
-                                                @php
-                                                    $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos únicos exibidos
-                                                @endphp
+                                            @if ($cargos->nomeCargo)
+                                                <!-- Exibir apenas se o nome do cargo não for nulo -->
+                                                @if (!in_array($cargos->nomeCargo, $cargosExibidos))
+                                                    <!-- Adicionar à lista suspensa somente se o nome do cargo não tiver sido exibido anteriormente -->
+                                                    <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
+                                                    @php
+                                                        $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos únicos exibidos
+                                                    @endphp
+                                                @endif
                                             @endif
-                                        @endif
-                                    @endforeach
+                                        @endforeach
 
                                     </select>
                                 </div>
                                 <div class="col" id="setorSelectContainer" style="display: none">
                                     <label for="1">Selecione o Setor Desejado</label>
                                     <br>
-                                    <select id="setorSelect" class="form-select status select2 pesquisa-select" name="setor" multiple=multiple>
+                                    <select id="setorSelect" class="form-select status select2 pesquisa-select"
+                                        name="setor" multiple=multiple>
                                         <option></option>
                                         @php
                                             $setoresExibidos = []; // Array para armazenar os setores únicos já exibidos
                                         @endphp
                                         @foreach ($setor as $setores)
-                                        @if ($setores->nomeSetor)
-                                            <!-- Exibir apenas se o nome do setor não for nulo -->
-                                            @if (!in_array($setores->nomeSetor, $setoresExibidos))
-                                                <!-- Adicionar à lista suspensa somente se o nome do setor não tiver sido exibido anteriormente -->
-                                                <option value="{{ $Setores->idSetor }}">{{ $setores->nomeSetor }}</option>
-                                                @php
-                                                    $setoresExibidos[] = $setores->nomesetor; // Adiciona o setor ao array de setores únicos exibidos
-                                                @endphp
+                                            @if ($setores->nomeSetor)
+                                                <!-- Exibir apenas se o nome do setor não for nulo -->
+                                                @if (!in_array($setores->nomeSetor, $setoresExibidos))
+                                                    <!-- Adicionar à lista suspensa somente se o nome do setor não tiver sido exibido anteriormente -->
+                                                    <option value="{{ $setores->idSetor }}">{{ $setores->nomeSetor }}
+                                                    </option>
+                                                    @php
+                                                        $setoresExibidos[] = $setores->nomeSetor; // Adiciona o setor ao array de setores únicos exibidos
+                                                    @endphp
+                                                @endif
                                             @endif
-                                        @endif
-                                    @endforeach
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col" style="padding-top:20px;">
@@ -130,7 +134,9 @@
                                                 <tr style="text-align: center">
                                                     <td scope="">{{ $cargos->nomeCargo }}</td>
                                                     <td scope="">{{ $cargos->quantidade_funcionarios }}</td>
-                                                    <td scope="">{{ $vagasTotais -  $cargos->quantidade_funcionarios}}</td> <!-- Exibe as vagas totais -->
+                                                    <td scope="">
+                                                        {{ $vagasTotais - $cargos->quantidade_funcionarios }}</td>
+                                                    <!-- Exibe as vagas totais -->
                                                     <td scope="">{{ $vagasTotais }}</td>
                                                 </tr>
                                                 @php
@@ -140,32 +146,39 @@
                                         @endforeach
                                     </tbody>
                                     <tbody style="font-size: 15px; color:#000000;" id='cargoTabela'>
-                                        @php
-                                            $setoresExibidos = []; // Array para armazenar os setores já exibidos
-                                        @endphp
-                                        @foreach ($setor as $setores)
-                                            @if ($setores->nomeSetor && !in_array($setores->nomeSetor, $setoresExibidos))
-                                                @php
-                                                    $vagasTotais = 0; // Inicializa as vagas totais para este cargo
-                                                @endphp
-                                                @foreach ($vaga as $v)
-                                                    @if ($v->idDoCargo == $setores->idSetor)
-                                                        @php
-                                                            $setoresTotais += $v->total_vagas; // Soma as vagas totais para este cargo
-                                                        @endphp
-                                                    @endif
-                                                @endforeach
-                                                <tr style="text-align: center">
-                                                    <td scope="">{{ $setores->nomeSetor }}</td>
-                                                    <td scope="">{{ $setores->quantidade_funcionarios }}</td>
-                                                    <td scope="">{{ $vagasTotais -  $setores->quantidade_funcionarios}}</td> <!-- Exibe as vagas totais -->
-                                                    <td scope="">{{ $vagasTotais }}</td>
-                                                </tr>
-                                                @php
-                                                    $cargosExibidos[] = $setores->nomeSetor; // Adiciona o setor ao array de setores exibidos
-                                                @endphp
-                                            @endif
-                                        @endforeach
+                                        <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
+                                            @foreach ($setor as $setor)
+                                                @if ($setor->idSetor && !in_array($setor->idSetor, $setoresExibidos))
+                                                    @php
+                                                        $setoresExibidos[] = $setor->idSetor; // Adiciona o setor ao array de setores exibidos
+                                                        $vagasTotaisSetor = 0; // Inicializa as vagas totais para este setor
+                                                        $funcionariosTotaisSetor = 0; // Inicializa o total de funcionários para este setor
+                                                    @endphp
+                                                    @foreach ($vaga as $v)
+                                                        @if ($v->idDoCargo == $setor->idDoCargo)
+                                                            @php
+                                                                $vagasTotaisSetor += $v->total_vagas; // Soma as vagas totais para este cargo
+                                                            @endphp
+                                                        @endif
+                                                    @endforeach
+                                                    @foreach ($cargo as $cargos)
+                                                        @if ($cargos->idCargo == $setor->idDoCargo)
+                                                            @php
+                                                                $funcionariosTotaisSetor += $cargos->quantidade_funcionarios; // Soma os funcionários para este cargo
+                                                            @endphp
+                                                            <tr style="text-align: center">
+                                                                <td scope="">{{ $cargos->nomeCargo }}</td>
+                                                                <td scope="">{{ $funcionariosTotaisSetor }}</td>
+                                                                <td scope="">{{ $vagasTotaisSetor - $funcionariosTotaisSetor }}</td>
+                                                                <td scope="">{{ $vagasTotaisSetor }}</td>
+                                                            </tr>
+                                                        @endif
+                                                    @endforeach
+                                                @endif
+                                            @endforeach
+                                        </tbody>
+
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -218,7 +231,7 @@
             $("input[type='radio'][name='pesquisa']").change(function() {
                 var pesquisaSelecionada = $(this).val();
                 $("#tipoPesquisa").val(
-                pesquisaSelecionada); // Atualizar o campo hidden com a opção selecionada
+                    pesquisaSelecionada); // Atualizar o campo hidden com a opção selecionada
 
                 // Esconder a tabela e o select que não estão selecionados
                 if (pesquisaSelecionada === 'cargo') {
