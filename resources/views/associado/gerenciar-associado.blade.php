@@ -154,11 +154,11 @@
                                                         <div class="col-md-4">
                                                             <center>
                                                                 <h6>Arquivo Atual</h6>
-                                                                <a href="/visualizar-arquivo/"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 2rem; color:#303030;"></i></button></a>
+                                                                <a href="/visualizar-arquivo/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 2rem; color:#303030;"></i></button></a>
                                                             </center>
                                                         </div>
                                                         <div class="col-md-5">
-                                                            <form method='POST' action="/salvar-documento-bancario" enctype="multipart/form-data">
+                                                            <form method='POST' action="/salvar-documento-associado/{{ $lista_associados->id }}" enctype="multipart/form-data">
                                                                 @csrf
                                                                 <div class="form-group">
                                                                     <label for="exampleFormControlFile1">
@@ -171,10 +171,12 @@
                                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                                             <button type="submit" class="btn btn-primary">Salvar mudanças</button>
                                                         </div>
+</form>
                                                         <!--Fim Modal-->
+
                             </td>
                         </tr>
-              </tr>
+                        </tr>
             </div>
         </div>
     </div>

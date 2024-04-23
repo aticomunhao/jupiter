@@ -319,8 +319,8 @@ class GerenciarAssociadoController extends Controller
       // Saída do PDF no navegador
       return $dompdf->stream();
    }
-   public function salvardocumentobancario(Request $request, $ida)
-   {
+   public function salvardocumento(Request $request, $id)
+   {           
       if ($request->hasFile('arquivo')) {
 
          $arquivo = $request->file('arquivo');
@@ -331,20 +331,22 @@ class GerenciarAssociadoController extends Controller
 
          $caminhoArquivo = $arquivo->storeAs('public/documentos-associado', $nomeArquivo);
 
-         DB::table('contribuicao_associado')
-            ->where('id_associado', $ida)
-            ->update(['caminho_documento_bancario' => $caminhoArquivo]);
+         DB::table('associado')
+            ->where('id', $id)
+            ->update(['caminho_documento' => $caminhoArquivo]);
+
+
 
          app('flasher')->addSuccess('Documento Armazenado!');
-         return redirect()->route('gerenciar-dados-bancario-associado', ['id' => $ida]);
+         return redirect('/gerenciar-associado');
       }
    }
 
-   public function visualizardocumentobancario($ida)
+   public function visualizardocumento($id)
    {
-      $caminhodocumento = DB::table('contribuicao_associado AS ca')
-         ->where('id_associado', $ida)
-         ->select(['ca.caminho_documento_bancario'])
+      $caminhodocumento = DB::table('associado AS as')
+         ->where('id', $id)
+         ->select(['as.caminho_documento'])
          ->first();
       if ($caminhodocumento) {
          $caminho = $caminhodocumento->caminho_documento_bancario;

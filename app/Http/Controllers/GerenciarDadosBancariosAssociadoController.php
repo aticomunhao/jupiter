@@ -498,8 +498,8 @@ class GerenciarDadosBancariosAssociadoController extends Controller
    }
    public function salvardocumentobancario(Request $request, $ida)
    {
-      if ($request->hasFile('arquivo')) {
-
+     
+      if ($request->hasFile('arquivo')) {  
          $arquivo = $request->file('arquivo');
 
          $nomeArquivo = Hash::make($arquivo->getClientOriginalName());

@@ -135,6 +135,8 @@ Route::any('/atualizar-associado/{ida}/{idp}/{ide}', [App\Http\Controllers\Geren
 Route::get('/editar-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'edit']);
 Route::get('/documento-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'documentobancariopdf']);
 Route::get('/excluir-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'delete']);
+Route::post('/salvar-documento-associado/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'salvardocumento']);
+Route::get('/visualizar-arquivo/{id}', [App\Http\Controllers\GerenciarAssociadoController::class, 'visualizardocumento']);
 Route::get('/gerenciar-dados_bancarios/{id}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'index'])->name('gerenciar-dados-bancario-associado');
 Route::get('/visualizar-dados/{id}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'store']);
 Route::any('/incluir-dados_bancarios-associado/{ida}', [App\Http\Controllers\GerenciarDadosBancariosAssociadoController::class, 'incluirdadosbancarios']);
