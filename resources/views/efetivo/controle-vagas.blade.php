@@ -111,8 +111,8 @@
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th class="col-4">Cargo</th>
                                             <th class="col-2">Vagas Preenchidas</th>
-                                            <th class="col-2">Vagas Remanescentes</th>
                                             <th class="col-2">Vagas Totais</th>
+                                            <th class="col-2">Vagas Remanescentes</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;" id='cargoTabela'>
@@ -135,9 +135,10 @@
                                                     <td scope="">{{ $cargos->nomeCargo }}</td>
                                                     <td scope="">{{ $cargos->quantidade_funcionarios }}</td>
                                                     <td scope="">
-                                                        {{ $vagasTotais - $cargos->quantidade_funcionarios }}</td>
+                                                        {{ $vagasTotais }}</td>
                                                     <!-- Exibe as vagas totais -->
-                                                    <td scope="">{{ $vagasTotais }}</td>
+                                                    <td scope="">
+                                                        {{ $vagasTotais - $cargos->quantidade_funcionarios }}</td>
                                                 </tr>
                                                 @php
                                                     $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos exibidos
@@ -145,39 +146,39 @@
                                             @endif
                                         @endforeach
                                     </tbody>
-                                    <tbody style="font-size: 15px; color:#000000;" id='cargoTabela'>
-                                        <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
-                                            @foreach ($setor as $setor)
-                                                @if ($setor->idSetor && !in_array($setor->idSetor, $setoresExibidos))
-                                                    @php
-                                                        $setoresExibidos[] = $setor->idSetor; // Adiciona o setor ao array de setores exibidos
-                                                        $vagasTotaisSetor = 0; // Inicializa as vagas totais para este setor
-                                                        $funcionariosTotaisSetor = 0; // Inicializa o total de funcionários para este setor
-                                                    @endphp
-                                                    @foreach ($vaga as $v)
-                                                        @if ($v->idDoCargo == $setor->idDoCargo)
-                                                            @php
-                                                                $vagasTotaisSetor += $v->total_vagas; // Soma as vagas totais para este cargo
-                                                            @endphp
-                                                        @endif
-                                                    @endforeach
-                                                    @foreach ($cargo as $cargos)
-                                                        @if ($cargos->idCargo == $setor->idDoCargo)
-                                                            @php
-                                                                $funcionariosTotaisSetor += $cargos->quantidade_funcionarios; // Soma os funcionários para este cargo
-                                                            @endphp
-                                                            <tr style="text-align: center">
-                                                                <td scope="">{{ $cargos->nomeCargo }}</td>
-                                                                <td scope="">{{ $funcionariosTotaisSetor }}</td>
-                                                                <td scope="">{{ $vagasTotaisSetor - $funcionariosTotaisSetor }}</td>
-                                                                <td scope="">{{ $vagasTotaisSetor }}</td>
-                                                            </tr>
-                                                        @endif
-                                                    @endforeach
+                                    <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
+                                        @foreach ($setor as $setor)
+                                            <tr style="text-align: center">
+                                                <td colspan="" style="font-weight: bold;">{{ $setor->nomeSetor }}</td>
+                                                <td colspan="" style="font-weight: bold;">Funcionários</td>
+                                                <td colspan="" style="font-weight: bold;">Autorizadas</td>
+                                                <td colspan="" style="font-weight: bold;">Sobrando</td>
+                                            </tr>
+                                            @php
+                                                $totalVagasSetor = 0;
+                                                $totalFuncionariosSetor = 0;
+                                            @endphp
+                                            @foreach ($cargo as $cargos)
+                                                @if ($cargos->idCargo == $setor->idDoCargo)
+                                                    <tr style="text-align: center">
+                                                        <td scope="">{{ $cargos->nomeCargo }}</td>
+                                                        <td scope="">{{ $cargos->quantidade_funcionarios }}</td>
+                                                        <td scope="">{{ $setor->total_vagas }}</td>
+                                                        <td scope="">{{ $setor->total_vagas - $cargos->quantidade_funcionarios }}</td>
+                                                        @php
+                                                            $totalFuncionariosSetor += $cargos->quantidade_funcionarios;
+                                                            $totalVagasSetor += $setor->total_vagas; // Adicionar vagas do setor ao total
+                                                        @endphp
+                                                    </tr>
                                                 @endif
                                             @endforeach
-                                        </tbody>
-
+                                            <tr style="text-align: center; font-weight: bold;">
+                                                <td>Total</td>
+                                                <td>{{ $totalFuncionariosSetor }}</td>
+                                                <td>{{ $totalVagasSetor }}</td>
+                                                <td>{{ $totalVagasSetor - $totalFuncionariosSetor }}</td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

@@ -37,9 +37,16 @@ class ControleVagasController extends Controller
             $cargo->where('c.id', $cargoId);
             $vaga->where('cr.id', $cargoId);
         }
-        
+
         $cargo = $cargo->get();
         $vaga = $vaga->get();
+
+        /*$funcionario = DB::table('funcionarios AS f')
+        ->leftJoin('base_salarial AS bs', 'bs.id_funcionario', 'f.id')
+        ->leftJoin('setor AS s', 's.id', 'f.id_setor')
+        ->leftJoin('cargos AS c', 'c.id', 'bs.cargo')
+        ->select('f.id_setor AS setorFuncionario', 'c.id AS idCargo', 'bs.id_funcionario')*/;
+
 
 
         $setor = DB::table('tp_vagas_autorizadas AS va')
