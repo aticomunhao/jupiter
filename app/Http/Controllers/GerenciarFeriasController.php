@@ -47,6 +47,7 @@ class GerenciarFeriasController extends Controller
                     'funcionarios.id_setor'
                 )
                 ->where('funcionarios.id_setor', session('usuario.setor'))
+
                 ->get();
 
 
@@ -671,9 +672,10 @@ class GerenciarFeriasController extends Controller
                     'status_pedido_ferias.id as id_status_pedido_ferias',
                     'status_pedido_ferias.nome as status_pedido_ferias'
                 )
-                ->where('ferias.ano_de_referencia', '=', intval($request->input('search')))
+                ->where('ferias.ano_de_referencia', '=', $request->input('search'))
+                ->where('funcionarios.id_setor', session('usuario.setor'))
                 ->get();
-            dd($ferias_funcionarios);
+
 
             foreach ($ferias_funcionarios as $ferias_funcinoario) {
 
