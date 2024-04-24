@@ -19,11 +19,13 @@
                     <div class="card-body">
                         <div class="row justify-content-around">
                             <div class="col-md-4 col-sm-12">
+                                <p class="fs-4 fw-bolder">Periodo de Férias</p>
                                 <form action="{{ route('AdministrarFerias') }}" method="get">
                                     <select class="form-select" aria-label="Ano" name="search">
                                         @foreach ($anos_possiveis as $ano_possivel)
                                             <option value="{{ $ano_possivel->ano_de_referencia }}">
-                                                {{ $ano_possivel->ano_de_referencia }}</option>
+                                                {{ $ano_possivel->ano_de_referencia+1 }}
+                                                -{{ $ano_possivel->ano_de_referencia+2 }}</option>
                                         @endforeach
                                     </select>
                             </div>
@@ -43,14 +45,15 @@
                                 <form action="{{ route('AbreFerias') }}">
                                     @csrf
                                     <label for="ano" style=";">Período de Férias</label>
-                                    <select class="form-select custom-select" aria-label="Ano" name="ano_referencia" id="ano"
-                                             color: #355089;">
-                                        @foreach ($listaAnos as $ano)
-                                            <option value="{{ $ano }}"
-                                                    >{{ $ano+1 }}
-                                                - {{ $ano+2 }}</option>
+                                    <select class="form-select custom-select" aria-label="Ano" name="ano_referencia"
+                                            id="ano"
+                                            color: #355089">
+                                    @foreach ($listaAnos as $ano)
+                                        <option value="{{ $ano }}"
+                                        >{{ $ano+1 }}
+                                            - {{ $ano+2 }}</option>
                                         @endforeach
-                                    </select>
+                                        </select>
 
                             </div>
 

@@ -23,37 +23,29 @@ class LoginController extends Controller
         $cpf = $request->input('cpf');
         $senha = $request->input('senha');
 
-       // dd($cpf, $senha);
-
-        // $result=DB::table('usuario')->
-        //             join('pessoa', 'usuario.id_pessoa', '=', 'pessoa.id')->
-        //            where('pessoa.email',$email)->
-        //            where('ativo',true)->
-        //            get();
-
         $result=DB::select("
                         select
                         u.id id_usuario,
                         p.id id_pessoa,
+                        a.id id_associado,
                         p.cpf,
                         p.sexo,
                         p.nome_completo,
                         u.hash_senha,
                         string_agg(distinct u_p.id_tp_perfil::text, ',') perfis,
-                        string_agg(distinct u_d.id_deposito::text, ',') depositos
+                        string_agg(distinct u_d.id_deposito::text, ',') depositos,
+                        string_agg(distinct u_s.id_setor::text, ',') setor
                         from usuario u
                         left join pessoas p on u.id_pessoa = p.id
+                        left join associado a on a.id_pessoa = p.id
                         left join usuario_perfil u_p on u.id = u_p.id_usuario
                         left join usuario_deposito u_d on u.id = u_d.id_usuario
-                        where u.ativo is true and p.cpf ='$cpf'
-                        group by u.id, p.id
+                        left join usuario_setor u_s on u.id = u_s.id_usuario
+                        where u.ativo is true and p.cpf = '$cpf'
+                        group by u.id, p.id, a.id
                         ");
 
-         //dd($result);
 
-
-        //$senha = Hash::make($request->senha);
-        //return ($request->senha . ' - ' . $senha);
 
 
         if (count($result)>0){
@@ -62,24 +54,26 @@ class LoginController extends Controller
 
             if (Hash::check($senha, $hash_senha))
             {
-               session()->put('usuario', [
-                             'id_usuario'=> $result[0]->id_usuario,
-                             'id_pessoa' => $result[0]->id_pessoa,
-                             'nome'=> $result[0]->nome_completo,
-                             'cpf' => $result[0]->cpf,
-                             'sexo' =>$result[0]->sexo,
-                             'perfis' => $result[0]->perfis,
-                             'depositos' => $result[0]->depositos
-                    ]);
+                session()->put('usuario', [
+                    'id_usuario'=> $result[0]->id_usuario,
+                    'id_pessoa' => $result[0]->id_pessoa,
+                    'id_associado' => $result[0]->id_associado,
+                    'nome'=> $result[0]->nome_completo,
+                    'cpf' => $result[0]->cpf,
+                    'sexo' =>$result[0]->sexo,
+                    'perfis' => $result[0]->perfis,
+                    'depositos' => $result[0]->depositos,
+                    'setor' => $result[0]->setor
+                ]);
 
 
-
-               return view('login/home');
-               //$this->validaUserLogado();
+                app('flasher')->addSuccess('Acesso autorizado');
+                return view('login/home');
             }
 
         }
-        return view('login/login')->withErrors(['Credenciais inválidas']);
+        app('flasher')->addError('Credenciais inválidas');
+        return view('login/login');
 
 
 
@@ -99,11 +93,13 @@ class LoginController extends Controller
         p.nome_completo,
         u.hash_senha,
         string_agg(distinct u_p.id_tp_perfil::text, ',') perfis,
-        string_agg(distinct u_d.id_deposito::text, ',') depositos
+        string_agg(distinct u_d.id_deposito::text, ',') depositos,
+        string_agg(distinct u_s.id_setor::text, ',') setor
         from usuario u
         left join pessoas p on u.id_pessoa = p.id
         left join usuario_perfil u_p on u.id = u_p.id_usuario
         left join usuario_deposito u_d on u.id = u_d.id_usuario
+        left join usuario_setor u_s on u.id = u_s.id_usuario
         where u.ativo is true and p.cpf = '$cpf'
         group by u.id, p.id
         ");
@@ -118,12 +114,14 @@ class LoginController extends Controller
                 'cpf' => $result[0]->cpf,
                 'sexo' => $result[0]->sexo,
                 'perfis' => $result[0]->perfis,
-                'depositos' => $result[0]->depositos
+                'depositos' => $result[0]->depositos,
+                'setor' => $result[0]->setor
             ]);
             return view('/login/home');
         }else{
 
-            return view('login/login')->withErrors(['O Sr(a) deve informar as credenciais para acessar o sistema']);
+            return view('login/login')
+                ->with('Error', 'O Sr(a) deve informar as credenciais para acessar o sistema');
         }
     }
 
@@ -160,5 +158,5 @@ class LoginController extends Controller
     {
         //
     }
- //
+    //
 }
