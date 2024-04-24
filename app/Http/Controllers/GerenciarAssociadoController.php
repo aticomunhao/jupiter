@@ -320,7 +320,8 @@ class GerenciarAssociadoController extends Controller
       return $dompdf->stream();
    }
    public function salvardocumento(Request $request, $id)
-   {           
+   {
+
       if ($request->hasFile('arquivo')) {
 
          $arquivo = $request->file('arquivo');
@@ -337,6 +338,7 @@ class GerenciarAssociadoController extends Controller
 
 
 
+
          app('flasher')->addSuccess('Documento Armazenado!');
          return redirect('/gerenciar-associado');
       }
@@ -344,25 +346,37 @@ class GerenciarAssociadoController extends Controller
 
    public function visualizardocumento($id)
    {
-      $caminhodocumento = DB::table('associado AS as')
-         ->where('id', $id)
-         ->select(['as.caminho_documento'])
-         ->first();
-      if ($caminhodocumento) {
-         $caminho = $caminhodocumento->caminho_documento_bancario;
+      $comparar_id = DB::table('associado')
+      ->where('associado.id', $id)
+      ->select('associado.id', 'associado.caminho_documento')
+        ->first();
+
+      if ($comparar_id->caminho_documento === null) {
+         app('flasher')->addError('Nenhum Arquivo Armazenado!!');
+         return redirect('/gerenciar-associado');
+      } else {
+         $caminhodocumento = DB::table('associado AS as')
+            ->where('id', $id)
+            ->select(['as.caminho_documento'])
+            ->first();
 
 
-         if (Storage::exists($caminho)) {
-            return response()->file(storage_path('app/' . $caminho));
+         //dd($caminhodocumento);
+         if ($caminhodocumento) {
+            $caminho = $caminhodocumento->caminho_documento;
+
+
+            if (Storage::exists($caminho)) {
+               return response()->file(storage_path('app/' . $caminho));
+            } else {
+               return abort(404);
+            }
          } else {
+
             return abort(404);
          }
-      } else {
-
-         return abort(404);
       }
    }
-
    function delete($id)
    {
       $delete_associado = DB::table('associado')->where('associado.id', $id)->delete();

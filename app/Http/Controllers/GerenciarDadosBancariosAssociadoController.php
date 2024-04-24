@@ -518,11 +518,14 @@ class GerenciarDadosBancariosAssociadoController extends Controller
    }
 
    public function visualizardocumentobancario($ida)
-   {
+   {   
       $caminhodocumento = DB::table('contribuicao_associado AS ca')
          ->where('id_associado', $ida)
          ->select(['ca.caminho_documento_bancario'])
          ->first();
+
+      dd($caminhodocumento);
+         
       if ($caminhodocumento) {
          $caminho = $caminhodocumento->caminho_documento_bancario;
 

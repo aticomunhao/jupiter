@@ -6,8 +6,13 @@
     table,
     td,
     th {
-      border: 2px solid black;
+      border: 1px solid black;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
+      font-weight: bold ;
+    
+    }
+    .titulo{
+      font-size: 14px;
     }
 
     .tabe {
@@ -18,7 +23,7 @@
     table {
       border-collapse: collapse;
       width: 100%;
-      border: 2px solid #025e73;
+
     }
 
     td {
@@ -26,7 +31,7 @@
     }
 
     p {
-      margin: 5px;
+      margin: 8px;
       text-align: justify;
       line-height: 100%;
     }
@@ -36,8 +41,9 @@
     }
 
     .autorizacao {
+      font-size: 12px;
       text-align: center;
-      font-size: 15px;
+
     }
 
     .data {
@@ -51,30 +57,33 @@
 </head>
 
 <body>
-  <table>
+  <table class="titulo">
     <th>
       <h7>
-        - FICHA DE CADASTRO DE ASSOCIADO CONTRIBUINTE DA COMUNHÃO ESPÍRITA DE
-        BRASÍLIA -</h7>
+        - FICHA DE CADASTRO DE ASSOCIADO CONTRIBUINTE DA COMUNHÃO ESPÍRITA DE BRASÍLIA -
+      </h7>
     </th>
   </table>
   <table>
     <tr>
       <th class="tabe">
-        <p>Nome: {{$associado->nome_completo}}</p>
+        <p>NOME: {{$associado->nome_completo}}</p>
       </th>
       <th class="tabe">
         <p>CPF: {{$associado->cpf}}</p>
+      </th>
+      <th class="tabe">
+        <p>ASSOCIADO N&deg; <span style="text-decoration: underline;">{{$associado->nr_associado}}</span></p>
       </th>
     </tr>
   </table>
   <table>
     <tr>
       <th class="tabe">
-        <p>Endereço: {{$associado->bairro}}/{{$associado->logradouro}}/{{$associado->complemento}}/{{$associado->numero}}</p>
+        <p>ENDEREÇO: {{$associado->bairro}}/{{$associado->logradouro}}/{{$associado->complemento}}/{{$associado->numero}}</p>
       </th>
       <th class="tabe">
-        <p>Cidade: {{$associado->descricao}}</p>
+        <p>CIDADE: {{$associado->descricao}}</p>
       </th>
       <th class="tabe">
         <p>UF: {{$associado->sigla}}</p>
@@ -97,24 +106,24 @@
   <table>
     <tr>
       <th class="tabe">
-        <p>VALOR DA CONTRIBUIÇÃO: R$: {{$associado->valor}}</p>
+        <p>VALOR DA CONTRIBUIÇÃO: R$: <span style="text-decoration: underline;">{{$associado->valor}}</span></p>
       </th>
       <th class="tabe">
         <h9>FORMAS(S) DE CONTRIBUIÇÃO:</h9>
         <p>
-          1)TESOURARIA: ( {{ str_replace('1', 'X', $associado->dinheiro) }} )Dinheiro -
+          <u>1)TESOURARIA:</u> ( {{ str_replace('1', 'X', $associado->dinheiro) }} )Dinheiro -
           ( {{ str_replace('1', 'X', $associado->cheque) }} )Cheque -
           ( {{ str_replace('1', 'X', $associado->ct_de_debito) }} )Cartão de Débito -
           ( {{ str_replace('1', 'X', $associado->ct_de_credito) }} )Cartão de Crédito.
         </p>
         <p>
-          2)BOLETO BANCÁRIO: ({{ str_replace('1', 'X', $associado->mensal) }} )Mensal -
+          <u>2)BOLETO BANCÁRIO:</u> ({{ str_replace('1', 'X', $associado->mensal) }} )Mensal -
           ( {{ str_replace('1', 'X', $associado->trimestral) }} )Trimestral -
           ( {{ str_replace('1', 'X', $associado->semestral) }} )Semestral -
           ( {{ str_replace('1', 'X', $associado->anual) }} )Anual
         </p>
         <p>
-          3)AUTORIZAÇÃO DE DÉBITO EM CONTA: ( {{ str_replace('1', 'X', $associado->banco_do_brasil) }} )Banco do Brasil -
+          <u>3)AUTORIZAÇÃO DE DÉBITO EM CONTA:</u> ( {{ str_replace('1', 'X', $associado->banco_do_brasil) }} )Banco do Brasil -
           ( {{ str_replace('1', 'X', $associado->brb) }} )BRB
         </p>
       </th>
@@ -123,7 +132,7 @@
   <table>
     <tr>
       <th class="tabe">
-        <p>DIA DE VENCIMENTO: {{$associado->dt_vencimento}}</p>
+        <p>DIA DE VENCIMENTO: <span style="text-decoration: underline;">{{$associado->dt_vencimento}}</span></p>
       </th>
       <th class="tabe">
         <p>4)REQUERIMENTO DE ISENÇÃO: ( )Deferindo - ( ) Indeferido</p>
@@ -131,11 +140,11 @@
     </tr>
   </table>
   <table>
-    <th>
+    <th class="tabe">
       <p>
-        OBSERVAÇÕES:
+        <u>OBSERVAÇÕES:</u>
         <br>
-
+        <br>
         1) A CONTRIBUIÇÃO FEITA POR MEIO DE BOLETO E AUTORIZAÇÃO DE DÉBITO EM CONTA DEVERÁ TER O VALOR MÍNIMO DE R$ 25,00.
         <br>
         2) APÓS DEFINIDO O VALOR DA CONTRIBUIÇÃO PELO ASSOCIADO, ESSA IMPORTÂNCIA SERÁ OBRIGATÓRIA (ART. 9º DO ESTATUTO) ATÉ A DATA DE EVENTUAL
@@ -155,7 +164,7 @@
     </th>
   </table>
   <table>
-    <th>
+    <th class="tabe">
       <p>Autorizo o TRATAMENTO e o ARMAZENAMENTO dos dados acima para uso interno e restrito da COMUNHÃO, para fins de cumprimento de dispositivos
         estatutários e legais (Art. 5º, incisos XVI! a XX! da CF; Art. 53 a 61 CC; e, Art. 9º ao 11 e 14, inc. V do Estatuto) - Contribuição mensal do Associado.
       </p><br>
@@ -178,7 +187,9 @@
       @endphp
 
       <p class="data"> Brasília, <span style="text-decoration: underline;">{{ date('d') }}</span> de <span style="text-decoration: underline;">{{ $meses[$mesAtual] }}</span> de <span style="text-decoration: underline;">{{ date('Y') }}</span></p>
-      <p style="text-left:10px;">ASSINATURA DO(A) ASSOCIADO(A)__________________________________________</p>
+      <br>
+      <p class="autorizacao">__________________________________________________</p>
+      <p class="autorizacao">ASSINATURA DO(A) ASSOCIADO(A)</p>
 
     </th>
   </table>

@@ -99,7 +99,7 @@
                                 <a href="/capture-photo/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/gerenciar-dados_bancarios/{{$lista_associados->id}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi bi-currency-dollar" style="font-size: 1rem; color:#303030;"></i></button></a>
                                 <a href="/documento-associado/{{$lista_associados->id}}"><button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-archive" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modalExemplo"><i class="bi bi-box-arrow-in-down" style="font-size: 1rem; color:#303030;"></i></button>
+                                <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#armazenar{{$lista_associados->id}}"><i class="bi bi-box-arrow-in-down" style="font-size: 1rem; color:#303030;"></i></button>
                                 <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#excluir{{$lista_associados->id}}" class="btn btn-outline-danger"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
 
                                 <!-- Modal -->
@@ -139,7 +139,7 @@
                                 <!--Fim Modal-->
                                 <!-- Modal -->
 
-                                <div class="modal fade bd-example-modal-lg" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal fade bd-example-modal-lg" id="armazenar{{$lista_associados->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
@@ -163,6 +163,7 @@
                                                                 <div class="form-group">
                                                                     <label for="exampleFormControlFile1">
                                                                         <h6>Carregar Arquivo</h6>
+                                                                    
                                                                     </label>
                                                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" name="arquivo">
                                                                 </div>
@@ -171,11 +172,9 @@
                                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
                                                             <button type="submit" class="btn btn-primary">Salvar mudanças</button>
                                                         </div>
-</form>
+                                                        </form>
                                                         <!--Fim Modal-->
-
                             </td>
-                        </tr>
                         </tr>
             </div>
         </div>

@@ -86,7 +86,7 @@
                                     <hr>
                                     <a href="/editar-dados-bancarios-associado/{{$associado->ida}}"><button type="button" class="btn btn-outline-warning btn-sm"><i class="bi-pencil" style="font-size: 1rem; color:#303030;"></i></button></a>
                                     <a href="/documento-bancario/{{$associado->ida}}"><button type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-archive" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                    <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modalExemplo"><i class="bi bi-box-arrow-in-down" style="font-size: 1rem; color:#303030;"></i></button>
+                                    <button type="button" class="btn btn-outline-success btn-sm" data-toggle="modal" data-target="#modalExemplo{{$associado->ida}}"><i class="bi bi-box-arrow-in-down" style="font-size: 1rem; color:#303030;"></i></button>
                                     <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#excluir"><i class="bi bi-trash" style="font-size: 1rem; color:#303030;"></i></button>
 
                                 </center>
@@ -140,7 +140,7 @@
         <div>
 
             <!-- Modal -->
-            <div class="modal fade bd-example-modal-lg" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade bd-example-modal-lg" id="modalExemplo{{$associado->ida}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
