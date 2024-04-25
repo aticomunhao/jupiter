@@ -47,7 +47,6 @@ class GerenciarFeriasController extends Controller
                     'funcionarios.id_setor'
                 )
                 ->where('funcionarios.id_setor', session('usuario.setor'))
-
                 ->get();
 
 
@@ -562,10 +561,19 @@ class GerenciarFeriasController extends Controller
             ->groupBy('ano_de_referencia')
             ->orderBy('ano_de_referencia', 'desc')
             ->first();
-        $anoAnterior = intval( $anos_inicial->ano_de_referencia) - 2;
-        $doisAnosFrente = intval($anos_final->ano_de_referencia) + 5;
+        if (!empty($anos_inicial)) {
+            $anoAnterior = intval($anos_inicial->ano_de_referencia) - 2;
+            $doisAnosFrente = intval($anos_final->ano_de_referencia) + 5;
+        } else {
+            $anoAnterior = intval( Carbon::now()->subYear(5)->toDateString());
+            $doisAnosFrente = intval(Carbon::now()->addYear(2)->toDateString());
+
+        }
+
 
         $listaAnos = range($anoAnterior, $doisAnosFrente);
+
+
 
         return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos'));
     }
@@ -650,7 +658,6 @@ class GerenciarFeriasController extends Controller
         DB::beginTransaction();
 
         try {
-
             $ferias_funcionarios = DB::table('ferias')
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
                 ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -693,12 +700,10 @@ class GerenciarFeriasController extends Controller
             return redirect()->back();
 
         } catch (\Exception $exception) {
-            app('flasher')->addError("Houve um erro inesperado: #" . $exception->getCode( )) ;
+            app('flasher')->addError("Houve um erro inesperado: #" . $exception->getCode());
             DB::rollBack();
             return redirect()->back();
 
         }
-
-
     }
 }

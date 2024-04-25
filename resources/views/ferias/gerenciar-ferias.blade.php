@@ -67,72 +67,74 @@
 
                     <br>
                     @if (!empty($periodo_aquisitivo))
-                        <div class="table-responsive">
-                            <table
-                                class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
-                                style="margin-top:10px;">
-                                <thead style="text-align: center;">
-                                <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                    <th scope="col">Nome do Funcionário</th>
-                                    <th scope="col">Início 1</th>
-                                    <th scope="col">Fim 1</th>
-                                    <th scope="col">Início 2</th>
-                                    <th scope="col">Fim 2</th>
-                                    <th scope="col">Início 3</th>
-                                    <th scope="col">Fim 3</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Motivo</th>
-                                    <th scope="col">Ações</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
-                                    <tr>
-                                        <td style="text-align: center">
-                                            {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
-
-                                        <td style="text-align: center">
-                                            {{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
-                                        </td>
-                                        <td style="text-align: center">
-                                            {{ $periodos_aquisitivos->dt_fim_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
-                                        </td>
-                                        <td style="text-align: center">
-                                            {{ $periodos_aquisitivos->dt_ini_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
-                                        </td>
-                                        <td style="text-align: center">
-                                            {{ $periodos_aquisitivos->dt_fim_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
-                                        </td>
-                                        <td style="text-align: center">
-                                            {{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
-                                        </td>
-                                        <td style="text-align: center">
-                                            {{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
-                                        </td>
-                                        <td style="text-align: center">
-                                            {{ $periodos_aquisitivos->status_pedido_ferias }}
-                                        </td>
-                                        <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}
-                                        </td>
-                                        <td>
-                                            @if ($periodos_aquisitivos->id_status_pedido_ferias != 4 or $periodos_aquisitivos->id_status_pedido_ferias == 6)
-                                                <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                   class="btn btn-outline-success">
-                                                    <i class="bi bi-pencil-square"></i>
-
-                                                </a>
-                                            @endif
-                                            <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                               class="disabled" aria-disabled="true">
-                                                <button class="btn btn-outline-secondary" aria-label="Close">
-                                                    <i class="bi bi-search"></i>
-                                                </button>
-                                            </a>
-                                        </td>
+                        <div class="container-fluid">
+                            <div class="table-responsive">
+                                <table
+                                    class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
+                                    style="margin-top:10px;">
+                                    <thead style="text-align: center;">
+                                    <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                        <th scope="col">Nome do Funcionário</th>
+                                        <th scope="col">Início 1</th>
+                                        <th scope="col">Fim 1</th>
+                                        <th scope="col">Início 2</th>
+                                        <th scope="col">Fim 2</th>
+                                        <th scope="col">Início 3</th>
+                                        <th scope="col">Fim 3</th>
+                                        <th scope="col">Status</th>
+                                        <th scope="col">Motivo</th>
+                                        <th scope="col">Ações</th>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                    @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
+                                        <tr>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
+
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_fim_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_ini_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_fim_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->status_pedido_ferias }}
+                                            </td>
+                                            <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}
+                                            </td>
+                                            <td>
+                                                @if ($periodos_aquisitivos->id_status_pedido_ferias != 4 or $periodos_aquisitivos->id_status_pedido_ferias == 6)
+                                                    <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                       class="btn btn-outline-success">
+                                                        <i class="bi bi-pencil-square"></i>
+
+                                                    </a>
+                                                @endif
+                                                <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                   class="disabled" aria-disabled="true">
+                                                    <button class="btn btn-outline-secondary" aria-label="Close">
+                                                        <i class="bi bi-search"></i>
+                                                    </button>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     @endif
                 </div>
