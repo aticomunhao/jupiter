@@ -92,37 +92,24 @@
                                 <label for="6">
                                     Naturalidade UF
                                 </label>
-                                <select id="6" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="uf_nat" type="numeric">
-                                    <option value="{{ $editar[0]->tuf }}">
-                                        {{ $editar[0]->ufsgl }}
-                                    </option>
-                                    @foreach ($tpufidt as $tpufidts)
-                                    <option value="{{ $tpufidts->id }}">
-                                        {{ $tpufidts->sigla }}
+                                <select select class="form-select" style="border: 1px solid #999999; padding: 5px;" data-placeholder="Choose one thing" name="uf_nat" required="required" id="uf1">
+                                    <option value=""></option>
+                                    @foreach ($tp_uf as $tp_ufs)
+                                    <option @if (old('uf_nat')==$tp_ufs->id) {{ 'selected="selected"' }} @endif
+                                        value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
                                     </option>
                                     @endforeach
                                 </select>
-                                <div class="invalid-feedback">
-                                    Por favor, selecione um UF válido.
-                                </div>
-                            </div>
+                            </div>  
                             <div class="form-group col-3">
                                 <label for="7">
                                     Naturalidade-Cidade
                                 </label>
-                                <select id="7" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="natura" type="numeric">
-                                    <option value="{{ $editar[0]->id_cidade }}">
-                                        {{ $editar[0]->nat }}
-                                    </option>
-                                    @foreach ($tpcidade as $tpcidades)
-                                    <option value="{{ $tpcidades->id_cidade }}">
-                                        {{ $tpcidades->descricao }}
-                                    </option>
-                                    @endforeach
+                                <select class="form-select" id="cidade1" name="natura" required="required" disabled>
+                                <option value="{{ $editar[0]->id_cidade }}">
+                                    {{ $editar[0]->nat }}
+                                </option>
                                 </select>
-                                <div class="invalid-feedback">
-                                    Por favor, selecione um UF válido.
-                                </div>
                             </div>
                             <div class="form-group col-2">
                                 <label for="8">
@@ -153,7 +140,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="form-group col-3">
+                            <div class="form-group col-2">
                                 <label for="10">
                                     Identidade
                                 </label>
@@ -167,21 +154,23 @@
                                 <label for="11">
                                     Orgão Exp
                                 </label>
-                                <input type="text" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="orgexp" name="matricula" maxlength="30" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="11" value="{{ $editar[0]->orgao_expedidor }}">
-                                <div class="invalid-feedback">
-                                    Por favor, informe o Orgão Exp válido.
-                                </div>
+                                <select id="9" style="border: 1px solid #999999; padding: 5px;" name="orgexp" class="form-select">
+                                    <option value="{{ $editar[0]->id}}">
+                                        {{ $editar[0]->orgexp_sigla}}
+                                    </option>
+                                    @foreach ($tporg_exp as $tporg_exps)
+                                    <option value="{{ $tporg_exps->id }}">
+                                        {{ $tporg_exps->sigla }}
+                                    </option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="form-group col-2">
                                 <label for="12">
                                     Data de Emissão
                                 </label>
-                                <input type="date" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="dt_idt" id="12" value="{{ $editar[0]->dt_emissao_idt }}">
-                                <div class="invalid-feedback">
-                                    Por favor, selecione a Data de Emissão.
-                                </div>
-                            </div>
-                            <div class="form-group col-3">
+                                <input type="date" style="border: 1px solid #999999; padding: 5px;" class="form-control" name="dt_idt" id="12" value="{{ $editar[0]->dt_emissao_idt }}">                            </div>
+                            <div class="form-group col-2">
                                 <label for="13">
                                     Cor Pele
                                 </label>
@@ -213,9 +202,21 @@
                                     </option>
                                     @endforeach
                                 </select>
-                                <div class="invalid-feedback">
-                                    Por favor, selecione um DDD válido.
-                                </div>
+                            </div>
+                            <div class="form-group col-2">
+                                <label for="14">
+                                    Fator RH
+                                </label>
+                                <select id="14" style="border: 1px solid #999999; padding: 5px;" name="fator" class="form-select">
+                                    <option value="{{ $editar[0]->id}}">
+                                        {{ $editar[0]->nome_fator }}
+                                    </option>
+                                    @foreach ($fator as $fators)
+                                    <option value="{{ $fators->id }}">
+                                        {{ $fators->nome_fator }}
+                                    </option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -321,9 +322,9 @@
                                     <option value="{{ $editar[0]->tuf }}">
                                         {{ $editar[0]->ufsgl }}
                                     </option>
-                                    @foreach ($tpufidt as $tpufidts)
-                                    <option value="{{ $tpufidts->id }}">
-                                        {{ $tpufidts->sigla }}
+                                    @foreach ($tp_uf as $tp_ufs)
+                                    <option value="{{ $tp_ufs->id }}">
+                                        {{ $tp_ufs->sigla }}
                                     </option>
                                     @endforeach
                                 </select>
@@ -406,6 +407,60 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <br>
+                <div class="card" style="border-color: #355089;">
+                    <div class="card-header">
+                        <div class="ROW">
+                            <h5 class="col-12" style="color: #355089">
+                                Dados Residenciais
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="row ">
+                            <div class="col-md-4 col-sm-12">CEP
+                                <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="8" type="numeric" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="35" name="cep" value="{{ $editar[0]->cep }}">
+                            </div>
+                            <div class="col-md-4 col-sm-12">UF
+                                <br>
+                                <select class="js-example-responsive form-select" style="border: 1px solid #999999; padding: 5px;" id="iduf" name="uf_end">
+                                    <option value=""></option>
+                                    @foreach ($tp_uf as $tp_ufs)
+                                    <option @if (old('uf_end')==$tp_ufs->id) {{ 'selected="selected"' }} @endif
+                                        value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 col-sm-12">Cidade
+                                <br>
+                                <select class="js-example-responsive form-select" style="border: 1px solid #999999; padding: 5px;" id="idcidade" name="cidade" value="{{ old('cidade') }}" disabled>
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-3 col-sm-12">Logradouro
+                                <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="45" type="text" id="36" name="logradouro" value="{{ $editar[0]->logradouro }}">
+                            </div>
+                            <div class="col-md-3 col-sm-12">Número
+                                <input class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="10" type="text" id="35" name="numero" value="{{ $editar[0]->numero }}">
+                            </div>
+                            <div class="col-md-3 col-sm-12">Complemento
+                                <input type="text" style="border: 1px solid #999999; padding: 5px;" maxlength="45" class="form-control" id="36" name="comple" value="{{ $editar[0]->complemento }}">
+                            </div>
+                            <div class="col-md-3 col-sm-12">Bairro:
+                                <input type="text" style="border: 1px solid #999999; padding: 5px;" maxlength="45" class="form-control" id="36" name="bairro" value="{{ $editar[0]->bairro }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <br>
     <div class="botões">
         <a href="/gerenciar-funcionario" type="button" value="" class="btn btn-danger col-md-3 col-2 mt-4 offset-md-2">Cancelar</a>
@@ -415,23 +470,47 @@
 </form>
 
 <script>
-    // Exemplo de JavaScript inicial para desativar envios de formulário, se houver campos inválidos.
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Pega todos os formulários que nós queremos aplicar estilos de validação Bootstrap personalizados.
-            var forms = document.getElementsByClassName('needs-validation');
-            // Faz um loop neles e evita o envio
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
+    $(document).ready(function() {
+
+        $('#idcidade, #cidade1').select2({
+            theme: 'bootstrap-5',
+            width: '100%',
+        });
+
+        function populateCities(selectElement, stateValue) {
+            $.ajax({
+                type: "get",
+                url: "/retorna-cidade-dados-residenciais/" + stateValue,
+                dataType: "json",
+                success: function(response) {
+                    selectElement.empty();
+                    $.each(response, function(indexInArray, item) {
+                        selectElement.append('<option value="' + item.id_cidade + '">' +
+                            item.descricao + '</option>');
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error("An error occurred:", error);
+                }
             });
-        }, false);
-    })();
+        }
+
+
+        $('#iduf').change(function(e) {
+            var stateValue = $(this).val();
+            $('#idcidade').removeAttr('disabled');
+            populateCities($('#idcidade'), stateValue);
+        });
+
+        $('#uf1').change(function(e) {
+            var stateValue = $(this).val();
+            $('#cidade1').removeAttr('disabled');
+            populateCities($('#cidade1'), stateValue);
+        });
+
+        $('#idlimpar').click(function(e) {
+            $('#idnome_completo').val("");
+        });
+    });
 </script>
 @endsection

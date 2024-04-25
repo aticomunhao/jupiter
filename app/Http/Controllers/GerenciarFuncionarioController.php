@@ -55,7 +55,6 @@ class GerenciarFuncionarioController extends Controller
 
 
         return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome'));
-
     }
 
     public function create()
@@ -86,11 +85,10 @@ class GerenciarFuncionarioController extends Controller
         $logra = DB::select('select distinct(id), descricao from tp_logradouro');
 
         $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
-        
+
         $setor = DB::select('select id, nome from setor');
 
         return view('/funcionarios.incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd', 'setor'));
-
     }
 
     public function store(Request $request)
@@ -133,8 +131,7 @@ class GerenciarFuncionarioController extends Controller
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
 
             return redirect()->back()->withInput();
-        } else {
-            {
+        } else { {
 
                 DB::table('pessoas')->insert([
                     'nome_completo' => $request->input('nome_completo'),
@@ -197,16 +194,14 @@ class GerenciarFuncionarioController extends Controller
 
                 ]);
 
-                
+
 
 
                 app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
 
                 return redirect('/gerenciar-funcionario');
             }
-
         }
-
     }
 
 
@@ -219,12 +214,15 @@ class GerenciarFuncionarioController extends Controller
             ->leftjoin('tp_programa', 'tp_programa.id', 'f.tp_programa')
             ->leftjoin('tp_sexo', 'tp_sexo.id', 'p.sexo')
             ->leftjoin('tp_nacionalidade AS tn', 'tn.id', 'p.nacionalidade')
-            ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele')
+            ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele') 
             ->leftjoin('tp_ddd', 'tp_ddd.id', 'p.ddd')
+            ->leftjoin('tp_orgao_exp', 'tp_orgao_exp.id', 'p.orgao_expedidor')
             ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_natural')
             ->leftjoin('tp_cidade AS tc', 'tc.id_cidade', 'p.naturalidade')
             ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
             ->leftjoin('setor AS s', 's.id', 'f.id_setor')
+            ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
+            ->leftjoin('tp_fator', 'tp_fator.id', 'f.fator_rh')
             ->select(
                 'f.id_pessoa AS idp',
                 'f.id AS idf',
@@ -273,12 +271,20 @@ class GerenciarFuncionarioController extends Controller
                 'tc.descricao AS nat',
                 'f.id_setor',
                 's.id AS ids',
-                's.nome AS setnome'
+                's.nome AS setnome',
+                'endp.cep',
+                'endp.logradouro',
+                'endp.numero',
+                'endp.bairro',
+                'endp.complemento',
+                'tp_orgao_exp.sigla AS orgexp_sigla',
+                'tp_fator.nome_fator'
+
             )
             ->where('f.id', $idf)
             ->get();
 
-  //  dd($editar);
+      //dd($editar);
 
 
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
@@ -286,18 +292,20 @@ class GerenciarFuncionarioController extends Controller
         $tpnacionalidade = DB::table('tp_nacionalidade')->select('id', 'local')->get();
         $tppele = DB::table('tp_cor_pele')->select('id', 'nome_cor')->get();
         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
-        $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
+        $tp_uf = DB::select('select id, sigla from tp_uf');
         $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
         $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
         $tpprograma = DB::table('tp_programa')->select('id', 'programa')->get();
         $tpsetor = DB::table('setor')->select('id', 'nome')->get();
+        $tporg_exp = DB::select('select id, sigla from tp_orgao_exp');
+        $fator = DB::select('select id, nome_fator from tp_fator');
 
 
 
-       // dd($tpsetor);
+        // dd($tpsetor);
 
 
-        return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tpufidt', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor'));
+        return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator'));
     }
 
 
@@ -374,7 +382,7 @@ class GerenciarFuncionarioController extends Controller
                     'nr_programa' => $request->input('programa'),
                     'id_cor_pele' => $request->input('cor'),
                     'id_tp_sangue' => $request->input('tps'),
-                    'fator_rh' => $request->input('frh'),
+                    'fator_rh' => $request->input('fator'),
                     'titulo_eleitor' => $request->input('titele'),
                     'dt_titulo' => $request->input('dt_titulo'),
                     'zona_tit' => $request->input('zona'),
@@ -395,7 +403,6 @@ class GerenciarFuncionarioController extends Controller
 
             return redirect()->action([GerenciarFuncionarioController::class, 'index']);
         }
-
     }
 
     public function delete($idf)
@@ -432,7 +439,6 @@ class GerenciarFuncionarioController extends Controller
 
                 app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
             }
-
         }
 
 
@@ -441,7 +447,6 @@ class GerenciarFuncionarioController extends Controller
 
         app('flasher')->addSuccess('O cadastro do funcionario foi Removido com Sucesso.');
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
-
     }
 
     public function pes_func($idf)
@@ -456,14 +461,12 @@ class GerenciarFuncionarioController extends Controller
         $tpnacionalidade = DB::table('tp_nacionalidade')->select('id', 'local')->get();
         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
         $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
-
-
     }
 
     public function retornaCidadeDadosResidenciais($id)
     {
         $cidadeDadosResidenciais = DB::table('tp_cidade')
-            ->where('id_uf',$id)
+            ->where('id_uf', $id)
             ->get();
 
         return response()->json($cidadeDadosResidenciais);
@@ -472,14 +475,8 @@ class GerenciarFuncionarioController extends Controller
     public function retornacidadesNaturalidade($id)
     {
         $cidadeNaturalidade = DB::table('tp_cidade')
-            ->where('id_uf',$id)
+            ->where('id_uf', $id)
             ->get();
         return response()->json($cidadeNaturalidade);
     }
-
-
 }
-
-
-
-
