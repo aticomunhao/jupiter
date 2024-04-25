@@ -45,9 +45,14 @@ class ControleVagasController extends Controller
         ->leftJoin('base_salarial AS bs', 'bs.id_funcionario', 'f.id')
         ->leftJoin('setor AS s', 's.id', 'f.id_setor')
         ->leftJoin('cargos AS c', 'c.id', 'bs.cargo')
-        ->select('f.id_setor AS setorFuncionario', 'c.id AS idCargo', 'bs.id_funcionario')*/;
-
-
+        ->select('f.id_setor AS setorFuncionario',
+        'c.id AS idCargo',
+        'bs.id_funcionario',
+        'c.nome AS nomeCargo',
+        DB::raw('COUNT(f.id) AS quantidade_funcionarios')
+        )
+        ->groupBy('setorFuncionario', 'idCargo', 'bs.id_funcionario', 'nomeCargo')
+        ->get();
 
         $setor = DB::table('tp_vagas_autorizadas AS va')
             ->leftJoin('setor AS s', 's.id', 'va.id_setor')
@@ -56,19 +61,43 @@ class ControleVagasController extends Controller
             ->groupBy('idDoCargo', 'idSetor', 'nomeCargo', 'nomeSetor');
 
 
+
         if ($pesquisa == 'setor') {
             $setorId = $request->input('setor');
-            $setor->where('s.id', $setorId);
-            $cargo->where('c.id', $setorId);
-            $vaga->where('cr.id', $setorId);
+            $vaga->where('s.id', $setorId);
         }
 
-        $setor = $setor->get();
+        $totalVagasSetor = 0;
+        $totalFuncionariosSetor = 0;
 
-        //dd($setor, $cargo, $vaga);
+        $setor = $setor->get();*/
+
+        $setorId = $request->input('setor');
+
+        // Consulta SQL para obter o número de funcionários por cargo em cada setor
+        $funcionariosPorCargoSetor = DB::table('setor AS s')
+            ->leftJoin('tp_vagas_autorizadas AS va', 's.id', '=', 'va.id_setor')
+            ->leftJoin('cargos AS cr', 'va.id_cargo', '=', 'cr.id')
+            ->leftJoin('base_salarial AS bs', 'va.id_cargo', '=', 'bs.cargo')
+            ->leftJoin('funcionarios AS f', 'bs.id_funcionario', '=', 'f.id')
+            ->select('s.id AS idSetor', 's.nome AS nomeSetor', 'cr.nome AS nomeCargo', DB::raw('COUNT(f.id) AS totalFuncionarios'))
+            ->groupBy('s.id', 's.nome', 'cr.nome')
+            ->when($setorId, function ($query) use ($setorId) {
+                $query->where('s.id', $setorId);
+            })
+            ->get();
 
 
-        return view('efetivo.controle-vagas', compact('cargo', 'setor', 'pesquisa', 'vaga'));
+
+        /*foreach ($setor as $setores)
+        foreach ($funcionario as $funcionarios)
+        if ($funcionarios->idCargo == $setores->idDoSetor)*/
+
+
+        //dd($setor, $funcionario);
+
+
+        return view('efetivo.controle-vagas', compact('cargo', 'funcionariosPorCargoSetor', 'pesquisa', 'vaga'));
     }
 
 

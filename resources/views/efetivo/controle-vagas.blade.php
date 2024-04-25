@@ -77,19 +77,20 @@
                                         @php
                                             $setoresExibidos = []; // Array para armazenar os setores únicos já exibidos
                                         @endphp
-                                        @foreach ($setor as $setores)
-                                            @if ($setores->nomeSetor)
+                                        @foreach ($funcionariosPorCargoSetor as $funcionariosPorCargoSetores)
+                                            @if ($funcionariosPorCargoSetores->nomeSetor)
                                                 <!-- Exibir apenas se o nome do setor não for nulo -->
-                                                @if (!in_array($setores->nomeSetor, $setoresExibidos))
+                                                @if (!in_array($funcionariosPorCargoSetores->nomeSetor, $setoresExibidos))
                                                     <!-- Adicionar à lista suspensa somente se o nome do setor não tiver sido exibido anteriormente -->
-                                                    <option value="{{ $setores->idSetor }}">{{ $setores->nomeSetor }}
-                                                    </option>
+                                                    <option value="{{ $funcionariosPorCargoSetores->idSetor }}">
+                                                        {{ $funcionariosPorCargoSetores->nomeSetor }}</option>
                                                     @php
-                                                        $setoresExibidos[] = $setores->nomeSetor; // Adiciona o setor ao array de setores únicos exibidos
+                                                        $setoresExibidos[] = $funcionariosPorCargoSetores->nomeSetor; // Adiciona o setor ao array de setores únicos exibidos
                                                     @endphp
                                                 @endif
                                             @endif
                                         @endforeach
+
                                     </select>
                                 </div>
                                 <div class="col" style="padding-top:20px;">
@@ -146,37 +147,12 @@
                                             @endif
                                         @endforeach
                                     </tbody>
-                                    <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
-                                        @foreach ($setor as $setor)
-                                            <tr style="text-align: center">
-                                                <td colspan="" style="font-weight: bold;">{{ $setor->nomeSetor }}</td>
-                                                <td colspan="" style="font-weight: bold;">Funcionários</td>
-                                                <td colspan="" style="font-weight: bold;">Autorizadas</td>
-                                                <td colspan="" style="font-weight: bold;">Sobrando</td>
-                                            </tr>
-                                            @php
-                                                $totalVagasSetor = 0;
-                                                $totalFuncionariosSetor = 0;
-                                            @endphp
-                                            @foreach ($cargo as $cargos)
-                                                @if ($cargos->idCargo == $setor->idDoCargo)
-                                                    <tr style="text-align: center">
-                                                        <td scope="">{{ $cargos->nomeCargo }}</td>
-                                                        <td scope="">{{ $cargos->quantidade_funcionarios }}</td>
-                                                        <td scope="">{{ $setor->total_vagas }}</td>
-                                                        <td scope="">{{ $setor->total_vagas - $cargos->quantidade_funcionarios }}</td>
-                                                        @php
-                                                            $totalFuncionariosSetor += $cargos->quantidade_funcionarios;
-                                                            $totalVagasSetor += $setor->total_vagas; // Adicionar vagas do setor ao total
-                                                        @endphp
-                                                    </tr>
-                                                @endif
-                                            @endforeach
-                                            <tr style="text-align: center; font-weight: bold;">
-                                                <td>Total</td>
-                                                <td>{{ $totalFuncionariosSetor }}</td>
-                                                <td>{{ $totalVagasSetor }}</td>
-                                                <td>{{ $totalVagasSetor - $totalFuncionariosSetor }}</td>
+                                    <tbody>
+                                        @foreach ($funcionariosPorCargoSetor as $funcionariosPorCargoSetores)
+                                            <tr>
+                                                <td>{{ $funcionariosPorCargoSetores->nomeSetor }}</td>
+                                                <td>{{ $funcionariosPorCargoSetores->nomeCargo }}</td>
+                                                <td></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
