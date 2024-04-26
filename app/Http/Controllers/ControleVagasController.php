@@ -78,7 +78,7 @@ class ControleVagasController extends Controller
             }
         }
 
-        $somaF =
+        //$somaF =
 
 
 //dd($setor);
