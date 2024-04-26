@@ -77,15 +77,15 @@
                                         @php
                                             $setoresExibidos = []; // Array para armazenar os setores únicos já exibidos
                                         @endphp
-                                        @foreach ($funcionariosPorCargoSetor as $funcionariosPorCargoSetores)
-                                            @if ($funcionariosPorCargoSetores->nomeSetor)
+                                        @foreach ($setor as $setores)
+                                            @if ($setores->nomeSetor)
                                                 <!-- Exibir apenas se o nome do setor não for nulo -->
-                                                @if (!in_array($funcionariosPorCargoSetores->nomeSetor, $setoresExibidos))
+                                                @if (!in_array($setores->nomeSetor, $setoresExibidos))
                                                     <!-- Adicionar à lista suspensa somente se o nome do setor não tiver sido exibido anteriormente -->
-                                                    <option value="{{ $funcionariosPorCargoSetores->idSetor }}">
-                                                        {{ $funcionariosPorCargoSetores->nomeSetor }}</option>
+                                                    <option value="{{ $setores->idSetor }}">
+                                                        {{ $setores->nomeSetor }}</option>
                                                     @php
-                                                        $setoresExibidos[] = $funcionariosPorCargoSetores->nomeSetor; // Adiciona o setor ao array de setores únicos exibidos
+                                                        $setoresExibidos[] = $setores->nomeSetor; // Adiciona o setor ao array de setores únicos exibidos
                                                     @endphp
                                                 @endif
                                             @endif
@@ -110,7 +110,7 @@
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-4">Cargo</th>
+                                            <th class="col-4">Setor/Cargo</th>
                                             <th class="col-2">Vagas Preenchidas</th>
                                             <th class="col-2">Vagas Totais</th>
                                             <th class="col-2">Vagas Remanescentes</th>
@@ -126,16 +126,16 @@
                                                     $vagasTotais = 0; // Inicializa as vagas totais para este cargo
                                                 @endphp
                                                 @foreach ($vaga as $v)
-                                                    @if ($v->idDoCargo == $cargos->idCargo)
+                                                    @if ($v->idCargo == $cargos->idCargo)
                                                         @php
-                                                            $vagasTotais += $v->total_vagas; // Soma as vagas totais para este cargo
+                                                            $vagasTotais += $v->vagas; // Soma as vagas totais para este cargo
                                                         @endphp
                                                     @endif
                                                 @endforeach
                                                 <tr style="text-align: center">
-                                                    <td scope="">{{ $cargos->nomeCargo }}</td>
-                                                    <td scope="">{{ $cargos->quantidade_funcionarios }}</td>
-                                                    <td scope="">
+                                                    <td style="text-align: center">{{ $cargos->nomeCargo }}</td>
+                                                    <td style="text-align: center">{{ $cargos->quantidade_funcionarios }}</td>
+                                                    <td style="text-align: center">
                                                         {{ $vagasTotais }}</td>
                                                     <!-- Exibe as vagas totais -->
                                                     <td scope="">
@@ -148,14 +148,24 @@
                                         @endforeach
                                     </tbody>
                                     <tbody>
-                                        @foreach ($funcionariosPorCargoSetor as $funcionariosPorCargoSetores)
-                                            <tr>
-                                                <td>{{ $funcionariosPorCargoSetores->nomeSetor }}</td>
-                                                <td>{{ $funcionariosPorCargoSetores->nomeCargo }}</td>
-                                                <td></td>
-                                            </tr>
+                                        @foreach ($setor as $setores)
+                                            @foreach ($setores->bola as $vaga)
+                                                <tr>
+                                                    <td style="text-align: center">{{ $setores->nomeSetor }} / {{ $vaga->nomeCargo }}</td>
+                                                    <td style="text-align: center">{{ $vaga->gato->first()->quantidade }}</td>
+                                                    <td style="text-align: center">{{ $vaga->vagas }}</td>
+                                                    <td style="text-align: center"></td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
                                     </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

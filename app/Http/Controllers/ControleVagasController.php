@@ -41,63 +41,50 @@ class ControleVagasController extends Controller
         $cargo = $cargo->get();
         $vaga = $vaga->get();
 
-        /*$funcionario = DB::table('funcionarios AS f')
-        ->leftJoin('base_salarial AS bs', 'bs.id_funcionario', 'f.id')
-        ->leftJoin('setor AS s', 's.id', 'f.id_setor')
-        ->leftJoin('cargos AS c', 'c.id', 'bs.cargo')
-        ->select('f.id_setor AS setorFuncionario',
-        'c.id AS idCargo',
-        'bs.id_funcionario',
-        'c.nome AS nomeCargo',
-        DB::raw('COUNT(f.id) AS quantidade_funcionarios')
-        )
-        ->groupBy('setorFuncionario', 'idCargo', 'bs.id_funcionario', 'nomeCargo')
-        ->get();
 
-        $setor = DB::table('tp_vagas_autorizadas AS va')
-            ->leftJoin('setor AS s', 's.id', 'va.id_setor')
-            ->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
-            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'cr.id AS idDoCargo', 's.id AS idSetor', 'cr.nome AS nomeCargo', 's.nome AS nomeSetor')
-            ->groupBy('idDoCargo', 'idSetor', 'nomeCargo', 'nomeSetor');
+        $setor = DB::table('setor AS s')
+            ->select('s.id AS idSetor', 's.nome AS nomeSetor')
+            ->orderBy('nomeSetor');
 
 
+            $pesquisa = $request->input('pesquisa');
 
-        if ($pesquisa == 'setor') {
-            $setorId = $request->input('setor');
-            $vaga->where('s.id', $setorId);
+
+            if ($pesquisa == 'setor') {
+                $setorId = $request->input('setor');
+                $setor->where('s.id', $setorId);
+            }
+
+            $setor = $setor->get();
+
+        foreach ($setor as $key => $teste) {
+            $vaga = DB::table('tp_vagas_autorizadas AS va')
+                ->leftJoin('cargos AS c', 'c.id', 'va.id_cargo')
+                ->select('va.vagas_autorizadas AS vagas', 'c.nome AS nomeCargo', 'c.id AS idCargo')
+                ->where('va.id_setor', $teste->idSetor)
+                ->get();
+
+            $teste->bola = $vaga;
+
+            foreach ($vaga as $keyDois => $testeDois) {
+                $base = DB::table('base_salarial AS bs')
+                    ->leftJoin('funcionarios AS f', 'bs.id_funcionario', 'f.id')
+                    ->where('bs.cargo', $testeDois->idCargo)
+                    ->where('f.id_setor', $teste->idSetor)
+                    ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade'))
+                    ->get();
+
+                $testeDois->gato = $base;
+            }
         }
 
-        $totalVagasSetor = 0;
-        $totalFuncionariosSetor = 0;
-
-        $setor = $setor->get();*/
-
-        $setorId = $request->input('setor');
-
-        // Consulta SQL para obter o número de funcionários por cargo em cada setor
-        $funcionariosPorCargoSetor = DB::table('setor AS s')
-            ->leftJoin('tp_vagas_autorizadas AS va', 's.id', '=', 'va.id_setor')
-            ->leftJoin('cargos AS cr', 'va.id_cargo', '=', 'cr.id')
-            ->leftJoin('base_salarial AS bs', 'va.id_cargo', '=', 'bs.cargo')
-            ->leftJoin('funcionarios AS f', 'bs.id_funcionario', '=', 'f.id')
-            ->select('s.id AS idSetor', 's.nome AS nomeSetor', 'cr.nome AS nomeCargo', DB::raw('COUNT(f.id) AS totalFuncionarios'))
-            ->groupBy('s.id', 's.nome', 'cr.nome')
-            ->when($setorId, function ($query) use ($setorId) {
-                $query->where('s.id', $setorId);
-            })
-            ->get();
+        $somaF =
 
 
-
-        /*foreach ($setor as $setores)
-        foreach ($funcionario as $funcionarios)
-        if ($funcionarios->idCargo == $setores->idDoSetor)*/
+//dd($setor);
 
 
-        //dd($setor, $funcionario);
-
-
-        return view('efetivo.controle-vagas', compact('cargo', 'funcionariosPorCargoSetor', 'pesquisa', 'vaga'));
+        return view('efetivo.controle-vagas', compact('cargo', 'setor', 'vaga', 'pesquisa'));
     }
 
 
