@@ -25,9 +25,9 @@ class ControleVagasController extends Controller
 
 
         $vaga = DB::table('tp_vagas_autorizadas AS va')
-            ->leftJoin('cargos AS cr', 'cr.id', 'va.id_cargo')
-            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'cr.id AS idDoCargo')
+            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'va.id_cargo AS idDoCargo')
             ->groupBy('idDoCargo');
+
 
 
         $pesquisa = $request->input('pesquisa');
@@ -35,11 +35,12 @@ class ControleVagasController extends Controller
         if ($pesquisa == 'cargo') {
             $cargoId = $request->input('cargo');
             $cargo->where('c.id', $cargoId);
-            $vaga->where('cr.id', $cargoId);
+            $vaga->where('va.id_cargo', $cargoId);
         }
 
         $cargo = $cargo->get();
         $vaga = $vaga->get();
+        //dd($vaga, $cargo);
 
 
         $setor = DB::table('setor AS s')
@@ -47,26 +48,26 @@ class ControleVagasController extends Controller
             ->orderBy('nomeSetor');
 
 
-            $pesquisa = $request->input('pesquisa');
+        $pesquisa = $request->input('pesquisa');
 
 
-            if ($pesquisa == 'setor') {
-                $setorId = $request->input('setor');
-                $setor->where('s.id', $setorId);
-            }
+        if ($pesquisa == 'setor') {
+            $setorId = $request->input('setor');
+            $setor->where('s.id', $setorId);
+        }
 
-            $setor = $setor->get();
+        $setor = $setor->get();
 
         foreach ($setor as $key => $teste) {
-            $vaga = DB::table('tp_vagas_autorizadas AS va')
+            $vagaUm = DB::table('tp_vagas_autorizadas AS va')
                 ->leftJoin('cargos AS c', 'c.id', 'va.id_cargo')
                 ->select('va.vagas_autorizadas AS vagas', 'c.nome AS nomeCargo', 'c.id AS idCargo')
                 ->where('va.id_setor', $teste->idSetor)
                 ->get();
 
-            $teste->bola = $vaga;
+            $teste->bola = $vagaUm;
 
-            foreach ($vaga as $keyDois => $testeDois) {
+            foreach ($vagaUm as $keyDois => $testeDois) {
                 $base = DB::table('base_salarial AS bs')
                     ->leftJoin('funcionarios AS f', 'bs.id_funcionario', 'f.id')
                     ->where('bs.cargo', $testeDois->idCargo)
@@ -77,14 +78,16 @@ class ControleVagasController extends Controller
                 $testeDois->gato = $base;
             }
         }
+        //dd($setor);
 
-        //$somaF =
+        $somaF = 0;
+        $somaV = 0;
 
 
-//dd($setor);
+        //dd($setor);
 
 
-        return view('efetivo.controle-vagas', compact('cargo', 'setor', 'vaga', 'pesquisa'));
+        return view('efetivo.controle-vagas', compact('cargo', 'setor', 'vaga', 'pesquisa', 'somaF', 'somaV'));
     }
 
 
@@ -132,4 +135,38 @@ class ControleVagasController extends Controller
             return redirect()->route('indexControleVagas');
         }
     }
+    public function edit(string $idC)
+    {
+        // Recupere o cargo pelo ID
+        $busca = DB::table('setor')
+            ->leftJoin('cargos', 'cargos.id', 'va.id_cargo')
+            ->leftJoin('tp_vagas_autorizadas AS va', 'setor.id', 'va.id_setor')
+            ->where('id_cargo', $idC)
+            ->select(
+                'va.id_setor AS idSetor',
+                'va.id_cargo AS idCargo',
+                'va.vagas_autorizadas AS vTotal',
+                'cargos.nome AS nomeCargo',
+                'setor.nome AS nomeSetor'
+            )
+            ->first();
+
+        // Retorne a view de edição com o cargo
+        return view('efetivo.editar-vagas', compact('busca'));
+    }
+
+
+    public function update(Request $request, $idC)
+{
+    // Validate the form data here, if necessary
+
+    // Update the number of authorized vacancies in the database
+    $busca = DB::table('tp_vagas_autorizadas')->where('id_cargo', $idC)->first();
+    $busca->vagas_autorizadas = $request->input('number'); // Change 'vagas_autorizadas' to 'number'
+    $busca->save();
+
+    // Redirect back to the vacancy control page
+    return redirect()->route('controleVagas');
+}
+
 }

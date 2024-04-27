@@ -110,62 +110,116 @@
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-4">Setor/Cargo</th>
-                                            <th class="col-2">Vagas Preenchidas</th>
-                                            <th class="col-2">Vagas Totais</th>
-                                            <th class="col-2">Vagas Remanescentes</th>
+                                            <th class="col-4">SETOR/CARGO</th>
+                                            <th class="col-2">VAGAS PEENCHIDAS</th>
+                                            <th class="col-2">TOTAL DE VAGAS</th>
+                                            <th class="col-2">VAGAS REMANESCENTES</th>
+                                            <th class="col-2">AÇÕES</th>
                                         </tr>
                                     </thead>
+                                    <!-- Primeira tabela -->
                                     <tbody style="font-size: 15px; color:#000000;" id='cargoTabela'>
                                         @php
-                                            $cargosExibidos = []; // Array para armazenar os cargos já exibidos
+                                            $totalFuncionarios1 = 0;
+                                            $totalVagas1 = 0;
+                                            $cargosExibidos = [];
                                         @endphp
+
                                         @foreach ($cargo as $cargos)
                                             @if ($cargos->nomeCargo && !in_array($cargos->nomeCargo, $cargosExibidos))
                                                 @php
-                                                    $vagasTotais = 0; // Inicializa as vagas totais para este cargo
+                                                    $vagasTotais = 0;
                                                 @endphp
                                                 @foreach ($vaga as $v)
-                                                    @if ($v->idCargo == $cargos->idCargo)
+                                                    @if ($v->idDoCargo == $cargos->idCargo)
                                                         @php
-                                                            $vagasTotais += $v->vagas; // Soma as vagas totais para este cargo
+                                                            $vagasTotais += $v->total_vagas;
                                                         @endphp
                                                     @endif
                                                 @endforeach
-                                                <tr style="text-align: center">
-                                                    <td style="text-align: center">{{ $cargos->nomeCargo }}</td>
-                                                    <td style="text-align: center">{{ $cargos->quantidade_funcionarios }}</td>
+                                                <tr>
+                                                    <td>{{ $cargos->nomeCargo }}</td>
+                                                    <td style="text-align: center">{{ $cargos->quantidade_funcionarios }}
+                                                    </td>
+                                                    <td style="text-align: center">{{ $vagasTotais }}</td>
                                                     <td style="text-align: center">
-                                                        {{ $vagasTotais }}</td>
-                                                    <!-- Exibe as vagas totais -->
-                                                    <td scope="">
                                                         {{ $vagasTotais - $cargos->quantidade_funcionarios }}</td>
+                                                        <td style="text-align: center">NÃO DISPONÍVEL</td>
                                                 </tr>
                                                 @php
-                                                    $cargosExibidos[] = $cargos->nomeCargo; // Adiciona o cargo ao array de cargos exibidos
+                                                    $totalFuncionarios1 += $cargos->quantidade_funcionarios;
+                                                    $totalVagas1 += $vagasTotais;
+                                                    $cargosExibidos[] = $cargos->nomeCargo;
                                                 @endphp
                                             @endif
                                         @endforeach
+
+                                        <!-- Total da primeira tabela -->
+                                        <tr style="background-color: #436ce6">
+                                            <td style="text-align: center"><strong>Total</strong></td>
+                                            <td style="text-align: center"><strong>{{ $totalFuncionarios1 }}</strong></td>
+                                            <td style="text-align: center"><strong>{{ $totalVagas1 }}</strong></td>
+                                            <td style="text-align: center">
+                                                <strong>{{ $totalVagas1 - $totalFuncionarios1 }}</strong>
+                                            </td>
+                                            <td></td>
+                                        </tr>
+
                                     </tbody>
-                                    <tbody>
+
+                                    <!-- Segunda tabela -->
+                                    <tbody style="font-size: 15px; color:#000000;" id='setorTabela'>
+                                        @php
+                                            $totalFuncionarios2 = 0;
+                                            $totalVagas2 = 0;
+                                        @endphp
+
                                         @foreach ($setor as $setores)
-                                            @foreach ($setores->bola as $vaga)
+                                            @foreach ($setores->bola as $vagaDois)
+                                                @php
+                                                    $somaF += $vagaDois->gato->first()->quantidade;
+                                                    $somaV += $vagaDois->vagas;
+                                                @endphp
                                                 <tr>
-                                                    <td style="text-align: center">{{ $setores->nomeSetor }} / {{ $vaga->nomeCargo }}</td>
-                                                    <td style="text-align: center">{{ $vaga->gato->first()->quantidade }}</td>
-                                                    <td style="text-align: center">{{ $vaga->vagas }}</td>
-                                                    <td style="text-align: center"></td>
+                                                    <td>{{ $setores->nomeSetor }} / {{ $vagaDois->nomeCargo }}</td>
+                                                    <td style="text-align: center">
+                                                        {{ $vagaDois->gato->first()->quantidade }}
+                                                    </td>
+                                                    <td style="text-align: center">{{ $vagaDois->vagas }}</td>
+                                                    <td style="text-align: center">
+                                                        {{ $vagaDois->vagas - $vagaDois->gato->first()->quantidade }}</td>
+                                                        <td scope=""
+                                                        style="font-size: 1rem; color:#303030; text-align: center">
+                                                        <a href="/editar-vagas/{{ $vagaDois->idCargo }}"
+                                                            class="btn btn-outline-warning" data-tt="tooltip"
+                                                            style="font-size: 1rem; color:#303030" data-placement="top"
+                                                            title="Editar">
+                                                            <i class="bi bi-pencil">
+                                                            </i>
+                                                        </a>
+                                                    </td>
                                                 </tr>
+                                                @php
+                                                    $totalFuncionarios2 += $vagaDois->gato->first()->quantidade;
+                                                    $totalVagas2 += $vagaDois->vagas;
+                                                @endphp
                                             @endforeach
                                         @endforeach
+
+                                        <!-- Total da segunda tabela -->
+                                        <tr style="background-color: #436ce6">
+                                            <td style="text-align: center"><strong>Total</strong></td>
+                                            <td style="text-align: center"><strong>{{ $totalFuncionarios2 }}</strong></td>
+                                            <td style="text-align: center"><strong>{{ $totalVagas2 }}</strong></td>
+                                            <td style="text-align: center">
+                                                <strong>{{ $totalVagas2 - $totalFuncionarios2 }}</strong>
+                                            </td>
+                                            <td></td>
+                                        </tr>
                                     </tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                    </tfoot>
+
+                                    <!-- Contagem geral -->
+
                                 </table>
                             </div>
                         </div>
