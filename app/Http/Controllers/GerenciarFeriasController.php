@@ -656,6 +656,7 @@ class GerenciarFeriasController extends Controller
     public function enviarFerias(Request $request)
     {
         DB::beginTransaction();
+        dd($request->all());
 
         try {
             $ferias_funcionarios = DB::table('ferias')

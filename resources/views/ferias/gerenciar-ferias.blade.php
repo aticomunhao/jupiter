@@ -55,7 +55,7 @@
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px; width:100%">
                                         Enviar Ferias
                                     </button>
-                                </form>
+
 
                             </div>
                         </div>
@@ -74,6 +74,7 @@
                                     style="margin-top:10px;">
                                     <thead style="text-align: center;">
                                     <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                        <th scope="col-1">Selecionar Para Envio</th>
                                         <th scope="col">Nome do Funcionário</th>
                                         <th scope="col">Início 1</th>
                                         <th scope="col">Fim 1</th>
@@ -89,6 +90,12 @@
                                     <tbody>
                                     @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
                                         <tr>
+                                            <td style="text-align: center">
+
+                                                    <input class="form-check-input checkbox-trigger" type="checkbox"
+                                                           id="flexCheckDefault" name="checkbox[]">
+
+                                            </td>
                                             <td style="text-align: center">
                                                 {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
 
@@ -136,7 +143,9 @@
                                 </table>
                             </div>
                         </div>
+
                     @endif
+                    </form>
                 </div>
             </div>
         </div>
