@@ -184,13 +184,10 @@ class GerenciarFeriasController extends Controller
 
         foreach ($funcionarios as $funcionario) {
             $data_inicio = Carbon::parse($funcionario->data_de_inicio);
-
-
             $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia - 1)->toDateString();
             $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->subDay()->toDateString();
             $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
             $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
-
             $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
             $funcionario->data_fim_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 2)->subDay()->toDateString();
         }
@@ -410,7 +407,7 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addError("Não foram utilizados todos os dias que tem direito, ainda é preciso utilizar $dias_restantes dias. Deveria assim retornar dia " . Carbon::parse($data_inicio->addDays(29))->format('d-m-y'));
             } // Verifica se a data de início das férias é anterior ao início do período de licença
             elseif ($data_inicio < $ferias->dt_inicio_periodo_de_licenca) {
-                app('flasher')->addError('A data inicial do período de férias é inferior ao início do seu período de licença que começa no dia ' . Carbon::parse($ferias->fim_periodo_aquisitivo)->format('dd/MM/yyyy'));
+                app('flasher')->addError('A data inicial do período de férias é inferior ao início do seu período de licença que começa no dia ' . Carbon::parse($ferias->fim_periodo_aquisitivo)->format('d/M/Y'));
             } //Verifica se a data final é depois do periodo de licensa
             elseif ($data_fim > $ferias->dt_fim_periodo_de_licenca) {
                 app('flasher')->addError('Data Final depois do periodo de licensa');
