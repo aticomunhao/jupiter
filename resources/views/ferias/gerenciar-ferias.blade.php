@@ -93,7 +93,7 @@
 
                                             <td style="text-align: center">
                                                 @if($periodos_aquisitivos->id_status_pedido_ferias == 3
-                                                or $periodos_aquisitivos->id_status_pedido_ferias == 5
+                                                    or $periodos_aquisitivos->id_status_pedido_ferias == 5
                                                 or $periodos_aquisitivos->id_status_pedido_ferias == 1)
                                                     <input class="form-check-input checkbox-trigger" type="checkbox"
                                                            id="flexCheckDefault" name="checkbox[]"
@@ -101,8 +101,6 @@
                                                 @endif
 
                                             </td>
-
-
                                             <td style="text-align: center">
                                                 {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
 
@@ -129,6 +127,7 @@
                                             </td>
                                             <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}
                                             </td>
+
                                             <td>
                                                 @if ($periodos_aquisitivos->id_status_pedido_ferias != 4 or $periodos_aquisitivos->id_status_pedido_ferias == 6)
                                                     <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
@@ -138,24 +137,26 @@
                                                     </a>
                                                 @endif
                                                 <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                   class="disabled" aria-disabled="true">
-                                                    <button class="btn btn-outline-secondary" aria-label="Close">
-                                                        <i class="bi bi-search"></i>
-                                                    </button>
+                                                   class="btn btn-outline-secondary">
+
+                                                    <i class="bi bi-search"></i>
+
                                                 </a>
                                             </td>
                                         </tr>
                                     @endforeach
                                     </tbody>
+                                    </form>
                                 </table>
                             </div>
                         </div>
-
-                        @endif
-                        </form>
+                    @endif
                 </div>
+
+
             </div>
         </div>
+    </div>
     </div>
     </div>
 @endsection
