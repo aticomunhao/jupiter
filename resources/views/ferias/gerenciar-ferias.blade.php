@@ -90,12 +90,19 @@
                                     <tbody>
                                     @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
                                         <tr>
-                                            <td style="text-align: center">
 
+                                            <td style="text-align: center">
+                                                @if($periodos_aquisitivos->id_status_pedido_ferias == 3
+                                                or $periodos_aquisitivos->id_status_pedido_ferias == 5
+                                                or $periodos_aquisitivos->id_status_pedido_ferias == 1)
                                                     <input class="form-check-input checkbox-trigger" type="checkbox"
-                                                           id="flexCheckDefault" name="checkbox[]">
+                                                           id="flexCheckDefault" name="checkbox[]"
+                                                           value="{{$periodos_aquisitivos->id_ferias}}">
+                                                @endif
 
                                             </td>
+
+
                                             <td style="text-align: center">
                                                 {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
 
@@ -144,8 +151,8 @@
                             </div>
                         </div>
 
-                    @endif
-                    </form>
+                        @endif
+                        </form>
                 </div>
             </div>
         </div>

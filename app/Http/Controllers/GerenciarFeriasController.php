@@ -565,14 +565,13 @@ class GerenciarFeriasController extends Controller
             $anoAnterior = intval($anos_inicial->ano_de_referencia) - 2;
             $doisAnosFrente = intval($anos_final->ano_de_referencia) + 5;
         } else {
-            $anoAnterior = intval( Carbon::now()->subYear(5)->toDateString());
-            $doisAnosFrente = intval(Carbon::now()->addYear(2)->toDateString());
+            $anoAnterior = intval(Carbon::now()->subYear(2)->toDateString());
+            $doisAnosFrente = intval(Carbon::now()->addYear(5)->toDateString());
 
         }
 
 
         $listaAnos = range($anoAnterior, $doisAnosFrente);
-
 
 
         return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos'));
@@ -655,10 +654,17 @@ class GerenciarFeriasController extends Controller
 
     public function enviarFerias(Request $request)
     {
-        DB::beginTransaction();
-        dd($request->all());
+
 
         try {
+            $numeros_checkboxes = $request->input('checkbox');
+
+            if (empty($request->input('checkbox'))) {
+                app('flasher')->addError("Nenhum periodo de ferias foi selecionado para ser enviado.");
+
+                return redirect()->back();
+            }
+
             $ferias_funcionarios = DB::table('ferias')
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
                 ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -680,23 +686,24 @@ class GerenciarFeriasController extends Controller
                     'status_pedido_ferias.id as id_status_pedido_ferias',
                     'status_pedido_ferias.nome as status_pedido_ferias'
                 )
-                ->where('ferias.ano_de_referencia', '=', $request->input('search'))
-                ->where('funcionarios.id_setor', session('usuario.setor'))
+                ->WhereIn('ferias.id', $numeros_checkboxes)
                 ->get();
 
+            foreach ($ferias_funcionarios as $ferias_funcionario) {
 
-            foreach ($ferias_funcionarios as $ferias_funcinoario) {
-
-                if (empty($ferias_funcinoario->dt_ini_a)) {
-                    app('flasher')->addError('Ainda é necessario preencher as férias do funcionario ' . $ferias_funcinoario->nome_completo_funcionario);
+                if (empty($ferias_funcionario->dt_ini_a)) {
+                    app('flasher')->addError('Foi feita uma tentativa de enviar as ferias de ' . $ferias_funcionario->nome_completo_funcionario . ', porém as mesmas não forem preenchidas.');
                     return redirect()->route('IndexGerenciarFerias');
                 }
             }
 
-            DB::table('ferias')
-                ->update(['status_pedido_ferias' => 4]);
-
-
+            foreach ($ferias_funcionarios as $ferias_funcionario) {
+                DB::table('ferias')
+                    ->where('id', '=', $ferias_funcionario->id_ferias)
+                    ->update([
+                        'status_pedido_ferias' => 4
+                    ]);
+            }
             DB::commit();
             return redirect()->back();
 
