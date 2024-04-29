@@ -2,10 +2,10 @@
 @section('head')
     <title>Editar Vagas</title>
 @endsection
-@extends('layouts.app')
 @section('content')
-    <form method="post" action="/atualizar-vagas/{{ $busca->idCargo }}" enctype="multipart/form-data">
+    <form method="post" action="/atualizar-vagas/{{ $busca[0]->idVagas }}" enctype="multipart/form-data">
         @csrf
+        <input type="hidden" name="idVagas" value="{{ $busca[0]->idVagas }}">
         <div class="container-fluid"> {{-- Container completo da página  --}}
             <div class="justify-content-center">
                 <div class="col-12">
@@ -24,12 +24,12 @@
                             <div class="row" style="margin-left:5px">
                                 <label for="cargoSelect" class="form-label">Cargo a ser editado</label>
                                 <select id="cargoSelect" class="form-select status select pesquisa-select" name="vagasCargo" disabled>
-                                    <option value="{{ $busca->idCargo }}">{{ $busca->nomeCargo }}</option>
+                                    <option value="{{ $busca[0]->idCargo }}">{{ $busca[0]->nomeCargo }}</option>
                                 </select>
                                 <br>
                                 <label for="setorSelect" class="form-label">Setor pertencente</label>
                                 <select id="setorSelect" class="form-select status select pesquisa-select" name="vagasSetor" disabled>
-                                    <option value="{{ $busca->idSetor }}">{{ $busca->nomeSetor }}</option>
+                                    <option value="{{ $busca[0]->idSetor }}">{{ $busca[0]->nomeSetor }}</option>
                                 </select>
                                 <br>
                                 <label for="number" class="form-label">Selecione a quantidade de vagas a ser editada para o cargo selecionado</label>

@@ -61,7 +61,7 @@ class ControleVagasController extends Controller
         foreach ($setor as $key => $teste) {
             $vagaUm = DB::table('tp_vagas_autorizadas AS va')
                 ->leftJoin('cargos AS c', 'c.id', 'va.id_cargo')
-                ->select('va.vagas_autorizadas AS vagas', 'c.nome AS nomeCargo', 'c.id AS idCargo')
+                ->select('va.vagas_autorizadas AS vagas', 'c.nome AS nomeCargo', 'c.id AS idCargo','va.id AS idVagas')
                 ->where('va.id_setor', $teste->idSetor)
                 ->get();
 
@@ -139,34 +139,48 @@ class ControleVagasController extends Controller
     {
         // Recupere o cargo pelo ID
         $busca = DB::table('setor')
-            ->leftJoin('cargos', 'cargos.id', 'va.id_cargo')
             ->leftJoin('tp_vagas_autorizadas AS va', 'setor.id', 'va.id_setor')
+            ->leftJoin('cargos', 'cargos.id', 'va.id_cargo')
             ->where('id_cargo', $idC)
             ->select(
                 'va.id_setor AS idSetor',
                 'va.id_cargo AS idCargo',
                 'va.vagas_autorizadas AS vTotal',
                 'cargos.nome AS nomeCargo',
-                'setor.nome AS nomeSetor'
+                'setor.nome AS nomeSetor',
+                'va.id AS idVagas'
             )
-            ->first();
+            ->limit(1)
+            ->get();
+        //dd($busca);
 
-        // Retorne a view de edição com o cargo
         return view('efetivo.editar-vagas', compact('busca'));
     }
 
 
     public function update(Request $request, $idC)
+    {
+        // Obtenha o ID das vagas do formulário
+        $idVagas = $request->input('idVagas');
+
+        // Obtenha o número de vagas autorizadas enviado no formulário
+        $numeroVagas = $request->input('number');
+
+        // Atualize o número de vagas autorizadas na tabela tp_vagas_autorizadas
+        DB::table('tp_vagas_autorizadas')
+            ->where('id', $idVagas)
+            ->update(['vagas_autorizadas' => $numeroVagas]);
+
+        // Redirecione de volta para a página de controle de vagas
+        return redirect()->route('indexControleVagas');
+    }
+
+    public function destroy(string $idC)
 {
-    // Validate the form data here, if necessary
 
-    // Update the number of authorized vacancies in the database
-    $busca = DB::table('tp_vagas_autorizadas')->where('id_cargo', $idC)->first();
-    $busca->vagas_autorizadas = $request->input('number'); // Change 'vagas_autorizadas' to 'number'
-    $busca->save();
+    DB::table('tp_vagas_autorizadas')->where('id', $idC)->delete();
 
-    // Redirect back to the vacancy control page
-    return redirect()->route('controleVagas');
+    return redirect()->route('indexControleVagas')->with('success', 'Vagas excluídas com sucesso!');
 }
 
 }

@@ -186,18 +186,16 @@
                                                         {{ $vagaDois->gato->first()->quantidade }}
                                                     </td>
                                                     <td style="text-align: center">{{ $vagaDois->vagas }}</td>
+                                                    <td style="text-align: center">{{ $vagaDois->vagas - $vagaDois->gato->first()->quantidade }}</td>
                                                     <td style="text-align: center">
-                                                        {{ $vagaDois->vagas - $vagaDois->gato->first()->quantidade }}</td>
-                                                        <td scope=""
-                                                        style="font-size: 1rem; color:#303030; text-align: center">
-                                                        <a href="/editar-vagas/{{ $vagaDois->idCargo }}"
-                                                            class="btn btn-outline-warning" data-tt="tooltip"
-                                                            style="font-size: 1rem; color:#303030" data-placement="top"
-                                                            title="Editar">
-                                                            <i class="bi bi-pencil">
-                                                            </i>
+                                                        <a href="/editar-vagas/{{ $vagaDois->idCargo }}" class="btn btn-outline-warning" data-tt="tooltip" style="font-size: 1rem; color:#303030" data-placement="top" title="Editar">
+                                                            <i class="bi bi-pencil"></i>
+                                                        </a>
+                                                        <a href="/excluir-vagas/{{ $vagaDois->idVagas }}" class="btn btn-outline-danger" data-tt="tooltip" style="font-size: 1rem; color:#303030" data-placement="top" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir estas vagas?')">
+                                                            <i class="bi bi-trash"></i>
                                                         </a>
                                                     </td>
+
                                                 </tr>
                                                 @php
                                                     $totalFuncionarios2 += $vagaDois->gato->first()->quantidade;

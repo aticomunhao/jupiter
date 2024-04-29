@@ -22,7 +22,7 @@
                         <div class="card-body">
                             <div class="ROW" style="margin-left:5px">
                                 <label for="cargoSelect" class="form-label">Selecione o cargo desejado</label>
-                                <select id="cargoSelect" class="form-select status select pesquisa-select"
+                                <select id="cargoSelect" class="form-select status select2 pesquisa-select"
                                     name="vagasCargo">
                                     <option></option>
                                     @foreach ($cargo as $cargos)
@@ -31,7 +31,7 @@
                                 </select>
                                 <br>
                                 <label for="setorSelect" class="form-label">Selecione o Setor pertencente</label>
-                                <select id="setorSelect" class="form-select status select pesquisa-select"
+                                <select id="setorSelect" class="form-select status select2 pesquisa-select"
                                     name="vagasSetor">
                                     <option></option>
                                     @foreach ($setor as $setores)
@@ -41,7 +41,8 @@
                                 <br>
                                 <label for="number" class="form-label">Selecione a quantidade de vagas para o cargo
                                     selecionado</label>
-                                <input type="number" class="form-control form-control-number" id="number" name="number">
+                                <input type="number" class="form-control form-control-number" id="number"
+                                    name="number">
                             </div>
                         </div>
                     </div>
@@ -58,4 +59,27 @@
             </button>
         </div>
     </form>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
+    <head>
+        <style>
+            .select2-container .select2-selection--multiple {
+                min-width: 600px;
+            }
+        </style>
+    </head>
+
+    <script>
+        $(document).ready(function() {
+
+            //Importa o select2 com tema do Bootstrap para a classe "select2"
+            $('.select2').select2({
+                theme: 'bootstrap-5'
+            });
+
+        });
+    </script>
 @endsection
