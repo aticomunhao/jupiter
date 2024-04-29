@@ -21,7 +21,8 @@ class GerenciarFeriasController extends Controller
             if ($request->input('search')) {
                 $ano_referente = $request->input('search');
             } else {
-                $ano_referente = Carbon::now()->year - 1;
+                $ano_referente = DB::table('ferias')
+                    ->max('ano_de_referencia');
             }
 
 
@@ -228,8 +229,11 @@ class GerenciarFeriasController extends Controller
         if ($request->input('search')) {
             $ano_referente = $request->input('search');
         } else {
-            $ano_referente = Carbon::now()->year - 1;
+            $ano_referente =  DB::table('ferias')
+                ->max('ano_de_referencia');
         }
+
+
 
 
         $periodo_aquisitivo = DB::table('ferias')
