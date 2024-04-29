@@ -176,10 +176,6 @@
 
                                         @foreach ($setor as $setores)
                                             @foreach ($setores->bola as $vagaDois)
-                                                @php
-                                                    $somaF += $vagaDois->gato->first()->quantidade;
-                                                    $somaV += $vagaDois->vagas;
-                                                @endphp
                                                 <tr>
                                                     <td>{{ $setores->nomeSetor }} / {{ $vagaDois->nomeCargo }}</td>
                                                     <td style="text-align: center">
