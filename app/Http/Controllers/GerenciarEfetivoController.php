@@ -46,7 +46,7 @@ class GerenciarEfetivoController extends Controller
 
         if ($setorId) {
             $baseQuery->where('s.id', $setorId);
-            $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->where('id', $setorId)->value('vagas_autorizadas');
+            $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->where('id_setor', $setorId)->sum('vagas_autorizadas');
         } else {
             $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->sum('vagas_autorizadas');
         }
