@@ -155,7 +155,7 @@
                                         @endforeach
 
                                         <!-- Total da primeira tabela -->
-                                        <tr style="background-color: #436ce6">
+                                        <tr style="background-color: #d6e3ff">
                                             <td style="text-align: center"><strong>Total</strong></td>
                                             <td style="text-align: center"><strong>{{ $totalFuncionarios1 }}</strong></td>
                                             <td style="text-align: center"><strong>{{ $totalVagas1 }}</strong></td>
@@ -201,7 +201,7 @@
                                         @endforeach
 
                                         <!-- Total da segunda tabela -->
-                                        <tr style="background-color: #436ce6">
+                                        <tr style="background-color: #d6e3ff">
                                             <td style="text-align: center"><strong>Total</strong></td>
                                             <td style="text-align: center"><strong>{{ $totalFuncionarios2 }}</strong></td>
                                             <td style="text-align: center"><strong>{{ $totalVagas2 }}</strong></td>
