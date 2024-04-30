@@ -125,7 +125,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2 col-sm-12">Tipo sangue
-                                <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="15" name="tps" required="required">
+                                <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="15" name="tps" >
                                     <option value=""></option>
                                     <@foreach ($sangue as $sangues) <option @if (old('tps')==$sangues->id) {{ 'selected="selected"' }} @endif
                                         value="{{ $sangues->id }}">{{ $sangues->nome_sangue }}
@@ -134,7 +134,7 @@
                                 </select>
                             </div>
                             <div class="col-md-2 col-sm-12">Fator RH
-                                <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="16" name="frh" required="required">
+                                <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="16" name="frh">
                                     <option value=""></option>
                                     <@foreach ($fator as $fators) <option @if (old('frh')==$fators->id) {{ 'selected="selected"' }} @endif
                                         value="{{ $fators->id }}">{{ $fators->nome_fator }}
@@ -199,11 +199,11 @@
                         </div>
                         <br>
                         <div class="row">
-                            <div class="col-md-5 col-sm-12">Nome mãe
+                            <div class="col-md-5 col-sm-12">Ascedente 1
                                 <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="29" name="nome_mae" value="{{ old('nome_mae') }}" required="required">
                             </div>
-                            <div class="col-md-5 col-sm-12">Nome pai
-                                <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="30" name="nome_pai" value="{{ old('nome_pai') }}" required="required">
+                            <div class="col-md-5 col-sm-12">Ascedente 2
+                                <input class="form-control" style="border: 1px solid #999999; padding: 5px;" type="text" maxlength="45" oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" id="30" name="nome_pai" value="{{ old('nome_pai') }}">
                             </div>
                             <div class="col-md-2 col-sm-12">Cat CNH
                                 <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="32" name="cnh">
