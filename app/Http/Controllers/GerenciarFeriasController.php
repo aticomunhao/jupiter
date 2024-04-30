@@ -197,30 +197,29 @@ class GerenciarFeriasController extends Controller
             ->where('ano_de_referencia', '=', $ano_referencia)
             ->get();
 
-        if ($ferias->isEmpty()) {
-            foreach ($funcionarios as $funcionario) {
-                $id_ferias = DB::table('ferias')
-                    ->insertGetId([
-                        'ano_de_referencia' => $ano_referencia,
-                        'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
-                        'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
-                        'status_pedido_ferias' => 1,
-                        'id_funcionario' => $funcionario->id_funcionario,
-                        'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo,
-                        'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo
 
-                    ]);
-                DB::table('hist_recusa_ferias')->insert([
-                    'id_periodo_de_ferias' => $id_ferias,
-                    'motivo_retorno' => "Criação do Formulario de Férias",
-                    'data_de_acontecimento' => Carbon::now()->toDateString()
+        foreach ($funcionarios as $funcionario) {
+
+            $id_ferias = DB::table('ferias')
+                ->insertGetId([
+                    'ano_de_referencia' => $ano_referencia,
+                    'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
+                    'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
+                    'status_pedido_ferias' => 1,
+                    'id_funcionario' => $funcionario->id_funcionario,
+                    'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo,
+                    'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo
+
                 ]);
+            DB::table('hist_recusa_ferias')->insert([
+                'id_periodo_de_ferias' => $id_ferias,
+                'motivo_retorno' => "Criação do Formulario de Férias",
+                'data_de_acontecimento' => Carbon::now()->toDateString()
+            ]);
 
-            }
-            app('flasher')->addSuccess("Periodo de ferias de " . $ano_referencia . "foi criado");
-        } else {
-            app('flasher')->addError("Já existe periodo e ferias criado");
         }
+        app('flasher')->addSuccess("Periodo de ferias de " . $ano_referencia . "foi criado");
+
         return redirect()->route('AdministrarFerias');
     }
 
