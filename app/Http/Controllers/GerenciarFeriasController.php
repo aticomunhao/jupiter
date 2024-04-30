@@ -729,4 +729,17 @@ class GerenciarFeriasController extends Controller
 
         }
     }
+
+    public function reabrirFormulario($id)
+    {
+        DB::table('ferias')->where('id', $id)->update([
+            'status_pedido_ferias' => 1
+        ]);
+        DB::table('hist_recusa_ferias')->insert([
+            'id_periodo_de_ferias' => $id,
+            'motivo_retorno' => 'Solicitada Reabertura do Formulario pelo funcionário',
+            'data_de_acontecimento' => Carbon::today()->toDateString()
+        ]);
+
+    }
 }
