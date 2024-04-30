@@ -46,14 +46,13 @@
                                     @csrf
                                     <label for="ano" style=";">Período de Férias</label>
                                     <select class="form-select custom-select" aria-label="Ano" name="ano_referencia"
-                                            id="ano"
-                                            color: #355089">
-                                    @foreach ($listaAnos as $ano)
-                                        <option value="{{ $ano }}"
-                                        >{{ $ano+1 }}
-                                            - {{ $ano+2 }}</option>
+                                            id="ano" style="color: #355089">
+                                        @foreach ($listaAnos as $ano)
+                                            <option value="{{ $ano }}"
+                                            >{{ $ano+1 }}
+                                                - {{ $ano+2 }}</option>
                                         @endforeach
-                                        </select>
+                                    </select>
 
                             </div>
 
@@ -78,6 +77,7 @@
                                     <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                         <th scope="col">Nome do Funcionário</th>
                                         <th scope="col">Setor</th>
+                                        <th scope="col">Periodo de Férias</th>
                                         <th scope="col">Início 1</th>
                                         <th scope="col">Fim 1</th>
                                         <th scope="col">Início 2</th>
@@ -96,6 +96,10 @@
                                                 {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
                                             <td style="text-align: center">
                                                 {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
+                                            <td style="text-align: center">
+                                                {{$periodos_aquisitivos->ano_de_referencia + 1}}
+                                                - {{$periodos_aquisitivos->ano_de_referencia + 2}}
+                                            </td>
 
                                             <td style="text-align: center">
                                                 {{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}

@@ -229,11 +229,9 @@ class GerenciarFeriasController extends Controller
         if ($request->input('search')) {
             $ano_referente = $request->input('search');
         } else {
-            $ano_referente =  DB::table('ferias')
+            $ano_referente = DB::table('ferias')
                 ->max('ano_de_referencia');
         }
-
-
 
 
         $periodo_aquisitivo = DB::table('ferias')
@@ -436,6 +434,12 @@ class GerenciarFeriasController extends Controller
                     'nr_dias_per_a' => $data_inicio->diffInDays($data_fim) + 1
 
                 ]);
+                DB::table('hist_recusa_ferias')->insert([
+                    'id_perioo_de_ferias' => $ferias->id,
+                    'motivo_retorno' => 'Envio do Formulário',
+                    'data_de_acontecimento' => Carbon::today()->toDateString()
+                ]);
+
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             }
             return redirect()->route('IndexGerenciarFerias');
@@ -513,6 +517,11 @@ class GerenciarFeriasController extends Controller
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
                     'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo),
                     'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias'),
+                ]);
+                DB::table('hist_recusa_ferias')->insert([
+                    'id_perioo_de_ferias' => $ferias->id,
+                    'motivo_retorno' => 'Envio do Formulário',
+                    'data_de_acontecimento' => Carbon::today()->toDateString()
                 ]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             }
@@ -595,6 +604,11 @@ class GerenciarFeriasController extends Controller
                     'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo),
                     'nr_dias_per_c' => $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo),
                     'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias'),
+                ]);
+                DB::table('hist_recusa_ferias')->insert([
+                    'id_perioo_de_ferias' => $ferias->id,
+                    'motivo_retorno' => 'Envio do Formulário',
+                    'data_de_acontecimento' => Carbon::today()->toDateString()
                 ]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             } else {

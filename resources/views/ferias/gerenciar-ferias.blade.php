@@ -53,7 +53,7 @@
                                     <br>
                                     <button type="submit" class="btn btn-success col-md-3 col-12 mt-5 mt-md-0"
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px; width:100%">
-                                        Enviar Ferias
+                                        Enviar Férias
                                     </button>
 
 
@@ -76,7 +76,7 @@
                                     <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                         <th scope="col">Selecionar Para Envio</th>
                                         <th scope="col">Nome do Funcionário</th>
-                                        <th scope="col">Periodo de Ferias</th>
+                                        <th scope="col">Periodo de Férias</th>
                                         <th scope="col">Início 1</th>
                                         <th scope="col">Fim 1</th>
                                         <th scope="col">Início 2</th>
@@ -105,7 +105,7 @@
                                                 {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
                                             <td style="text-align: center">
                                                 {{$periodos_aquisitivos->ano_de_referencia + 1}}
-                                                -{{$periodos_aquisitivos->ano_de_referencia + 2}}
+                                                - {{$periodos_aquisitivos->ano_de_referencia + 2}}
                                             </td>
 
                                             <td style="text-align: center">
