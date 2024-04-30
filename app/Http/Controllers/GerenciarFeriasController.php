@@ -18,7 +18,7 @@ class GerenciarFeriasController extends Controller
     {
         DB::beginTransaction();
         try {
-            if ($request->input('search')) {
+            if (!empty($request->input('search'))) {
                 $ano_referente = $request->input('search');
             } else {
                 $ano_referente = DB::table('ferias')
@@ -49,6 +49,7 @@ class GerenciarFeriasController extends Controller
                     'funcionarios.id_setor'
                 )
                 ->where('funcionarios.id_setor', session('usuario.setor'))
+                ->where('ferias.ano_de_referencia','=', $ano_referente)
                 ->get();
 
 
