@@ -20,6 +20,14 @@
                         <div class="row justify-content-around">
                             <div class="col-md-4 col-sm-12">
                                 <p class="fs-4 fw-bolder">Pesquisar Periodo de Férias</p>
+                            </div>
+                            <div class="col-md-8 col-12">
+
+                            </div>
+                            </form>
+                        </div>
+                        <div class="row justify-content-around">
+                            <div class="col-md-4 col-sm-12">
                                 <form action="{{ route('AdministrarFerias') }}" method="get">
                                     <select class="form-select" aria-label="Ano" name="search">
                                         @foreach ($anos_possiveis as $ano_possivel)
@@ -28,27 +36,38 @@
                                                 -{{ $ano_possivel->ano_de_referencia+2 }}</option>
                                         @endforeach
                                     </select>
-                                    <button type="submit" class="btn btn-light col-md-3 col-12 mt-5 "
-                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; width: 100%">
-                                        Pesquisar
-                                    </button>
+
                             </div>
-                            <div class="col-md-8 col-12">
-                                <br>
+                            <div class="col-md-8 col-sm-12">
+                                <button type="submit" class="btn btn-light col-md-3 col-12"
+                                        style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; ">
+                                    Pesquisar
+                                </button>
 
                             </div>
                             </form>
+
                         </div>
                         <br>
                         <hr>
                         <br>
                         <div class="row justify-content-around">
                             <div class="col-md-3">
+                                <h3 class="fs-4 fw-bolder">Gerar novo periodo de Ferias</h3>
+
+                            </div>
+
+                            <div class="col-md-3">
+
+                            </div>
+                        </div>
+                        <div class="row justify-content-around">
+                            <div class="col-md-3">
                                 <form action="{{ route('AbreFerias') }}">
                                     @csrf
-                                    <label for="ano" style=";">Período de Férias</label>
+
                                     <select class="form-select custom-select" aria-label="Ano" name="ano_referencia"
-                                            id="ano" style="color: #355089">
+                                            id="ano" style="color: #0e0b16">
                                         @foreach ($listaAnos as $ano)
                                             <option value="{{ $ano }}"
                                             >{{ $ano+1 }}
@@ -62,13 +81,13 @@
                             <div class="col-md-3">
                                 <a href="{{ route('AbreFerias') }}">
                                     <button type="submit" class="btn btn-success"
-                                            style="width: 100%; box-shadow: 1px 2px 5px #000000;">Gerar Novo Período
+                                            style="width: 100%; box-shadow: 1px 2px 5px #0e0b16;">Gerar Novo Período
                                     </button>
                                 </a>
                             </div>
                             </form>
-
                         </div>
+
                         <br>
                         @if (!empty($periodo_aquisitivo))
                             <div class="table-responsive">
