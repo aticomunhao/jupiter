@@ -23,13 +23,13 @@ class GerenciarEfetivoController extends Controller
             ->groupBy('id_setor')
             ->get();
 
-        $baseQuery = DB::table('funcionarios AS f')
+        $base = DB::table('funcionarios AS f')
             ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
             ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
             ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')
             ->leftJoin('cargos AS fg', 'fg.id', 'bs.funcao_gratificada')
-            ->leftJoin('setor AS s','s.id', 'f.id_setor')
-            ->leftJoin('tp_vagas_autorizadas AS va','va.id_setor', 's.id')
+            ->leftJoin('setor AS s', 's.id', 'f.id_setor')
+            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
             ->select(
                 'bs.id_funcionario',
                 'bs.cargo',
@@ -45,13 +45,16 @@ class GerenciarEfetivoController extends Controller
 
 
         if ($setorId) {
-            $baseQuery->where('s.id', $setorId);
+            $base->where('s.id', $setorId);
             $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->where('id_setor', $setorId)->sum('vagas_autorizadas');
         } else {
             $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->sum('vagas_autorizadas');
         }
 
-        $base = $baseQuery->get();
+        $base = $base->get();
+
+        dd($base);
+
 
         $totalFuncionariosSetor = 0;
         foreach ($quantidadeFuncionariosPorSetor as $quantidade) {
