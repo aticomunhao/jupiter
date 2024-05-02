@@ -5,7 +5,7 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkdropdown"
                 aria-controls="navbarNavDarkdropdown" aria-expanded="false" aria-label="Toggle navigation"
                 style="border:none; color:#3d5b9c;">
-                <span class="navbar-toggler-icon" style="color:"></span>
+                <span class="navbar-toggler-icon" ></span>
             </button>
             <div class=" navbar-collapse" id="navbarNavDarkdropdown">
                 <ul class="navbar-nav">

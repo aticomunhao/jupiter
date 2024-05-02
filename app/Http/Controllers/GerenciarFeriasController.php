@@ -226,7 +226,8 @@ class GerenciarFeriasController extends Controller
 
     public function administraferias(Request $request)
     {
-        if ($request->input('search')) {
+
+        if (!empty($request->input('search'))) {
             $ano_referente = $request->input('search');
         } else {
             $ano_referente = DB::table('ferias')
@@ -741,6 +742,8 @@ class GerenciarFeriasController extends Controller
             'motivo_retorno' => 'Solicitada Reabertura do Formulario pelo funcionário',
             'data_de_acontecimento' => Carbon::today()->toDateString()
         ]);
+
+        return redirect()->route('AdministrarFerias');
 
     }
 }
