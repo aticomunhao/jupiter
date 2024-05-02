@@ -176,6 +176,7 @@ class ControleVagasController extends Controller
 {
 
     DB::table('tp_vagas_autorizadas')->where('id', $idC)->delete();
+    DB::table('hist_tp_vagas_autorizadas')->where('id', $idC)->update(['alteracao' => 'Deletado']);
 
     return redirect()->route('indexControleVagas')->with('success', 'Vagas excluídas com sucesso!');
 }
