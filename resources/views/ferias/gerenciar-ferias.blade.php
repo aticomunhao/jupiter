@@ -70,8 +70,8 @@
                         <div class="container-fluid">
                             <div class="table-responsive">
                                 <table
-                                        class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
-                                        style="margin-top:10px;">
+                                    class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
+                                    style="margin-top:10px;">
                                     <thead style="text-align: center;">
                                     <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                         <th scope="col">Selecionar Para Envio</th>
@@ -141,7 +141,9 @@
                                                     </a>
                                                 @endif
                                                 <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                   class="btn btn-outline-secondary">
+                                                   class="btn btn-outline-secondary" data-tt="tooltip"
+                                                   data-placement="top" title="Reabrir Formulário"
+                                                   data-bs-toggle="modal">
 
                                                     <i class="bi bi-search"></i>
 
@@ -163,5 +165,12 @@
     </div>
     </div>
     </div>
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+
 @endsection

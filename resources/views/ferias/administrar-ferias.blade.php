@@ -53,7 +53,7 @@
                         <br>
                         <div class="row justify-content-around">
                             <div class="col-md-3">
-                                <h3 class="fs-4 fw-bolder">Gerar novo periodo de Ferias</h3>
+                                <h3 class="fs-4 fw-bolder">Gerar novo Período de Férias</h3>
 
                             </div>
 

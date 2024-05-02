@@ -441,6 +441,7 @@
                         selectElement.empty();
                         $.each(response, function (indexInArray, item) {
                             selectElement.append('<option value="' + item.id_cidade + '">' +
+                                
                                 item.descricao + '</option>');
                         });
                     },
