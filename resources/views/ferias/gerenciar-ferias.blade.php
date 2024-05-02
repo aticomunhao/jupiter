@@ -19,7 +19,7 @@
                     <div class="card-body">
                         <div class="row justify-content-around">
                             <div class="col-sm-12 col-md-4">
-                                <p class="fs-4 fw-bolder">Pesquisar Periodo de Férias</p>
+                                <h5>Pesquisar Periodo de Férias</h5>
                                 <form action="{{ route('IndexGerenciarFerias') }}" method="get">
                                     <select class="form-select" aria-label="Ano" name="search">
                                         @foreach ($anos_possiveis as $ano_possivel)
@@ -41,7 +41,7 @@
                             <div class="col-sm-12 col-md-4">
                                 <form action="{{ route('enviar-ferias') }}" method="get">
                                     @csrf
-                                    <p class="fs-4 fw-bolder">Periodo de Férias A Ser Enviado</p>
+                                    <h5>Periodo de Férias A Ser Enviado</h5>
                                     <select class="form-select" aria-label="Ano" name="search">
                                         @foreach ($anos_possiveis as $ano_possivel)
                                             <option value="{{ $ano_possivel->ano_de_referencia }}">
@@ -63,8 +63,6 @@
                     </div>
                     <br>
                     <hr>
-                    <br>
-
                     <br>
                     @if (!empty($periodo_aquisitivo))
                         <div class="container-fluid">
@@ -163,5 +161,5 @@
     </div>
     </div>
     </div>
-    
+
 @endsection
