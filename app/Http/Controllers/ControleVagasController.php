@@ -78,16 +78,8 @@ class ControleVagasController extends Controller
                 $testeDois->gato = $base;
             }
         }
-        //dd($setor);
 
-        $somaF = 0;
-        $somaV = 0;
-
-
-        //dd($setor);
-
-
-        return view('efetivo.controle-vagas', compact('cargo', 'setor', 'vaga', 'pesquisa', 'somaF', 'somaV'));
+        return view('efetivo.controle-vagas', compact('cargo', 'setor', 'vaga', 'pesquisa'));
     }
 
 
@@ -131,6 +123,7 @@ class ControleVagasController extends Controller
             ];
 
             DB::table('tp_vagas_autorizadas')->insert($data);
+            DB::table('hist_tp_vagas_autorizadas')->insert($data);
             app('flasher')->addSuccess('O cadastro das vagas foram realizadas com sucesso.');
             return redirect()->route('indexControleVagas');
         }
@@ -170,6 +163,10 @@ class ControleVagasController extends Controller
         DB::table('tp_vagas_autorizadas')
             ->where('id', $idVagas)
             ->update(['vagas_autorizadas' => $numeroVagas]);
+
+            DB::table('hist_tp_vagas_autorizadas')
+            ->where('id', $idVagas)
+            ->update(['mudanca_vagas' => $numeroVagas, 'alteracao' => 'Mudanca na quantidade de Vagas']);
 
         // Redirecione de volta para a página de controle de vagas
         return redirect()->route('indexControleVagas');
