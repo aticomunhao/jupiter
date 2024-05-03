@@ -131,17 +131,16 @@
                                             </td>
 
                                             <td>
-                                                @if ($periodos_aquisitivos->id_status_pedido_ferias != 4 or $periodos_aquisitivos->id_status_pedido_ferias == 6)
+                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 1 or $periodos_aquisitivos->id_status_pedido_ferias == 3 or $periodos_aquisitivos->id_status_pedido_ferias == 5)
                                                     <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
                                                        class="btn btn-outline-success">
                                                         <i class="bi bi-pencil-square"></i>
-
                                                     </a>
                                                 @endif
                                                 <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
                                                    class="btn btn-outline-secondary" data-tt="tooltip"
-                                                   data-placement="top" title="Reabrir Formulário"
-                                                   data-bs-toggle="modal">
+                                                   data-placement="top" title="Histórico Férias"
+                                                   style="font-size: 1rem; color:#0e0b16;">
 
                                                     <i class="bi bi-search"></i>
 
