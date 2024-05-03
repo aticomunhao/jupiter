@@ -198,10 +198,10 @@
                                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog" role="document">
                                                                 <div class="modal-content">
-                                                                    <div class="modal-header" style="background-color: rgb(12, 100, 231)">
-                                                                        <h5 class="modal-title" id="exampleModalLabel" style="color: #ffffff">
+                                                                    <div class="modal-header" style="background-color: rgb(88, 149, 242)">
+                                                                        <h2 class="modal-title" id="exampleModalLabel" style="color: #ffffff">
                                                                             Reabrir
-                                                                            Formulário</h5>
+                                                                            Formulário</h2>
                                                                         <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal" aria-label="Close">
 
@@ -211,20 +211,20 @@
                                                                         Deseja Reabrir as férias do
                                                                         funcionario:
                                                                         <br>
-                                                                        <span style="font-size: 20px; color: rgb(12, 100, 231)">
+                                                                        <span style="font-size: 20px; color: rgb(48, 121, 231)">
                                                                         {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}
                                                                         </span>
                                                                         ?
                                                                     </div>
                                                                     <div class="modal-footer" style="background-color: #ffffff">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Fechar
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Cancelar
                                                                         </button>
                                                                         <a
                                                                             href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}">
                                                                             <button type="button"
                                                                                 class="btn btn-primary">
-                                                                                Reabrir Formulario
+                                                                                Confirmar
                                                                             </button>
                                                                         </a>
 
