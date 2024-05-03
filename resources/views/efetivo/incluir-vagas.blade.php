@@ -18,7 +18,6 @@
                             </div>
                         </div>
                         <br>
-                        <hr>
                         <div class="card-body">
                             <div class="ROW" style="margin-left:5px">
                                 <label for="cargoSelect" class="form-label">Selecione o cargo desejado</label>
