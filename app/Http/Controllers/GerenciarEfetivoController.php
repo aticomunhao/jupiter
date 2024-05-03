@@ -24,7 +24,7 @@ class GerenciarEfetivoController extends Controller
             ->get();
 
         $base = DB::table('funcionarios AS f')
-            ->distinct('f.id')
+            ->distinct('p.nome_completo')
             ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
             ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
             ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')

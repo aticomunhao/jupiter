@@ -21,7 +21,7 @@
                                 <div class="row" style="margin-left:5px">
                                     <div class="col">
                                         <label for="1">Selecione o Setor Desejado</label>
-                                        <select id="idsetor" class="form-select" name="setor">
+                                        <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
                                             @foreach ($setor as $setores)
                                                 <option value="{{ $setores->id_setor }}"
@@ -123,4 +123,18 @@
             </div>
         </div>
     </form>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            //Importa o select2 com tema do Bootstrap para a classe "select2"
+            $('.select2').select2({
+                theme: 'bootstrap-5'
+            });
+
+        });
+    </script>
 @endsection
