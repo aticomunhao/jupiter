@@ -17,14 +17,6 @@
                                 </h5>
                             </div>
                             <hr>
-                            <div class="col-md-3 offset-md-8 col-12"> {{-- Botão de incluir --}}
-                                <a href="/incluir-vagas/" class="col-6">
-                                    <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;"
-                                        class="btn btn-success col-md-8 col-12">
-                                        Novo+
-                                    </button>
-                                </a>
-                            </div>
                             <div class="card-body">
                                 <label for="1">Selecione a Forma de Pesquisa Desejada</label>
                                 <br>
@@ -101,6 +93,14 @@
                                         style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 200px;">
                                     <input type="hidden" name="tipo_pesquisa" id="tipoPesquisa"
                                         value="{{ $pesquisa }}">
+                                    {{-- Botão de incluir --}}
+                                    <a href="/incluir-vagas/" class="col">
+                                        <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; width: 200px;"
+                                            class="btn btn-success">
+                                            Novo+
+                                        </button>
+                                    </a>
+
                                 </div>
                             </div>
                             <br>
@@ -209,7 +209,8 @@
                                                             aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
-                                                                    <div class="modal-header">
+                                                                    <div class="modal-header"
+                                                                        style="background-color: rgb(241, 119, 119)">
                                                                         <div class="row">
                                                                             <h2>
                                                                                 Excluir Vagas
@@ -220,18 +221,20 @@
                                                                         </button>
                                                                     </div>
                                                                     <div class="modal-body">
-                                                                        <p class="fw-bold alert alert-danger text-center">
+                                                                        <p class="fw-bold alert text-center"
+                                                                            style="font-size: 20px">
                                                                             Tem certeza que deseja excluir estas vagas?
                                                                         </p>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
+                                                                        <button type="button" class="btn btn-danger"
                                                                             data-bs-dismiss="modal">
                                                                             Cancelar
                                                                         </button>
                                                                         <a href="/excluir-vagas/{{ $vagaDois->idVagas }}">
-                                                                            <button type="button" class="btn btn-danger">
-                                                                                Excluir
+                                                                            <button type="button"
+                                                                                class="btn btn-primary">
+                                                                                Confirmar
                                                                             </button>
                                                                         </a>
                                                                     </div>
