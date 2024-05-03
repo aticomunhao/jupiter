@@ -24,12 +24,12 @@ class GerenciarEfetivoController extends Controller
             ->get();
 
         $base = DB::table('funcionarios AS f')
+            ->distinct('f.id')
             ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
             ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
             ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')
             ->leftJoin('cargos AS fg', 'fg.id', 'bs.funcao_gratificada')
             ->leftJoin('setor AS s', 's.id', 'f.id_setor')
-            ->leftJoin('tp_vagas_autorizadas AS va', 'va.id_setor', 's.id')
             ->select(
                 'bs.id_funcionario',
                 'bs.cargo',
@@ -40,7 +40,6 @@ class GerenciarEfetivoController extends Controller
                 'fg.nome AS nome_funcao_gratificada',
                 'p.celular',
                 'f.id_setor',
-                'va.vagas_autorizadas'
             );
 
 
@@ -53,7 +52,6 @@ class GerenciarEfetivoController extends Controller
 
         $base = $base->get();
 
-        dd($base);
 
 
         $totalFuncionariosSetor = 0;
