@@ -155,7 +155,7 @@
                                     <div class="col-md-4">
                                         <center>
                                             <h6>Arquivo Atual</h6>
-                                            <a href="/visualizar-arquivo/{{$associado->ida}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 2rem; color:#303030;"></i></button></a>
+                                            <a href="/visualizar-arquivo-bancario/{{$associado->ida}}"><button type="button" class="btn btn-outline-primary btn-sm"><i class="bi-search" style="font-size: 2rem; color:#303030;"></i></button></a>
                                         </center>
                                     </div>
                                     <div class="col-md-5">

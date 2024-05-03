@@ -157,7 +157,7 @@ Route::any('/atualizar-dados-bancarios-associado/{ida}/{idt}/{idb}/{idc}', [Gere
 Route::get('/documento-bancario/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'documentobancariopdf']);
 Route::post('/carregar-documento', [GerenciarDadosBancariosAssociadoController::class, 'carregar_documento']);
 Route::post('/salvar-documento-bancario/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'salvardocumentobancario']);
-Route::get('/visualizar-arquivo/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'visualizardocumentobancario']);
+Route::get('/visualizar-arquivo-bancario/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'visualizardocumentobancario']);
 Route::get('/excluir-dados-bancarios-associado/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'delete']);
 
 /*PhotoController*/

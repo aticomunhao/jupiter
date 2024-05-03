@@ -524,7 +524,7 @@ class GerenciarDadosBancariosAssociadoController extends Controller
          ->select(['ca.caminho_documento_bancario'])
          ->first();
 
-      dd($caminhodocumento);
+      //dd($caminhodocumento);
          
       if ($caminhodocumento) {
          $caminho = $caminhodocumento->caminho_documento_bancario;
