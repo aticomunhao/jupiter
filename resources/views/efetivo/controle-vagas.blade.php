@@ -144,7 +144,7 @@
                                                     <td style="text-align: center">{{ $vagasTotais }}</td>
                                                     <td style="text-align: center">
                                                         {{ $vagasTotais - $cargos->quantidade_funcionarios }}</td>
-                                                        <td style="text-align: center">NÃO DISPONÍVEL</td>
+                                                    <td style="text-align: center">NÃO DISPONÍVEL</td>
                                                 </tr>
                                                 @php
                                                     $totalFuncionarios1 += $cargos->quantidade_funcionarios;
@@ -182,14 +182,62 @@
                                                         {{ $vagaDois->gato->first()->quantidade }}
                                                     </td>
                                                     <td style="text-align: center">{{ $vagaDois->vagas }}</td>
-                                                    <td style="text-align: center">{{ $vagaDois->vagas - $vagaDois->gato->first()->quantidade }}</td>
                                                     <td style="text-align: center">
-                                                        <a href="/editar-vagas/{{ $vagaDois->idCargo }}" class="btn btn-outline-warning" data-tt="tooltip" style="font-size: 1rem; color:#303030" data-placement="top" title="Editar">
+                                                        {{ $vagaDois->vagas - $vagaDois->gato->first()->quantidade }}</td>
+                                                    <td style="text-align: center">
+                                                        <a href="/editar-vagas/{{ $vagaDois->idCargo }}"
+                                                            class="btn btn-outline-warning" data-tt="tooltip"
+                                                            style="font-size: 1rem; color:#303030" data-placement="top"
+                                                            title="Editar">
                                                             <i class="bi bi-pencil"></i>
                                                         </a>
-                                                        <a href="/excluir-vagas/{{ $vagaDois->idVagas }}" class="btn btn-outline-danger" data-tt="tooltip" style="font-size: 1rem; color:#303030" data-placement="top" title="Excluir" onclick="return confirm('Tem certeza que deseja excluir estas vagas?')">
-                                                            <i class="bi bi-trash"></i>
+                                                        <a>
+                                                            <button type="button"
+                                                                class="btn btn-outline-danger delete-btn"
+                                                                style="font-size: 1rem; color:#303030"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#A{{ $vagaDois->idVagas }}">
+                                                                <i class="bi bi-trash">
+                                                                </i>
+                                                            </button>
                                                         </a>
+
+                                                        <!-- Modal -->
+
+                                                        <div class="modal fade" id="A{{ $vagaDois->idVagas }}"
+                                                            tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <div class="row">
+                                                                            <h2>
+                                                                                Excluir Vagas
+                                                                            </h2>
+                                                                        </div>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal" aria-label="Close">
+                                                                        </button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <p class="fw-bold alert alert-danger text-center">
+                                                                            Tem certeza que deseja excluir estas vagas?
+                                                                        </p>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">
+                                                                            Cancelar
+                                                                        </button>
+                                                                        <a href="/excluir-vagas/{{ $vagaDois->idVagas }}">
+                                                                            <button type="button" class="btn btn-danger">
+                                                                                Excluir
+                                                                            </button>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </td>
 
                                                 </tr>
