@@ -58,7 +58,7 @@ class GerenciarHierarquiaController extends Controller
 
 
             if ($nm_nivel == 1) {
-                $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
+                $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
             }
 
             if ($nm_nivel == 2) {
