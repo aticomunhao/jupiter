@@ -17,31 +17,32 @@
                                 </h5>
                             </div>
                         </div>
-                        <br>
                         <div class="card-body">
                             <div class="ROW" style="margin-left:5px">
                                 <label for="cargoSelect" class="form-label">Selecione o cargo desejado</label>
+                                <br>
                                 <select id="cargoSelect" class="form-select status select2 pesquisa-select"
-                                    name="vagasCargo">
+                                    name="vagasCargo" style="width: 600px;" required>
                                     <option></option>
                                     @foreach ($cargo as $cargos)
                                         <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
                                     @endforeach
                                 </select>
                                 <br>
-                                <label for="setorSelect" class="form-label">Selecione o Setor pertencente</label>
+                                <label for="setorSelect" style="margin-top:20px" class="form-label">Selecione o Setor pertencente</label>
+                                <br>
                                 <select id="setorSelect" class="form-select status select2 pesquisa-select"
-                                    name="vagasSetor">
+                                    name="vagasSetor" style="width: 600px;" required>
                                     <option></option>
                                     @foreach ($setor as $setores)
                                         <option value="{{ $setores->idSetor }}">{{ $setores->nomeSetor }}</option>
                                     @endforeach
                                 </select>
                                 <br>
-                                <label for="number" class="form-label">Selecione a quantidade de vagas para o cargo
+                                <label for="number" style="margin-top:20px" class="form-label">Selecione a quantidade de vagas para o cargo
                                     selecionado</label>
                                 <input type="number" class="form-control form-control-number" id="number"
-                                    name="number">
+                                    name="number" style="width: 600px;" required>
                             </div>
                         </div>
                     </div>

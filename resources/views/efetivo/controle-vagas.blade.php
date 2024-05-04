@@ -111,7 +111,7 @@
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th class="col-4">SETOR/CARGO</th>
-                                            <th class="col-2">VAGAS PEENCHIDAS</th>
+                                            <th class="col-2">VAGAS PREENCHIDAS</th>
                                             <th class="col-2">TOTAL DE VAGAS</th>
                                             <th class="col-2">VAGAS REMANESCENTES</th>
                                             <th class="col-2">AÇÕES</th>

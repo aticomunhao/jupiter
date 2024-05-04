@@ -115,7 +115,8 @@ class ControleVagasController extends Controller
         if ($existingVagas) {
             app('flasher')->addError('Esse Cargo já possui vagas nesse Setor.');
             return redirect()->route('indexControleVagas');
-        } else {
+        }
+        else {
             $data = [
                 'id_cargo' => $cargoId,
                 'id_setor' => $setorId,

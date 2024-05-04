@@ -18,21 +18,20 @@
                                 </h5>
                             </div>
                         </div>
-                        <br>
                         <div class="card-body">
                             <div class="row" style="margin-left:5px">
                                 <label for="cargoSelect" class="form-label">Cargo a ser editado</label>
-                                <select id="cargoSelect" class="form-select status select pesquisa-select" name="vagasCargo" disabled>
+                                <select id="cargoSelect" class="form-select status select pesquisa-select" style="width: 600px;" name="vagasCargo" disabled>
                                     <option value="{{ $busca[0]->idCargo }}">{{ $busca[0]->nomeCargo }}</option>
                                 </select>
                                 <br>
-                                <label for="setorSelect" class="form-label">Setor pertencente</label>
-                                <select id="setorSelect" class="form-select status select pesquisa-select" name="vagasSetor" disabled>
+                                <label for="setorSelect" style="margin-top:20px" class="form-label">Setor pertencente</label>
+                                <select id="setorSelect" class="form-select status select pesquisa-select" style="width: 600px;" name="vagasSetor" disabled>
                                     <option value="{{ $busca[0]->idSetor }}">{{ $busca[0]->nomeSetor }}</option>
                                 </select>
                                 <br>
-                                <label for="number" class="form-label">Selecione a quantidade de vagas a ser editada para o cargo selecionado</label>
-                                <input type="number" class="form-control form-control-number" id="number" name="number">
+                                <label for="number" style="margin-top:20px" class="form-label">Selecione a quantidade de vagas a ser editada para o cargo selecionado</label>
+                                <input type="number" class="form-control form-control-number" id="number" style="width: 600px;" name="number">
                             </div>
                         </div>
                     </div>
