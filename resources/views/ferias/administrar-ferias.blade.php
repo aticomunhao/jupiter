@@ -40,7 +40,7 @@
                             </div>
                             <div class="col-md-8 col-sm-12">
                                 <button type="submit" class="btn btn-light col-md-4 col-12"
-                                    style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; ">
+                                        style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; ">
                                     Pesquisar
                                 </button>
 
@@ -63,7 +63,7 @@
                                     @csrf
 
                                     <select class="form-select custom-select" aria-label="Ano" name="ano_referencia"
-                                        id="ano" style="color: #0e0b16">
+                                            id="ano" style="color: #0e0b16">
                                         @foreach ($listaAnos as $ano)
                                             <option value="{{ $ano }}">{{ $ano + 1 }}
                                                 - {{ $ano + 2 }}</option>
@@ -74,7 +74,7 @@
                             <div class="col-md-3">
                                 <a href="{{ route('AbreFerias') }}">
                                     <button type="submit" class="btn btn-success"
-                                        style="width: 100%; box-shadow: 1px 2px 5px #0e0b16;">Gerar Novo Período
+                                            style="width: 100%; box-shadow: 1px 2px 5px #0e0b16;">Gerar Novo Período
                                     </button>
                                 </a>
                             </div>
@@ -89,153 +89,159 @@
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
                                     style="margin-top:10px;">
                                     <thead style="text-align: center;">
-                                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th scope="col">Nome do Funcionário</th>
-                                            <th scope="col">Setor</th>
-                                            <th scope="col">Periodo de Férias</th>
-                                            <th scope="col">Início 1</th>
-                                            <th scope="col">Fim 1</th>
-                                            <th scope="col">Início 2</th>
-                                            <th scope="col">Fim 2</th>
-                                            <th scope="col">Início 3</th>
-                                            <th scope="col">Fim 3</th>
-                                            <th scope="col">Status</th>
+                                    <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                        <th scope="col">Nome do Funcionário</th>
+                                        <th scope="col">Setor</th>
+                                        <th scope="col">Periodo de Férias</th>
+                                        <th scope="col">Início 1</th>
+                                        <th scope="col">Fim 1</th>
+                                        <th scope="col">Início 2</th>
+                                        <th scope="col">Fim 2</th>
+                                        <th scope="col">Início 3</th>
+                                        <th scope="col">Fim 3</th>
+                                        <th scope="col">Status</th>
 
-                                            <th scope="col">Ações</th>
-                                        </tr>
+                                        <th scope="col">Ações</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
-                                            <tr>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->ano_de_referencia + 1 }}
-                                                    - {{ $periodos_aquisitivos->ano_de_referencia + 2 }}
-                                                </td>
+                                    @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
+                                        <tr>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->ano_de_referencia + 1 }}
+                                                - {{ $periodos_aquisitivos->ano_de_referencia + 2 }}
+                                            </td>
 
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->dt_fim_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->dt_ini_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->dt_fim_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->status_pedido_ferias }}
-                                                </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_fim_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_ini_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_fim_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
+                                            </td>
+                                            <td style="text-align: center">
+                                                {{ $periodos_aquisitivos->status_pedido_ferias }}
+                                            </td>
 
 
-                                                <td style="text-align: center">
+                                            <td style="text-align: center">
 
-                                                    @if ($periodos_aquisitivos->id_status_pedido_ferias == 4)
-                                                        <a
-                                                            href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
-                                                            <button class="btn btn-outline-success"
-                                                                style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
+                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 4)
+                                                    <a
+                                                        href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
+                                                        <button class="btn btn-outline-success"
+                                                                style="font-size: 1rem; color:#0e0b16;"
+                                                                data-tt="tooltip"
                                                                 data-placement="top" title="Autorizar Férias"><i
-                                                                    class="bi bi-check2"></i>
-                                                            </button>
-                                                        </a>
-                                                        <a
-                                                            href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
-                                                            <button class="btn btn-outline-danger"
-                                                                style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
+                                                                class="bi bi-check2"></i>
+                                                        </button>
+                                                    </a>
+                                                    <a
+                                                        href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
+                                                        <button class="btn btn-outline-danger"
+                                                                style="font-size: 1rem; color:#0e0b16;"
+                                                                data-tt="tooltip"
                                                                 data-placement="top" title="Recusar Férias"><i
-                                                                    class="bi bi-x"></i>
-                                                            </button>
-                                                        </a>
-                                                    @else
-                                                        <a href="#" class="disabled" aria-disabled="true">
-                                                            <button class="btn btn-outline-secondary" disabled
+                                                                class="bi bi-x"></i>
+                                                        </button>
+                                                    </a>
+                                                @else
+                                                    <a href="#" class="disabled" aria-disabled="true">
+                                                        <button class="btn btn-outline-secondary" disabled
                                                                 aria-label="Close">
-                                                                <i class="bi bi-check2"></i>
-                                                            </button>
-                                                        </a>
-
-                                                        <a href="#" class="disabled" aria-disabled="true">
-                                                            <button class="btn btn-outline-secondary" disabled
-                                                                aria-label="Close"><i class="bi bi-x"></i>
-                                                            </button>
-                                                        </a>
-                                                    @endif
-
-                                                    <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                        class="disabled" aria-disabled="true">
-                                                        <button class="btn btn-outline-secondary" aria-label="Close"
-                                                            style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
-                                                            data-placement="top" title="Histórico">
-                                                            <i class="bi bi-search"></i>
+                                                            <i class="bi bi-check2"></i>
                                                         </button>
                                                     </a>
 
-                                                    @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
-                                                        <!-- Button trigger modal -->
+                                                    <a href="#" class="disabled" aria-disabled="true">
+                                                        <button class="btn btn-outline-secondary" disabled
+                                                                aria-label="Close"><i class="bi bi-x"></i>
+                                                        </button>
+                                                    </a>
+                                                @endif
 
-                                                        <button type="button" class="btn btn-outline-primary"
+                                                <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                   class="disabled" aria-disabled="true">
+                                                    <button class="btn btn-outline-secondary" aria-label="Close"
+                                                            style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
+                                                            data-placement="top" title="Histórico">
+                                                        <i class="bi bi-search"></i>
+                                                    </button>
+                                                </a>
+
+                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
+                                                    <!-- Button trigger modal -->
+
+                                                    <button type="button" class="btn btn-outline-primary"
                                                             style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
                                                             data-placement="top" title="Reabrir Formulário"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}">
-                                                            <i class="bi bi-folder2-open"></i>
-                                                        </button>
-                                                        <div class="modal fade"
-                                                            id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
-                                                            tabindex="-1" role="dialog"
-                                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header" style="background-color: rgb(88, 149, 242)">
-                                                                        <h2 class="modal-title" id="exampleModalLabel" style="color: #ffffff">
-                                                                            Reabrir
-                                                                            Formulário</h2>
-                                                                        <button type="button" class="btn-close"
+                                                        <i class="bi bi-folder2-open"></i>
+                                                    </button>
+                                                    <div class="modal fade"
+                                                         id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                         tabindex="-1" role="dialog"
+                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header"
+                                                                     style="background-color: rgb(88, 149, 242)">
+                                                                    <h2 class="modal-title" id="exampleModalLabel"
+                                                                        style="color: #ffffff">
+                                                                        Reabrir
+                                                                        Formulário</h2>
+                                                                    <button type="button" class="btn-close"
                                                                             data-bs-dismiss="modal" aria-label="Close">
 
-                                                                        </button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        Deseja Reabrir as férias do
-                                                                        funcionario:
-                                                                        <br>
-                                                                        <span style="font-size: 20px; color: rgb(48, 121, 231)">
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Deseja Reabrir as férias do
+                                                                    funcionario:
+                                                                    <br>
+                                                                    <span
+                                                                        style="font-size: 20px; color: rgb(48, 121, 231)">
                                                                         {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}
                                                                         </span>
-                                                                        ?
-                                                                    </div>
-                                                                    <div class="modal-footer" style="background-color: #ffffff">
-                                                                        <button type="button" class="btn btn-danger"
+                                                                    ?
+                                                                </div>
+                                                                <div class="modal-footer"
+                                                                     style="background-color: #ffffff">
+                                                                    <button type="button" class="btn btn-danger"
                                                                             data-bs-dismiss="modal">Cancelar
-                                                                        </button>
-                                                                        <a
-                                                                            href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}">
-                                                                            <button type="button"
+                                                                    </button>
+                                                                    <a
+                                                                        href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}">
+                                                                        <button type="button"
                                                                                 class="btn btn-primary">
-                                                                                Confirmar
-                                                                            </button>
-                                                                        </a>
+                                                                            Confirmar
+                                                                        </button>
+                                                                    </a>
 
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                    </div>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -251,7 +257,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>
