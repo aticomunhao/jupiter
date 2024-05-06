@@ -87,6 +87,8 @@ class GerenciarFeriasController extends Controller
         }
 
 
+
+
         return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
     }
 
@@ -208,6 +210,7 @@ class GerenciarFeriasController extends Controller
         $formulario_de_ferias = $request->all();
 
 
+
         $adiantar_decimo_terceiro = false;
         $ferias = DB::table('ferias')->where('id', $id)->first();
 
@@ -281,7 +284,7 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addError("Sua data de saida, antecede dois dias antes do repouso semanal remunerado");
             } //Insere no banco e coloca no historico
             else {
-                DB::table('ferias')->where('id', $ferias->id)->update(['dt_ini_a' => $data_inicio, 'dt_fim_a' => $data_fim, 'dt_ini_b' => null, 'dt_fim_b' => null, 'dt_ini_c' => null, 'dt_fim_c' => null, 'motivo_retorno' => null, 'adianta_13sal' => $request->input('adiantaDecimoTerceiro'), 'status_pedido_ferias' => 3, 'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias'), 'nr_dias_per_a' => $data_inicio->diffInDays($data_fim) + 1
+                DB::table('ferias')->where('id', $ferias->id)->update(['dt_ini_a' => $data_inicio, 'dt_fim_a' => $data_fim, 'dt_ini_b' => null, 'dt_fim_b' => null, 'dt_ini_c' => null, 'dt_fim_c' => null, 'motivo_retorno' => null, 'adianta_13sal' => $request->input('adiantaDecimoTerceiro'), 'status_pedido_ferias' => 3, 'nr_dias_per_a' => $data_inicio->diffInDays($data_fim) + 1, 'vendeu_ferias' => $formulario_de_ferias["vendeFerias"]
 
                 ]);
                 DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
@@ -349,7 +352,7 @@ class GerenciarFeriasController extends Controller
             elseif (Carbon::parse($data_inicio_segundo_periodo)->diffInDays($data_fim_segundo_periodo) < 5) {
                 app('flasher')->addError('O segundo periodo é inferior a 5 dias');
             } else {
-                DB::table('ferias')->where('id', $ferias->id)->update(['dt_ini_a' => $data_inicio_primeiro_periodo, 'dt_fim_a' => $data_fim_primeiro_periodo, 'dt_ini_b' => $data_inicio_segundo_periodo, 'dt_fim_b' => $data_fim_segundo_periodo, 'dt_ini_c' => null, 'dt_fim_c' => null, 'motivo_retorno' => null, 'adianta_13sal' => $adiantar_decimo_terceiro, 'status_pedido_ferias' => 3, 'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo), 'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo), 'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias'),]);
+                DB::table('ferias')->where('id', $ferias->id)->update(['dt_ini_a' => $data_inicio_primeiro_periodo, 'dt_fim_a' => $data_fim_primeiro_periodo, 'dt_ini_b' => $data_inicio_segundo_periodo, 'dt_fim_b' => $data_fim_segundo_periodo, 'dt_ini_c' => null, 'dt_fim_c' => null, 'motivo_retorno' => null, 'adianta_13sal' => $adiantar_decimo_terceiro, 'status_pedido_ferias' => 3, 'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo), 'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo), 'vendeu_ferias' => $formulario_de_ferias["vendeFerias"]]);
                 DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             }
@@ -414,7 +417,7 @@ class GerenciarFeriasController extends Controller
             elseif ($dia_da_semana_de_saida_do_terceiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do terceiro período ocorre dois dias antes do descanso semanal remunerado');
             } elseif (($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 >= 15) || ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 >= 15) || ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) >= 15) {
-                DB::table('ferias')->where('id', $ferias->id)->update(['dt_ini_a' => $data_inicio_primeiro_periodo, 'dt_fim_a' => $data_fim_primeiro_periodo, 'dt_ini_b' => $data_inicio_segundo_periodo, 'dt_fim_b' => $data_fim_segundo_periodo, 'dt_ini_c' => $data_inicio_terceiro_periodo, 'dt_fim_c' => $data_fim_terceiro_periodo, 'adianta_13sal' => $adiantar_decimo_terceiro, 'motivo_retorno' => null, 'status_pedido_ferias' => 3, 'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo), 'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo), 'nr_dias_per_c' => $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo), 'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias'),]);
+                DB::table('ferias')->where('id', $ferias->id)->update(['dt_ini_a' => $data_inicio_primeiro_periodo, 'dt_fim_a' => $data_fim_primeiro_periodo, 'dt_ini_b' => $data_inicio_segundo_periodo, 'dt_fim_b' => $data_fim_segundo_periodo, 'dt_ini_c' => $data_inicio_terceiro_periodo, 'dt_fim_c' => $data_fim_terceiro_periodo, 'adianta_13sal' => $adiantar_decimo_terceiro, 'motivo_retorno' => null, 'status_pedido_ferias' => 3, 'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo), 'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo), 'nr_dias_per_c' => $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo), 'vendeu_ferias' => $formulario_de_ferias["vendeFerias"]]);
                 DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             } else {

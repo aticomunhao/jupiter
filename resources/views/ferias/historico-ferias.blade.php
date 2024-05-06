@@ -20,27 +20,27 @@
                                 @switch($periodo_de_ferias->status_pedido_ferias)
                                     @case(1)
                                         <span class="badge bg-success">Liberado</span>
-                                    @break
+                                        @break
 
                                     @case(2)
                                         <span class="badge bg-warning text-dark">Em Elaboração</span>
-                                    @break
+                                        @break
 
                                     @case(3)
                                         <span class="badge bg-info">Aguardando Envio</span>
-                                    @break
+                                        @break
 
                                     @case(4)
                                         <span class="badge bg-primary">Enviado</span>
-                                    @break
+                                        @break
 
                                     @case(5)
                                         <span class="badge bg-danger">Ajustar</span>
-                                    @break
+                                        @break
 
                                     @case(6)
                                         <span class="badge bg-success">Aprovado</span>
-                                    @break
+                                        @break
 
                                     @default
                                         <span class="badge bg-secondary">Desconhecido</span>
@@ -57,13 +57,13 @@
                             <div class="col-md-6 mb-3">
                                 <label for="inicio_gozo_ferias">Data de Início do Período de Gozo de Férias:</label>
                                 <input type="date" id="inicio_gozo_ferias" class="form-control"
-                                    value="{{ $periodo_de_ferias->dt_inicio_periodo_de_licenca }}" readonly>
+                                       value="{{ $periodo_de_ferias->dt_inicio_periodo_de_licenca }}" readonly>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="fim_possivel_gozo_ferias">Data de Término do Período Possível de Gozo de
                                     Férias:</label>
                                 <input type="date" id="fim_possivel_gozo_ferias" class="form-control"
-                                    value="{{ $periodo_de_ferias->dt_fim_periodo_de_licenca }}" readonly>
+                                       value="{{ $periodo_de_ferias->dt_fim_periodo_de_licenca }}" readonly>
                             </div>
                         </div>
 
@@ -72,60 +72,60 @@
                                 <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
                                     Férias:</label>
                                 <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
-                                    value="{{ $periodo_de_ferias->dt_ini_a }}" readonly>
+                                       value="{{ $periodo_de_ferias->dt_ini_a }}" readonly>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
                                     Férias:</label>
                                 <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
-                                    value="{{ $periodo_de_ferias->dt_fim_a }}" readonly>
+                                       value="{{ $periodo_de_ferias->dt_fim_a }}" readonly>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
                                 <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                    value="{{ $periodo_de_ferias->nr_dias_per_a }}" readonly>
+                                       value="{{ $periodo_de_ferias->nr_dias_per_a }}" readonly>
                             </div>
                         </div>
 
                         @if (!empty($periodo_de_ferias->dt_fim_b))
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
+                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 2° Período de
                                         Férias:</label>
                                     <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
-                                        value="{{ $periodo_de_ferias->dt_ini_b }}" readonly>
+                                           value="{{ $periodo_de_ferias->dt_ini_b }}" readonly>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 2° Período de
                                         Férias:</label>
                                     <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
-                                        value="{{ $periodo_de_ferias->dt_fim_b }}" readonly>
+                                           value="{{ $periodo_de_ferias->dt_fim_b }}" readonly>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                    <label for="dias_primeiro_periodo_ferias">Dias do 2° Período de Férias:</label>
                                     <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                        value="{{ $periodo_de_ferias->nr_dias_per_b }}" readonly>
+                                           value="{{ $periodo_de_ferias->nr_dias_per_b }}" readonly>
                                 </div>
                             </div>
                         @endif
                         @if (!empty($periodo_de_ferias->dt_fim_c))
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
+                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 3° Período de
                                         Férias:</label>
                                     <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
-                                        value="{{ $periodo_de_ferias->dt_ini_c }}" readonly>
+                                           value="{{ $periodo_de_ferias->dt_ini_c }}" readonly>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 3° Período de
                                         Férias:</label>
                                     <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
-                                        value="{{ $periodo_de_ferias->dt_fim_c }}" readonly>
+                                           value="{{ $periodo_de_ferias->dt_fim_c }}" readonly>
                                 </div>
                                 <div class="col-md-4 mb-3">
-                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                    <label for="dias_primeiro_periodo_ferias">Dias do 3° Período de Férias:</label>
                                     <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                        value="{{ $periodo_de_ferias->nr_dias_per_c }}" readonly>
+                                           value="{{ $periodo_de_ferias->nr_dias_per_c }}" readonly>
                                 </div>
                             </div>
                         @endif
@@ -135,31 +135,13 @@
                             <div class="col-md-4 mb-3">
                                 <label for="inicio_primeiro_periodo_ferias">Adiantou Décimo Terceiro ?</label>
                                 <input type="text" id="adiantou_decimo" class="form-control"
-                                    value="{{ $periodo_de_ferias->adianta_13sal ? 'Sim' : 'Não' }}" readonly>
+                                       value="{{ $periodo_de_ferias->adianta_13sal ? 'Sim' : 'Não' }}" readonly>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="inicio_primeiro_periodo_ferias">Vendeu o período de férias ?</label>
-                                @switch($periodo_de_ferias->venda_um_terco)
-                                    @case(1)
-                                        <input type="text" id="adiantou_decimo" class="form-control"
-                                            value="Vendeu o Primeiro Período de Férias" readonly>
-                                    @break
-
-                                    @case(2)
-                                        <input type="text" id="adiantou_decimo" class="form-control"
-                                            value="Vendeu o Segundo Período de Férias" readonly>
-                                    @break
-
-                                    @case(3)
-                                        <input type="text" id="adiantou_decimo" class="form-control"
-                                            value="Vendeu o Terceiro Período de Férias" readonly>
-                                    @break
-
-                                    @default
-                                        <input type="text" id="adiantou_decimo" class="form-control"
-                                            value="Não foi vendido nenhum periodo de Ferias" readonly>
-                                    @break
-                                @endswitch
+                                <label for="inicio_primeiro_periodo_ferias">Vendeu o período de férias ?</label><input
+                                    type="text" id="adiantou_decimo" class="form-control"
+                                    value="{{ $periodo_de_ferias->vendeu_ferias ? 'Foi vendido um terço das ferias' : 'Não foi vendido um terço das ferias' }}"
+                                    readonly>
 
                             </div>
                         </div>
@@ -168,22 +150,22 @@
 
                 <div class="table-responsive">
                     <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
-                        style="margin-top:10px;">
+                           style="margin-top:10px;">
                         <thead style="text-align: center;">
-                            <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                <th class="text-align: center">Data de Recusa</th>
-                                <th class="text-align: center">Motivo Recusa</th>
-                            </tr>
+                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                            <th class="text-align: center">Data de Recusa</th>
+                            <th class="text-align: center">Motivo Recusa</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach ($historico_recusa_ferias as $recusa_de_ferias)
-                                <tr>
-                                    <td class="text-align: center">
-                                        {{ \Carbon\Carbon::parse($recusa_de_ferias->data_de_acontecimento)->format('d/m/Y') }}
-                                    </td>
-                                    <td class="text-align: center">{{ $recusa_de_ferias->motivo_retorno }}</td>
-                                </tr>
-                            @endforeach
+                        @foreach ($historico_recusa_ferias as $recusa_de_ferias)
+                            <tr>
+                                <td class="text-align: center">
+                                    {{ \Carbon\Carbon::parse($recusa_de_ferias->data_de_acontecimento)->format('d/m/Y') }}
+                                </td>
+                                <td class="text-align: center">{{ $recusa_de_ferias->motivo_retorno }}</td>
+                            </tr>
+                        @endforeach
                         </tbody>
                     </table>
 
