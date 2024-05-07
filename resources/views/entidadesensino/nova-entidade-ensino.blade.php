@@ -33,7 +33,7 @@
 
                         <center>
                             <div class="col-12" style="margin-top: 70px;">
-                                <a href="/gerenciar-entidades-de-ensino" class="btn btn-secondary col-4">{{-- Botao de cancelar com link para o index --}}
+                                <a href="/gerenciar-entidades-de-ensino" class="btn btn-danger col-4">{{-- Botao de cancelar com link para o index --}}
                                     Cancelar
                                 </a>
 

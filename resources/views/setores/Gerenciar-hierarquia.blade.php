@@ -32,7 +32,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group  col-xl-4 col-md-5 ">
+                            <div class="form-group  col-4 ">
                                 <label for="1">Setor</label>
                                 <select id="idsetor" class="form-select" style="border: 1px solid #999999; padding: 5px;" name="nome_setor" disabled>
                                     <option></option>
@@ -44,8 +44,8 @@
                                 </select>
                             </div>
                             <div class="col" style="padding-top:5px">
-                                <a href="/gerenciar-hierarquia" type="button" class="btn btn-light btn-sm" style="font-size: 1.0rem; box-shadow: 1px 2px 5px #000000; margin:5px; width: 15%;" value="">Limpar</a>
-                                <input type="submit" value="Pesquisar" class="btn btn-light btn-sm" style="font-size: 1.0rem; box-shadow: 1px 2px 5px #000000; margin:20px; width: 20%;">
+                                <input type="submit" value="Pesquisar" class="btn btn-light btn-sm" style="box-shadow: 1px 2px 5px #000000; margin-top: 20px">
+                                <a href="/gerenciar-hierarquia" type="button" class="btn btn-light btn-sm" style="box-shadow: 1px 2px 5px #000000; margin-top: 20px; margin-left: 2px" value="">Limpar</a>
                             </div>
                         </div>
 

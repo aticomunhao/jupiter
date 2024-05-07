@@ -25,11 +25,11 @@
                                     <input type="text" style="border: 1px solid #999999;" class="form-control" aria-label="Sizing example input"
                                         name="pesquisa" value= "{{ $pesquisa }}" maxlength="40">{{-- Input de pesquisa --}}
                                 </div>
-                                <div class="col-md-8 col-12">
-                                    <button class="btn btn-light col-md-3 col-12 mt-5 mt-md-0 " style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
+                                <div class="col">
+                                    <button class="btn btn-light btn-sm" style="box-shadow: 1px 2px 5px #000000; margin:5px;"
                                         type="submit">Pesquisar</button>{{-- Botao submit da pesquisa --}}
                                     <a href="/incluir-entidades-ensino"{{-- Botao com rota para incluir entidades --}}
-                                        class="btn btn-success col-md-3 col-12 offset-md-5 mt-4 mt-md-0" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;">
+                                        class="btn btn-success  offset-md-6" style="box-shadow: 1px 2px 5px #000000;">
                                         Novo+
                                     </a>
                                 </div>
@@ -53,52 +53,39 @@
                                         <td>
                                             <a href="/editar-entidade/{{ $entidade->id }}"><button type="submit"
                                                     class="btn btn-outline-warning"{{-- Botao de editar --}} data-tt="tooltip"
-                                                    data-placement="top" title="Editar"><i
+                                                    data-placement="top" title="Editar" style="font-size: 1rem; color:#303030;"><i
                                                         class="bi bi-pencil sm"></i></button></a>
                                             <button type="button"
                                                 class="btn btn-outline-danger delete-btn"{{-- Botao de excluir que aciona o modal --}}
                                                 data-bs-toggle="modal" data-bs-target="#A{{ $entidade->id }}"
-                                                data-tt="tooltip" data-placement="top" title="Excluir"><i
+                                                data-tt="tooltip" data-placement="top" title="Excluir" style="font-size: 1rem; color:#303030;"><i
                                                     class="bi bi-trash"></i></button>
-                                            <div class="modal fade" id="A{{ $entidade->id }}"
-                                                tabindex="-1"{{--  Modal  --}} aria-labelledby="exampleModalLabel"
-                                                aria-hidden="true">
+
+                                            <div class="modal fade" id="A{{ $entidade->id }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
-                                                        <div class="modal-header"
-                                                            style="background-color:rgba(202, 61, 61, 0.911);">
-                                                            {{-- Cor do header do modal --}}
-                                                            <div class="row">
-                                                                <h2 style="color:white;">Excluir Entidade de Ensino</h2>
-                                                            </div>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                                aria-label="Close"></button>
+                                                        <div class="modal-header" style="background-color:#DC4C64;">
+                                                            <h5 class="modal-title" id="exampleModalLabel" style=" color:rgb(255, 255, 255)">Excluir Entidade de Ensino</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
-                                                        <div class="modal-body" style="color:#e24444;">
-                                                            {{-- Body do modal, determina a cor da letra --}}
-                                                            <br />
-                                                            <p class="fw-bold alert  text-center">Você
-                                                                realmente deseja excluir
-                                                                <br>
-                                                                <span class="fw-bolder fs-5">
-                                                                    {{ $entidade->nome_tpentensino }}</span>
-                                                            </p>
+                                                        <div class="modal-body">
+                                                            Você realmente deseja excluir <br><span
+                                                                style="color:#DC4C64; font-weight: bold">{{ $entidade->nome_tpentensino }}</span> ?
+
                                                         </div>
-                                                        <div class="modal-footer  ">
-                                                            <button type="button"
-                                                                class="btn btn-secondary"{{-- Botao de cancelar --}}
-                                                                data-bs-dismiss="modal">Cancelar
-                                                            </button>
-                                                            <a href="/excluir-entidade/{{ $entidade->id }}">
-                                                                <button type="button"
-                                                                    class="btn btn-danger">Excluir{{-- Botao de exclusao --}}
-                                                                    permanentemente
-                                                                </button>
-                                                            </a>
+                                                        <div class="modal-footer mt-2">
+                                                            <button type="button" class="btn btn-danger"
+                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                            <a type="button" class="btn btn-primary"
+                                                            href="/excluir-entidade/{{ $entidade->id }}">Confirmar
+                                                                </a>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>{{-- Fim da modal --}}
+                                            </div>
+
                                         </td>
                                     </tr>
                                 @endforeach
