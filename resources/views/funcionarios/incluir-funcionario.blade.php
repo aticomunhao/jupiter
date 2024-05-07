@@ -278,13 +278,13 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-5 col-sm-12">Ascedente 1
+                                <div class="col-md-5 col-sm-12">Ascendente 1
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                            type="text" maxlength="45"
                                            oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                            id="29" name="nome_mae" value="{{ old('nome_mae') }}" required="required">
                                 </div>
-                                <div class="col-md-5 col-sm-12">Ascedente 2
+                                <div class="col-md-5 col-sm-12">Ascendente 2
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                            type="text" maxlength="45"
                                            oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
@@ -306,11 +306,11 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-10">E-mail
+                                <div class="col">E-mail
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                            maxlength="45" type="email" id="31" name="email" value="{{ old('email') }}">
                                 </div>
-                                <div class="col-md-2 col-sm-12">Setor
+                                <div class="col">Setor
                                     <select class="js-example-responsive form-select"
                                             style="border: 1px solid #999999; padding: 5px;" required="required"
                                             id="setor" name="setor" required="required">

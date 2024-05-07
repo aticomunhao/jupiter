@@ -86,29 +86,23 @@ class GerenciarFuncionarioController extends Controller
 
         $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
 
-        $setor = DB::select('select id, nome from setor');
+        $setor = DB::select('select id, nome from setor order by nome');
 
         return view('/funcionarios.incluir-funcionario', compact('sexo', 'tp_uf', 'nac', 'cidade', 'programa', 'org_exp', 'cor', 'sangue', 'fator', 'cnh', 'cep', 'logra', 'ddd', 'setor'));
     }
 
     public function store(Request $request)
     {
-        //dd($request->all());
-
 
         $sexo = DB::select('select id, tipo from tp_sexo');
 
         $today = Carbon::today()->format('Y-m-d');
 
-        $cpfs = DB::select("select cpf from pessoas");
-
-        $cpf = $request->cpf;
-
-
         $cpf = $request->cpf;
 
         $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
 
+        //dd($vercpf);
 
         try {
             $validated = $request->validate([
@@ -120,18 +114,16 @@ class GerenciarFuncionarioController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
 
             app('flasher')->addError('Este CPF não é válido');
-
             return redirect()->back()->withInput();
             //dd($e->errors());
         }
 
-        if ($vercpf > 1) {
-
+        if ($vercpf > 0) {
 
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
-
             return redirect()->back()->withInput();
-        } else { {
+
+        } else {
 
                 DB::table('pessoas')->insert([
                     'nome_completo' => $request->input('nome_completo'),
@@ -189,21 +181,14 @@ class GerenciarFuncionarioController extends Controller
                     'numero' => $request->input('numero'),
                     'bairro' => $request->input('bairro'),
                     'complemento' => $request->input('comple'),
-                    'dt_inicio' => $today,
-
+                    'dt_inicio' => $today
 
                 ]);
 
-
-
-
                 app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
-
                 return redirect('/gerenciar-funcionario');
             }
         }
-    }
-
 
     public function edit($idf)
     {
