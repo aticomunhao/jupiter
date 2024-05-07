@@ -186,6 +186,20 @@
                 }
 
                 $('#containerPeriodos').prop('hidden', true);
+                $(document).on('change', '.vendeferias', function () {
+                    var numeroDePeriodos = $('input[name="numeroPeriodoDeFerias"]:checked').val();
+                    var estadoBotao = $(this).prop('checked');
+                    $('#periodosDeFerias')
+                        .empty();
+                    if (estadoBotao) {
+                        $('#containerPeriodos').prop('hidden', false);
+                    } else {
+                        $('#containerPeriodos').prop('hidden', true);
+                    }
+                    for (var i = 1; i <= numeroDePeriodos; i++) {
+                        $('#periodo' + i).prop('hidden', false);
+                    }
+                });
             });
 
         });

@@ -138,10 +138,28 @@
                                        value="{{ $periodo_de_ferias->adianta_13sal ? 'Sim' : 'Não' }}" readonly>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="inicio_primeiro_periodo_ferias">Vendeu o período de férias ?</label><input
-                                    type="text" id="adiantou_decimo" class="form-control"
-                                    value="{{ $periodo_de_ferias->vendeu_ferias ? 'Foi vendido um terço das ferias' : 'Não foi vendido um terço das ferias' }}"
-                                    readonly>
+                                <label for="inicio_primeiro_periodo_ferias">Vendeu o período de férias ?</label>
+                                @switch($periodo_de_ferias->venda_um_terco)
+                                    @case(1)
+                                        <input type="text" id="adiantou_decimo" class="form-control"
+                                               value="Vendeu o Primeiro Período de Férias" readonly>
+                                        @break
+
+                                    @case(2)
+                                        <input type="text" id="adiantou_decimo" class="form-control"
+                                               value="Vendeu o Segundo Período de Férias" readonly>
+                                        @break
+
+                                    @case(3)
+                                        <input type="text" id="adiantou_decimo" class="form-control"
+                                               value="Vendeu o Terceiro Período de Férias" readonly>
+                                        @break
+
+                                    @default
+                                        <input type="text" id="adiantou_decimo" class="form-control"
+                                               value="Não foi vendido nenhum periodo de Ferias" readonly>
+                                        @break
+                                @endswitch
 
                             </div>
                         </div>
