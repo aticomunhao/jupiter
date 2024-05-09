@@ -199,7 +199,7 @@ class GerenciarFuncionarioController extends Controller
             ->leftjoin('tp_programa', 'tp_programa.id', 'f.tp_programa')
             ->leftjoin('tp_sexo', 'tp_sexo.id', 'p.sexo')
             ->leftjoin('tp_nacionalidade AS tn', 'tn.id', 'p.nacionalidade')
-            ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele') 
+            ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele')
             ->leftjoin('tp_ddd', 'tp_ddd.id', 'p.ddd')
             ->leftjoin('tp_orgao_exp', 'tp_orgao_exp.id', 'p.orgao_expedidor')
             ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_natural')
