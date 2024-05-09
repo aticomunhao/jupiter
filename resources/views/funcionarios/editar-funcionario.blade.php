@@ -93,12 +93,12 @@
                                     Naturalidade UF
                                 </label>
                                 <select select class="form-select" style="border: 1px solid #999999; padding: 5px;" data-placeholder="Choose one thing" name="uf_nat" required="required" id="uf1">
-                                    <option>
-                                   {{$editar[0]->ufsgl}}
+                                    <option value="{{ $editar[0]->uf_natural }}">
+                                        {{ $editar[0]->ufsgl }}
                                     </option>
                                     @foreach ($tp_uf as $tp_ufs)
-                                    <option @if (old('uf_nat')==$tp_ufs->id) {{ 'selected="selected"' }} @endif
-                                        value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
+                                    <option value="{{ $tp_ufs->id }}">
+                                        {{ $tp_ufs->sigla }}
                                     </option>
                                     @endforeach
                                 </select>
@@ -151,6 +151,24 @@
                                     Por favor, informe um RG válido.
                                 </div>
                                 <br>
+                            </div>
+                            <div class="form-group col-1">
+                                <label for="24">
+                                    UF
+                                </label>
+                                <select id="24" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="uf_idt">
+                                    <option value="{{ $editar[0]->ufIdt }}">
+                                        {{ $editar[0]->ufsgl }}
+                                    </option>
+                                    @foreach ($tp_uf as $tp_ufs)
+                                    <option value="{{ $tp_ufs->id }}">
+                                        {{ $tp_ufs->sigla }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">
+                                    Por favor, selecione um UF válido.
+                                </div>
                             </div>
                             <div class="form-group col-2">
                                 <label for="11">
@@ -211,7 +229,7 @@
                                     Fator RH
                                 </label>
                                 <select id="14" style="border: 1px solid #999999; padding: 5px;" name="fator" class="form-select">
-                                    <option value="{{ $editar[0]->id }}">
+                                    <option value="{{ $editar[0]->idFator }}">
                                         {{ $editar[0]->nome_fator }}
                                     </option>
                                     @foreach ($fator as $fators)
@@ -321,8 +339,8 @@
                                 <label for="24">
                                     UF
                                 </label>
-                                <select id="24" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="uf_idt">
-                                    <option value="{{ $editar[0]->tuf }}">
+                                <select id="24" style="border: 1px solid #999999; padding: 5px;" class="form-select" name="uf_ctps">
+                                    <option value="{{ $editar[0]->uf_ctps }}">
                                         {{ $editar[0]->ufsgl }}
                                     </option>
                                     @foreach ($tp_uf as $tp_ufs)
