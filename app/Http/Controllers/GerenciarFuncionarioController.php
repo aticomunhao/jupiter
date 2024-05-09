@@ -100,7 +100,21 @@ class GerenciarFuncionarioController extends Controller
 
         $cpf = $request->cpf;
 
-        $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
+        $vercpf = DB::table('pessoas')->where('cpf', $cpf)->exists();
+
+
+
+        $verpessoa = DB::select("
+            SELECT EXISTS (
+                SELECT *
+                FROM pessoas p
+                LEFT JOIN funcionarios f ON (f.id_pessoa = p.id)
+                WHERE (p.cpf = '$cpf')
+                AND (f.id_pessoa IS NOT NULL OR p.id = f.id_pessoa)
+            ) AS exists;
+            ");
+
+        //dd($verpessoa);
 
         //dd($vercpf);
 
@@ -117,13 +131,87 @@ class GerenciarFuncionarioController extends Controller
             return redirect()->back()->withInput();
             //dd($e->errors());
         }
+        if (!empty($verpessoa)) {
+            // Extrai o valor de existência da primeira linha do resultado
+            $exists = $verpessoa[0]->exists;
 
-        if ($vercpf > 0) {
+            // Verifica se a existência é verdadeira
+            if ($exists) {
+                //dd($verpessoa);
 
-            app('flasher')->addError('Existe outro cadastro usando este número de CPF');
-            return redirect()->back()->withInput();
+                app('flasher')->addError('Existe outro cadastro usando este número de CPF');
+                return redirect()->back()->withInput();
+            } elseif ($vercpf) {
+                //dd($vercpf, $verpessoa);
 
-        } else {
+                DB::table('pessoas')
+                    ->where('cpf', $cpf)
+                    ->update([
+                        'nome_completo' => $request->input('nome_completo'),
+                        'idt' => $request->input('identidade'),
+                        'orgao_expedidor' => $request->input('orgexp'),
+                        'uf_idt' => $request->input('uf_idt'),
+                        'dt_emissao_idt' => $request->input('dt_idt'),
+                        'dt_nascimento' => $request->input('dt_nascimento'),
+                        'sexo' => $request->input('sexo'),
+                        'nacionalidade' => $request->input('pais'),
+                        'uf_natural' => $request->input('uf_nat'),
+                        'naturalidade' => $request->input('natura'),
+                        'cpf' => $request->input('cpf'),
+                        'email' => $request->input('email'),
+                        'ddd' => $request->input('ddd'),
+                        'celular' => $request->input('celular'),
+                        'status' => '1',
+
+                    ]);
+
+                $id_pessoa = DB::table('pessoas')
+                    ->select('pessoas.id AS idFuncionario')
+                    ->where('pessoas.cpf', $cpf)
+                    ->value('idFuncionario');
+
+
+                DB::table('funcionarios')->insert([
+                    'id_pessoa' => $id_pessoa,
+                    'dt_inicio' => $request->input('dt_ini'),
+                    'matricula' => $request->input('matricula'),
+                    'tp_programa' => $request->input('tp_programa'),
+                    'nr_programa' => $request->input('programa'),
+                    'id_cor_pele' => $request->input('cor'),
+                    'id_tp_sangue' => $request->input('tps'),
+                    'fator_rh' => $request->input('frh'),
+                    'titulo_eleitor' => $request->input('titele'),
+                    'dt_titulo' => $request->input('dt_titulo'),
+                    'zona_tit' => $request->input('zona'),
+                    'secao_tit' => $request->input('secao'),
+                    'ctps' => $request->input('ctps'),
+                    'serie' => $request->input('serie_ctps'),
+                    'uf_ctps' => $request->input('uf_ctps'),
+                    'dt_emissao_ctps' => $request->input('dt_ctps'),
+                    'reservista' => $request->input('reservista'),
+                    'nome_mae' => $request->input('nome_mae'),
+                    'nome_pai' => $request->input('nome_pai'),
+                    'id_cat_cnh' => $request->input('cnh'),
+                    'id_setor' => $request->input('setor')
+                ]);
+
+                DB::table('endereco_pessoas')
+                    ->where('id_pessoa', $id_pessoa)
+                    ->update([
+                        'cep' => str_replace('-', '', $request->input('cep')),
+                        'id_uf_end' => $request->input('uf_end'),
+                        'id_cidade' => $request->input('cidade'),
+                        'logradouro' => $request->input('logradouro'),
+                        'numero' => $request->input('numero'),
+                        'bairro' => $request->input('bairro'),
+                        'complemento' => $request->input('comple'),
+                        'dt_inicio' => $today
+
+                    ]);
+
+                app('flasher')->addSuccess('Cadastro de funcionário realizado com base nos dados ja existentes da pessoa.');
+                return redirect('/gerenciar-funcionario');
+            } else {
 
                 DB::table('pessoas')->insert([
                     'nome_completo' => $request->input('nome_completo'),
@@ -189,6 +277,7 @@ class GerenciarFuncionarioController extends Controller
                 return redirect('/gerenciar-funcionario');
             }
         }
+    }
 
     public function edit($idf)
     {
@@ -269,7 +358,7 @@ class GerenciarFuncionarioController extends Controller
             ->where('f.id', $idf)
             ->get();
 
-      //dd($editar);
+        //dd($editar);
 
 
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
@@ -309,7 +398,7 @@ class GerenciarFuncionarioController extends Controller
 
         $cpf = $request->cpf;
 
-        $vercpf = DB::table('pessoas')->where('cpf', $cpf)->count();
+        $vercpf = DB::table('pessoas')->where('cpf', $cpf)->exists();
 
 
         //dd($vercpf);
@@ -329,7 +418,7 @@ class GerenciarFuncionarioController extends Controller
             //dd($e->errors());
         }
 
-        if ($vercpf > 1) {
+        if ($vercpf == true) {
 
 
             app('flasher')->addError('Existe outro cadastro usando este número de CPF');
