@@ -22,7 +22,7 @@ class GerenciarFuncionarioController extends Controller
 
         $lista = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status');
+            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'p.id AS idp');
 
         $cpf = $request->cpf;
 
@@ -101,10 +101,6 @@ class GerenciarFuncionarioController extends Controller
 
         $vercpf = DB::table('pessoas')->where('cpf', $cpf)->exists();
 
-
-
-
-
         $verpessoa = DB::select("
             SELECT EXISTS (
                 SELECT *
@@ -170,7 +166,7 @@ class GerenciarFuncionarioController extends Controller
                 'dt_inicio' => $request->input('dt_ini'),
                 'matricula' => $request->input('matricula'),
                 'tp_programa' => $request->input('tp_programa'),
-                'nr_programa' => $request->input('programa'),
+                'nr_programa' => $request->input('nr_programa'),
                 'id_cor_pele' => $request->input('cor'),
                 'id_tp_sangue' => $request->input('tps'),
                 'fator_rh' => $request->input('frh'),
@@ -236,7 +232,7 @@ class GerenciarFuncionarioController extends Controller
                 'id_pessoa' => $id_pessoa,
                 'matricula' => $request->input('matricula'),
                 'tp_programa' => $request->input('tp_programa'),
-                'nr_programa' => $request->input('programa'),
+                'nr_programa' => $request->input('nr_programa'),
                 'id_cor_pele' => $request->input('cor'),
                 'id_tp_sangue' => $request->input('tps'),
                 'fator_rh' => $request->input('frh'),
@@ -271,44 +267,131 @@ class GerenciarFuncionarioController extends Controller
             return redirect('/gerenciar-funcionario');
         }
 
-        $idp = DB::table('funcionarios AS f')
-        ->select('f.id_pessoa')
-        ->get();
+
     }
 
 
-    public function edit($idf, $idp)
+    public function edit($idp)
     {
+        $identidade = DB::table('pessoas AS pa')
+        ->leftJoin('tp_uf', 'pa.uf_idt', 'tp_uf.id')
+        ->select('tp_uf.sigla AS sigla_identidade', 'pa.uf_idt')
+        ->where('pa.id', $idp)
+        ->get();
 
         $pessoa = DB::table('pessoas AS p')
+        ->leftJoin('tp_sexo', 'p.sexo', 'tp_sexo.id')
+        ->leftJoin('tp_nacionalidade', 'p.nacionalidade', 'tp_nacionalidade.id')
+        ->leftJoin('tp_uf', 'p.uf_natural', 'tp_uf.id')
+        ->leftJoin('tp_cidade', 'p.naturalidade', 'tp_cidade.id_cidade')
+        ->leftJoin('tp_orgao_exp', 'p.orgao_expedidor', 'tp_orgao_exp.id')
+        ->leftJoin('tp_ddd', 'p.ddd', 'tp_ddd.id')
         ->select(
-            'p.id',
-            'p.nome_completo',
-            'p.idt',
-            'p.uf_idt',
-            'p.orgao_expedidor',
-            'p.dt_emissao_idt',
-            'p.dt_nascimento',
-            'p.uf_natural',
-            'p.naturalidade',
-            'p.nacionalidade',
-            'p.sexo',
-            'p.email',
-            'p.ddd',
-            'p.celular',
-            'p.cpf'
+            'p.id AS idp',
+            'p.nome_completo AS nome_completo',
+            'p.idt AS identidade',
+            'p.uf_idt AS uf_identidade',
+            'p.orgao_expedidor AS id_orgao_expedidor',
+            'p.dt_emissao_idt AS dt_emissao_identidade',
+            'p.dt_nascimento AS dt_nascimento',
+            'p.uf_natural AS uf_naturalidade',
+            'p.naturalidade AS naturalidade',
+            'p.nacionalidade AS nacionalidade',
+            'p.sexo AS id_sexo',
+            'p.email AS email',
+            'p.ddd AS ddd',
+            'p.celular AS celular',
+            'p.cpf AS cpf',
+            'tp_sexo.tipo AS nome_sexo',
+            'tp_nacionalidade.local AS nome_nacionalidade',
+            'tp_uf.sigla AS sigla_naturalidade',
+            'tp_cidade.descricao AS descricao_cidade',
+            'tp_orgao_exp.sigla AS sigla_orgao_expedidor',
+            'tp_ddd.descricao AS numero_ddd',
         )
         ->where('p.id', $idp)
         ->get();
-        
+
 
         $funcionario = DB::table('funcionarios AS f')
-        ->select('')
+        ->leftJoin('tp_programa', 'f.tp_programa', 'tp_programa.id')
+        ->leftJoin('tp_cor_pele', 'f.id_cor_pele', 'tp_cor_pele.id')
+        ->leftJoin('tp_sangue', 'f.id_tp_sangue', 'tp_sangue.id')
+        ->leftJoin('tp_fator', 'f.fator_rh', 'tp_fator.id')
+        ->leftJoin('tp_uf', 'f.uf_ctps', 'tp_uf.id')
+        ->leftJoin('tp_cnh', 'f.id_cat_cnh', 'tp_cnh.id')
+        ->leftJoin('setor', 'f.id_setor', 'setor.id')
+        ->select(
+            'f.matricula AS matricula',
+            'f.ctps AS ctps',
+            'f.uf_ctps AS uf_ctps',
+            'f.serie AS serie_ctps',
+            'f.dt_emissao_ctps AS emissao_ctps',
+            'f.tp_programa AS tp_programa',
+            'f.nr_programa AS nr_programa',
+            'f.reservista AS reservista',
+            'f.id_cat_cnh AS id_tp_cnh',
+            'f.id_cor_pele AS tp_cor',
+            'f.id_tp_sangue AS tp_sangue',
+            'f.nome_mae AS nome_mae',
+            'f.nome_pai AS nome_pai',
+            'f.fator_rh AS id_fator_rh',
+            'f.titulo_eleitor AS titulo_eleitor',
+            'f.zona_tit AS zona_titulo',
+            'f.secao_tit AS secao_titulo',
+            'f.dt_titulo AS dt_titulo',
+            'f.id_setor AS id_setor',
+            'f.dt_inicio AS dt_inicio',
+            'tp_programa.programa AS nome_programa',
+            'tp_cor_pele.nome_cor AS nome_cor',
+            'tp_sangue.nome_sangue AS nome_sangue',
+            'tp_fator.nome_fator AS nome_fator',
+            'tp_uf.sigla AS sigla_ctps',
+            'tp_cnh.nome_cat AS tp_cnh',
+            'setor.nome AS nome_setor'
+            )
         ->where('f.id_pessoa', $idp)
         ->get();
 
+        $endereco = DB::table('endereco_pessoas AS ep')
+        ->select(
+            'ep.cep AS cep',
+            'ep.id_uf_end AS uf_endereco',
+            'ep.id_cidade AS cidade',
+            'ep.logradouro AS logradouro',
+            'ep.numero AS numero',
+            'ep.bairro AS bairro',
+            'ep.complemento AS complemento'
+        )
+        ->where('id_pessoa', $idp)
+        ->get();
 
-        $editar = DB::table('funcionarios AS f')
+        //dd($pessoa, $funcionario);
+
+
+        // Joins com a tabela pessoa
+        $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
+        $tpnacionalidade = DB::table('tp_nacionalidade')->select('id', 'local')->get();
+        $tp_uf = DB::select('select id, sigla from tp_uf');
+        $tporg_exp = DB::select('select id, sigla from tp_orgao_exp');
+        $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
+        $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
+        $tp_ufi = DB::select('select id, sigla from tp_uf');
+
+
+        // Joins com a tabela funcionario
+        $tpprograma = DB::table('tp_programa')->select('id', 'programa')->get();
+        $tppele = DB::table('tp_cor_pele')->select('id', 'nome_cor')->get();
+        $tpsangue = DB::table('tp_sangue')->select('id', 'nome_sangue')->get();
+        $fator = DB::select('select id, nome_fator from tp_fator');
+        $tp_uff = DB::select('select id, sigla from tp_uf');
+        $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
+        $tpsetor = DB::table('setor')->select('id', 'nome')->get();
+
+
+
+
+    /*    $editar = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
             ->leftjoin('tp_sangue', 'tp_sangue.id', 'f.id_tp_sangue')
             ->leftjoin('tp_programa', 'tp_programa.id', 'f.tp_programa')
@@ -384,35 +467,24 @@ class GerenciarFuncionarioController extends Controller
                 'tp_fator.id AS idFator'
 
             )
-            ->where('f.id', $idf)
+            ->where('f.id_pessoa', $idp)
             ->get();
 
         //dd($editar);
 
+*/
 
-        $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
-        $tpsangue = DB::table('tp_sangue')->select('id', 'nome_sangue')->get();
-        $tpnacionalidade = DB::table('tp_nacionalidade')->select('id', 'local')->get();
-        $tppele = DB::table('tp_cor_pele')->select('id', 'nome_cor')->get();
-        $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
-        $tp_uf = DB::select('select id, sigla from tp_uf');
-        $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
-        $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
-        $tpprograma = DB::table('tp_programa')->select('id', 'programa')->get();
-        $tpsetor = DB::table('setor')->select('id', 'nome')->get();
-        $tporg_exp = DB::select('select id, sigla from tp_orgao_exp');
-        $fator = DB::select('select id, nome_fator from tp_fator');
 
 
 
         //dd($tpsetor);
 
 
-        return view('/funcionarios/editar-funcionario', compact('editar', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator'));
+        return view('/funcionarios/editar-funcionario', compact('identidade', 'pessoa', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi'));
     }
 
 
-    public function update(Request $request, $idf, $idp)
+    public function update(Request $request, $idp)
     {
         $cpf = $request->cpf;
 
@@ -448,12 +520,12 @@ class GerenciarFuncionarioController extends Controller
 
 
             DB::table('funcionarios')
-                ->where('id', $idf)
+                ->where('id_pessoa', $idp)
                 ->update([
                     'dt_inicio' => $request->input('dt_ini'),
                     'matricula' => $request->input('matricula'),
-                    'tp_programa' => $request->input('programa'),
-                    'nr_programa' => $request->input('programa'),
+                    'tp_programa' => $request->input('tp_programa'),
+                    'nr_programa' => $request->input('nr_programa'),
                     'id_cor_pele' => $request->input('cor'),
                     'id_tp_sangue' => $request->input('tps'),
                     'fator_rh' => $request->input('fator'),
@@ -491,16 +563,16 @@ class GerenciarFuncionarioController extends Controller
 
     }
 
-    public function delete($idf)
+    public function delete($idp)
     {
 
-        $funcionario = DB::table('funcionarios')->where('id', $idf)->first();
+        $funcionario = DB::table('funcionarios')->select('funcionarios.id AS idf')->where('id_pessoa', $idp)->first();
 
         $dependentes = DB::select('select * from dependentes');
 
         foreach ($dependentes as $dependente) {
 
-            if ($idf == $dependente->id_funcionario) {
+            if ($funcionario->idf == $dependente->id_funcionario) {
                 app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
                 return redirect()->action([GerenciarFuncionarioController::class, 'index']);
             }
@@ -510,7 +582,7 @@ class GerenciarFuncionarioController extends Controller
 
         foreach ($certficado as $certificados) {
 
-            if ($idf == $certificados->id_funcionario) {
+            if ($funcionario->idf == $certificados->id_funcionario) {
                 app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois possui certificado cadastrado com o nome de $certificados->nome");
                 return redirect()->action([GerenciarFuncionarioController::class, 'index']);
             }
@@ -528,19 +600,19 @@ class GerenciarFuncionarioController extends Controller
         }
 
 
-        DB::table('funcionarios')->where('id', $idf)->delete();
+        DB::table('funcionarios')->where('id_pessoa', $idp)->delete();
 
 
         app('flasher')->addSuccess('O cadastro do funcionario foi Removido com Sucesso.');
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
     }
 
-    public function pes_func($idf)
+    public function pes_func($idp)
     {
 
         $up = DB::table('pessoas As p')
             ->select('p.nome_completo', 'p.celular', 'p.email')
-            ->where('id', $idf);
+            ->where('id', $idp);
 
 
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();

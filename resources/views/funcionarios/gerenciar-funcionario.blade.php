@@ -88,7 +88,7 @@
                                                 <td scope="" style="text-align: center;">Inativo</td>
                                             @endif
                                             <td scope="" style="text-align: center">
-                                                <a href="/editar-funcionario/{{ $listas->idf }}">
+                                                <a href="/editar-funcionario/{{ $listas->idp }}">
                                                     <button type="button" class="btn btn-outline-warning" data-tt="tooltip"
                                                         data-placement="top" title="Editar"><i class="bi-pencil"
                                                             style="font-size: 1rem; color:#303030;"></i>

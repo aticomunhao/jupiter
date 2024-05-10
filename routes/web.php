@@ -52,11 +52,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/gerenciar-funcionario', [GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
 Route::get('/informar-dados', [GerenciarFuncionarioController::class, 'create']);
 Route::any('/incluir-funcionario', [GerenciarFuncionarioController::class, 'store']);
-Route::get('/editar-funcionario/{idf}', [GerenciarFuncionarioController::class, 'edit']);
-Route::get('/excluir-funcionario/{idf}', [GerenciarFuncionarioController::class, 'delete']);
-Route::get('/pessoa-funcionario/{idf}', [GerenciarFuncionarioController::class, 'delete']);
+Route::get('/editar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'edit']);
+Route::get('/excluir-funcionario/{idp}', [GerenciarFuncionarioController::class, 'delete']);
+Route::get('/pessoa-funcionario/{idp}', [GerenciarFuncionarioController::class, 'delete']);
 Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
-Route::post('/atualizar-funcionario/{idp}/{idf}', [GerenciarFuncionarioController::class, 'update']);
+Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update']);
 
 
 /*Gerenciar usuário*/
