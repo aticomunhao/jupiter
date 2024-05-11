@@ -102,7 +102,7 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">Número de Identidade
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-control" name="identidade" name="matricula" maxlength="8"
+                                        class="form-control" name="identidade" maxlength="8"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="10" value="{{ $pessoa[0]->identidade }}">
                                     <div class="invalid-feedback">
@@ -309,7 +309,7 @@
                                             </span>
                                         </a>
                                         <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="titele" name="matricula" maxlength="12"
+                                            class="form-control" name="titele" maxlength="12"
                                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                             id="15" value="{{ $funcionario[0]->titulo_eleitor }}">
                                         <div class="invalid-feedback">
@@ -325,7 +325,7 @@
                                             </span>
                                         </a>
                                         <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="zona" name="matricula" maxlength="3"
+                                            class="form-control" name="zona" maxlength="3"
                                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                             id="16" value="{{ $funcionario[0]->zona_titulo }}">
                                         <div class="invalid-feedback">
@@ -340,7 +340,7 @@
                                             </span>
                                         </a>
                                         <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="secao" name="matricula" maxlength="4"
+                                            class="form-control" name="secao" maxlength="4"
                                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                             id="17" value="{{ $funcionario[0]->secao_titulo }}">
                                         <div class="invalid-feedback">
