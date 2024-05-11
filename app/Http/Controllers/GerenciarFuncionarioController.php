@@ -355,6 +355,8 @@ class GerenciarFuncionarioController extends Controller
         ->get();
 
         $endereco = DB::table('endereco_pessoas AS ep')
+        ->leftJoin('tp_cidade', 'ep.id_cidade', 'tp_cidade.id_cidade')
+        ->leftJoin('tp_uf', 'ep.id_uf_end', 'tp_uf.id')
         ->select(
             'ep.cep AS cep',
             'ep.id_uf_end AS uf_endereco',
@@ -362,13 +364,16 @@ class GerenciarFuncionarioController extends Controller
             'ep.logradouro AS logradouro',
             'ep.numero AS numero',
             'ep.bairro AS bairro',
-            'ep.complemento AS complemento'
+            'ep.complemento AS complemento',
+            'tp_cidade.descricao AS nome_cidade',
+            'tp_uf.sigla AS sigla_uf_endereco',
         )
         ->where('id_pessoa', $idp)
         ->get();
 
         //dd($pessoa, $funcionario, $endereco);
-
+        //Join com a tabela endereco
+        $tp_ufe = DB::select('select id, sigla from tp_uf');
 
         // Joins com a tabela pessoa
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
@@ -391,7 +396,7 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-        return view('/funcionarios/editar-funcionario', compact('identidade', 'pessoa', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi'));
+        return view('/funcionarios/editar-funcionario', compact('identidade', 'pessoa', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
     }
 
 

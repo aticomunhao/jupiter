@@ -15,7 +15,7 @@
                         <div class="card-header">
                             <div class="ROW">
                                 <h5 class="col-12" style="color: #355089">
-                                    Dados Pessoais
+                                    Incluir Dados Pessoais
                                 </h5>
                             </div>
                         </div>
@@ -147,7 +147,7 @@
                 </div>
             </div>
         </div>
-        </div>
+
         <div class="container-fluid">
             <div class="row justify-content-center">
                 <div class="col-12">
@@ -156,7 +156,7 @@
                         <div class="card-header">
                             <div class="ROW">
                                 <h5 class="col-12" style="color: #355089">
-                                    Dados do Funcionário
+                                    Incluir Dados do Funcionário
                                 </h5>
                             </div>
                         </div>
@@ -189,8 +189,7 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-4 col-sm-12">
-                                    CTPS
+                                <div class="col-md-4 col-sm-12">CTPS
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton1" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
                                         <span class="btn-circle">
@@ -230,7 +229,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3 col-sm-12">Data de emissão
+                                <div class="col-md-3 col-sm-12">Data de Emissão
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton4" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
                                         <span class="btn-circle">
@@ -244,7 +243,7 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-4 col-sm-12">Título eleitor
+                                <div class="col-md-4 col-sm-12">Título Eleitor
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton5" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
                                         <span class="btn-circle">
@@ -364,7 +363,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-2 col-sm-12">Tipo sangue
+                                <div class="col-md-2 col-sm-12">Tipo sanguíneo
                                     <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
                                         id="15" name="tps">
                                         <option value=""></option>
@@ -401,7 +400,7 @@
                         <div class="card-header">
                             <div class="ROW">
                                 <h5 class="col-12" style="color: #355089">
-                                    Dados Residenciais
+                                    Incluir Dados Residenciais
                                 </h5>
                             </div>
                         </div>
