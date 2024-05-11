@@ -22,7 +22,7 @@ class GerenciarFuncionarioController extends Controller
 
         $lista = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'p.id AS idp');
+            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'f.id_pessoa AS idp');
 
         $cpf = $request->cpf;
 
@@ -252,6 +252,7 @@ class GerenciarFuncionarioController extends Controller
             ]);
 
             DB::table('endereco_pessoas')->insert([
+                'id_pessoa' => $id_pessoa,
                 'cep' => str_replace('-', '', $request->input('cep')),
                 'id_uf_end' => $request->input('uf_end'),
                 'id_cidade' => $request->input('cidade'),
@@ -366,7 +367,7 @@ class GerenciarFuncionarioController extends Controller
         ->where('id_pessoa', $idp)
         ->get();
 
-        //dd($pessoa, $funcionario);
+        //dd($pessoa, $funcionario, $endereco);
 
 
         // Joins com a tabela pessoa

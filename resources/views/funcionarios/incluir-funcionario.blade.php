@@ -15,24 +15,13 @@
                         <div class="card-header">
                             <div class="ROW">
                                 <h5 class="col-12" style="color: #355089">
-                                    Dados Cadastrais
+                                    Dados Pessoais
                                 </h5>
                             </div>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3 col-sm-12">Número de Matrícula
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="numeric" maxlength="11"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="1" name="matricula" value="{{ old('matricula') }}" required="required">
-                                </div>
-                                <div class="col-md-2 col-sm-12">Data de Ingresso
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" id="13" name="dt_ini" value="{{ old('dt_ini') }}"
-                                        required="required">
-                                </div>
-                                <div class="col-md-4 col-sm-12">Nome completo
+                                <div class="col-md-4 col-sm-12">Nome Completo
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="text" maxlength="45"
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
@@ -44,6 +33,51 @@
                                         type="numeric" maxlength="11" placeholder="888.888.888-88"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="8" name="cpf" required="required">
+                                </div>
+                                <div class="col-md-3 col-sm-12">Data de Nascimento
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="date" value="{{ old('dt_nascimento') }}" id="3"
+                                        name="dt_nascimento" required="required">
+                                </div>
+                                <div class="col-md-2 col-sm-12">Sexo
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
+                                        id="4" name="sex" required="required">
+                                        <option value=""></option>
+                                        @foreach ($sexo as $sexos)
+                                            <option @if (old('sex') == $sexos->id) {{ 'selected="selected"' }} @endif
+                                                value="{{ $sexos->id }}">{{ $sexos->tipo }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-12">Nacionalidade
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
+                                        id="nacionalidade" name="pais" value="{{ old('pais') }}" required="required">
+                                        <option value=""></option>
+                                        @foreach ($nac as $nacs)
+                                            <option @if (old('pais') == $nacs->id) {{ 'selected="selected"' }} @endif
+                                                value="{{ $nacs->id }}">{{ $nacs->local }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-sm-12">UF de Nascimento
+                                    <select select class="form-select" style="border: 1px solid #999999; padding: 5px;"
+                                        data-placeholder="Choose one thing" name="uf_nat" required="required"
+                                        id="uf1">
+                                        <option value=""></option>
+                                        @foreach ($tp_uf as $tp_ufs)
+                                            <option @if (old('uf_nat') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
+                                                value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-5 col-sm-12">Naturalidade
+                                    <select class="form-select" id="cidade1" name="natura" value="{{ old('natura') }}"
+                                        required="required" disabled>
+                                    </select>
                                 </div>
                             </div>
                             <br>
@@ -84,17 +118,195 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-2 col-sm-12">Sexo
+                                <div class="col-md-6">E-mail
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="45" type="email" id="31" name="email"
+                                        value="{{ old('email') }}">
+                                </div>
+                                <div class="col-md-2 col-sm-12">DDD
                                     <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        id="4" name="sex" required="required">
+                                        id="16" name="ddd" required="required">
                                         <option value=""></option>
-                                        @foreach ($sexo as $sexos)
-                                            <option @if (old('sex') == $sexos->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $sexos->id }}">{{ $sexos->tipo }}</option>
+                                        <@foreach ($ddd as $ddds)
+                                            <option @if (old('ddd') == $ddds->id) {{ 'selected="selected"' }} @endif
+                                                value="{{ $ddds->id }}">{{ $ddds->descricao }}
+                                            </option>
+                                            @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-4 col-sm-12">Telefone/Celular
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="9" type="numeric"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        placeholder="Ex.: 99999-9999" value="{{ old('celular') }}" id="22"
+                                        name="celular">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <br>
+                    <div class="card" style="border-color: #355089;">
+                        <div class="card-header">
+                            <div class="ROW">
+                                <h5 class="col-12" style="color: #355089">
+                                    Dados do Funcionário
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">Número de Matrícula
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="numeric" maxlength="11"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="1" name="matricula" value="{{ old('matricula') }}"
+                                        required="required">
+                                </div>
+                                <div class="col-md-3 col-sm-12">Data de Ingresso
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="date" id="13" name="dt_ini" value="{{ old('dt_ini') }}"
+                                        required="required">
+                                </div>
+                                <div class="col-md-5">Setor Alocado
+                                    <select class="js-example-responsive form-select"
+                                        style="border: 1px solid #999999; padding: 5px;" required="required"
+                                        id="setor" name="setor" required="required">
+                                        <option value=""></option>
+                                        @foreach ($setor as $setores)
+                                            <option @if (old('setor') == $setores->id) {{ 'selected="selected"' }} @endif
+                                                value="{{ $setores->id }}">{{ $setores->nome }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-2 col-sm-12">Cor pele
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">
+                                    CTPS
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton1" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="8" type="numeric" id="23" name="ctps"
+                                        value="{{ old('ctps') }}" required="required">
+                                </div>
+                                <div class="col-md-3 col-sm-12">Série
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton2" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="5" type="numeric" id="26" name="serie_ctps"
+                                        value="{{ old('serie_ctps') }}" required="required">
+                                </div>
+                                <div class="col-md-2 col-sm-12">UF
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton3" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <select class="js-example-responsive form-select"
+                                        style="border: 1px solid #999999; padding: 5px;" required="required"
+                                        id="uf_ctps" name="uf_ctps" required="required">
+                                        <option value=""></option>
+                                        @foreach ($tp_uf as $tp_ufs)
+                                            <option @if (old('uf_ctps') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
+                                                value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-sm-12">Data de emissão
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton4" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="date" id="24" name="dt_ctps" value="{{ old('dt_ctps') }}"
+                                        required="required">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">Título eleitor
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton5" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="12" type="numeric" id="17" name="titele"
+                                        value="{{ old('titele') }}">
+                                </div>
+                                <div class="col-md-3 col-sm-12">Zona
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton6" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="5" type="numeric" id="18" name="zona"
+                                        value="{{ old('zona') }}">
+                                </div>
+                                <div class="col-md-3 col-sm-12">Seção
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton7" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="5" type="numeric" id="19" name="secao"
+                                        value="{{ old('secao') }}">
+                                </div>
+                                <div class="col-md-2 col-sm-12">Data emissão
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton8" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="date" id="20" name="dt_titulo" value="{{ old('dt_titulo') }}">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12">Tipo Programa
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
+                                        id="9" name="tp_programa" required="required">
+                                        <option value=""></option>
+                                        @foreach ($programa as $programas)
+                                            <option @if (old('tp_programa') == $programas->id) {{ 'selected="selected"' }} @endif
+                                                value="{{ $programas->id }}">{{ $programas->programa }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-sm-12">Número do PIS ou PASEP
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="11" type="numeric" id="10" name="nr_programa"
+                                        value="{{ old('nr_programa') }}" required="required">
+                                </div>
+                                <div class="col-md-3 col-sm-12">Cor pele
                                     <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
                                         id="14" name="cor" required="required">
                                         <option value=""></option>
@@ -103,6 +315,53 @@
                                                 value="{{ $cors->id }}">{{ $cors->nome_cor }}
                                             </option>
                                             @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">Ascendente 1
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton9" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="text" maxlength="45"
+                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="29" name="nome_mae" value="{{ old('nome_mae') }}"
+                                        required="required">
+                                </div>
+                                <div class="col-md-6 col-sm-12">Ascendente 2
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton10" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="text" maxlength="45"
+                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="30" name="nome_pai" value="{{ old('nome_pai') }}">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-12">Número de Reservista
+                                    <input class="form-control" maxlength="12" type="numeric" id="28"
+                                        style="border: 1px solid #999999; padding: 5px;" name="reservista"
+                                        value="{{ old('reservista') }}">
+                                </div>
+                                <div class="col-md-2 col-sm-12">Cat CNH
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
+                                        id="32" name="cnh">
+                                        <option value=""></option>
+                                        @foreach ($cnh as $cnhs)
+                                            <option @if (old('cnh') == $cnhs->id) {{ 'selected="selected"' }} @endif
+                                                value="{{ $cnhs->id }}">{{ $cnhs->nome_cat }}
+                                            </option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">Tipo sangue
@@ -127,192 +386,12 @@
                                             @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-3 col-sm-12">Data de Nascimento
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" value="{{ old('dt_nascimento') }}" id="3"
-                                        name="dt_nascimento" required="required">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-5 col-sm-12">Nacionalidade
-                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        id="nacionalidade" name="pais" value="{{ old('pais') }}"
-                                        required="required">
-                                        <option value=""></option>
-                                        @foreach ($nac as $nacs)
-                                            <option @if (old('pais') == $nacs->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $nacs->id }}">{{ $nacs->local }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-2 col-sm-12">UF de Nascimento
-                                    <select select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        data-placeholder="Choose one thing" name="uf_nat" required="required"
-                                        id="uf1">
-                                        <option value=""></option>
-                                        @foreach ($tp_uf as $tp_ufs)
-                                            <option @if (old('uf_nat') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-5 col-sm-12">Naturalidade
-                                    <select class="form-select" id="cidade1" name="natura"
-                                        value="{{ old('natura') }}" required="required" disabled>
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-2 col-sm-12">DDD
-                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        id="16" name="ddd" required="required">
-                                        <option value=""></option>
-                                        <@foreach ($ddd as $ddds)
-                                            <option @if (old('ddd') == $ddds->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $ddds->id }}">{{ $ddds->descricao }}
-                                            </option>
-                                            @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4 col-sm-12">Telefone/Celular
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="9" type="numeric"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        placeholder="Ex.: 99999-9999" value="{{ old('celular') }}" id="22"
-                                        name="celular">
-                                </div>
-                                <div class="col-md-4 col-sm-12">Número de Reservista
-                                    <input class="form-control" maxlength="12" type="numeric" id="28" style="border: 1px solid #999999; padding: 5px;"
-                                        name="reservista" value="{{ old('reservista') }}">
-                                </div>
-                                <div class="col-md-2 col-sm-12">Cat CNH
-                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        id="32" name="cnh">
-                                        <option value=""></option>
-                                        @foreach ($cnh as $cnhs)
-                                            <option @if (old('cnh') == $cnhs->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $cnhs->id }}">{{ $cnhs->nome_cat }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-6 col-sm-12">Ascendente 1/Mãe
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="text" maxlength="45"
-                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="29" name="nome_mae" value="{{ old('nome_mae') }}"
-                                        required="required">
-                                </div>
-                                <div class="col-md-6 col-sm-12">Ascendente 2/Pai
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="text" maxlength="45"
-                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="30" name="nome_pai" value="{{ old('nome_pai') }}">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-6">E-mail
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="45" type="email" id="31" name="email"
-                                        value="{{ old('email') }}">
-                                </div>
-                                <div class="col-md-6">Setor Alocado
-                                    <select class="js-example-responsive form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" required="required"
-                                        id="setor" name="setor" required="required">
-                                        <option value=""></option>
-                                        @foreach ($setor as $setores)
-                                            <option @if (old('setor') == $setores->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $setores->id }}">{{ $setores->nome }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-4 col-sm-12">Título eleitor
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="12" type="numeric" id="17" name="titele"
-                                        value="{{ old('titele') }}">
-                                </div>
-                                <div class="col-md-3 col-sm-12">Zona
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="5" type="numeric" id="18" name="zona"
-                                        value="{{ old('zona') }}">
-                                </div>
-                                <div class="col-md-3 col-sm-12">Seção
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="5" type="numeric" id="19" name="secao"
-                                        value="{{ old('secao') }}">
-                                </div>
-                                <div class="col-md-2 col-sm-12">Data emissão
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" id="20" name="dt_titulo" value="{{ old('dt_titulo') }}">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-3 col-sm-12">Tipo Programa
-                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        id="9" name="tp_programa" required="required">
-                                        <option value=""></option>
-                                        @foreach ($programa as $programas)
-                                            <option @if (old('tp_programa') == $programas->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $programas->id }}">{{ $programas->programa }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-5 col-sm-12">Número do PIS ou PASEP
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="11" type="numeric" id="10" name="nr_programa"
-                                        value="{{ old('nr_programa') }}" required="required">
-                                </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                                <div class="col-md-4 col-sm-12">Número do CTPS
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="8" type="numeric" id="23" name="ctps"
-                                        value="{{ old('ctps') }}" required="required">
-                                </div>
-                                <div class="col-md-3 col-sm-12">Série
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="5" type="numeric" id="26" name="serie_ctps"
-                                        value="{{ old('serie_ctps') }}" required="required">
-                                </div>
-                                <div class="col-md-2 col-sm-12">UF do CTPS
-                                    <select class="js-example-responsive form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" required="required"
-                                        id="uf_ctps" name="uf_ctps" required="required">
-                                        <option value=""></option>
-                                        @foreach ($tp_uf as $tp_ufs)
-                                            <option @if (old('uf_ctps') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-3 col-sm-12">Data de emissão
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" id="24" name="dt_ctps" value="{{ old('dt_ctps') }}"
-                                        required="required">
-                                </div>
                             </div>
                             <br>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
         <div class="container-fluid">
             <div class="row justify-content-center">
@@ -481,4 +560,76 @@
             });
         });
     </script>
+
+    <script>
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl)
+        })
+        const popover = new bootstrap.Popover('.popover-dismiss', {
+            trigger: 'focus'
+        })
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            function customizePopover(popoverButton, content) {
+                var popover = new bootstrap.Popover(popoverButton, {
+                    content: content,
+                    placement: "top"
+                });
+
+                popoverButton.addEventListener('shown.bs.popover', function() {
+                    var popoverElement = document.querySelector('.popover');
+                    popoverElement.style.borderRadius =
+                        '10px'; // Define o raio da borda para 10px (ou o valor que desejar)
+                    popoverElement.style.backgroundColor = 'rgb(134, 179, 246)'; // Cor de fundo azul
+                });
+            }
+
+            var popoverButton1 = document.getElementById('popoverButton1');
+            customizePopover(popoverButton1, 'Número do CTPS');
+
+            var popoverButton2 = document.getElementById('popoverButton2');
+            customizePopover(popoverButton2, 'Série do CTPS');
+
+            var popoverButton3 = document.getElementById('popoverButton3');
+            customizePopover(popoverButton3, 'UF do CTPS');
+
+            var popoverButton4 = document.getElementById('popoverButton4');
+            customizePopover(popoverButton4, 'Data de Emissão do CTPS');
+
+            var popoverButton5 = document.getElementById('popoverButton5');
+            customizePopover(popoverButton5, 'Número do Título de Eleitor');
+
+            var popoverButton6 = document.getElementById('popoverButton6');
+            customizePopover(popoverButton6, 'Zona do Título de Eleitor');
+
+            var popoverButton7 = document.getElementById('popoverButton7');
+            customizePopover(popoverButton7, 'Seção do Título de Eleitor');
+
+            var popoverButton8 = document.getElementById('popoverButton8');
+            customizePopover(popoverButton8, 'Data de Emissão do Título de Eleitor');
+
+            var popoverButton9 = document.getElementById('popoverButton9');
+            customizePopover(popoverButton9, 'Pai/Mãe');
+
+            var popoverButton10 = document.getElementById('popoverButton10');
+            customizePopover(popoverButton10, 'Pai/Mãe');
+        });
+    </script>
+
+    <style>
+        /* Estilo para centralizar o conteúdo do botão */
+        .btn-circle {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #999999;
+            /* Espaçamento entre o círculo e o texto */
+        }
+    </style>
 @endsection

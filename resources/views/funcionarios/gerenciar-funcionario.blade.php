@@ -94,7 +94,7 @@
                                                             style="font-size: 1rem; color:#303030;"></i>
                                                     </button>
                                                 </a>
-                                                <a href="/pessoas-funcionario/{{ $listas->idf }}">
+                                                <a href="/pessoas-funcionario/{{ $listas->idp }}">
                                                     <button type="button" class="btn btn-outline-primary" data-tt="tooltip"
                                                         data-placement="top" title="Visualizar"><i class="bi-search"
                                                             style="font-size: 1rem; color:#303030;"></i>
@@ -148,8 +148,9 @@
                                                         style="font-size: 1rem; color:#303030;" data-tt="tooltip"
                                                         data-placement="top" title="Inativar"></i></button>
                                                 <!-- <a href="/excluir-funcionario/{{ $listas->idf }}"><button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal fader" data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idf }}"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                                                                                            -->
+                                                                                                                            -->
                                             </td>
+
                                             <!-- Modal -->
                                             <div>
                                                 <div class="modal fade" id="A{{ $listas->cpf }}-{{ $listas->idf }}"
@@ -189,10 +190,15 @@
                             </table>
                         </div>
                     </div>
+                    <div style="margin-right: 10px; margin-left: 10px">
+                        {{ $lista->links('pagination::bootstrap-5') }}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
