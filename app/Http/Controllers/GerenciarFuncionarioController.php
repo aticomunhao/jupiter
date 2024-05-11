@@ -144,7 +144,7 @@ class GerenciarFuncionarioController extends Controller
                     'uf_idt' => $request->input('uf_idt'),
                     'dt_emissao_idt' => $request->input('dt_idt'),
                     'dt_nascimento' => $request->input('dt_nascimento'),
-                    'sexo' => $request->input('sexo'),
+                    'sexo' => $request->input('sex'),
                     'nacionalidade' => $request->input('pais'),
                     'uf_natural' => $request->input('uf_nat'),
                     'naturalidade' => $request->input('natura'),
@@ -210,7 +210,7 @@ class GerenciarFuncionarioController extends Controller
                 'uf_idt' => $request->input('uf_idt'),
                 'dt_emissao_idt' => $request->input('dt_idt'),
                 'dt_nascimento' => $request->input('dt_nascimento'),
-                'sexo' => $request->input('sexo'),
+                'sexo' => $request->input('sex'),
                 'nacionalidade' => $request->input('pais'),
                 'uf_natural' => $request->input('uf_nat'),
                 'naturalidade' => $request->input('natura'),
@@ -389,96 +389,6 @@ class GerenciarFuncionarioController extends Controller
         $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
         $tpsetor = DB::table('setor')->select('id', 'nome')->get();
 
-
-
-
-    /*    $editar = DB::table('funcionarios AS f')
-            ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->leftjoin('tp_sangue', 'tp_sangue.id', 'f.id_tp_sangue')
-            ->leftjoin('tp_programa', 'tp_programa.id', 'f.tp_programa')
-            ->leftjoin('tp_sexo', 'tp_sexo.id', 'p.sexo')
-            ->leftjoin('tp_nacionalidade AS tn', 'tn.id', 'p.nacionalidade')
-            ->leftjoin('tp_cor_pele', 'tp_cor_pele.id', 'f.id_cor_pele')
-            ->leftjoin('tp_ddd', 'tp_ddd.id', 'p.ddd')
-            ->leftjoin('tp_orgao_exp', 'tp_orgao_exp.id', 'p.orgao_expedidor')
-            ->leftjoin('tp_uf', 'tp_uf.id', 'p.uf_natural')
-            ->leftjoin('tp_cidade AS tc', 'tc.id_cidade', 'p.naturalidade')
-            ->leftjoin('tp_cnh AS tpcnh', 'tpcnh.id', 'f.id_cat_cnh')
-            ->leftjoin('setor AS s', 's.id', 'f.id_setor')
-            ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
-            ->leftjoin('tp_fator', 'tp_fator.id', 'f.fator_rh')
-            ->select(
-                'f.id_pessoa AS idp',
-                'f.id AS idf',
-                'p.nome_completo',
-                'f.matricula',
-                'f.titulo_eleitor',
-                'f.zona_tit',
-                'f.secao_tit',
-                'f.dt_titulo',
-                'f.dt_inicio',
-                'p.celular',
-                'f.dt_emissao_ctps',
-                'f.ctps',
-                'f.serie',
-                'f.uf_ctps',
-                'f.reservista',
-                'f.nome_pai',
-                'f.nome_mae',
-                'p.email',
-                'f.id_cat_cnh',
-                'tpcnh.id AS tpcn',
-                'tpcnh.nome_cat AS nmcnh',
-                'p.orgao_expedidor',
-                'p.cpf',
-                'p.idt',
-                'p.dt_emissao_idt',
-                'p.nacionalidade',
-                'tp_sangue.id',
-                'p.dt_nascimento',
-                'tp_sangue.id AS tpsang',
-                'tp_sangue.nome_sangue AS nmsangue',
-                'tp_sexo.id AS id_tps',
-                'tp_sexo.tipo AS tps',
-                'tp_programa.id AS tpprog',
-                'tp_programa.programa AS prog',
-                'tn.id AS tpnac',
-                'tn.local AS tnl',
-                'tp_cor_pele.id AS tpcor',
-                'tp_cor_pele.nome_cor AS nmpele',
-                'tp_ddd.id AS tpd',
-                'tp_ddd.descricao AS dddesc',
-                'tp_uf.id AS tuf',
-                'tp_uf.sigla AS ufsgl',
-                'p.uf_natural',
-                'p.uf_idt AS ufIdt',
-                'p.naturalidade',
-                'tc.id_cidade',
-                'tc.descricao AS nat',
-                'f.id_setor',
-                's.id AS ids',
-                's.nome AS setnome',
-                'endp.cep',
-                'endp.logradouro',
-                'endp.numero',
-                'endp.bairro',
-                'endp.complemento',
-                'tp_orgao_exp.sigla AS orgexp_sigla',
-                'tp_fator.nome_fator',
-                'tp_fator.id AS idFator'
-
-            )
-            ->where('f.id_pessoa', $idp)
-            ->get();
-
-        //dd($editar);
-
-*/
-
-
-
-
-        //dd($tpsetor);
 
 
         return view('/funcionarios/editar-funcionario', compact('identidade', 'pessoa', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi'));
