@@ -143,42 +143,33 @@
                                                 </a>
                                                 <button type="button" class="btn btn-outline-danger"
                                                     data-bs-toggle="modal"
-                                                    data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idf }}"
+                                                    data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idp }}"
                                                     class="btn btn-outline-danger btn-sm"><i class="bi-trash"
                                                         style="font-size: 1rem; color:#303030;" data-tt="tooltip"
                                                         data-placement="top" title="Inativar"></i></button>
-                                                <!-- <a href="/excluir-funcionario/{{ $listas->idf }}"><button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal fader" data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idf }}"><i class="bi-trash" style="font-size: 1rem; color:#303030;"></i></button></a>
-                                                                                                                            -->
                                             </td>
 
                                             <!-- Modal -->
-                                            <div>
-                                                <div class="modal fade" id="A{{ $listas->cpf }}-{{ $listas->idf }}"
-                                                    tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                    aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <h5 class="modal-title" id="exampleModalLabel">Excluir
-                                                                    Funcionário</h5>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p class="fw-bold alert alert-danger text-center">Você
-                                                                    realmente deseja excluir:
-                                                                    <br>
-                                                                    {{ $listas->nome_completo }}
-                                                                </p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-danger"
-                                                                    data-bs-dismiss="modal">Cancelar
-                                                                </button>
-                                                                <a href="/excluir-funcionario/{{ $listas->idf }}">
-                                                                    <button type="button"
-                                                                        class="btn btn-primary">Confirmar
-                                                                    </button>
+                                            <div class="modal fade" id="A{{ $listas->cpf }}-{{ $listas->idp }}" tabindex="-1"
+                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header" style="background-color:#DC4C64;">
+                                                            <h5 class="modal-title" id="exampleModalLabel" style=" color:rgb(255, 255, 255)">Excluir Funcionário</h5>
+                                                            <button type="button" class="btn-close"
+                                                                data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body" style="text-align: center">
+                                                            Você realmente deseja excluir <br><span
+                                                                style="color:#DC4C64; font-weight: bold">{{ $listas->nome_completo }}</span> ?
+
+                                                        </div>
+                                                        <div class="modal-footer mt-2">
+                                                            <button type="button" class="btn btn-danger"
+                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                            <a type="button" class="btn btn-primary"
+                                                            href="/excluir-funcionario/{{ $listas->idp }}">Confirmar
                                                                 </a>
-                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -35,7 +35,7 @@ class GerenciarEfetivoController extends Controller
                 'bs.cargo',
                 'bs.funcao_gratificada',
                 'f.dt_inicio as dt_inicio_funcionario',
-                'p.nome_completo',
+                'p.nome_completo AS nome_completo',
                 'cr.nome AS nome_cargo_regular',
                 'fg.nome AS nome_funcao_gratificada',
                 'p.celular',
@@ -50,7 +50,7 @@ class GerenciarEfetivoController extends Controller
             $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->sum('vagas_autorizadas');
         }
 
-        $base = $base->get();
+        $base = $base->orderBy('nome_completo')->paginate(10);
 
 
 
@@ -68,6 +68,8 @@ class GerenciarEfetivoController extends Controller
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
             ->select('setor.id AS id_setor', 'setor.nome')
             ->get();
+
+
 
         return view('efetivo.gerenciar-efetivo', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId'));
     }

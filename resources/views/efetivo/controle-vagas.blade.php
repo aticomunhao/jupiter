@@ -95,7 +95,8 @@
                                         value="{{ $pesquisa }}">
                                     {{-- Botão de incluir --}}
                                     <a href="/incluir-vagas/" class="col">
-                                        <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; width: 200px;"
+                                        <button type="button"
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; width: 200px;"
                                             class="btn btn-success">
                                             Novo+
                                         </button>
@@ -203,46 +204,35 @@
                                                         </a>
 
                                                         <!-- Modal -->
-
-                                                        <div class="modal fade" id="A{{ $vagaDois->idVagas }}"
-                                                            tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                            aria-hidden="true">
+                                                        <div class="modal fade"
+                                                            id="A{{ $vagaDois->idVagas }}" tabindex="-1"
+                                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header"
-                                                                        style="background-color: rgb(241, 119, 119)">
-                                                                        <div class="row">
-                                                                            <h2>
-                                                                                Excluir Vagas
-                                                                            </h2>
-                                                                        </div>
+                                                                        style="background-color:#DC4C64;">
+                                                                        <h5 class="modal-title" id="exampleModalLabel"
+                                                                            style=" color:rgb(255, 255, 255)">Excluir
+                                                                            Vagas</h5>
                                                                         <button type="button" class="btn-close"
-                                                                            data-bs-dismiss="modal" aria-label="Close">
-                                                                        </button>
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
                                                                     </div>
-                                                                    <div class="modal-body">
-                                                                        <p class="fw-bold alert text-center"
-                                                                            style="font-size: 20px">
-                                                                            Tem certeza que deseja excluir estas vagas?
-                                                                        </p>
+                                                                    <div class="modal-body" style="text-align: center">
+                                                                        Você realmente deseja excluir estas vagas?
                                                                     </div>
-                                                                    <div class="modal-footer">
+                                                                    <div class="modal-footer mt-2">
                                                                         <button type="button" class="btn btn-danger"
-                                                                            data-bs-dismiss="modal">
-                                                                            Cancelar
-                                                                        </button>
-                                                                        <a href="/excluir-vagas/{{ $vagaDois->idVagas }}">
-                                                                            <button type="button"
-                                                                                class="btn btn-primary">
-                                                                                Confirmar
-                                                                            </button>
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <a type="button" class="btn btn-primary"
+                                                                        href="/excluir-vagas/{{ $vagaDois->idVagas }}">Confirmar
                                                                         </a>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <!--Fim Modal-->
                                                     </td>
-
                                                 </tr>
                                                 @php
                                                     $totalFuncionarios2 += $vagaDois->gato->first()->quantidade;

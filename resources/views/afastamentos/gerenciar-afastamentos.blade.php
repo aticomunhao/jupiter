@@ -23,7 +23,8 @@
                             </div>
                             <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
                                 <a href="/incluir-afastamentos/{{ $funcionario->funcionario_id }}" class="col-6">
-                                    <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;" class="btn btn-success col-md-8 col-12">
+                                    <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;"
+                                        class="btn btn-success col-md-8 col-12">
                                         Novo+
                                     </button>
                                 </a>
@@ -75,66 +76,53 @@
                                                             </i>
                                                         </a>
                                                     @endif
-                                                            <!--Botao de Editar-->
-                                                            <a href="/editar-afastamentos/{{ $afastamento->id }}"
-                                                                class="btn btn-outline-warning" data-tt="tooltip"
-                                                                style="font-size: 1rem; color:#303030" data-placement="top"
-                                                                title="Editar">
-                                                                <i class="bi bi-pencil">
-                                                                </i>
-                                                            </a>
+                                                    <!--Botao de Editar-->
+                                                    <a href="/editar-afastamentos/{{ $afastamento->id }}"
+                                                        class="btn btn-outline-warning" data-tt="tooltip"
+                                                        style="font-size: 1rem; color:#303030" data-placement="top"
+                                                        title="Editar">
+                                                        <i class="bi bi-pencil">
+                                                        </i>
+                                                    </a>
 
-                                                            <!-- Botao de excluir, trigger modal -->
-                                                            <a>
-                                                                <button type="button"
-                                                                    class="btn btn-outline-danger delete-btn"
-                                                                    style="font-size: 1rem; color:#303030"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#A{{ $afastamento->id }}">
-                                                                    <i class="bi bi-trash">
-                                                                    </i>
-                                                                </button>
-                                                            </a>
-
+                                                    <!-- Botao de excluir, trigger modal -->
+                                                    <a>
+                                                        <button type="button" class="btn btn-outline-danger delete-btn"
+                                                            style="font-size: 1rem; color:#303030" data-bs-toggle="modal"
+                                                            data-bs-target="#A{{ $afastamento->id }}">
+                                                            <i class="bi bi-trash">
+                                                            </i>
+                                                        </button>
+                                                    </a>
                                                     <!-- Modal -->
-
-                                                    <div class="modal fade" id="A{{ $afastamento->id }}" tabindex="-1"
-                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal fade" id="A{{ $afastamento->id }}"
+                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
-                                                                <div class="modal-header">
-                                                                    <div class="row">
-                                                                        <h2>
-                                                                            Excluir Afastamento
-                                                                        </h2>
-                                                                    </div>
+                                                                <div class="modal-header" style="background-color:#DC4C64;">
+                                                                    <h5 class="modal-title" id="exampleModalLabel"
+                                                                        style=" color:rgb(255, 255, 255)">Excluir Afastamento</h5>
                                                                     <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close">
-                                                                    </button>
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
-                                                                <div class="modal-body">
-                                                                    <p class="fw-bold alert alert-danger text-center">
-                                                                        Você realmente deseja
-                                                                        <br>
-                                                                        <span class="fw-bolder fs-5">
-                                                                            EXCLUIR {{ $afastamento->nome }}
-                                                                        </span>
-                                                                    </p>
+                                                                <div class="modal-body" style="text-align: center">
+                                                                    Você realmente deseja excluir <br><span
+                                                                        style="color:#DC4C64; font-weight: bold">{{ $afastamento->nome }}</span>
+                                                                    ?
+
                                                                 </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-secondary"
-                                                                        data-bs-dismiss="modal">
-                                                                        Cancelar
-                                                                    </button>
-                                                                    <a href="/excluir-afastamento/{{ $afastamento->id }}">
-                                                                        <button type="button" class="btn btn-danger">
-                                                                            Excluir
-                                                                        </button>
+                                                                <div class="modal-footer mt-2">
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-bs-dismiss="modal">Cancelar</button>
+                                                                    <a type="button" class="btn btn-primary"
+                                                                    href="/excluir-afastamento/{{ $afastamento->id }}">Confirmar
                                                                     </a>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    <!--Fim Modal-->
                                                 </td>
                                             </tr>
                                         @endforeach

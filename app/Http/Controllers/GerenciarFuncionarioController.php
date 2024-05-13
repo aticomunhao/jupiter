@@ -101,6 +101,8 @@ class GerenciarFuncionarioController extends Controller
 
         $vercpf = DB::table('pessoas')->where('cpf', $cpf)->exists();
 
+        $verendereco = DB::table('')
+
         $verpessoa = DB::select("
             SELECT EXISTS (
                 SELECT *
@@ -371,7 +373,7 @@ class GerenciarFuncionarioController extends Controller
         ->where('id_pessoa', $idp)
         ->get();
 
-        //dd($pessoa, $funcionario, $endereco);
+        dd($pessoa, $funcionario, $endereco);
         //Join com a tabela endereco
         $tp_ufe = DB::select('select id, sigla from tp_uf');
 
@@ -482,14 +484,17 @@ class GerenciarFuncionarioController extends Controller
     public function delete($idp)
     {
 
-        $funcionario = DB::table('funcionarios')->select('funcionarios.id AS idf')->where('id_pessoa', $idp)->first();
+        $funcionario = DB::table('funcionarios')->select('funcionarios.id AS idf')->where('id_pessoa', $idp)->get();
 
         $dependentes = DB::select('select * from dependentes');
+
+        $funcionario = $funcionario[0];
+        //dd($dependentes, $funcionario);
 
         foreach ($dependentes as $dependente) {
 
             if ($funcionario->idf == $dependente->id_funcionario) {
-                app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
+                app('flasher')->addWarning("Não foi possivel excluir o funcionário, pois o dependente $dependente->nome_dependente está cadastrado");
                 return redirect()->action([GerenciarFuncionarioController::class, 'index']);
             }
         }
@@ -499,7 +504,7 @@ class GerenciarFuncionarioController extends Controller
         foreach ($certficado as $certificados) {
 
             if ($funcionario->idf == $certificados->id_funcionario) {
-                app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois possui certificado cadastrado com o nome de $certificados->nome");
+                app('flasher')->addWarning("Não foi possivel excluir o funcionário, pois possui certificado cadastrado com o nome de $certificados->nome");
                 return redirect()->action([GerenciarFuncionarioController::class, 'index']);
             }
         }
@@ -511,7 +516,7 @@ class GerenciarFuncionarioController extends Controller
         foreach ($dados_bancario as $dados_bancarios) {
             if ($funcionario->id_pessoa == $dados_bancarios->id_pessoa) {
 
-                app('flasher')->addWarning("Não foi possivel excluir o funcionario, pois o dependente  de nome $dependente->nome_dependente esta cadastrado");
+                app('flasher')->addWarning("Não foi possivel excluir o funcionário, pois o dependente $dependente->nome_dependente está cadastrado");
             }
         }
 
@@ -519,7 +524,7 @@ class GerenciarFuncionarioController extends Controller
         DB::table('funcionarios')->where('id_pessoa', $idp)->delete();
 
 
-        app('flasher')->addSuccess('O cadastro do funcionario foi Removido com Sucesso.');
+        app('flasher')->addSuccess('O cadastro do funcionário foi Removido com Sucesso.');
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
     }
 
