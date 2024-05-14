@@ -107,24 +107,24 @@
                                     <div class="modal fade" id="excluir{{$lista_associados->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
-                                                <div class="modal-header" style="background-color:rgba(202, 61, 61, 0.911);">
+                                                <div class="modal-header" style="background-color:#DC4C64;">
                                                     <div class="row">
-                                                        <h2 style="color:white;">Excluir Associado</h2>
+                                                        <h5 style="color:white;">Excluir Associado</h5>
                                                     </div>
 
                                                 </div>
-                                                <div class="modal-body" style="color:#e24444;">
-                                                    <p class="fw-bold alert alert text-center">
+                                                <div class="modal-body" >
+                                                    <div class="alert alert text-center">
                                                         Você
                                                         realmente deseja excluir o Associado:
-                                                        <span>{{ $lista_associados->nome_completo}}</span>
+                                                        <br>
+                                                        <span class="fw-bold" style="color:#DC4C64;">{{ $lista_associados->nome_completo}}</span>
 
-                                                    </p>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                                                    <a href="/excluir-associado/{{ $lista_associados->id }}"><button type="button" class="btn btn-danger">Desativar
-                                                            Permanentemente
+                                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                                    <a href="/excluir-associado/{{ $lista_associados->id }}"><button type="button" class="btn btn-primary">Confirmar
                                                         </button></a>
                                                 </div>
                                             </div>
@@ -142,7 +142,7 @@
                                 <div class="modal fade bd-example-modal-lg" id="armazenar{{$lista_associados->id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg" role="document">
                                         <div class="modal-content">
-                                            <div class="modal-header">
+                                            <div class="modal-header" >
                                                 <h5 class="modal-title" id="exampleModalLabel">Documento Autorização Débito em Conta</h5>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                                                     <span aria-hidden="true">&times;</span>
@@ -163,7 +163,7 @@
                                                                 <div class="form-group">
                                                                     <label for="exampleFormControlFile1">
                                                                         <h6>Carregar Arquivo</h6>
-                                                                    
+
                                                                     </label>
                                                                     <input type="file" class="form-control-file" id="exampleFormControlFile1" name="arquivo">
                                                                 </div>

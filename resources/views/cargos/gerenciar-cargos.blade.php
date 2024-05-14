@@ -26,12 +26,12 @@
                                     {{-- Input de pesquisa --}}
                                 </div>
                                 <div class="col-md-8 col-12">
-                                    <button class="btn btn-light col-md-3 col-12 mt-5 mt-md-0 "
+                                    <button class="btn btn-light btn-sm "
                                         style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"{{-- Botao submit do formulario de pesquisa --}}
                                         type="submit">Pesquisar
                                     </button>
                                     <a href="/incluir-cargos" {{-- Botao com rota para incluir cargo --}}
-                                        class="btn btn-success col-md-3 col-12 offset-md-5 mt-4 mt-md-0"
+                                        class="btn btn-success offset-md-6"
                                         style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;">
                                         Novo+
                                     </a>

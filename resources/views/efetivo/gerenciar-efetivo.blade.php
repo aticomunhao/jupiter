@@ -33,10 +33,13 @@
                                     </div>
                                     <div class="col" style="padding-top:24px;">
                                         <a href="/gerenciar-efetivo" type="button" class="btn btn-light"
-                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px; margin-right: 5px"
+                                            style="box-shadow: 1px 2px 5px #000000; margin-right: 5px"
                                             value="">Limpar</a>
-                                        <input type="submit" value="Pesquisar" class="btn btn-success btn-light"
-                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 200px;">
+                                        <button class="btn btn-light btn-sm "
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"{{-- Botao submit do formulario de pesquisa --}}
+                                            type="submit">Pesquisar
+                                        </button>
+
                                     </div>
                                 </div>
                                 <br>

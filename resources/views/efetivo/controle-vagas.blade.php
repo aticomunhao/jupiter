@@ -87,16 +87,16 @@
                                 </div>
                                 <div class="col" style="padding-top:20px;">
                                     <a href="/controle-vagas" type="button" class="btn btn-light"
-                                        style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 150px; margin-right: 5px"
+                                        style="box-shadow: 1px 2px 5px #000000; margin-right: 5px"
                                         value="">Limpar</a>
                                     <input type="submit" value="Pesquisar" class="btn btn-success btn-light"
-                                        style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; width: 200px;">
+                                        style="box-shadow: 1px 2px 5px #000000;">
                                     <input type="hidden" name="tipo_pesquisa" id="tipoPesquisa"
                                         value="{{ $pesquisa }}">
                                     {{-- Botão de incluir --}}
                                     <a href="/incluir-vagas/" class="col">
                                         <button type="button"
-                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; width: 200px;"
+                                            style="box-shadow: 1px 2px 5px #000000;"
                                             class="btn btn-success">
                                             Novo+
                                         </button>
