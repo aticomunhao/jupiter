@@ -5,87 +5,101 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Hash;
+use Str;
+use Intervention\Image\Facades\Image;
+
 
 class PhotoController extends Controller
 {
     public function showCaptureForm($ida)
     {
-        //dd($ida);
 
-        $lista_associado = DB::table('associado AS ass')
-        ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
-        ->where('ass.id', $ida)
-        ->select(
-           'ass.nr_associado',
-           'ass.id',
-           'p.nome_completo',
-           'ass.dt_inicio',  
-           'ass.dt_fim'
-        )->get();
 
-    //    dd($foto_associado);
+        $associado = DB::table('associado AS ass')
+            ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
+            ->where('ass.id', $ida)
+            ->select(
+                'ass.nr_associado',
+                'ass.id',
+                'p.nome_completo',
+                'ass.dt_inicio',
+                'ass.dt_fim'
+            )->first();;
+        //    dd($foto_associado);
 
-        return view('/associado/capture-form', compact('lista_associado'));
+        return view('/associado/capture-form', compact('associado', 'ida'));
     }
-    public function storeCapturedPhoto(Request $request)
+
+    public function storeCapturedPhoto(Request $request, $ida)
     {
-        $photoData = $request->input('photo');
+        // Verifica se a requisição contém a foto
+        if ($request->has('photo')) {
+            // Obtém a foto codificada em base64 do input 'photo'
+            $photoData = $request->input('photo');
 
+            // Remove o cabeçalho da string base64 e decodifica a foto
+            $fotoConteudo = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $photoData));
 
-        $fotoConteudo = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $photoData));
+            // Verifica se a decodificação foi bem-sucedida
+            if ($fotoConteudo !== false) {
+                // Tenta abrir a imagem usando o Intervention Image
+                try {
+                    // Abre a imagem a partir dos dados decodificados
+                    $image = Image::make($fotoConteudo);
 
-        //  dd($fotoConteudo);
+                    // Gera um nome único para o arquivo
+                    $nomeArquivo = Str::random(40) . '_photo.jpg'; // Utiliza Str::random() corretamente
 
+                    // Salva a foto no armazenamento público
+                    $image->save(public_path('storage/fotos-pessoas/' . $nomeArquivo));
 
-        $nomeArquivo = Hash::make(time() . '_photo') . '.jpg';
+                    // Caminho completo do arquivo para salvar no banco de dados
+                    $caminhoArquivo = 'fotos-pessoas/' . $nomeArquivo;
 
-        $caminhoArquivo = Storage::disk('public')->put('fotos-pessoas/' . $nomeArquivo, $fotoConteudo);
+                    // Atualiza o caminho da foto no banco de dados
+                    DB::table('associado')->where('id', $ida)->update(['caminho_foto_associado' => $caminhoArquivo]);
 
-        $caminho = ('public/fotos-pessoas/' . $nomeArquivo);
-
-
-        if ($caminhoArquivo) {
-
-            DB::table('user_photos')->insert([
-                'caminho_foto' => $caminho
-            ]);
-
-
-
-            return redirect()->back()->with('success', 'Foto salva com sucesso.');
-        } else {
-            return redirect()->back()->with('error', 'Erro ao salvar a foto.');
+                    // Retorna uma resposta de sucesso
+                    return redirect()->back()->with('success', 'Foto salva com sucesso.');
+                } catch (\Exception $e) {
+                    // Retorna uma resposta de erro se ocorrer uma exceção ao abrir a imagem
+                    return redirect()->back()->with('error', 'Erro ao abrir a imagem.');
+                }
+            }
         }
+
+        // Retorna uma resposta de erro se a foto não for fornecida ou houver falha na decodificação
+        return redirect()->back()->with('error', 'Erro ao salvar a foto.');
     }
+
     public function visualizarfoto()
     {
-     
+
         $ultimoId = DB::table('user_photos')
-        ->orderBy('id', 'desc')
-        ->first()->id;
-       // dd($ultimoId);
+            ->orderBy('id', 'desc')
+            ->first()->id;
+        // dd($ultimoId);
 
-        
+
         $caminhodocumento = DB::table('user_photos AS us')
-        ->where('us.id', $ultimoId)
-        ->select(['us.caminho_foto'])
-        ->first();
+            ->where('us.id', $ultimoId)
+            ->select(['us.caminho_foto'])
+            ->first();
 
-      //  dd($caminho);
+        //  dd($caminho);
 
-    if ($caminhodocumento) {
-        $caminho = $caminhodocumento->caminho_foto;
+        if ($caminhodocumento) {
+            $caminho = $caminhodocumento->caminho_foto;
 
-        //dd($caminho);
+            //dd($caminho);
 
-        if (Storage::exists($caminho)) {
-            return response()->file(storage_path('app/' . $caminho));
+            if (Storage::exists($caminho)) {
+                return response()->file(storage_path('app/' . $caminho));
+            } else {
+                return abort(404);
+            }
         } else {
             return abort(404);
         }
-    } else {
-        return abort(404);
     }
-}
 }
