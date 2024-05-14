@@ -90,7 +90,7 @@
                                         style="box-shadow: 1px 2px 5px #000000; margin-right: 5px"
                                         value="">Limpar</a>
                                     <input type="submit" value="Pesquisar" class="btn btn-success btn-light"
-                                        style="box-shadow: 1px 2px 5px #000000;">
+                                        style="box-shadow: 1px 2px 5px #000000; margin-right: 5px">
                                     <input type="hidden" name="tipo_pesquisa" id="tipoPesquisa"
                                         value="{{ $pesquisa }}">
                                     {{-- Botão de incluir --}}
