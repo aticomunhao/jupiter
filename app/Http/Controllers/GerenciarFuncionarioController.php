@@ -97,11 +97,13 @@ class GerenciarFuncionarioController extends Controller
 
         $today = Carbon::today()->format('Y-m-d');
 
+        $idp = $request->idp;
+
         $cpf = $request->cpf;
 
         $vercpf = DB::table('pessoas')->where('cpf', $cpf)->exists();
 
-       $verendereco = DB::table('endereco_pessoas')->where('')
+       $verendereco = DB::table('endereco_pessoas')->where('id_pessoa', $idp)
 
         $verpessoa = DB::select("
             SELECT EXISTS (
