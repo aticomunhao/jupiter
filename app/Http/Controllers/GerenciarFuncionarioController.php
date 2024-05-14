@@ -367,7 +367,7 @@ class GerenciarFuncionarioController extends Controller
         ->where('id_pessoa', $idp)
         ->get();
 
-        dd($pessoa, $funcionario, $endereco);
+        //dd($pessoa, $funcionario, $endereco);
         //Join com a tabela endereco
         $tp_ufe = DB::select('select id, sigla from tp_uf');
 
