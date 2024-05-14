@@ -101,7 +101,7 @@ class GerenciarFuncionarioController extends Controller
 
         $vercpf = DB::table('pessoas')->where('cpf', $cpf)->exists();
 
-        $verendereco = DB::table('')
+        $verendereco = DB::table('endereco_pessoas')->where('')
 
         $verpessoa = DB::select("
             SELECT EXISTS (
