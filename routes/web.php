@@ -283,3 +283,7 @@ Route::any('/armazenar-vagas', [ControleVagasController::class, 'store']);
 Route::get('/editar-vagas/{idC}', [ControleVagasController::class, 'edit']);
 Route::any('/excluir-vagas/{idC}', [ControleVagasController::class, 'destroy']);
 Route::any('/atualizar-vagas/{idC}', [ControleVagasController::class, 'update']);
+
+
+/*Controle de Férias*/
+Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleferias');

@@ -61,6 +61,7 @@
                         <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
                             <li><a class="dropdown-item" href="/gerenciar-efetivo">Controle de Efetivo</a></li>
                             <li><a class="dropdown-item" href="/controle-vagas">Controle de Vagas</a></li>
+                            <li><a class="dropdown-item" href="/controle-ferias">Controle de Férias</a></li>
                         </ul>
                     </li>
                 </ul>
