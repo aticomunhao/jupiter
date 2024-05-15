@@ -39,7 +39,7 @@
 
                             </div>
                             <div class="col-md-8 col-sm-12">
-                                <button type="submit" class="btn btn-light col-md-4 col-12"
+                                <button type="submit" class="btn btn-light"
                                         style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; ">
                                     Pesquisar
                                 </button>
@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <form action="{{ route('AbreFerias') }}">
                                     @csrf
 
@@ -74,7 +74,7 @@
                             <div class="col-md-3">
                                 <a href="{{ route('AbreFerias') }}">
                                     <button type="submit" class="btn btn-success"
-                                            style="width: 100%; box-shadow: 1px 2px 5px #0e0b16;">Gerar Novo Período
+                                            style="box-shadow: 1px 2px 5px #0e0b16;">Gerar Novo Período
                                     </button>
                                 </a>
                             </div>

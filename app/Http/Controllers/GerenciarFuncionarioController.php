@@ -101,7 +101,6 @@ class GerenciarFuncionarioController extends Controller
 
         $vercpf = DB::table('pessoas')->where('cpf', $cpf)->exists();
 
-       // $verendereco = DB::table('')
 
         $verpessoa = DB::select("
             SELECT EXISTS (
@@ -115,20 +114,15 @@ class GerenciarFuncionarioController extends Controller
 
         $exists = $verpessoa[0]->exists;
 
-        //dd($vercpf);
 
         try {
             $validated = $request->validate([
-                //'telefone' => 'required|telefone',
                 'cpf' => 'required|cpf',
-                //'cnpj' => 'required|cnpj',
-                // outras validações aqui
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
 
             app('flasher')->addError('Este CPF não é válido');
             return redirect()->back()->withInput();
-            //dd($e->errors());
         }
 
         if ($exists) {
@@ -373,7 +367,7 @@ class GerenciarFuncionarioController extends Controller
         ->where('id_pessoa', $idp)
         ->get();
 
-        dd($pessoa, $funcionario, $endereco);
+        //dd($pessoa, $funcionario, $endereco);
         //Join com a tabela endereco
         $tp_ufe = DB::select('select id, sigla from tp_uf');
 
@@ -522,6 +516,7 @@ class GerenciarFuncionarioController extends Controller
 
 
         DB::table('funcionarios')->where('id_pessoa', $idp)->delete();
+        DB::table('endereco_pessoas')->where('id_pessoa', $idp)->delete();
 
 
         app('flasher')->addSuccess('O cadastro do funcionário foi Removido com Sucesso.');

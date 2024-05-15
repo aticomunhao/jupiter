@@ -146,7 +146,7 @@
                                                     data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idp }}"
                                                     class="btn btn-outline-danger btn-sm"><i class="bi-trash"
                                                         style="font-size: 1rem; color:#303030;" data-tt="tooltip"
-                                                        data-placement="top" title="Inativar"></i></button>
+                                                        data-placement="top" title="Excluir"></i></button>
                                             </td>
 
                                             <!-- Modal -->
