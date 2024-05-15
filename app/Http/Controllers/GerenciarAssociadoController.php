@@ -247,6 +247,8 @@ class GerenciarAssociadoController extends Controller
 
             )
             ->first();
+        dd($associado);
+
 
 
         //dd($associado);
@@ -255,6 +257,7 @@ class GerenciarAssociadoController extends Controller
 
         // Cria uma instância do Dompdf
         $dompdf = new Dompdf();
+
 
         // Carrega o HTML no Dompdf
         $dompdf->loadHtml($html);

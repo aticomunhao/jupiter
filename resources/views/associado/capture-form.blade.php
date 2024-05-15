@@ -35,7 +35,7 @@
                                         data-bs-dismiss="modal">Cancelar</button></a>
                                 <button type="button" class="btn btn-secondary mr-2" id="capture-btn">Tirar
                                     foto</button>
-                                <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                                <button type="submit" class="btn btn-primary" id="salvar">Salvar mudanças</button>
                             </div>
                         </form>
                     </div>
@@ -48,6 +48,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#salvar').hide();
+            $('#capture-btn').click(function (e) {
+                e.preventDefault();
+                $('#capture-btn').hide();
+                $('#salvar').show();
+            });
+        });
+    </script>
 
 
     <script>
