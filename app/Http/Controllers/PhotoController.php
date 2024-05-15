@@ -44,6 +44,7 @@ class PhotoController extends Controller
 
 
 
+
         $caminhoArquivo = Storage::disk('public')->put('fotos-pessoas/' . $nomeArquivo,$fotoConteudo);
 
 

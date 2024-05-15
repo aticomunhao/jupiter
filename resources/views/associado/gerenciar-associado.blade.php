@@ -118,7 +118,7 @@
                                                 class="btn btn-sm btn-outline-secondary" data-toggle="modal"
                                                 data-target="#camera{{ $lista_associados->id }}"><i class="bi bi-camera"
                                                     style="font-size: 1rem; color:#303030;"></i></button></a>
-                                        <a href="{{ $lista_associados->caminho_foto_associado}}" target="_blank"><button type="button"
+                                        <a href="{{ asset($lista_associados->caminho_foto_associado)  }}" target="_blank"><button type="button"
                                                 class="btn btn-outline-primary btn-sm"><i class="bi bi-person-badge"
                                                     style="font-size: 1rem; color:#303030;"></i></button></a>
                                         <a href="/gerenciar-dados_bancarios/{{ $lista_associados->id }}"><button

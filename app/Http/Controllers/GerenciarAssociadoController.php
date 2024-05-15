@@ -244,14 +244,11 @@ class GerenciarAssociadoController extends Controller
                 'conttes.ct_de_debito',
                 'conttes.ct_de_credito',
                 'tuf.sigla',
+                'as.caminho_foto_associado'
 
             )
             ->first();
-        dd($associado);
 
-
-
-        //dd($associado);
 
         $html = View::make('associado/documento-associado', compact('associado'))->render();
 
@@ -316,6 +313,7 @@ class GerenciarAssociadoController extends Controller
                 'cpf' => $request->input('cpf'),
                 'ddd' => $request->input('ddd'),
                 'celular' => $request->input('telefone'),
+                'email' => $request->input('email'),
                 'email' => $request->input('email'),
                 'idt' => $request->input('idt')
             ]);
