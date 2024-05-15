@@ -3,6 +3,8 @@
     <title>Editar Cadastro de Funcionário</title>
 @endsection
 @section('content')
+
+    <!--{{route('atualizar.funcionario', ['idp', $pessoa[0]->idp])}}-->
     <form method='POST' action="/atualizar-funcionario/{{ $pessoa[0]->idp }}">
         @csrf
         <div class="container-fluid">

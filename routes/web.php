@@ -56,7 +56,7 @@ Route::get('/editar-funcionario/{idp}', [GerenciarFuncionarioController::class, 
 Route::get('/excluir-funcionario/{idp}', [GerenciarFuncionarioController::class, 'delete']);
 Route::get('/pessoa-funcionario/{idp}', [GerenciarFuncionarioController::class, 'delete']);
 Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
-Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update']);
+Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
 
 
 /*Gerenciar usuário*/
@@ -162,7 +162,7 @@ Route::get('/excluir-dados-bancarios-associado/{ida}', [GerenciarDadosBancariosA
 
 /*PhotoController*/
 Route::get('/capture-photo/{id}', [PhotoController::class, 'showCaptureForm'])->name('capture.form');
-Route::post('/capture-photo', [PhotoController::class, 'storeCapturedPhoto']);
+Route::post('/store-photo/{ida}', [PhotoController::class, 'storeCapturedPhoto'])->name('store.photo');
 Route::any('/visualizar-foto', [PhotoController::class, 'visualizarfoto']);
 
 
