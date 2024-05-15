@@ -135,7 +135,7 @@ Route::any('/atualizar-hierarquia', [GerenciarHierarquiaController::class, 'atua
 
 
 Route::get('/pesquisar-associado', [GerenciarAssociadoController::class, 'index'])->name('pesquisar');
-Route::get('/gerenciar-associado', [GerenciarAssociadoController::class, 'index']);
+Route::get('/gerenciar-associado', [GerenciarAssociadoController::class, 'index'])->name('gerenciar-associado');
 Route::get('/informar-dados-associado', [GerenciarAssociadoController::class, 'create']);
 Route::get('/retorna-cidade-dados-residenciais', [GerenciarAssociadoController::class, 'retornaCidadeDadosResidenciais']);
 Route::any('/incluir-associado', [GerenciarAssociadoController::class, 'store']);

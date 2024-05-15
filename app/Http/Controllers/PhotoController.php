@@ -58,9 +58,9 @@ class PhotoController extends Controller
             // ]);
             DB::table('associado')->where('id', $ida)->update(['caminho_foto_associado' => $caminho]);
 
-            return redirect()->back()->with('success', 'Foto salva com sucesso.');
+            return redirect()->route('gerenciar-associado')->with('success', 'Foto salva com sucesso.');
         } else {
-            return redirect()->back()->with('error', 'Erro ao salvar a foto.');
+            return redirect()->route('gerenciar-associado')->with('error', 'Erro ao salvar a foto.');
         }
 
 
