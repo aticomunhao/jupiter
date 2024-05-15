@@ -110,12 +110,17 @@
                                 <table
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
-                                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-4">SETOR/CARGO</th>
-                                            <th class="col-2">VAGAS PREENCHIDAS</th>
-                                            <th class="col-2">TOTAL DE VAGAS</th>
-                                            <th class="col-2">VAGAS REMANESCENTES</th>
-                                            <th class="col-2">AÇÕES</th>
+                                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000;">
+                                            <th class="col-md-3">NOME DO EMPREGADO</th>
+                                            <th class="col">DATA DE ADMISSÃO</th>
+                                            <th class="col">PERÍODO AQUISITIVO</th>
+                                            <th class="col">SITUAÇÃO</th>
+                                            <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>
+                                            <th class="col">PERÍODO DE FÉRIAS</th>
+                                            <th class="col">MÊS/ANO FÉRIAS</th>
+                                            <th class="col">SITUAÇÃO</th>
+                                            <th class="coL">SETOR</th>
+                                            <th class="col">CARGO/FUNÇÃO</th>
                                         </tr>
                                     </thead>
                                     <!-- Primeira tabela -->
@@ -140,11 +145,15 @@
                                                 @endforeach
                                                 <tr>
                                                     <td>{{ $cargos->nomeCargo }}</td>
-                                                    <td style="text-align: center">{{ $cargos->quantidade_funcionarios }}
-                                                    </td>
+                                                    <td style="text-align: center">{{ $cargos->quantidade_funcionarios }}</td>
                                                     <td style="text-align: center">{{ $vagasTotais }}</td>
                                                     <td style="text-align: center">
                                                         {{ $vagasTotais - $cargos->quantidade_funcionarios }}</td>
+                                                    <td style="text-align: center">NÃO DISPONÍVEL</td>
+                                                    <td style="text-align: center">NÃO DISPONÍVEL</td>
+                                                    <td style="text-align: center">NÃO DISPONÍVEL</td>
+                                                    <td style="text-align: center">NÃO DISPONÍVEL</td>
+                                                    <td style="text-align: center">NÃO DISPONÍVEL</td>
                                                     <td style="text-align: center">NÃO DISPONÍVEL</td>
                                                 </tr>
                                                 @php

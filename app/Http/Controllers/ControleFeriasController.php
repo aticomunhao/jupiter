@@ -18,17 +18,32 @@ class ControleFeriasController extends Controller
     public function index(Request $request)
     {
 
-        $cargo = DB::table('cargos AS c')
-            ->leftJoin('base_salarial AS bs', 'bs.cargo', 'c.id')
-            ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade_funcionarios'), 'c.id AS idCargo', 'c.nome AS nomeCargo')
-            ->groupBy('idCargo', 'nomeCargo');
+        $ferias = DB::table('ferias AS fe')
+            ->leftJoin('status_pedido_ferias AS stf', 'fe.status_pedido_ferias', 'stf.id')
+            ->leftJoin('funcionarios AS f', 'fe.id_funcionario', 'f.id')
+            ->leftJoin('pessoas AS p', 'f.id_pessoa', 'p.id')
+            ->select(
+                'p.id AS id_pessoa',
+                'fe.id AS id_ferias',
+                'f.dt_inicio AS dt_inicio_funcionario',
+                'fe.ano_referencia AS ano_referencia',
+                'f.id AS id_funcionario',
+                'stf.id AS id_stf',
+                'stf.nome AS nome_stf',
+                'f.id_setor AS id_setor',
+                'fe.motivo_retorno AS motivo_retorno',
+                'fe.dt_ini_a AS dt_ini_a',
+                'fe.dt_fim_a AS dt_fim_b',
+                'fe.dt_ini_b AS dt_ini_b',
+                'fe.dt_fim_b AS dt_fim_b',
+                'fe.dt_ini_c AS dt_ini_c',
+                'fe.dt_fim_c AS dt_fim_c',
+                )
+                ->get();
 
-
-        $vaga = DB::table('tp_vagas_autorizadas AS va')
-            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'va.id_cargo AS idDoCargo')
-            ->groupBy('idDoCargo');
-
-
+        $referencia = DB::table('ferias AS fe')
+        ->select('fe.ano_referencia AS ano_referencia')
+        ->get();
 
         $pesquisa = $request->input('pesquisa');
 

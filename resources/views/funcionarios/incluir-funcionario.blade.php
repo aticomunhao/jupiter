@@ -175,9 +175,9 @@
                                         required="required">
                                 </div>
                                 <div class="col-md-5">Setor Alocado
-                                    <select class="js-example-responsive form-select"
+                                    <select class="form-select status select2 pesquisa-select"
                                         style="border: 1px solid #999999; padding: 5px;" required="required"
-                                        id="setor" name="setor" required="required">
+                                        id="cargoSelect" name="setor" required="required">
                                         <option value=""></option>
                                         @foreach ($setor as $setores)
                                             <option @if (old('setor') == $setores->id) {{ 'selected="selected"' }} @endif
@@ -481,9 +481,11 @@
 
 @section('footerScript')
     <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
 
 
     <script>
@@ -631,4 +633,17 @@
             /* Espaçamento entre o círculo e o texto */
         }
     </style>
+
+    
+
+    <script>
+        $(document).ready(function() {
+
+            //Importa o select2 com tema do Bootstrap para a classe "select2"
+            $('.select2').select2({
+                theme: 'bootstrap-5'
+            });
+
+        });
+    </script>
 @endsection

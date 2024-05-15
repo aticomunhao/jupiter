@@ -22,6 +22,8 @@ use App\Http\Controllers\GerenciarEntidadesController;
 use App\Http\Controllers\GerenciarAcordosController;
 use App\Http\Controllers\GerenciarTipoDescontoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ControleFeriasController;
+use App\Http\Controllers\GerenciarEfetivoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -272,7 +274,7 @@ Route::any('/atualizar-afastamento/{idf}', [GerenciarAfastamentosController::cla
 /*Controle de Efetivo*/
 
 
-Route::get('/gerenciar-efetivo', [App\Http\Controllers\GerenciarEfetivoController::class, 'index'])->name('gerenciar-efetivo');
+Route::get('/gerenciar-efetivo', [GerenciarEfetivoController::class, 'index'])->name('gerenciar-efetivo');
 
 
 /*Controle de Vagas*/
@@ -286,4 +288,6 @@ Route::any('/atualizar-vagas/{idC}', [ControleVagasController::class, 'update'])
 
 
 /*Controle de Férias*/
-Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleferias');
+
+
+Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleVagas');
