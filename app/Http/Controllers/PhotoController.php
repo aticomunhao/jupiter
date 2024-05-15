@@ -32,41 +32,37 @@ class PhotoController extends Controller
 
     public function storeCapturedPhoto(Request $request, $ida)
     {
-        // Verifica se a requisição contém a foto
-        if ($request->has('photo')) {
-            // Obtém a foto codificada em base64 do input 'photo'
-            $photoData = $request->input('photo');
 
-            // Remove o cabeçalho da string base64 e decodifica a foto
-            $fotoConteudo = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $photoData));
+        $photoData = $request->input('photo');
 
-            // Verifica se a decodificação foi bem-sucedida
-            if ($fotoConteudo !== false) {
-                // Tenta abrir a imagem usando o Intervention Image
-                try {
-                    // Abre a imagem a partir dos dados decodificados
-                    $image = Image::make($fotoConteudo);
+        $fotoConteudo = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $photoData));
 
-                    // Gera um nome único para o arquivo
-                    $nomeArquivo = Str::random(40) . '_photo.jpg'; // Utiliza Str::random() corretamente
+// Gerar hashcode
+        $hashcode = str_replace(['+', '/', '='], '', base64_encode(random_bytes(10)));
 
-                    // Salva a foto no armazenamento público
-                    $image->save(public_path('storage/fotos-pessoas/' . $nomeArquivo));
+        $nomeArquivo = $hashcode . '_' . time() . '_photo.jpg';
 
-                    // Caminho completo do arquivo para salvar no banco de dados
-                    $caminhoArquivo = 'fotos-pessoas/' . $nomeArquivo;
 
-                    // Atualiza o caminho da foto no banco de dados
-                    DB::table('associado')->where('id', $ida)->update(['caminho_foto_associado' => $caminhoArquivo]);
 
-                    // Retorna uma resposta de sucesso
-                    return redirect()->back()->with('success', 'Foto salva com sucesso.');
-                } catch (\Exception $e) {
-                    // Retorna uma resposta de erro se ocorrer uma exceção ao abrir a imagem
-                    return redirect()->back()->with('error', 'Erro ao abrir a imagem.');
-                }
-            }
+        $caminhoArquivo = Storage::disk('public')->put('fotos-pessoas/' . $nomeArquivo,$fotoConteudo);
+
+
+        $caminho = ('/storage/fotos-pessoas/' . $nomeArquivo);
+
+
+
+
+        if ($caminhoArquivo) {
+            // DB::table('user_photos')->insert([
+            //     'caminho_foto' => $caminho
+            // ]);
+            DB::table('associado')->where('id', $ida)->update(['caminho_foto_associado' => $caminho]);
+
+            return redirect()->back()->with('success', 'Foto salva com sucesso.');
+        } else {
+            return redirect()->back()->with('error', 'Erro ao salvar a foto.');
         }
+
 
         // Retorna uma resposta de erro se a foto não for fornecida ou houver falha na decodificação
         return redirect()->back()->with('error', 'Erro ao salvar a foto.');
