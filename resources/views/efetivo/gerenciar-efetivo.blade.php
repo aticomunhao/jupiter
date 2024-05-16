@@ -32,8 +32,8 @@
                                         </select>
                                     </div>
                                     <div class="col" style="padding-top:24px;">
-                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-light"
-                                            style="box-shadow: 1px 2px 5px #000000; margin-right: 5px"
+                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-light btn-sm"
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-right: 5px"
                                             value="">Limpar</a>
                                         <button class="btn btn-light btn-sm "
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"{{-- Botao submit do formulario de pesquisa --}}

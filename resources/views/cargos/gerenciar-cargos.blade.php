@@ -21,17 +21,20 @@
                             @csrf
                             <div class="row justify-content-start">
                                 <div class="col-md-4 col-sm-12">
-                                    <input type="text" class="form-control" style="border: 1px solid #999999;"
+                                    <input type="text" class="form-control" style="border: 1px solid #999999; margin-top: 4px"
                                         aria-label="Sizing example input" name="pesquisa" value="" maxlength="40">
                                     {{-- Input de pesquisa --}}
                                 </div>
                                 <div class="col-md-8 col-12">
+                                    <a href="/gerenciar-cargos" type="button" class="btn btn-light btn-sm"
+                                    style="box-shadow: 1px 2px 5px #000000; margin-left: 2px; font-size: 1rem"
+                                    value="">Limpar</a>
                                     <button class="btn btn-light btn-sm "
                                         style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"{{-- Botao submit do formulario de pesquisa --}}
                                         type="submit">Pesquisar
                                     </button>
                                     <a href="/incluir-cargos" {{-- Botao com rota para incluir cargo --}}
-                                        class="btn btn-success offset-md-6"
+                                        class="btn btn-success offset-md-8"
                                         style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;">
                                         Novo+
                                     </a>

@@ -48,11 +48,11 @@
                                     </select>
                                 </div>
                                 <div class="col" style="padding-top:5px">
-                                    <input type="submit" value="Pesquisar" class="btn btn-light btn-sm"
-                                        style="box-shadow: 1px 2px 5px #000000; margin-top: 20px">
                                     <a href="/gerenciar-hierarquia" type="button" class="btn btn-light btn-sm"
-                                        style="box-shadow: 1px 2px 5px #000000; margin-top: 20px; margin-left: 2px"
+                                        style="box-shadow: 1px 2px 5px #000000; margin-top: 16px; margin-left: 2px; font-size: 1rem"
                                         value="">Limpar</a>
+                                    <input type="submit" value="Pesquisar" class="btn btn-light btn-sm"
+                                        style="box-shadow: 1px 2px 5px #000000; margin-top: 16px; font-size: 1rem">
                                 </div>
                             </div>
 

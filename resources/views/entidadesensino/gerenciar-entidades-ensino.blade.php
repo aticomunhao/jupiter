@@ -22,16 +22,19 @@
                             @csrf
                             <div class="row justify-content-start">
                                 <div class="col-md-4 col-sm-12">
-                                    <input type="text" style="border: 1px solid #999999;" class="form-control" aria-label="Sizing example input"
+                                    <input type="text" style="border: 1px solid #999999; margin-top: 5px" class="form-control" aria-label="Sizing example input"
                                         name="pesquisa" value= "{{ $pesquisa }}" maxlength="40">{{-- Input de pesquisa --}}
                                 </div>
                                 <div class="col-md-8 col-12">
+                                    <a href="/gerenciar-entidades-de-ensino" type="button" class="btn btn-light btn-sm"
+                                        style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
+                                        value="">Limpar</a>{{-- Botao Limpar --}}
                                     <button class="btn btn-light btn-sm "
                                         style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"{{-- Botao submit do formulario de pesquisa --}}
                                         type="submit">Pesquisar
                                     </button>{{-- Botao submit da pesquisa --}}
                                     <a href="/incluir-entidades-ensino"{{-- Botao com rota para incluir entidades --}}
-                                        class="btn btn-success  offset-md-6" style="box-shadow: 1px 2px 5px #000000;">
+                                        class="btn btn-success  offset-md-8" style="box-shadow: 1px 2px 5px #000000;">
                                         Novo+
                                     </a>
                                 </div>

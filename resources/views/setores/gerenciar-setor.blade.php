@@ -48,17 +48,17 @@
                                     </div>
                                     <div class="col" style="margin-top:22px">
                                         <input class="btn btn-light btn-sm"
-                                            style="box-shadow: 1px 2px 5px #000000;"
+                                            style="box-shadow: 1px 2px 5px #000000; font-size: 1rem"
                                             type="submit" value="Pesquisar">
 
                                         <a href="/gerenciar-setor"><button class="btn btn-light btn-sm" type="button"
                                                 value=""
-                                                style="box-shadow: 1px 2px 5px #000000; margin:2px">Limpar</button></a>
+                                                style="box-shadow: 1px 2px 5px #000000; margin:2px; font-size: 1rem">Limpar</button></a>
                             </form>
 
                             <a href="/incluir-setor"><input class="btn btn-success btn-sm" type="button" name="6"
                                     value="Novo Cadastro +"
-                                    style="box-shadow: 1px 2px 5px #000000;"></a>
+                                    style="box-shadow: 1px 2px 5px #000000; font-size: 1rem"></a>
 
                         </div>
                     </div>
