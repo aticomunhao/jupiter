@@ -31,7 +31,7 @@
                             </fieldset>
                         </div>
                         <div class="col-md-3 offset-md-4 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
-                            <a href="/visualizar-dados/{{$associado->ida}}" class="col-6"><button type="button" class="btn btn-success col-md-8 col-12">+Novo Cadastro</button></a>
+                            <a href="/visualizar-dados-bancarios/{{$associado->ida}}" class="col-6"><button type="button" class="btn btn-success col-md-8 col-12">+Novo Cadastro</button></a>
                         </div>
                     </div>
                 </div>

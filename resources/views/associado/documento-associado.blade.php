@@ -92,7 +92,7 @@ por varáveis de valor
             </td>
             <td colspan="4" rowspan="3">
 
-                <img src="{{ URL::asset($associado->caminho_foto_associado)}}"/>
+                <img src="{{  URL::asset('/images/logo150px.ico')}}"/>
 
 
             </td>

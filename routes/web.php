@@ -152,7 +152,7 @@ Route::get('/visualizar-arquivo/{id}', [GerenciarAssociadoController::class, 'vi
 /*Dados Bancarios Associado*/
 
 Route::get('/gerenciar-dados_bancarios/{id}', [GerenciarDadosBancariosAssociadoController::class, 'index'])->name('gerenciar-dados-bancario-associado');
-Route::get('/visualizar-dados/{id}', [GerenciarDadosBancariosAssociadoController::class, 'store']);
+Route::get('/visualizar-dados-bancarios/{id}', [GerenciarDadosBancariosAssociadoController::class, 'store']);
 Route::any('/incluir-dados_bancarios-associado/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'incluirdadosbancarios']);
 Route::get('/editar-dados-bancarios-associado/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'edit']);
 Route::any('/atualizar-dados-bancarios-associado/{ida}/{idt}/{idb}/{idc}', [GerenciarDadosBancariosAssociadoController::class, 'update']);
