@@ -49,15 +49,12 @@ class ControleFeriasController extends Controller
                 'fe.vendeu_ferias AS vendeu_ferias',
                 'fe.dt_inicio_periodo_de_licenca AS dt_inicio_gozo',
                 'fe.dt_fim_periodo_de_licenca AS dt_fim_gozo',
-                )
-                ->orderBy('nome_completo')
-                ->paginate(15);
+            )
+            ->orderBy('nome_completo')
+            ->paginate(15);
 
-        $referencia = DB::table('ferias AS fe')
-        ->select('fe.ano_de_referencia AS ano_de_referencia')
-        ->get();
+        $hoje = Carbon::today();
 
-
-        return view('ferias.controle-ferias', compact('ferias', 'referencia'));
+        return view('ferias.controle-ferias', compact('ferias', 'hoje', 'referencia'));
     }
 }
