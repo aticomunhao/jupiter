@@ -24,38 +24,20 @@
                                     <select class="form-select" aria-label="Ano" name="search">
                                         @foreach ($anos_possiveis as $ano_possivel)
                                             <option value="{{ $ano_possivel->ano_de_referencia }}">
-                                                {{ $ano_possivel->ano_de_referencia +1}}
-                                                -{{ $ano_possivel->ano_de_referencia +2}}</option>
+                                                {{ $ano_possivel->ano_de_referencia + 1 }}
+                                                -{{ $ano_possivel->ano_de_referencia + 2 }}</option>
                                         @endforeach
                                     </select>
                                     <br>
-                                    <button type="submit" class="btn btn-light mt-5 mt-md-0"
-                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-top:5px; width: 100%">
-                                        Pesquisar
-                                    </button>
-                                </form>
-
 
                             </div>
-
                             <div class="col-sm-12 col-md-4">
-                                <form action="{{ route('enviar-ferias') }}" method="get">
-                                    @csrf
-                                    <h5>Periodo de Férias A Ser Enviado</h5>
-                                    <select class="form-select" aria-label="Ano" name="search">
-                                        @foreach ($anos_possiveis as $ano_possivel)
-                                            <option value="{{ $ano_possivel->ano_de_referencia }}">
-                                                {{ $ano_possivel->ano_de_referencia +1}}
-                                                - {{ $ano_possivel->ano_de_referencia +2}}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    <br>
-                                    <button type="submit" class="btn btn-success col-md-3 col-12 mt-5 mt-md-0"
-                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px; width:100%">
-                                        Enviar Férias
-                                    </button>
-
+                                <h5><br></h5>
+                                <button type="submit" class="btn btn-light mt-5 mt-md-0"
+                                    style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-top:5px; width: 100%">
+                                    Pesquisar
+                                </button>
+                                </form>
 
                             </div>
                         </div>
@@ -67,105 +49,120 @@
                     @if (!empty($periodo_aquisitivo))
                         <div class="container-fluid">
                             <div class="table-responsive">
-                                <table
-                                    class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
-                                    style="margin-top:10px;">
-                                    <thead style="text-align: center;">
-                                    <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                        <th scope="col">Selecionar Para Envio</th>
-                                        <th scope="col">Nome do Funcionário</th>
-                                        <th scope="col">Periodo de Férias</th>
-                                        <th scope="col">Início 1</th>
-                                        <th scope="col">Fim 1</th>
-                                        <th scope="col">Início 2</th>
-                                        <th scope="col">Fim 2</th>
-                                        <th scope="col">Início 3</th>
-                                        <th scope="col">Fim 3</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Motivo</th>
-                                        <th scope="col">Ações</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
-                                        <tr>
+                                <form action="{{ route('enviar-ferias') }}" method="post">
+                                    <table
+                                        class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
+                                        style="margin-top:10px;">
+                                        <thead style="text-align: center;">
+                                            <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                                                <th scope="col">Selecionar Para Envio</th>
+                                                <th scope="col">Nome do Funcionário</th>
+                                                <th scope="col">Periodo de Férias</th>
+                                                <th scope="col">Início 1</th>
+                                                <th scope="col">Fim 1</th>
+                                                <th scope="col">Início 2</th>
+                                                <th scope="col">Fim 2</th>
+                                                <th scope="col">Início 3</th>
+                                                <th scope="col">Fim 3</th>
+                                                <th scope="col">Status</th>
+                                                <th scope="col">Motivo</th>
+                                                <th scope="col">Ações</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
+                                                <tr>
+                                                    <td style="text-align: center">
+                                                        @if (
+                                                            $periodos_aquisitivos->id_status_pedido_ferias == 3 or
+                                                                $periodos_aquisitivos->id_status_pedido_ferias == 5 or
+                                                                $periodos_aquisitivos->id_status_pedido_ferias == 1)
+                                                            <input class="form-check-input checkbox-trigger" type="checkbox"
+                                                                id="flexCheckDefault" name="checkbox[]"
+                                                                value="{{ $periodos_aquisitivos->id_ferias }}">
+                                                        @endif
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->ano_de_referencia + 1 }}
+                                                        - {{ $periodos_aquisitivos->ano_de_referencia + 2 }}
+                                                    </td>
 
-                                            <td style="text-align: center">
-                                                @if($periodos_aquisitivos->id_status_pedido_ferias == 3
-                                                    or $periodos_aquisitivos->id_status_pedido_ferias == 5
-                                                or $periodos_aquisitivos->id_status_pedido_ferias == 1)
-                                                    <input class="form-check-input checkbox-trigger" type="checkbox"
-                                                           id="flexCheckDefault" name="checkbox[]"
-                                                           value="{{$periodos_aquisitivos->id_ferias}}">
-                                                @endif
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
-                                            <td style="text-align: center">
-                                                {{$periodos_aquisitivos->ano_de_referencia + 1}}
-                                                - {{$periodos_aquisitivos->ano_de_referencia + 2}}
-                                            </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->dt_fim_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->dt_ini_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->dt_fim_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->status_pedido_ferias }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $periodos_aquisitivos->motivo_retorno }}
+                                                    </td>
 
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->status_pedido_ferias }}
-                                            </td>
-                                            <td style="text-align: center">{{ $periodos_aquisitivos->motivo_retorno }}
-                                            </td>
+                                                    <td>
+                                                        @if (
+                                                            $periodos_aquisitivos->id_status_pedido_ferias == 1 or
+                                                                $periodos_aquisitivos->id_status_pedido_ferias == 3 or
+                                                                $periodos_aquisitivos->id_status_pedido_ferias == 5)
+                                                            <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                                class="btn btn-outline-success">
+                                                                <i class="bi bi-pencil-square"></i>
+                                                            </a>
+                                                        @endif
+                                                        <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                            class="btn btn-outline-secondary" data-tt="tooltip"
+                                                            data-placement="top" title="Histórico Férias"
+                                                            style="font-size: 1rem; color:#0e0b16;">
 
-                                            <td>
-                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 1 or $periodos_aquisitivos->id_status_pedido_ferias == 3 or $periodos_aquisitivos->id_status_pedido_ferias == 5)
-                                                    <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                       class="btn btn-outline-success">
-                                                        <i class="bi bi-pencil-square"></i>
-                                                    </a>
-                                                @endif
-                                                <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                   class="btn btn-outline-secondary" data-tt="tooltip"
-                                                   data-placement="top" title="Histórico Férias"
-                                                   style="font-size: 1rem; color:#0e0b16;">
+                                                            <i class="bi bi-search"></i>
 
-                                                    <i class="bi bi-search"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
 
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                    </tbody>
-                                    </form>
-                                </table>
                             </div>
                         </div>
                     @endif
+                    <div class="row d-flex justify-content-center">
+                        @csrf
+                        <br>
+                        <div class="col-sm-12 col-md-4">
+                            <button type="submit" class="btn btn-success col-md-3 col-12 mt-5 mt-md-0"
+                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px; width:100%">
+                                Enviar Férias
+                            </button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
-
-
             </div>
         </div>
+    </div>
     </div>
     </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>
