@@ -21,6 +21,7 @@
                             <div class="col-sm-12 col-md-4">
                                 <h5>Pesquisar Periodo de Férias</h5>
                                 <form action="{{ route('IndexGerenciarFerias') }}" method="get">
+                                    @csrf
                                     <select class="form-select" aria-label="Ano" name="search">
                                         @foreach ($anos_possiveis as $ano_possivel)
                                             <option value="{{ $ano_possivel->ano_de_referencia }}">
