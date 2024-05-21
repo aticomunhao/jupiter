@@ -3,8 +3,7 @@
     <title>Editar Cadastro de Funcionário</title>
 @endsection
 @section('content')
-
-    <!--{{route('atualizar.funcionario', ['idp', $pessoa[0]->idp])}}-->
+    <!--{{ route('atualizar.funcionario', ['idp', $pessoa[0]->idp]) }}-->
     <form method='POST' action="/atualizar-funcionario/{{ $pessoa[0]->idp }}">
         @csrf
         <div class="container-fluid">
@@ -183,318 +182,316 @@
                     </div>
                 </div>
             </div>
-            <div class="container-fluid">
-                <div class="justify-content-center">
-                    <div class="col-12">
-                        <br>
-                        <div class="card" style="border-color: #355089">
-                            <div class="card-header">
-                                <div class="ROW">
-                                    <h5 class="col-12" style="color: #355089">
-                                        Editar Dados do Funcionário
-                                    </h5>
+        </div>
+        <div class="container-fluid">
+            <div class="justify-content-center">
+                <div class="col-12">
+                    <br>
+                    <div class="card" style="border-color: #355089">
+                        <div class="card-header">
+                            <div class="ROW">
+                                <h5 class="col-12" style="color: #355089">
+                                    Editar Dados do Funcionário
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">Número da Matrícula
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        name="matricula" maxlength="32"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="1" value="{{ $funcionario[0]->matricula }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, informe o Número da Matrícula.
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-12">Data de Ingresso
+                                    <input type="date" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="dt_ini" id="3"
+                                        value="{{ $funcionario[0]->dt_inicio }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, selecione a Data de Inicio.
+                                    </div>
+                                </div>
+                                <div class="col-md-5">Setor Alocado
+                                    <select id="validationCustomUsername" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-select" name="setor">
+                                        <option value="{{ $funcionario[0]->id_setor }}">
+                                            {{ $funcionario[0]->nome_setor }}
+                                        </option>
+                                        @foreach ($tpsetor as $tpsetores)
+                                            <option value="{{ $tpsetores->id }}">
+                                                {{ $tpsetores->nome }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor, selecione uma Cat CNH válida.
+                                    </div>
                                 </div>
                             </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-12">Número da Matrícula
-                                        <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                            name="matricula" maxlength="32"
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="1" value="{{ $funcionario[0]->matricula }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, informe o Número da Matrícula.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">Data de Ingresso
-                                        <input type="date" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="dt_ini" id="3"
-                                            value="{{ $funcionario[0]->dt_inicio }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, selecione a Data de Inicio.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">Setor Alocado
-                                        <select id="validationCustomUsername"
-                                            style="border: 1px solid #999999; padding: 5px;" class="form-select"
-                                            name="setor">
-                                            <option value="{{ $funcionario[0]->id_setor }}">
-                                                {{ $funcionario[0]->nome_setor }}
-                                            </option>
-                                            @foreach ($tpsetor as $tpsetores)
-                                                <option value="{{ $tpsetores->id }}">
-                                                    {{ $tpsetores->nome }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Por favor, selecione uma Cat CNH válida.
-                                        </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">CTPS
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton1" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="ctps" maxlength="6"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="21" value="{{ $funcionario[0]->ctps }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, informe um CTPS Nr válido.
                                     </div>
                                 </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-12">CTPS
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton1" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="ctps" maxlength="6"
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="21" value="{{ $funcionario[0]->ctps }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, informe um CTPS Nr válido.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">Série
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton2" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="serie_ctps" maxlength="4"
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="23" value="{{ $funcionario[0]->serie_ctps }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, informe um Nr Série válido.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12">UF
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton3" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <select id="24" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-select" name="uf_ctps">
-                                            <option value="{{ $funcionario[0]->uf_ctps }}">
-                                                {{ $funcionario[0]->sigla_ctps }}
-                                            </option>
-                                            @foreach ($tp_uff as $tp_uffs)
-                                                <option value="{{ $tp_uffs->id }}">
-                                                    {{ $tp_uffs->sigla }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Por favor, selecione um UF válido.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">Data de Emissão
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton4" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="date" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="dt_ctps" id="22"
-                                            value="{{ $funcionario[0]->emissao_ctps }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, selecione a Data de Emissão.
-                                        </div>
+                                <div class="col-md-3 col-sm-12">Série
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton2" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="serie_ctps" maxlength="4"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="23" value="{{ $funcionario[0]->serie_ctps }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, informe um Nr Série válido.
                                     </div>
                                 </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-4 col-sm-12">Titulo Eleitor
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton5" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="titele" maxlength="12"
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="15" value="{{ $funcionario[0]->titulo_eleitor }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, informe um Titulo eleitor Nr válido.
-                                        </div>
-                                        <br>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">Zona
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton6" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="zona" maxlength="3"
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="16" value="{{ $funcionario[0]->zona_titulo }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, informe um Titulo eleitor Nr válido.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">Seção
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton7" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="secao" maxlength="4"
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="17" value="{{ $funcionario[0]->secao_titulo }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, informe uma Seção válida.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 col-sm-12">Data de Emissão
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton8" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="date" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="dt_titulo" id="18"
-                                            value="{{ $funcionario[0]->dt_titulo }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, selecione a Data de Emissão.
-                                        </div>
+                                <div class="col-md-2 col-sm-12">UF
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton3" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <select id="24" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-select" name="uf_ctps">
+                                        <option value="{{ $funcionario[0]->uf_ctps }}">
+                                            {{ $funcionario[0]->sigla_ctps }}
+                                        </option>
+                                        @foreach ($tp_uff as $tp_uffs)
+                                            <option value="{{ $tp_uffs->id }}">
+                                                {{ $tp_uffs->sigla }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor, selecione um UF válido.
                                     </div>
                                 </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-3 col-sm-12">Tipo Programa
-                                        <select id="9" style="border: 1px solid #999999; padding: 5px;"
-                                            name="tp_programa" class="form-select">
-                                            <option value="{{ $funcionario[0]->tp_programa }}">
-                                                {{ $funcionario[0]->nome_programa }}
-                                            </option>
-                                            @foreach ($tpprograma as $tpprogramas)
-                                                <option value="{{ $tpprogramas->id }}">
-                                                    {{ $tpprogramas->programa }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Por favor, informe um PIS/PASEP válido.
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-12">Número do PIS ou PASEP
-                                        <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                            maxlength="11" type="numeric" id="10" name="nr_programa"
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="15" value="{{ $funcionario[0]->nr_programa }}"
-                                            required="required">
-                                    </div>
-                                    <div class="col-md-3 col-sm-12">Cor Pele
-                                        <select id="13" style="border: 1px solid #999999; padding: 5px;"
-                                            name="cor" class="form-select" type="bigint">
-                                            <option value="{{ $funcionario[0]->tp_cor }}">
-                                                {{ $funcionario[0]->nome_cor }}
-                                            </option>
-                                            @foreach ($tppele as $tppeles)
-                                                <option value="{{ $tppeles->id }}">
-                                                    {{ $tppeles->nome_cor }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Por favor, selecione a Cor da Pele.
-                                        </div>
+                                <div class="col-md-3 col-sm-12">Data de Emissão
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton4" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="date" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="dt_ctps" id="22"
+                                        value="{{ $funcionario[0]->emissao_ctps }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, selecione a Data de Emissão.
                                     </div>
                                 </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-12">Ascendente 1
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton9" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="nome_mae" maxlength="45"
-                                            oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="26" value="{{ $funcionario[0]->nome_mae }}">
-                                        <div class="invalid-feedback">
-                                            Por favor, informe o Nome do Ascendente Primário>
-                                        </div>
-                                        <br>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-12">Titulo Eleitor
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton5" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="titele" maxlength="12"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="15" value="{{ $funcionario[0]->titulo_eleitor }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, informe um Titulo eleitor Nr válido.
                                     </div>
-                                    <div class="col-md-6 col-sm-12">Ascendente 2
-                                        <a tabindex="0" class="btn btn-sm" id="popoverButton10" role="button"
-                                            data-bs-toggle="popover" data-bs-trigger="focus">
-                                            <span class="btn-circle">
-                                                ?
-                                            </span>
-                                        </a>
-                                        <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="nome_pai" maxlength="45"
-                                            oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="27" value="{{ $funcionario[0]->nome_pai }}">
+                                    <br>
+                                </div>
+                                <div class="col-md-3 col-sm-12">Zona
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton6" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="zona" maxlength="3"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="16" value="{{ $funcionario[0]->zona_titulo }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, informe um Titulo eleitor Nr válido.
                                     </div>
                                 </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-5 col-sm-12">Número de Reservista
-                                        <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                            class="form-control" name="reservista" maxlength="12"
-                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                            id="25" value="{{ $funcionario[0]->reservista }}">
+                                <div class="col-md-3 col-sm-12">Seção
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton7" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="secao" maxlength="4"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="17" value="{{ $funcionario[0]->secao_titulo }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, informe uma Seção válida.
                                     </div>
-                                    <div class="col-md-2 col-sm-12">Cat CNH
-                                        <select id="validationCustomUsername"
-                                            style="border: 1px solid #999999; padding: 5px;" class="form-select"
-                                            name="cnh">
-                                            <option value="{{ $funcionario[0]->id_tp_cnh }}">
-                                                {{ $funcionario[0]->tp_cnh }}
+                                </div>
+                                <div class="col-md-2 col-sm-12">Data de Emissão
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton8" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="date" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="dt_titulo" id="18"
+                                        value="{{ $funcionario[0]->dt_titulo }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, selecione a Data de Emissão.
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-3 col-sm-12">Tipo Programa
+                                    <select id="9" style="border: 1px solid #999999; padding: 5px;"
+                                        name="tp_programa" class="form-select">
+                                        <option value="{{ $funcionario[0]->tp_programa }}">
+                                            {{ $funcionario[0]->nome_programa }}
+                                        </option>
+                                        @foreach ($tpprograma as $tpprogramas)
+                                            <option value="{{ $tpprogramas->id }}">
+                                                {{ $tpprogramas->programa }}
                                             </option>
-                                            @foreach ($tpcnh as $tpcnhs)
-                                                <option value="{{ $tpcnhs->id }}">
-                                                    {{ $tpcnhs->nome_cat }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor, informe um PIS/PASEP válido.
                                     </div>
-                                    <div class="col-md-2 col-sm-12">Tipo Sanguíneo
-                                        <select id="14" style="border: 1px solid #999999; padding: 5px;"
-                                            name="tps" class="form-select">
-                                            <option value="{{ $funcionario[0]->tp_sangue }}">
-                                                {{ $funcionario[0]->nome_sangue }}
+                                </div>
+                                <div class="col-md-6 col-sm-12">Número do PIS ou PASEP
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        maxlength="11" type="numeric" id="10" name="nr_programa"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="15" value="{{ $funcionario[0]->nr_programa }}" required="required">
+                                </div>
+                                <div class="col-md-3 col-sm-12">Cor Pele
+                                    <select id="13" style="border: 1px solid #999999; padding: 5px;"
+                                        name="cor" class="form-select" type="bigint">
+                                        <option value="{{ $funcionario[0]->tp_cor }}">
+                                            {{ $funcionario[0]->nome_cor }}
+                                        </option>
+                                        @foreach ($tppele as $tppeles)
+                                            <option value="{{ $tppeles->id }}">
+                                                {{ $tppeles->nome_cor }}
                                             </option>
-                                            @foreach ($tpsangue as $tpsangues)
-                                                <option value="{{ $tpsangues->id }}">
-                                                    {{ $tpsangues->nome_sangue }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        @endforeach
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Por favor, selecione a Cor da Pele.
                                     </div>
-                                    <div class="col-md-3 col-sm-12">Fator RH
-                                        <select id="14" style="border: 1px solid #999999; padding: 5px;"
-                                            name="fator" class="form-select">
-                                            <option value="{{ $funcionario[0]->id_fator_rh }}">
-                                                {{ $funcionario[0]->nome_fator }}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">Ascendente 1
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton9" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="nome_mae" maxlength="45"
+                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="26" value="{{ $funcionario[0]->nome_mae }}">
+                                    <div class="invalid-feedback">
+                                        Por favor, informe o Nome do Ascendente Primário>
+                                    </div>
+                                    <br>
+                                </div>
+                                <div class="col-md-6 col-sm-12">Ascendente 2
+                                    <a tabindex="0" class="btn btn-sm" id="popoverButton10" role="button"
+                                        data-bs-toggle="popover" data-bs-trigger="focus">
+                                        <span class="btn-circle">
+                                            ?
+                                        </span>
+                                    </a>
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="nome_pai" maxlength="45"
+                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="27" value="{{ $funcionario[0]->nome_pai }}">
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-5 col-sm-12">Número de Reservista
+                                    <input type="text" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-control" name="reservista" maxlength="12"
+                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="25" value="{{ $funcionario[0]->reservista }}">
+                                </div>
+                                <div class="col-md-2 col-sm-12">Cat CNH
+                                    <select id="validationCustomUsername" style="border: 1px solid #999999; padding: 5px;"
+                                        class="form-select" name="cnh">
+                                        <option value="{{ $funcionario[0]->id_tp_cnh }}">
+                                            {{ $funcionario[0]->tp_cnh }}
+                                        </option>
+                                        @foreach ($tpcnh as $tpcnhs)
+                                            <option value="{{ $tpcnhs->id }}">
+                                                {{ $tpcnhs->nome_cat }}
                                             </option>
-                                            @foreach ($fator as $fators)
-                                                <option value="{{ $fators->id }}">
-                                                    {{ $fators->nome_fator }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-2 col-sm-12">Tipo Sanguíneo
+                                    <select id="14" style="border: 1px solid #999999; padding: 5px;"
+                                        name="tps" class="form-select">
+                                        <option value="{{ $funcionario[0]->tp_sangue }}">
+                                            {{ $funcionario[0]->nome_sangue }}
+                                        </option>
+                                        @foreach ($tpsangue as $tpsangues)
+                                            <option value="{{ $tpsangues->id }}">
+                                                {{ $tpsangues->nome_sangue }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-md-3 col-sm-12">Fator RH
+                                    <select id="14" style="border: 1px solid #999999; padding: 5px;"
+                                        name="fator" class="form-select">
+                                        <option value="{{ $funcionario[0]->id_fator_rh }}">
+                                            {{ $funcionario[0]->nome_fator }}
+                                        </option>
+                                        @foreach ($fator as $fators)
+                                            <option value="{{ $fators->id }}">
+                                                {{ $fators->nome_fator }}
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <br>
-                        <div>
+                    </div>
+                    <br>
+                    <div>
 
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
         <div class="container-fluid">
             <div class="row justify-content-center">

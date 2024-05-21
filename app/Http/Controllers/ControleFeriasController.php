@@ -53,8 +53,7 @@ class ControleFeriasController extends Controller
             ->orderBy('nome_completo')
             ->paginate(15);
 
-        $hoje = Carbon::today();
 
-        return view('ferias.controle-ferias', compact('ferias', 'hoje', 'referencia'));
+        return view('ferias.controle-ferias', compact('ferias'));
     }
 }

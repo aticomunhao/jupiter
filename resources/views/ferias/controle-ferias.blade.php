@@ -78,10 +78,7 @@
                                                         {{ $feriass->ano_de_referencia + 2 }}
                                                     </td>
                                                     <td scope="">
-                                                        @if ($ferias->dt_inicio_funcionario >= $hoje)
-                                                            $resposta = 'Habilitado para ferias';
-                                                        @else
-                                                            $resposta = 'Não possui ferias';
+                                                        
                                                     </td>
                                                     <td scope="">
                                                         {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}

@@ -88,58 +88,44 @@
                                                 <td scope="" style="text-align: center;">Inativo</td>
                                             @endif
                                             <td scope="" style="text-align: center">
-                                                <a href="/editar-funcionario/{{ $listas->idp }}">
-                                                    <button type="button" class="btn btn-outline-warning" data-tt="tooltip"
+                                                <a href="/editar-funcionario/{{ $listas->idp }}" type="button" class="btn btn-outline-warning" data-tt="tooltip"
                                                         data-placement="top" title="Editar"><i class="bi-pencil"
                                                             style="font-size: 1rem; color:#303030;"></i>
-                                                    </button>
                                                 </a>
-                                                <a href="/pessoas-funcionario/{{ $listas->idp }}">
-                                                    <button type="button" class="btn btn-outline-primary" data-tt="tooltip"
+                                                <a href="/pessoas-funcionario/{{ $listas->idp }}" type="button" class="btn btn-outline-primary" data-tt="tooltip"
                                                         data-placement="top" title="Visualizar"><i class="bi-search"
                                                             style="font-size: 1rem; color:#303030;"></i>
-                                                    </button>
                                                 </a>
-                                                <a href="/gerenciar-dependentes/{{ $listas->idf }}">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                <a href="/gerenciar-dependentes/{{ $listas->idf }}" type="button" class="btn btn-outline-primary"
                                                         data-tt="tooltip" data-placement="top" title="Dependentes"><i
                                                             class="bi-people-fill"
                                                             style="font-size: 1rem;color:#303030; "></i>
-                                                    </button>
                                                 </a>
-                                                <a href="/gerenciar-dados-bancarios/{{ $listas->idf }}">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                <a href="/gerenciar-dados-bancarios/{{ $listas->idf }}" type="button" class="btn btn-outline-primary"
                                                         data-tt="tooltip" data-placement="top" title="Dados Bancários"><i
                                                             class="bi bi-bank"
                                                             style="font-size: 1rem; color:#303030;"></i>
-                                                    </button>
                                                 </a>
-                                                <a href="/gerenciar-afastamentos/{{ $listas->idf }}">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                <a href="/gerenciar-afastamentos/{{ $listas->idf }}" type="button" class="btn btn-outline-primary"
                                                         data-tt="tooltip" data-placement="top" title="Afastamento"><i
                                                             class="bi-bandaid" style="font-size: 1rem;color:#303030;"></i>
-                                                    </button>
                                                 </a>
-                                                <a href="/gerenciar-certificados/{{ $listas->idf }}">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                <a href="/gerenciar-certificados/{{ $listas->idf }}" type="button" class="btn btn-outline-primary"
                                                         data-tt="tooltip" data-placement="top" title="Certificados"><i
                                                             class="bi-mortarboard"
                                                             style="font-size: 1rem; color:#303030;"></i>
-                                                    </button>
                                                 </a>
-                                                <a href="/gerenciar-acordos/{{ $listas->idf }}">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                <a href="/gerenciar-acordos/{{ $listas->idf }}"
+                                                     type="button" class="btn btn-outline-primary"
                                                         data-tt="tooltip" data-placement="top" title="Acordos"><i
                                                             class="bi bi-pencil-square"
                                                             style="font-size: 1rem; color:#303030;"></i>
-                                                    </button>
                                                 </a>
-                                                <a href="/gerenciar-base-salarial/{{ $listas->idf }}">
-                                                    <button type="button" class="btn btn-outline-primary"
+                                                <a href="/gerenciar-base-salarial/{{ $listas->idf }}"
+                                                     type="button" class="btn btn-outline-primary"
                                                         data-tt="tooltip" data-placement="top" title="Base Salarial"><i
                                                             class="bi bi-currency-dollar"
                                                             style="font-size: 1rem; color:#303030;"></i>
-                                                    </button>
                                                 </a>
                                                 <button type="button" class="btn btn-outline-danger"
                                                     data-bs-toggle="modal"
