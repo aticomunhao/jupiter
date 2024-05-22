@@ -24,6 +24,7 @@ use App\Http\Controllers\GerenciarTipoDescontoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ControleFeriasController;
 use App\Http\Controllers\GerenciarEfetivoController;
+use App\Http\Controllers\AjaxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -152,7 +153,7 @@ Route::get('/visualizar-arquivo/{id}', [GerenciarAssociadoController::class, 'vi
 /*Dados Bancarios Associado*/
 
 Route::get('/gerenciar-dados_bancarios/{id}', [GerenciarDadosBancariosAssociadoController::class, 'index'])->name('gerenciar-dados-bancario-associado');
-Route::get('/visualizar-dados-bancarios/{id}', [GerenciarDadosBancariosAssociadoController::class, 'store']);
+Route::get('/incluir-dados-bancarios/{id}', [GerenciarDadosBancariosAssociadoController::class, 'store'])->name('dados-bancarios-associado.insert');
 Route::any('/incluir-dados_bancarios-associado/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'incluirdadosbancarios']);
 Route::get('/editar-dados-bancarios-associado/{ida}', [GerenciarDadosBancariosAssociadoController::class, 'edit']);
 Route::any('/atualizar-dados-bancarios-associado/{ida}/{idt}/{idb}/{idc}', [GerenciarDadosBancariosAssociadoController::class, 'update']);
@@ -291,3 +292,9 @@ Route::any('/atualizar-vagas/{idC}', [ControleVagasController::class, 'update'])
 
 
 Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleVagas');
+
+
+
+/*Ajax Controller */
+Route::get('/retorna-cidades/{id}', [AjaxController::class, 'retornaCidades']);
+Route::get('/retorna-dados-endereco/{id}', [AjaxController::class, 'getAddressByCep']);
