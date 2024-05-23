@@ -479,23 +479,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-<<<<<<< HEAD
     <script>
         $(document).ready(function() {
-=======
-    <!-- Select2 CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet">
-    <!-- Select2 Bootstrap 5 theme -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.1.0/select2-bootstrap-5-theme.min.css"
-        rel="stylesheet">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Select2 JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
-
->>>>>>> a90b7861f893a4b9c6add43eb3d56b50e4673f41
 
             $('#cidade1, #cidade2').select2({
                 theme: 'bootstrap-5',
@@ -564,55 +549,6 @@
         });
     </script>
 
-<<<<<<< HEAD
-=======
-
-    <script>
-        $(document).ready(function() {
-            function populateCities(selectElement, uf) {
-                $.ajax({
-                    type: "GET",
-                    url: "/retorna-cidades/" + uf,
-                    dataType: "JSON",
-                    success: function(response) {
-                        selectElement.empty();
-                        selectElement.removeAttr('disabled');
-                        $.each(response, function(indexInArray, item) {
-                            selectElement.append('<option value="' + item
-                                .id_cidade + '">' +
-                                item.descricao + '</option>');
-                        });
-                    }
-                });
-            }
-            $('#uf1').change(function(e) {
-              
-                var uf = $(this).val();
-                populateCities($('#cidade1'), uf);
-            });
-
-            $('#iduf').change(function(e) {
-                var uf = $(this).val();
-                $('#idcidade').removeAttr('disabled');
-                populateCities($('#idcidade'), uf);
-            });
-
-            $('#idlimpar').click(function(e) {
-                $('#idnome_completo').val("");
-            });
-
-            $('#idcidade').select2({
-                theme: 'bootstrap-5',
-                width: '100%',
-            });
-            $('#cidade1').select2({
-                theme: 'bootstrap-5',
-                width: '100%',
-            });
-        });
-    </script>
-
->>>>>>> a90b7861f893a4b9c6add43eb3d56b50e4673f41
     <script>
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
@@ -684,11 +620,8 @@
             /* Espaçamento entre o círculo e o texto */
         }
     </style>
-<<<<<<< HEAD
 
 
 
    
-=======
->>>>>>> a90b7861f893a4b9c6add43eb3d56b50e4673f41
 @endsection
