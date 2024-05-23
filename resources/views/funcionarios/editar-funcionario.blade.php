@@ -95,7 +95,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-5 col-sm-12">Naturalidade
-                                    <select class="form-select" id="cidade1" name="natura" required="required" disabled="disabled">
+                                    <select class="form-select" id="cidade1" name="natura" required="required">
                                         <option value="{{ $pessoa[0]->naturalidade }}">
                                             {{ $pessoa[0]->descricao_cidade }}
                                         </option>
@@ -535,7 +535,7 @@
                                 <div class="col-md-4 col-sm-12">Cidade
                                     <br>
                                     <select class="js-example-responsive form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" id="idcidade" name="cidade"  disabled>
+                                        style="border: 1px solid #999999; padding: 5px;" id="idcidade" name="cidade" >
                                         <option value="{{ $endereco[0]->cidade }}">
                                             {{ $endereco[0]->nome_cidade }}
                                         </option>
