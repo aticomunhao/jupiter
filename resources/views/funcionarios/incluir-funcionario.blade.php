@@ -518,10 +518,10 @@
     <script>
         $(document).ready(function() {
 
-
-            $('#idcidade, #cidade1').select2({
-                theme: 'bootstrap-5',
-                width: '100%',
+          
+            $('#idcidade').select2({
+               theme: 'bootstrap-5',
+               width: '100%',
             });
 
             function populateCities(selectElement, stateValue) {
@@ -533,7 +533,6 @@
                         selectElement.empty();
                         $.each(response, function(indexInArray, item) {
                             selectElement.append('<option value="' + item.id_cidade + '">' +
-
                                 item.descricao + '</option>');
                         });
                     },
@@ -544,6 +543,20 @@
             }
 
 
+            $('#iduf').change(function(e) {
+                var stateValue = $(this).val();
+                $.ajax({
+                    type: "get",
+                    url: "/recebe-cidades/" + stateValue,
+                    dataType: "json",
+                    success: function(response) {
+
+
+
+                    }
+                });
+
+            });
             $('#iduf').change(function(e) {
                 var stateValue = $(this).val();
                 $('#idcidade').removeAttr('disabled');
@@ -634,7 +647,7 @@
         }
     </style>
 
-    
+
 
     <script>
         $(document).ready(function() {

@@ -24,6 +24,7 @@ use App\Http\Controllers\GerenciarTipoDescontoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ControleFeriasController;
 use App\Http\Controllers\GerenciarEfetivoController;
+use App\Http\Controllers\AjaxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -291,3 +292,7 @@ Route::any('/atualizar-vagas/{idC}', [ControleVagasController::class, 'update'])
 
 
 Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleVagas');
+
+/*Ajax Controller*/
+
+Route::get('/recebe-cidades/{id}', [AjaxController::class,'retornaCidades'])->name('retornaCidadesUF');
