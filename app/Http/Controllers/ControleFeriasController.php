@@ -51,7 +51,7 @@ class ControleFeriasController extends Controller
                 'fe.dt_fim_periodo_de_licenca AS dt_fim_gozo',
             )
             ->orderBy('nome_completo')
-            ->paginate(15);
+            ->paginate(19);
 
 
         return view('ferias.controle-ferias', compact('ferias'));
