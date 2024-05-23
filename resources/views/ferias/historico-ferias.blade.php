@@ -6,10 +6,12 @@
         <div class="card">
             <h5 class="card-header">
                 <div class="row d-flex justify-content-between">
-                    <div class="col-sm-12 col-md-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <strong>Funcionario: {{ $funcionario->nome_completo }}</strong>
+                    <div class="col-md-5">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <strong> {{ $funcionario->nome_completo }}</strong>
+                                </div>
                             </div>
                         </div>
                     </div>

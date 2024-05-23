@@ -88,14 +88,14 @@
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="periodo_contribuicao" id="semestral"
+                                <input class="form-check-input" type="radio" name="periodo_para_contribuicao" id="semestral"
                                     value="semestral" required>
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Semestral
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="periodo_contribuicao" id="anual"
+                                <input class="form-check-input" type="radio" name="periodo_para_contribuicao" id="anual"
                                     value="anual" required>
                                 <label class="form-check-label" for="flexRadioDefault1">
                                     Anual

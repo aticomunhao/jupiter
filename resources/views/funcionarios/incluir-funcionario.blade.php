@@ -517,8 +517,10 @@
 
     <script>
         $(document).ready(function() {
+            $('#uf1').change(function(e) {
+                var uf = $(this).val();
 
-          
+
             $('#idcidade').select2({
                theme: 'bootstrap-5',
                width: '100%',
@@ -526,21 +528,17 @@
 
             function populateCities(selectElement, stateValue) {
                 $.ajax({
-                    type: "get",
-                    url: "/retorna-cidade-dados-residenciais/" + stateValue,
-                    dataType: "json",
+                    type: "GET",
+                    url: "/retorna-cidades/" + uf,
+                    dataType: "JSON",
                     success: function(response) {
                         selectElement.empty();
                         $.each(response, function(indexInArray, item) {
                             selectElement.append('<option value="' + item.id_cidade + '">' +
                                 item.descricao + '</option>');
                         });
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("An error occurred:", error);
                     }
                 });
-            }
 
 
             $('#iduf').change(function(e) {
