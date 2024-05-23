@@ -199,9 +199,7 @@
                                 <div class="col-md-4 col-sm-12">CTPS
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton1" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="8" type="numeric" id="23" name="ctps"
@@ -210,9 +208,7 @@
                                 <div class="col-md-3 col-sm-12">Série
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton2" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <<i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="numeric" id="26" name="serie_ctps"
@@ -221,9 +217,7 @@
                                 <div class="col-md-2 col-sm-12">UF
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton3" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <select class="js-example-responsive form-select"
                                         style="border: 1px solid #999999; padding: 5px;" required="required"
@@ -239,9 +233,7 @@
                                 <div class="col-md-3 col-sm-12">Data de Emissão
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton4" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="date" id="24" name="dt_ctps" value="{{ old('dt_ctps') }}"
@@ -253,9 +245,7 @@
                                 <div class="col-md-4 col-sm-12">Título Eleitor
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton5" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="12" type="numeric" id="17" name="titele"
@@ -264,9 +254,7 @@
                                 <div class="col-md-3 col-sm-12">Zona
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton6" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="numeric" id="18" name="zona"
@@ -275,9 +263,7 @@
                                 <div class="col-md-3 col-sm-12">Seção
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton7" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="numeric" id="19" name="secao"
@@ -286,9 +272,7 @@
                                 <div class="col-md-2 col-sm-12">Data emissão
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton8" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="date" id="20" name="dt_titulo" value="{{ old('dt_titulo') }}">
@@ -329,9 +313,7 @@
                                 <div class="col-md-6 col-sm-12">Ascendente 1
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton9" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="text" maxlength="45"
@@ -342,9 +324,7 @@
                                 <div class="col-md-6 col-sm-12">Ascendente 2
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton10" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="text" maxlength="45"
@@ -606,22 +586,4 @@
             customizePopover(popoverButton10, 'Pai/Mãe');
         });
     </script>
-
-    <style>
-        /* Estilo para centralizar o conteúdo do botão */
-        .btn-circle {
-            display: inline-flex;
-            justify-content: center;
-            align-items: center;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            border: 1px solid #999999;
-            /* Espaçamento entre o círculo e o texto */
-        }
-    </style>
-
-
-
-   
 @endsection
