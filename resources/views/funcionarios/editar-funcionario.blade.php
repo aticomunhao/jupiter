@@ -24,28 +24,35 @@
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control" name="nome_completo" maxlength="45"
                                         oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="2" value="{{ $pessoa[0]->nome_completo }}">
+                                        id="2" value="{{ $pessoa[0]->nome_completo }}" required="required">
                                 </div>
-                                <div class="col-md-3 col-sm-12">CPF
+                                <div class="col-md-2 col-sm-12">Nome resumido
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="text" maxlength="20"
+                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="" name="nome_resumido" value="{{ $pessoa[0]->nome_resumido }}"
+                                        required="required">
+                                </div>
+                                <div class="col-md-2 col-sm-12">CPF
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control" name="cpf" maxlength="11"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="8" value="{{ $pessoa[0]->cpf }}">
+                                        id="8" value="{{ $pessoa[0]->cpf }}" required="required">
                                     <div class="invalid-feedback">
                                         Por favor, informe um CPF válido.
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-12">Data de Nascimento
+                                <div class="col-md-2 col-sm-12">Data de Nascimento
                                     <input type="date" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control" name="dt_nascimento" id="3"
-                                        value="{{ $pessoa[0]->dt_nascimento }}">
+                                        value="{{ $pessoa[0]->dt_nascimento }}" required="required">
                                     <div class="invalid-feedback">
                                         Por favor, selecione a Data de Nascimento.
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-sm-12">Sexo
                                     <select id="4" class="form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" name="sexo" type="text">
+                                        style="border: 1px solid #999999; padding: 5px;" name="sexo" type="text" required="required">
                                         <option value="{{ $pessoa[0]->id_sexo }}">{{ $pessoa[0]->nome_sexo }}</option>
                                         @foreach ($tpsexo as $tpsexos)
                                             <option value="{{ $tpsexos->id }}">
@@ -62,14 +69,10 @@
                             <div class="row">
                                 <div class="col-md-5 col-sm-12">Nacionalidade
                                     <select id="5" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-select" name="pais">
-                                        <option value="{{ $pessoa[0]->nacionalidade }}">
-                                            {{ $pessoa[0]->nome_nacionalidade }}
-                                        </option>
+                                        class="form-select" name="pais" required="required">
+                                            <option value="{{ $pessoa[0]->nacionalidade }}">{{ $pessoa[0]->nome_nacionalidade }}</option>
                                         @foreach ($tpnacionalidade as $tpnacionalidades)
-                                            <option value="{{ $tpnacionalidades->id }}">
-                                                {{ $tpnacionalidades->local }}
-                                            </option>
+                                            <option value="{{ $tpnacionalidades->id }}">{{ $tpnacionalidades->local }}</option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback">
@@ -93,7 +96,7 @@
                                 </div>
                                 <div class="col-md-5 col-sm-12">Naturalidade
                                     <select class="form-select" id="cidade1" name="natura" required="required">
-                                        <option value="{{ $pessoa[0]->naturalidade }}">
+                                        <option value="{{ $pessoa[0]->naturalidade }}" disabled="disabled">
                                             {{ $pessoa[0]->descricao_cidade }}
                                         </option>
                                     </select>
@@ -105,14 +108,14 @@
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control" name="identidade" maxlength="8"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="10" value="{{ $pessoa[0]->identidade }}">
+                                        id="10" value="{{ $pessoa[0]->identidade }}" required="required">
                                     <div class="invalid-feedback">
                                         Por favor, informe um RG válido.
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-sm-12">UF da Identidade
                                     <select id="24" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-select" name="uf_idt">
+                                        class="form-select" name="uf_idt" required="required">
                                         <option value="{{ $identidade[0]->uf_idt }}">
                                             {{ $identidade[0]->sigla_identidade }}
                                         </option>
@@ -128,7 +131,7 @@
                                 </div>
                                 <div class="col-md-3 col-sm-12">Órgão Expedidor
                                     <select id="9" style="border: 1px solid #999999; padding: 5px;" name="orgexp"
-                                        class="form-select">
+                                        class="form-select" required="required">
                                         <option value="{{ $pessoa[0]->id_orgao_expedidor }}">
                                             {{ $pessoa[0]->sigla_orgao_expedidor }}
                                         </option>
@@ -142,7 +145,7 @@
                                 <div class="col-md-3 col-sm-12">Data de Emissão
                                     <input type="date" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control" name="dt_idt" id="12"
-                                        value="{{ $pessoa[0]->dt_emissao_identidade }}">
+                                        value="{{ $pessoa[0]->dt_emissao_identidade }}" required="required">
                                 </div>
                             </div>
                             <br>
@@ -201,7 +204,7 @@
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         name="matricula" maxlength="32"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="1" value="{{ $funcionario[0]->matricula }}">
+                                        id="1" value="{{ $funcionario[0]->matricula }}" required="required">
                                     <div class="invalid-feedback">
                                         Por favor, informe o Número da Matrícula.
                                     </div>
@@ -209,7 +212,7 @@
                                 <div class="col-md-3 col-sm-12">Data de Ingresso
                                     <input type="date" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control" name="dt_ini" id="3"
-                                        value="{{ $funcionario[0]->dt_inicio }}">
+                                        value="{{ $funcionario[0]->dt_inicio }}" required="required">
                                     <div class="invalid-feedback">
                                         Por favor, selecione a Data de Inicio.
                                     </div>
@@ -217,7 +220,7 @@
                                 <div class="col-md-5">Setor Alocado
                                     <select id="validationCustomUsername" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-select" name="setor">
-                                        <option value="{{ $funcionario[0]->id_setor }}">
+                                        <option value="{{ $funcionario[0]->id_setor }}" required="required">
                                             {{ $funcionario[0]->nome_setor }}
                                         </option>
                                         @foreach ($tpsetor as $tpsetores)
@@ -367,7 +370,7 @@
                             <div class="row">
                                 <div class="col-md-3 col-sm-12">Tipo Programa
                                     <select id="9" style="border: 1px solid #999999; padding: 5px;"
-                                        name="tp_programa" class="form-select">
+                                        name="tp_programa" class="form-select" required="required">
                                         <option value="{{ $funcionario[0]->tp_programa }}">
                                             {{ $funcionario[0]->nome_programa }}
                                         </option>
@@ -533,7 +536,7 @@
                                     <br>
                                     <select class="js-example-responsive form-select"
                                         style="border: 1px solid #999999; padding: 5px;" id="idcidade" name="cidade">
-                                        <option value="{{ $endereco[0]->cidade }}">
+                                        <option value="{{ $endereco[0]->cidade }}" disabled>
                                             {{ $endereco[0]->nome_cidade }}
                                         </option>
                                     </select>
@@ -576,9 +579,11 @@
         </div>
         <br>
     </form>
+    
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+
 
     <script>
         $(document).ready(function() {

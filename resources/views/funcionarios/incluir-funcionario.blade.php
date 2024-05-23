@@ -28,13 +28,20 @@
                                         id="idnome_completo" name="nome_completo" value="{{ old('nome_completo') }}"
                                         required="required">
                                 </div>
-                                <div class="col-md-3 col-sm-12">CPF
+                                <div class="col-md-2 col-sm-12">Nome resumido
+                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                        type="text" maxlength="20"
+                                        oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        id="" name="nome_resumido" value="{{ old('nome_resumido') }}"
+                                        required="required">
+                                </div>
+                                <div class="col-md-2 col-sm-12">CPF
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="numeric" maxlength="11" placeholder="888.888.888-88"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="8" name="cpf" required="required">
                                 </div>
-                                <div class="col-md-3 col-sm-12">Data de Nascimento
+                                <div class="col-md-2 col-sm-12">Data de Nascimento
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="date" value="{{ old('dt_nascimento') }}" id="3"
                                         name="dt_nascimento" required="required">
@@ -76,7 +83,7 @@
                                 </div>
                                 <div class="col-md-5 col-sm-12">Naturalidade
                                     <select class="form-select" id="cidade1" name="natura" value="{{ old('natura') }}"
-                                        required="required" disabled>
+                                        required="required" disabled="disabled">
                                     </select>
                                 </div>
                             </div>
@@ -415,7 +422,7 @@
                                 <div class="col-md-4 col-sm-12">UF
                                     <br>
                                     <select class="js-example-responsive form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" id="iduf" name="uf_end">
+                                        style="border: 1px solid #999999; padding: 5px;" id="uf2" name="uf_end">
                                         <option value=""></option>
                                         @foreach ($tp_uf as $tp_ufs)
                                             <option @if (old('uf_end') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
@@ -427,7 +434,7 @@
                                 <div class="col-md-4 col-sm-12">Cidade
                                     <br>
                                     <select class="js-example-responsive form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" id="idcidade" name="cidade"
+                                        style="border: 1px solid #999999; padding: 5px;" id="cidade2" name="cidade"
                                         value="{{ old('cidade') }}" disabled>
                                     </select>
                                 </div>
@@ -467,26 +474,55 @@
         </div>
         <br>
     </form>
-@endsection
 
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                closeOnSelect: false
-            });
-        });
-    </script>
-@endpush
-
-@section('footerScript')
-    <!-- Scripts -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
 
+            $('#cidade1, #cidade2').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+            });
+
+            function populateCities(selectElement, stateValue) {
+                $.ajax({
+                    type: "get",
+                    url: "/retorna-cidade-dados-residenciais/" + stateValue,
+                    dataType: "json",
+                    success: function(response) {
+                        selectElement.empty();
+                        $.each(response, function(indexInArray, item) {
+                            selectElement.append('<option value="' + item.id_cidade + '">' +
+                                item.descricao + '</option>');
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("An error occurred:", error);
+                    }
+                });
+            }
+
+
+            $('#uf1').change(function(e) {
+                var stateValue = $(this).val();
+                $('#cidade1').removeAttr('disabled');
+                populateCities($('#cidade1'), stateValue);
+            });
+
+            $('#uf2').change(function(e) {
+                var stateValue = $(this).val();
+                $('#cidade2').removeAttr('disabled');
+                populateCities($('#cidade2'), stateValue);
+            });
+
+            $('#idlimpar').click(function(e) {
+                $('#idnome_completo').val("");
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -510,29 +546,6 @@
                     });
 
                 }
-            });
-        });
-    </script>
-
-
-    <script>
-        $(document).ready(function() {
-            $('#uf1').change(function(e) {
-                var uf = $(this).val();
-
-                $.ajax({
-                    type: "GET",
-                    url: "/retorna-cidades/" + uf,
-                    dataType: "JSON",
-                    success: function(response) {
-                        $.each(response, function(index, item) {
-                            $('#cidade1').removeAttr('disabled');
-                            $('#cidade1').append("<option value =" + item.id_cidade + "> " + item.descricao + "</option>");
-                        });
-                    }
-                });
-
-
             });
         });
     </script>
@@ -611,14 +624,5 @@
 
 
 
-    <script>
-        $(document).ready(function() {
-
-            //Importa o select2 com tema do Bootstrap para a classe "select2"
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-        });
-    </script>
+   
 @endsection

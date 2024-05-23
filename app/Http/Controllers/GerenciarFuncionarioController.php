@@ -135,6 +135,7 @@ class GerenciarFuncionarioController extends Controller
                 ->where('cpf', $cpf)
                 ->update([
                     'nome_completo' => $request->input('nome_completo'),
+                    'nome_resumido' => $request->input('nome_resumido'),
                     'idt' => $request->input('identidade'),
                     'orgao_expedidor' => $request->input('orgexp'),
                     'uf_idt' => $request->input('uf_idt'),
@@ -201,6 +202,7 @@ class GerenciarFuncionarioController extends Controller
 
             DB::table('pessoas')->insert([
                 'nome_completo' => $request->input('nome_completo'),
+                'nome_resumido' => $request->input('nome_resumido'),
                 'idt' => $request->input('identidade'),
                 'orgao_expedidor' => $request->input('orgexp'),
                 'uf_idt' => $request->input('uf_idt'),
@@ -286,6 +288,7 @@ class GerenciarFuncionarioController extends Controller
         ->select(
             'p.id AS idp',
             'p.nome_completo AS nome_completo',
+            'p.nome_resumido AS nome_resumido',
             'p.idt AS identidade',
             'p.uf_idt AS uf_identidade',
             'p.orgao_expedidor AS id_orgao_expedidor',
@@ -415,6 +418,7 @@ class GerenciarFuncionarioController extends Controller
                 ->where('id', $idp)
                 ->update([
                     'nome_completo' => $request->input('nome_completo'),
+                    'nome_resumido' => $request->input('nome_resumido'),
                     'idt' => $request->input('identidade'),
                     'orgao_expedidor' => $request->input('orgexp'),
                     'uf_idt' => $request->input('uf_idt'),
