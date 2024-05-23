@@ -486,11 +486,22 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
+    <!-- Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet">
+    <!-- Select2 Bootstrap 5 theme -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.1.0/select2-bootstrap-5-theme.min.css"
+        rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+
 
 
     <script>
         $(document).ready(function() {
-
             $('#cep').on('input', function() {
 
                 let cep = $(this).val().replace(/\D/g, '');
@@ -517,58 +528,45 @@
 
     <script>
         $(document).ready(function() {
-            $('#uf1').change(function(e) {
-                var uf = $(this).val();
-
-
-            $('#idcidade').select2({
-               theme: 'bootstrap-5',
-               width: '100%',
-            });
-
-            function populateCities(selectElement, stateValue) {
+            function populateCities(selectElement, uf) {
                 $.ajax({
                     type: "GET",
                     url: "/retorna-cidades/" + uf,
                     dataType: "JSON",
                     success: function(response) {
                         selectElement.empty();
+                        selectElement.removeAttr('disabled');
                         $.each(response, function(indexInArray, item) {
-                            selectElement.append('<option value="' + item.id_cidade + '">' +
+                            selectElement.append('<option value="' + item
+                                .id_cidade + '">' +
                                 item.descricao + '</option>');
                         });
                     }
                 });
-
-
-            $('#iduf').change(function(e) {
-                var stateValue = $(this).val();
-                $.ajax({
-                    type: "get",
-                    url: "/recebe-cidades/" + stateValue,
-                    dataType: "json",
-                    success: function(response) {
-
-
-
-                    }
-                });
-
-            });
-            $('#iduf').change(function(e) {
-                var stateValue = $(this).val();
-                $('#idcidade').removeAttr('disabled');
-                populateCities($('#idcidade'), stateValue);
-            });
-
+            }
             $('#uf1').change(function(e) {
-                var stateValue = $(this).val();
-                $('#cidade1').removeAttr('disabled');
-                populateCities($('#cidade1'), stateValue);
+              
+                var uf = $(this).val();
+                populateCities($('#cidade1'), uf);
+            });
+
+            $('#iduf').change(function(e) {
+                var uf = $(this).val();
+                $('#idcidade').removeAttr('disabled');
+                populateCities($('#idcidade'), uf);
             });
 
             $('#idlimpar').click(function(e) {
                 $('#idnome_completo').val("");
+            });
+
+            $('#idcidade').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
+            });
+            $('#cidade1').select2({
+                theme: 'bootstrap-5',
+                width: '100%',
             });
         });
     </script>
@@ -644,17 +642,4 @@
             /* Espaçamento entre o círculo e o texto */
         }
     </style>
-
-
-
-    <script>
-        $(document).ready(function() {
-
-            //Importa o select2 com tema do Bootstrap para a classe "select2"
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-        });
-    </script>
 @endsection
