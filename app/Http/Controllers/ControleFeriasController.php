@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Collection;
 use PhpParser\Node\Expr\AssignOp\ShiftLeft;
 
+use function Laravel\Prompts\select;
+
 class ControleFeriasController extends Controller
 {
     public function index(Request $request)
@@ -34,6 +36,7 @@ class ControleFeriasController extends Controller
                 'stf.id AS id_stf',
                 'f.id_setor AS id_setor',
                 'p.nome_completo AS nome_completo',
+                'p.nome_resumido AS nome_resumido',
                 'fe.inicio_periodo_aquisitivo AS ini_aqt',
                 'fe.fim_periodo_aquisitivo AS fim_aqt',
                 'stf.nome AS nome_stf',
@@ -53,7 +56,36 @@ class ControleFeriasController extends Controller
             ->orderBy('nome_completo')
             ->paginate(19);
 
+            $mes = [
+                1 => "Janeiro",
+                2 => "Fevereiro",
+                3 => "Março",
+                4 => "Abril",
+                5 => "Maio",
+                6 => "Junho",
+                7 => "Julho",
+                8 => "Agosto",
+                9 => "Setembro",
+                10 => "Outubro",
+                11 => "Novembro",
+                12 => "Dezembro"
+            ];
 
-        return view('ferias.controle-ferias', compact('ferias'));
+            $ano = DB::table('ferias AS fe')
+            ->select('fe.ano_de_referencia AS ano_de_referencia')
+            ->orderBy('ano_de_referencia')
+            ->distinct()
+            ->get();
+
+            $setor = DB::table('setor AS s')
+            ->select('s.nome AS nome_setor')
+            ->orderBy('nome_setor')
+            ->distinct()
+            ->get();
+
+            //dd($mes);
+
+
+        return view('ferias.controle-ferias', compact('ferias', 'mes', 'ano', 'setor'));
     }
 }

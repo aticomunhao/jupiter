@@ -18,45 +18,45 @@
                             </div>
                             <hr>
                             <div class="card-body">
-                                <div class="row" style="margin-left:5px">
-                                    <div class="col-md-3">
+                                <div class="row">
+                                    <div class="col-md col-sm-12" style="margin-left:5px">
                                         <label for="1">Selecione o Setor Desejado</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
-                                            @foreach ($ferias as $feriass)
-                                                <option value="{{ $feriass->nome_setor }}"
-                                                    {{ $feriass->nome_setor ? 'selected' : '' }}>
-                                                    {{ $feriass->nome_setor }}
+                                            @foreach ($setor as $setors)
+                                                <option value="{{ $setors->nome_setor }}"
+                                                    {{ $setors->nome_setor ? 'selected' : '' }}>
+                                                    {{ $setors->nome_setor }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md col-sm-12">
                                         <label for="1">Selecione o mês Desejado</label>
-                                        <select id="idsetor" class="form-select select2" name="setor">
+                                        <select id="idmes" class="form-select select2" name="mes">
                                             <option></option>
-                                            @foreach ($ferias as $feriass)
-                                                <option value="{{ $feriass->ano_de_referencia }}"
-                                                    {{ $feriass->ano_de_referencia ? 'selected' : '' }}>
-                                                    {{ $feriass->ano_de_referencia }}
+                                            @foreach ($mes as $meses => $nome)
+                                                <option value="{{ $meses }}" {{ $meses ? 'selected' : '' }}>
+                                                    {{ $nome }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-3"">
+                                    <div class="col-md col-sm-12"">
                                         <label for="1">Selecione o Ano Desejado</label>
-                                        <select id="idsetor" class="form-select select2" name="setor">
+                                        <select id="idano" class="form-select select2" name="ano">
                                             <option></option>
-                                            @foreach ($ferias as $feriass)
-                                                <option value="{{ $feriass->ano_de_referencia }}"
-                                                    {{ $feriass->ano_de_referencia ? 'selected' : '' }}>
-                                                    {{ $feriass->ano_de_referencia }}
+                                            @foreach ($ano as $anos)
+                                                <option value="{{ $anos->ano_de_referencia + 1 }}"
+                                                    {{ $anos->ano_de_referencia + 1 ? 'selected' : '' }}>
+                                                    {{ $anos->ano_de_referencia + 1 }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md-3" style="margin-top: 20px;">
+                                    <div class="col" style="margin-top: 20px;">
                                         <a href="/controle-ferias" type="button" class="btn btn-light btn-sm"
+                                            type="button"
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-right: 5px"
                                             value="">Limpar</a>
                                         <button class="btn btn-light btn-sm "
@@ -72,7 +72,7 @@
                                         class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                         <thead style="text-align: center;">
                                             <tr style="background-color: #d6e3ff; font-size: 0.7rem; color:#000000;">
-                                                <th class="col-md-3">NOME DO EMPREGADO</th>
+                                                <th class="col">NOME DO EMPREGADO</th>
                                                 <th class="col">DATA DE ADMISSÃO</th>
                                                 <th class="col">PERÍODO AQUISITIVO</th>
                                                 <th class="col">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
@@ -93,7 +93,8 @@
                                         <tbody style="font-size: 0.6rem; color:#000000;">
                                             @foreach ($ferias as $feriass)
                                                 <tr style="text-align: center">
-                                                    <td scope="">
+                                                    <td class="nome-item" data-nome-completo="{{ $feriass->nome_completo }}"
+                                                        data-nome-resumido="{{ $feriass->nome_resumido }}">
                                                         {{ $feriass->nome_completo }}
                                                     </td>
                                                     <td scope="">
@@ -163,14 +164,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-    <head>
-        <style>
-            .select2-container .select2-selection--multiple {
-                min-width: 600px;
-            }
-        </style>
-    </head>
-
     <script>
         $(document).ready(function() {
 
@@ -179,6 +172,33 @@
                 theme: 'bootstrap-5'
             });
 
+        });
+    </script>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Destacar Nome</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .highlight {
+                color: red;
+            }
+        </style>
+    </head>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const nomeItems = document.querySelectorAll('.nome-item');
+
+            nomeItems.forEach(item => {
+                const nomeCompleto = item.getAttribute('data-nome-completo');
+                const nomeResumido = item.getAttribute('data-nome-resumido');
+
+                if (nomeCompleto.includes(nomeResumido)) {
+                    const partes = nomeCompleto.split(nomeResumido);
+                    item.innerHTML = partes.join(`<span class="highlight">${nomeResumido}</span>`);
+                }
+            });
         });
     </script>
 @endsection
