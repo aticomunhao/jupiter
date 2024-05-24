@@ -3,23 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
 
 class GerenciarDadosBancariosController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index($idf)
+    public function index($id)
     {
+
 
         $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
             ->select('funcionarios.id', 'funcionarios.id_pessoa', 'pessoas.nome_completo')
-            ->where('funcionarios.id', "$idf")
+            ->where('funcionarios.id', "$id")
             ->first();
+
 
 
         $contasBancarias = DB::table('rel_dados_bancarios')
@@ -77,9 +77,9 @@ class GerenciarDadosBancariosController extends Controller
             ->where('funcionarios.id', "$idf")
             ->first();
 
-        if ($request->input('dt_inicio') > $funcionario->dt_inicio) {
-            app('flasher')->addError('A data de inicio da conta é maior que a data de inicio do funcionario na empresa');
-            return redirect()->route('DadoBanc', ['id' => $idf]);
+        if ($request->input('dt_inicio') < $funcionario->dt_inicio) {
+            app('flasher')->addError('A data de inicio da conta é inferior a data de inicio do funcionario na empresa');
+            return redirect()->route('index.dadosbancarios.funcionario', ['id' => $idf]);
         } else {
             DB::table('rel_dados_bancarios')->insert([
                 'id_funcionario' => $idf,
@@ -92,7 +92,7 @@ class GerenciarDadosBancariosController extends Controller
                 'id_subtp_conta' => $request->input('tp_sub_tp_conta')
             ]);
             app('flasher')->addSuccess('O Dado Bancario foi cadastrado com sucesso');
-            return redirect()->route('DadoBanc', ['id' => $idf]);
+            return redirect()->route('index.dadosbancarios.funcionario', ['id' => $idf]);
         }
     }
 
@@ -158,8 +158,9 @@ class GerenciarDadosBancariosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public    function update(Request $request, string $id)
+    public function update(Request $request, string $id)
     {
+
         DB::table('rel_dados_bancarios')
             ->where('id', $id)
             ->update([
@@ -171,9 +172,14 @@ class GerenciarDadosBancariosController extends Controller
                 'id_tp_conta' => $request->input('tp_conta'),
                 'id_subtp_conta' => $request->input('tp_sub_tp_conta')
             ]);
-        $dadoBancario = DB::table('rel_dados_bancarios')->where('id', $id)->first();
+
+        $dados_bancarios = DB::table('rel_dados_bancarios')
+            ->where('id', $id)
+        ->first();
+
+
         app('flasher')->addWarning('O Dado Bancario foi editado com sucesso');
-        return redirect()->route('DadoBanc', ['id' => $dadoBancario->id_funcionario]);
+        return redirect()->route('index.dadosbancarios.funcionario', ['id' => $dados_bancarios->id_funcionario]);
     }
 
 
