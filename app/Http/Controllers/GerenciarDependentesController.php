@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Carbon\Carbon;
-use Illuminate\Support\Carbon as SupportCarbon;
 
 class GerenciarDependentesController extends Controller
 {
@@ -65,14 +63,18 @@ class GerenciarDependentesController extends Controller
 
         $dependentes = DB::table('dependentes')->get();
 
+
+
         foreach ($dependentes as $dependente) {
             if ($request->input('cpf_dep') == $dependente->cpf) {
                 app('flasher')->addError('Existe outro cadastro usando este número de CPF');
                 return redirect()->route('IndexGerenciarDependentes', ['id' => $id]);
-            } elseif ($request->input('relacao_dep') == 6 && Carbon::createFromFormat('Y-m-d', $request->input('dtnasc_dep')) >= Carbon::createFromFormat('Y-m-d', $funcionario->dt_nascimento)) {
+            } elseif ($request->input('relacao_dep') == 6 && Carbon::parse($request->input('dtnasc_dep'))->format('Y-m-d')
+                <= Carbon::parse($funcionario->dt_nascimento)->format('Y-m-d')) {
                 app('flasher')->addError('A data de nascimento do dependente é mais nova ou igual à do funcionário');
                 return redirect()->route('IndexGerenciarDependentes', ['id' => $id]);
             }
+
         }
 
         DB::table('dependentes')->insert([

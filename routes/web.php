@@ -287,7 +287,7 @@ Route::get('/editar-vagas/{idC}', [ControleVagasController::class, 'edit']);
 Route::any('/excluir-vagas/{idC}', [ControleVagasController::class, 'destroy']);
 Route::any('/atualizar-vagas/{idC}', [ControleVagasController::class, 'update']);
 
-
+/*Controle da Data Limite de Férias*/
 /*Controle de Férias*/
 
 

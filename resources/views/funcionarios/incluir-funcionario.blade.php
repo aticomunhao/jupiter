@@ -564,8 +564,6 @@
         });
     </script>
 
-<<<<<<< HEAD
-=======
 
     <script>
         $(document).ready(function() {
@@ -586,7 +584,7 @@
                 });
             }
             $('#uf1').change(function(e) {
-              
+
                 var uf = $(this).val();
                 populateCities($('#cidade1'), uf);
             });
@@ -612,7 +610,6 @@
         });
     </script>
 
->>>>>>> a90b7861f893a4b9c6add43eb3d56b50e4673f41
     <script>
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
@@ -684,11 +681,4 @@
             /* Espaçamento entre o círculo e o texto */
         }
     </style>
-<<<<<<< HEAD
-
-
-
-   
-=======
->>>>>>> a90b7861f893a4b9c6add43eb3d56b50e4673f41
 @endsection
