@@ -101,7 +101,7 @@
                                                             class="bi-people-fill"
                                                             style="font-size: 1rem;color:#303030; "></i>
                                                 </a>
-                                                <a href="/gerenciar-dados-bancarios/{{ $listas->idf }}" type="button" class="btn btn-outline-primary"
+                                                <a href="{{ route('index.dadosbancarios.funcionario',['id' => $listas->idf]) }}" type="button" class="btn btn-outline-primary"
                                                         data-tt="tooltip" data-placement="top" title="Dados Bancários"><i
                                                             class="bi bi-bank"
                                                             style="font-size: 1rem; color:#303030;"></i>

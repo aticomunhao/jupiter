@@ -4,7 +4,8 @@
 @endsection
 @section('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <form method="post" action="/alterar-dado-bancario/{{ $contaBancaria->id }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('update.dadosbancarios.funcionario', ['id'=> $contaBancaria->id]) }}"
+          enctype="multipart/form-data">
         @csrf
         <div class="container-fluid"> {{-- Container completo da página  --}}
             <div class="justify-content-center">
@@ -23,7 +24,7 @@
                             <div class="row">
                                 <div class="col-5">
                                     <input class="form-control" type="text" value="{{ $funcionario->nome_completo }}"
-                                        id="iddt_inicio" name="dt_inicio" required="required" disabled>
+                                           id="iddt_inicio" name="dt_inicio" required="required" disabled>
                                 </div>
                             </div>
                             <br>
@@ -34,7 +35,7 @@
                                         Banco
                                     </label>
                                     <select id="idbanco" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-select" name="desc_banco" required="required">
+                                            class="form-select" name="desc_banco" required="required">
                                         <option value="{{ $contaBancaria->id_db }}">
                                             {{ str_pad($contaBancaria->id_db, 3, '0', STR_PAD_LEFT) }}
                                         </option>
@@ -50,7 +51,7 @@
                                         Agencia
                                     </label>
                                     <select id="idagencia" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-select" name="tp_banco_ag" required="required">
+                                            class="form-select" name="tp_banco_ag" required="required">
                                         <option value="{{ $contaBancaria->tpbag }}" selected>
                                             {{ $contaBancaria->agencia }} - {{ $contaBancaria->desc_agen }}
                                         </option>
@@ -58,24 +59,25 @@
                                 </div>
                                 <div class="form-group col-xl-3 col-md-6 mt-3 mt-xl-0">Data de Inicio
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" value="{{ $contaBancaria->dt_inicio }}" id="3"
-                                        name="dt_inicio" required="required">
+                                           type="date" value="{{ $contaBancaria->dt_inicio }}" id="3"
+                                           name="dt_inicio" required="required">
                                 </div>
                                 <div class="form-group col-xl-3 col-md-6 mt-3 mt-xl-0">Data de Fim
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" value="{{ $contaBancaria->dt_fim }}" id="3" name="dt_fim">
+                                           type="date" value="{{ $contaBancaria->dt_fim }}" id="3" name="dt_fim">
                                 </div>
                                 <div class="form-group col-xl-4 col-md-4 mt-3 ">Numero da Conta
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="text" maxlength="40" name="nmr_conta"
-                                        value="{{ $contaBancaria->numeroconta }}" required="required">
+                                           type="text" maxlength="40" name="nmr_conta"
+                                           value="{{ $contaBancaria->numeroconta }}" required="required">
                                 </div>
                                 <div class="form-group col-xl-4 col-md-4 mt-3">
                                     <label for="tconta">
                                         Tipo de Conta
                                     </label>
                                     <select id="tconta" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-select" aria-label="Default select example" name="tp_conta" required>
+                                            class="form-select" aria-label="Default select example" name="tp_conta"
+                                            required>
                                         <option value="{{ $contaBancaria->tp_conta_id }}">
                                             {{ $contaBancaria->nome_tipo_conta }}
                                         </option>
@@ -91,7 +93,8 @@
                                         Subtipo de Conta
                                     </label>
                                     <select id="sbconta" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-select" aria-label="Default select example" name="tp_sub_tp_conta">
+                                            class="form-select" aria-label="Default select example"
+                                            name="tp_sub_tp_conta">
                                         <option value="{{ $contaBancaria->stpcontaid }}">
                                             {{ $contaBancaria->stpcontadesc }}
                                         </option>
@@ -115,7 +118,7 @@
         <br>
         <div>
             <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1"
-                href="/gerenciar-dados-bancarios/{{ $funcionario->id }}" role="button">
+               href="/gerenciar-dados-bancarios/{{ $funcionario->id }}" role="button">
                 Cancelar
             </a>
             <button type="submit" class="btn btn-primary col-md-3 col-1 mt-4 offset-md-3" id="sucesso">

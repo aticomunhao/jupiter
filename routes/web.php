@@ -88,12 +88,12 @@ Route::get('/usuario/alterar-senha', [UsuarioController::class, 'alteraSenha']);
 /*Gerenciar dados Bancarios*/
 
 
-Route::get('/gerenciar-dados-bancarios/{id}', [GerenciarDadosBancariosController::class, 'index'])->name('DadoBanc');
-Route::any('/incluir-dados-bancarios/{id}', [GerenciarDadosBancariosController::class, 'create']);
-Route::any('/armazenar-dados-bancarios/{id}', [GerenciarDadosBancariosController::class, 'store']);
-Route::any('/deletar-dado-bancario/{id}', [GerenciarDadosBancariosController::class, 'destroy']);
-Route::any('/editar-dado-bancario/{id}', [GerenciarDadosBancariosController::class, 'edit']);
-Route::any('/alterar-dado-bancario/{id}', [GerenciarDadosBancariosController::class, 'update']);
+Route::get('/gerenciar-dados-bancarios/{id}', [GerenciarDadosBancariosController::class, 'index'])->name('index.dadosbancarios.funcionario');
+Route::any('/incluir-dados-bancarios-funcionario/{id}', [GerenciarDadosBancariosController::class, 'create'])->name('create.dadosbancarios.funcionario');
+Route::any('/armazenar-dados-bancarios-funcionario/{id}', [GerenciarDadosBancariosController::class, 'store'])->name('store.dadosbancarios.funcionario');
+Route::any('/deletar-dado-bancario-funcionario/{id}', [GerenciarDadosBancariosController::class, 'destroy'])->name('destroy.dadosbancarios.funcionario');
+Route::any('/editar-dado-bancario-funcionario/{id}', [GerenciarDadosBancariosController::class, 'edit'])->name('edit.dadosbancarios.funcionario');
+Route::any('/alterar-dado-bancario-funcionario/{id}', [GerenciarDadosBancariosController::class, 'update'])->name('update.dadosbancarios.funcionario');
 Route::any('/recebe-agencias/{id}', [GerenciarDadosBancariosController::class, 'agencias']);
 
 
