@@ -199,9 +199,7 @@
                                 <div class="col-md-4 col-sm-12">CTPS
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton1" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="8" type="numeric" id="23" name="ctps"
@@ -210,9 +208,7 @@
                                 <div class="col-md-3 col-sm-12">Série
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton2" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <<i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="numeric" id="26" name="serie_ctps"
@@ -221,9 +217,7 @@
                                 <div class="col-md-2 col-sm-12">UF
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton3" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <select class="js-example-responsive form-select"
                                         style="border: 1px solid #999999; padding: 5px;" required="required"
@@ -239,9 +233,7 @@
                                 <div class="col-md-3 col-sm-12">Data de Emissão
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton4" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="date" id="24" name="dt_ctps" value="{{ old('dt_ctps') }}"
@@ -253,9 +245,7 @@
                                 <div class="col-md-4 col-sm-12">Título Eleitor
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton5" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="12" type="numeric" id="17" name="titele"
@@ -264,9 +254,7 @@
                                 <div class="col-md-3 col-sm-12">Zona
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton6" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="numeric" id="18" name="zona"
@@ -275,9 +263,7 @@
                                 <div class="col-md-3 col-sm-12">Seção
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton7" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="numeric" id="19" name="secao"
@@ -286,9 +272,7 @@
                                 <div class="col-md-2 col-sm-12">Data emissão
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton8" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="date" id="20" name="dt_titulo" value="{{ old('dt_titulo') }}">
@@ -329,9 +313,7 @@
                                 <div class="col-md-6 col-sm-12">Ascendente 1
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton9" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="text" maxlength="45"
@@ -342,9 +324,7 @@
                                 <div class="col-md-6 col-sm-12">Ascendente 2
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton10" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="text" maxlength="45"
@@ -479,23 +459,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
 
-<<<<<<< HEAD
     <script>
         $(document).ready(function() {
-=======
-    <!-- Select2 CSS -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet">
-    <!-- Select2 Bootstrap 5 theme -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-5-theme/1.1.0/select2-bootstrap-5-theme.min.css"
-        rel="stylesheet">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap JS -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
-    <!-- Select2 JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
-
->>>>>>> a90b7861f893a4b9c6add43eb3d56b50e4673f41
 
             $('#cidade1, #cidade2').select2({
                 theme: 'bootstrap-5',
@@ -564,6 +529,7 @@
         });
     </script>
 
+<<<<<<< HEAD
 
     <script>
         $(document).ready(function() {
@@ -610,6 +576,8 @@
         });
     </script>
 
+=======
+>>>>>>> f99da41c158fc14c91e135d161bd1520dc7bba29
     <script>
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
@@ -667,6 +635,7 @@
             customizePopover(popoverButton10, 'Pai/Mãe');
         });
     </script>
+<<<<<<< HEAD
 
     <style>
         /* Estilo para centralizar o conteúdo do botão */
@@ -681,4 +650,6 @@
             /* Espaçamento entre o círculo e o texto */
         }
     </style>
+=======
+>>>>>>> f99da41c158fc14c91e135d161bd1520dc7bba29
 @endsection

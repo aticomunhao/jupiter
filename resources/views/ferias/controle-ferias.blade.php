@@ -20,6 +20,30 @@
                             <div class="card-body">
                                 <div class="row" style="margin-left:5px">
                                     <div class="col-md-3">
+                                        <label for="1">Selecione o Setor Desejado</label>
+                                        <select id="idsetor" class="form-select select2" name="setor">
+                                            <option></option>
+                                            @foreach ($ferias as $feriass)
+                                                <option value="{{ $feriass->nome_setor }}"
+                                                    {{ $feriass->nome_setor ? 'selected' : '' }}>
+                                                    {{ $feriass->nome_setor }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="1">Selecione o mês Desejado</label>
+                                        <select id="idsetor" class="form-select select2" name="setor">
+                                            <option></option>
+                                            @foreach ($ferias as $feriass)
+                                                <option value="{{ $feriass->ano_de_referencia }}"
+                                                    {{ $feriass->ano_de_referencia ? 'selected' : '' }}>
+                                                    {{ $feriass->ano_de_referencia }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3"">
                                         <label for="1">Selecione o Ano Desejado</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
@@ -31,7 +55,7 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col" style="padding-top:24px;">
+                                    <div class="col-md-3" style="margin-top: 20px;">
                                         <a href="/controle-ferias" type="button" class="btn btn-light btn-sm"
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-right: 5px"
                                             value="">Limpar</a>
@@ -54,17 +78,19 @@
                                                 <th class="col">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
                                                 <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>
                                                 <th class="col" colspan="2">PERÍODO LIMITE DO GOZO DE FÉRIAS</th>
-                                                <th class="col">INÍCIO DO 1° TERÇO</th>
-                                                <th class="col">FIM DO 1° TERÇO</th>
-                                                <th class="col">INÍCIO DO 2° TERÇO</th>
-                                                <th class="col">FIM DO 2° TERÇO</th>
-                                                <th class="col">INÍCIO DO 3° TERÇO</th>
-                                                <th class="col">FIM DO 3° TERÇO</th>
+                                                <th class="col">INÍCIO DO 1° PERÍODO</th>
+                                                <th class="col">FIM DO 1° PERÍODO</th>
+                                                <th class="col">INÍCIO DO 2° PERÍODO</th>
+                                                <th class="col">FIM DO 2° PERÍODO</th>
+                                                <th class="col">INÍCIO DO 3° PERÍODO</th>
+                                                <th class="col">FIM DO 3° PERÍODO</th>
+                                                <th class="col">MÊS DAS FÉRIAS</th>
                                                 <th class="col">SITUAÇÃO DAS FÉRIAS</th>
+                                                <th class="col">VENDEU FÉRIAS</th>
                                                 <th class="coL">SETOR/CARGO</th>
                                             </tr>
                                         </thead>
-                                        <tbody style="font-size: 0.7rem; color:#000000;">
+                                        <tbody style="font-size: 0.6rem; color:#000000;">
                                             @foreach ($ferias as $feriass)
                                                 <tr style="text-align: center">
                                                     <td scope="">
@@ -78,7 +104,7 @@
                                                         {{ $feriass->ano_de_referencia + 2 }}
                                                     </td>
                                                     <td scope="">
-                                                        
+
                                                     </td>
                                                     <td scope="">
                                                         {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
@@ -108,7 +134,13 @@
                                                         {{ $feriass->dt_fim_c ? \Carbon\Carbon::parse($feriass->dt_fim_c)->format('d/m/y') : '--' }}
                                                     </td>
                                                     <td scope="">
+
+                                                    </td>
+                                                    <td scope="">
                                                         {{ $feriass->nome_stf }}
+                                                    </td>
+                                                    <td scope="">
+
                                                     </td>
                                                     <td scope="">
                                                         {{ $feriass->sigla_setor }} / {{ $feriass->nome_cargo }}
