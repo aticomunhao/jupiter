@@ -529,7 +529,6 @@
         });
     </script>
 
-<<<<<<< HEAD
 
     <script>
         $(document).ready(function() {
@@ -576,8 +575,6 @@
         });
     </script>
 
-=======
->>>>>>> f99da41c158fc14c91e135d161bd1520dc7bba29
     <script>
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function(popoverTriggerEl) {
@@ -635,7 +632,6 @@
             customizePopover(popoverButton10, 'Pai/Mãe');
         });
     </script>
-<<<<<<< HEAD
 
     <style>
         /* Estilo para centralizar o conteúdo do botão */
@@ -650,6 +646,4 @@
             /* Espaçamento entre o círculo e o texto */
         }
     </style>
-=======
->>>>>>> f99da41c158fc14c91e135d161bd1520dc7bba29
 @endsection
