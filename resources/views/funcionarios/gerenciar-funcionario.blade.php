@@ -44,16 +44,14 @@
                                         </select>
                                     </div>
                                     <div class="col" style="margin-top: 20px">
-                                        <input class="btn btn-light btn-sm"
-                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
-                                            type="submit" value="Pesquisar">
-
                                         <a href="/gerenciar-funcionario" class="btn btn-light btn-sm"
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
                                             type="button" value="">
                                             Limpar
                                         </a>
-
+                                        <input class="btn btn-light btn-sm"
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
+                                            type="submit" value="Pesquisar">
                                         <a href="/informar-dados">
                                             <input class="btn btn-success btn-sm" type="button" name="6"
                                                 value="Novo Cadastro +"
