@@ -50,6 +50,7 @@
                                     Férias</a>
                             </li>
                             <li><a href="{{ route('AdministrarFerias') }}" class="dropdown-item">Gerenciar Férias</a>
+                            </li><li><a href="{{ route('index.gerenciar-dia-limite-ferias') }}" class="dropdown-item">Dias limite para as Férias </a>
                             </li>
                         </ul>
                     </li>

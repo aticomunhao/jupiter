@@ -11,7 +11,9 @@ class GerenciarDataLimiteDeFeriasController extends Controller
      */
     public function index()
     {
-        //
+        $dias_limite_de_ferias = DB::table('hist_dia_limite_de_ferias')->get();
+
+        return view('dias-limite-ferias.gerenciar-dias-limite-ferias', compact('dias_limite_de_ferias'));
     }
 
     /**
