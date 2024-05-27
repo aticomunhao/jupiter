@@ -61,6 +61,7 @@ Route::get('/excluir-funcionario/{idp}', [GerenciarFuncionarioController::class,
 Route::get('/pessoa-funcionario/{idp}', [GerenciarFuncionarioController::class, 'delete']);
 Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
 Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
+Route::get('/visualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'show']);
 
 
 /*Gerenciar usuário*/

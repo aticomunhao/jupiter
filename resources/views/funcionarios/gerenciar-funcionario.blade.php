@@ -90,7 +90,7 @@
                                                         data-placement="top" title="Editar"><i class="bi-pencil"
                                                             style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
-                                                <a href="/pessoas-funcionario/{{ $listas->idp }}" type="button" class="btn btn-outline-primary" data-tt="tooltip"
+                                                <a href="/visualizar-funcionario/{{ $listas->idp }}" type="button" class="btn btn-outline-primary" data-tt="tooltip"
                                                         data-placement="top" title="Visualizar"><i class="bi-search"
                                                             style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
