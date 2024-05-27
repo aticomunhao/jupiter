@@ -291,7 +291,7 @@ Route::any('/atualizar-vagas/{idC}', [ControleVagasController::class, 'update'])
 /*Controle da Data Limite de Férias*/
 Route::any('/gerenciar-dia-limite-ferias',[GerenciarDataLimiteDeFeriasController::class,'index'])->name('index.gerenciar-dia-limite-ferias');
 Route::any('/criar-dia-limite-ferias',[GerenciarDataLimiteDeFeriasController::class,'create'])->name('create.gerenciar-dia-limite-ferias');
-Route::any('/criar-dia-limite-ferias',[GerenciarDataLimiteDeFeriasController::class,'store'])->name('store.gerenciar-dia-limite-ferias');
+Route::any('/armazenar-dia-limite-ferias',[GerenciarDataLimiteDeFeriasController::class,'store'])->name('store.gerenciar-dia-limite-ferias');
 
 /*Controle de Férias*/
 Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleVagas');

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GerenciarDataLimiteDeFeriasController extends Controller
 {
@@ -21,7 +23,7 @@ class GerenciarDataLimiteDeFeriasController extends Controller
      */
     public function create()
     {
-        //
+        return view('dias-limite-ferias.criar-dias-limite-ferias');
     }
 
     /**
@@ -29,7 +31,28 @@ class GerenciarDataLimiteDeFeriasController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dias_limite_de_ferias = DB::table('hist_dia_limite_de_ferias')
+            ->where('data_fim', '=', null)
+            ->first();
+
+        if ($dias_limite_de_ferias == null) {
+            DB::table('hist_dia_limite_de_ferias')
+                ->insert([
+                    'dias' => $request->input('dias'),
+                    'data_inicio' => Carbon::now()->toDateString(),
+                ]);
+        } else {
+            DB::table('hist_dia_limite_de_ferias')
+                ->where('data_fim', '=', null)
+                ->update(['data_fim' => Carbon::yesterday()->toDateString()]);
+            DB::table('hist_dia_limite_de_ferias')
+                ->insert([
+                    'dias' => $request->input('dias'),
+                    'data_inicio' => Carbon::now()->toDateString(),
+                ]);
+        }
+        app('flasher')->addSuccess('Alterado com Sucesso');
+        return redirect()->route('index.gerenciar-dia-limite-ferias');
     }
 
     /**
