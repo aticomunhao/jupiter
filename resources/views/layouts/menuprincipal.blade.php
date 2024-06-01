@@ -1,11 +1,12 @@
 <div id="app">
     <nav class="navbar navbar-dark navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;">
         <div class="container">
-            <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;" href="{{route('home.post')}}">Júpiter</a>
+            <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;"
+                href="{{ route('home.post') }}">Júpiter</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkdropdown"
                 aria-controls="navbarNavDarkdropdown" aria-expanded="false" aria-label="Toggle navigation"
                 style="border:none; color:#3d5b9c;">
-                <span class="navbar-toggler-icon" ></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class=" navbar-collapse" id="navbarNavDarkdropdown">
                 <ul class="navbar-nav">
@@ -50,7 +51,9 @@
                                     Férias</a>
                             </li>
                             <li><a href="{{ route('AdministrarFerias') }}" class="dropdown-item">Gerenciar Férias</a>
-                            </li><li><a href="{{ route('index.gerenciar-dia-limite-ferias') }}" class="dropdown-item">Dias limite para as Férias </a>
+                            </li>
+                            <li><a href="{{ route('index.gerenciar-dia-limite-ferias') }}" class="dropdown-item">Dias
+                                    limite para as Férias </a>
                             </li>
                         </ul>
                     </li>
@@ -82,11 +85,18 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="4" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff">Logout</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="4" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff">Logout</a>
                         <ul class="dropdown-menu " aria-labelledby="navbarDarkDropdownMenuLink">
-                            <li><a class="dropdown-item" href="/usuario/alterar-senha"><i class="mdi mdi-lock-open-outline font-size-17 text-muted align-middle mr-1"></i>Alterar Senha</a></li>
-                            <li><a class="dropdown-item" href="javascript:void();" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i class="mdi mdi-power font-size-17 text-muted align-middle mr-1 text-danger"></i> {{ __('Sair') }}</a></li>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            <li><a class="dropdown-item" href="/usuario/alterar-senha"><i
+                                        class="mdi mdi-lock-open-outline font-size-17 text-muted align-middle mr-1"></i>Alterar
+                                    Senha</a></li>
+                            <li><a class="dropdown-item" href="javascript:void();"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
+                                        class="mdi mdi-power font-size-17 text-muted align-middle mr-1 text-danger"></i>
+                                    {{ __('Sair') }}</a></li>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                style="display: none;">
                                 @csrf
                             </form>
                         </ul>

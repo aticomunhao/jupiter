@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\AjaxController;
+use App\Http\Controllers\ControleFeriasController;
 use App\Http\Controllers\ControleVagasController;
+use App\Http\Controllers\GerenciarAcordosController;
 use App\Http\Controllers\GerenciarAfastamentosController;
 use App\Http\Controllers\GerenciarAssociadoController;
 use App\Http\Controllers\GerenciarBaseSalarialController;
@@ -9,23 +12,20 @@ use App\Http\Controllers\GerenciarCargosController;
 use App\Http\Controllers\GerenciarCertificadosController;
 use App\Http\Controllers\GerenciarDadosBancariosAssociadoController;
 use App\Http\Controllers\GerenciarDadosBancariosController;
+use App\Http\Controllers\GerenciarDataLimiteDeFeriasController;
 use App\Http\Controllers\GerenciarDependentesController;
+use App\Http\Controllers\GerenciarEfetivoController;
+use App\Http\Controllers\GerenciarEntidadesController;
 use App\Http\Controllers\GerenciarFeriasController;
 use App\Http\Controllers\GerenciarFuncionarioController;
 use App\Http\Controllers\GerenciarHierarquiaController;
 use App\Http\Controllers\GerenciarSetoresController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\UsuarioController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PhotoController;
-use App\Http\Controllers\GerenciarEntidadesController;
-use App\Http\Controllers\GerenciarAcordosController;
 use App\Http\Controllers\GerenciarTipoDescontoController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ControleFeriasController;
-use App\Http\Controllers\GerenciarEfetivoController;
-use App\Http\Controllers\AjaxController;
-use App\Http\Controllers\GerenciarDataLimiteDeFeriasController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PhotoController;
+use App\Http\Controllers\UsuarioController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -290,9 +290,9 @@ Route::any('/excluir-vagas/{idC}', [ControleVagasController::class, 'destroy']);
 Route::any('/atualizar-vagas/{idC}', [ControleVagasController::class, 'update']);
 
 /*Controle da Data Limite de Férias*/
-Route::any('/gerenciar-dia-limite-ferias',[GerenciarDataLimiteDeFeriasController::class,'index'])->name('index.gerenciar-dia-limite-ferias');
-Route::any('/criar-dia-limite-ferias',[GerenciarDataLimiteDeFeriasController::class,'create'])->name('create.gerenciar-dia-limite-ferias');
-Route::any('/armazenar-dia-limite-ferias',[GerenciarDataLimiteDeFeriasController::class,'store'])->name('store.gerenciar-dia-limite-ferias');
+Route::any('/gerenciar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'index'])->name('index.gerenciar-dia-limite-ferias');
+Route::any('/criar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'create'])->name('create.gerenciar-dia-limite-ferias');
+Route::any('/armazenar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'store'])->name('store.gerenciar-dia-limite-ferias');
 
 /*Controle de Férias*/
 Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleVagas');

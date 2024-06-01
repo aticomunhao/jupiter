@@ -24,7 +24,7 @@
                 <div class="table-responsive">
                     <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                         <thead style="text-align: center;">
-                            <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
+                        <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
 
                                 <th scope="col">Início 1</th>
                                 <th scope="col">Fim 1</th>

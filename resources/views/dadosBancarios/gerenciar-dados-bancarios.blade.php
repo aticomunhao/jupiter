@@ -23,7 +23,8 @@
                                     id="iddt_inicio" name="dt_inicio" required="required" disabled>
                             </div>
                             <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
-                                <a href="{{ route('create.dadosbancarios.funcionario', ['id'=> $funcionario->id]) }}" class="col-6">
+                                <a href="{{ route('create.dadosbancarios.funcionario', ['id' => $funcionario->id]) }}"
+                                    class="col-6">
                                     <button type="button" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;"
                                         class="btn btn-success col-md-8 col-12">
                                         Novo+
@@ -65,7 +66,7 @@
                                                     {{ \Carbon\Carbon::parse($contaBancaria->dt_fim)->format('d/m/Y') }}
                                                 </td>
                                                 <td style="text-align: center"> {{--  Área de ações  --}}
-                                                    <a href="{{ route('edit.dadosbancarios.funcionario',['id' =>$contaBancaria->id]) }}"
+                                                    <a href="{{ route('edit.dadosbancarios.funcionario', ['id' => $contaBancaria->id]) }}"
                                                         class="btn btn-outline-warning" data-tt="tooltip"
                                                         data-placement="top" title="Editar">{{--  Botão editar  --}}
                                                         <i class="bi bi-pencil"

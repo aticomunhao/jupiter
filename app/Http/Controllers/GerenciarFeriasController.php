@@ -336,8 +336,7 @@ class GerenciarFeriasController extends Controller
             } //Verifica se o primeiro periodo é menor que cinco dias
             elseif (Carbon::parse($data_inicio_segundo_periodo)->diffInDays($data_fim_segundo_periodo) < 5) {
                 app('flasher')->addError('O segundo periodo é inferior a 5 dias');
-            }
-            elseif (Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_segundo_periodo or Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_segundo_periodo) {
+            } elseif (Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_segundo_periodo or Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_segundo_periodo) {
                 app('flasher')->addSuccess('Data de Inicio das férias não atendem aos padrões da comunhao.');
             } else {
                 DB::table('ferias')->where('id', $ferias->id)->update(['dt_ini_a' => $data_inicio_primeiro_periodo, 'dt_fim_a' => $data_fim_primeiro_periodo, 'dt_ini_b' => $data_inicio_segundo_periodo, 'dt_fim_b' => $data_fim_segundo_periodo, 'dt_ini_c' => null, 'dt_fim_c' => null, 'motivo_retorno' => null, 'adianta_13sal' => $adiantar_decimo_terceiro, 'status_pedido_ferias' => 3, 'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo), 'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo), 'vendeu_ferias' => $formulario_de_ferias["vendeFerias"], 'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')]);
@@ -404,9 +403,9 @@ class GerenciarFeriasController extends Controller
             } //Verifica se o terceiro periodo ocore em uma sexta
             elseif ($dia_da_semana_de_saida_do_terceiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do terceiro período ocorre dois dias antes do descanso semanal remunerado');
-            } elseif (Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_segundo_periodo or Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_segundo_periodo or Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_terceiro_periodo ) {
+            } elseif (Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_segundo_periodo or Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_segundo_periodo or Carbon::parse($funcionario->dt_inicio_periodo_de_licenca)->addDays($dias_limite_de_ferias->dias)->toDateString() <= $data_inicio_terceiro_periodo) {
                 app('flasher')->addSuccess('Data de Inicio das férias não atendem aos padrões da comunhao.');
-            }  elseif (($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 >= 15) || ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 >= 15) || ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) >= 15) {
+            } elseif (($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 >= 15) || ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 >= 15) || ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) >= 15) {
                 DB::table('ferias')->where('id', $ferias->id)->update(['dt_ini_a' => $data_inicio_primeiro_periodo, 'dt_fim_a' => $data_fim_primeiro_periodo, 'dt_ini_b' => $data_inicio_segundo_periodo, 'dt_fim_b' => $data_fim_segundo_periodo, 'dt_ini_c' => $data_inicio_terceiro_periodo, 'dt_fim_c' => $data_fim_terceiro_periodo, 'adianta_13sal' => $adiantar_decimo_terceiro, 'motivo_retorno' => null, 'status_pedido_ferias' => 3, 'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo), 'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo), 'nr_dias_per_c' => $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo), 'vendeu_ferias' => $formulario_de_ferias["vendeFerias"], 'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')]);
                 DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
@@ -426,20 +425,24 @@ class GerenciarFeriasController extends Controller
 
     public function recusa_pedido_de_ferias(Request $request, $id)
     {
+        try {
+            $request->input('motivo_da_recusa');
 
-        $request->input('motivo_da_recusa');
+            DB::table('ferias')->where('id', $id)->update(['motivo_retorno' => $request->input('motivo_da_recusa'), 'status_pedido_ferias' => 5]);
 
-        DB::table('ferias')->where('id', $id)->update(['motivo_retorno' => $request->input('motivo_da_recusa'), 'status_pedido_ferias' => 5]);
+            DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id, 'motivo_retorno' => $request->input('motivo_da_recusa'), 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+            app('flasher')->addSuccess('Recusado com sucesso.');
 
-        DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id, 'motivo_retorno' => $request->input('motivo_da_recusa'), 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+        } catch (Exception $exception) {
+            app('flasher')->addError("Houve um erro inesperado: #" . $exception->getCode());
+            DB::rollBack();
+        }
 
         return redirect()->route('AdministrarFerias');
     }
 
     public function enviarFerias(Request $request)
     {
-
-
         try {
             $numeros_checkboxes = $request->input('checkbox');
 
@@ -449,16 +452,18 @@ class GerenciarFeriasController extends Controller
                 return redirect()->back();
             }
 
-            $ferias_funcionarios = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->select('pessoas.nome_completo as nome_completo_funcionario', 'pessoas.id as id_pessoa', 'ferias.dt_ini_a', 'ferias.dt_fim_a', 'ferias.dt_ini_b', 'ferias.dt_fim_b', 'ferias.dt_ini_c', 'ferias.dt_fim_c', 'ferias.motivo_retorno', 'ferias.id as id_ferias', 'funcionarios.dt_inicio', 'ferias.ano_de_referencia', 'ferias.id_funcionario', 'status_pedido_ferias.id as id_status_pedido_ferias', 'status_pedido_ferias.nome as status_pedido_ferias')->WhereIn('ferias.id', $numeros_checkboxes)->get();
-
+            $ferias_funcionarios = DB::table('ferias')
+                ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+                ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+                ->select('pessoas.nome_completo as nome_completo_funcionario',
+                    'pessoas.id as id_pessoa', 'ferias.dt_ini_a', 'ferias.dt_fim_a', 'ferias.dt_ini_b', 'ferias.dt_fim_b', 'ferias.dt_ini_c', 'ferias.dt_fim_c', 'ferias.motivo_retorno', 'ferias.id as id_ferias', 'funcionarios.dt_inicio', 'ferias.ano_de_referencia', 'ferias.id_funcionario', 'status_pedido_ferias.id as id_status_pedido_ferias', 'status_pedido_ferias.nome as status_pedido_ferias')->WhereIn('ferias.id', $numeros_checkboxes)->get();
             foreach ($ferias_funcionarios as $ferias_funcionario) {
-
                 if (empty($ferias_funcionario->dt_ini_a)) {
                     app('flasher')->addError('Foi feita uma tentativa de enviar as ferias de ' . $ferias_funcionario->nome_completo_funcionario . ', porém as mesmas não foram preenchidas.');
                     return redirect()->route('IndexGerenciarFerias');
                 }
             }
-
             foreach ($ferias_funcionarios as $ferias_funcionario) {
                 DB::table('ferias')->where('id', '=', $ferias_funcionario->id_ferias)->update(['status_pedido_ferias' => 4]);
             }
@@ -475,6 +480,6 @@ class GerenciarFeriasController extends Controller
     {
         DB::table('ferias')->where('id', $id)->update(['status_pedido_ferias' => 1]);
         DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id, 'motivo_retorno' => 'Solicitada Reabertura do Formulario pelo funcionário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
-        return redirect()->route('AdministrarFerias');
+        return redirect()->back();
     }
 }

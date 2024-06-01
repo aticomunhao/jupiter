@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -31,7 +32,7 @@
                                 <div class="card">
 
                                     <div class="card-body">
-                                        {{  \Carbon\Carbon::parse($periodo_aquisitivo->dt_inicio_periodo_de_licenca)->format('d/m/Y') }}
+                                        {{  Carbon::parse($periodo_aquisitivo->dt_inicio_periodo_de_licenca)->format('d/m/Y') }}
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +41,7 @@
                                 <div class="card">
 
                                     <div class="card-body">
-                                        {{     \Carbon\Carbon::parse($periodo_aquisitivo->dt_fim_periodo_de_licenca)->format('d/m/Y')    }}
+                                        {{     Carbon::parse($periodo_aquisitivo->dt_fim_periodo_de_licenca)->format('d/m/Y')    }}
                                     </div>
                                 </div>
                             </div>

@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 @section('head')
     <title>Gerenciar Férias</title>
@@ -117,22 +118,22 @@
                                             </td>
 
                                             <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
+                                                {{ $periodos_aquisitivos->dt_ini_a ? Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
                                             </td>
                                             <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_a ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
+                                                {{ $periodos_aquisitivos->dt_fim_a ? Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
                                             </td>
                                             <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
+                                                {{ $periodos_aquisitivos->dt_ini_b ? Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
                                             </td>
                                             <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_b ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
+                                                {{ $periodos_aquisitivos->dt_fim_b ? Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
                                             </td>
                                             <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
+                                                {{ $periodos_aquisitivos->dt_ini_c ? Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
                                             </td>
                                             <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_c ? \Carbon\Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
+                                                {{ $periodos_aquisitivos->dt_fim_c ? Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
                                             </td>
                                             <td style="text-align: center">
                                                 {{ $periodos_aquisitivos->status_pedido_ferias }}
@@ -184,61 +185,7 @@
                                                     </button>
                                                 </a>
 
-                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
-                                                    <!-- Button trigger modal -->
 
-                                                    <button type="button" class="btn btn-outline-primary"
-                                                            style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
-                                                            data-placement="top" title="Reabrir Formulário"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}">
-                                                        <i class="bi bi-folder2-open"></i>
-                                                    </button>
-                                                    <div class="modal fade"
-                                                         id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
-                                                         tabindex="-1" role="dialog"
-                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header"
-                                                                     style="background-color: rgb(88, 149, 242)">
-                                                                    <h2 class="modal-title" id="exampleModalLabel"
-                                                                        style="color: #ffffff">
-                                                                        Reabrir
-                                                                        Formulário</h2>
-                                                                    <button type="button" class="btn-close"
-                                                                            data-bs-dismiss="modal" aria-label="Close">
-
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    Deseja Reabrir as férias do
-                                                                    funcionario:
-                                                                    <br>
-                                                                    <span
-                                                                        style="font-size: 20px; color: rgb(48, 121, 231)">
-                                                                        {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}
-                                                                        </span>
-                                                                    ?
-                                                                </div>
-                                                                <div class="modal-footer"
-                                                                     style="background-color: #ffffff">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                            data-bs-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                    <a
-                                                                        href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}">
-                                                                        <button type="button"
-                                                                                class="btn btn-primary">
-                                                                            Confirmar
-                                                                        </button>
-                                                                    </a>
-
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                @endif
                                             </td>
                                         </tr>
                                     @endforeach

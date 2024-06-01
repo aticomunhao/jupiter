@@ -26,9 +26,8 @@
 
                                 <div class="col-md-8 col-12">
                                     {{-- Botao submit da pesquisa --}}
-                                    <a href="{{ route('create.gerenciar-dia-limite-ferias') }}"
-                                       {{-- Botao com rota para incluir entidades --}}
-                                       class="btn btn-success  offset-md-8" style="box-shadow: 1px 2px 5px #000000;">
+                                    <a href="{{ route('create.gerenciar-dia-limite-ferias') }}" {{-- Botao com rota para incluir entidades --}}
+                                        class="btn btn-success  offset-md-8" style="box-shadow: 1px 2px 5px #000000;">
                                         Novo+
                                     </a>
                                 </div>
@@ -39,20 +38,22 @@
                         <table class="table  table-striped table-bordered border-secondary table-hover align-middle">
                             {{-- Tabela com todas as informacoes --}}
                             <thead style="text-align: center; ">
-                            <tr style="background-color: #d6e3ff; font-size:17px; color:#000;">
-                                <th>Dias Para a Data Limite</th>
-                                <th>Dia inicio de Validade</th>
-                                <th>Dia Fim Validade</th>
-                            </tr>
+                                <tr style="background-color: #d6e3ff; font-size:17px; color:#000;">
+                                    <th>Dias Para a Data Limite</th>
+                                    <th>Dia inicio de Validade</th>
+                                    <th>Dia Fim Validade</th>
+                                </tr>
                             </thead>
                             <tbody style="font-size: 15px; color:#000000;">
-                            @foreach ($dias_limite_de_ferias as $dia_limite_ferias)
-                                <tr style="text-align: center">
-                                    <td> {{ $dia_limite_ferias->dias }}</td>
-                                    <td> {{ Carbon\Carbon::parse($dia_limite_ferias->data_inicio)->format('d/m/Y')  }}</td>
-                                    <td>{{$dia_limite_ferias->data_fim ? \Carbon\Carbon::parse($dia_limite_ferias->data_fim)->format('d/m/Y') : '--'  }} </td>
-                                </tr>
-                            @endforeach
+                                @foreach ($dias_limite_de_ferias as $dia_limite_ferias)
+                                    <tr style="text-align: center">
+                                        <td> {{ $dia_limite_ferias->dias }}</td>
+                                        <td> {{ Carbon\Carbon::parse($dia_limite_ferias->data_inicio)->format('d/m/Y') }}
+                                        </td>
+                                        <td>{{ $dia_limite_ferias->data_fim ? \Carbon\Carbon::parse($dia_limite_ferias->data_fim)->format('d/m/Y') : '--' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

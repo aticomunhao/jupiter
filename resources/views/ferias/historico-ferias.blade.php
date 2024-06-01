@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -181,7 +182,7 @@
                         @foreach ($historico_recusa_ferias as $recusa_de_ferias)
                             <tr>
                                 <td class="text-align: center">
-                                    {{ \Carbon\Carbon::parse($recusa_de_ferias->data_de_acontecimento)->format('d/m/Y') }}
+                                    {{ Carbon::parse($recusa_de_ferias->data_de_acontecimento)->format('d/m/Y') }}
                                 </td>
                                 <td class="text-align: center">{{ $recusa_de_ferias->motivo_retorno }}</td>
                             </tr>
