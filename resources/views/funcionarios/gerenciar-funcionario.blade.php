@@ -37,7 +37,7 @@
                                     <div class="col-md-2 col-sm-12">Situação
                                         <select class="form-select custom-select"
                                             style="border: 1px solid #999999; padding: 5px;" id="4" name="status"
-                                            type="number" required="required">
+                                            type="number">
                                             <option value="">Todos</option>
                                             <option value="1">Ativo</option>
                                             <option value="2">Inativo</option>

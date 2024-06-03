@@ -18,6 +18,7 @@ class GerenciarFuncionarioController extends Controller
 
 
     public function index(Request $request)
+
     {
 
         $lista = DB::table('funcionarios AS f')
@@ -47,7 +48,7 @@ class GerenciarFuncionarioController extends Controller
         }
 
         if ($request->nome) {
-            $lista->where('p.nome_completo', 'LIKE', '%' . $request->nome . '%');
+            $lista->where('p.nome_completo', 'ilike', '%' . $request->nome . '%');
         }
 
         $lista = $lista->orderBy('p.status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
@@ -220,9 +221,9 @@ class GerenciarFuncionarioController extends Controller
 
             ]);
 
-            $id_pessoa = DB::table('pessoas')
-                ->select(DB::raw('MAX(id) as max_id'))
-                ->value('max_id');
+            $id_pessoa = DB::select("SELECT nextval('seq_pessoa') AS next_id")[0]->next_id;
+
+            //dd($id_pessoa);
 
 
             DB::table('funcionarios')->insert([
