@@ -102,7 +102,7 @@ class UsuarioController extends Controller
 
     public function edit($idUsuario)
     {
-        $resultPerfil = DB::select('select id, nome from tipo_perfil');
+        $resultPerfil = DB::select('select id, descricao as nome from perfil');
 
         $resultDeposito = $this->getDeposito();
 
@@ -118,7 +118,7 @@ class UsuarioController extends Controller
 
         $resultPerfisUsuarioArray = [];
         foreach ($resultPerfisUsuario as $resultPerfisUsuarios) {
-            $resultPerfisUsuarioArray[] = $resultPerfisUsuarios->id_tp_perfil;
+            $resultPerfisUsuarioArray[] = $resultPerfisUsuarios->id_perfil;
         }
 
         $resultDepositoUsuario = DB::select('select * from usuario_deposito where id_usuario =' . $idUsuario);
@@ -207,7 +207,7 @@ class UsuarioController extends Controller
 
     public function configurarUsuario($id)
     {
-        $resultPerfil = DB::select('select id, nome from tipo_perfil');
+        $resultPerfil = DB::select('select id, descricao as nome from perfil');
 
         $resultDeposito = $this->getDeposito();
 
@@ -245,7 +245,7 @@ class UsuarioController extends Controller
     public function inserirPerfilUsuario($perfil, $idPessoa)
     {
         $idUsuario = DB::select('select id from usuario where id_pessoa =' . $idPessoa);
-        $resultPerfil = DB::select('select id, nome from tipo_perfil');
+        $resultPerfil = DB::select('select id, descricao as nome from perfil');
 
         foreach ($perfil as $perfils) {
             foreach ($resultPerfil as $resultPerfils) {
@@ -254,7 +254,7 @@ class UsuarioController extends Controller
 
                     DB::table('usuario_perfil')->insert([
                         'id_usuario' => $idUsuario[0]->id,
-                        'id_tp_perfil' => $resultPerfils->id,
+                        'id_perfil' => $resultPerfils->id,
                     ]);
                 }
             }
