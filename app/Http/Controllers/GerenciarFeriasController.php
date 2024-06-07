@@ -208,7 +208,7 @@ class GerenciarFeriasController extends Controller
             $periodo_de_ferias = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->select('pessoas.nome_completo as nome_completo_funcionario',
             )->where('ferias.id', '=', $id)->first();
             DB::table('ferias')->where('id', '=', $id)->update(['status_pedido_ferias' => 6]);
-            DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id, 'motivo_retorno' => "Sucesso", 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+            DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id, 'motivo_retorno' => "Férias e Autoridas e Homologadas.", 'data_de_acontecimento' => Carbon::today()->toDateString()]);
             app('flasher')->addSuccess("As ferias do funcionario $periodo_de_ferias->nome_completo_funcionario foram autorizadas.");
             return redirect()->back();
 
