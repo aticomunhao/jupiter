@@ -115,46 +115,41 @@ class GerenciarFeriasController extends Controller
 
     public function InsereERetornaFuncionarios(Request $request)
     {
-        try {
+
+        $ano_referencia = $request->input('ano_referencia');
+
+        if (empty($ano_referencia)) {
+            $ano_referencia = Carbon::now()->year - 1;
+        } else {
             $ano_referencia = $request->input('ano_referencia');
-
-            if (empty($ano_referencia)) {
-                $ano_referencia = Carbon::now()->year - 1;
-            } else {
-                $ano_referencia = $request->input('ano_referencia');
-            }
-
-
-            $data_do_ultimo_dia = Carbon::now()->subDays(1)->toDateString();
-
-            $funcionarios = DB::table('funcionarios')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->where('dt_inicio', '<', $data_do_ultimo_dia)->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'funcionarios.dt_inicio as data_de_inicio', 'pessoas.nome_completo')->get();
-
-
-            foreach ($funcionarios as $funcionario) {
-                $periodo_de_ferias_do_funcionario = DB::table('ferias')->where('id_funcionario', '=', $funcionario->id_funcionario)->where('ano_de_referencia', '=', $ano_referencia)->first();
-
-                if (empty($periodo_de_ferias_do_funcionario)) {
-                    $dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
-
-                    $data_inicio = Carbon::parse($funcionario->data_de_inicio);
-                    $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia - 1)->toDateString();
-                    $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->subDay()->toDateString();
-                    $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
-                    $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
-                    $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
-                    $funcionario->data_fim_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 2)->subDay()->toDateString();
-                    $id_ferias = DB::table('ferias')->insertGetId(['ano_de_referencia' => $ano_referencia, 'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo, 'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo, 'status_pedido_ferias' => 1, 'id_funcionario' => $funcionario->id_funcionario, 'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo, 'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo]);
-                    DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id_ferias, 'motivo_retorno' => "Criação do Formulario de Férias", 'data_de_acontecimento' => Carbon::now()->toDateString()]);
-                }
-            }
-
-            app('flasher')->addSuccess("Periodo de ferias de " . $ano_referencia + 1 . " - " . $ano_referencia + 2 . "foi criado");
-
-        } catch (Exception $exception) {
-            DB::rollBack();
-            app('flasher')->addError("Houve um erro inesperado: #" . $exception->getCode());
-
         }
+
+
+        $ano_referencia = Carbon::createFromDate($ano_referencia, 12, 31)->toDateString();
+
+
+        $funcionarios = DB::table('funcionarios')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->where('dt_inicio', '<', $ano_referencia)->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'funcionarios.dt_inicio as data_de_inicio', 'pessoas.nome_completo')->get();
+
+        dd($funcionarios);
+        foreach ($funcionarios as $funcionario) {
+            $periodo_de_ferias_do_funcionario = DB::table('ferias')->where('id_funcionario', '=', $funcionario->id_funcionario)->where('ano_de_referencia', '=', $ano_referencia)->first();
+
+            if (empty($periodo_de_ferias_do_funcionario)) {
+                $dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
+
+                $data_inicio = Carbon::parse($funcionario->data_de_inicio);
+                $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia - 1)->toDateString();
+                $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->subDay()->toDateString();
+                $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
+                $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
+                $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
+                $funcionario->data_fim_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 2)->subDay()->toDateString();
+                $id_ferias = DB::table('ferias')->insertGetId(['ano_de_referencia' => $ano_referencia, 'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo, 'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo, 'status_pedido_ferias' => 1, 'id_funcionario' => $funcionario->id_funcionario, 'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo, 'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo]);
+                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id_ferias, 'motivo_retorno' => "Criação do Formulario de Férias", 'data_de_acontecimento' => Carbon::now()->toDateString()]);
+            }
+        }
+
+        app('flasher')->addSuccess("Periodo de ferias de " . $ano_referencia + 1 . " - " . $ano_referencia + 2 . "foi criado");
 
 
         return redirect()->route('AdministrarFerias');
