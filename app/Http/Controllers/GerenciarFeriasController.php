@@ -269,7 +269,7 @@ class GerenciarFeriasController extends Controller
             return redirect()->route('IndexGerenciarFerias');
         }
 
-        $diasDeDireitoDoFuncionario = 30;
+
 
         // Verifica o número de períodos de férias
         if ($formulario_de_ferias['numeroPeriodoDeFerias'] == 1) {
