@@ -295,7 +295,7 @@ Route::any('/criar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::c
 Route::any('/armazenar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'store'])->name('store.gerenciar-dia-limite-ferias');
 
 /*Controle de Férias*/
-Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleVagas');
+Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleFerias');
 
 /*Ajax Controller */
 Route::get('/retorna-cidades/{id}', [AjaxController::class, 'retornaCidades']);

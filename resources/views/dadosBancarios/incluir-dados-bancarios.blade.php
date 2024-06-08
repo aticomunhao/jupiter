@@ -36,7 +36,7 @@
                                     <select id="idbanco" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-select" aria-label="Default select example" name="desc_banco" required>
                                         @foreach ($desc_bancos as $desc_banco)
-                                            <option value="{{ $desc_banco->id_db }}">
+                                            <option value="{{ $desc_banco->id_db }}" {{ $desc_banco->nome == $desc_banco->id_db ? 'selected' : '' }}>
                                                 {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }} -
                                                 {{ $desc_banco->nome }}
                                             </option>

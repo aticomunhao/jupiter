@@ -75,7 +75,7 @@
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                     <tr style="background-color: #d6e3ff; font-size: 0.7rem; color:#000000;">
-                                        <th class="col">NOME DO EMPREGADO</th>
+                                        <th class="col-md-2">NOME DO EMPREGADO</th>
                                         <th class="col">DATA DE ADMISSÃO</th>
                                         <th class="col">PERÍODO AQUISITIVO</th>
                                         <th class="col">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
@@ -178,17 +178,13 @@
         });
     </script>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Destacar Nome</title>
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
         <style>
             .highlight {
                 color: red;
             }
         </style>
-    </head>
+
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const nomeItems = document.querySelectorAll('.nome-item');

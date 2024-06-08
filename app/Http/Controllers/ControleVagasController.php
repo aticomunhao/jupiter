@@ -18,6 +18,7 @@ class ControleVagasController extends Controller
     public function index(Request $request)
     {
 
+        //PRIMEIRA TABELA
         $cargo = DB::table('cargos AS c')
             ->leftJoin('base_salarial AS bs', 'bs.cargo', 'c.id')
             ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade_funcionarios'), 'c.id AS idCargo', 'c.nome AS nomeCargo')
@@ -25,8 +26,8 @@ class ControleVagasController extends Controller
 
 
         $vaga = DB::table('tp_vagas_autorizadas AS va')
-            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'va.id_cargo AS idDoCargo')
-            ->groupBy('idDoCargo');
+            ->select(DB::raw('SUM(va.vagas_autorizadas) AS total_vagas'), 'va.id_cargo AS idDoCargo', 'va.vagas_excelencia AS vExcelencia')
+            ->groupBy('idDoCargo', 'vExcelencia');
 
 
 
@@ -42,7 +43,7 @@ class ControleVagasController extends Controller
         $vaga = $vaga->get();
         //dd($vaga, $cargo);
 
-
+        //SEGUNDA TABELA
         $setor = DB::table('setor AS s')
             ->select('s.id AS idSetor', 's.nome AS nomeSetor')
             ->orderBy('nomeSetor');
@@ -61,7 +62,7 @@ class ControleVagasController extends Controller
         foreach ($setor as $key => $teste) {
             $vagaUm = DB::table('tp_vagas_autorizadas AS va')
                 ->leftJoin('cargos AS c', 'c.id', 'va.id_cargo')
-                ->select('va.vagas_autorizadas AS vagas', 'c.nome AS nomeCargo', 'c.id AS idCargo','va.id AS idVagas')
+                ->select('va.vagas_autorizadas AS vagas', 'c.nome AS nomeCargo', 'c.id AS idCargo', 'va.id AS idVagas', 'va.vagas_excelencia AS vExcelencia')
                 ->where('va.id_setor', $teste->idSetor)
                 ->get();
 
@@ -114,17 +115,24 @@ class ControleVagasController extends Controller
 
         if ($existingVagas) {
             app('flasher')->addError('Esse Cargo já possui vagas nesse Setor.');
-            return redirect()->route('indexControleVagas');
-        }
-        else {
+            return redirect()->back()->withInput();
+        } else {
             $data = [
                 'id_cargo' => $cargoId,
                 'id_setor' => $setorId,
-                'vagas_autorizadas' => $request->input('number'),
+                'vagas_autorizadas' => $request->input('vTotal'),
+                'vagas_excelencia' => $request->input('vExcelencia'),
+            ];
+            $histData = [
+                'id_cargo' => $cargoId,
+                'id_setor' => $setorId,
+                'vagas_autorizadas' => $request->input('vTotal'),
+                'vagas_excelencia' => $request->input('vExcelencia'),
+                'alteracao' => 'Criado'
             ];
 
             DB::table('tp_vagas_autorizadas')->insert($data);
-            DB::table('hist_tp_vagas_autorizadas')->insert($data);
+            DB::table('hist_tp_vagas_autorizadas')->insert($histData);
             app('flasher')->addSuccess('O cadastro das vagas foram realizadas com sucesso.');
             return redirect()->route('indexControleVagas');
         }
@@ -142,7 +150,8 @@ class ControleVagasController extends Controller
                 'va.vagas_autorizadas AS vTotal',
                 'cargos.nome AS nomeCargo',
                 'setor.nome AS nomeSetor',
-                'va.id AS idVagas'
+                'va.id AS idVagas',
+                'va.vagas_excelencia AS vExcelencia',
             )
             ->limit(1)
             ->get();
@@ -158,28 +167,39 @@ class ControleVagasController extends Controller
         $idVagas = $request->input('idVagas');
 
         // Obtenha o número de vagas autorizadas enviado no formulário
-        $numeroVagas = $request->input('number');
+        $numeroVagas = $request->input('vTotal');
+        $vExcelencia = $request->input('vExcelencia');
 
         // Atualize o número de vagas autorizadas na tabela tp_vagas_autorizadas
         DB::table('tp_vagas_autorizadas')
             ->where('id', $idVagas)
-            ->update(['vagas_autorizadas' => $numeroVagas]);
+            ->update([
+                'vagas_autorizadas' => $numeroVagas,
+                'vagas_excelencia' => $vExcelencia,
+            ]);
 
-            DB::table('hist_tp_vagas_autorizadas')
+        $histData = [
+            'id_cargo' => $request->input('vagasCargo'),
+            'id_setor' => $request->input('vagasSetor'),
+            'vagas_autorizadas' => $request->input('vTotal'),
+            'vagas_excelencia' => $request->input('vExcelencia'),
+            'alteracao' => 'Houve mudanca'
+        ];
+
+        DB::table('hist_tp_vagas_autorizadas')
             ->where('id', $idVagas)
-            ->update(['mudanca_vagas' => $numeroVagas, 'alteracao' => 'Mudanca na quantidade de Vagas']);
+            ->insert($histData);
 
         // Redirecione de volta para a página de controle de vagas
         return redirect()->route('indexControleVagas');
     }
 
     public function destroy(string $idC)
-{
+    {
 
-    DB::table('tp_vagas_autorizadas')->where('id', $idC)->delete();
-    DB::table('hist_tp_vagas_autorizadas')->where('id', $idC)->update(['alteracao' => 'Deletado']);
+        DB::table('tp_vagas_autorizadas')->where('id', $idC)->delete();
+        DB::table('hist_tp_vagas_autorizadas')->where('id', $idC)->update(['alteracao' => 'Deletado']);
 
-    return redirect()->route('indexControleVagas')->with('success', 'Vagas excluídas com sucesso!');
-}
-
+        return redirect()->route('indexControleVagas')->with('success', 'Vagas excluídas com sucesso!');
+    }
 }

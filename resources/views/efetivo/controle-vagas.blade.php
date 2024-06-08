@@ -87,16 +87,14 @@
                                 </div>
                                 <div class="col" style="padding-top:20px;">
                                     <a href="/controle-vagas" type="button" class="btn btn-light"
-                                        style="box-shadow: 1px 2px 5px #000000; margin-right: 5px"
-                                        value="">Limpar</a>
+                                        style="box-shadow: 1px 2px 5px #000000; margin-right: 5px" value="">Limpar</a>
                                     <input type="submit" value="Pesquisar" class="btn btn-success btn-light"
                                         style="box-shadow: 1px 2px 5px #000000; margin-right: 5px">
                                     <input type="hidden" name="tipo_pesquisa" id="tipoPesquisa"
                                         value="{{ $pesquisa }}">
                                     {{-- Botão de incluir --}}
                                     <a href="/incluir-vagas/" class="col">
-                                        <button type="button"
-                                            style="box-shadow: 1px 2px 5px #000000;"
+                                        <button type="button" style="box-shadow: 1px 2px 5px #000000;"
                                             class="btn btn-success">
                                             Novo+
                                         </button>
@@ -111,11 +109,12 @@
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-4">SETOR/CARGO</th>
-                                            <th class="col-2">VAGAS PREENCHIDAS</th>
-                                            <th class="col-2">TOTAL DE VAGAS</th>
-                                            <th class="col-2">VAGAS REMANESCENTES</th>
-                                            <th class="col-2">AÇÕES</th>
+                                            <th class="col-md-4">SETOR/CARGO</th>
+                                            <th class="col-md-2">VAGAS PREENCHIDAS</th>
+                                            <th class="col-md-1">TOTAL DE VAGAS</th>
+                                            <th class="col-md-2">VAGAS REMANESCENTES</th>
+                                            <th class="col-md-2">VAGAS DE EXCELÊNCIA</th>
+                                            <th class="col-md-2">AÇÕES</th>
                                         </tr>
                                     </thead>
                                     <!-- Primeira tabela -->
@@ -130,11 +129,13 @@
                                             @if ($cargos->nomeCargo && !in_array($cargos->nomeCargo, $cargosExibidos))
                                                 @php
                                                     $vagasTotais = 0;
+                                                    $vagasExcelencia = 0;
                                                 @endphp
                                                 @foreach ($vaga as $v)
                                                     @if ($v->idDoCargo == $cargos->idCargo)
                                                         @php
                                                             $vagasTotais += $v->total_vagas;
+                                                            $vagasExcelencia += $v->vExcelencia;
                                                         @endphp
                                                     @endif
                                                 @endforeach
@@ -145,6 +146,7 @@
                                                     <td style="text-align: center">{{ $vagasTotais }}</td>
                                                     <td style="text-align: center">
                                                         {{ $vagasTotais - $cargos->quantidade_funcionarios }}</td>
+                                                    <td style="text-align: center">{{ $vagasExcelencia }}</td>
                                                     <td style="text-align: center">NÃO DISPONÍVEL</td>
                                                 </tr>
                                                 @php
@@ -163,6 +165,7 @@
                                             <td style="text-align: center">
                                                 <strong>{{ $totalVagas1 - $totalFuncionarios1 }}</strong>
                                             </td>
+                                            <td></td>
                                             <td></td>
                                         </tr>
 
@@ -185,6 +188,7 @@
                                                     <td style="text-align: center">{{ $vagaDois->vagas }}</td>
                                                     <td style="text-align: center">
                                                         {{ $vagaDois->vagas - $vagaDois->gato->first()->quantidade }}</td>
+                                                    <td style="text-align: center">{{ $vagaDois->vExcelencia }}</td>
                                                     <td style="text-align: center">
                                                         <a href="/editar-vagas/{{ $vagaDois->idCargo }}"
                                                             class="btn btn-outline-warning" data-tt="tooltip"
@@ -204,9 +208,9 @@
                                                         </a>
 
                                                         <!-- Modal -->
-                                                        <div class="modal fade"
-                                                            id="A{{ $vagaDois->idVagas }}" tabindex="-1"
-                                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal fade" id="A{{ $vagaDois->idVagas }}"
+                                                            tabindex="-1" aria-labelledby="exampleModalLabel"
+                                                            aria-hidden="true">
                                                             <div class="modal-dialog">
                                                                 <div class="modal-content">
                                                                     <div class="modal-header"
@@ -225,7 +229,7 @@
                                                                         <button type="button" class="btn btn-danger"
                                                                             data-bs-dismiss="modal">Cancelar</button>
                                                                         <a type="button" class="btn btn-primary"
-                                                                        href="/excluir-vagas/{{ $vagaDois->idVagas }}">Confirmar
+                                                                            href="/excluir-vagas/{{ $vagaDois->idVagas }}">Confirmar
                                                                         </a>
                                                                     </div>
                                                                 </div>
@@ -249,6 +253,7 @@
                                             <td style="text-align: center">
                                                 <strong>{{ $totalVagas2 - $totalFuncionarios2 }}</strong>
                                             </td>
+                                            <td></td>
                                             <td></td>
                                         </tr>
                                     </tbody>

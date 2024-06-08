@@ -29,7 +29,8 @@
                                     @endforeach
                                 </select>
                                 <br>
-                                <label for="setorSelect" style="margin-top:20px" class="form-label">Selecione o Setor pertencente</label>
+                                <label for="setorSelect" style="margin-top:20px" class="form-label">Selecione o Setor
+                                    pertencente</label>
                                 <br>
                                 <select id="setorSelect" class="form-select status select2 pesquisa-select"
                                     name="vagasSetor" style="width: 600px;" required>
@@ -39,10 +40,19 @@
                                     @endforeach
                                 </select>
                                 <br>
-                                <label for="number" style="margin-top:20px" class="form-label">Selecione a quantidade de vagas para o cargo
-                                    selecionado</label>
-                                <input type="number" class="form-control form-control-number" id="number"
-                                    name="number" style="width: 600px;" required>
+                                <div style="display: flex; gap: 20px; align-items: flex-end; margin-top: 20px;">
+                                    <div <label for="number" style="margin-top:20px" class="form-label">
+                                        Selecione a quantidade de vagas para o cargo selecionado</label>
+                                        <input type="number" class="form-control form-control-number" id="number"
+                                            name="vTotal" style="width: 600px;" required>
+                                    </div>
+                                    <div>
+                                        <label for="number" style="margin-top:20px" class="form-label">
+                                            Selecione a quantidade de Vagas de Excelência para o cargo selecionado</label>
+                                        <input type="number" class="form-control form-control-number" id="number"
+                                            name="vExcelencia" style="width: 600px;" required>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

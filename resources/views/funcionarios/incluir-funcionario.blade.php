@@ -208,7 +208,7 @@
                                 <div class="col-md-3 col-sm-12">Série
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton2" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <<i class="bi bi-question-circle"></i>
+                                        <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="numeric" id="26" name="serie_ctps"

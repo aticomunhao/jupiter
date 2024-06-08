@@ -79,7 +79,10 @@
                                         <tr>
                                             <td scope="">{{ $listas->cpf }}</td>
                                             <td scope="">{{ $listas->idt }}</td>
-                                            <td scope="">{{ $listas->nome_completo }}</td>
+                                            <td class="nome-item" data-nome-completo="{{ $listas->nome_completo }}"
+                                                data-nome-resumido="{{ $listas->nome_resumido }}">
+                                                {{ $listas->nome_completo }}
+                                            </td>
                                             @if ($listas->status == 1)
                                                 <td scope="" style="text-align: center;">Ativo</td>
                                             @else
@@ -180,6 +183,28 @@
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
+    </script>
+
+        <style>
+            .highlight {
+                color: red;
+            }
+        </style>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const nomeItems = document.querySelectorAll('.nome-item');
+
+            nomeItems.forEach(item => {
+                const nomeCompleto = item.getAttribute('data-nome-completo');
+                const nomeResumido = item.getAttribute('data-nome-resumido');
+
+                if (nomeCompleto.includes(nomeResumido)) {
+                    const partes = nomeCompleto.split(nomeResumido);
+                    item.innerHTML = partes.join(`<span class="highlight">${nomeResumido}</span>`);
+                }
+            });
+        });
     </script>
 @endsection
 

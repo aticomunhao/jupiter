@@ -23,7 +23,7 @@ class GerenciarFuncionarioController extends Controller
 
         $lista = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'f.id_pessoa AS idp');
+            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'f.id_pessoa AS idp', 'p.nome_resumido');
 
         $cpf = $request->cpf;
 
