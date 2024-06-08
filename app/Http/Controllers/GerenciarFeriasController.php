@@ -125,12 +125,12 @@ class GerenciarFeriasController extends Controller
         }
 
 
-        $ano_referencia = Carbon::createFromDate($ano_referencia, 12, 31)->toDateString();
+        $dia_do_ultimo_ano = Carbon::createFromDate($ano_referencia, 12, 31)->toDateString();
 
 
-        $funcionarios = DB::table('funcionarios')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->where('dt_inicio', '<', $ano_referencia)->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'funcionarios.dt_inicio as data_de_inicio', 'pessoas.nome_completo')->get();
+        $funcionarios = DB::table('funcionarios')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->where('dt_inicio', '<', $dia_do_ultimo_ano)->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'funcionarios.dt_inicio as data_de_inicio', 'pessoas.nome_completo')->get();
 
-        dd($funcionarios);
+
         foreach ($funcionarios as $funcionario) {
             $periodo_de_ferias_do_funcionario = DB::table('ferias')->where('id_funcionario', '=', $funcionario->id_funcionario)->where('ano_de_referencia', '=', $ano_referencia)->first();
 
@@ -159,7 +159,6 @@ class GerenciarFeriasController extends Controller
     {
 
         try {
-
             if (!empty($request->input('search'))) {
                 $ano_referente = $request->input('search');
             } else {
