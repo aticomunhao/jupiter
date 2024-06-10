@@ -4,7 +4,8 @@
 @endsection
 @section('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <form method="post" action="{{ route('store.dadosbancarios.funcionario',['id' =>$funcionario->id]) }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('store.dadosbancarios.funcionario', ['id' => $funcionario->id]) }}"
+        enctype="multipart/form-data">
         @csrf
         <div class="container-fluid"> {{-- Container completo da página  --}}
             <div class="justify-content-center">
@@ -35,8 +36,10 @@
                                     </label>
                                     <select id="idbanco" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-select" aria-label="Default select example" name="desc_banco" required>
+                                        <option></option>
                                         @foreach ($desc_bancos as $desc_banco)
-                                            <option value="{{ $desc_banco->id_db }}" {{ $desc_banco->nome == $desc_banco->id_db ? 'selected' : '' }}>
+                                            <option value="{{ $desc_banco->id_db }}"
+                                                {{ $desc_banco->nome == $desc_banco->id_db ? 'selected' : '' }}>
                                                 {{ str_pad($desc_banco->id_db, 3, '0', STR_PAD_LEFT) }} -
                                                 {{ $desc_banco->nome }}
                                             </option>
@@ -143,9 +146,18 @@
                     success: function(response) {
                         e.preventDefault();
                         $('#idagencia').empty();
+
+                        // Função para adicionar zeros à esquerda
+                        function padWithZeros(number, length) {
+                            return number.toString().padStart(length, '0');
+                        }
+
                         $.each(response, function(index, item) {
-                            $('#idagencia').append("<option value =" + item.id + "> " +
-                                item.agencia + " - " + item.desc_agen + "</option>");
+                            var agenciaFormatted = padWithZeros(item.agencia,
+                            4); // Formatando agência
+                            $('#idagencia').append("<option value='" + item.id + "'>" +
+                                agenciaFormatted + " - " + item.desc_agen +
+                                "</option>");
                         });
                     },
                     error: function(xhr) {
