@@ -117,7 +117,7 @@ Route::any('/retorna-funcao-gratificada', [GerenciarBaseSalarialController::clas
 /*Gerenciar setores*/
 
 
-Route::get('/gerenciar-setor', [GerenciarSetoresController::class, 'index']);
+Route::get('/gerenciar-setor', [GerenciarSetoresController::class, 'index'])->name('index.setor');
 Route::get('/pesquisar-setor', [GerenciarSetoresController::class, 'index'])->name('pesquisar-setor');
 Route::get('/incluir-setor', [GerenciarSetoresController::class, 'create']);
 Route::post('/incluir-setores', [GerenciarSetoresController::class, 'store']);
@@ -127,6 +127,7 @@ Route::post('/substituir-setor/{ids}', [GerenciarSetoresController::class, 'subs
 Route::get('/setor-pessoas', [GerenciarSetoresController::class, 'consult']);
 Route::post('/atualizar-setor/{ids}', [GerenciarSetoresController::class, 'update']);
 Route::get('/excluir-setor/{ids}', [GerenciarSetoresController::class, 'delete']);
+Route::get('/visualizar-setor/{ids}', [GerenciarSetoresController::class, 'show'])->name('show.setor');
 
 
 /*Gerenciar-Hierarquia*/

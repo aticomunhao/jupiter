@@ -4,14 +4,10 @@ namespace App\Http\Controllers;
 
 
 use Illuminate\Http\Request;
-use App\Models;
-use iluminate\Support\Facades\Route;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\CollectionorderBy;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Collection;
-
+use iluminate\Support\Facades\Route;
 
 
 class GerenciarSetoresController extends Controller
@@ -52,7 +48,6 @@ class GerenciarSetoresController extends Controller
 
         $nome_substituto = $request->nome_substituto;
 
-
         if ($request->nome) {
             $lista_setor->where('s.nome', 'LIKE', '%' . $request->nome . '%');
         }
@@ -80,7 +75,7 @@ class GerenciarSetoresController extends Controller
         }
 
         $lista_setor = $lista_setor->orderBy('status', 'asc')->orderBy('s.nome', 'asc')->paginate(100);
-        
+
 
         return view('/setores/gerenciar-setor', compact('lista_setor', 'nome', 'dt_inicio', 'dt_fim', 'sigla', 'ids', 'nome_substituto', 'setor_pai'));
     }
@@ -111,8 +106,6 @@ class GerenciarSetoresController extends Controller
             ]);
 
 
-
-
         app('flasher')->addSuccess('Setor cadastrado com Sucesso!');
 
         return redirect('/gerenciar-setor');
@@ -123,8 +116,8 @@ class GerenciarSetoresController extends Controller
     {
 
         $editar = DB::table('setor AS s')
-            ->leftJoin('tp_nivel_setor AS tns',  's.id_nivel', '=', 'tns.id')
-            ->select('s.id AS ids', 's.sigla',  's.nome', 's.dt_inicio', 's.dt_fim', 's.id_nivel', 'tns.nome AS nome_nivel')
+            ->leftJoin('tp_nivel_setor AS tns', 's.id_nivel', '=', 'tns.id')
+            ->select('s.id AS ids', 's.sigla', 's.nome', 's.dt_inicio', 's.dt_fim', 's.id_nivel', 'tns.nome AS nome_nivel')
             ->where('s.id', $ids)->get();
 
         $nivel = DB::select('select id AS idset, nome from tp_nivel_setor');
@@ -133,38 +126,37 @@ class GerenciarSetoresController extends Controller
         return view('/setores/editar-setor', compact('editar', 'nivel'));
     }
 
-
-    public function update(Request $request, $ids)
+    public function show($id)
     {
+        $query = "
+    WITH RECURSIVE cte AS (
+        SELECT id, nome, substituto, dt_inicio, dt_fim
+        FROM setor
+        WHERE substituto = :rootId
+        UNION ALL
+        SELECT s.id, s.nome, s.substituto, s.dt_inicio, s.dt_fim
+        FROM setor s
+        INNER JOIN cte ON cte.id = s.substituto
+    )
+    SELECT * FROM cte;
+";
+        $setores_anteriores = DB::select($query, ['rootId' => $id]);
 
+        $setores_subordinados = DB::table('setor')->where('setor_pai', $id)->get();
 
-        DB::table('setor')
-            ->where('id', $ids)
-            ->update([
-                'nome' => $request->input('nome'),
-                'sigla' => $request->input('sigla'),
-                'dt_inicio' => $request->input('dt_inicio'),
-                'dt_fim' => $request->input('dt_fim'),
-                'id_nivel' => $request->input('nivel')
-            ]);
+        $setor = DB::table('setor')->where('id', $id)->first();
 
-
-        app('flasher')->addSuccess('Edição feita com Sucesso!');
-
-        return redirect()->action([GerenciarSetoresController::class, 'index']);
+        return view('setores.visualizar-setor', compact('setor', 'setores_anteriores', 'setores_subordinados'));
     }
-
 
     public function carregar_dados($ids)
     {
-
 
         $setor = DB::table('setor')->get();
 
         Session::flash('ids', $ids);
 
         $nome_setor = DB::table('setor')->where('setor.id', $ids)->get();
-
 
         return view('/setores/substituir-setor', compact('setor', 'nome_setor'));
     }
@@ -180,8 +172,6 @@ class GerenciarSetoresController extends Controller
             ->update([
                 'setor_pai' => $up,
             ]);
-
-
         $alterar_setor_substituto = DB::table('setor')
             ->where('id', $ids)
             ->update([
@@ -192,8 +182,25 @@ class GerenciarSetoresController extends Controller
 
         DB::table('setor')->where('id', $ids)->update(['dt_fim' => $dataFim[0]->dt_inicio]);
 
-
         app('flasher')->addSuccess('Setor foi substituído com sucesso.');
+        return redirect()->action([GerenciarSetoresController::class, 'index']);
+    }
+
+    public function update(Request $request, $ids)
+    {
+
+        DB::table('setor')
+            ->where('id', $ids)
+            ->update([
+                'nome' => $request->input('nome'),
+                'sigla' => $request->input('sigla'),
+                'dt_inicio' => $request->input('dt_inicio'),
+                'dt_fim' => $request->input('dt_fim'),
+                'id_nivel' => $request->input('nivel')
+            ]);
+
+        app('flasher')->addSuccess('Edição feita com Sucesso!');
+
         return redirect()->action([GerenciarSetoresController::class, 'index']);
     }
 
@@ -201,8 +208,6 @@ class GerenciarSetoresController extends Controller
     {
 
         $deletar = DB::table('setor AS s')->where('s.id', $ids)->delete();
-
-
 
         app('flasher')->addSuccess('O cadastro do Setor foi Removido com Sucesso.');
         return redirect()->action([GerenciarSetoresController::class, 'index']);
