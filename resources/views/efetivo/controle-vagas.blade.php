@@ -110,10 +110,10 @@
                                     <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th class="col-md-4">SETOR/CARGO</th>
-                                            <th class="col-md-2">VAGAS PREENCHIDAS</th>
-                                            <th class="col-md-1">TOTAL DE VAGAS</th>
-                                            <th class="col-md-2">VAGAS REMANESCENTES</th>
-                                            <th class="col-md-2">VAGAS DE EXCELÊNCIA</th>
+                                            <th class="col-md-1">VAGAS PREENCHIDAS</th>
+                                            <th class="col-md-1">TOTAL DE VAGAS AUTORIZADAS</th>
+                                            <th class="col-md-1">VAGAS REMANESCENTES</th>
+                                            <th class="col-md-1">TOTAL DE VAGAS DE EXCELÊNCIA</th>
                                             <th class="col-md-2">AÇÕES</th>
                                         </tr>
                                     </thead>
@@ -190,7 +190,7 @@
                                                         {{ $vagaDois->vagas - $vagaDois->gato->first()->quantidade }}</td>
                                                     <td style="text-align: center">{{ $vagaDois->vExcelencia }}</td>
                                                     <td style="text-align: center">
-                                                        <a href="/editar-vagas/{{ $vagaDois->idCargo }}"
+                                                        <a href="/editar-vagas/{{ $vagaDois->idVagas }}"
                                                             class="btn btn-outline-warning" data-tt="tooltip"
                                                             style="font-size: 1rem; color:#303030" data-placement="top"
                                                             title="Editar">

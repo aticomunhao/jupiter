@@ -137,13 +137,13 @@ class ControleVagasController extends Controller
             return redirect()->route('indexControleVagas');
         }
     }
-    public function edit(string $idC)
+    public function edit(string $idVagas)
     {
         // Recupere o cargo pelo ID
         $busca = DB::table('setor')
-            ->leftJoin('tp_vagas_autorizadas AS va', 'setor.id', 'va.id_setor')
-            ->leftJoin('cargos', 'cargos.id', 'va.id_cargo')
-            ->where('id_cargo', $idC)
+            ->leftJoin('tp_vagas_autorizadas AS va', 'setor.id', '=', 'va.id_setor')
+            ->leftJoin('cargos', 'cargos.id', '=', 'va.id_cargo')
+            ->where('va.id', $idVagas)
             ->select(
                 'va.id_setor AS idSetor',
                 'va.id_cargo AS idCargo',
@@ -151,14 +151,15 @@ class ControleVagasController extends Controller
                 'cargos.nome AS nomeCargo',
                 'setor.nome AS nomeSetor',
                 'va.id AS idVagas',
-                'va.vagas_excelencia AS vExcelencia',
+                'va.vagas_excelencia AS vExcelencia'
             )
-            ->limit(1)
-            ->get();
-        //dd($busca);
+            ->first();
+
+
 
         return view('efetivo.editar-vagas', compact('busca'));
     }
+
 
 
     public function update(Request $request, $idC)

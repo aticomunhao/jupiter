@@ -287,7 +287,7 @@ Route::get('/gerenciar-efetivo', [GerenciarEfetivoController::class, 'index'])->
 Route::get('/controle-vagas', [ControleVagasController::class, 'index'])->name('indexControleVagas');
 Route::any('/incluir-vagas', [ControleVagasController::class, 'create']);
 Route::any('/armazenar-vagas', [ControleVagasController::class, 'store']);
-Route::get('/editar-vagas/{idC}', [ControleVagasController::class, 'edit']);
+Route::any('/editar-vagas/{idVagas}', [ControleVagasController::class, 'edit']);
 Route::any('/excluir-vagas/{idC}', [ControleVagasController::class, 'destroy']);
 Route::any('/atualizar-vagas/{idC}', [ControleVagasController::class, 'update']);
 
