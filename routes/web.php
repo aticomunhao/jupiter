@@ -20,12 +20,14 @@ use App\Http\Controllers\GerenciarFeriasController;
 use App\Http\Controllers\GerenciarFuncionarioController;
 use App\Http\Controllers\GerenciarHierarquiaController;
 use App\Http\Controllers\GerenciarSetoresController;
+use App\Http\Controllers\GerenciarTipoDeAcordoController;
 use App\Http\Controllers\GerenciarTipoDescontoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -300,3 +302,13 @@ Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name
 /*Ajax Controller */
 Route::get('/retorna-cidades/{id}', [AjaxController::class, 'retornaCidades']);
 Route::get('/retorna-dados-endereco/{id}', [AjaxController::class, 'getAddressByCep']);
+
+/*Tipos de Acordo*/
+
+Route::any('/gerenciar-tipos-de-acordo', [GerenciarTipoDeAcordoController::class, 'index'])->name('index.tipos-de-acordo');
+Route::any('/incluir-tipos-de-acordo', [GerenciarTipoDeAcordoController::class, 'create'])->name('create.tipos-de-acordo');
+Route::any('/armazenar-tipos-de-acordo', [GerenciarTipoDeAcordoController::class, 'store'])->name('store.tipos-de-acordo');
+Route::any('/editar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'edit'])->name('edit.tipos-de-acordo');
+Route::any('/atualizar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'update'])->name('update.tipos-de-acordo');
+Route::any('/deletar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'destroy'])->name('destroy.tipos-de-acordo');
+

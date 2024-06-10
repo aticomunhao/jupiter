@@ -270,7 +270,6 @@ class GerenciarFeriasController extends Controller
         }
 
 
-
         // Verifica o número de períodos de férias
         if ($formulario_de_ferias['numeroPeriodoDeFerias'] == 1) {
 
