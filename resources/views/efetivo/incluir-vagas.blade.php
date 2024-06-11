@@ -19,36 +19,39 @@
                         </div>
                         <div class="card-body">
                             <div class="ROW" style="margin-left:5px">
-                                <label for="cargoSelect" class="form-label">Selecione o cargo desejado</label>
-                                <br>
-                                <select id="cargoSelect" class="form-select status select2 pesquisa-select"
-                                    name="vagasCargo" style="width: 600px;" required>
-                                    <option></option>
-                                    @foreach ($cargo as $cargos)
-                                        <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
-                                    @endforeach
-                                </select>
-                                <br>
-                                <label for="setorSelect" style="margin-top:20px" class="form-label">Selecione o Setor
-                                    pertencente</label>
-                                <br>
-                                <select id="setorSelect" class="form-select status select2 pesquisa-select"
-                                    name="vagasSetor" style="width: 600px;" required>
-                                    <option></option>
-                                    @foreach ($setor as $setores)
-                                        <option value="{{ $setores->idSetor }}">{{ $setores->nomeSetor }}</option>
-                                    @endforeach
-                                </select>
-                                <br>
+                                <div style="display: flex; gap: 20px; align-items: flex-end;">
+                                    <div for="cargoSelect" class="form-label">Selecione o cargo desejado
+                                        <br>
+                                        <select id="cargoSelect" class="form-select status select2 pesquisa-select"
+                                            name="vagasCargo" style="width: 600px;" required>
+                                            <option></option>
+                                            @foreach ($cargo as $cargos)
+                                                <option value="{{ $cargos->idCargo }}">{{ $cargos->nomeCargo }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <br>
+                                    <div for="setorSelect" style="margin-top:20px" class="form-label">Selecione o
+                                            Setor pertencente
+                                        <br>
+                                        <select id="setorSelect" class="form-select status select2 pesquisa-select"
+                                            name="vagasSetor" style="width: 600px;" required>
+                                            <option></option>
+                                            @foreach ($setor as $setores)
+                                                <option value="{{ $setores->idSetor }}">{{ $setores->nomeSetor }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
                                 <div style="display: flex; gap: 20px; align-items: flex-end; margin-top: 20px;">
-                                    <div <label for="number" style="margin-top:20px" class="form-label">
-                                        Selecione a quantidade de vagas para o cargo selecionado</label>
+                                    <div  for="number" style="margin-top:20px; margin-right: 20px" class="form-label">
+                                        Selecione a quantidade de vagas para o cargo selecionado
                                         <input type="number" class="form-control form-control-number" id="number"
                                             name="vTotal" style="width: 600px;" required>
                                     </div>
-                                    <div>
-                                        <label for="number" style="margin-top:20px" class="form-label">
-                                            Selecione a quantidade de Vagas de Excelência para o cargo selecionado</label>
+                                    <div for="number" style="margin-top:20px" class="form-label">
+                                            Selecione a quantidade de Vagas de Excelência para o cargo
+                                            selecionado
                                         <input type="number" class="form-control form-control-number" id="number"
                                             name="vExcelencia" style="width: 600px;" required>
                                     </div>
