@@ -26,6 +26,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\GerenciarPerfil;
+use App\Http\Controllers\GerenciarSetor;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,6 +57,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 /*Gerenciar funcionario*/
 
+
 Route::get('/gerenciar-funcionario', [GerenciarFuncionarioController::class, 'index'])->name('gerenciar');
 Route::get('/informar-dados', [GerenciarFuncionarioController::class, 'create']);
 Route::any('/incluir-funcionario', [GerenciarFuncionarioController::class, 'store']);
@@ -70,7 +73,6 @@ Route::get('/visualizar-funcionario/{idp}', [GerenciarFuncionarioController::cla
 
 Route::any('/login/valida', [LoginController::class, 'validaUserLogado'])->name('home.post');
 Route::get('/gerenciar-usuario', [UsuarioController::class, 'index']);
-
 Route::get('/usuario-incluir', [UsuarioController::class, 'create']);
 Route::get('/cadastrar-usuarios/configurar/{id}', [UsuarioController::class, 'configurarUsuario']);
 Route::post('/cad-usuario/inserir', [UsuarioController::class, 'store']);
@@ -115,7 +117,6 @@ Route::any('/retorna-funcao-gratificada', [GerenciarBaseSalarialController::clas
 
 
 /*Gerenciar setores*/
-
 
 Route::get('/gerenciar-setor', [GerenciarSetoresController::class, 'index'])->name('index.setor');
 Route::get('/pesquisar-setor', [GerenciarSetoresController::class, 'index'])->name('pesquisar-setor');
@@ -312,4 +313,26 @@ Route::any('/armazenar-tipos-de-acordo', [GerenciarTipoDeAcordoController::class
 Route::any('/editar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'edit'])->name('edit.tipos-de-acordo');
 Route::any('/atualizar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'update'])->name('update.tipos-de-acordo');
 Route::any('/deletar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'destroy'])->name('destroy.tipos-de-acordo');
+
+
+Route::get('/gerenciar-perfis', [GerenciarPerfil::class, 'index']);
+Route::get('/criar-perfis', [GerenciarPerfil::class, 'create']);
+Route::post('/armazenar-perfis', [GerenciarPerfil::class, 'store']);
+Route::get('/visualizar-perfis/{id}', [GerenciarPerfil::class, 'show']);
+Route::get('/editar-perfis/{id}', [GerenciarPerfil::class, 'edit']);
+Route::post('/atualizar-perfis/{id}', [GerenciarPerfil::class, 'update']);
+Route::any('/excluir-perfis/{id}', [GerenciarPerfil::class, 'destroy']);
+
+
+// Gerenciar Rotas Setor
+
+Route::get('/gerenciar-setor-usuario', [GerenciarSetor::class, 'index']);
+Route::get('/criar-setor-usuario', [GerenciarSetor::class, 'create']);
+Route::post('/armazenar-setor-usuario', [GerenciarSetor::class, 'store']);
+Route::get('/visualizar-setor-usuario/{id}', [GerenciarSetor::class, 'show']);
+Route::get('/editar-setor-usuario/{id}', [GerenciarSetor::class, 'edit']);
+Route::post('/atualizar-setor-usuario/{id}', [GerenciarSetor::class, 'update']);
+Route::any('/excluir-setor-usuario/{id}', [GerenciarSetor::class, 'destroy']);
+
+
 

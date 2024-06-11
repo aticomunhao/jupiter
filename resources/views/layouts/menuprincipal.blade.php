@@ -80,7 +80,10 @@
                         <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
                             <li><a href="/gerenciar-usuario" class="dropdown-item">Gerenciar Usuários</a>
                             </li>
-
+                            <li><a href="/gerenciar-setor-usuario" class="dropdown-item">Gerenciar Setor Usuários</a>
+                            </li>
+                            <li><a href="/gerenciar-perfis" class="dropdown-item">Gerenciar Perfis </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
