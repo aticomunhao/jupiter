@@ -1,9 +1,13 @@
 @extends('layouts.app')
+
 @section('head')
     <title>Incluir Perfil</title>
+    <!-- Select2 CSS -->
+
 @endsection
+
 @section('content')
-    <br />
+    <br/>
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -18,42 +22,42 @@
                             <div class="col-12">
                                 Nome
                                 <input type="text" class="form-control" id="nome" name="nome" maxlength="30"
-                                    required="required">
-                                <br />
+                                       required="required">
+                                <br/>
                             </div>
                             <div class="col-12">
                                 Funcionalidades Autorizadas
-                                <select class="form-select select2" name="rotas[]" multiple>
+                                <select class="form-select js-example-basic-multiple" name="rotas[]" multiple="multiple">
                                     @foreach ($rotas as $rota)
                                         <option value="{{ $rota->id }}">{{ $rota->nome }}</option>
                                     @endforeach
                                 </select>
-
                             </div>
-
 
                             <center>
                                 <div class="col-12" style="margin-top: 50px;">
-                                    <a href="/gerenciar-perfis" class="btn btn-danger col-3">
-                                        Cancelar
-                                    </a>
-                                    <button type = "submit" class="btn btn-primary col-3 offset-3">
-                                        Confirmar
-                                    </button>
+                                    <a href="/gerenciar-perfis" class="btn btn-danger col-3">Cancelar</a>
+                                    <button type="submit" class="btn btn-primary col-3 offset-3">Confirmar</button>
                                 </div>
                             </center>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+    <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                theme: 'bootstrap-5'
+        $(document).ready(function () {
+            $('.js-example-basic-multiple').select2({
+                 theme: 'bootstrap-5'
             });
         });
     </script>
 @endsection
+

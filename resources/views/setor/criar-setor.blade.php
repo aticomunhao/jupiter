@@ -37,7 +37,7 @@
 
                             <center>
                                 <div class="col-12" style="margin-top: 50px;">
-                                    <a href="/gerenciar-setor" class="btn btn-danger col-3">
+                                    <a href="/gerenciar-setor-usuario" class="btn btn-danger col-3">
                                         Cancelar
                                     </a>
                                     <button type = "submit" class="btn btn-primary col-3 offset-3">
@@ -50,6 +50,10 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+    <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>

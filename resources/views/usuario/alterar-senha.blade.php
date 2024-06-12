@@ -1,6 +1,7 @@
-@extends('layouts.app')
 
-@section('title') Júpiter @endsection
+@extends('auth.app')
+
+@section('title') Vênus @endsection
 
 @section('content')
  <div class="account-pages my-4 pt-sm-4">

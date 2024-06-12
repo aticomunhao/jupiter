@@ -18,7 +18,7 @@
                             <div class="col-12">
                                 Nome
                                 <input type="text" class="form-control" id="nome" name="nome" maxlength="30"
-                                    required="required" value="{{ $perfil->descricao }}" disabled>
+                                    required="required" value="{{ $perfil->nome }}" disabled>
 
                                 <hr />
                             </div>

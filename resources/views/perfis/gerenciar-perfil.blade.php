@@ -44,7 +44,7 @@
                     @foreach ($perfis as $perfil)
                     <tr>
                         <td>{{ $perfil->id }}</td>
-                        <td>{{ $perfil->descricao }}</td>
+                        <td>{{ $perfil->nome }}</td>
                         <td>
                             <a href="/editar-perfis/{{ $perfil->id }}" type="button" class="btn btn-outline-warning btn-sm" data-tt="tooltip" data-placement="top" title="Editar">
                                 <i class="bi bi-pen" style="font-size: 1rem; color:#000;"></i>
@@ -65,7 +65,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body" style="text-align: center; ">
-                                            Tem certeza que deseja excluir o grupo<br /><span style="color:#DC4C64; font-weight: bold;">{{ $perfil->descricao }}</span>&#63;
+                                            Tem certeza que deseja excluir o grupo<br /><span style="color:#DC4C64; font-weight: bold;">{{ $perfil->nome }}</span>&#63;
                                         </div>
                                         <div class="modal-footer mt-3">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
