@@ -26,7 +26,7 @@
 
                             <div class="container-fluid">
                                 <div style="padding-left: 80%;">
-                                   
+
                                 </div>
                                 <div class="row d-flex justify-content-around">
                                     <div class="col-md-4 col-sm-12">
@@ -41,7 +41,21 @@
                                         <label for="2">Identidade</label>
                                         <input type="text" class="form-control" name="idt" maxlength="9" required>
                                     </div>
-                                    <div class="row d-flex justify-content-around">
+                                    <div class="col-md-2 col-sm-12">
+                                        <label for="2">Data de Nascimento</label>
+                                        <input type="date" class="form-control" name="dt_nascimento" required>
+                                    </div>
+                                    <div class="col-md-2 col-sm-12">Sexo
+                                        <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
+                                            id="sexo" name="sexo" required="required">
+                                            <option value=""></option>
+                                            @foreach ($sexo as $sexos)
+                                                <option @if (old('sexo') == $sexos->id) {{ 'selected="selected"' }} @endif
+                                                    value="{{ $sexos->id }}">{{ $sexos->tipo }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="row d-flex ">
                                         <div class="col-md-1 col-sm-12">
                                             <label for="3">DDD</label>
                                             <select class="form-select" name="ddd" id="3" value="" required>

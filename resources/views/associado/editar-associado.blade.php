@@ -36,6 +36,28 @@
                                         <label for="2">identidade</label>
                                         <input type="text" class="form-control" name="idt" maxlength="9" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');" value="{{ $edit_associado[0]->idt }}" required>
                                     </div>
+                                    <div class="col-md-2 col-sm-12">Data de Nascimento
+                                        <input type="date" style="border: 1px solid #999999; padding: 5px;"
+                                            class="form-control" name="dt_nascimento" id="3"
+                                            value="{{ $edit_associado[0]->dt_nascimento }}" required="required">
+                                        <div class="invalid-feedback">
+                                            Por favor, selecione a Data de Nascimento.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 col-sm-12">Sexo
+                                        <select id="4" class="form-select"
+                                            style="border: 1px solid #999999; padding: 5px;" name="sexo" type="text" required="required">
+                                            <option value="{{ $edit_associado[0]->id_sexo }}">{{ $edit_associado[0]->nome_sexo }}</option>
+                                            @foreach ($tpsexo as $tpsexos)
+                                                <option value="{{ $tpsexos->id }}">
+                                                    {{ $tpsexos->tipo }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Por favor, selecione um Campo
+                                        </div>
+                                    </div>
                                     <div class="row d-flex justify-content-around">
                                         <div class="col-md-1 col-sm-12">
                                             <label for="3">DDD</label>

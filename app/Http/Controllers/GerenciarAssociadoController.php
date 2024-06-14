@@ -83,8 +83,10 @@ class GerenciarAssociadoController extends Controller
 
         $ddd = DB::select('select id, descricao, uf_ddd from tp_ddd');
 
+        $sexo = DB::select('select id, tipo from tp_sexo');
 
-        return view('/associado/incluir-associado', compact('cidade', 'tp_uf', 'ddd'));
+
+        return view('/associado/incluir-associado', compact('cidade', 'tp_uf', 'ddd', 'sexo'));
     }
 
     public function retornaCidadeDadosResidenciais($id)
@@ -108,7 +110,39 @@ class GerenciarAssociadoController extends Controller
 
         foreach ($comparar_cpf as $cpf) {
             if ($validacaocpf == $cpf) {
-                app('flasher')->adderror('Associado tem o mesmo CPF de uma pessoa');
+
+                DB::table('pessoas')
+            ->update([
+                'ddd' => $request->input('ddd'),
+                'celular' => $request->input('telefone'),
+                'email' => $request->input('email'),
+                'idt' => $request->input('idt'),
+                'sexo' => $request->input('sexo'),
+                'dt_nascimento' => $request->input('dt_nascimento'),
+                'status' => '1',
+            ]);
+
+        $id_pessoa = DB::select("SELECT nextval('seq_pessoa') AS next_id")[0]->next_id;
+
+        DB::table('associado')
+            ->insert([
+                'id_pessoa' => $id_pessoa,
+                'dt_inicio' => $request->input('dt_inicio'),
+
+            ]);
+
+        DB::table('endereco_pessoas')->insert([
+            'id_pessoa' => $id_pessoa,
+            'cep' => str_replace('-', '', $request->input('cep')),
+            'id_uf_end' => $request->input('uf_end'),
+            'id_cidade' => $request->input('cidade'),
+            'logradouro' => $request->input('logradouro'),
+            'numero' => $request->input('numero'),
+            'bairro' => $request->input('bairro'),
+            'complemento' => $request->input('complemento'),
+        ]);
+
+                app('flasher')->adderror('Associado existente e atualizado');
                 return redirect('/gerenciar-associado');
             }
         }
@@ -120,12 +154,13 @@ class GerenciarAssociadoController extends Controller
                 'ddd' => $request->input('ddd'),
                 'celular' => $request->input('telefone'),
                 'email' => $request->input('email'),
-                'idt' => $request->input('idt')
+                'idt' => $request->input('idt'),
+                'sexo' => $request->input('sexo'),
+                'dt_nascimento' => $request->input('dt_nascimento'),
+                'status' => '1',
             ]);
 
-        $id_pessoa = DB::table('pessoas')
-            ->select(DB::raw('MAX(id) as max_id'))
-            ->value('max_id');
+        $id_pessoa = DB::select("SELECT nextval('seq_pessoa') AS next_id")[0]->next_id;
 
         DB::table('associado')
             ->insert([
@@ -155,6 +190,7 @@ class GerenciarAssociadoController extends Controller
     {
         $edit_associado = DB::table('associado AS ass')
             ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
+            ->leftJoin('tp_sexo', 'p.sexo', 'tp_sexo.id')
             ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
             ->leftJoin('tp_uf', 'endp.id_uf_end', '=', 'tp_uf.id')
             ->leftJoin('tp_ddd', 'tp_ddd.id', '=', 'p.ddd')
@@ -174,6 +210,9 @@ class GerenciarAssociadoController extends Controller
                 'p.celular',
                 'p.email',
                 'p.idt',
+                'p.sexo AS id_sexo',
+                'p.dt_nascimento AS dt_nascimento',
+                'tp_sexo.tipo AS nome_sexo',
                 'tp_ddd.id AS tpd',
                 'tp_ddd.descricao AS dddesc',
                 'tp_uf.id AS tuf',
@@ -189,6 +228,7 @@ class GerenciarAssociadoController extends Controller
             )->get();
 
         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
+        $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
         $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
         $tpufidt = DB::table('tp_uf')->select('id', 'sigla')->get();
 
@@ -199,7 +239,7 @@ class GerenciarAssociadoController extends Controller
 
         //dd($edit_associado);
 
-        return view('associado/editar-associado', compact('edit_associado', 'tpddd', 'tpcidade', 'tpufidt', 'tp_uf'));
+        return view('associado/editar-associado', compact('edit_associado', 'tpddd', 'tpcidade', 'tpufidt', 'tp_uf', 'tpsexo'));
     }
 
     public function documentobancariopdf($id)
@@ -315,6 +355,8 @@ class GerenciarAssociadoController extends Controller
                 'celular' => $request->input('telefone'),
                 'email' => $request->input('email'),
                 'email' => $request->input('email'),
+                'sexo' => $request->input('sexo'),
+                'dt_nascimento' => $request->input('dt_nascimento'),
                 'idt' => $request->input('idt')
             ]);
 
