@@ -43,7 +43,8 @@ class UsuarioController extends Controller
     public function getUsuarios()
     {
         try{
-            $result = DB::table('usuario as u')->select('u.id', 'u.id_pessoa', 'p.cpf', 'p.nome_completo', 'u.ativo', 'u.bloqueado', 'u.data_ativacao')->leftJoin('pessoas as p', 'u.id_pessoa', 'p.id');
+            $result = DB::table('usuario as u')->select('u.id', 'u.id_pessoa', 'p.cpf', 'p.nome_completo', 'u.ativo', 'u.bloqueado', 'u.data_ativacao')
+                ->leftJoin('pessoas as p', 'u.id_pessoa', 'p.id');
 
             return $result;
         }
@@ -68,6 +69,7 @@ class UsuarioController extends Controller
             }
 
             $result = $result->get();
+
 
             return view('usuario/gerenciar-usuario', compact('result'));
         }
@@ -136,7 +138,7 @@ class UsuarioController extends Controller
 
     public function edit($idUsuario)
     {
-        try{
+
             $resultPerfil = DB::table('tp_perfil')->get();
 
             //$resultDeposito = $this->getDeposito();
@@ -149,11 +151,11 @@ class UsuarioController extends Controller
                 ->where('id', $resultUsuario[0]->id_pessoa)
                 ->get();
 
-            $resultPerfisUsuario = DB::select('select * from usuario_perfil where id_usuario =' . $idUsuario);
+            $resultPerfisUsuario = DB::select('select * from tp_usuario_perfil where id_usuario =' . $idUsuario);
 
             $resultPerfisUsuarioArray = [];
             foreach ($resultPerfisUsuario as $resultPerfisUsuarios) {
-                $resultPerfisUsuarioArray[] = $resultPerfisUsuarios->id_perfil;
+                $resultPerfisUsuarioArray[] = $resultPerfisUsuarios->id_tp_perfil;
             }
 
             $resultDepositoUsuario = DB::select('select * from usuario_deposito where id_usuario =' . $idUsuario);
@@ -163,20 +165,18 @@ class UsuarioController extends Controller
                 $resultDepositoUsuarioArray[] = $resultDepositoUsuarios->id_deposito;
             }
 
-            $resultSetorUsuario = DB::select('select * from usuario_setor where id_usuario =' . $idUsuario);
+            $resultSetorUsuario = DB::select('select * from tp_usuario_setor where id_usuario =' . $idUsuario);
 
             $resultSetorUsuarioArray = [];
             foreach ($resultSetorUsuario as $resultSetorUsuarios) {
                 $resultSetorUsuarioArray[] = $resultSetorUsuarios->id_setor;
             }
 
-            return view('/usuario/alterar-configurar-usuario', compact('result', 'resultPerfil', 'resultSetor', 'resultUsuario', 'resultPerfisUsuarioArray', 'resultDepositoUsuarioArray', 'resultSetorUsuarioArray'));
-        }
-        catch(\Exception $e){
 
-            $code = $e->getCode( );
-            return view('administrativo-erro.erro-inesperado', compact('code'));
-        }
+
+            return view('/usuario/alterar-configurar-usuario', compact('result', 'resultPerfil', 'resultSetor', 'resultUsuario', 'resultPerfisUsuarioArray', 'resultDepositoUsuarioArray', 'resultSetorUsuarioArray'));
+
+
     }
 
     public function update(Request $request, $id)
