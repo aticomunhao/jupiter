@@ -71,7 +71,7 @@ Route::middleware('rotas:1')->group(function () {
 
 /*Gerenciar usuário*/
 
-Route::middleware('rotas:2')->group(function () {
+
     Route::any('/login/valida', [LoginController::class, 'validaUserLogado'])->name('home.post');
     Route::get('/gerenciar-usuario', [UsuarioController::class, 'index']);
     Route::get('/usuario-incluir', [UsuarioController::class, 'create']);
@@ -83,7 +83,7 @@ Route::middleware('rotas:2')->group(function () {
     Route::any('/usuario/gerar-Senha/{id}', [UsuarioController::class, 'gerarSenha']);
     Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
     Route::get('/usuario/alterar-senha', [UsuarioController::class, 'alteraSenha']);
-});
+
 
 
 //Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
