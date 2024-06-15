@@ -321,7 +321,7 @@ Route::middleware('rotas:19')->group(function () {
     Route::any('/deletar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'destroy'])->name('destroy.tipos-de-acordo');
 });
 /*Gerenciar Perfis*/
-Route::middleware('rotas:20')->group(function () {
+
     Route::get('/gerenciar-perfis', [GerenciarPerfil::class, 'index']);
     Route::get('/criar-perfis', [GerenciarPerfil::class, 'create']);
     Route::post('/armazenar-perfis', [GerenciarPerfil::class, 'store']);
@@ -329,7 +329,7 @@ Route::middleware('rotas:20')->group(function () {
     Route::get('/editar-perfis/{id}', [GerenciarPerfil::class, 'edit']);
     Route::post('/atualizar-perfis/{id}', [GerenciarPerfil::class, 'update']);
     Route::any('/excluir-perfis/{id}', [GerenciarPerfil::class, 'destroy']);
-});
+
 
 
 // Gerenciar Rotas Setor
