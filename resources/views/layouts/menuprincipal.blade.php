@@ -1,3 +1,8 @@
+<?php
+$acesso = session()->get('usuario.acesso');
+$setor = session()->get('usuario.setor');
+?>
+@dd($acesso,$setor)
 
 <div id="app">
     <nav class="navbar navbar-dark navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;">
@@ -39,7 +44,8 @@
 
                             <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">Gerenciar Cargos</a>
                             </li>
-                            <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">Gerenciar Tipo de Acordo</a>
+                            <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">Gerenciar Tipo de
+                                    Acordo</a>
                             </li>
 
                         </ul>
