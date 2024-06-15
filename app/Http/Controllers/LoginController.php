@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Session;
 use Illuminate\Support\Facades\Auth;
+use Mockery\Exception;
+use function Laravel\Prompts\error;
 
 class LoginController extends Controller
 {
@@ -27,6 +29,8 @@ class LoginController extends Controller
 
     public function valida(Request $request)
     {
+    try{
+
 
             $cpf = $request->input('cpf');
             $senha = $request->input('senha');
@@ -88,6 +92,10 @@ class LoginController extends Controller
             }
             app('flasher')->addError('Credenciais inválidas');
             return view('login/login');
+    }catch (Exception $exception){
+        app('flasher')->addError("Você não possui perfis para acesso");
+        return redirect()->back();
+    }
 
 
     }
