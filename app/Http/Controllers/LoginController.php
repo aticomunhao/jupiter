@@ -3,35 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use App\Models\ModelUsuario;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use App\Http\Controllers\Session;
-use Illuminate\Support\Facades\Auth;
-use Mockery\Exception;
-use function Laravel\Prompts\error;
+use Illuminate\Support\Facades\Hash;
+
 
 class LoginController extends Controller
 {
     public function index()
     {
-        try{
+        try {
             return view('login/login');
-        }
+        } catch (\Exception $e) {
 
-        catch(\Exception $e){
-
-            $code = $e->getCode( );
+            $code = $e->getCode();
             return view('login/login erro.erro-inesperado', compact('code'));
         }
     }
 
     public function valida(Request $request)
     {
-    try{
-
-
+        try {
             $cpf = $request->input('cpf');
             $senha = $request->input('senha');
 
@@ -56,7 +47,6 @@ class LoginController extends Controller
                         where u.ativo is true and p.cpf = '$cpf'
                         group by u.id, p.id, a.id
                         ");
-
 
             $perfis = explode(',', $result[0]->perfis);
 
@@ -92,16 +82,16 @@ class LoginController extends Controller
             }
             app('flasher')->addError('Credenciais inválidas');
             return view('login/login');
-    }catch (Exception $exception){
-        app('flasher')->addError("Você não possui perfis para acesso");
-        return redirect()->back();
+        } catch (\Exception $exception) {
+            app('flasher')->addError("Você não possui perfis para acesso");
+            return redirect()->back();
+        }
+
     }
 
-
-    }
     public function validaUserLogado()
     {
-        try{
+        try {
             $cpf = session()->get('usuario.cpf');
 
             $result = DB::select("
@@ -150,13 +140,13 @@ class LoginController extends Controller
             } else {
                 return view('login/login')->with('Error', 'O Sr(a) deve informar as credenciais para acessar o sistema');
             }
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
 
-            $code = $e->getCode( );
+            $code = $e->getCode();
             return view('tratamento-erro.erro-inesperado', compact('code'));
         }
     }
+
     public function create()
     {
         //
