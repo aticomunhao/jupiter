@@ -102,7 +102,7 @@ Route::middleware('rotas:3')->group(function () {
     Route::any('/recebe-agencias/{id}', [GerenciarDadosBancariosController::class, 'agencias']);
 });
 
-// Gerenciar Base Salarial
+// Gerenciagitr Base Salarial
 
 Route::middleware('rotas:23')->group(function () {
     Route::any('/gerenciar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'index'])->name('GerenciarBaseSalarialController');
@@ -283,7 +283,7 @@ Route::middleware('rotas:14')->group(function () {
 
 /*Controle de Efetivo*/
 
-Route::middleware('rotas:26')->group(function () {
+Route::middleware('rotas:15')->group(function () {
     Route::get('/gerenciar-efetivo', [GerenciarEfetivoController::class, 'index'])->name('gerenciar-efetivo');
 });
 
@@ -298,7 +298,7 @@ Route::middleware('rotas:16')->group(function () {
 });
 
 /*Controle da Data Limite de Férias*/
-Route::middleware('rotas:27')->group(function () {
+Route::middleware('rotas:17')->group(function () {
     Route::any('/gerenciar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'index'])->name('index.gerenciar-dia-limite-ferias');
     Route::any('/criar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'create'])->name('create.gerenciar-dia-limite-ferias');
     Route::any('/armazenar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'store'])->name('store.gerenciar-dia-limite-ferias');
@@ -333,7 +333,7 @@ Route::middleware('rotas:20')->group(function () {
 
 
 // Gerenciar Rotas Setor
-Route::middleware('rotas:21')->group(function () {
+
     Route::get('/gerenciar-setor-usuario', [GerenciarSetor::class, 'index']);
     Route::get('/criar-setor-usuario', [GerenciarSetor::class, 'create']);
     Route::post('/armazenar-setor-usuario', [GerenciarSetor::class, 'store']);
@@ -341,7 +341,7 @@ Route::middleware('rotas:21')->group(function () {
     Route::get('/editar-setor-usuario/{id}', [GerenciarSetor::class, 'edit']);
     Route::post('/atualizar-setor-usuario/{id}', [GerenciarSetor::class, 'update']);
     Route::any('/excluir-setor-usuario/{id}', [GerenciarSetor::class, 'destroy']);
-});
+
 
 
 
