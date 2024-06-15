@@ -71,7 +71,7 @@ Route::middleware('rotas:1')->group(function () {
 
 /*Gerenciar usuário*/
 
-
+Route::middleware('rotas:2')->group(function () {
     Route::any('/login/valida', [LoginController::class, 'validaUserLogado'])->name('home.post');
     Route::get('/gerenciar-usuario', [UsuarioController::class, 'index']);
     Route::get('/usuario-incluir', [UsuarioController::class, 'create']);
@@ -83,7 +83,7 @@ Route::middleware('rotas:1')->group(function () {
     Route::any('/usuario/gerar-Senha/{id}', [UsuarioController::class, 'gerarSenha']);
     Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
     Route::get('/usuario/alterar-senha', [UsuarioController::class, 'alteraSenha']);
-
+});
 
 
 //Route::get('/gerenciar-voluntario', [App\Http\Controllers\GerenciarVoluntarioController::class, 'index'])->name('gerenciar-voluntario');
@@ -102,7 +102,7 @@ Route::middleware('rotas:3')->group(function () {
     Route::any('/recebe-agencias/{id}', [GerenciarDadosBancariosController::class, 'agencias']);
 });
 
-// Gerenciagitr Base Salarial
+// Gerenciar Base Salarial
 
 Route::middleware('rotas:23')->group(function () {
     Route::any('/gerenciar-base-salarial/{idf}', [GerenciarBaseSalarialController::class, 'index'])->name('GerenciarBaseSalarialController');
@@ -321,7 +321,7 @@ Route::middleware('rotas:19')->group(function () {
     Route::any('/deletar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'destroy'])->name('destroy.tipos-de-acordo');
 });
 /*Gerenciar Perfis*/
-
+Route::middleware('rotas:20')->group(function () {
     Route::get('/gerenciar-perfis', [GerenciarPerfil::class, 'index']);
     Route::get('/criar-perfis', [GerenciarPerfil::class, 'create']);
     Route::post('/armazenar-perfis', [GerenciarPerfil::class, 'store']);
@@ -329,11 +329,11 @@ Route::middleware('rotas:19')->group(function () {
     Route::get('/editar-perfis/{id}', [GerenciarPerfil::class, 'edit']);
     Route::post('/atualizar-perfis/{id}', [GerenciarPerfil::class, 'update']);
     Route::any('/excluir-perfis/{id}', [GerenciarPerfil::class, 'destroy']);
-
+});
 
 
 // Gerenciar Rotas Setor
-
+Route::middleware('rotas:21')->group(function () {
     Route::get('/gerenciar-setor-usuario', [GerenciarSetor::class, 'index']);
     Route::get('/criar-setor-usuario', [GerenciarSetor::class, 'create']);
     Route::post('/armazenar-setor-usuario', [GerenciarSetor::class, 'store']);
@@ -341,7 +341,7 @@ Route::middleware('rotas:19')->group(function () {
     Route::get('/editar-setor-usuario/{id}', [GerenciarSetor::class, 'edit']);
     Route::post('/atualizar-setor-usuario/{id}', [GerenciarSetor::class, 'update']);
     Route::any('/excluir-setor-usuario/{id}', [GerenciarSetor::class, 'destroy']);
-
+});
 
 
 
