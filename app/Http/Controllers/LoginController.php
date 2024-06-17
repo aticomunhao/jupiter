@@ -58,7 +58,7 @@ class LoginController extends Controller
 
             if (!Hash::check($senha, $hash_senha)) {
                 app('flasher')->addError('Credenciais inválidas');
-                return view('login/login');
+                return redirect()->back();
             }
 
             $perfis = explode(',', $user->perfis);
