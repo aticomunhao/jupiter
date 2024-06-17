@@ -10,9 +10,9 @@ class ValidaUsuario
     {
 
         //dd(!session()->get('usuario'));
-        if(!session()->get('usuario')){
+        if (!session()->get('usuario')) {
             app('flasher')->addError('O usuário não tem perfil');
-            return redirect('/');
+            return redirect()->back();;
         }
         // $route = $request->getPathInfo();
         $route_group = $request->route()->getName();
@@ -22,9 +22,9 @@ class ValidaUsuario
         $perfil_aux = str_contains($perfis, '3');
         $perfil_vol = !($perfil_adm || $perfil_ger || $perfil_aux);
 
-        switch($route_group) {
+        switch ($route_group) {
             case 'usuario':
-                if(!$perfil_adm) {
+                if (!$perfil_adm) {
                     return redirect('/UNAUTHORIZED');
                 }
             case 'entidade':
@@ -34,11 +34,11 @@ class ValidaUsuario
             case 'valor-avariado':
             case 'sit-doacao':
             case 'vendas':
-                if($perfil_vol){
+                if ($perfil_vol) {
                     return redirect('/UNAUTHORIZED');
                 }
             case 'estoque':
-                if(!$perfil_adm && !$perfil_ger){
+                if (!$perfil_adm && !$perfil_ger) {
                     return redirect('/UNAUTHORIZED');
                 }
         }
