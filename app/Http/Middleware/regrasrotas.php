@@ -29,7 +29,7 @@ class regrasrotas
             }
         } catch (\Exception $e) {
             app('flasher')->addError('Houve um Erro Inesperado!!');
-            return redirect('/login/valida');
+            return redirect()->back();
         }
     }
 }
