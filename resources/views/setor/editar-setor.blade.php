@@ -3,7 +3,7 @@
     <title>Editar Perfil</title>
 @endsection
 @section('content')
-    <br />
+    <br/>
     <div class="container">
         <div class="card">
             <div class="card-header">
@@ -19,16 +19,18 @@
                                 Setor
                                 <select class="form-select select2" name="setor">
                                     @foreach ($setores as $st)
-                                        <option value="{{ $st->id }}" {{ $setor->id == $st->id ? 'selected' : ''}}>{{ $st->nome }}</option>
+                                        <option
+                                            value="{{ $st->id }}" {{ $setor->id == $st->id ? 'selected' : ''}}>{{ $st->nome }}</option>
                                     @endforeach
                                 </select>
-                                <br />
+                                <br/>
                             </div>
                             <div class="col-12">
                                 Funcionalidades Autorizadas
                                 <select class="form-select select2" name="rotas[]" multiple>
                                     @foreach ($rotas as $rota)
-                                        <option value="{{ $rota->id }}" id="id{{ $rota->id }}">{{ $rota->nome }}</option>
+                                        <option value="{{ $rota->id }}"
+                                                id="id{{ $rota->id }}">{{ $rota->nome }}</option>
                                     @endforeach
                                 </select>
 
@@ -40,7 +42,7 @@
                                     <a href="/gerenciar-setor-usuario" class="btn btn-danger col-3">
                                         Cancelar
                                     </a>
-                                    <button type = "submit" class="btn btn-primary col-3 offset-3">
+                                    <button type="submit" class="btn btn-primary col-3 offset-3">
                                         Confirmar
                                     </button>
                                 </div>
@@ -57,7 +59,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.select2').select2({
                 theme: 'bootstrap-5'
             });
@@ -65,13 +67,11 @@
 
             let rotasSelecionadas = {{ $rotasSelecionadas }};
 
-            $.each(rotasSelecionadas, function(index, value){
-                $('#id' + value).attr('selected','selected');
-                $("#id" + value).change();
-            })
-
-            })
-
-
-    </script>
+            $.eac (rotasSe leciona as, fu n
+                e){
+                $('#id' + val ue).attr('se
+                ');
+                $("#id
+            an
+          </script>
 @endsection

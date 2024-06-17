@@ -16,8 +16,8 @@ class GerenciarSetor extends Controller
         $setores = DB::table('tp_rotas_setor as rs')->leftJoin('setor as s', 'rs.id_setor', 's.id')->distinct('s.nome')->orderBy('s.nome');
 
         $pesquisa = $request->nome_pesquisa;
-        if($request->nome_pesquisa){
-            $setores =$setores->where(function($query) use ($pesquisa) {
+        if ($request->nome_pesquisa) {
+            $setores = $setores->where(function ($query) use ($pesquisa) {
                 $query->where('nome', 'ilike', "%$pesquisa%");
                 $query->orWhere('sigla', 'ilike', "%$pesquisa%");
 
@@ -27,7 +27,6 @@ class GerenciarSetor extends Controller
         $setores = $setores->orderBy('s.nome')->get();
         return view('setor.gerenciar-setor', compact('setores'));
     }
-
 
 
     /**
@@ -48,7 +47,7 @@ class GerenciarSetor extends Controller
     {
 
 
-        foreach($request->rotas as $rota){
+        foreach ($request->rotas as $rota) {
             DB::table('tp_rotas_setor')->insert([
                 'id_setor' => $request->setor,
                 'id_rotas' => $rota
@@ -65,30 +64,30 @@ class GerenciarSetor extends Controller
      */
     public function show(string $id)
     {
-        try{
-        $setor = DB::table('setor')->where('id',$id)->first();
-        $rotas = DB::table('tp_rotas_setor')->leftJoin('tp_rotas_jupiter', 'tp_rotas_setor.id_rotas', 'tp_rotas_jupiter.id')->where('id_setor',$id)->orderBy('tp_rotas_jupiter.nome', 'ASC')->get();
+        try {
+            $setor = DB::table('setor')->where('id', $id)->first();
+            $rotas = DB::table('tp_rotas_setor')->leftJoin('tp_rotas_jupiter', 'tp_rotas_setor.id_rotas', 'tp_rotas_jupiter.id')->where('id_setor', $id)->orderBy('tp_rotas_jupiter.nome', 'ASC')->get();
 
-        return view('setor.visualizar-setor', compact('setor', 'rotas'));
-    }
-    catch(\Exception $e){
+            return view('setor.visualizar-setor', compact('setor', 'rotas'));
+        } catch (\Exception $e) {
 
-        $code = $e->getCode( );
-        return view('administrativo-erro.erro-inesperado', compact('code'));
-            }
+            $code = $e->getCode();
+            return view('administrativo-erro.erro-inesperado', compact('code'));
         }
+    }
+
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
 
-        $setor = DB::table('setor')->where('id',$id)->first();
+        $setor = DB::table('setor')->where('id', $id)->first();
         $setores = DB::table('setor')->whereNull('dt_fim')->orderBy('nome')->get();
         $rotas = DB::table('tp_rotas_jupiter')->get();
-        $rotasSelecionadas = DB::table('tp_rotas_setor')->leftJoin('tp_rotas_jupiter', 'tp_rotas_setor.id_rotas', 'tp_rotas_jupiter.id')->where('id_setor',$id)->orderBy('tp_rotas_jupiter.nome', 'ASC')->pluck('id_rotas');
+        $rotasSelecionadas = DB::table('tp_rotas_setor')->leftJoin('tp_rotas_jupiter', 'tp_rotas_setor.id_rotas', 'tp_rotas_jupiter.id')->where('id_setor', $id)->orderBy('tp_rotas_jupiter.nome', 'ASC')->pluck('id_rotas');
 
-        return view('setor.editar-setor', compact('setor','setores', 'rotas', 'rotasSelecionadas'));
+        return view('setor.editar-setor', compact('setor', 'setores', 'rotas', 'rotasSelecionadas'));
     }
 
 
@@ -99,10 +98,9 @@ class GerenciarSetor extends Controller
     {
 
 
-
         DB::table('tp_rotas_setor')->where('id_setor', $id)->delete();
 
-        foreach($request->rotas as $rota){
+        foreach ($request->rotas as $rota) {
             DB::table('tp_rotas_setor')->where('id_setor', $id)->insert([
                 'id_setor' => $request->setor,
                 'id_rotas' => $rota
@@ -120,8 +118,8 @@ class GerenciarSetor extends Controller
     public function destroy(string $id)
     {
 
-            DB::table('tp_rotas_setor')->where('id_setor', $id)->delete();
-            return redirect('/gerenciar-setor-usuario');
+        DB::table('tp_rotas_setor')->where('id_setor', $id)->delete();
+        return redirect('/gerenciar-setor-usuario');
 
-}
+    }
 }

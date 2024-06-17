@@ -20,7 +20,7 @@ class regrasrotas
 
             if (!$rotasAutorizadas) {
                 app('flasher')->addError('É necessário fazer login para acessar!');
-                return redirect('/');
+                return redirect()->back();
             } elseif (in_array($rota, $rotasAutorizadas)) {
                 return $next($request);
             } else {

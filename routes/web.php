@@ -233,7 +233,6 @@ Route::middleware('rotas:25')->group(function () {
 
 /**Rotas para Tipo de Desconto**/
 
-
 Route::get('/gerenciar-tipo-desconto', [GerenciarTipoDescontoController::class, 'index'])->name('indexTipoDesconto');
 Route::get('/incluir-tipo-desconto', [GerenciarTipoDescontoController::class, 'create']);
 Route::get('/editar-tipo-desconto/{id}', [GerenciarTipoDescontoController::class, 'edit']);
@@ -342,6 +341,3 @@ Route::middleware('rotas:21')->group(function () {
     Route::post('/atualizar-setor-usuario/{id}', [GerenciarSetor::class, 'update']);
     Route::any('/excluir-setor-usuario/{id}', [GerenciarSetor::class, 'destroy']);
 });
-
-
-
