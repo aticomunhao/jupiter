@@ -25,7 +25,7 @@ class regrasrotas
                 return $next($request);
             } else {
                 app('flasher')->addError('Você não tem autorização para acessar esta funcionalidade!');
-                return redirect('/login/valida');
+                return redirect()->back();
             }
         } catch (\Exception $e) {
             app('flasher')->addError('Houve um Erro Inesperado!!');
