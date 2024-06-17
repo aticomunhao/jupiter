@@ -8,7 +8,7 @@ $setor = session()->get('usuario.setor');
     <nav class="navbar navbar-dark navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;">
         <div class="container">
             <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;"
-               href="{{ route('home.post') }}">Júpiter</a>
+               href="{{ route('home.login') }}">Júpiter</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDarkdropdown"
                     aria-controls="navbarNavDarkdropdown" aria-expanded="false" aria-label="Toggle navigation"

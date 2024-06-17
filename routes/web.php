@@ -51,7 +51,7 @@ Auth::routes();
 
 Route::any('/', [App\Http\Controllers\LoginController::class, 'index']);
 Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'validaUserLogado'])->name('home.post');
-Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida']);
+Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida'])->name('home.login');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
