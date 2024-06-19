@@ -23,11 +23,6 @@
                         <div class="card-body">
                             <form class="form-horizontal mt-4" method='POST' action="/incluir-associado">
                                 @csrf
-
-                                <div class="container-fluid">
-                                    <div style="padding-left: 80%;">
-
-                                    </div>
                                     <div class="row d-flex justify-content-around">
                                         <div class="col-md-4 col-sm-12">
                                             <label for="1">Nome Completo</label>
