@@ -68,7 +68,7 @@ class LoginController extends Controller
                 ->pluck('id_rotas')
                 ->toArray();
 
-            $rotasSetores = DB::table('rotas_setor')
+            $rotasSetores = DB::table('tp_rotas_setor')
                 ->whereIn('id_setor', $setores)
                 ->orderBy('id_rotas')
                 ->pluck('id_rotas')

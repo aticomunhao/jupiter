@@ -182,6 +182,7 @@ class UsuarioController extends Controller
     public function update(Request $request, $id)
     {
         try{
+
             $ativo = isset($request->ativo) ? 1 : 0;
             $bloqueado = isset($request->bloqueado) ? 1 : 0;
             // echo $id;
@@ -361,8 +362,10 @@ class UsuarioController extends Controller
             $idUsuario = DB::select('select id from usuario where id_pessoa =' . $idPessoa);
             $resultSetor =DB::table('tp_rotas_setor')->leftJoin('setor', 'tp_rotas_setor.id_setor', 'setor.id')->distinct('id_setor')->get();
             //dd($resultDeposito);
+
             foreach ($setor as $setors) {
                 foreach ($resultSetor as $resultSetors) {
+
                     if ($resultSetors->nome == str_replace('_', ' ', $setors)) {
                         DB::table('tp_usuario_setor')->insert([
                             'id_usuario' => $idUsuario[0]->id,
