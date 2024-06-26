@@ -4,6 +4,7 @@ $setor = session()->get('usuario.setor');
 
 
 $perfis = session()->get('usuario.perfis');
+dd($perfis)
 
 
 ?>
