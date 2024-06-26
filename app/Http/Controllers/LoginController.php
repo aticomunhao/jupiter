@@ -85,7 +85,9 @@ class LoginController extends Controller
                 'sexo' => $user->sexo,
                 'setor' => $setores,
                 'acesso' => $rotasAutorizadas,
+                'perfis' =>  $perfis
             ]);
+
 
             app('flasher')->addSuccess('Acesso autorizado');
             return view('login/home');

@@ -20,7 +20,6 @@ class GerenciarSetor extends Controller
             $setores = $setores->where(function ($query) use ($pesquisa) {
                 $query->where('nome', 'ilike', "%$pesquisa%");
                 $query->orWhere('sigla', 'ilike', "%$pesquisa%");
-
             });
         }
 
@@ -117,9 +116,7 @@ class GerenciarSetor extends Controller
      */
     public function destroy(string $id)
     {
-
         DB::table('tp_rotas_setor')->where('id_setor', $id)->delete();
         return redirect('/gerenciar-setor-usuario');
-
     }
 }
