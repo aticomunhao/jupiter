@@ -128,7 +128,7 @@ $perfis = session()->get('usuario.perfis');
                         </ul>
                     </li>
                 </ul>
-                @if (in_array(1, $perfis))
+                @if (in_array(1, $perfis ?? []))
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
