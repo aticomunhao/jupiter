@@ -1,14 +1,10 @@
 <?php
 $acesso = session()->get('usuario.acesso');
 $setor = session()->get('usuario.setor');
-
-
 $perfis = session()->get('usuario.perfis');
 
 
-
 ?>
-
 
 
 <div id="app">
@@ -24,7 +20,6 @@ $perfis = session()->get('usuario.perfis');
             </button>
 
             <div class=" navbar-collapse" id="navbarNavDarkdropdown">
-
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
@@ -130,28 +125,28 @@ $perfis = session()->get('usuario.perfis');
                     </li>
                 </ul>
                 @if (in_array(1, $perfis ?? []))
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Administrar
-                            Sistema</a>
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                            @if (in_array(2, $acesso))
-                                <li><a href="/gerenciar-usuario" class="dropdown-item">Gerenciar Usuários</a>
-                                </li>
-                            @endif
-                            @if (in_array(21, $acesso))
-                                <li><a href="/gerenciar-setor-usuario" class="dropdown-item">Gerenciar Setor
-                                        Usuários</a>
-                                </li>
-                            @endif
-                            @if (in_array(20, $acesso))
-                                <li><a href="/gerenciar-perfis" class="dropdown-item">Gerenciar Perfis </a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Administrar
+                                Sistema</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
+                                @if (in_array(2, $acesso))
+                                    <li><a href="/gerenciar-usuario" class="dropdown-item">Gerenciar Usuários</a>
+                                    </li>
+                                @endif
+                                @if (in_array(21, $acesso))
+                                    <li><a href="/gerenciar-setor-usuario" class="dropdown-item">Gerenciar Setor
+                                            Usuários</a>
+                                    </li>
+                                @endif
+                                @if (in_array(20, $acesso))
+                                    <li><a href="/gerenciar-perfis" class="dropdown-item">Gerenciar Perfis </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    </ul>
                 @endif
 
                 <!-- Right Side Of Navbar -->
@@ -161,11 +156,11 @@ $perfis = session()->get('usuario.perfis');
                            data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff">Logout</a>
                         <ul class="dropdown-menu " aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a class="dropdown-item" href="/usuario/alterar-senha"><i
-                                        class="mdi mdi-lock-open-outline font-size-17 text-muted align-middle mr-1"></i>Alterar
+                                            class="mdi mdi-lock-open-outline font-size-17 text-muted align-middle mr-1"></i>Alterar
                                     Senha</a></li>
                             <li><a class="dropdown-item" href="javascript:void();"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                        class="mdi mdi-power font-size-17 text-muted align-middle mr-1 text-danger"></i>
+                                            class="mdi mdi-power font-size-17 text-muted align-middle mr-1 text-danger"></i>
                                     {{ __('Sair') }}</a></li>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                   style="display: none;">

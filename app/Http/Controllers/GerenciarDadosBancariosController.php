@@ -77,10 +77,7 @@ class GerenciarDadosBancariosController extends Controller
             ->where('funcionarios.id', "$idf")
             ->first();
 
-        if ($request->input('dt_inicio') < $funcionario->dt_inicio) {
-            app('flasher')->addError('A data de inicio da conta é inferior a data de inicio do funcionario na empresa');
-            return redirect()->route('index.dadosbancarios.funcionario', ['id' => $idf]);
-        } else {
+
             DB::table('rel_dados_bancarios')->insert([
                 'id_funcionario' => $idf,
                 'id_banco_ag' => $request->input('tp_banco_ag'),
@@ -93,7 +90,7 @@ class GerenciarDadosBancariosController extends Controller
             ]);
             app('flasher')->addSuccess('O Dado Bancario foi cadastrado com sucesso');
             return redirect()->route('index.dadosbancarios.funcionario', ['id' => $idf]);
-        }
+
     }
 
     /**
