@@ -112,35 +112,37 @@ class GerenciarAssociadoController extends Controller
             if ($validacaocpf == $cpf) {
 
                 DB::table('pessoas')
-            ->update([
-                'ddd' => $request->input('ddd'),
-                'celular' => $request->input('telefone'),
-                'email' => $request->input('email'),
-                'idt' => $request->input('idt'),
-                'sexo' => $request->input('sexo'),
-                'dt_nascimento' => $request->input('dt_nascimento'),
-                'status' => '1',
-            ]);
+                    ->update([
+                        'ddd' => $request->input('ddd'),
+                        'celular' => $request->input('telefone'),
+                        'email' => $request->input('email'),
+                        'idt' => $request->input('idt'),
+                        'sexo' => $request->input('sexo'),
+                        'dt_nascimento' => $request->input('dt_nascimento'),
+                        'status' => '1',
+                    ]);
 
-        $id_pessoa = DB::select("SELECT nextval('seq_pessoa') AS next_id")[0]->next_id;
+                    $id_pessoa = DB::table('pessoas')
+                    ->where('pessoas.cpf', $cpf)
+                    ->value('id');
 
-        DB::table('associado')
-            ->insert([
-                'id_pessoa' => $id_pessoa,
-                'dt_inicio' => $request->input('dt_inicio'),
+                DB::table('associado')
+                    ->insert([
+                        'id_pessoa' => $id_pessoa,
+                        'dt_inicio' => $request->input('dt_inicio'),
 
-            ]);
+                    ]);
 
-        DB::table('endereco_pessoas')->insert([
-            'id_pessoa' => $id_pessoa,
-            'cep' => str_replace('-', '', $request->input('cep')),
-            'id_uf_end' => $request->input('uf_end'),
-            'id_cidade' => $request->input('cidade'),
-            'logradouro' => $request->input('logradouro'),
-            'numero' => $request->input('numero'),
-            'bairro' => $request->input('bairro'),
-            'complemento' => $request->input('complemento'),
-        ]);
+                DB::table('endereco_pessoas')->insert([
+                    'id_pessoa' => $id_pessoa,
+                    'cep' => str_replace('-', '', $request->input('cep')),
+                    'id_uf_end' => $request->input('uf_end'),
+                    'id_cidade' => $request->input('cidade'),
+                    'logradouro' => $request->input('logradouro'),
+                    'numero' => $request->input('numero'),
+                    'bairro' => $request->input('bairro'),
+                    'complemento' => $request->input('complemento'),
+                ]);
 
                 app('flasher')->adderror('Associado existente e atualizado');
                 return redirect('/gerenciar-associado');
@@ -160,7 +162,7 @@ class GerenciarAssociadoController extends Controller
                 'status' => '1',
             ]);
 
-        $id_pessoa = DB::select("SELECT nextval('seq_pessoa') AS next_id")[0]->next_id;
+        $id_pessoa = DB::select("SELECT MAX('id') from pessoas");
 
         DB::table('associado')
             ->insert([

@@ -221,7 +221,10 @@ class GerenciarFuncionarioController extends Controller
 
             ]);
 
-            $id_pessoa = DB::select("SELECT nextval('seq_pessoa') AS next_id")[0]->next_id;
+
+            $id_pessoa = DB::table('pessoas')
+            ->max('id');
+
 
             //dd($id_pessoa);
 
