@@ -91,7 +91,7 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">Número de Identidade
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="15" type="numeric" id="11" name="identidade"
+                                        maxlength="20" type="numeric" id="11" name="identidade"
                                         value="{{ old('identidade') }}" required="required">
                                 </div>
                                 <div class="col-md-2 col-sm-12">UF da Identidade

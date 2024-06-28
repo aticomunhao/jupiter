@@ -106,7 +106,7 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">Número de Identidade
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-control" name="identidade" maxlength="8"
+                                        class="form-control" name="identidade" maxlength="20"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                         id="10" value="{{ $pessoa[0]->identidade }}" required="required">
                                     <div class="invalid-feedback">
@@ -579,7 +579,7 @@
         </div>
         <br>
     </form>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
