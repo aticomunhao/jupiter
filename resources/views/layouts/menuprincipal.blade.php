@@ -45,38 +45,39 @@ $perfis = session()->get('usuario.perfis');
                         <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
                         <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
+                            @if (in_array(25, $acesso))
+                            <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">
+                                    Cargo dos Funcionários</a>
+                            </li>
+                        @endif
                             @if (in_array(24, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">Gerenciar
+                                <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">
                                         Entidades
                                         de
                                         Ensino</a>
                             @endif
                             @if (in_array(4, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-setor">Gerenciar Setores</a></li>
+                                <li><a class="dropdown-item" href="/gerenciar-setor"> Setores</a></li>
                             @endif
                             @if (in_array(5, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-hierarquia">Gerenciar Hierarquia</a>
+                                <li><a class="dropdown-item" href="/gerenciar-hierarquia">Hierarquia de Setores</a>
                                 </li>
                             @endif
-
-                            @if (in_array(6, $acesso))
-                                <li><a href="/gerenciar-tipo-desconto" class="dropdown-item">Gerenciar Tipo de
-                                        Desconto</a>
-                                </li>
-                            @endif
-                            @if (in_array(25, $acesso))
-                                <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">Gerenciar
-                                        Cargos</a>
-                                </li>
+                            @if (in_array(16, $acesso))
+                                <li><a class="dropdown-item" href="/controle-vagas">Vagas por Setor</a></li>
                             @endif
                             @if (in_array(19, $acesso))
-                                <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">Gerenciar
-                                        Tipo
+                                <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">
+                                        Tipos
                                         de
                                         Acordo</a>
                                 </li>
                             @endif
-
+                            @if (in_array(6, $acesso))
+                                <li><a href="/gerenciar-tipo-desconto" class="dropdown-item"> Tipos de
+                                        Desconto</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                 </ul>
@@ -114,9 +115,6 @@ $perfis = session()->get('usuario.perfis');
                         <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
                             @if (in_array(15, $acesso))
                                 <li><a class="dropdown-item" href="/gerenciar-efetivo">Controle de Efetivo</a></li>
-                            @endif
-                            @if (in_array(16, $acesso))
-                                <li><a class="dropdown-item" href="/controle-vagas">Controle de Vagas</a></li>
                             @endif
                             @if (in_array(18, $acesso))
                                 <li><a class="dropdown-item" href="/controle-ferias">Controle de Férias</a></li>
