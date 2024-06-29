@@ -184,67 +184,74 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <!--Fim Modal-->
+                                                <!-- Modal -->
+
+                                                <div class="modal fade bd-example-modal-lg"
+                                                    id="armazenar{{ $lista_associados->id }}" tabindex="-1"
+                                                    role="dialog" aria-labelledby="exampleModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLabel">
+                                                                    Documento
+                                                                    Autorização Débito em Conta</h5>
+                                                                <button type="button" class="close"
+                                                                    data-dismiss="modal" aria-label="Fechar">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="container-fluid">
+                                                                    <div class="row">
+                                                                        <div class="col-md-4">
+                                                                            <center>
+                                                                                <h6>Arquivo Atual</h6>
+                                                                                <a
+                                                                                    href="/visualizar-arquivo/{{ $lista_associados->id }}"><button
+                                                                                        type="button"
+                                                                                        class="btn btn-outline-primary btn-sm"><i
+                                                                                            class="bi-search"
+                                                                                            style="font-size: 2rem; color:#303030;"></i></button></a>
+                                                                            </center>
+                                                                        </div>
+                                                                        <div class="col-md-5">
+                                                                            <form method='POST'
+                                                                                action="/salvar-documento-associado/{{ $lista_associados->id }}"
+                                                                                enctype="multipart/form-data">
+                                                                                @csrf
+                                                                                <div class="form-group">
+                                                                                    <label for="exampleFormControlFile1">
+                                                                                        <h6>Carregar Arquivo</h6>
+
+                                                                                    </label>
+                                                                                    <input type="file"
+                                                                                        class="form-control-file"
+                                                                                        id="exampleFormControlFile1"
+                                                                                        name="arquivo">
+                                                                                </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-danger"
+                                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                                            <button type="submit"
+                                                                                class="btn btn-primary">Salvar
+                                                                                mudanças</button>
+                                                                        </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--Fim Modal-->
                                             </td>
                                         </tr>
                                     @endforeach
                                 </tbody>
                             </table>
-                        </div>
-
-                        <!--Fim Modal-->
-                        <!-- Modal -->
-
-                        <div class="modal fade bd-example-modal-lg" id="armazenar{{ $lista_associados->id }}"
-                            tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-lg" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">
-                                            Documento
-                                            Autorização Débito em Conta</h5>
-                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="container-fluid">
-                                            <div class="row">
-                                                <div class="col-md-4">
-                                                    <center>
-                                                        <h6>Arquivo Atual</h6>
-                                                        <a href="/visualizar-arquivo/{{ $lista_associados->id }}"><button
-                                                                type="button" class="btn btn-outline-primary btn-sm"><i
-                                                                    class="bi-search"
-                                                                    style="font-size: 2rem; color:#303030;"></i></button></a>
-                                                    </center>
-                                                </div>
-                                                <div class="col-md-5">
-                                                    <form method='POST'
-                                                        action="/salvar-documento-associado/{{ $lista_associados->id }}"
-                                                        enctype="multipart/form-data">
-                                                        @csrf
-                                                        <div class="form-group">
-                                                            <label for="exampleFormControlFile1">
-                                                                <h6>Carregar Arquivo</h6>
-
-                                                            </label>
-                                                            <input type="file" class="form-control-file"
-                                                                id="exampleFormControlFile1" name="arquivo">
-                                                        </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-danger"
-                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                    <button type="submit" class="btn btn-primary">Salvar
-                                                        mudanças</button>
-                                                </div>
-                                                </form>
-                                                <!--Fim Modal-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div style="margin-right: 10px; margin-left: 10px">

@@ -68,7 +68,7 @@ class GerenciarAssociadoController extends Controller
         }
 
 
-        $lista_associado = $lista_associado->orderBy('status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(100);
+        $lista_associado = $lista_associado->orderBy('status', 'asc')->orderBy('ass.nr_associado', 'asc')->paginate(100);
 
 
         return view('/associado/gerenciar-associado', compact('lista_associado', 'id', 'nr_associado', 'nome_completo', 'voluntario', 'votante', 'dt_inicio', 'dt_fim', 'status'));
