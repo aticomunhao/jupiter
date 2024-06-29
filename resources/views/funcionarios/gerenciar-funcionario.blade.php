@@ -58,6 +58,7 @@
                                                 style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;">
                                         </a>
                                     </div>
+                                    
                             </form>
                         </div>
                         <br>
@@ -190,7 +191,7 @@
                 color: red;
             }
         </style>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             const nomeItems = document.querySelectorAll('.nome-item');
