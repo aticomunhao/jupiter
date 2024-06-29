@@ -2,6 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
+
     <br>
     <div class="container">
         <div class="card" style="border-color: #355089">
@@ -19,6 +20,35 @@
 
 
             <div class="card-body">
+                <br>
+                <div class="card">
+                    <div class="card-header">
+                        Data do Periodo Aquisitivo Para as Férias
+                    </div>
+                    <div class="card-body">
+
+                        <div class="row d-flex justify-content-around" style="text-align: center">
+                            <div class="col-4">
+                                <h5 class="card-title">A partir de:</h5>
+                                <div class="card">
+
+                                    <div class="card-body">
+                                        {{  Carbon::parse($periodo_aquisitivo->inicio_periodo_aquisitivo)->format('d/m/Y') }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="card-title">Não mais que:</h5>
+                                <div class="card">
+
+                                    <div class="card-body">
+                                        {{     Carbon::parse($periodo_aquisitivo->fim_periodo_aquisitivo)->format('d/m/Y')    }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <br>
                 <div class="card">
                     <div class="card-header">

@@ -20,10 +20,12 @@
                     <div class="card-body">
                         <div class="row justify-content-around">
                             <div class="col-sm-12 col-md-4">
-                                <h5>Pesquisar Periodo de Férias</h5>
+                                <h5>Pesquisar Periodo Aquisitivo de Férias</h5>
                                 <form action="{{ route('IndexGerenciarFerias') }}" method="get">
                                     @csrf
                                     <select class="form-select" aria-label="Ano" name="search">
+                                        <option value="{{    intval($ano_referente)}}">{{ intval($ano_referente)+1 }}
+                                            -{{ intval($ano_referente)+2 }}</option>
                                         @foreach ($anos_possiveis as $ano_possivel)
                                             <option value="{{ $ano_possivel->ano_de_referencia }}">
                                                 {{ $ano_possivel->ano_de_referencia + 1 }}

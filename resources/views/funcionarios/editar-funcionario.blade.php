@@ -218,7 +218,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-5">Setor Alocado
-                                    <select id="validationCustomUsername" style="border: 1px solid #999999; padding: 5px;"
+                                    <select id="setorid" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-select" name="setor">
                                         <option value="{{ $funcionario[0]->id_setor }}" required="required">
                                             {{ $funcionario[0]->nome_setor }}
@@ -588,7 +588,8 @@
     <script>
         $(document).ready(function() {
 
-            $('#idcidade, #cidade1').select2({
+
+            $('#cidade1, #cidade2, #setorid').select2({
                 theme: 'bootstrap-5',
                 width: '100%',
             });
