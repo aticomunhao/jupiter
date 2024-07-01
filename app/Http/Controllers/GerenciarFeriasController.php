@@ -22,12 +22,30 @@ class GerenciarFeriasController extends Controller
                 $ano_referente = $request->input('search');
             } else {
                 $ano_referente = DB::table('ferias')->max('ano_de_referencia');
-
             }
 
-
-            $periodo_aquisitivo = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->select('pessoas.nome_completo as nome_completo_funcionario', 'pessoas.id as id_pessoa', 'ferias.dt_ini_a', 'ferias.dt_fim_a', 'ferias.dt_ini_b', 'ferias.dt_fim_b', 'ferias.dt_ini_c', 'ferias.dt_fim_c', 'ferias.motivo_retorno', 'ferias.id as id_ferias', 'funcionarios.dt_inicio', 'ferias.ano_de_referencia', 'ferias.id_funcionario', 'status_pedido_ferias.id as id_status_pedido_ferias', 'status_pedido_ferias.nome as status_pedido_ferias', 'funcionarios.id_setor')->whereIn('funcionarios.id_setor', session('usuario.setor'))->where('ferias.ano_de_referencia', '=', $ano_referente)->get();
-
+            $periodo_aquisitivo = DB::table('ferias')
+                ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+                ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+                ->select(
+                    'pessoas.nome_completo as nome_completo_funcionario',
+                    'pessoas.id as id_pessoa',
+                    'ferias.dt_ini_a',
+                    'ferias.dt_fim_a',
+                    'ferias.dt_ini_b',
+                    'ferias.dt_fim_b',
+                    'ferias.dt_ini_c',
+                    'ferias.dt_fim_c',
+                    'ferias.motivo_retorno',
+                    'ferias.id as id_ferias',
+                    'funcionarios.dt_inicio',
+                    'ferias.ano_de_referencia',
+                    'ferias.id_funcionario',
+                    'status_pedido_ferias.id as id_status_pedido_ferias',
+                    'status_pedido_ferias.nome as status_pedido_ferias',
+                    'funcionarios.id_setor'
+                )->whereIn('funcionarios.id_setor', session('usuario.setor'))->where('ferias.ano_de_referencia', '=', $ano_referente)->get();
 
             $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
 
@@ -51,10 +69,14 @@ class GerenciarFeriasController extends Controller
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
                 ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
                 ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
-                ->select('pessoas.nome_completo as nome_completo_funcionario',
-                    'pessoas.id as id_pessoa', 'ferias.dt_ini_a',
-                    'ferias.dt_fim_a', 'ferias.dt_ini_b',
-                    'ferias.dt_fim_b', 'ferias.dt_ini_c',
+                ->select(
+                    'pessoas.nome_completo as nome_completo_funcionario',
+                    'pessoas.id as id_pessoa',
+                    'ferias.dt_ini_a',
+                    'ferias.dt_fim_a',
+                    'ferias.dt_ini_b',
+                    'ferias.dt_fim_b',
+                    'ferias.dt_ini_c',
                     'ferias.dt_fim_c',
                     'ferias.id as id_ferias',
                     'ferias.motivo_retorno',
@@ -65,8 +87,9 @@ class GerenciarFeriasController extends Controller
                     'status_pedido_ferias.nome as status_pedido_ferias',
                     'ferias.dt_fim_periodo_de_licenca',
                     'ferias.dt_inicio_periodo_de_licenca',
-                'ferias.inicio_periodo_aquisitivo',
-                'ferias.fim_periodo_aquisitivo')
+                    'ferias.inicio_periodo_aquisitivo',
+                    'ferias.fim_periodo_aquisitivo'
+                )
                 ->where('ferias.id', $id_ferias)
                 ->first();
 
@@ -76,8 +99,6 @@ class GerenciarFeriasController extends Controller
             app('flasher')->addError("Houve um erro inesperado: #" . $e->getCode());
             return redirect()->back();
         }
-
-
     }
 
     /**
@@ -99,7 +120,8 @@ class GerenciarFeriasController extends Controller
             $periodo_de_ferias = DB::table('ferias')->where('id', '=', $id)->first();
 
 
-            $funcionario = DB::table('funcionarios')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->where('funcionarios.id', '=', $periodo_de_ferias->id_funcionario)->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')->first();
+            $funcionario = DB::table('funcionarios')
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->where('funcionarios.id', '=', $periodo_de_ferias->id_funcionario)->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')->first();
 
 
             $historico_recusa_ferias = DB::table('hist_recusa_ferias')->where('id_periodo_de_ferias', '=', $id)->get();
@@ -111,13 +133,11 @@ class GerenciarFeriasController extends Controller
 
 
             return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
-
         } catch (Exception $exception) {
             DB::rollBack();
             app('flasher')->addError($exception->getMessage());
             return redirect()->back();
         }
-
     }
 
     /**
@@ -188,9 +208,33 @@ class GerenciarFeriasController extends Controller
             }
 
 
-            $periodo_aquisitivo = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->join('setor as s', 's.id', '=', 'id_setor')->select('pessoas.nome_completo as nome_completo_funcionario', 'pessoas.id as id_pessoa', 'ferias.dt_ini_a', 'ferias.dt_fim_a', 'ferias.dt_ini_b', 'ferias.dt_fim_b', 'ferias.dt_ini_c', 'ferias.dt_fim_c', 'ferias.motivo_retorno', 'ferias.id as id_ferias', 'ferias.venda_um_terco', 'funcionarios.dt_inicio', 'ferias.ano_de_referencia', 'ferias.id_funcionario', 'ferias.adianta_13sal', 'status_pedido_ferias.id as id_status_pedido_ferias', 'status_pedido_ferias.nome as status_pedido_ferias', 's.sigla as sigla_do_setor',
-
+            $periodo_aquisitivo = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->join('setor as s', 's.id', '=', 'id_setor')->select(
+                'pessoas.nome_completo as nome_completo_funcionario',
+                'pessoas.id as id_pessoa',
+                'ferias.dt_ini_a',
+                'ferias.dt_fim_a',
+                'ferias.dt_ini_b',
+                'ferias.dt_fim_b',
+                'ferias.dt_ini_c',
+                'ferias.dt_fim_c',
+                'ferias.motivo_retorno',
+                'ferias.id as id_ferias',
+                'ferias.venda_um_terco',
+                'funcionarios.dt_inicio',
+                'ferias.ano_de_referencia',
+                'ferias.id_funcionario',
+                'ferias.adianta_13sal',
+                'status_pedido_ferias.id as id_status_pedido_ferias',
+                'status_pedido_ferias.nome as status_pedido_ferias',
+                's.sigla as sigla_do_setor',
+                's.id as id_do_setor',
             )->where('ano_de_referencia', '=', $ano_referente)->orderBy('sigla_do_setor')->get();
+            $setores_unicos = $periodo_aquisitivo->map(function ($item) {
+                return (object) [
+                    'id_do_setor' => $item->id_do_setor,
+                    'sigla_do_setor' => $item->sigla_do_setor,
+                ];
+            })->unique('id_do_setor')->values();
 
 
             $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
@@ -208,33 +252,30 @@ class GerenciarFeriasController extends Controller
             $listaAnos = range($anoAnterior, $doisAnosFrente);
 
 
-            return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos', 'ano_referente'));
 
+            return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos', 'ano_referente', 'setores_unicos'));
         } catch (Exception $exception) {
             DB::rollBack();
             app('flasher')->addError($exception->getMessage());
             return redirect()->back();
-
         }
     }
 
     public function autorizarferias($id)
     {
         try {
-            $periodo_de_ferias = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->select('pessoas.nome_completo as nome_completo_funcionario',
+            $periodo_de_ferias = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->select(
+                'pessoas.nome_completo as nome_completo_funcionario',
             )->where('ferias.id', '=', $id)->first();
             DB::table('ferias')->where('id', '=', $id)->update(['status_pedido_ferias' => 6]);
             DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id, 'motivo_retorno' => "Férias e Autoridas e Homologadas.", 'data_de_acontecimento' => Carbon::today()->toDateString()]);
             app('flasher')->addSuccess("As ferias do funcionario $periodo_de_ferias->nome_completo_funcionario foram autorizadas.");
             return redirect()->back();
-
         } catch (Exception $exception) {
             DB::rollBack();
             app('flasher')->addError($exception->getMessage());
             return redirect()->back();
-
         }
-
     }
 
     /**
@@ -328,7 +369,8 @@ class GerenciarFeriasController extends Controller
             else {
                 DB::table('ferias')
                     ->where('id', $ferias->id)
-                    ->update(['dt_ini_a' => $data_inicio_formulario,
+                    ->update([
+                        'dt_ini_a' => $data_inicio_formulario,
                         'dt_fim_a' => $data_fim_formulario,
                         'dt_ini_b' => null, 'dt_fim_b' => null,
                         'dt_ini_c' => null, 'dt_fim_c' => null,
@@ -419,7 +461,8 @@ class GerenciarFeriasController extends Controller
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
                     'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo),
                     'vendeu_ferias' => isset($formulario_de_ferias["vendeFerias"]) ? $formulario_de_ferias["vendeFerias"] : null,
-                    'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')]);
+                    'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')
+                ]);
                 DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             }
@@ -499,7 +542,8 @@ class GerenciarFeriasController extends Controller
                     'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo),
                     'nr_dias_per_c' => $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo),
                     'vendeu_ferias' => isset($formulario_de_ferias["vendeFerias"]) ? $formulario_de_ferias["vendeFerias"] : null,
-                    'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')]);
+                    'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')
+                ]);
                 DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
                 app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
             } else {
@@ -507,8 +551,6 @@ class GerenciarFeriasController extends Controller
             }
         }
         return redirect()->route('IndexGerenciarFerias');
-
-
     }
 
     public function formulario_recusa_periodo_de_ferias($id)
@@ -522,7 +564,6 @@ class GerenciarFeriasController extends Controller
             app('flasher')->addError("Houve um erro inesperado: #" . $exception->getCode());
             return redirect()->route('IndexGerenciarFerias');
         }
-
     }
 
     public function recusa_pedido_de_ferias(Request $request, $id)
@@ -534,7 +575,6 @@ class GerenciarFeriasController extends Controller
 
             DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id, 'motivo_retorno' => $request->input('motivo_da_recusa'), 'data_de_acontecimento' => Carbon::today()->toDateString()]);
             app('flasher')->addSuccess('Recusado com sucesso.');
-
         } catch (Exception $exception) {
             app('flasher')->addError("Houve um erro inesperado: #" . $exception->getCode());
             DB::rollBack();
@@ -558,8 +598,23 @@ class GerenciarFeriasController extends Controller
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
                 ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
                 ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
-                ->select('pessoas.nome_completo as nome_completo_funcionario',
-                    'pessoas.id as id_pessoa', 'ferias.dt_ini_a', 'ferias.dt_fim_a', 'ferias.dt_ini_b', 'ferias.dt_fim_b', 'ferias.dt_ini_c', 'ferias.dt_fim_c', 'ferias.motivo_retorno', 'ferias.id as id_ferias', 'funcionarios.dt_inicio', 'ferias.ano_de_referencia', 'ferias.id_funcionario', 'status_pedido_ferias.id as id_status_pedido_ferias', 'status_pedido_ferias.nome as status_pedido_ferias')->WhereIn('ferias.id', $numeros_checkboxes)->get();
+                ->select(
+                    'pessoas.nome_completo as nome_completo_funcionario',
+                    'pessoas.id as id_pessoa',
+                    'ferias.dt_ini_a',
+                    'ferias.dt_fim_a',
+                    'ferias.dt_ini_b',
+                    'ferias.dt_fim_b',
+                    'ferias.dt_ini_c',
+                    'ferias.dt_fim_c',
+                    'ferias.motivo_retorno',
+                    'ferias.id as id_ferias',
+                    'funcionarios.dt_inicio',
+                    'ferias.ano_de_referencia',
+                    'ferias.id_funcionario',
+                    'status_pedido_ferias.id as id_status_pedido_ferias',
+                    'status_pedido_ferias.nome as status_pedido_ferias'
+                )->WhereIn('ferias.id', $numeros_checkboxes)->get();
             foreach ($ferias_funcionarios as $ferias_funcionario) {
                 if (empty($ferias_funcionario->dt_ini_a)) {
                     app('flasher')->addError('Foi feita uma tentativa de enviar as ferias de ' . $ferias_funcionario->nome_completo_funcionario . ', porém as mesmas não foram preenchidas.');
@@ -584,12 +639,54 @@ class GerenciarFeriasController extends Controller
             DB::table('ferias')->where('id', $id)->update(['status_pedido_ferias' => 1]);
             DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id, 'motivo_retorno' => 'Solicitada Reabertura do Formulario pelo funcionário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
             return redirect()->back();
-
         } catch (Exception $exception) {
             DB::rollBack();
             app('flasher')->addError("Houve um erro inesperado: #" . $exception->getCode());
             return redirect()->back();
         }
+    }
+    public function retornaPeriodoFerias($ano, $nome, $setor)
+    {
+        // Realize sua lógica para buscar os dados com base nos parâmetros recebidos
+        $periodo_aquisitivo = DB::table('ferias')
+            ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+            ->join('setor as s', 's.id', '=', 'id_setor')
+            ->select(
+                'pessoas.nome_completo as nome_completo_funcionario',
+                'pessoas.id as id_pessoa',
+                'ferias.dt_ini_a',
+                'ferias.dt_fim_a',
+                'ferias.dt_ini_b',
+                'ferias.dt_fim_b',
+                'ferias.dt_ini_c',
+                'ferias.dt_fim_c',
+                'ferias.motivo_retorno',
+                'ferias.id as id_ferias',
+                'ferias.venda_um_terco',
+                'funcionarios.dt_inicio',
+                'ferias.ano_de_referencia',
+                'ferias.id_funcionario',
+                'ferias.adianta_13sal',
+                'status_pedido_ferias.id as id_status_pedido_ferias',
+                'status_pedido_ferias.nome as status_pedido_ferias',
+                's.sigla as sigla_do_setor',
+                's.id as id_do_setor'
+            );
 
+        if ($nome !== "null") {
+            $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome . '%');
+        }
+
+        if ($ano !== "null") {
+            $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia', '=', $ano);
+        }
+        if($setor !== "null"){
+            $periodo_aquisitivo = $periodo_aquisitivo->where('s.id', '=', $setor);
+        }
+
+        $periodo_aquisitivo = $periodo_aquisitivo->get();
+        return response()->json($periodo_aquisitivo);
     }
 }

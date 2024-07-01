@@ -113,7 +113,6 @@ Route::middleware('rotas:23')->group(function () {
     Route::any('/atualizar-base-sallarial/{idf}', [GerenciarBaseSalarialController::class, 'update'])->name('AtualizarBaseSalarial');
     Route::any('/retorna-cargos-editar/{id}', [GerenciarBaseSalarialController::class, 'retornaCargos']);
     Route::any('/retorna-funcao-gratificada', [GerenciarBaseSalarialController::class, 'retornaFG']);
-
 });
 /*Gerenciar setores*/
 Route::middleware('rotas:4')->group(function () {
@@ -246,12 +245,13 @@ Route::any('/modificar-tipo-desconto/{id}', [GerenciarTipoDescontoController::cl
 /**Gerenciar Ferias**/
 /*Administrador Setor*/
 Route::middleware('rotas:13')->group(function () {
-    Route::get('/periodo-de-ferias/', [GerenciarFeriasController::class, 'index'])->name('IndexGerenciarFerias');
+    Route::get('/periodo-de-ferias', [GerenciarFeriasController::class, 'index'])->name('IndexGerenciarFerias');
     Route::get('/incluir-ferias/{id}', [GerenciarFeriasController::class, 'create'])->name('CriarFerias');
     Route::any('/armazenar-ferias/{id}', [GerenciarFeriasController::class, 'update'])->name('ArmazenarFerias');
     Route::any('/visualizar-historico-recusa-ferias/{id}', [GerenciarFeriasController::class, 'show'])->name('HistoricoRecusaFerias');
     Route::any('/enviar-ferias', [GerenciarFeriasController::class, 'enviarFerias'])->name('enviar-ferias');
     Route::any('/reabrir-formulario/{id}', [GerenciarFeriasController::class, 'reabrirFormulario'])->name('ReabrirFormulario');
+    Route::get('/retorna-periodo-ferias/{ano}/{nome}/{setor}', [GerenciarFeriasController::class, 'retornaPeriodoFerias']);
 });
 
 /*Administrador DAF*/
@@ -261,6 +261,7 @@ Route::middleware('rotas:12')->group(function () {
     Route::any('/autorizar-ferias/{id}', [GerenciarFeriasController::class, 'autorizarferias'])->name('autorizarFerias');
     Route::any('/formulario-recusar-ferias/{id}', [GerenciarFeriasController::class, 'formulario_recusa_periodo_de_ferias'])->name('FormularioFerias');
     Route::any('/recusa-ferias/{id}', [GerenciarFeriasController::class, 'recusa_pedido_de_ferias'])->name('RecusaFerias');
+    Route::get('/retorna-periodo-ferias/{ano}/{nome}/{setor}', [GerenciarFeriasController::class, 'retornaPeriodoFerias']);
 });
 /**Rotas de Entrada**/
 
@@ -309,6 +310,7 @@ Route::middleware('rotas:18')->group(function () {
 /*Ajax Controller */
 Route::get('/retorna-cidades/{id}', [AjaxController::class, 'retornaCidades']);
 Route::get('/retorna-dados-endereco/{id}', [AjaxController::class, 'getAddressByCep']);
+
 
 /*Tipos de Acordo*/
 Route::middleware('rotas:19')->group(function () {

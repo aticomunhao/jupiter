@@ -45,5 +45,6 @@ class AjaxController extends Controller
             return response()->json(['error' => 'Unable to fetch address'], 400);
         }
     }
+   
 
 }
