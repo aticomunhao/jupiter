@@ -26,7 +26,7 @@
                             <div class="col-md-2 col-sm-12">
                                 <h5>Selecione o Período Aquisitivo</h5>
                                 <select class="form-select" aria-label="Ano" name="anoconsulta" id="idanoconsulta">
-                                    <option value=""> </option>
+                                    <option value=""> Todos</option>
                                     @foreach ($anos_possiveis as $ano_possivel)
                                         <option value="{{ $ano_possivel->ano_de_referencia }}">
                                             {{ $ano_possivel->ano_de_referencia + 1 }}
@@ -37,7 +37,7 @@
                             <div class="col-md-2 col-sm-12">
                                 <h5>Selecione o Setor</h5>
                                 <select class="form-select" aria-label="Ano" name="setorconsulta" id="idsetorconsulta">
-                                    <option value=""></option>
+                                    <option value="">Todos</option>
                                     @foreach ($setores_unicos as $setor_unico)
                                         <option value="{{ $setor_unico->id_do_setor }}">
                                             {{ $setor_unico->sigla_do_setor }}
@@ -67,7 +67,6 @@
                                         <div class="modal-body">
                                             <form action="{{ route('AbreFerias') }}">
                                                 @csrf
-
                                                 <select class="form-select custom-select" aria-label="Ano"
                                                     name="ano_referencia" id="ano" style="color: #0e0b16">
                                                     @foreach ($listaAnos as $ano)
@@ -102,7 +101,7 @@
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th scope="col">Nome do Funcionário</th>
                                             <th scope="col">Setor</th>
-                                            <th scope="col">Periodo de Férias</th>
+                                            <th scope="col">Periodo Aquisitivo</th>
                                             <th scope="col">Início 1</th>
                                             <th scope="col">Fim 1</th>
                                             <th scope="col">Início 2</th>

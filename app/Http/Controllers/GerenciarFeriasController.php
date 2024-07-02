@@ -17,12 +17,10 @@ class GerenciarFeriasController extends Controller
     public function index(Request $request)
     {
         DB::beginTransaction();
-        try {
-            if (!empty($request->input('search'))) {
-                $ano_referente = $request->input('search');
-            } else {
-                $ano_referente = DB::table('ferias')->max('ano_de_referencia');
-            }
+        
+            
+            
+        
 
             $periodo_aquisitivo = DB::table('ferias')
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -45,17 +43,27 @@ class GerenciarFeriasController extends Controller
                     'status_pedido_ferias.id as id_status_pedido_ferias',
                     'status_pedido_ferias.nome as status_pedido_ferias',
                     'funcionarios.id_setor'
-                )->whereIn('funcionarios.id_setor', session('usuario.setor'))->where('ferias.ano_de_referencia', '=', $ano_referente)->get();
+                )->whereIn('funcionarios.id_setor', session('usuario.setor'));
 
             $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
+            if($request->input('anoconsulta')){
+                $ano_referente = $request->input('anoconsulta');
+                $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia' , '=', $ano_referente);
 
+            }
+            if($request->input('nomefuncionario')){
+                $nome_funcionario = $request->input('nomefuncionario');
+                $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo','ilike','%'.$nome_funcionario.'%');
+            }
+
+            if(!$request->input('nomefuncionario') and! $request->input('anoconsulta')) {}
+       
+            
+            $periodo_aquisitivo = $periodo_aquisitivo->get();
+       
             DB::commit();
-            return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'ano_referente', 'anos_possiveis'));
-        } catch (Exception $e) {
-            app('flasher')->addError("Houve um erro inesperado: #" . $e->getCode());
-            DB::rollBack();
-            return redirect()->back();
-        }
+            return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo',  'anos_possiveis'));
+       
     }
 
     /**
@@ -391,6 +399,7 @@ class GerenciarFeriasController extends Controller
 
               
                 app('flasher')->addCreated($ferias->nome_completo . ' teve férias adicionadas com sucesso.');
+                 return redirect()->route('IndexGerenciarFerias');
             }
             return redirect()->route('IndexGerenciarFerias');
         } //Condicoes para segundo caso
@@ -475,9 +484,8 @@ class GerenciarFeriasController extends Controller
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
                 ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
                 ->select('pessoas.nome_completo')->first();
-
-              
                 app('flasher')->addCreated($ferias->nome_completo . ' teve férias adicionadas com sucesso.');
+                return redirect()->route('IndexGerenciarFerias');
             }
         } elseif ($formulario_de_ferias['numeroPeriodoDeFerias'] == 3) {
             // Condições para três períodos de férias
@@ -565,11 +573,11 @@ class GerenciarFeriasController extends Controller
 
               
                 app('flasher')->addCreated($ferias->nome_completo . ' teve férias adicionadas com sucesso.');
+                return redirect()->route('IndexGerenciarFerias');
             } else {
                 app('flasher')->addError('É essencial que pelo menos um periodos tenha o minimo de 15 dias.');
             }
         }
-        return redirect()->route('IndexGerenciarFerias');
     }
 
     public function formulario_recusa_periodo_de_ferias($id)
