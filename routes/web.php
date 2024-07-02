@@ -251,7 +251,7 @@ Route::middleware('rotas:13')->group(function () {
     Route::any('/visualizar-historico-recusa-ferias/{id}', [GerenciarFeriasController::class, 'show'])->name('HistoricoRecusaFerias');
     Route::any('/enviar-ferias', [GerenciarFeriasController::class, 'enviarFerias'])->name('enviar-ferias');
     Route::any('/reabrir-formulario/{id}', [GerenciarFeriasController::class, 'reabrirFormulario'])->name('ReabrirFormulario');
-    Route::get('/retorna-periodo-ferias/{ano}/{nome}/{setor}', [GerenciarFeriasController::class, 'retornaPeriodoFerias']);
+    Route::get('/retorna-periodo-ferias/{ano}/{nome}/{setor}/{status}', [GerenciarFeriasController::class, 'retornaPeriodoFerias']);
 });
 
 /*Administrador DAF*/

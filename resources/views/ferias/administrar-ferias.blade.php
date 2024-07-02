@@ -45,6 +45,17 @@
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="col-md-2 col-sm-12">
+                                <h5>Selecione o Status</h5>
+                                <select class="form-select" aria-label="Ano" name="statusconsulta" id="idstatusconsulta">
+                                    <option value="">Todos</option>
+                                    @foreach ($status_ferias as $id_status_ferias)
+                                        <option value="{{ $id_status_ferias->id }}">
+                                            {{ $id_status_ferias->nome }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
                             <div class="col-md-2">
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal"
@@ -218,17 +229,20 @@
                     var anoconsulta = $('#idanoconsulta').val() || "null";
                     var setorconsulta = $('#idsetorconsulta').val() || "null";
                     var nomefuncionario = $('#idnomefuncionario').val() || "null";
+                    var statusconsulta= $('#idstatusconsulta').val() || "null";
+                    console.log(statusconsulta);
+                   
 
                     $('#idtable').empty(); // Limpa a tabela antes de adicionar novos dados
 
                     $.ajax({
                         type: "GET",
                         url: "/retorna-periodo-ferias/" + anoconsulta + "/" + nomefuncionario +
-                            "/" + setorconsulta,
+                            "/" + setorconsulta + "/" + statusconsulta,
                         dataType: "json",
                         success: function(response) {
-                            console.log(
-                            response); // Exemplo de como processar os dados retornados
+                            $('#idtable').empty();
+                            console.log(response); // Exemplo de como processar os dados retornados
                             $.each(response, function(index, item) {
                                 // Cria uma nova linha na tabela
                                 var newRow = $('<tr>');
@@ -317,6 +331,7 @@
             // Eventos de mudança nos campos de ano e setor
             $('#idanoconsulta').change(carregarDados);
             $('#idsetorconsulta').change(carregarDados);
+            $('#idstatusconsulta').change(carregarDados);
         });
     </script>
 

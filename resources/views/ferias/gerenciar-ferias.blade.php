@@ -19,30 +19,47 @@
                     <br>
                     <div class="card-body">
                         <form action="{{ route('IndexGerenciarFerias') }}">
-                            <div class="row justify-content-around">
-
-                                <div class="col-md-5 col-sm-12">
-                                    <div class="row">
-                                        <div class="col-md-10 col-sm-12">
-                                            <h5>Nome do Funcionário</h5>
-                                            <input type="text" name="nomefuncionario" id="idnomefuncionario"
-                                                class="form-control">
-                                        </div>
-                                        <div class="col-md-2 col-sm-12"><button type="submit"
-                                                class="btn btn-outline-secondary">Pesquisar</button></div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="mb-3">
+                                        <label for="idnomefuncionario" class="form-label">Nome do Funcionário</label>
+                                        <input type="text" class="form-control" id="idnomefuncionario"
+                                            name="nomefuncionario">
                                     </div>
                                 </div>
                                 <div class="col-md-2 col-sm-12">
-                                    <h5>Selecione o Período Aquisitivo</h5>
-                                    <select class="form-select" aria-label="Ano" name="anoconsulta" id="idanoconsulta">
-                                        <option value="">Todos</option>
-                                        @foreach ($anos_possiveis as $ano_possivel)
-                                            <option value="{{ $ano_possivel->ano_de_referencia }}">
-                                                {{ $ano_possivel->ano_de_referencia + 1 }}
-                                                -{{ $ano_possivel->ano_de_referencia + 2 }}</option>
-                                        @endforeach
-                                    </select>
+                                    <div class="mb-3">
+                                        <label for="idanoconsulta" class="form-label">Selecione o Período Aquisitivo</label>
+                                        <select class="form-select" id="idanoconsulta" name="anoconsulta">
+                                            <option value="">Todos</option>
+                                            @foreach ($anos_possiveis as $ano_possivel)
+                                                <option value="{{ $ano_possivel->ano_de_referencia }}">
+                                                    {{ $ano_possivel->ano_de_referencia + 1 }} -
+                                                    {{ $ano_possivel->ano_de_referencia + 2 }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    
                                 </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <div class="mb-3">
+                                        <label for="idanoconsulta" class="form-label">Selecione o Status</label>
+                                        <select class="form-select" id="idstatusconsulta" name="statusconsulta">
+                                            <option value="">Todos</option>
+                                            @foreach ($status_ferias as $status)
+                                                <option value="{{ $status->id }}">
+                                                    {{ $status->nome }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    
+                                </div>
+                                <div class="col-md-2 col-sm-12">
+                                    <button type="submit" class="btn btn-outline-secondary" style="margin-top: 11%; width:100%">Pesquisar</button>
+                                </div>
+                                
                             </div>
                         </form>
 
@@ -61,7 +78,7 @@
                                             <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                                 <th scope="col">Selecionar Para Envio</th>
                                                 <th scope="col">Nome do Funcionário</th>
-                                                <th scope="col">Periodo Aquisitivo</th>
+                                                <th scope="col">Periodo de Aquisitivo</th>
                                                 <th scope="col">Início 1</th>
                                                 <th scope="col">Fim 1</th>
                                                 <th scope="col">Início 2</th>
