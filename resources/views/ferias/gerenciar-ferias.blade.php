@@ -19,30 +19,20 @@
                     <br>
                     <div class="card-body">
                         <div class="row justify-content-around">
-                            <div class="col-sm-12 col-md-4">
-                                <h5>Pesquisar Periodo Aquisitivo de Férias</h5>
-                                <form action="{{ route('IndexGerenciarFerias') }}" method="get">
-                                    @csrf
-                                    <select class="form-select" aria-label="Ano" name="search">
-                                        <option value="{{    intval($ano_referente)}}">{{ intval($ano_referente)+1 }}
-                                            -{{ intval($ano_referente)+2 }}</option>
-                                        @foreach ($anos_possiveis as $ano_possivel)
-                                            <option value="{{ $ano_possivel->ano_de_referencia }}">
-                                                {{ $ano_possivel->ano_de_referencia + 1 }}
-                                                -{{ $ano_possivel->ano_de_referencia + 2 }}</option>
-                                        @endforeach
-                                    </select>
-                                    <br>
-
+                            <div class="col-md-3 col-sm-12">
+                                <h5>Nome do Funcionário</h5>
+                                <input type="text" name="nomefuncionario" id="idnomefuncionario" class="form-control">
                             </div>
-                            <div class="col-sm-12 col-md-4">
-                                <h5><br></h5>
-                                <button type="submit" class="btn btn-light mt-5 mt-md-0"
-                                        style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-top:5px; width: 100%">
-                                    Pesquisar
-                                </button>
-                                </form>
-
+                            <div class="col-md-2 col-sm-12">
+                                <h5>Selecione o Período Aquisitivo</h5>
+                                <select class="form-select" aria-label="Ano" name="anoconsulta" id="idanoconsulta">
+                                    <option value=""> </option>
+                                    @foreach ($anos_possiveis as $ano_possivel)
+                                        <option value="{{ $ano_possivel->ano_de_referencia }}">
+                                            {{ $ano_possivel->ano_de_referencia + 1 }}
+                                            -{{ $ano_possivel->ano_de_referencia + 2 }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
 
@@ -73,7 +63,7 @@
                                             <th scope="col">Ações</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody id="idtable">
                                         @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
                                             <tr>
                                                 <td style="text-align: center">
@@ -220,6 +210,9 @@
     </div>
     </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))

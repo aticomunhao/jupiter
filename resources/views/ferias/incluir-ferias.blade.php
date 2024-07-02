@@ -2,7 +2,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <br>
     <div class="container">
         <div class="card" style="border-color: #355089">
@@ -33,7 +32,7 @@
                                 <div class="card">
 
                                     <div class="card-body">
-                                        {{  Carbon::parse($periodo_aquisitivo->inicio_periodo_aquisitivo)->format('d/m/Y') }}
+                                        {{ Carbon::parse($periodo_aquisitivo->inicio_periodo_aquisitivo)->format('d/m/Y') }}
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +41,7 @@
                                 <div class="card">
 
                                     <div class="card-body">
-                                        {{     Carbon::parse($periodo_aquisitivo->fim_periodo_aquisitivo)->format('d/m/Y')    }}
+                                        {{ Carbon::parse($periodo_aquisitivo->fim_periodo_aquisitivo)->format('d/m/Y') }}
                                     </div>
                                 </div>
                             </div>
@@ -62,7 +61,7 @@
                                 <div class="card">
 
                                     <div class="card-body">
-                                        {{  Carbon::parse($periodo_aquisitivo->dt_inicio_periodo_de_licenca)->format('d/m/Y') }}
+                                        {{ Carbon::parse($periodo_aquisitivo->dt_inicio_periodo_de_licenca)->format('d/m/Y') }}
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +70,7 @@
                                 <div class="card">
 
                                     <div class="card-body">
-                                        {{     Carbon::parse($periodo_aquisitivo->dt_fim_periodo_de_licenca)->format('d/m/Y')    }}
+                                        {{ Carbon::parse($periodo_aquisitivo->dt_fim_periodo_de_licenca)->format('d/m/Y') }}
                                     </div>
                                 </div>
                             </div>
@@ -84,26 +83,26 @@
                     <div class="card-header">Número de Períodos</div>
                     <div class="card-body">
                         <form method="POST"
-                              action="{{ route('ArmazenarFerias', ['id' => $periodo_aquisitivo->id_ferias]) }}">
+                            action="{{ route('ArmazenarFerias', ['id' => $periodo_aquisitivo->id_ferias]) }}">
                             @csrf
                             <br>
                             <div class="row justify-content-center">
                                 <div class="col-3 radio-label">
                                     <label>
                                         <input type="radio" id="umperiodo" name="numeroPeriodoDeFerias" value="1"
-                                               required> Um período
+                                            required> Um período
                                     </label>
                                 </div>
                                 <div class="col-3 radio-label">
                                     <label>
                                         <input type="radio" id="doisperiodos" name="numeroPeriodoDeFerias" value="2"
-                                               required> Dois períodos
+                                            required> Dois períodos
                                     </label>
                                 </div>
                                 <div class="col-3 radio-label">
                                     <label>
                                         <input type="radio" id="tresperiodos" name="numeroPeriodoDeFerias" value="3"
-                                               required> Três períodos
+                                            required> Três períodos
                                     </label>
                                 </div>
                             </div>
@@ -123,14 +122,13 @@
                             <div class="row justify-content-center">
                                 <div class="form-check">
                                     <div class="col-4">
-                                        <input class="form-check-input vendeferias" type="checkbox"
-                                               id="vendeferias1"
-                                               name="vendeFerias">
+                                        <input class="form-check-input vendeferias" type="checkbox" id="vendeferias1"
+                                            name="vendeFerias">
                                         <label class="form-check-label" for="vendeferias1">Vender Férias</label>
                                     </div>
                                     <div class="col-4">
                                         <input class="form-check-input " type="checkbox" id="adiantaDecimoTerceiro"
-                                               name="adiantaDecimoTerceiro">
+                                            name="adiantaDecimoTerceiro">
                                         <label class="form-check-label" for="vendeferias2">Adiantar Décimo
                                             Terceiro</label>
                                     </div>
@@ -154,21 +152,18 @@
                         <div class="form-check">
                             <div id="periodo1" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name=periodoDeVendaDeFerias
-                                       value=1>
+                                    name=periodoDeVendaDeFerias value=1>
                                 <label class="form-check-label" for="periodoFerias"> 1° Período</label>
                             </div>
 
                             <div id="periodo2" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name=periodoDeVendaDeFerias
-                                       value=2>
+                                    name=periodoDeVendaDeFerias value=2>
                                 <label class="form-check-label" for="periodoFerias"> 2° Período</label>
                             </div>
                             <div id="periodo3" hidden>
                                 <input class="form-check-input" type="radio" id="periodoFerias"
-                                       name=periodoDeVendaDeFerias
-                                       value=3>
+                                    name=periodoDeVendaDeFerias value=3>
                                 <label class="form-check-label" for="periodoFerias"> 3° Período</label>
                             </div>
                         </div>
@@ -178,7 +173,7 @@
 
             <div class="row justify-content-around">
                 <div class="col-4">
-                    <a href="{{URL::previous()}}" class="btn btn-danger" style="width: 100%">
+                    <a href="{{ URL::previous() }}" class="btn btn-danger" style="width: 100%">
                         Cancelar
                     </a>
                 </div>
@@ -193,35 +188,38 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 
     <script>
-        $(document).ready(function () {
+
+        $(document).ready(function() {
             $('.form-check-input').prop('checked', false);
-            $('input[name="numeroPeriodoDeFerias"]').change(function (e) {
+            $('input[name="numeroPeriodoDeFerias"]').change(function(e) {
                 var numeroInputDates = $(this).val();
                 $('#dates').empty();
                 $('#informacaoferias').empty();
                 for (var i = 0; i < numeroInputDates; i++) {
                     var dateInput = $(
-                        '<div class="col-md-6 col-sm-12 mb-3">' +
-                        '<label for="dateini' + i + '">Início ' + (i + 1) +
-                        ' ° Período </label>' +
-                        '<input type="date" id="dateini' + i + '" name="data_inicio_' + i +
-                        '" class="form-control" required="required">' +
+                        '<div class="col-md-5 col-sm-12 mb-3">' +
+                            '<label for="dateini' + i + '">Início ' + (i + 1) +' ° Período </label>' +
+                            '<input type="date" id="dateini' + i + '" name="data_inicio_' + i +'" class="form-control" required="required">' +
                         '</div>' +
-                        '<div class="col-md-6 col-sm-12 mb-3">' +
+                        '<div class="col-md-5 col-sm-12 mb-3">' +
                         '<label for="datefim' + i + '">Fim ' + (i + 1) + '° Período </label>' +
-                        '<input type="date" id="datefim' + i + '" name="data_fim_' + i +
-                        '" class="form-control" required="required">' +
-                        '</div>'
+                        '<input type="date" id="datefim' + i + '" name="data_fim_' + i +'" class="form-control" required="required">' +
+                        '</div> '+
+                        '<div class="col-md-2 col-sm-12 mb-3">Dias Do ' + (i + 1) +'° Periodo <div id="contador_' + i + '"  class="form-control" disabled></div></div>'
                     );
                     $('#dates').append(dateInput);
+                    (function(i) {
+                        $(document).on('change', '#dateini' + i + ', #datefim' + i, function() {
+                            calcularDiferenca(i);
+                        });
+                    })(i);
                 }
 
                 $('#containerPeriodos').prop('hidden', true);
-                $(document).on('change', '.vendeferias', function () {
+                $(document).on('change', '.vendeferias', function() {
                     var numeroDePeriodos = $('input[name="numeroPeriodoDeFerias"]:checked').val();
                     var estadoBotao = $(this).prop('checked');
-                    $('#periodosDeFerias')
-                        .empty();
+                    $('#periodosDeFerias').empty();
                     if (estadoBotao) {
                         $('#containerPeriodos').prop('hidden', false);
                     } else {
@@ -231,8 +229,28 @@
                         $('#periodo' + i).prop('hidden', false);
                     }
                 });
-            });
 
+                function calcularDiferenca(i) {
+                    var dataInicio = $('#dateini' + i).val();
+                    var dataFim = $('#datefim' + i).val();
+
+                    if (dataInicio && dataFim) {
+                        var inicio = new Date(dataInicio);
+                        var fim = new Date(dataFim);
+
+                        // Calcula a diferença em milissegundos
+                        var diferenca = fim - inicio;
+
+                        // Converte a diferença em dias
+                        var diferencaDias = diferenca / (1000 * 60 * 60 * 24);
+
+                        $('#contador_' + i).text((diferencaDias+1) + ' dias');
+                    } else {
+                        $('#contador_' + i).text('');
+                    }
+                }
+            });
         });
     </script>
+
 @endsection

@@ -228,7 +228,7 @@ class GerenciarFeriasController extends Controller
                 'status_pedido_ferias.nome as status_pedido_ferias',
                 's.sigla as sigla_do_setor',
                 's.id as id_do_setor',
-            )->where('ano_de_referencia', '=', $ano_referente)->orderBy('sigla_do_setor')->get();
+            )->where('ano_de_referencia', '=', $ano_referente)->orderBy('nome_completo_funcionario')->get();
             $setores_unicos = $periodo_aquisitivo->map(function ($item) {
                 return (object) [
                     'id_do_setor' => $item->id_do_setor,
@@ -367,7 +367,7 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addSuccess('Uma das datas iniciais que selecionou ultrapassa a data limite para inicio das férias: ' . $dia_limite_para_inicio_do_periodo_de_ferias);
             } //Insere no banco e coloca no historico
             else {
-                DB::table('ferias')
+               DB::table('ferias')
                     ->where('id', $ferias->id)
                     ->update([
                         'dt_ini_a' => $data_inicio_formulario,
@@ -383,8 +383,14 @@ class GerenciarFeriasController extends Controller
 
                     ]);
                 DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+                $ferias = DB::table('ferias')
+                ->where('ferias.id',  $ferias->id)
+                ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+                ->select('pessoas.nome_completo')->first();
 
-                app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
+              
+                app('flasher')->addCreated($ferias->nome_completo . ' teve férias adicionadas com sucesso.');
             }
             return redirect()->route('IndexGerenciarFerias');
         } //Condicoes para segundo caso
@@ -464,7 +470,14 @@ class GerenciarFeriasController extends Controller
                     'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')
                 ]);
                 DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
-                app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
+                $ferias = DB::table('ferias')
+                ->where('ferias.id',  $ferias->id)
+                ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+                ->select('pessoas.nome_completo')->first();
+
+              
+                app('flasher')->addCreated($ferias->nome_completo . ' teve férias adicionadas com sucesso.');
             }
         } elseif ($formulario_de_ferias['numeroPeriodoDeFerias'] == 3) {
             // Condições para três períodos de férias
@@ -544,8 +557,14 @@ class GerenciarFeriasController extends Controller
                     'vendeu_ferias' => isset($formulario_de_ferias["vendeFerias"]) ? $formulario_de_ferias["vendeFerias"] : null,
                     'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')
                 ]);
-                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
-                app('flasher')->addCreated($funcionario->nome_completo . ' teve férias adicionadas com sucesso.');
+                $ferias = DB::table('ferias')
+                ->where('ferias.id',  $ferias->id)
+                ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+                ->select('pessoas.nome_completo')->first();
+
+              
+                app('flasher')->addCreated($ferias->nome_completo . ' teve férias adicionadas com sucesso.');
             } else {
                 app('flasher')->addError('É essencial que pelo menos um periodos tenha o minimo de 15 dias.');
             }

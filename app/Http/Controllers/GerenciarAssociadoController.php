@@ -41,7 +41,7 @@ class GerenciarAssociadoController extends Controller
         $status = $request->status;
 
 
-        dd($lista_associado);
+      
         if ($request->nr_associado) {
             $lista_associado->where('ass.nr_associado', $request->nr_associado);
         }

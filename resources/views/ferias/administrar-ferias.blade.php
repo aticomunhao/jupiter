@@ -18,9 +18,7 @@
                     </div>
                     <br>
                     <div class="card-body">
-
                         <div class="row justify-content-between">
-
                             <div class="col-md-3 col-sm-12">
                                 <h5>Nome do Funcionário</h5>
                                 <input type="text" name="nomefuncionario" id="idnomefuncionario" class="form-control">
@@ -213,7 +211,6 @@
         $(document).ready(function() {
             // Função para carregar os dados com base nos filtros
             var timeout = null;
-
             function carregarDados() {
                 clearTimeout(timeout); // Limpa o timeout anterior, se houver
 
