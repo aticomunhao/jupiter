@@ -20,7 +20,8 @@ class GerenciarAssociadoController extends Controller
 
 
         $lista_associado = DB::table('associado AS ass')
-            ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
+            ->leftJoin('membro AS m', 'ass.nr_associado', 'm.id_associado')
+            ->leftJoin('pessoas AS p', 'p.id', 'ass.id_pessoa')
             ->select(
                 DB::raw('CASE WHEN ass.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
                 'ass.nr_associado',
@@ -28,8 +29,13 @@ class GerenciarAssociadoController extends Controller
                 'p.nome_completo',
                 'ass.dt_inicio',
                 'ass.dt_fim',
-                'ass.caminho_foto_associado'
-            );
+                'ass.caminho_foto_associado',
+                DB::raw('(CASE WHEN EXISTS (
+                        SELECT m.id_associado FROM membro AS m
+                        WHERE m.id_associado = ass.nr_associado
+                        AND m.dt_fim IS NULL
+                    ) THEN \'Sim\' ELSE \'Não\' END) AS voluntario'))
+            ->distinct();
 
         $id = $request->id;
         $nr_associado = $request->nr_associado;
@@ -41,7 +47,8 @@ class GerenciarAssociadoController extends Controller
         $status = $request->status;
 
 
-      
+
+       // dd($lista_associado);
         if ($request->nr_associado) {
             $lista_associado->where('ass.nr_associado', $request->nr_associado);
         }
@@ -68,7 +75,7 @@ class GerenciarAssociadoController extends Controller
         }
 
 
-        $lista_associado = $lista_associado->orderBy('status', 'asc')->orderBy('ass.nr_associado', 'asc')->paginate(100);
+        $lista_associado = $lista_associado->orderBy('status', 'asc', 'voluntario', 'asc')->orderBy('ass.nr_associado', 'asc')->paginate(100);
 
 
         return view('/associado/gerenciar-associado', compact('lista_associado', 'id', 'nr_associado', 'nome_completo', 'voluntario', 'votante', 'dt_inicio', 'dt_fim', 'status'));

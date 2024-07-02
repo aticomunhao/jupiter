@@ -91,7 +91,9 @@
                                                 <center>{{ $lista_associados->nome_completo }}</center>
                                             </td>
                                             <td scope="">
-                                                <center></center>
+                                                <center>
+                                                    {{ $lista_associados->voluntario }}
+                                                </center>
                                             </td>
                                             <td scope="">
                                                 <center></center>
