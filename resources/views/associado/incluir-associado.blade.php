@@ -54,7 +54,11 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
+                                        <div class="col-md-2 col-sm-12">
+                                            <label for="2">Número de Associado</label>
+                                            <input type="text" class="form-control" name="nrassociado" maxlength="11"
+                                                required>
+                                        </div>
                                         <div class="col-md">
                                             <label for="3">DDD</label>
                                             <select class="form-select" name="ddd" id="3" value=""

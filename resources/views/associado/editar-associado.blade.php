@@ -67,6 +67,11 @@
                                             Por favor, selecione um Campo
                                         </div>
                                     </div>
+                                    <div class="col-md-2 col-sm-12">
+                                        <label for="2">Número Associado</label>
+                                        <input type="text" class="form-control" name="cpf" maxlength="11"
+                                            value="{{ $edit_associado[0]->nrAssociado }}" required>
+                                    </div>
 
                                     <div class="col-md-1 col-sm-12">
                                         <label for="3">DDD</label>

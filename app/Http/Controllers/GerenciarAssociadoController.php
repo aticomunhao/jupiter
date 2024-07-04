@@ -34,7 +34,8 @@ class GerenciarAssociadoController extends Controller
                         SELECT m.id_associado FROM membro AS m
                         WHERE m.id_associado = ass.nr_associado
                         AND m.dt_fim IS NULL
-                    ) THEN \'Sim\' ELSE \'Não\' END) AS voluntario'))
+                    ) THEN \'Sim\' ELSE \'Não\' END) AS voluntario')
+            )
             ->distinct();
 
         $id = $request->id;
@@ -48,7 +49,7 @@ class GerenciarAssociadoController extends Controller
 
 
 
-       // dd($lista_associado);
+        // dd($lista_associado);
         if ($request->nr_associado) {
             $lista_associado->where('ass.nr_associado', $request->nr_associado);
         }
@@ -119,6 +120,7 @@ class GerenciarAssociadoController extends Controller
             if ($validacaocpf == $cpf) {
 
                 DB::table('pessoas')
+                    ->where('cpf', $validacaocpf)
                     ->update([
                         'ddd' => $request->input('ddd'),
                         'celular' => $request->input('telefone'),
@@ -129,7 +131,7 @@ class GerenciarAssociadoController extends Controller
                         'status' => '1',
                     ]);
 
-                    $id_pessoa = DB::table('pessoas')
+                $id_pessoa = DB::table('pessoas')
                     ->where('pessoas.cpf', $cpf)
                     ->value('id');
 
@@ -137,6 +139,7 @@ class GerenciarAssociadoController extends Controller
                     ->insert([
                         'id_pessoa' => $id_pessoa,
                         'dt_inicio' => $request->input('dt_inicio'),
+                        'nr_associado' => $request->input('nrassociado'),
 
                     ]);
 
@@ -151,7 +154,7 @@ class GerenciarAssociadoController extends Controller
                     'complemento' => $request->input('complemento'),
                 ]);
 
-                app('flasher')->adderror('Associado existente e atualizado');
+                app('flasher')->addwarning('Associado foi criado e dados de pessoa atualizados');
                 return redirect('/gerenciar-associado');
             }
         }
@@ -169,13 +172,14 @@ class GerenciarAssociadoController extends Controller
                 'status' => '1',
             ]);
 
-        $id_pessoa = DB::select("SELECT MAX('id') from pessoas");
+            $id_pessoa = DB::table('pessoas')
+            ->max('id');
 
         DB::table('associado')
             ->insert([
                 'id_pessoa' => $id_pessoa,
                 'dt_inicio' => $request->input('dt_inicio'),
-
+                'nr_associado' => $request->input('nrassociado'),
             ]);
 
         DB::table('endereco_pessoas')->insert([
@@ -233,7 +237,8 @@ class GerenciarAssociadoController extends Controller
                 'endp.bairro',
                 'endp.complemento',
                 'tc.id_cidade',
-                'tc.descricao AS nat'
+                'tc.descricao AS nat',
+                'nr_associado AS nrAssociado'
             )->get();
 
         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
@@ -374,6 +379,7 @@ class GerenciarAssociadoController extends Controller
             ->update([
                 'dt_inicio' => $request->input('dt_inicio'),
                 'dt_fim' => $request->input('dt_fim'),
+                'nr_associado' => $request->input('nrassociado'),
             ]);
 
         DB::table('endereco_pessoas')
