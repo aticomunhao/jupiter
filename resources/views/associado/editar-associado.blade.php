@@ -69,7 +69,7 @@
                                     </div>
                                     <div class="col-md-2 col-sm-12">
                                         <label for="2">Número Associado</label>
-                                        <input type="text" class="form-control" name="cpf" maxlength="11"
+                                        <input type="text" class="form-control" name="nrAssociado" maxlength="11"
                                             value="{{ $edit_associado[0]->nrAssociado }}" required>
                                     </div>
 

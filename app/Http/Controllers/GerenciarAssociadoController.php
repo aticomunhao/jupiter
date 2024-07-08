@@ -56,7 +56,7 @@ class GerenciarAssociadoController extends Controller
 
 
         if ($request->nome_completo) {
-            $lista_associado->where('p.nome_completo', 'LIKE', '%' . $request->nome_completo . '%');
+            $lista_associado->where('p.nome_completo', 'ILIKE', '%' . $request->nome_completo . '%');
         }
 
         if ($request->dt_inicio) {
@@ -379,7 +379,7 @@ class GerenciarAssociadoController extends Controller
             ->update([
                 'dt_inicio' => $request->input('dt_inicio'),
                 'dt_fim' => $request->input('dt_fim'),
-                'nr_associado' => $request->input('nrassociado'),
+                'nr_associado' => $request->input('nrAssociado'),
             ]);
 
         DB::table('endereco_pessoas')
