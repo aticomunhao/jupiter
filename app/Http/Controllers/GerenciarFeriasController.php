@@ -185,10 +185,9 @@ class GerenciarFeriasController extends Controller
 
             if (empty($periodo_de_ferias_do_funcionario)) {
                 $dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
-
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
-                $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia - 1)->toDateString();
-                $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->subDay()->toDateString();
+                $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->toDateString();
+                $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia+1)->subDay()->toDateString();
                 $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
                 $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
                 $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
