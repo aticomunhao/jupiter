@@ -16,7 +16,7 @@ class GerenciarFeriasController extends Controller
      */
     public function index(Request $request)
     {
-        DB::beginTransaction();
+
 
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -41,6 +41,7 @@ class GerenciarFeriasController extends Controller
                 'funcionarios.id_setor'
             )->whereIn('funcionarios.id_setor', session('usuario.setor'));
 
+
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $status_ferias = DB::table('status_pedido_ferias')->get();
         if ($request->input('anoconsulta')) {
@@ -52,15 +53,16 @@ class GerenciarFeriasController extends Controller
             $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
         }
         if ($request->input('statusconsulta')) {
-            $nome_funcionario = $request->input('statusconsulta');
-            $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $nome_funcionario);
+            $status_consulta = $request->input('statusconsulta');
+            $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $status_consulta);
         }
-
-
+        $ano_consulta = $request->input('anoconsulta');
+        $nome_funcionario = $request->input('nomefuncionario');
+        $status_consulta_consulta = $request->input('statusconsulta');
         $periodo_aquisitivo = $periodo_aquisitivo->get();
 
         DB::commit();
-        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias'));
+        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias', 'ano_consulta', 'nome_funcionario', 'status_consulta_consulta'));
     }
 
     /**
@@ -196,7 +198,7 @@ class GerenciarFeriasController extends Controller
             }
         }
 
-        app('flasher')->addSuccess("Periodo de ferias de " . $ano_referencia + 1 . " - " . $ano_referencia + 2 . "foi criado");
+        app('flasher')->addSuccess("Periodo Aquisitivo dos anos " . $ano_referencia . " - " . $ano_referencia + 1 . "foi criado");
 
 
         return redirect()->route('AdministrarFerias');
@@ -299,6 +301,7 @@ class GerenciarFeriasController extends Controller
 
         $dias_limite_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
         $dia_limite_para_inicio_do_periodo_de_ferias = Carbon::parse($ferias->dt_fim_periodo_de_licenca)->subDays((365 - $dias_limite_de_ferias->dias))->toDateString();
+        dd($dia_limite_para_inicio_do_periodo_de_ferias);
 
 
         // Obtém o ano de referência
@@ -458,7 +461,7 @@ class GerenciarFeriasController extends Controller
             } //Verifica se o primeiro periodo é menor que cinco dias
             elseif (Carbon::parse($data_inicio_segundo_periodo)->diffInDays($data_fim_segundo_periodo) < 5) {
                 app('flasher')->addError('O segundo periodo é inferior a 5 dias');
-            } elseif ($dia_limite_para_inicio_do_periodo_de_ferias <= $data_inicio_primeiro_periodo or $dia_limite_para_inicio_do_periodo_de_ferias <= $data_inicio_segundo_periodo) {
+            } elseif ($dia_limite_para_inicio_do_periodo_de_ferias < $data_inicio_primeiro_periodo or $dia_limite_para_inicio_do_periodo_de_ferias < $data_inicio_segundo_periodo) {
                 app('flasher')->addError('Uma das datas iniciais que selecionou ultrapassa a data limite para inicio das férias: ' . $dia_limite_para_inicio_do_periodo_de_ferias);
             } else {
                 DB::table('ferias')->where('id', $ferias->id)->update([

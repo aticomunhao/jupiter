@@ -26,11 +26,12 @@
                             <div class="col-md-2 col-sm-12">
                                 <h5>Selecione o Período Aquisitivo</h5>
                                 <select class="form-select" aria-label="Ano" name="anoconsulta" id="idanoconsulta">
-                                    <option value=""> Todos</option>
+
+                                    <option value="">Todos</option>
                                     @foreach ($anos_possiveis as $ano_possivel)
                                         <option value="{{ $ano_possivel->ano_de_referencia }}">
-                                            {{ $ano_possivel->ano_de_referencia + 1 }}
-                                            -{{ $ano_possivel->ano_de_referencia + 2 }}</option>
+                                            {{ $ano_possivel->ano_de_referencia }}
+                                            -{{ $ano_possivel->ano_de_referencia + 1 }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -78,11 +79,12 @@
                                         <div class="modal-body">
                                             <form action="{{ route('AbreFerias') }}">
                                                 @csrf
+                                                <h3>Periodo Aquisitivo</h3>
                                                 <select class="form-select custom-select" aria-label="Ano"
                                                     name="ano_referencia" id="ano" style="color: #0e0b16">
                                                     @foreach ($listaAnos as $ano)
-                                                        <option value="{{ $ano }}">{{ $ano + 1 }}
-                                                            - {{ $ano + 2 }}</option>
+                                                        <option value="{{ $ano }}">{{ $ano }}
+                                                            - {{ $ano + 1 }}</option>
                                                     @endforeach
                                                 </select>
                                         </div>
@@ -131,8 +133,8 @@
                                                 <td style="text-align: center">
                                                     {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
                                                 <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->ano_de_referencia + 1 }}
-                                                    - {{ $periodos_aquisitivos->ano_de_referencia + 2 }}
+                                                    {{ $periodos_aquisitivos->ano_de_referencia  }}
+                                                    - {{ $periodos_aquisitivos->ano_de_referencia + 1 }}
                                                 </td>
 
                                                 <td style="text-align: center">
@@ -231,7 +233,7 @@
                     var nomefuncionario = $('#idnomefuncionario').val() || "null";
                     var statusconsulta= $('#idstatusconsulta').val() || "null";
                     console.log(statusconsulta);
-                   
+
 
                     $('#idtable').empty(); // Limpa a tabela antes de adicionar novos dados
 
@@ -254,8 +256,8 @@
                                 newRow.append('<td style="text-align: center">' + (item
                                     .sigla_do_setor ?? 'N/A') + '</td>');
                                 newRow.append('<td style="text-align: center">' + (
-                                        parseInt(item.ano_de_referencia) + 1) +
-                                    ' - ' + (parseInt(item.ano_de_referencia) + 2) +
+                                        parseInt(item.ano_de_referencia) ) +
+                                    ' - ' + (parseInt(item.ano_de_referencia) + 1) +
                                     '</td>');
                                 newRow.append('<td style="text-align: center">' + (item
                                         .dt_ini_a ? new Date(item.dt_ini_a)
@@ -324,7 +326,6 @@
                     });
                 }, 500); // Tempo de espera em milissegundos (500ms)
             }
-
             // Evento input para o campo de nome do funcionário
             $('#idnomefuncionario').on('input', carregarDados);
 
