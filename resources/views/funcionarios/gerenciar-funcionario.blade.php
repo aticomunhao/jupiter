@@ -58,7 +58,7 @@
                                                 style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;">
                                         </a>
                                     </div>
-                                    
+
                             </form>
                         </div>
                         <br>
@@ -90,44 +90,46 @@
                                                 <td scope="" style="text-align: center;">Inativo</td>
                                             @endif
                                             <td scope="" style="text-align: center">
-                                                <a href="/editar-funcionario/{{ $listas->idp }}" type="button" class="btn btn-outline-warning" data-tt="tooltip"
-                                                        data-placement="top" title="Editar"><i class="bi-pencil"
-                                                            style="font-size: 1rem; color:#303030;"></i>
+                                                <a href="/editar-funcionario/{{ $listas->idp }}" type="button"
+                                                    class="btn btn-outline-warning" data-tt="tooltip" data-placement="top"
+                                                    title="Editar"><i class="bi-pencil"
+                                                        style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
-                                                <a href="/visualizar-funcionario/{{ $listas->idp }}" type="button" class="btn btn-outline-primary" data-tt="tooltip"
-                                                        data-placement="top" title="Visualizar"><i class="bi-search"
-                                                            style="font-size: 1rem; color:#303030;"></i>
+                                                <a href="/visualizar-funcionario/{{ $listas->idp }}" type="button"
+                                                    class="btn btn-outline-primary" data-tt="tooltip" data-placement="top"
+                                                    title="Visualizar"><i class="bi-search"
+                                                        style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
-                                                <a href="/gerenciar-dependentes/{{ $listas->idf }}" type="button" class="btn btn-outline-primary"
-                                                        data-tt="tooltip" data-placement="top" title="Dependentes"><i
-                                                            class="bi-people-fill"
-                                                            style="font-size: 1rem;color:#303030; "></i>
+                                                <a href="/gerenciar-dependentes/{{ $listas->idf }}" type="button"
+                                                    class="btn btn-outline-primary" data-tt="tooltip"
+                                                    data-placement="top" title="Dependentes"><i class="bi-people-fill"
+                                                        style="font-size: 1rem;color:#303030; "></i>
                                                 </a>
-                                                <a href="{{ route('index.dadosbancarios.funcionario',['id' => $listas->idf]) }}" type="button" class="btn btn-outline-primary"
-                                                        data-tt="tooltip" data-placement="top" title="Dados Bancários"><i
-                                                            class="bi bi-bank"
-                                                            style="font-size: 1rem; color:#303030;"></i>
+                                                <a href="{{ route('index.dadosbancarios.funcionario', ['id' => $listas->idf]) }}"
+                                                    type="button" class="btn btn-outline-primary" data-tt="tooltip"
+                                                    data-placement="top" title="Dados Bancários"><i class="bi bi-bank"
+                                                        style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
-                                                <a href="/gerenciar-afastamentos/{{ $listas->idf }}" type="button" class="btn btn-outline-primary"
-                                                        data-tt="tooltip" data-placement="top" title="Afastamento"><i
-                                                            class="bi-bandaid" style="font-size: 1rem;color:#303030;"></i>
+                                                <a href="/gerenciar-afastamentos/{{ $listas->idf }}" type="button"
+                                                    class="btn btn-outline-primary" data-tt="tooltip"
+                                                    data-placement="top" title="Afastamento"><i class="bi-bandaid"
+                                                        style="font-size: 1rem;color:#303030;"></i>
                                                 </a>
-                                                <a href="/gerenciar-certificados/{{ $listas->idf }}" type="button" class="btn btn-outline-primary"
-                                                        data-tt="tooltip" data-placement="top" title="Certificados"><i
-                                                            class="bi-mortarboard"
-                                                            style="font-size: 1rem; color:#303030;"></i>
+                                                <a href="/gerenciar-certificados/{{ $listas->idf }}" type="button"
+                                                    class="btn btn-outline-primary" data-tt="tooltip"
+                                                    data-placement="top" title="Certificados"><i class="bi-mortarboard"
+                                                        style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
-                                                <a href="/gerenciar-acordos/{{ $listas->idf }}"
-                                                     type="button" class="btn btn-outline-primary"
-                                                        data-tt="tooltip" data-placement="top" title="Acordos"><i
-                                                            class="bi bi-pencil-square"
-                                                            style="font-size: 1rem; color:#303030;"></i>
+                                                <a href="/gerenciar-acordos/{{ $listas->idf }}" type="button"
+                                                    class="btn btn-outline-primary" data-tt="tooltip"
+                                                    data-placement="top" title="Acordos"><i class="bi bi-pencil-square"
+                                                        style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
-                                                <a href="/gerenciar-base-salarial/{{ $listas->idf }}"
-                                                     type="button" class="btn btn-outline-primary"
-                                                        data-tt="tooltip" data-placement="top" title="Base Salarial"><i
-                                                            class="bi bi-currency-dollar"
-                                                            style="font-size: 1rem; color:#303030;"></i>
+                                                <a href="/gerenciar-base-salarial/{{ $listas->idf }}" type="button"
+                                                    class="btn btn-outline-primary" data-tt="tooltip"
+                                                    data-placement="top" title="Base Salarial"><i
+                                                        class="bi bi-currency-dollar"
+                                                        style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-outline-danger"
                                                     data-bs-toggle="modal"
@@ -135,29 +137,36 @@
                                                     class="btn btn-outline-danger btn-sm"><i class="bi-trash"
                                                         style="font-size: 1rem; color:#303030;" data-tt="tooltip"
                                                         data-placement="top" title="Excluir"></i></button>
+                                                <a href="/gerenciar-base-salarial/{{ $listas->idf }}" type="button"
+                                                    class="btn btn-outline-danger" data-tt="tooltip"
+                                                    data-placement="top" title="Demissão">
+                                                    <i class="bi bi-exclamation-circle" style="font-size: 1rem; color:#303030;"></i>
+                                                </a>
                                             </td>
 
                                             <!-- Modal -->
-                                            <div class="modal fade" id="A{{ $listas->cpf }}-{{ $listas->idp }}" tabindex="-1"
-                                                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal fade" id="A{{ $listas->cpf }}-{{ $listas->idp }}"
+                                                tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header" style="background-color:#DC4C64;">
-                                                            <h5 class="modal-title" id="exampleModalLabel" style=" color:rgb(255, 255, 255)">Excluir Funcionário</h5>
+                                                            <h5 class="modal-title" id="exampleModalLabel"
+                                                                style=" color:rgb(255, 255, 255)">Excluir Funcionário</h5>
                                                             <button type="button" class="btn-close"
                                                                 data-bs-dismiss="modal" aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body" style="text-align: center">
                                                             Você realmente deseja excluir <br><span
-                                                                style="color:#DC4C64; font-weight: bold">{{ $listas->nome_completo }}</span> ?
+                                                                style="color:#DC4C64; font-weight: bold">{{ $listas->nome_completo }}</span>
+                                                            ?
 
                                                         </div>
                                                         <div class="modal-footer mt-2">
                                                             <button type="button" class="btn btn-danger"
                                                                 data-bs-dismiss="modal">Cancelar</button>
                                                             <a type="button" class="btn btn-primary"
-                                                            href="/excluir-funcionario/{{ $listas->idp }}">Confirmar
-                                                                </a>
+                                                                href="/excluir-funcionario/{{ $listas->idp }}">Confirmar
+                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -186,11 +195,11 @@
         })
     </script>
 
-        <style>
-            .highlight {
-                color: red;
-            }
-        </style>
+    <style>
+        .highlight {
+            color: red;
+        }
+    </style>
 
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
