@@ -300,7 +300,7 @@ class GerenciarFeriasController extends Controller
 
         $dias_limite_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
         $dia_limite_para_inicio_do_periodo_de_ferias = Carbon::parse($ferias->dt_fim_periodo_de_licenca)->subDays((365 - $dias_limite_de_ferias->dias))->toDateString();
-        dd($dia_limite_para_inicio_do_periodo_de_ferias);
+
 
 
         // Obtém o ano de referência
