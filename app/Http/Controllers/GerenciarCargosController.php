@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
 
 class GerenciarCargosController extends Controller
 {
@@ -57,22 +57,25 @@ class GerenciarCargosController extends Controller
     {
         $input = $request->all();
         $dataDeHoje = Carbon::today()->toDateString(); //busca a data de hoje
+        $salario = str_replace(',', '.', $input['salario']);
+        $salario = preg_replace('/\.(?=.*\.)/', '', $salario);
+
 
         $idCargo = DB::table('cargos')->insertGetId([ //insere e pega o ID, armazenando na variavel
             'nome' => $input['nome'],
-            'salario' => $input['salario'],
+            'salario' => $salario,
             'dt_inicio' => $dataDeHoje,
             'tp_cargo' => $input['tipoCargo'],
             'status' => true,
         ]);
 
         $cargo = DB::table('cargos') // da select no item recem inserido
-            ->select('cargos.nome')
+        ->select('cargos.nome')
             ->where('id', $idCargo)
             ->first();
 
         DB::table('hist_cargo')->insert([ //insere uma entrada no historico marcando o id inserido
-            'salario' => $input['salario'] ?? null,
+            'salario' => $salario ?? null,
             'data_inicio' => $dataDeHoje,
             'idcargo' => $idCargo,
             'motivoAlt' => 'Primeira Criação do Cargo',
@@ -87,12 +90,12 @@ class GerenciarCargosController extends Controller
     public function show(string $id)
     {
         $cargo = DB::table('cargos') // traz nome e o Id para a funcao visualizar
-            ->where('id', $id)
+        ->where('id', $id)
             ->select('id as idCR', 'nome as nomeCR')
             ->first();
 
         $hist_cargo_regular = DB::table('hist_cargo') //gera todos os dados para a tabela
-            ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivoAlt')
+        ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivoAlt')
             ->where('idcargo', '=', $id)
             ->orderBy('id', 'desc')
             ->get();
@@ -116,67 +119,17 @@ class GerenciarCargosController extends Controller
         return view('/cargos/editar-cargos', compact('cargo', 'tiposCargo', 'id'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        $cargo = DB::table('cargos as c') //traz os dados do Id a ser editado
-            ->where('c.id', $id)
-            ->first();
 
-        $input = $request->all();
-        $dataDeHoje = Carbon::today()->toDateString();
-        $dataDeOntem = Carbon::yesterday()->toDateString();
-
-        $ultimaModificacao = DB::table('hist_cargo') //Busca na tabela historico um dado nao editado
-            ->where('idcargo', '=', $id)
-            ->where('data_fim', null)
-            ->first();
-
-        DB::table('hist_cargo')  // Adiciona no dado nao editado uma data final na historico para a data de ontem
-            ->where('id', $ultimaModificacao->id)
-            ->update([
-                'data_fim' => $dataDeOntem,
-            ]);
-
-        DB::table('cargos') //Atualiza todos os dados da tabela cargos
-            ->where('id', $id)
-            ->update([
-                'nome' => $input['nome'],
-                'salario' => $input['salario'],
-                'dt_inicio' => $dataDeHoje,
-                'tp_cargo' => $input['tipocargo'],
-            ]);
-
-        DB::table('hist_cargo')->insert([ // Insere uma nova linha na tabela historico
-            'salario' => $input['salario'],
-            'data_inicio' => $dataDeHoje,
-            'idcargo' => $id,
-            'motivoAlt' => $input['motivo'],
-        ]);
-
-        $cargo = DB::table('cargos as c') // Pega o nome do cargo atualizado
-            ->where('c.id', $id)
-            ->first();
-        app('flasher')->addSuccess("O Cargo $cargo->nome foi atualizado");
-        return redirect()->route('gerenciar.cargos');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    //desativa o item da tabela
     public function destroy(string $id)
     {
         $dataDeHoje = Carbon::today()->toDateString();
         $ultimaModificacao = DB::table('hist_cargo') //pega o dado nao modificado da tabela historico
-            ->where('idcargo', '=', $id)
+        ->where('idcargo', '=', $id)
             ->where('data_fim', null)
             ->first();
 
         DB::table('hist_cargo') // atualiza a data final desse dado para a data de hoje na tabela historico
-            ->where('id', $ultimaModificacao->id)
+        ->where('id', $ultimaModificacao->id)
             ->update([
                 'data_fim' => $dataDeHoje,
             ]);
@@ -189,16 +142,69 @@ class GerenciarCargosController extends Controller
         ]);
 
         $cargofechado = DB::table('cargos') // pega o nome do cargo finalizado
-            ->where('id', $ultimaModificacao->idcargo)
+        ->where('id', $ultimaModificacao->idcargo)
             ->first();
         DB::table('cargos') // atualiza a data de inicio na tabela cargos e coloca o status para desativado
-            ->where('id', $ultimaModificacao->idcargo)
+        ->where('id', $ultimaModificacao->idcargo)
             ->update([
                 'dt_inicio' => $dataDeHoje,
                 'status' => false,
             ]);
 
         app('flasher')->addSuccess("O cargo $cargofechado->nome foi desativado");
+        return redirect()->route('gerenciar.cargos');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    //desativa o item da tabela
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $cargo = DB::table('cargos as c') //traz os dados do Id a ser editado
+        ->where('c.id', $id)
+            ->first();
+
+        $input = $request->all();
+        $dataDeHoje = Carbon::today()->toDateString();
+        $dataDeOntem = Carbon::yesterday()->toDateString();
+        $salario = str_replace(',', '.', $input['salario']);
+        $salario = preg_replace('/\.(?=.*\.)/', '', $salario);
+
+        $ultimaModificacao = DB::table('hist_cargo') //Busca na tabela historico um dado nao editado
+        ->where('idcargo', '=', $id)
+            ->where('data_fim', null)
+            ->first();
+
+        DB::table('hist_cargo')  // Adiciona no dado nao editado uma data final na historico para a data de ontem
+        ->where('id', $ultimaModificacao->id)
+            ->update([
+                'data_fim' => $dataDeOntem,
+            ]);
+
+        DB::table('cargos') //Atualiza todos os dados da tabela cargos
+        ->where('id', $id)
+            ->update([
+                'nome' => $input['nome'],
+                'salario' => $salario,
+                'dt_inicio' => $dataDeHoje,
+                'tp_cargo' => $input['tipocargo'],
+            ]);
+
+        DB::table('hist_cargo')->insert([ // Insere uma nova linha na tabela historico
+            'salario' => $salario,
+            'data_inicio' => $dataDeHoje,
+            'idcargo' => $id,
+            'motivoAlt' => $input['motivo'],
+        ]);
+
+        $cargo = DB::table('cargos as c') // Pega o nome do cargo atualizado
+        ->where('c.id', $id)
+            ->first();
+        app('flasher')->addSuccess("O Cargo $cargo->nome foi atualizado");
         return redirect()->route('gerenciar.cargos');
     }
 }
