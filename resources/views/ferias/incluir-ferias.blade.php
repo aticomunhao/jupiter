@@ -22,7 +22,7 @@
                 <br>
                 <div class="card">
                     <div class="card-header">
-                        Data do Periodo Aquisitivo Para as Férias
+                       Periodo Aquisitivo
                     </div>
                     <div class="card-body">
 
@@ -51,7 +51,7 @@
                 <br>
                 <div class="card">
                     <div class="card-header">
-                        Datas Do Período de Licença para Férias
+                     Período Concessivo
                     </div>
                     <div class="card-body">
 

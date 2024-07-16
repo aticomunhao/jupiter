@@ -29,7 +29,6 @@
                                 <input type="text" class="form-control" id="salario" name="salario" placeholder="Digite o salário" required>
                             </div>{{-- input salario --}}
                         </div>
-
                         <div class="col-lg-6 col-12 mt-3 mt-md-0 mt-md-3 mt-lg-0">{{-- Div input Nome --}}
                             <div>Nome do Cargo</div>
                             <input type="text" class="form-control" aria-label="Sizing example input" name = "nome"
@@ -56,7 +55,6 @@
             value = value.replace(/\D/g, ""); // Remove tudo que não é dígito
             value = value.replace(/(\d)(\d{2})$/, "$1,$2"); // Coloca a vírgula dos centavos
             value = value.replace(/(?=(\d{3})+(\D))\B/g, "."); // Coloca os pontos de milhar
-
             e.target.value = value;
         });
         </script>
