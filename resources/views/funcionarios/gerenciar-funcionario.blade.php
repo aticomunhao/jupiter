@@ -156,7 +156,7 @@
                                                                 <div class="modal-header"
                                                                     style="background-color:#DC4C64">
                                                                     <h5 class="modal-title" id="exampleModalLabel"
-                                                                        style="color:rgb(255, 255, 255)">Confirmação de inativação</h5>
+                                                                        style="color:rgb(255, 255, 255)">Confirmar de Inativação</h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
