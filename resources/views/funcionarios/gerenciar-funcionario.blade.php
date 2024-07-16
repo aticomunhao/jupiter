@@ -156,13 +156,12 @@
                                                                 <div class="modal-header"
                                                                     style="background-color:#DC4C64">
                                                                     <h5 class="modal-title" id="exampleModalLabel"
-                                                                        style="color:white">Confirmação de inativação</h5>
+                                                                        style="color:rgb(255, 255, 255)">Confirmação de inativação</h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body" style="text-align: center;">
-                                                                    <div class="mb-3">
                                                                         <label for="mi" class="form-label">Motivo da
                                                                             Inativação:</label>
                                                                         <select class="form-select" name="motivo_inativar"
@@ -173,16 +172,13 @@
                                                                                     {{ $situacaos->motivo }}</option>
                                                                             @endforeach
                                                                         </select>
-                                                                    </div>
-                                                                    <div class="mb-3">
                                                                         <label for="dtf" class="form-label">Data de
                                                                             Inativação:</label>
                                                                         <input class="form-control" type="date"
                                                                             id="dtf" name="dt_fim_inativacao"
                                                                             required="required">
-                                                                    </div>
                                                                 </div>
-                                                                <div class="modal-footer mt-2">
+                                                                <div class="modal-footer">
                                                                     <button type="button" class="btn btn-danger"
                                                                         data-bs-dismiss="modal">Cancelar</button>
                                                                     <button type="submit"
