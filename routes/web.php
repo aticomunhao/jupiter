@@ -67,6 +67,7 @@ Route::middleware('rotas:1')->group(function () {
     Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
     Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
     Route::get('/visualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'show']);
+    Route::get('/inativar-funcionario/{idf}', [GerenciarFuncionarioController::class, 'inativar']);
 });
 
 /*Gerenciar usuário*/

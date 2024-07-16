@@ -13,6 +13,8 @@ use App\Models\Sexo;
 use App\Models\pessoal;
 use PhpParser\Node\Stmt\ElseIf_;
 
+use function Laravel\Prompts\select;
+
 class GerenciarFuncionarioController extends Controller
 {
 
@@ -53,8 +55,20 @@ class GerenciarFuncionarioController extends Controller
 
         $lista = $lista->orderBy('p.status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
+        $situacao = DB::table('tp_demissao')
+            ->select(
+                'tp_demissao.motivo',
+                'tp_demissao.id',
+            )
+            ->get();
 
-        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome'));
+        $dataContrato = DB::table('situacao_contrato AS sc')
+            ->select('sc.dt_fim', 'sc.dt_inicio', 'sc.id_funcionario', 'sc.motivo')
+            ->get();
+
+
+
+        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'dataContrato'));
     }
 
     public function create()
@@ -183,6 +197,19 @@ class GerenciarFuncionarioController extends Controller
                 'id_setor' => $request->input('setor')
             ]);
 
+            $id_funcionario = DB::table('funcionarios')
+                ->leftJoin('pessoas', 'pessoas.id', 'funcionarios.id_pessoa')
+                ->select('funcionarios.id AS idf')
+                ->where('pessoas.cpf', $cpf)
+                ->value('idf');
+
+            DB::table('situacao_contrato')
+                ->insert([
+                    'id_funcionario' => $id_funcionario,
+                    'dt_inicio' => $request->input('dt_ini'),
+
+                ]);
+
             DB::table('endereco_pessoas')
                 ->insert([
                     'id_pessoa' => $id_pessoa,
@@ -223,15 +250,15 @@ class GerenciarFuncionarioController extends Controller
 
 
             $id_pessoa = DB::table('pessoas')
-            ->max('id');
+                ->max('id');
 
 
             //dd($id_pessoa);
 
 
             DB::table('funcionarios')->insert([
-                'dt_inicio' => $request->input('dt_ini'),
                 'id_pessoa' => $id_pessoa,
+                'dt_inicio' => $request->input('dt_ini'),
                 'matricula' => $request->input('matricula'),
                 'tp_programa' => $request->input('tp_programa'),
                 'nr_programa' => $request->input('nr_programa'),
@@ -253,6 +280,19 @@ class GerenciarFuncionarioController extends Controller
                 'id_setor' => $request->input('setor')
             ]);
 
+            $id_funcionario = DB::table('funcionarios')
+                ->leftJoin('pessoas', 'pessoas.id', 'funcionarios.id_pessoa')
+                ->select('funcionarios.id AS idf')
+                ->where('pessoas.cpf', $cpf)
+                ->value('idf');
+
+            DB::table('situacao_contrato')
+                ->insert([
+                    'id_funcionario' => $id_funcionario,
+                    'dt_inicio' => $request->input('dt_ini'),
+
+                ]);
+
             DB::table('endereco_pessoas')->insert([
                 'id_pessoa' => $id_pessoa,
                 'cep' => str_replace('-', '', $request->input('cep')),
@@ -269,110 +309,108 @@ class GerenciarFuncionarioController extends Controller
             app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
             return redirect('/gerenciar-funcionario');
         }
-
-
     }
 
 
     public function edit($idp)
     {
         $identidade = DB::table('pessoas AS pa')
-        ->leftJoin('tp_uf', 'pa.uf_idt', 'tp_uf.id')
-        ->select('tp_uf.sigla AS sigla_identidade', 'pa.uf_idt')
-        ->where('pa.id', $idp)
-        ->get();
+            ->leftJoin('tp_uf', 'pa.uf_idt', 'tp_uf.id')
+            ->select('tp_uf.sigla AS sigla_identidade', 'pa.uf_idt')
+            ->where('pa.id', $idp)
+            ->get();
 
         $pessoa = DB::table('pessoas AS p')
-        ->leftJoin('tp_sexo', 'p.sexo', 'tp_sexo.id')
-        ->leftJoin('tp_nacionalidade', 'p.nacionalidade', 'tp_nacionalidade.id')
-        ->leftJoin('tp_uf', 'p.uf_natural', 'tp_uf.id')
-        ->leftJoin('tp_cidade', 'p.naturalidade', 'tp_cidade.id_cidade')
-        ->leftJoin('tp_orgao_exp', 'p.orgao_expedidor', 'tp_orgao_exp.id')
-        ->leftJoin('tp_ddd', 'p.ddd', 'tp_ddd.id')
-        ->select(
-            'p.id AS idp',
-            'p.nome_completo AS nome_completo',
-            'p.nome_resumido AS nome_resumido',
-            'p.idt AS identidade',
-            'p.uf_idt AS uf_identidade',
-            'p.orgao_expedidor AS id_orgao_expedidor',
-            'p.dt_emissao_idt AS dt_emissao_identidade',
-            'p.dt_nascimento AS dt_nascimento',
-            'p.uf_natural AS uf_naturalidade',
-            'p.naturalidade AS naturalidade',
-            'p.nacionalidade AS nacionalidade',
-            'p.sexo AS id_sexo',
-            'p.email AS email',
-            'p.ddd AS ddd',
-            'p.celular AS celular',
-            'p.cpf AS cpf',
-            'tp_sexo.tipo AS nome_sexo',
-            'tp_nacionalidade.local AS nome_nacionalidade',
-            'tp_uf.sigla AS sigla_naturalidade',
-            'tp_cidade.descricao AS descricao_cidade',
-            'tp_orgao_exp.sigla AS sigla_orgao_expedidor',
-            'tp_ddd.descricao AS numero_ddd',
-        )
-        ->where('p.id', $idp)
-        ->get();
+            ->leftJoin('tp_sexo', 'p.sexo', 'tp_sexo.id')
+            ->leftJoin('tp_nacionalidade', 'p.nacionalidade', 'tp_nacionalidade.id')
+            ->leftJoin('tp_uf', 'p.uf_natural', 'tp_uf.id')
+            ->leftJoin('tp_cidade', 'p.naturalidade', 'tp_cidade.id_cidade')
+            ->leftJoin('tp_orgao_exp', 'p.orgao_expedidor', 'tp_orgao_exp.id')
+            ->leftJoin('tp_ddd', 'p.ddd', 'tp_ddd.id')
+            ->select(
+                'p.id AS idp',
+                'p.nome_completo AS nome_completo',
+                'p.nome_resumido AS nome_resumido',
+                'p.idt AS identidade',
+                'p.uf_idt AS uf_identidade',
+                'p.orgao_expedidor AS id_orgao_expedidor',
+                'p.dt_emissao_idt AS dt_emissao_identidade',
+                'p.dt_nascimento AS dt_nascimento',
+                'p.uf_natural AS uf_naturalidade',
+                'p.naturalidade AS naturalidade',
+                'p.nacionalidade AS nacionalidade',
+                'p.sexo AS id_sexo',
+                'p.email AS email',
+                'p.ddd AS ddd',
+                'p.celular AS celular',
+                'p.cpf AS cpf',
+                'tp_sexo.tipo AS nome_sexo',
+                'tp_nacionalidade.local AS nome_nacionalidade',
+                'tp_uf.sigla AS sigla_naturalidade',
+                'tp_cidade.descricao AS descricao_cidade',
+                'tp_orgao_exp.sigla AS sigla_orgao_expedidor',
+                'tp_ddd.descricao AS numero_ddd',
+            )
+            ->where('p.id', $idp)
+            ->get();
 
 
         $funcionario = DB::table('funcionarios AS f')
-        ->leftJoin('tp_programa', 'f.tp_programa', 'tp_programa.id')
-        ->leftJoin('tp_cor_pele', 'f.id_cor_pele', 'tp_cor_pele.id')
-        ->leftJoin('tp_sangue', 'f.id_tp_sangue', 'tp_sangue.id')
-        ->leftJoin('tp_fator', 'f.fator_rh', 'tp_fator.id')
-        ->leftJoin('tp_uf', 'f.uf_ctps', 'tp_uf.id')
-        ->leftJoin('tp_cnh', 'f.id_cat_cnh', 'tp_cnh.id')
-        ->leftJoin('setor', 'f.id_setor', 'setor.id')
-        ->select(
-            'f.matricula AS matricula',
-            'f.ctps AS ctps',
-            'f.uf_ctps AS uf_ctps',
-            'f.serie AS serie_ctps',
-            'f.dt_emissao_ctps AS emissao_ctps',
-            'f.tp_programa AS tp_programa',
-            'f.nr_programa AS nr_programa',
-            'f.reservista AS reservista',
-            'f.id_cat_cnh AS id_tp_cnh',
-            'f.id_cor_pele AS tp_cor',
-            'f.id_tp_sangue AS tp_sangue',
-            'f.nome_mae AS nome_mae',
-            'f.nome_pai AS nome_pai',
-            'f.fator_rh AS id_fator_rh',
-            'f.titulo_eleitor AS titulo_eleitor',
-            'f.zona_tit AS zona_titulo',
-            'f.secao_tit AS secao_titulo',
-            'f.dt_titulo AS dt_titulo',
-            'f.id_setor AS id_setor',
-            'f.dt_inicio AS dt_inicio',
-            'tp_programa.programa AS nome_programa',
-            'tp_cor_pele.nome_cor AS nome_cor',
-            'tp_sangue.nome_sangue AS nome_sangue',
-            'tp_fator.nome_fator AS nome_fator',
-            'tp_uf.sigla AS sigla_ctps',
-            'tp_cnh.nome_cat AS tp_cnh',
-            'setor.nome AS nome_setor'
+            ->leftJoin('tp_programa', 'f.tp_programa', 'tp_programa.id')
+            ->leftJoin('tp_cor_pele', 'f.id_cor_pele', 'tp_cor_pele.id')
+            ->leftJoin('tp_sangue', 'f.id_tp_sangue', 'tp_sangue.id')
+            ->leftJoin('tp_fator', 'f.fator_rh', 'tp_fator.id')
+            ->leftJoin('tp_uf', 'f.uf_ctps', 'tp_uf.id')
+            ->leftJoin('tp_cnh', 'f.id_cat_cnh', 'tp_cnh.id')
+            ->leftJoin('setor', 'f.id_setor', 'setor.id')
+            ->select(
+                'f.matricula AS matricula',
+                'f.ctps AS ctps',
+                'f.uf_ctps AS uf_ctps',
+                'f.serie AS serie_ctps',
+                'f.dt_emissao_ctps AS emissao_ctps',
+                'f.tp_programa AS tp_programa',
+                'f.nr_programa AS nr_programa',
+                'f.reservista AS reservista',
+                'f.id_cat_cnh AS id_tp_cnh',
+                'f.id_cor_pele AS tp_cor',
+                'f.id_tp_sangue AS tp_sangue',
+                'f.nome_mae AS nome_mae',
+                'f.nome_pai AS nome_pai',
+                'f.fator_rh AS id_fator_rh',
+                'f.titulo_eleitor AS titulo_eleitor',
+                'f.zona_tit AS zona_titulo',
+                'f.secao_tit AS secao_titulo',
+                'f.dt_titulo AS dt_titulo',
+                'f.id_setor AS id_setor',
+                'f.dt_inicio AS dt_inicio',
+                'tp_programa.programa AS nome_programa',
+                'tp_cor_pele.nome_cor AS nome_cor',
+                'tp_sangue.nome_sangue AS nome_sangue',
+                'tp_fator.nome_fator AS nome_fator',
+                'tp_uf.sigla AS sigla_ctps',
+                'tp_cnh.nome_cat AS tp_cnh',
+                'setor.nome AS nome_setor'
             )
-        ->where('f.id_pessoa', $idp)
-        ->get();
+            ->where('f.id_pessoa', $idp)
+            ->get();
 
         $endereco = DB::table('endereco_pessoas AS ep')
-        ->leftJoin('tp_cidade', 'ep.id_cidade', 'tp_cidade.id_cidade')
-        ->leftJoin('tp_uf', 'ep.id_uf_end', 'tp_uf.id')
-        ->select(
-            'ep.cep AS cep',
-            'ep.id_uf_end AS uf_endereco',
-            'ep.id_cidade AS cidade',
-            'ep.logradouro AS logradouro',
-            'ep.numero AS numero',
-            'ep.bairro AS bairro',
-            'ep.complemento AS complemento',
-            'tp_cidade.descricao AS nome_cidade',
-            'tp_uf.sigla AS sigla_uf_endereco',
-        )
-        ->where('id_pessoa', $idp)
-        ->get();
+            ->leftJoin('tp_cidade', 'ep.id_cidade', 'tp_cidade.id_cidade')
+            ->leftJoin('tp_uf', 'ep.id_uf_end', 'tp_uf.id')
+            ->select(
+                'ep.cep AS cep',
+                'ep.id_uf_end AS uf_endereco',
+                'ep.id_cidade AS cidade',
+                'ep.logradouro AS logradouro',
+                'ep.numero AS numero',
+                'ep.bairro AS bairro',
+                'ep.complemento AS complemento',
+                'tp_cidade.descricao AS nome_cidade',
+                'tp_uf.sigla AS sigla_uf_endereco',
+            )
+            ->where('id_pessoa', $idp)
+            ->get();
 
         //dd($pessoa, $funcionario, $endereco);
         //Join com a tabela endereco
@@ -418,69 +456,81 @@ class GerenciarFuncionarioController extends Controller
             return redirect()->back()->withInput();
         }
 
-            DB::table('pessoas')
-                ->where('id', $idp)
-                ->update([
-                    'nome_completo' => $request->input('nome_completo'),
-                    'nome_resumido' => $request->input('nome_resumido'),
-                    'idt' => $request->input('identidade'),
-                    'orgao_expedidor' => $request->input('orgexp'),
-                    'uf_idt' => $request->input('uf_idt'),
-                    'dt_emissao_idt' => $request->input('dt_idt'),
-                    'dt_nascimento' => $request->input('dt_nascimento'),
-                    'sexo' => $request->input('sexo'),
-                    'nacionalidade' => $request->input('pais'),
-                    'uf_natural' => $request->input('uf_nat'),
-                    'naturalidade' => $request->input('natura'),
-                    'cpf' => $request->input('cpf'),
-                    'email' => $request->input('email'),
-                    'ddd' => $request->input('ddd'),
-                    'celular' => $request->input('celular'),
-                ]);
+        DB::table('pessoas')
+            ->where('id', $idp)
+            ->update([
+                'nome_completo' => $request->input('nome_completo'),
+                'nome_resumido' => $request->input('nome_resumido'),
+                'idt' => $request->input('identidade'),
+                'orgao_expedidor' => $request->input('orgexp'),
+                'uf_idt' => $request->input('uf_idt'),
+                'dt_emissao_idt' => $request->input('dt_idt'),
+                'dt_nascimento' => $request->input('dt_nascimento'),
+                'sexo' => $request->input('sexo'),
+                'nacionalidade' => $request->input('pais'),
+                'uf_natural' => $request->input('uf_nat'),
+                'naturalidade' => $request->input('natura'),
+                'cpf' => $request->input('cpf'),
+                'email' => $request->input('email'),
+                'ddd' => $request->input('ddd'),
+                'celular' => $request->input('celular'),
+            ]);
 
 
-            DB::table('funcionarios')
-                ->where('id_pessoa', $idp)
-                ->update([
-                    'dt_inicio' => $request->input('dt_ini'),
-                    'matricula' => $request->input('matricula'),
-                    'tp_programa' => $request->input('tp_programa'),
-                    'nr_programa' => $request->input('nr_programa'),
-                    'id_cor_pele' => $request->input('cor'),
-                    'id_tp_sangue' => $request->input('tps'),
-                    'fator_rh' => $request->input('fator'),
-                    'titulo_eleitor' => $request->input('titele'),
-                    'dt_titulo' => $request->input('dt_titulo'),
-                    'zona_tit' => $request->input('zona'),
-                    'secao_tit' => $request->input('secao'),
-                    'ctps' => $request->input('ctps'),
-                    'serie' => $request->input('serie_ctps'),
-                    'uf_ctps' => $request->input('uf_ctps'),
-                    'dt_emissao_ctps' => $request->input('dt_ctps'),
-                    'reservista' => $request->input('reservista'),
-                    'nome_mae' => $request->input('nome_mae'),
-                    'nome_pai' => $request->input('nome_pai'),
-                    'id_cat_cnh' => $request->input('cnh'),
-                    'id_setor' => $request->input('setor')
+        DB::table('funcionarios')
+            ->where('id_pessoa', $idp)
+            ->update([
+                'dt_inicio' => $request->input('dt_ini'),
+                'matricula' => $request->input('matricula'),
+                'tp_programa' => $request->input('tp_programa'),
+                'nr_programa' => $request->input('nr_programa'),
+                'id_cor_pele' => $request->input('cor'),
+                'id_tp_sangue' => $request->input('tps'),
+                'fator_rh' => $request->input('fator'),
+                'titulo_eleitor' => $request->input('titele'),
+                'dt_titulo' => $request->input('dt_titulo'),
+                'zona_tit' => $request->input('zona'),
+                'secao_tit' => $request->input('secao'),
+                'ctps' => $request->input('ctps'),
+                'serie' => $request->input('serie_ctps'),
+                'uf_ctps' => $request->input('uf_ctps'),
+                'dt_emissao_ctps' => $request->input('dt_ctps'),
+                'reservista' => $request->input('reservista'),
+                'nome_mae' => $request->input('nome_mae'),
+                'nome_pai' => $request->input('nome_pai'),
+                'id_cat_cnh' => $request->input('cnh'),
+                'id_setor' => $request->input('setor')
 
-                ]);
+            ]);
 
-            DB::table('endereco_pessoas')
-                ->where('id_pessoa', $idp)
-                ->update([
-                    'cep' => str_replace('-', '', $request->input('cep')),
-                    'id_uf_end' => $request->input('uf_end'),
-                    'id_cidade' => $request->input('cidade'),
-                    'logradouro' => $request->input('logradouro'),
-                    'numero' => $request->input('numero'),
-                    'bairro' => $request->input('bairro'),
-                    'complemento' => $request->input('comple'),
-                ]);
+        $id_funcionario = DB::table('funcionarios')
+            ->leftJoin('pessoas', 'pessoas.id', 'funcionarios.id_pessoa')
+            ->select('funcionarios.id AS idf')
+            ->where('pessoas.id', $idp)
+            ->value('idf');
 
-            app('flasher')->addSuccess('Edição feita com Sucesso!');
+        DB::table('situacao_contrato')
+            ->update([
+                'id_funcionario' => $id_funcionario,
+                'dt_inicio' => $request->input('dt_ini'),
 
-            return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+            ]);
 
+        DB::table('endereco_pessoas')
+            ->where('id_pessoa', $idp)
+            ->update([
+                'cep' => str_replace('-', '', $request->input('cep')),
+                'id_uf_end' => $request->input('uf_end'),
+                'id_cidade' => $request->input('cidade'),
+                'logradouro' => $request->input('logradouro'),
+                'numero' => $request->input('numero'),
+                'bairro' => $request->input('bairro'),
+                'complemento' => $request->input('comple'),
+            ]);
+
+        app('flasher')->addSuccess('Edição feita com Sucesso!');
+
+        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
     }
 
     public function delete($idp)
@@ -564,102 +614,102 @@ class GerenciarFuncionarioController extends Controller
     public function show($idp)
     {
         $identidade = DB::table('pessoas AS pa')
-        ->leftJoin('tp_uf', 'pa.uf_idt', 'tp_uf.id')
-        ->select('tp_uf.sigla AS sigla_identidade', 'pa.uf_idt')
-        ->where('pa.id', $idp)
-        ->get();
+            ->leftJoin('tp_uf', 'pa.uf_idt', 'tp_uf.id')
+            ->select('tp_uf.sigla AS sigla_identidade', 'pa.uf_idt')
+            ->where('pa.id', $idp)
+            ->get();
 
         $pessoa = DB::table('pessoas AS p')
-        ->leftJoin('tp_sexo', 'p.sexo', 'tp_sexo.id')
-        ->leftJoin('tp_nacionalidade', 'p.nacionalidade', 'tp_nacionalidade.id')
-        ->leftJoin('tp_uf', 'p.uf_natural', 'tp_uf.id')
-        ->leftJoin('tp_cidade', 'p.naturalidade', 'tp_cidade.id_cidade')
-        ->leftJoin('tp_orgao_exp', 'p.orgao_expedidor', 'tp_orgao_exp.id')
-        ->leftJoin('tp_ddd', 'p.ddd', 'tp_ddd.id')
-        ->select(
-            'p.id AS idp',
-            'p.nome_completo AS nome_completo',
-            'p.nome_resumido AS nome_resumido',
-            'p.idt AS identidade',
-            'p.uf_idt AS uf_identidade',
-            'p.orgao_expedidor AS id_orgao_expedidor',
-            'p.dt_emissao_idt AS dt_emissao_identidade',
-            'p.dt_nascimento AS dt_nascimento',
-            'p.uf_natural AS uf_naturalidade',
-            'p.naturalidade AS naturalidade',
-            'p.nacionalidade AS nacionalidade',
-            'p.sexo AS id_sexo',
-            'p.email AS email',
-            'p.ddd AS ddd',
-            'p.celular AS celular',
-            'p.cpf AS cpf',
-            'tp_sexo.tipo AS nome_sexo',
-            'tp_nacionalidade.local AS nome_nacionalidade',
-            'tp_uf.sigla AS sigla_naturalidade',
-            'tp_cidade.descricao AS descricao_cidade',
-            'tp_orgao_exp.sigla AS sigla_orgao_expedidor',
-            'tp_ddd.descricao AS numero_ddd',
-        )
-        ->where('p.id', $idp)
-        ->get();
+            ->leftJoin('tp_sexo', 'p.sexo', 'tp_sexo.id')
+            ->leftJoin('tp_nacionalidade', 'p.nacionalidade', 'tp_nacionalidade.id')
+            ->leftJoin('tp_uf', 'p.uf_natural', 'tp_uf.id')
+            ->leftJoin('tp_cidade', 'p.naturalidade', 'tp_cidade.id_cidade')
+            ->leftJoin('tp_orgao_exp', 'p.orgao_expedidor', 'tp_orgao_exp.id')
+            ->leftJoin('tp_ddd', 'p.ddd', 'tp_ddd.id')
+            ->select(
+                'p.id AS idp',
+                'p.nome_completo AS nome_completo',
+                'p.nome_resumido AS nome_resumido',
+                'p.idt AS identidade',
+                'p.uf_idt AS uf_identidade',
+                'p.orgao_expedidor AS id_orgao_expedidor',
+                'p.dt_emissao_idt AS dt_emissao_identidade',
+                'p.dt_nascimento AS dt_nascimento',
+                'p.uf_natural AS uf_naturalidade',
+                'p.naturalidade AS naturalidade',
+                'p.nacionalidade AS nacionalidade',
+                'p.sexo AS id_sexo',
+                'p.email AS email',
+                'p.ddd AS ddd',
+                'p.celular AS celular',
+                'p.cpf AS cpf',
+                'tp_sexo.tipo AS nome_sexo',
+                'tp_nacionalidade.local AS nome_nacionalidade',
+                'tp_uf.sigla AS sigla_naturalidade',
+                'tp_cidade.descricao AS descricao_cidade',
+                'tp_orgao_exp.sigla AS sigla_orgao_expedidor',
+                'tp_ddd.descricao AS numero_ddd',
+            )
+            ->where('p.id', $idp)
+            ->get();
 
 
         $funcionario = DB::table('funcionarios AS f')
-        ->leftJoin('tp_programa', 'f.tp_programa', 'tp_programa.id')
-        ->leftJoin('tp_cor_pele', 'f.id_cor_pele', 'tp_cor_pele.id')
-        ->leftJoin('tp_sangue', 'f.id_tp_sangue', 'tp_sangue.id')
-        ->leftJoin('tp_fator', 'f.fator_rh', 'tp_fator.id')
-        ->leftJoin('tp_uf', 'f.uf_ctps', 'tp_uf.id')
-        ->leftJoin('tp_cnh', 'f.id_cat_cnh', 'tp_cnh.id')
-        ->leftJoin('setor', 'f.id_setor', 'setor.id')
-        ->select(
-            'f.matricula AS matricula',
-            'f.ctps AS ctps',
-            'f.uf_ctps AS uf_ctps',
-            'f.serie AS serie_ctps',
-            'f.dt_emissao_ctps AS emissao_ctps',
-            'f.tp_programa AS tp_programa',
-            'f.nr_programa AS nr_programa',
-            'f.reservista AS reservista',
-            'f.id_cat_cnh AS id_tp_cnh',
-            'f.id_cor_pele AS tp_cor',
-            'f.id_tp_sangue AS tp_sangue',
-            'f.nome_mae AS nome_mae',
-            'f.nome_pai AS nome_pai',
-            'f.fator_rh AS id_fator_rh',
-            'f.titulo_eleitor AS titulo_eleitor',
-            'f.zona_tit AS zona_titulo',
-            'f.secao_tit AS secao_titulo',
-            'f.dt_titulo AS dt_titulo',
-            'f.id_setor AS id_setor',
-            'f.dt_inicio AS dt_inicio',
-            'tp_programa.programa AS nome_programa',
-            'tp_cor_pele.nome_cor AS nome_cor',
-            'tp_sangue.nome_sangue AS nome_sangue',
-            'tp_fator.nome_fator AS nome_fator',
-            'tp_uf.sigla AS sigla_ctps',
-            'tp_cnh.nome_cat AS tp_cnh',
-            'setor.nome AS nome_setor'
+            ->leftJoin('tp_programa', 'f.tp_programa', 'tp_programa.id')
+            ->leftJoin('tp_cor_pele', 'f.id_cor_pele', 'tp_cor_pele.id')
+            ->leftJoin('tp_sangue', 'f.id_tp_sangue', 'tp_sangue.id')
+            ->leftJoin('tp_fator', 'f.fator_rh', 'tp_fator.id')
+            ->leftJoin('tp_uf', 'f.uf_ctps', 'tp_uf.id')
+            ->leftJoin('tp_cnh', 'f.id_cat_cnh', 'tp_cnh.id')
+            ->leftJoin('setor', 'f.id_setor', 'setor.id')
+            ->select(
+                'f.matricula AS matricula',
+                'f.ctps AS ctps',
+                'f.uf_ctps AS uf_ctps',
+                'f.serie AS serie_ctps',
+                'f.dt_emissao_ctps AS emissao_ctps',
+                'f.tp_programa AS tp_programa',
+                'f.nr_programa AS nr_programa',
+                'f.reservista AS reservista',
+                'f.id_cat_cnh AS id_tp_cnh',
+                'f.id_cor_pele AS tp_cor',
+                'f.id_tp_sangue AS tp_sangue',
+                'f.nome_mae AS nome_mae',
+                'f.nome_pai AS nome_pai',
+                'f.fator_rh AS id_fator_rh',
+                'f.titulo_eleitor AS titulo_eleitor',
+                'f.zona_tit AS zona_titulo',
+                'f.secao_tit AS secao_titulo',
+                'f.dt_titulo AS dt_titulo',
+                'f.id_setor AS id_setor',
+                'f.dt_inicio AS dt_inicio',
+                'tp_programa.programa AS nome_programa',
+                'tp_cor_pele.nome_cor AS nome_cor',
+                'tp_sangue.nome_sangue AS nome_sangue',
+                'tp_fator.nome_fator AS nome_fator',
+                'tp_uf.sigla AS sigla_ctps',
+                'tp_cnh.nome_cat AS tp_cnh',
+                'setor.nome AS nome_setor'
             )
-        ->where('f.id_pessoa', $idp)
-        ->get();
+            ->where('f.id_pessoa', $idp)
+            ->get();
 
         $endereco = DB::table('endereco_pessoas AS ep')
-        ->leftJoin('tp_cidade', 'ep.id_cidade', 'tp_cidade.id_cidade')
-        ->leftJoin('tp_uf', 'ep.id_uf_end', 'tp_uf.id')
-        ->select(
-            'ep.cep AS cep',
-            'ep.id_uf_end AS uf_endereco',
-            'ep.id_cidade AS cidade',
-            'ep.logradouro AS logradouro',
-            'ep.numero AS numero',
-            'ep.bairro AS bairro',
-            'ep.complemento AS complemento',
-            'tp_cidade.descricao AS nome_cidade',
-            'tp_uf.sigla AS sigla_uf_endereco',
-        )
-        ->where('id_pessoa', $idp)
-        ->get();
+            ->leftJoin('tp_cidade', 'ep.id_cidade', 'tp_cidade.id_cidade')
+            ->leftJoin('tp_uf', 'ep.id_uf_end', 'tp_uf.id')
+            ->select(
+                'ep.cep AS cep',
+                'ep.id_uf_end AS uf_endereco',
+                'ep.id_cidade AS cidade',
+                'ep.logradouro AS logradouro',
+                'ep.numero AS numero',
+                'ep.bairro AS bairro',
+                'ep.complemento AS complemento',
+                'tp_cidade.descricao AS nome_cidade',
+                'tp_uf.sigla AS sigla_uf_endereco',
+            )
+            ->where('id_pessoa', $idp)
+            ->get();
 
         //dd($pessoa, $funcionario, $endereco);
         //Join com a tabela endereco
@@ -687,6 +737,28 @@ class GerenciarFuncionarioController extends Controller
 
 
         return view('/funcionarios/visualizar-funcionario', compact('identidade', 'pessoa', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
-
     }
+
+    public function inativar($idf, Request $request)
+{
+    DB::table('situacao_contrato AS sc')
+        ->where('sc.id_funcionario', $idf)
+        ->update([
+            'sc.dt_fim' => $request->input('dt_fim_inativacao'),
+            'sc.motivo' => $request->input('motivo_inativar')
+        ]);
+
+
+    DB::table('pessoas AS p')
+    ->leftJoin('funcionarios AS f', 'f.id_pessoa', 'p.id')
+    ->where('f.id', $idf)
+    ->update([
+        'status' => 0
+    ]);
+
+
+    app('flasher')->addSuccess('O cadastro do funcionário foi inativado com Sucesso.');
+    return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+}
+
 }
