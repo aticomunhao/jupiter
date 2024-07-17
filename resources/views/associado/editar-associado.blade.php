@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-2 col-sm-12">
-                                        <label for="2">Número Associado</label>
+                                        <label for="2">N.º Associado</label>
                                         <input type="text" class="form-control" name="nrAssociado" maxlength="11"
                                             value="{{ $edit_associado[0]->nrAssociado }}" required>
                                     </div>
@@ -84,12 +84,12 @@
                                         </select>
                                     </div>
 
-                                    <div class="col-md-3 col-sm-12">
+                                    <div class="col-md-2 col-sm-12">
                                         <label for="2">Telefone</label>
                                         <input type="text" class="form-control" id="2" maxlength="12"
                                             name="telefone" value="{{ $edit_associado[0]->celular }}" required>
                                     </div>
-                                    <div class="col-md-4 col-sm-12">
+                                    <div class="col-md-3 col-sm-12">
                                         <label for="2">Email</label>
                                         <input type="text" class="form-control" id="2" maxlength="50"
                                             name="email" value="{{ $edit_associado[0]->email }}" required>
@@ -122,12 +122,12 @@
             </div>
             <div class="card-body">
                 <div class="row d-flex justify-content-around">
-                    <div class="form-group col-xl-2 col-md-4 mt-3 ">
+                    <div class="form-group col-md-3">
                         <label for="1">CEP</label>
                         <input type="text" class="form-control" id="1" name="cep"
                             value="{{ $edit_associado[0]->cep }}" required>
                     </div>
-                    <div class="form-group col-xl-1 col-md-4 mt-3 ">
+                    <div class="form-group col-md-1 ">
                         <label for="id_uf">UF</label>
                         <select class="js-example-responsive form-select" id="iduf" name="uf_end" required>
                             <option value="{{ $edit_associado[0]->tuf }}">{{ $edit_associado[0]->ufsgl }}</option>
@@ -138,35 +138,34 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-xl-2 col-md-4 mt-3 ">
+                    <div class="form-group col-md-3">
                         <label for="ciadade">Cidade</label>
                         <select class="js-example-responsive form-select" id="idcidade" name="cidade"
                             value="{{ old('cidade') }}" disabled required>
                             <option value="{{ $edit_associado[0]->id_cidade }}">{{ $edit_associado[0]->nat }}</option>
                         </select>
                     </div>
-                    <div class="form-group col-xl-3 col-md-4 mt-3 ">
+                    <div class="form-group col-md-5">
                         <label for="1">Logradouro</label>
                         <input type="text" class="form-control" id="1" name="logradouro"
                             value="{{ $edit_associado[0]->logradouro }}" required>
                     </div>
-                    <div class="form-group col-xl-1 col-md-4 mt-3 ">
-                        <label for="1">Número</label>
-                        <input type="text" class="form-control" id="1" name="numero"
-                            value="{{ $edit_associado[0]->numero }}" required>
-                    </div>
-                    <div class="row d-flex justify-content-around">
-                        <div class="form-group col-xl-3 col-md-4 mt-3 ">
+
+                        <div class="form-group col-md-5">
                             <label for="1">Complemento</label>
                             <input type="text" class="form-control" id="1" name="complemento"
                                 value="{{ $edit_associado[0]->complemento }}" required>
                         </div>
-                        <div class="form-group col-xl-2 col-md-4 mt-3 ">
+                        <div class="form-group col-md-2">
+                            <label for="1">Número</label>
+                            <input type="text" class="form-control" id="1" name="numero"
+                                value="{{ $edit_associado[0]->numero }}" required>
+                        </div>
+                        <div class="form-group col-md-5">
                             <label for="1">Bairro</label>
                             <input type="text" class="form-control" id="1" name="bairro"
                                 value="{{ $edit_associado[0]->bairro }}" required>
                         </div>
-                    </div>
                 </div>
                 <br>
             </div>
