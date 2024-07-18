@@ -134,9 +134,9 @@
                                                 <button type="button" class="btn btn-outline-danger"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idp }}"
-                                                    class="btn btn-outline-danger btn-sm"><i class="bi-trash"
-                                                        style="font-size: 1rem; color:#303030;" data-tt="tooltip"
-                                                        data-placement="top" title="Excluir"></i></button>
+                                                    class="btn btn-outline-danger btn-sm"data-tt="tooltip"
+                                                    data-placement="top" title="Excluir"><i class="bi-trash"
+                                                        style="font-size: 1rem; color:#303030;" ></i></button>
                                                 <button type="button" class="btn btn-outline-danger" data-tt="tooltip"
                                                     data-placement="top" title="Inativar" data-bs-toggle="modal"
                                                     data-bs-target="#situacao{{ $listas->cpf }}-{{ $listas->idf }}">

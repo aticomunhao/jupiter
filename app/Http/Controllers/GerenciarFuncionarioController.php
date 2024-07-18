@@ -510,6 +510,7 @@ class GerenciarFuncionarioController extends Controller
             ->value('idf');
 
         DB::table('situacao_contrato')
+            ->where('situacao_contrato.id_funcionario', $id_funcionario)
             ->update([
                 'id_funcionario' => $id_funcionario,
                 'dt_inicio' => $request->input('dt_ini'),
@@ -740,25 +741,24 @@ class GerenciarFuncionarioController extends Controller
     }
 
     public function inativar($idf, Request $request)
-{
-    DB::table('situacao_contrato AS sc')
-        ->where('sc.id_funcionario', $idf)
-        ->update([
-            'sc.dt_fim' => $request->input('dt_fim_inativacao'),
-            'sc.motivo' => $request->input('motivo_inativar')
-        ]);
+    {
+        DB::table('situacao_contrato AS sc')
+            ->where('sc.id_funcionario', $idf)
+            ->update([
+                'sc.dt_fim' => $request->input('dt_fim_inativacao'),
+                'sc.motivo' => $request->input('motivo_inativar')
+            ]);
 
 
-    DB::table('pessoas AS p')
-    ->leftJoin('funcionarios AS f', 'f.id_pessoa', 'p.id')
-    ->where('f.id', $idf)
-    ->update([
-        'status' => 0
-    ]);
+        DB::table('pessoas AS p')
+            ->leftJoin('funcionarios AS f', 'f.id_pessoa', 'p.id')
+            ->where('f.id', $idf)
+            ->update([
+                'status' => 0
+            ]);
 
 
-    app('flasher')->addSuccess('O cadastro do funcionário foi inativado com Sucesso.');
-    return redirect()->action([GerenciarFuncionarioController::class, 'index']);
-}
-
+        app('flasher')->addSuccess('O cadastro do funcionário foi inativado com Sucesso.');
+        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+    }
 }
