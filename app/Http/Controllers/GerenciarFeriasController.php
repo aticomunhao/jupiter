@@ -16,8 +16,6 @@ class GerenciarFeriasController extends Controller
      */
     public function index(Request $request)
     {
-
-
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -41,9 +39,10 @@ class GerenciarFeriasController extends Controller
                 'funcionarios.id_setor'
             )->whereIn('funcionarios.id_setor', session('usuario.setor'));
 
-
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
-        $status_ferias = DB::table('status_pedido_ferias')->get();
+        $status_ferias = DB::table('status_pedido_ferias');
+        $status_consulta_atual = null; // Inicialize a variável com valor padrão
+
         if ($request->input('anoconsulta')) {
             $ano_referente = $request->input('anoconsulta');
             $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia', '=', $ano_referente);
@@ -55,14 +54,21 @@ class GerenciarFeriasController extends Controller
         if ($request->input('statusconsulta')) {
             $status_consulta = $request->input('statusconsulta');
             $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $status_consulta);
+
+            $status_consulta_atual = DB::table('status_pedido_ferias')->where('id', '=', $status_consulta)->first();
+
         }
+
         $ano_consulta = $request->input('anoconsulta');
         $nome_funcionario = $request->input('nomefuncionario');
-        $status_consulta_consulta = $request->input('statusconsulta');
         $periodo_aquisitivo = $periodo_aquisitivo->get();
+        $status_ferias = $status_ferias->get();
+
+
 
         DB::commit();
-        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias', 'ano_consulta', 'nome_funcionario', 'status_consulta_consulta'));
+        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias', 'ano_consulta', 'nome_funcionario',  'status_consulta_atual'));
+
     }
 
     /**
@@ -187,7 +193,7 @@ class GerenciarFeriasController extends Controller
                 $dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
                 $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->toDateString();
-                $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia+1)->subDay()->toDateString();
+                $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia + 1)->subDay()->toDateString();
                 $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
                 $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
                 $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
@@ -300,7 +306,6 @@ class GerenciarFeriasController extends Controller
 
         $dias_limite_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
         $dia_limite_para_inicio_do_periodo_de_ferias = Carbon::parse($ferias->dt_fim_periodo_de_licenca)->subDays((365 - $dias_limite_de_ferias->dias))->toDateString();
-
 
 
         // Obtém o ano de referência

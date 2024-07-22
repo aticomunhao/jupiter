@@ -54,7 +54,13 @@
                                     <div class="mb-3">
                                         <label for="idanoconsulta" class="form-label">Selecione o Status</label>
                                         <select class="form-select" id="idstatusconsulta" name="statusconsulta">
+                                            @if($status_consulta_atual)
+                                            <option value="{{ $status_consulta_atual->id }}">
+                                                {{ $status_consulta_atual->nome }}
+                                            </option>
+                                            @endif
                                             <option value="">Todos</option>
+
                                             @foreach ($status_ferias as $status)
                                                 <option value="{{ $status->id }}">
                                                     {{ $status->nome }}
