@@ -89,7 +89,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-5 col-sm-12">Naturalidade
-                                    <select class="form-select" id="cidade1" name="natura" value="{{ old('natura') }}"
+                                    <select class="form-control" id="cidade1" name="natura" value="{{ old('natura') }}"
                                             required="required" disabled="disabled">
                                     </select>
                                 </div>
