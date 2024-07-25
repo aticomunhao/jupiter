@@ -23,6 +23,7 @@ $(document).on("load",function() { // does nothing
  */
 
 import 'bootstrap';
+import 'jquery-maskmoney/dist/jquery.maskMoney.min';
 import axios from 'axios';
 window.axios = axios;
 
