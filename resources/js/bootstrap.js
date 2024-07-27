@@ -1,16 +1,19 @@
-import "./bootstrap";
-import $ from "jquery";
+import 'bootstrap';
+
+//import axios from 'axios';
+//window.axios - axios;
+
+import jQuery from 'jquery';
+window.$ = jQuery;
+
 import select2 from 'select2';
 select2();
-window.$ = $;
-// import { Select2 } from "select2"; // does nothing when uncommented
-//import 'select2'; // does nothing
 
-$("#test").html("ok");
+//$("#test").html("ok");
 
-$(document).on("load",function() { // does nothing
-    $(".js-example-basic-single").select2();
-});
+//$(document).on("load",function() { // does nothing
+//    $(".js-example-basic-single").select2();
+//});
 
 
 
@@ -22,8 +25,7 @@ $(document).on("load",function() { // does nothing
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-import 'bootstrap';
-import 'jquery-maskmoney/dist/jquery.maskMoney.min';
+//import 'jquery-maskmoney/dist/jquery.maskMoney.min';
 import axios from 'axios';
 window.axios = axios;
 

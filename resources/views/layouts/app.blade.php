@@ -14,9 +14,9 @@
 
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss',
-            'resources/js/app.js'])
+    @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
 
+    
     <style>
         .dropdown:hover .dropdown-menu {
             display: block;
@@ -35,27 +35,22 @@
     @include('flash::message')
     <!-- JAVASCRIPT -->
 
-
-
-
     <!-- footerScript -->
     @yield('footerScript')
 
 
-    <!-- App js -->
-    <script src="{{ URL::asset('/js/app.min.js') }}"></script>
-    <!--JQUERY-->
-
+   
 </body>
-<script>
-    $("body").on("submit", "form", function() {
-        $(this).submit(function() {
-            return false;
+
+    <script>
+        $("body").on("submit", "form", function() {
+            $(this).submit(function() {
+                return false;
+            });
+            $(':submit').html(
+                '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Carregando...')
+            return true;
         });
-        $(':submit').html(
-            '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Carregando...')
-        return true;
-    });
-</script>
+    </script>
 
 </html>

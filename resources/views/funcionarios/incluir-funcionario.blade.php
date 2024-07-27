@@ -5,6 +5,7 @@
 @endsection
 
 @section('content')
+
     <form class="form-horizontal" method="post" action="/incluir-funcionario">
         @csrf
         <div class="container-fluid">
@@ -89,7 +90,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-5 col-sm-12">Naturalidade
-                                    <select class="form-control" id="cidade1" name="natura" value="{{ old('natura') }}"
+                                    <select class="form-select select2" id="cidade1" name="natura" value="{{ old('natura') }}"
                                             required="required" disabled="disabled">
                                     </select>
                                 </div>
@@ -195,7 +196,7 @@
                                            required="required">
                                 </div>
                                 <div class="col-md-5">Setor Alocado
-                                    <select class="form-select status pesquisa-select"
+                                    <select class="form-select select2"
                                             style="border: 1px solid #999999; padding: 5px;"
                                             required
                                             id="setorid" name="setor">
@@ -485,13 +486,8 @@
         <br>
     </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
-
     <script>
         $(document).ready(function () {
-
             $('#cidade1, #cidade2, #setorid').select2({
                 theme: 'bootstrap-5',
                 width: '100%',
@@ -514,7 +510,6 @@
                     }
                 });
             }
-
 
             $('#uf1').change(function (e) {
                 var stateValue = $(this).val();
@@ -606,7 +601,7 @@
         });
     </script>
 
-    <script>
+    <!--<script>
         var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
         var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
             return new bootstrap.Popover(popoverTriggerEl)
@@ -662,7 +657,7 @@
             var popoverButton10 = document.getElementById('popoverButton10');
             customizePopover(popoverButton10, 'Pai/Mãe');
         });
-    </script>
+    </script>  -->
 
     <style>
         /* Estilo para centralizar o conteúdo do botão */
