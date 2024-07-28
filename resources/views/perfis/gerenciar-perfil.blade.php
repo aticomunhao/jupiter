@@ -3,8 +3,7 @@
 @section('title') Gerenciar Perfis @endsection
 
 @section('content')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/npm/bootstrap5-toggle@5.0.4/css/bootstrap5-toggle.min.css" rel="stylesheet">
+
 
 <div class="container-fluid">
     <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">GERENCIAR PERFIS</h4>
@@ -85,11 +84,6 @@
 </div>
 
 
-
-<script src="caminho/para/bootstrap/js/bootstrap.bundle.min.js" async defer></script>
-<link href="caminho/para/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))

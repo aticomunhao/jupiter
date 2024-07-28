@@ -3,7 +3,7 @@
     <title>Editar Certificado</title>
 @endsection
 @section('content')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     <form method="post" action="/atualizar-certificado/{{ $certificado->id }}" enctype="multipart/form-data">
         @csrf
         <div class="container-fluid">
@@ -113,7 +113,7 @@
 
     
     <!--JQUERY-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    
     <!--
                                                     <script>
                                                         $(document).ready(function() {

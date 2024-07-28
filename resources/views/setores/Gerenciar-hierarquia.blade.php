@@ -3,7 +3,7 @@
     <title>Gerenciar Hierarquia</title>
 @endsection
 @section('content')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     <form id="gerenciarHierarquiaForm" action="/gerenciar-hierarquia" method="get">
         @csrf
         <div class="container-fluid"> {{-- Container completo da página  --}}

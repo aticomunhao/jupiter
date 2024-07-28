@@ -40,7 +40,6 @@
                         <th scope="col">Cidade</th>
                         <th scope="col">Grupo</th>
                         <th scope="col">Ações</th>
-<<<<<<< Updated upstream
                     </tr>
                 </thead>
                 <tbody style="font-size: 12px;">
@@ -56,23 +55,6 @@
                     @endforeach
                 </tbody>
             </table>
-=======
-                        </tr>
-                    </thead>
-                    <tbody style="font-size: 12px;">
-                        <tr>
-                            <td scope="2">Grupo</td>
-                            <td scope="2">Botões</td>
-                       
-                            <td scope="2"></td>
-                            <td scope="2"></td>
-                            <td scope="2">Grupo</td>
-                            <td scope="2">Botões</td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
->>>>>>> Stashed changes
 
         </div>
     </div>
@@ -82,8 +64,6 @@
 
 @section('footerScript')
     <script src="{{ URL::asset('/js/pages/mascaras.init.js') }}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.11/jquery.mask.min.js"></script>
-    <script src="{{ URL::asset('/libs/select2/select2.min.js') }}"></script>
     <script src="{{ URL::asset('/js/pages/form-advanced.init.js') }}"></script>
-    <script src="{{ URL::asset('/js/pages/cadastro-inicial.init.js') }}"></script>
+
 @endsection

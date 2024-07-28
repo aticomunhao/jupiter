@@ -1,8 +1,5 @@
 import 'bootstrap';
 
-//import axios from 'axios';
-//window.axios - axios;
-
 import jQuery from 'jquery';
 window.$ = jQuery;
 
@@ -12,7 +9,7 @@ select2();
 //$("#test").html("ok");
 
 //$(document).on("load",function() { // does nothing
-//    $(".js-example-basic-single").select2();
+  //  $(".js-example-basic-single").select2();
 //});
 
 

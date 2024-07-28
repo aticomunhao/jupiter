@@ -3,7 +3,7 @@
     <title>Criar Associado</title>
 @endsection
 @section('content')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     @csrf
     <div class="container-fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
@@ -176,9 +176,9 @@
 
             @section('footerScript')
                 <!-- Scripts -->
-                <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+                
+                
+                
                 <script>
                     $(document).ready(function() {
 

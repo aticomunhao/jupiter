@@ -237,12 +237,7 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">CTPS
-                                    <a tabindex="0" class="btn btn-sm" id="popoverButton1" role="button"
-                                        data-bs-toggle="popover" data-bs-trigger="focus">
-                                        <span class="btn-circle">
-                                            ?
-                                        </span>
-                                    </a>
+                                    <button type="button" class="btn-circle" id="popoverButton1" data-bs-trigger="focus" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">?</button>
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control" name="ctps" maxlength="6"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
@@ -534,7 +529,7 @@
 
                                 <div class="col-md-4 col-sm-12">Cidade
                                     <br>
-                                    <select class="js-example-responsive form-select"
+                                    <select class="form-select select2"
                                         style="border: 1px solid #999999; padding: 5px;" id="idcidade" name="cidade" >
                                         <option value="{{ $endereco[0]->cidade }}">
                                             {{ $endereco[0]->nome_cidade }}
@@ -580,9 +575,9 @@
         <br>
     </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.0/dist/jquery.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    
+    
+    
 
 
     <script>
@@ -657,8 +652,9 @@
                 });
             }
 
-            var popoverButton1 = document.getElementById('popoverButton1');
-            customizePopover(popoverButton1, 'Número do CTPS');
+            var popoverButton1 = new bootstrap.Popover(document.querySelector('.popoverButton1'), {
+            container: 'body'
+            });
 
             var popoverButton2 = document.getElementById('popoverButton2');
             customizePopover(popoverButton2, 'Série do CTPS');

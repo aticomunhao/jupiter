@@ -3,7 +3,7 @@
     <title>Incluir Dados Bancarios</title>
 @endsection
 @section('content')
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
     <form method="post" action="{{ route('store.dadosbancarios.funcionario', ['id' => $funcionario->id]) }}"
         enctype="multipart/form-data">
         @csrf
@@ -122,8 +122,8 @@
     </form>
 
     <!--JQUERY-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    
+    
 
 
     <script>
