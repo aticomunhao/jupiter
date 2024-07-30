@@ -514,8 +514,8 @@
 
                                 <div class="col-md-4 col-sm-12">UF
                                     <br>
-                                    <select class="js-example-responsive form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" id="iduf" name="uf_end">
+                                    <select class="form-select"
+                                        style="border: 1px solid #999999; padding: 5px;" id="uf2" name="uf_end">
                                         <option value="{{ $endereco[0]->uf_endereco }}">
                                             {{ $endereco[0]->sigla_uf_endereco }}
                                         </option>
@@ -529,8 +529,8 @@
 
                                 <div class="col-md-4 col-sm-12">Cidade
                                     <br>
-                                    <select class="form-select select2"
-                                        style="border: 1px solid #999999; padding: 5px;" id="idcidade" name="cidade" >
+                                    <select class="form-select"
+                                        style="border: 1px solid #999999; padding: 5px;" id="cidade2" name="cidade">
                                         <option value="{{ $endereco[0]->cidade }}">
                                             {{ $endereco[0]->nome_cidade }}
                                         </option>
@@ -575,9 +575,9 @@
         <br>
     </form>
 
-    
-    
-    
+
+
+
 
 
     <script>
@@ -608,10 +608,10 @@
             }
 
 
-            $('#iduf').change(function(e) {
+            $('#uf2').change(function(e) {
                 var stateValue = $(this).val();
-                $('#idcidade').removeAttr('disabled');
-                populateCities($('#idcidade'), stateValue);
+                $('#cidade2').removeAttr('disabled');
+                populateCities($('#cidade2'), stateValue);
             });
 
             $('#uf1').change(function(e) {
