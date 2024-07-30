@@ -54,7 +54,6 @@ class GerenciarFeriasController extends Controller
         if ($request->input('statusconsulta')) {
             $status_consulta = $request->input('statusconsulta');
             $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $status_consulta);
-
             $status_consulta_atual = DB::table('status_pedido_ferias')->where('id', '=', $status_consulta)->first();
 
         }
@@ -246,21 +245,23 @@ class GerenciarFeriasController extends Controller
                     's.id as id_do_setor'
                 )
                 ->orderBy('nome_completo_funcionario');
+
+            $nome_funcionario = $request->input('nomefuncionario');
+            $ano_referente = $request->input('anoconsulta');
+            $setor = $request->input('setorconsulta');
+            $status_consulta = $request->input('statusconsulta');
+
             if ($request->input('nomefuncionario')) {
-                $nome_funcionario = $request->input('nomefuncionario');
                 $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
-
             }
             if ($request->input('anoconsulta')) {
-                $ano_referente = $request->input('anoconsulta');
-
-                $periodo_aquisitivo =  $periodo_aquisitivo->where('ferias.ano_de_referencia', 'ilike','%' . $ano_referente . '%');
-
+                $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia', '=', $ano_referente);
             }
-            if ($request->input('anoconsulta')) {
-                $status_consulta = $request->input('statusconsulta');
+            if ($request->input('setorconsulta')) {
+                $periodo_aquisitivo = $periodo_aquisitivo->where('s.id', 'ilike', '%' . $setor . '%');
+            }
+            if ($request->input('statusconsulta')) {
                 $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $status_consulta);
-
             }
 
 
@@ -288,7 +289,7 @@ class GerenciarFeriasController extends Controller
             $listaAnos = range($anoAnterior, $doisAnosFrente);
             $periodo_aquisitivo = $periodo_aquisitivo->get();
 
-            return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos', 'ano_referente', 'setores_unicos', 'status_ferias'));
+            return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos', 'ano_referente', 'setores_unicos', 'status_ferias','nome_funcionario','ano_referente', 'setor','periodo_aquisitivo'));
         } catch (Exception $exception) {
             DB::rollBack();
             app('flasher')->addError($exception->getMessage());

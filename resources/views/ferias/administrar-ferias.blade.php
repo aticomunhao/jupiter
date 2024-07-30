@@ -25,7 +25,7 @@
                                     <input type="text" name="nomefuncionario" id="idnomefuncionario"
                                         class="form-control">
                                 </div>
-                                <div class="col-md-2 col-sm-12">
+                                <div class="col-md-3 col-sm-12">
                                     <h5>Selecione o Período Aquisitivo</h5>
                                     <select class="form-select" aria-label="Ano" name="anoconsulta" id="idanoconsulta">
 
@@ -60,16 +60,16 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-md-2 col-sm-12">
-                                    <button type="submit" class="btn btn-submit btn-primary">Submit</button>
+                                <div class="col-md-1 col-sm-12">
+                                    <button type="submit" class="btn btn-submit btn-primary" style="width:100%; margin-top: 20%">Pesquisar</button>
                                 </div>
                         </form>
 
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                 data-bs-target="#modalCriarFerias"
-                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; ">
-                                Gerar novo período de Férias
+                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;margin-top: 20%">
+                                <i class="bi bi-plus-square"></i>
                             </button>
                         </div>
                         <!-- Modal -->
@@ -113,7 +113,7 @@
 
                     <br>
 
-                  
+
                     @if (!empty($periodo_aquisitivo))
                         <div class="table-responsive">
                             <table
@@ -143,7 +143,7 @@
                                                 {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
                                             <td style="text-align: center">
                                                 {{ $periodos_aquisitivos->ano_de_referencia }}
-                                                - {{ $periodos_aquisitivos->ano_de_referencia }}
+                                                - {{ $periodos_aquisitivos->ano_de_referencia + 1 }}
                                             </td>
 
                                             <td style="text-align: center">
@@ -222,11 +222,9 @@
 
         </div>
     </div>
-
-
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <!-- <script>
         $(document).ready(function() {
