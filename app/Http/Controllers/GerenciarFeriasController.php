@@ -65,9 +65,8 @@ class GerenciarFeriasController extends Controller
         $status_ferias = $status_ferias->get();
 
 
-
         DB::commit();
-        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias', 'ano_consulta', 'nome_funcionario',  'status_consulta_atual'));
+        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias', 'ano_consulta', 'nome_funcionario', 'status_consulta_atual'));
 
     }
 
@@ -220,33 +219,58 @@ class GerenciarFeriasController extends Controller
             }
 
 
-            $periodo_aquisitivo = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->join('setor as s', 's.id', '=', 'id_setor')->select(
-                'pessoas.nome_completo as nome_completo_funcionario',
-                'pessoas.id as id_pessoa',
-                'ferias.dt_ini_a',
-                'ferias.dt_fim_a',
-                'ferias.dt_ini_b',
-                'ferias.dt_fim_b',
-                'ferias.dt_ini_c',
-                'ferias.dt_fim_c',
-                'ferias.motivo_retorno',
-                'ferias.id as id_ferias',
-                'ferias.venda_um_terco',
-                'funcionarios.dt_inicio',
-                'ferias.ano_de_referencia',
-                'ferias.id_funcionario',
-                'ferias.adianta_13sal',
-                'status_pedido_ferias.id as id_status_pedido_ferias',
-                'status_pedido_ferias.nome as status_pedido_ferias',
-                's.sigla as sigla_do_setor',
-                's.id as id_do_setor',
-            )->where('ano_de_referencia', '=', $ano_referente)->orderBy('nome_completo_funcionario')->get();
-            $setores_unicos = $periodo_aquisitivo->map(function ($item) {
-                return (object)[
-                    'id_do_setor' => $item->id_do_setor,
-                    'sigla_do_setor' => $item->sigla_do_setor,
-                ];
-            })->unique('id_do_setor')->values();
+            $periodo_aquisitivo = DB::table('ferias')
+                ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+                ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+                ->join('setor as s', 's.id', '=', 'id_setor')
+                ->select(
+                    'pessoas.nome_completo as nome_completo_funcionario',
+                    'pessoas.id as id_pessoa',
+                    'ferias.dt_ini_a',
+                    'ferias.dt_fim_a',
+                    'ferias.dt_ini_b',
+                    'ferias.dt_fim_b',
+                    'ferias.dt_ini_c',
+                    'ferias.dt_fim_c',
+                    'ferias.motivo_retorno',
+                    'ferias.id as id_ferias',
+                    'ferias.venda_um_terco',
+                    'funcionarios.dt_inicio',
+                    'ferias.ano_de_referencia',
+                    'ferias.id_funcionario',
+                    'ferias.adianta_13sal',
+                    'status_pedido_ferias.id as id_status_pedido_ferias',
+                    'status_pedido_ferias.nome as status_pedido_ferias',
+                    's.sigla as sigla_do_setor',
+                    's.id as id_do_setor'
+                )
+                ->orderBy('nome_completo_funcionario');
+            if ($request->input('nomefuncionario')) {
+                $nome_funcionario = $request->input('nomefuncionario');
+                $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
+
+            }
+            if ($request->input('anoconsulta')) {
+                $ano_referente = $request->input('anoconsulta');
+
+                $periodo_aquisitivo =  $periodo_aquisitivo->where('ferias.ano_de_referencia', 'ilike','%' . $ano_referente . '%');
+
+            }
+            if ($request->input('anoconsulta')) {
+                $status_consulta = $request->input('statusconsulta');
+                $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $status_consulta);
+
+            }
+
+
+            // $setores_unicos = $periodo_aquisitivo->map(function ($item) {
+            //   return (object)[
+            //     'id_do_setor' => $item->id_do_setor,
+            //    'sigla_do_setor' => $item->sigla_do_setor,
+            //    ]//;
+            // })->unique('id_do_setor')->values();
+            $setores_unicos = DB::table('setor')->get();
 
 
             $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
@@ -259,11 +283,10 @@ class GerenciarFeriasController extends Controller
             } else {
                 $anoAnterior = intval(Carbon::now()->subYear(2)->toDateString());
                 $doisAnosFrente = intval(Carbon::now()->addYear(5)->toDateString());
-            }
-
+            };
 
             $listaAnos = range($anoAnterior, $doisAnosFrente);
-
+            $periodo_aquisitivo = $periodo_aquisitivo->get();
 
             return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos', 'ano_referente', 'setores_unicos', 'status_ferias'));
         } catch (Exception $exception) {
