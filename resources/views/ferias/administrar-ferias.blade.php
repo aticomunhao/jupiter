@@ -68,7 +68,7 @@
                         <div class="col-md-1">
                             <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                 data-bs-target="#modalCriarFerias"
-                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;margin-top: 20%">
+                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;margin-top: 20%" data-toggle="tooltip" data-placement="top" title="Texto ao passar o mouse">
                                 <i class="bi bi-plus-square"></i>
                             </button>
                         </div>
@@ -345,7 +345,11 @@
         });
     </script>-->
 
-
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
