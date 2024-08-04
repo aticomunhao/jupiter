@@ -157,13 +157,14 @@
                                                             $periodos_aquisitivos->id_status_pedido_ferias == 3 or
                                                             $periodos_aquisitivos->id_status_pedido_ferias == 5)
                                                         <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                           class="btn btn-outline-success">
+                                                           class="btn btn-outline-success"
+                                                           data-bs-toggle="tooltip" data-bs-placement="top" title="Incluir">
                                                             <i class="bi bi-pencil-square"></i>
                                                         </a>
                                                     @endif
                                                     <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                       class="btn btn-outline-secondary" data-tt="tooltip"
-                                                       data-placement="top" title="Histórico Férias"
+                                                       class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+                                                       data-bs-placement="top" title="Histórico Férias"
                                                        style="font-size: 1rem; color:#0e0b16;">
 
                                                         <i class="bi bi-search"></i>
@@ -174,10 +175,9 @@
 
                                                         <button type="button" class="btn btn-outline-primary"
                                                                 style="font-size: 1rem; color:#0e0b16;"
-                                                                data-tt="tooltip"
-                                                                data-placement="top" title="Reabrir Formulário"
                                                                 data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}">
+                                                                data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                                data-bs-placement="top" title="Reabrir Formulário">
                                                             <i class="bi bi-folder2-open"></i>
                                                         </button>
                                                         <div class="modal fade"
@@ -256,10 +256,9 @@
     
 
 
-    
     <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>

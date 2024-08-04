@@ -91,54 +91,57 @@
                                             @endif
                                             <td scope="" style="text-align: center">
                                                 <a href="/editar-funcionario/{{ $listas->idp }}" type="button"
-                                                    class="btn btn-outline-warning" data-tt="tooltip" data-placement="top"
+                                                    class="btn btn-outline-warning" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
                                                     title="Editar"><i class="bi-pencil"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/visualizar-funcionario/{{ $listas->idp }}" type="button"
-                                                    class="btn btn-outline-primary" data-tt="tooltip" data-placement="top"
+                                                    class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
                                                     title="Visualizar"><i class="bi-search"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-dependentes/{{ $listas->idf }}" type="button"
-                                                    class="btn btn-outline-primary" data-tt="tooltip"
+                                                    class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top"
                                                     data-placement="top" title="Dependentes"><i class="bi-people-fill"
                                                         style="font-size: 1rem;color:#303030; "></i>
                                                 </a>
                                                 <a href="{{ route('index.dadosbancarios.funcionario', ['id' => $listas->idf]) }}"
-                                                    type="button" class="btn btn-outline-primary" data-tt="tooltip"
-                                                    data-placement="top" title="Dados Bancários"><i class="bi bi-bank"
+                                                    type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Dados Bancários"><i class="bi bi-bank"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-afastamentos/{{ $listas->idf }}" type="button"
-                                                    class="btn btn-outline-primary" data-tt="tooltip"
-                                                    data-placement="top" title="Afastamento"><i class="bi-bandaid"
+                                                    class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Afastamento"><i class="bi-bandaid"
                                                         style="font-size: 1rem;color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-certificados/{{ $listas->idf }}" type="button"
-                                                    class="btn btn-outline-primary" data-tt="tooltip"
-                                                    data-placement="top" title="Certificados"><i class="bi-mortarboard"
+                                                    class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Certificados"><i class="bi-mortarboard"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-acordos/{{ $listas->idf }}" type="button"
-                                                    class="btn btn-outline-primary" data-tt="tooltip"
-                                                    data-placement="top" title="Acordos"><i class="bi bi-pencil-square"
+                                                    class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Acordos"><i class="bi bi-pencil-square"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-base-salarial/{{ $listas->idf }}" type="button"
-                                                    class="btn btn-outline-primary" data-tt="tooltip"
-                                                    data-placement="top" title="Base Salarial"><i
+                                                    class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                    data-bs-placement="top" title="Base Salarial"><i
                                                         class="bi bi-currency-dollar"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <button type="button" class="btn btn-outline-danger"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idp }}"
-                                                    class="btn btn-outline-danger btn-sm"data-tt="tooltip"
-                                                    data-placement="top" title="Excluir"><i class="bi-trash"
+                                                    class="btn btn-outline-danger btn-sm" 
+                                                    data-bs-placement="top" title="Excluir"><i class="bi-trash"
                                                         style="font-size: 1rem; color:#303030;" ></i></button>
-                                                <button type="button" class="btn btn-outline-danger" data-tt="tooltip"
-                                                    data-placement="top" title="Inativar" data-bs-toggle="modal"
+                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip"
+                                                data-bs-placement="top" title="Inativar" data-bs-toggle="modal"
                                                     data-bs-target="#situacao{{ $listas->cpf }}-{{ $listas->idf }}">
                                                     <i class="bi bi-exclamation-circle"
                                                         style="font-size: 1rem; color:#303030;"></i>
@@ -237,7 +240,7 @@
 
     
     <script>
-        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })

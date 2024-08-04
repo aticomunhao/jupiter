@@ -1,5 +1,7 @@
 import './bootstrap';
 
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
 import $ from 'jquery';
 
 import 'select2';
@@ -45,5 +47,17 @@ $(document).ready(function () {
 
     $('#idlimpar').click(function (e) {
         $('#idnome_completo').val("");
+    });
+});
+
+
+//tooltip permitindo um modal junto com o tooltip no mesmo botão
+
+import { Tooltip } from 'bootstrap';
+
+document.addEventListener('DOMContentLoaded', function () {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new Tooltip(tooltipTriggerEl);
     });
 });
