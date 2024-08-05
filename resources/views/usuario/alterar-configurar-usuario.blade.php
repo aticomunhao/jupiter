@@ -218,6 +218,5 @@
 
     <!-- Datatable init js -->
     <script src="{{ URL::asset('/js/pages/datatables.init.js') }}"></script>
-    <script src="{{ URL::asset('/libs/select2/select2.min.js') }}"></script>
     <script src="{{ URL::asset('/js/pages/form-advanced.init.js') }}"></script>
 @endsection

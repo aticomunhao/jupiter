@@ -2,6 +2,8 @@ import './bootstrap';
 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+import 'bootstrap5-toggle/js/bootstrap5-toggle.ecmas';
+
 import $ from 'jquery';
 
 import 'select2';
