@@ -12,6 +12,8 @@ import './custom';
 
 window.$ = window.jQuery = $;
 
+////script de estado com cidade
+
 $(document).ready(function () {
     $('#cidade1, #cidade2, #setorid').select2({
         theme: 'bootstrap-5',
@@ -63,3 +65,44 @@ document.addEventListener('DOMContentLoaded', function () {
         return new Tooltip(tooltipTriggerEl);
     });
 });
+
+//// script controle de vagas
+
+$(document).ready(function() {
+        //Inicializar a variável para manter o estado da tabela selecionada
+        var tabelaSelecionada = "{{ $pesquisa }}";
+
+        //Esconder a tabela que não está selecionada inicialmente
+        if (tabelaSelecionada === 'cargo') {
+            $("#setorTabela").hide();
+        } else {
+            $("#cargoTabela").hide();
+        }
+
+        //Esconder o select que não está selecionado inicialmente
+        if (tabelaSelecionada === 'cargo') {
+            $("#setorSelectContainer").hide();
+        } else {
+            $("#cargoSelectContainer").hide();
+        }
+
+        // Monitorar a mudança nos botões de rádio
+        $("input[type='radio'][name='pesquisa']").change(function() {
+            var pesquisaSelecionada = $(this).val();
+            $("#tipoPesquisa").val(
+                pesquisaSelecionada); // Atualizar o campo hidden com a opção selecionada
+
+            // Esconder a tabela e o select que não estão selecionados
+            if (pesquisaSelecionada === 'cargo') {
+                $("#cargoTabela").show();
+                $("#setorTabela").hide();
+                $("#cargoSelectContainer").show();
+                $("#setorSelectContainer").hide();
+            } else if (pesquisaSelecionada === 'setor') {
+                $("#setorTabela").show();
+                $("#cargoTabela").hide();
+                $("#setorSelectContainer").show();
+                $("#cargoSelectContainer").hide();
+            }
+        });
+    });

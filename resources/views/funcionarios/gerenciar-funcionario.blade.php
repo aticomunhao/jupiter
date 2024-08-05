@@ -139,7 +139,7 @@
                                                     class="btn btn-outline-danger btn-sm" 
                                                     data-bs-placement="top" title="Excluir"><i class="bi-trash"
                                                         style="font-size: 1rem; color:#303030;" ></i></button>
-                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="tooltip"
+                                                <button type="button" class="btn btn-outline-danger"
                                                 data-bs-placement="top" title="Inativar" data-bs-toggle="modal"
                                                     data-bs-target="#situacao{{ $listas->cpf }}-{{ $listas->idf }}">
                                                     <i class="bi bi-exclamation-circle"

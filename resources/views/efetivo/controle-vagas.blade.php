@@ -39,7 +39,7 @@
                                 <div class="col" id="cargoSelectContainer" style="display: none">
                                     <label for="1">Selecione o Cargo Desejado</label>
                                     <br>
-                                    <select id="cargoSelect" class="form-select status select2 pesquisa-select"
+                                    <select id="cargoSelect" class="form-select select2"
                                         name="cargo" multiple=multiple>
                                         <option></option>
                                         @php
@@ -269,64 +269,4 @@
         </div>
     </form>
     
-    
-
-    <head>
-        <style>
-            .select2-container .select2-selection--multiple {
-                min-width: 600px;
-            }
-        </style>
-    </head>
-
-    <script>
-        $(document).ready(function() {
-
-            //Importa o select2 com tema do Bootstrap para a classe "select2"
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-        });
-    </script>
-    <script>
-        $(document).ready(function() {
-            //Inicializar a variável para manter o estado da tabela selecionada
-            var tabelaSelecionada = "{{ $pesquisa }}";
-
-            //Esconder a tabela que não está selecionada inicialmente
-            if (tabelaSelecionada === 'cargo') {
-                $("#setorTabela").hide();
-            } else {
-                $("#cargoTabela").hide();
-            }
-
-            //Esconder o select que não está selecionado inicialmente
-            if (tabelaSelecionada === 'cargo') {
-                $("#setorSelectContainer").hide();
-            } else {
-                $("#cargoSelectContainer").hide();
-            }
-
-            // Monitorar a mudança nos botões de rádio
-            $("input[type='radio'][name='pesquisa']").change(function() {
-                var pesquisaSelecionada = $(this).val();
-                $("#tipoPesquisa").val(
-                    pesquisaSelecionada); // Atualizar o campo hidden com a opção selecionada
-
-                // Esconder a tabela e o select que não estão selecionados
-                if (pesquisaSelecionada === 'cargo') {
-                    $("#cargoTabela").show();
-                    $("#setorTabela").hide();
-                    $("#cargoSelectContainer").show();
-                    $("#setorSelectContainer").hide();
-                } else if (pesquisaSelecionada === 'setor') {
-                    $("#setorTabela").show();
-                    $("#cargoTabela").hide();
-                    $("#setorSelectContainer").show();
-                    $("#cargoSelectContainer").hide();
-                }
-            });
-        });
-    </script>
 @endsection
