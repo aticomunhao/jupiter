@@ -92,9 +92,8 @@
                                             <td scope="" style="text-align: center">
                                                 <a href="/editar-funcionario/{{ $listas->idp }}" type="button"
                                                     class="btn btn-outline-warning" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    title="Editar"><i class="bi-pencil"
-                                                        style="font-size: 1rem; color:#303030;"></i>
+                                                    data-bs-placement="top" title="Editar"><i class="bi-pencil"
+                                                    style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/visualizar-funcionario/{{ $listas->idp }}" type="button"
                                                     class="btn btn-outline-primary" data-bs-toggle="tooltip"
@@ -241,9 +240,13 @@
     
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+<<<<<<< Updated upstream
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+=======
+            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+>>>>>>> Stashed changes
             return new bootstrap.Tooltip(tooltipTriggerEl)
-        })
+            })
     </script>
 
     <style>
