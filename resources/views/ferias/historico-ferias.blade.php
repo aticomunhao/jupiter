@@ -86,7 +86,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
                                 <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                       value="{{ $periodo_de_ferias->nr_dias_per_a }}" readonly>
+                                       value="{{ $periodo_de_ferias->nr_dias_per_a +1}}" readonly>
                             </div>
                         </div>
 
@@ -107,7 +107,7 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="dias_primeiro_periodo_ferias">Dias do 2° Período de Férias:</label>
                                     <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                           value="{{ $periodo_de_ferias->nr_dias_per_b }}" readonly>
+                                           value="{{ $periodo_de_ferias->nr_dias_per_b +1}}" readonly>
                                 </div>
                             </div>
                         @endif
@@ -128,7 +128,7 @@
                                 <div class="col-md-4 mb-3">
                                     <label for="dias_primeiro_periodo_ferias">Dias do 3° Período de Férias:</label>
                                     <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                           value="{{ $periodo_de_ferias->nr_dias_per_c }}" readonly>
+                                           value="{{ $periodo_de_ferias->nr_dias_per_c +1}}" readonly>
                                 </div>
                             </div>
                         @endif
