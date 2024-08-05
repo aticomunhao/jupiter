@@ -5,7 +5,7 @@ import path from 'path';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap5-toggle.ecmas.min.js',
+            input: ['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js',
             ],
             refresh: true,
         }),
