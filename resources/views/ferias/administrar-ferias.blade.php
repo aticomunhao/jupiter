@@ -23,12 +23,19 @@
                                 <div class="col-md-3 col-sm-12">
                                     <h5>Nome do Funcionário</h5>
                                     <input type="text" name="nomefuncionario" id="idnomefuncionario"
+                                    @if($nome_funcionario != null)
+                                    value="{{$nome_funcionario}}"
+                                    @endif
                                         class="form-control">
                                 </div>
                                 <div class="col-md-3 col-sm-12">
                                     <h5>Selecione o Período Aquisitivo</h5>
                                     <select class="form-select" aria-label="Ano" name="anoconsulta" id="idanoconsulta">
-
+                                        @if ($ano_consulta != null)
+                                            <option value="{{ $ano_consulta }}">{{ $ano_consulta }} -
+                                                {{ $ano_consulta + 1 }}
+                                            </option>
+                                        @endif
                                         <option value="">Todos</option>
                                         @foreach ($anos_possiveis as $ano_possivel)
                                             <option value="{{ $ano_possivel->ano_de_referencia }}">
@@ -40,6 +47,11 @@
                                 <div class="col-md-2 col-sm-12">
                                     <h5>Selecione o Setor</h5>
                                     <select class="form-select" aria-label="Ano" name="setorconsulta" id="idsetorconsulta">
+
+                                        @if ($setor != null)
+                                            <option value="{{ $setor->id }}">{{ $setor->sigla }}
+                                            </option>
+                                        @endif
                                         <option value="">Todos</option>
                                         @foreach ($setores_unicos as $setor_unico)
                                             <option value="{{ $setor_unico->id }}">
@@ -52,6 +64,10 @@
                                     <h5>Selecione o Status</h5>
                                     <select class="form-select" aria-label="Ano" name="statusconsulta"
                                         id="idstatusconsulta">
+                                        @if($status_consulta != null)
+                                        <option value="{{$status_consulta->id}}">{{$status_consulta->nome}}</option>
+
+                                        @endif
                                         <option value="">Todos</option>
                                         @foreach ($status_ferias as $id_status_ferias)
                                             <option value="{{ $id_status_ferias->id }}">
@@ -61,14 +77,16 @@
                                     </select>
                                 </div>
                                 <div class="col-md-1 col-sm-12">
-                                    <button type="submit" class="btn btn-submit btn-primary" style="width:100%; margin-top: 20%">Pesquisar</button>
+                                    <button type="submit" class="btn btn-submit btn-primary"
+                                        style="width:100%; margin-top: 20%">Pesquisar</button>
                                 </div>
                         </form>
 
                         <div class="col-md-1">
                             <button type="button" class="btn btn-success" data-bs-toggle="modal"
                                 data-bs-target="#modalCriarFerias"
-                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;margin-top: 20%" data-toggle="tooltip" data-placement="top" title="Texto ao passar o mouse">
+                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;margin-top: 20%"
+                                data-toggle="tooltip" data-placement="top" title="Texto ao passar o mouse">
                                 <i class="bi bi-plus-square"></i>
                             </button>
                         </div>
@@ -172,35 +190,84 @@
                                             <td style="text-align: center">
 
                                                 @if ($periodos_aquisitivos->id_status_pedido_ferias == 4)
-                                                    <a
-                                                        href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
-                                                        <button class="btn btn-outline-success"
-                                                            style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
-                                                            data-placement="top" title="Autorizar Férias"><i
-                                                                class="bi bi-check2"></i>
-                                                        </button>
+                                                    <a href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                        class="btn btn-outline-success"
+                                                        style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
+                                                        data-placement="top" title="Autorizar Férias"><i
+                                                            class="bi bi-check2"></i>
+
                                                     </a>
-                                                    <a
-                                                        href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}">
-                                                        <button class="btn btn-outline-danger"
-                                                            style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
-                                                            data-placement="top" title="Recusar Férias"><i
-                                                                class="bi bi-x"></i>
-                                                        </button>
+                                                    <a href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                        class="btn btn-outline-danger"
+                                                        style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
+                                                        data-placement="top" title="Recusar Férias"><i
+                                                            class="bi bi-x"></i>
+
                                                     </a>
                                                 @else
-                                                    <a href="#" class="disabled" aria-disabled="true">
-                                                        <button class="btn btn-outline-secondary" disabled
-                                                            aria-label="Close">
-                                                            <i class="bi bi-check2"></i>
-                                                        </button>
+                                                    <a class="btn btn-outline-secondary disabled" disabled
+                                                        aria-label="Close">
+                                                        <i class="bi bi-check2"></i>
                                                     </a>
 
-                                                    <a href="#" class="disabled" aria-disabled="true">
-                                                        <button class="btn btn-outline-secondary" disabled
-                                                            aria-label="Close"><i class="bi bi-x"></i>
-                                                        </button>
+
+
+                                                    <a class="btn btn-outline-secondary disabled" disabled
+                                                        aria-label="Close"><i class="bi bi-x"></i>
                                                     </a>
+                                                @endif
+                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
+                                                    <!-- Button trigger modal -->
+
+                                                    <button type="button" class="btn btn-outline-primary"
+                                                        style="font-size: 1rem; color:#0e0b16;" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                        data-bs-placement="top" title="Reabrir Formulário">
+                                                        <i class="bi bi-folder2-open"></i>
+                                                    </button>
+                                                    <div class="modal fade"
+                                                        id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header"
+                                                                    style="background-color: rgb(88, 149, 242)">
+                                                                    <h2 class="modal-title" id="exampleModalLabel"
+                                                                        style="color: #ffffff">
+                                                                        Reabrir
+                                                                        Formulário</h2>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close">
+
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Deseja Reabrir as férias do
+                                                                    funcionario:
+                                                                    <br>
+                                                                    <span
+                                                                        style="font-size: 20px; color: rgb(48, 121, 231)">
+                                                                        {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}
+                                                                    </span>
+                                                                    ?
+                                                                </div>
+                                                                <div class="modal-footer"
+                                                                    style="background-color: #ffffff">
+                                                                    <button type="button" class="btn btn-danger"
+                                                                        data-bs-dismiss="modal">Cancelar
+                                                                    </button>
+                                                                    <a
+                                                                        href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}">
+                                                                        <button type="button" class="btn btn-primary">
+                                                                            Confirmar
+                                                                        </button>
+                                                                    </a>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                                 <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
                                                     class="disabled" aria-disabled="true">
@@ -346,8 +413,13 @@
     </script>-->
 
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#idsetorconsulta').select2();
         });
     </script>
 
