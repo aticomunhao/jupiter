@@ -240,11 +240,7 @@
     
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-<<<<<<< Updated upstream
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-=======
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
->>>>>>> Stashed changes
             return new bootstrap.Tooltip(tooltipTriggerEl)
             })
     </script>

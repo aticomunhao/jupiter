@@ -20,6 +20,21 @@ class ControleFeriasController extends Controller
     public function index(Request $request)
     {
 
+        $mes = [
+            1 => "Janeiro",
+            2 => "Fevereiro",
+            3 => "Março",
+            4 => "Abril",
+            5 => "Maio",
+            6 => "Junho",
+            7 => "Julho",
+            8 => "Agosto",
+            9 => "Setembro",
+            10 => "Outubro",
+            11 => "Novembro",
+            12 => "Dezembro"
+        ];
+
         $ferias = DB::table('ferias AS fe')
             ->leftJoin('status_pedido_ferias AS stf', 'fe.status_pedido_ferias', 'stf.id')
             ->leftJoin('funcionarios AS f', 'fe.id_funcionario', 'f.id')
@@ -52,24 +67,17 @@ class ControleFeriasController extends Controller
                 'fe.vendeu_ferias AS vendeu_ferias',
                 'fe.dt_inicio_periodo_de_licenca AS dt_inicio_gozo',
                 'fe.dt_fim_periodo_de_licenca AS dt_fim_gozo',
-            )
-            ->orderBy('nome_completo')
-            ->paginate(19);
+            );
+            
+            $setor = $request->setor;
 
-            $mes = [
-                1 => "Janeiro",
-                2 => "Fevereiro",
-                3 => "Março",
-                4 => "Abril",
-                5 => "Maio",
-                6 => "Junho",
-                7 => "Julho",
-                8 => "Agosto",
-                9 => "Setembro",
-                10 => "Outubro",
-                11 => "Novembro",
-                12 => "Dezembro"
-            ];
+            if ($request->setor){
+                $ferias->where('id_setor', $request->setor);
+            }
+  
+            $ferias = $ferias->orderBy('nome_completo')->paginate(19);
+
+           
 
             $ano = DB::table('ferias AS fe')
             ->select('fe.ano_de_referencia AS ano_de_referencia')
