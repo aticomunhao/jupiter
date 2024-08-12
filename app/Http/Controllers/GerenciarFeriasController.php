@@ -38,6 +38,9 @@ class GerenciarFeriasController extends Controller
                 'status_pedido_ferias.nome as status_pedido_ferias',
                 'funcionarios.id_setor'
             )->whereIn('funcionarios.id_setor', session('usuario.setor'));
+        $ano_consulta = null;
+        $nome_funcionario = null;
+        $status_consulta = null;
 
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $status_ferias = DB::table('status_pedido_ferias');
@@ -46,16 +49,17 @@ class GerenciarFeriasController extends Controller
         if ($request->input('anoconsulta')) {
             $ano_referente = $request->input('anoconsulta');
             $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia', '=', $ano_referente);
+            $ano_consulta = $request->input('anoconsulta');
         }
         if ($request->input('nomefuncionario')) {
             $nome_funcionario = $request->input('nomefuncionario');
             $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
+            $nome_funcionario = $request->input('nomefuncionario');
         }
         if ($request->input('statusconsulta')) {
             $status_consulta = $request->input('statusconsulta');
             $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $status_consulta);
-            $status_consulta_atual = DB::table('status_pedido_ferias')->where('id', '=', $status_consulta)->first();
-
+            $status_consulta = DB::table('status_pedido_ferias')->where('id', '=', $status_consulta)->first();
         }
 
         $ano_consulta = $request->input('anoconsulta');
@@ -245,24 +249,38 @@ class GerenciarFeriasController extends Controller
                     's.id as id_do_setor'
                 )
                 ->orderBy('nome_completo_funcionario');
+            $ano_consulta = null;
+            $nome_funcionario = null;
+            $status_consulta = null;
+            $setor = null;
 
-            $nome_funcionario = $request->input('nomefuncionario');
-            $ano_referente = $request->input('anoconsulta');
-            $setor = $request->input('setorconsulta');
-            $status_consulta = $request->input('statusconsulta');
+            $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
+            $status_ferias = DB::table('status_pedido_ferias');
+            $status_consulta_atual = null; // Inicialize a variável com valor padrão
 
-            if ($request->input('nomefuncionario')) {
-                $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
-            }
             if ($request->input('anoconsulta')) {
+                $ano_referente = $request->input('anoconsulta');
                 $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia', '=', $ano_referente);
+                $ano_consulta = $request->input('anoconsulta');
             }
-            if ($request->input('setorconsulta')) {
-                $periodo_aquisitivo = $periodo_aquisitivo->where('s.id', 'ilike', '%' . $setor . '%');
+            if ($request->input('nomefuncionario')) {
+                $nome_funcionario = $request->input('nomefuncionario');
+                $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
+                $nome_funcionario = $request->input('nomefuncionario');
             }
             if ($request->input('statusconsulta')) {
+                $status_consulta = $request->input('statusconsulta');
                 $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $status_consulta);
+                $status_consulta = DB::table('status_pedido_ferias')->where('id', '=', $status_consulta)->first();
             }
+            if ($request->input('setorconsulta')) {
+                $setor = $request->input('setorconsulta');
+                $periodo_aquisitivo = $periodo_aquisitivo->where('s.id', '=', $setor);
+                $setor = DB::table('setor')->where('id', '=', $setor)->first();
+
+            }
+
+            $nome_funcionario = $request->input('nomefuncionario');
 
 
             // $setores_unicos = $periodo_aquisitivo->map(function ($item) {
@@ -272,8 +290,6 @@ class GerenciarFeriasController extends Controller
             //    ]//;
             // })->unique('id_do_setor')->values();
             $setores_unicos = DB::table('setor')->get();
-
-
             $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
             $anos_inicial = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->first();
             $anos_final = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->orderBy('ano_de_referencia', 'desc')->first();
@@ -289,7 +305,18 @@ class GerenciarFeriasController extends Controller
             $listaAnos = range($anoAnterior, $doisAnosFrente);
             $periodo_aquisitivo = $periodo_aquisitivo->get();
 
-            return view('ferias.administrar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'listaAnos', 'ano_referente', 'setores_unicos', 'status_ferias','nome_funcionario','ano_referente', 'setor','periodo_aquisitivo'));
+
+            return view('ferias.administrar-ferias', compact('periodo_aquisitivo',
+                'anos_possiveis',
+                'listaAnos',
+                'ano_consulta',
+                'setores_unicos',
+                'status_ferias',
+                'nome_funcionario',
+                'ano_referente',
+                'setor',
+                'periodo_aquisitivo',
+                'status_consulta'));
         } catch (Exception $exception) {
             DB::rollBack();
             app('flasher')->addError($exception->getMessage());
@@ -439,7 +466,7 @@ class GerenciarFeriasController extends Controller
             $data_fim_segundo_periodo = Carbon::parse($formulario_de_ferias["data_fim_1"]);
             $dia_da_semana_de_saida_do_primeiro_periodo = Carbon::parse($data_inicio_primeiro_periodo)->dayOfWeek;
             $dia_da_semana_de_saida_do_segundo_periodo = Carbon::parse($data_inicio_segundo_periodo)->dayOfWeek;
-            $dias_de_ferias_utilizadas = $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 2;
+            $dias_de_ferias_utilizadas = ($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1) + ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1);
 
             // Verifica se a data inicial do primeiro período é maior que a data final do primeiro período
             if ($data_inicio_primeiro_periodo > $data_fim_primeiro_periodo) {
@@ -473,10 +500,10 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addError('O Segundo Período inicia durante o Primeiro Período e termina antes do seu término');
             } //Verifica se o funcionario usou o seu tempo de ferias corretamente para menos
             elseif ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
-                app('flasher')->addError('Ainda não utilizou todos os dias de férias. Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) . 'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo período');
+                app('flasher')->addError('Ainda não utilizou todos os dias de férias. Utilizou:' . ($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1) . 'no primeiro período.<br> E ' . ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1) . ' no segundo período');
             } //Verifica se o funcionario utilizou dias a mais
             elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
-                app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) . 'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) . ' no segundo período');
+                app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . ($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1) . 'no primeiro período.<br> E ' . ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1) . ' no segundo período');
             } //Verifica se a data inicia do primeiro periodo de ferias ocorre em uma sexta-feira
             elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
@@ -562,10 +589,10 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addError('A Data Final do Terceiro Período entra em conflito com o Segundo Período');
             } //Verifica se o funcionario utilizou dias a mais
             elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
-                app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 . 'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' . $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro período");
+                app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . ($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1) . 'no primeiro período.<br> E ' . ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1) . ' no segundo . <br>' . ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) . " no terceiro período");
             } //Verifica se o funcionario utililizou dias a menos
             elseif ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
-                app('flasher')->addError('Ainda não utilizou todos os dias de ferías. <br> Utilizou:' . $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1 . 'no primeiro período.<br> E ' . $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1 . ' no segundo . <br>' . $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1 . " no terceiro período");
+                app('flasher')->addError('Ainda não utilizou todos os dias de ferías. <br> Utilizou:' . ($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1) . 'no primeiro período.<br> E ' . ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1) . ' no segundo . <br>' . ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) . " no terceiro período");
             } //Verifica se o primeiro periodo ocore em uma sexta
             elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
                 app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
