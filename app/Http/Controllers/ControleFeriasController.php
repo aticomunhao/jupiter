@@ -20,20 +20,11 @@ class ControleFeriasController extends Controller
     public function index(Request $request)
     {
 
-        $mes = [
-            1 => "Janeiro",
-            2 => "Fevereiro",
-            3 => "Março",
-            4 => "Abril",
-            5 => "Maio",
-            6 => "Junho",
-            7 => "Julho",
-            8 => "Agosto",
-            9 => "Setembro",
-            10 => "Outubro",
-            11 => "Novembro",
-            12 => "Dezembro"
-        ];
+
+
+
+
+
 
         $ferias = DB::table('ferias AS fe')
             ->leftJoin('status_pedido_ferias AS stf', 'fe.status_pedido_ferias', 'stf.id')
@@ -58,6 +49,7 @@ class ControleFeriasController extends Controller
                 's.nome AS nome_setor',
                 'c.nome AS nome_cargo',
                 's.sigla AS sigla_setor',
+                's.id AS idSetor',
                 'fe.dt_ini_a AS dt_ini_a',
                 'fe.dt_fim_a AS dt_fim_a',
                 'fe.dt_ini_b AS dt_ini_b',
@@ -68,30 +60,56 @@ class ControleFeriasController extends Controller
                 'fe.dt_inicio_periodo_de_licenca AS dt_inicio_gozo',
                 'fe.dt_fim_periodo_de_licenca AS dt_fim_gozo',
             );
-            
-            $setor = $request->setor;
 
-            if ($request->setor){
-                $ferias->where('id_setor', $request->setor);
-            }
-  
-            $ferias = $ferias->orderBy('nome_completo')->paginate(19);
+        $setore = $request->setor;
+        $mes = $request->mes;
+        $ano = $request->ano;
+        //dd($setore);
 
-           
+        if ($request->setor) {
+            $ferias->where('s.id', $setore);
+        }
+        if ($request->mes) {
+            $ferias->whereMonth('fe.dt_inicio_periodo_de_licenca', $mes);
+        }
+        if ($request->ano) {
+            $ferias->where('fe.ano_de_referencia', $ano);
+        }
 
-            $ano = DB::table('ferias AS fe')
+        $ferias = $ferias->orderBy('nome_completo')->paginate(19);
+
+        $ano = DB::table('ferias AS fe')
             ->select('fe.ano_de_referencia AS ano_de_referencia')
             ->orderBy('ano_de_referencia')
             ->distinct()
             ->get();
 
-            $setor = DB::table('setor AS s')
-            ->select('s.nome AS nome_setor')
-            ->orderBy('nome_setor')
+        $setor = DB::table('setor AS s')
+            ->select(
+                's.nome AS nome_setor',
+                's.id AS idSetor',
+            )
+            ->orderBy('nome_setor',)
             ->distinct()
             ->get();
+            //dd($setor);
 
-            //dd($mes);
+        $mes = [
+            1 => "Janeiro",
+            2 => "Fevereiro",
+            3 => "Março",
+            4 => "Abril",
+            5 => "Maio",
+            6 => "Junho",
+            7 => "Julho",
+            8 => "Agosto",
+            9 => "Setembro",
+            10 => "Outubro",
+            11 => "Novembro",
+            12 => "Dezembro"
+        ];
+
+        //dd($ano);
 
 
         return view('ferias.controle-ferias', compact('ferias', 'mes', 'ano', 'setor'));

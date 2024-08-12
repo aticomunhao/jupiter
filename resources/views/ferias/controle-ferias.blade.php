@@ -25,9 +25,8 @@
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
                                             @foreach ($setor as $setors)
-                                                <option value="{{ $setors->nome_setor }}"
-                                                    {{ $setors->nome_setor ? 'selected' : '' }}>
-                                                    {{ $setors->nome_setor }}
+                                                <option value="{{ $setors->idSetor }}">
+                                                    {{ $setors->nome_setor}}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -37,7 +36,7 @@
                                         <select id="idmes" class="form-select select2" name="mes">
                                             <option></option>
                                             @foreach ($mes as $meses => $nome)
-                                                <option value="{{ $meses }}" {{ $meses ? 'selected' : '' }}>
+                                                <option value="{{ $meses }}">
                                                     {{ $nome }}
                                                 </option>
                                             @endforeach
@@ -48,8 +47,7 @@
                                         <select id="idano" class="form-select select2" name="ano">
                                             <option></option>
                                              @foreach ($ano as $anos)
-                                        <option value="{{ $anos->ano_de_referencia + 1 }}"
-                                            {{ $anos->ano_de_referencia + 1 ? 'selected' : '' }}>
+                                        <option value="{{ $anos->ano_de_referencia + 1 }}">
                                             {{ $anos->ano_de_referencia + 1 }}
                                         </option>
                                         @endforeach
@@ -166,8 +164,8 @@
             </div>
         </div>
     </form>
-    
-    
+
+
 
     <script>
         $(document).ready(function() {
