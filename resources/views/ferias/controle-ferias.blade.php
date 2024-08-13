@@ -32,7 +32,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md col-sm-12">
-                                        <label for="1">Selecione o mês Desejado</label>
+                                        <label for="1">Selecione o mês do Limite de Gozo Desejado</label>
                                         <select id="idmes" class="form-select select2" name="mes">
                                             <option></option>
                                             @foreach ($mes as $meses => $nome)
@@ -43,12 +43,12 @@
                                         </select>
                                     </div>
                                     <div class="col-md col-sm-12" ">
-                                        <label for="1">Selecione o Ano Desejado</label>
+                                        <label for="1">Selecione o Ano de Referência Desejado</label>
                                         <select id="idano" class="form-select select2" name="ano">
                                             <option></option>
                                              @foreach ($ano as $anos)
-                                        <option value="{{ $anos->ano_de_referencia + 1 }}">
-                                            {{ $anos->ano_de_referencia + 1 }}
+                                        <option value="{{ $anos->ano_de_referencia}}">
+                                            {{ $anos->ano_de_referencia + 1  }}
                                         </option>
                                         @endforeach
                                         </select>
