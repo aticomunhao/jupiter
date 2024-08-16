@@ -754,7 +754,7 @@ class GerenciarFuncionarioController extends Controller
             ->leftJoin('funcionarios AS f', 'f.id_pessoa', 'p.id')
             ->where('f.id', $idf)
             ->update([
-                'status' => 0
+                'status' => 2
             ]);
 
 
