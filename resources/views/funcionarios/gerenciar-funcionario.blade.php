@@ -38,11 +38,12 @@
                                         <select class="form-select custom-select"
                                             style="border: 1px solid #999999; padding: 5px;" id="4" name="status"
                                             type="number">
-                                            <option value="">Todos</option>
+                                            <option value="">Todos</option> <!-- Opção 'Todos' com valor vazio -->
                                             <option value="1">Ativo</option>
-                                            <option value="2">Inativo</option>
+                                            <option value="0">Inativo</option>
                                         </select>
                                     </div>
+
                                     <div class="col" style="margin-top: 20px">
                                         <a href="/gerenciar-funcionario" class="btn btn-light btn-sm"
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
@@ -136,7 +137,7 @@
                                                 <button type="button" class="btn btn-outline-danger"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idp }}"
-                                                    class="btn btn-outline-danger btn-sm" 
+                                                    class="btn btn-outline-danger btn-sm"
                                                     data-bs-placement="top" title="Excluir"><i class="bi-trash"
                                                         style="font-size: 1rem; color:#303030;" ></i></button>
                                                 <button type="button" class="btn btn-outline-danger"
@@ -237,7 +238,7 @@
     </div>
 
 
-    
+
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {

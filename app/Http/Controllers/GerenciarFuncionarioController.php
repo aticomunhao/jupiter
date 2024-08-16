@@ -44,9 +44,10 @@ class GerenciarFuncionarioController extends Controller
         if ($request->idt) {
             $lista->where('p.idt', '=', $request->idt);
         }
-
-        if ($request->status) {
-            $lista->where('p.status', '=', $request->status);
+        if ($request->status === '1') {
+            $lista->where('status', 1);
+        } elseif ($request->status === '0') {
+            $lista->where('status', 0); 
         }
 
         if ($request->nome) {
@@ -754,7 +755,7 @@ class GerenciarFuncionarioController extends Controller
             ->leftJoin('funcionarios AS f', 'f.id_pessoa', 'p.id')
             ->where('f.id', $idf)
             ->update([
-                'status' => 2
+                'status' => 0
             ]);
 
 
