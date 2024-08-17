@@ -47,14 +47,14 @@ class GerenciarFuncionarioController extends Controller
         if ($request->status === '1') {
             $lista->where('status', 1);
         } elseif ($request->status === '0') {
-            $lista->where('status', 0); 
+            $lista->where('status', 0);
         }
 
         if ($request->nome) {
             $lista->where('p.nome_completo', 'ilike', '%' . $request->nome . '%');
         }
 
-        $lista = $lista->orderBy('p.status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
+        $lista = $lista->orderBy('p.status', 'desc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
         $situacao = DB::table('tp_demissao')
             ->select(
