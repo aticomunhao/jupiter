@@ -185,15 +185,33 @@ class GerenciarFeriasController extends Controller
         $dia_do_ultimo_ano = Carbon::createFromDate($ano_referencia, 12, 31)->toDateString();
 
 
-        $funcionarios = DB::table('funcionarios')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->where('dt_inicio', '<', $dia_do_ultimo_ano)->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'funcionarios.dt_inicio as data_de_inicio', 'pessoas.nome_completo')->get();
+        $funcionarios = DB::table('funcionarios')
+            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->where('dt_inicio', '<', $dia_do_ultimo_ano)
+            ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'funcionarios.dt_inicio as data_de_inicio', 'pessoas.nome_completo')
+            ->get();
 
+        $datas_de_inicio_funcionario = DB::table('acordo')
+            ->whereNull('dt_fim')
+            ->select('id_funcionario', 'dt_inicio')
+            ->get();
+        dd($datas_de_inicio_funcionario);
 
+        foreach ($funcionarios as $funcionario) {
+            foreach ($datas_de_inicio_funcionario as $data) {
+                if ($data->id_funcionario == $funcionario->id) {
+                    $funcionario->dt_inicio_acordo = $data->dt_inicio;
+                }
+            }
+        }
+
+        dd($funcionarios);
         foreach ($funcionarios as $funcionario) {
             $periodo_de_ferias_do_funcionario = DB::table('ferias')->where('id_funcionario', '=', $funcionario->id_funcionario)->where('ano_de_referencia', '=', $ano_referencia)->first();
 
             if (empty($periodo_de_ferias_do_funcionario)) {
                 $dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
-                $data_inicio = Carbon::parse($funcionario->data_de_inicio);
+                $data_inicio = Carbon::parse($funcionario->dt_inicio_acordo);
                 $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->toDateString();
                 $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia + 1)->subDay()->toDateString();
                 $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;

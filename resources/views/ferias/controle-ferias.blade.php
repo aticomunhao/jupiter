@@ -42,13 +42,24 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md col-sm-12" ">
-                                        <label for="1">Selecione o Ano de Referência Desejado</label>
+                                    <div class="col-md col-sm-12">
+                                        <label for="1">Selecione o mês do Periodo de Ferias</label>
+                                        <select id="idmes" class="form-select select2" name="mes_gozo_ferias">
+                                            <option></option>
+                                            @foreach ($mes as $meses => $nome)
+                                                <option value="{{ $meses }}">
+                                                    {{ $nome }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md col-sm-12">
+                                        <label for="1">Selecione o Periodo Aquisitivo</label>
                                         <select id="idano" class="form-select select2" name="ano">
                                             <option></option>
                                              @foreach ($ano as $anos)
                                         <option value="{{ $anos->ano_de_referencia}}">
-                                            {{ $anos->ano_de_referencia + 1  }}
+                                            {{ $anos->ano_de_referencia  }} -  {{ $anos->ano_de_referencia +1 }}
                                         </option>
                                         @endforeach
                                         </select>

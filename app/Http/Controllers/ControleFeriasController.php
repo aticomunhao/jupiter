@@ -21,11 +21,6 @@ class ControleFeriasController extends Controller
     {
 
 
-
-
-
-
-
         $ferias = DB::table('ferias AS fe')
             ->leftJoin('status_pedido_ferias AS stf', 'fe.status_pedido_ferias', 'stf.id')
             ->leftJoin('funcionarios AS f', 'fe.id_funcionario', 'f.id')
@@ -64,10 +59,16 @@ class ControleFeriasController extends Controller
         $setore = $request->setor;
         $mes = $request->mes;
         $ano = $request->ano;
+        $mes_gozo_ferias = $request->input('mes_gozo_ferias');
         //dd($setore);
 
         if ($request->setor) {
             $ferias->where('s.id', $setore);
+        }
+        if ($request->input('mes_gozo_ferias')) {
+            $ferias->whereMonth('fe.dt_ini_a', '=', $mes_gozo_ferias)
+                ->orWhereMonth('fe.dt_ini_b', '=', $mes_gozo_ferias)
+                ->orWhereMonth('fe.dt_ini_c', '=', $mes_gozo_ferias);
         }
         if ($request->mes) {
             $ferias->whereMonth('fe.dt_inicio_periodo_de_licenca', $mes);
@@ -92,7 +93,7 @@ class ControleFeriasController extends Controller
             ->orderBy('nome_setor',)
             ->distinct()
             ->get();
-            //dd($setor);
+        //dd($setor);
 
         $mes = [
             1 => "Janeiro",
