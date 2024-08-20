@@ -25,7 +25,7 @@
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             @if ($setor_selecionado != null)
                                                 <option
-                                                    value="{{$setor_selecionado->id}}">{{$setor_selecionado->nome}}</option>
+                                                        value="{{$setor_selecionado->id}}">{{$setor_selecionado->nome}}</option>
                                             @endif
                                             <option value="">Todos</option>
 
@@ -41,7 +41,7 @@
                                         <select id="idmes" class="form-select select2" name="mes">
                                             @if ($mes_selecionado != null)
                                                 <option
-                                                    value="{{$mes_selecionado['indice']}}">{{$mes_selecionado['nome']}}</option>
+                                                        value="{{$mes_selecionado['indice']}}">{{$mes_selecionado['nome']}}</option>
                                             @endif
                                             <option value="">Todos</option>
 
@@ -71,6 +71,11 @@
                                     <div class="col-md col-sm-12">
                                         <label for="1">Selecione o Periodo Aquisitivo</label>
                                         <select id="idano" class="form-select select2" name="ano">
+                                            @if($ano_selecionado != null)
+                                                <option value="{{ $ano_de_referencia}}">
+                                                    {{ $ano_de_referencia  }} - {{ $ano_de_referencia + 1 }}
+                                                </option>
+                                            @endif
                                             <option value="">Todos</option>
                                             @foreach ($ano as $anos)
                                                 <option value="{{ $anos->ano_de_referencia}}">
@@ -94,7 +99,7 @@
                                 <hr>
                                 <div class="table" style="padding-top:20px">
                                     <table
-                                        class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
+                                            class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                         <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size: 0.7rem; color:#000000;">
                                             <th class="col-md-2">NOME DO EMPREGADO</th>
