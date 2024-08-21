@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('head')
-    <title>Gerenciar Acordos</title>
+    <title>Gerenciar Contratos</title>{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
 @endsection
 @section('content')
-   
+
     <div class="container-fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
             <div class="col-12">
@@ -12,8 +12,9 @@
                     <div class="card-header">
                         <div class="ROW">
                             <h5 class="col-12" style="color: #355089">
-                                Gerenciar Acordos
+                                Gerenciar Contratos
                             </h5>
+                            {{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
                         </div>
                     </div>
                     <div class="card-body">
@@ -36,11 +37,11 @@
                                     <thead style="text-align: center;"> {{-- Text-align gera responsividade abaixo de Large --}}
                                         <tr class="align-middle"
                                             style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-2">Tipo de Acordo</th>
+                                            <th class="col-2">Tipo de Contrato</th>{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
                                             <th class="col-2">Data de Inicio</th>
-                                            <th class="col-1">Valido</th>
+                                            <th class="col-1">Matrícula</th>
                                             <th class="col-2">Data de Fim</th>
-                                            <th class="col-3">Observações</th>
+                                            <th class="col-3">Motivo Desligamento</th>
                                             <th class="col-2">Ações</th>
                                         </tr>
                                     </thead>
@@ -53,19 +54,19 @@
                                                 </td>
                                                 {{-- data de inicio --}}
                                                 <td style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($acordo->data_inicio)->format('d/m/Y') }}
+                                                    {{ \Carbon\Carbon::parse($acordo->dt_inicio)->format('d/m/Y') }}
                                                 </td>
                                                 {{-- Se é válido --}}
                                                 <td style="text-align: center">
-                                                    {{ $acordo->valido }}
+                                                    {{ $acordo->matricula }}
                                                 </td>
                                                 {{-- data de fim --}}
                                                 <td style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($acordo->data_fim)->format('d/m/Y') }}
+                                                    {{ \Carbon\Carbon::parse($acordo->dt_fim)->format('d/m/Y') }}
                                                 </td>
                                                 {{-- Observação --}}
                                                 <td style="text-align: center">
-                                                    {{ $acordo->observacao }}
+                                                    {{ $acordo->motivo}}
                                                 </td>
                                                 {{--  Área de ações  --}}
                                                 <td style="text-align: center">
