@@ -71,6 +71,7 @@
                                     <div class="col-md col-sm-12">
                                         <label for="1">Selecione o Periodo Aquisitivo</label>
                                         <select id="idano" class="form-select select2" name="ano">
+
                                             @if($ano_selecionado != null)
                                                 <option value="{{ $ano_selecionado}}">
                                                     {{ $ano_selecionado  }} - {{ $ano_selecionado+ 1 }}

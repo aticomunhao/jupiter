@@ -259,10 +259,9 @@ class UsuarioController extends Controller
 
     public function inserirUsuario($request, $senha_inicial)
     {
-        try{
+       
             $ativo = isset($request->ativo) ? 1 : 0;
             $bloqueado = isset($request->bloqueado) ? 1 : 0;
-
             DB::table('usuario')->insert([
                 'id_pessoa' => $request->input('idPessoa'),
                 'ativo' => $ativo,
@@ -271,12 +270,7 @@ class UsuarioController extends Controller
                 'bloqueado' => $bloqueado,
                 'hash_senha' => $senha_inicial,
             ]);
-        }
-        catch(\Exception $e){
 
-            $code = $e->getCode( );
-            return view('administrativo-erro.erro-inesperado', compact('code'));
-        }
     }
 
     public function excluirUsuarioPerfis($idPessoa)
