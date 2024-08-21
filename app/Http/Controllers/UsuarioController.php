@@ -259,14 +259,14 @@ class UsuarioController extends Controller
 
     public function inserirUsuario($request, $senha_inicial)
     {
-       
+
             $ativo = isset($request->ativo) ? 1 : 0;
             $bloqueado = isset($request->bloqueado) ? 1 : 0;
             DB::table('usuario')->insert([
                 'id_pessoa' => $request->input('idPessoa'),
                 'ativo' => $ativo,
-                'data_criacao' => date('m-d-Y'),
-                'data_ativacao' => date('m-d-Y'),
+                'data_criacao' => date('Y-m-d'),
+                'data_ativacao' => date('Y-m-d'),
                 'bloqueado' => $bloqueado,
                 'hash_senha' => $senha_inicial,
             ]);
