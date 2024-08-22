@@ -3,12 +3,11 @@
 @section('title') Gerenciar Setor @endsection
 
 @section('content')
-<
 <div class="container-fluid">
     <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">GERENCIAR SETOR</h4>
     <div class="col-12">
         <div class="row justify-content-center">
-            <form action="/gerenciar-setor" class="form-horizontal mt-4" method="GET">
+            <form action="/gerenciar-setor-usuario" class="form-horizontal mt-4" method="GET">
                 <div class="row">
                     <div class="col-3">Nome
                         <input class="form-control" type="text" id="nome_pesquisa" name="nome_pesquisa" placeholder="Pesquisar nome" value="{{ request('nome_pesquisa') }}">
