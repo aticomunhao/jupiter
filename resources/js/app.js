@@ -106,3 +106,23 @@ $(document).ready(function () {
         }
     });
 });
+
+
+
+//filtro do editar usuario
+$(document).ready(function() {
+    function removeAcentos(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    }
+
+    $("#nome_pesquisa").on("keyup", function() {
+        var value = removeAcentos($(this).val());
+        console.log(value);
+        $("#myTable tr").filter(function() {
+            var text = removeAcentos($(this).text());
+            $(this).toggle(text.indexOf(value) > -1);
+        });
+    });
+});
+
+

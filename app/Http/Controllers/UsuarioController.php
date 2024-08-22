@@ -68,7 +68,8 @@ class UsuarioController extends Controller
                 $result->where('p.cpf', 'ilike', "%$request->cpf%");
             }
 
-            $result = $result->get();
+            $result = $result->paginate(10);
+            //dd($result);
 
 
             return view('usuario/gerenciar-usuario', compact('result'));
@@ -93,7 +94,7 @@ class UsuarioController extends Controller
                 $result = $result->where('cpf', 'ilike', "%$request->cpf%");
             }
 
-            $result = $result->get();  // Use get() to execute the query
+            $result = $result->paginate(10);  // Use get() to execute the query
 
 
             return view('usuario/incluir-usuario', compact('result'));

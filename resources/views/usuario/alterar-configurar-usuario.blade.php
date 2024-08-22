@@ -5,10 +5,9 @@
 @endsection
 
 @section('content')
-
     <br>
     <div class="container">
-        <form class="form-horizontal mt-4" method="POST" action="/usuario-atualizar/{{$resultUsuario[0]->id}}">
+        <form class="form-horizontal mt-4" method="POST" action="/usuario-atualizar/{{ $resultUsuario[0]->id }}">
             @csrf
             <div class="row justify-content-center">
                 <div class="col-12">
@@ -84,10 +83,10 @@
                                             <td>
 
                                                 <input id="{{ $resultPerfils->nome }}" type="checkbox"
-                                                    name="{{ $resultPerfils->nome}}"
-                                                    value="{{ $resultPerfils->id }}" data-size="small" data-size="small"
-                                                    data-toggle="toggle" data-onstyle="success" data-offstyle="danger"
-                                                    data-onlabel="Sim" data-offlabel="Não"
+                                                    name="{{ $resultPerfils->nome }}" value="{{ $resultPerfils->id }}"
+                                                    data-size="small" data-size="small" data-toggle="toggle"
+                                                    data-onstyle="success" data-offstyle="danger" data-onlabel="Sim"
+                                                    data-offlabel="Não"
                                                     {{ in_array($resultPerfils->id, $resultPerfisUsuarioArray) ? 'checked' : '' }}>
                                             </td>
                                         </tr>
@@ -190,33 +189,13 @@
                                 </center>
                             </div>
                         </div>
+                        {{-- <div style="margin-right: 10px; margin-left: 10px">
+                            {{ $resultSetor->appends(request()->input())->links('pagination::bootstrap-5') }}
+                        </div> --}}
                     </div>
                 </div>
             </div>
 
         </form>
     </div>
-
-    <script>
-        $(document).ready(function() {
-            $("#nome_pesquisa").on("keyup", function() {
-                var value = $(this).val().toLowerCase();
-                console.log(value)
-                $("#myTable tr").filter(function() {
-                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                });
-            });
-        });
-    </script>
-@endsection
-
-@section('footerScript')
-    <!-- Required datatable js -->
-    <script src="{{ URL::asset('/libs/datatables/datatables.min.js') }}"></script>
-    <script src="{{ URL::asset('/libs/jszip/jszip.min.js') }}"></script>
-    <script src="{{ URL::asset('/libs/pdfmake/pdfmake.min.js') }}"></script>
-
-    <!-- Datatable init js -->
-    <script src="{{ URL::asset('/js/pages/datatables.init.js') }}"></script>
-    <script src="{{ URL::asset('/js/pages/form-advanced.init.js') }}"></script>
 @endsection
