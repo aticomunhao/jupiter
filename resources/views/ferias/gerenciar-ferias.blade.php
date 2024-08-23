@@ -55,9 +55,9 @@
                                         <label for="idanoconsulta" class="form-label">Selecione o Status</label>
                                         <select class="form-select" id="idstatusconsulta" name="statusconsulta">
                                             @if($status_consulta_atual)
-                                            <option value="{{ $status_consulta_atual->id }}">
-                                                {{ $status_consulta_atual->nome }}
-                                            </option>
+                                                <option value="{{ $status_consulta_atual->id }}">
+                                                    {{ $status_consulta_atual->nome }}
+                                                </option>
                                             @endif
                                             <option value="">Todos</option>
 
@@ -108,10 +108,9 @@
                                         </thead>
                                         <tbody id="idtable">
                                         @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
-                                            <tr>
-                                                <td style="text-align: center">
-                                                    @if (
-                                                        $periodos_aquisitivos->id_status_pedido_ferias == 3 or
+                                            <tr @if($periodos_aquisitivos->em_conflito) class="table-warning" @endif>
+                                                <td style="text-align:center">
+                                                    @if (                                                        $periodos_aquisitivos->id_status_pedido_ferias == 3 or
                                                             $periodos_aquisitivos->id_status_pedido_ferias == 5 or
                                                             $periodos_aquisitivos->id_status_pedido_ferias == 1)
                                                         <input class="form-check-input checkbox-trigger" type="checkbox"
@@ -253,7 +252,7 @@
     </div>
     </div>
     </div>
-    
+
 
 
     <script>

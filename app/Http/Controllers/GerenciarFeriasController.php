@@ -11,11 +11,11 @@ use Illuminate\Support\Facades\DB;
 
 class GerenciarFeriasController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    // Adicione isso no topo do seu arquivo se ainda não estiver incluído
+
     public function index(Request $request)
     {
+        // Recupera os registros de férias com as devidas junções
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
@@ -37,46 +37,114 @@ class GerenciarFeriasController extends Controller
                 'status_pedido_ferias.id as id_status_pedido_ferias',
                 'status_pedido_ferias.nome as status_pedido_ferias',
                 'funcionarios.id_setor'
-            )->whereIn('funcionarios.id_setor', session('usuario.setor'));
+            )
+            ->whereIn('funcionarios.id_setor', session('usuario.setor'));
         $ano_consulta = null;
         $nome_funcionario = null;
-        $status_consulta = null;
+        $status_consulta_atual = null;
 
-        $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
-        $status_ferias = DB::table('status_pedido_ferias');
-        $status_consulta_atual = null; // Inicialize a variável com valor padrão
-
+        // Filtros
         if ($request->input('anoconsulta')) {
             $ano_referente = $request->input('anoconsulta');
-            $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia', '=', $ano_referente);
-            $ano_consulta = $request->input('anoconsulta');
+            $periodo_aquisitivo->where('ferias.ano_de_referencia', $ano_referente);
+            $ano_consulta = $ano_referente;
         }
         if ($request->input('nomefuncionario')) {
             $nome_funcionario = $request->input('nomefuncionario');
-            $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
-            $nome_funcionario = $request->input('nomefuncionario');
+            $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
+            $nome_funcionario = $nome_funcionario;
         }
         if ($request->input('statusconsulta')) {
             $status_consulta = $request->input('statusconsulta');
-            $periodo_aquisitivo = $periodo_aquisitivo->where('status_pedido_ferias.id', '=', $status_consulta);
-            $status_consulta = DB::table('status_pedido_ferias')->where('id', '=', $status_consulta)->first();
+            $periodo_aquisitivo->where('status_pedido_ferias.id', $status_consulta);
+            $status_consulta_atual = DB::table('status_pedido_ferias')->where('id', $status_consulta)->first();
         }
 
-        $ano_consulta = $request->input('anoconsulta');
-        $nome_funcionario = $request->input('nomefuncionario');
         $periodo_aquisitivo = $periodo_aquisitivo->get();
-        $status_ferias = $status_ferias->get();
+
+        // Verifica conflitos de períodos
+        foreach ($periodo_aquisitivo as $p1) {
+            $p1->em_conflito = false;
+            foreach ($periodo_aquisitivo as $p2) {
+                // Verifique se as datas de $p2 não são nulas e se $p1 tem datas válidas
+                if ($p1->id_ferias != $p2->id_ferias && $this->hasValidDates($p1) && $this->hasValidDates($p2)) {
+                    // Verifique conflitos para todos os períodos de $p1
+                    if ($this->hasDateConflict($p1, $p2)) {
+                        $p1->em_conflito = true;
+                        break; // Se já encontrou um conflito, não precisa verificar mais
+                    }
+                }
+            }
+        }
 
 
-        DB::commit();
+
+
+        // Recupera anos e status possíveis
+        $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
+        $status_ferias = DB::table('status_pedido_ferias')->get();
+
         return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias', 'ano_consulta', 'nome_funcionario', 'status_consulta_atual'));
+    }
 
+    private function hasDateConflict($p1, $p2)
+    {
+        // Verificar conflito entre todos os períodos possíveis de $p1 e $p2
+        return ($this->isPeriodInConflict($p1->dt_ini_a, $p1->dt_fim_a, $p2->dt_ini_a, $p2->dt_fim_a, $p2->dt_ini_b, $p2->dt_fim_b, $p2->dt_ini_c, $p2->dt_fim_c) ||
+            $this->isPeriodInConflict($p1->dt_ini_b, $p1->dt_fim_b, $p2->dt_ini_a, $p2->dt_fim_a, $p2->dt_ini_b, $p2->dt_fim_b, $p2->dt_ini_c, $p2->dt_fim_c) ||
+            $this->isPeriodInConflict($p1->dt_ini_c, $p1->dt_fim_c, $p2->dt_ini_a, $p2->dt_fim_a, $p2->dt_ini_b, $p2->dt_fim_b, $p2->dt_ini_c, $p2->dt_fim_c));
+    }
+
+
+    private function hasValidDates($periodo)
+    {
+        return !is_null($periodo->dt_ini_a) && !is_null($periodo->dt_fim_a) ||
+            !is_null($periodo->dt_ini_b) && !is_null($periodo->dt_fim_b) ||
+            !is_null($periodo->dt_ini_c) && !is_null($periodo->dt_fim_c);
+    }
+
+    function isPeriodInConflict($periodStart, $periodEnd, $start1, $end1, $start2, $end2, $start3, $end3)
+    {
+        // Verifica se algum dos períodos é nulo e, se for, ignora a verificação para esse período
+        if (is_null($start1) || is_null($end1)) $start1 = $end1 = null;
+        if (is_null($start2) || is_null($end2)) $start2 = $end2 = null;
+        if (is_null($start3) || is_null($end3)) $start3 = $end3 = null;
+
+        // Se o período em questão é nulo, não pode haver conflito
+        if (is_null($periodStart) || is_null($periodEnd)) {
+            return false;
+        }
+
+        // Se o período é menor do que qualquer um dos intervalos válidos, não há conflito
+        if (($start1 && $periodEnd < $start1) || ($start2 && $periodEnd < $start2) || ($start3 && $periodEnd < $start3)) {
+            return false;
+        }
+
+        // Se o período começa depois do fim de qualquer intervalo válido, não há conflito
+        if (($end1 && $periodStart > $end1) || ($end2 && $periodStart > $end2) || ($end3 && $periodStart > $end3)) {
+            return false;
+        }
+
+        // Verifica conflito com os intervalos válidos
+        $conflict = false;
+        if ($start1 && $end1) {
+            $conflict = $periodStart <= $end1 && $periodEnd >= $start1;
+        }
+        if ($start2 && $end2) {
+            $conflict = $conflict || ($periodStart <= $end2 && $periodEnd >= $start2);
+        }
+        if ($start3 && $end3) {
+            $conflict = $conflict || ($periodStart <= $end3 && $periodEnd >= $start3);
+        }
+
+        return $conflict;
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create($id_ferias)
+    public
+    function create($id_ferias)
     {
         try {
             $ano_referente = Carbon::now()->year - 1;
@@ -119,7 +187,8 @@ class GerenciarFeriasController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id)
+    public
+    function store(Request $request, $id)
     {
     }
 
@@ -127,7 +196,8 @@ class GerenciarFeriasController extends Controller
      * Display the specified resource.
      */
     /*Historico de Devoluções*/
-    public function show(string $id)
+    public
+    function show(string $id)
     {
         try {
             $ano_referencia = Carbon::now()->year - 1;
@@ -158,7 +228,8 @@ class GerenciarFeriasController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public
+    function edit(string $id)
     {
         //
     }
@@ -166,11 +237,13 @@ class GerenciarFeriasController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public
+    function destroy(string $id)
     {
     }
 
-    public function InsereERetornaFuncionarios(Request $request)
+    public
+    function InsereERetornaFuncionarios(Request $request)
     {
 
         $ano_referencia = $request->input('ano_referencia');
@@ -211,7 +284,8 @@ class GerenciarFeriasController extends Controller
         return redirect()->route('AdministrarFerias');
     }
 
-    public function administraferias(Request $request)
+    public
+    function administraferias(Request $request)
     {
 
         try {
@@ -324,7 +398,8 @@ class GerenciarFeriasController extends Controller
         }
     }
 
-    public function autorizarferias($id)
+    public
+    function autorizarferias($id)
     {
         try {
             $periodo_de_ferias = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->select(
@@ -344,7 +419,8 @@ class GerenciarFeriasController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public
+    function update(Request $request, string $id)
     {
 
 
@@ -636,7 +712,8 @@ class GerenciarFeriasController extends Controller
         return redirect()->route('IndexGerenciarFerias');
     }
 
-    public function formulario_recusa_periodo_de_ferias($id)
+    public
+    function formulario_recusa_periodo_de_ferias($id)
     {
         try {
             $periodos_aquisitivos = DB::table('ferias')->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')->select('pessoas.nome_completo as nome_completo_funcionario', 'pessoas.id as id_pessoa', 'ferias.dt_ini_a', 'ferias.dt_fim_a', 'ferias.dt_ini_b', 'ferias.dt_fim_b', 'ferias.dt_ini_c', 'ferias.dt_fim_c', 'ferias.motivo_retorno', 'ferias.id as id_ferias', 'funcionarios.dt_inicio', 'ferias.ano_de_referencia', 'ferias.id_funcionario', 'status_pedido_ferias.id as id_status_pedido_ferias', 'status_pedido_ferias.nome as status_pedido_ferias')->where('ferias.id', '=', $id)->first();
@@ -649,7 +726,8 @@ class GerenciarFeriasController extends Controller
         }
     }
 
-    public function recusa_pedido_de_ferias(Request $request, $id)
+    public
+    function recusa_pedido_de_ferias(Request $request, $id)
     {
         try {
             $request->input('motivo_da_recusa');
@@ -666,7 +744,8 @@ class GerenciarFeriasController extends Controller
         return redirect()->route('AdministrarFerias');
     }
 
-    public function enviarFerias(Request $request)
+    public
+    function enviarFerias(Request $request)
     {
         try {
             $numeros_checkboxes = $request->input('checkbox');
@@ -717,7 +796,8 @@ class GerenciarFeriasController extends Controller
         }
     }
 
-    public function reabrirFormulario($id)
+    public
+    function reabrirFormulario($id)
     {
         try {
             DB::table('ferias')->where('id', $id)->update(['status_pedido_ferias' => 1]);
@@ -737,7 +817,8 @@ class GerenciarFeriasController extends Controller
         }
     }
 
-    public function retornaPeriodoFerias($ano, $nome, $setor, $status)
+    public
+    function retornaPeriodoFerias($ano, $nome, $setor, $status)
     {
         // Realize sua lógica para buscar os dados com base nos parâmetros recebidos
         $periodo_aquisitivo = DB::table('ferias')
