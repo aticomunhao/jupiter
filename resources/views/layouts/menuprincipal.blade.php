@@ -25,17 +25,17 @@ $perfis = session()->get('usuario.perfis');
                                data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Área de
                                 Pessoal</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                                @if (in_array(1, $acesso))
-                                    <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar
-                                            Funcionarios</a>
-                                    </li>
-                                @endif
+
+                                <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar
+                                        Funcionarios</a>
+                                </li>
+
                                 <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
 
-                                @if (in_array(6, $acesso))
-                                    <li><a class="dropdown-item" href="/gerenciar-associado">Gerenciar Associados</a>
-                                    </li>
-                                @endif
+
+                                <li><a class="dropdown-item" href="/gerenciar-associado">Gerenciar Associados</a>
+                                </li>
+
                             </ul>
                         </li>
                     </ul>
@@ -46,39 +46,36 @@ $perfis = session()->get('usuario.perfis');
                             <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                                @if (in_array(25, $acesso))
-                                    <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">
-                                            Cargo dos Funcionários</a>
-                                    </li>
-                                @endif
-                                @if (in_array(24, $acesso))
-                                    <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">
-                                            Entidades
-                                            de
-                                            Ensino</a>
-                                @endif
-                                @if (in_array(4, $acesso))
-                                    <li><a class="dropdown-item" href="/gerenciar-setor"> Setores</a></li>
-                                @endif
-                                @if (in_array(5, $acesso))
-                                    <li><a class="dropdown-item" href="/gerenciar-hierarquia">Hierarquia de Setores</a>
-                                    </li>
-                                @endif
-                                @if (in_array(16, $acesso))
-                                    <li><a class="dropdown-item" href="/controle-vagas">Vagas por Setor</a></li>
-                                @endif
-                                @if (in_array(19, $acesso))
-                                    <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">
-                                            Tipos
-                                            de
-                                            Acordo</a>
-                                    </li>
-                                @endif
-                                @if (in_array(6, $acesso))
-                                    <li><a href="/gerenciar-tipo-desconto" class="dropdown-item"> Tipos de
-                                            Desconto</a>
-                                    </li>
-                                @endif
+
+                                <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">
+                                        Cargo dos Funcionários</a>
+                                </li>
+
+
+                                <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">
+                                        Entidades
+                                        de
+                                        Ensino</a>
+
+                                <li><a class="dropdown-item" href="/gerenciar-setor"> Setores</a></li>
+
+                                <li><a class="dropdown-item" href="/gerenciar-hierarquia">Hierarquia de Setores</a>
+                                </li>
+
+
+                                <li><a class="dropdown-item" href="/controle-vagas">Vagas por Setor</a></li>
+
+
+                                <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">
+                                        Tipos
+                                        de
+                                        Acordo</a>
+                                </li>
+
+                                <li><a href="/gerenciar-tipo-desconto" class="dropdown-item"> Tipos de
+                                        Desconto</a>
+                                </li>
+
                             </ul>
                         </li>
                     </ul>
@@ -90,17 +87,17 @@ $perfis = session()->get('usuario.perfis');
                             Remuneratórios</a>
 
                         <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                            @if (in_array(13, $acesso))
+                            @if (in_array(7, $perfis))
                                 <li><a href="{{ route('IndexGerenciarFerias') }}" class="dropdown-item">Período de
                                         Férias</a>
                                 </li>
                             @endif
-                            @if (in_array(12, $acesso))
+                            @if (in_array(3, $perfis))
                                 <li><a href="{{ route('AdministrarFerias') }}" class="dropdown-item">Gerenciar
                                         Férias</a>
                                 </li>
                             @endif
-                            @if (in_array(17, $acesso))
+                            @if (in_array(3, $perfis))
                                 <li><a href="{{ route('index.gerenciar-dia-limite-ferias') }}"
                                        class="dropdown-item">Dias
                                         limite para as Férias </a>
@@ -133,19 +130,18 @@ $perfis = session()->get('usuario.perfis');
                                data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Administrar
                                 Sistema</a>
                             <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                                @if (in_array(2, $acesso))
-                                    <li><a href="/gerenciar-usuario" class="dropdown-item">Gerenciar Usuários</a>
-                                    </li>
-                                @endif
-                                @if (in_array(21, $acesso))
-                                    <li><a href="/gerenciar-setor-usuario" class="dropdown-item">Gerenciar Setor
-                                            Usuários</a>
-                                    </li>
-                                @endif
-                                @if (in_array(20, $acesso))
-                                    <li><a href="/gerenciar-perfis" class="dropdown-item">Gerenciar Perfis </a>
-                                    </li>
-                                @endif
+
+                                <li><a href="/gerenciar-usuario" class="dropdown-item">Gerenciar Usuários</a>
+                                </li>
+
+
+                                <li><a href="/gerenciar-setor-usuario" class="dropdown-item">Gerenciar Setor
+                                        Usuários</a>
+                                </li>
+
+
+                                <li><a href="/gerenciar-perfis" class="dropdown-item">Gerenciar Perfis </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>
