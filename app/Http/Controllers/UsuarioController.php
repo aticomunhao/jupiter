@@ -69,7 +69,7 @@ class UsuarioController extends Controller
             }
 
             $result = $result->paginate(10);
-            //dd($result);
+
 
 
             return view('usuario/gerenciar-usuario', compact('result'));

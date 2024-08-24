@@ -122,6 +122,7 @@ class LoginController extends Controller
         group by u.id, p.id
         ");
 
+
             $perfis = explode(',', $result[0]->perfis);
             $setores = explode(',', $result[0]->setor);
             $array_setores = $setores;
@@ -144,6 +145,7 @@ class LoginController extends Controller
                     'setor' => $array_setores,
                     'acesso' => $rotasAutorizadas,
                 ]);
+
                 return view('/login/home');
             } else {
                 return view('login/login')->with('Error', 'O Sr(a) deve informar as credenciais para acessar o sistema');

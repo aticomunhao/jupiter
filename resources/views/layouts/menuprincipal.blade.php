@@ -2,8 +2,6 @@
 $acesso = session()->get('usuario.acesso');
 $setor = session()->get('usuario.setor');
 $perfis = session()->get('usuario.perfis');
-
-
 ?>
 
 
@@ -20,67 +18,71 @@ $perfis = session()->get('usuario.perfis');
             </button>
 
             <div class=" navbar-collapse" id="navbarNavDarkdropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Área de
-                            Pessoal</a>
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                            @if (in_array(1, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar
-                                        Funcionarios</a>
-                                </li>
-                            @endif
-                            <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
+                @if(in_array(1, $perfis) or in_array(2, $perfis) or in_array(3, $perfis) or in_array(4, $perfis) or in_array(5, $perfis) or in_array(6, $perfis))
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Área de
+                                Pessoal</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
+                                @if (in_array(1, $acesso))
+                                    <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar
+                                            Funcionarios</a>
+                                    </li>
+                                @endif
+                                <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
 
-                            @if (in_array(6, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-associado">Gerenciar Associados</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                            @if (in_array(25, $acesso))
-                            <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">
-                                    Cargo dos Funcionários</a>
-                            </li>
-                        @endif
-                            @if (in_array(24, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">
-                                        Entidades
-                                        de
-                                        Ensino</a>
-                            @endif
-                            @if (in_array(4, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-setor"> Setores</a></li>
-                            @endif
-                            @if (in_array(5, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-hierarquia">Hierarquia de Setores</a>
-                                </li>
-                            @endif
-                            @if (in_array(16, $acesso))
-                                <li><a class="dropdown-item" href="/controle-vagas">Vagas por Setor</a></li>
-                            @endif
-                            @if (in_array(19, $acesso))
-                                <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">
-                                        Tipos
-                                        de
-                                        Acordo</a>
-                                </li>
-                            @endif
-                            @if (in_array(6, $acesso))
-                                <li><a href="/gerenciar-tipo-desconto" class="dropdown-item"> Tipos de
-                                        Desconto</a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                </ul>
+                                @if (in_array(6, $acesso))
+                                    <li><a class="dropdown-item" href="/gerenciar-associado">Gerenciar Associados</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    </ul>
+                @endif
+                @if(in_array(1, $perfis) or in_array(2, $perfis) or in_array(3, $perfis) or in_array(4, $perfis) or in_array(5, $perfis) or in_array(6, $perfis))
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gerenciar</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
+                                @if (in_array(25, $acesso))
+                                    <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">
+                                            Cargo dos Funcionários</a>
+                                    </li>
+                                @endif
+                                @if (in_array(24, $acesso))
+                                    <li><a class="dropdown-item" href="/gerenciar-entidades-de-ensino">
+                                            Entidades
+                                            de
+                                            Ensino</a>
+                                @endif
+                                @if (in_array(4, $acesso))
+                                    <li><a class="dropdown-item" href="/gerenciar-setor"> Setores</a></li>
+                                @endif
+                                @if (in_array(5, $acesso))
+                                    <li><a class="dropdown-item" href="/gerenciar-hierarquia">Hierarquia de Setores</a>
+                                    </li>
+                                @endif
+                                @if (in_array(16, $acesso))
+                                    <li><a class="dropdown-item" href="/controle-vagas">Vagas por Setor</a></li>
+                                @endif
+                                @if (in_array(19, $acesso))
+                                    <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">
+                                            Tipos
+                                            de
+                                            Acordo</a>
+                                    </li>
+                                @endif
+                                @if (in_array(6, $acesso))
+                                    <li><a href="/gerenciar-tipo-desconto" class="dropdown-item"> Tipos de
+                                            Desconto</a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    </ul>
+                @endif
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
@@ -108,20 +110,22 @@ $perfis = session()->get('usuario.perfis');
                     </li>
                 </ul>
 
-                <ul class="navbar-nav">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
-                           data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Relatórios</a>
-                        <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                            @if (in_array(15, $acesso))
-                                <li><a class="dropdown-item" href="/gerenciar-efetivo">Controle de Efetivo</a></li>
-                            @endif
-                            @if (in_array(18, $acesso))
-                                <li><a class="dropdown-item" href="/controle-ferias">Controle de Férias</a></li>
-                            @endif
-                        </ul>
-                    </li>
-                </ul>
+                @if(in_array(1, $perfis ?? []) or in_array(6, $perfis ?? []) or in_array(4, $perfis ?? []))
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="1" role="button"
+                               data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Relatórios</a>
+                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
+                                @if (in_array(15, $acesso))
+                                    <li><a class="dropdown-item" href="/gerenciar-efetivo">Controle de Efetivo</a></li>
+                                @endif
+                                @if (in_array(18, $acesso))
+                                    <li><a class="dropdown-item" href="/controle-ferias">Controle de Férias</a></li>
+                                @endif
+                            </ul>
+                        </li>
+                    </ul>
+                @endif
                 @if (in_array(1, $perfis ?? []))
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
@@ -154,11 +158,11 @@ $perfis = session()->get('usuario.perfis');
                            data-bs-toggle="dropdown" aria-expanded="false" style="color: #ffffff">Logout</a>
                         <ul class="dropdown-menu " aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a class="dropdown-item" href="/usuario/alterar-senha"><i
-                                            class="mdi mdi-lock-open-outline font-size-17 text-muted align-middle mr-1"></i>Alterar
+                                        class="mdi mdi-lock-open-outline font-size-17 text-muted align-middle mr-1"></i>Alterar
                                     Senha</a></li>
                             <li><a class="dropdown-item" href="javascript:void();"
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"><i
-                                            class="mdi mdi-power font-size-17 text-muted align-middle mr-1 text-danger"></i>
+                                        class="mdi mdi-power font-size-17 text-muted align-middle mr-1 text-danger"></i>
                                     {{ __('Sair') }}</a></li>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                   style="display: none;">

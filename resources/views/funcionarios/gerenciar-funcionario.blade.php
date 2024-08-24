@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('head')
     <title>Gerenciar Funcionários</title>
 @endsection

@@ -77,12 +77,10 @@ class GerenciarFeriasController extends Controller
             }
         }
 
-
-
-
         // Recupera anos e status possíveis
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $status_ferias = DB::table('status_pedido_ferias')->get();
+
 
         return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias', 'ano_consulta', 'nome_funcionario', 'status_consulta_atual'));
     }
