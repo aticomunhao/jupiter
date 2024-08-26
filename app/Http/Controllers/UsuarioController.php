@@ -412,7 +412,7 @@ class UsuarioController extends Controller
 
                 app('flasher')->addSuccess('Senha Alterada com sucesso!');
 
-                return redirect('/login/valida');
+                return view('login/home');
             }
             return redirect()->back()->with('mensagemErro', 'Senha atual incorreta!');
             //return view('login.alterar-senha')->withErrors(['Senha atual incorreta']);

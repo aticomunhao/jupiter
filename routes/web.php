@@ -53,6 +53,7 @@ Route::any('/', [App\Http\Controllers\LoginController::class, 'index']);
 Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'validaUserLogado'])->name('home.post');
 Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida'])->name('home.login');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
 
 
 /*Gerenciar funcionario*/
@@ -82,7 +83,6 @@ Route::middleware('rotas:2')->group(function () {
     Route::any('/usuario/alterar/{id}', [UsuarioController::class, 'edit']);
     Route::any('usuario-atualizar/{id}', [UsuarioController::class, 'update']);
     Route::any('/usuario/gerar-Senha/{id}', [UsuarioController::class, 'gerarSenha']);
-    Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
     Route::get('/usuario/alterar-senha', [UsuarioController::class, 'alteraSenha']);
 });
 

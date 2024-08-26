@@ -9,6 +9,13 @@ use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
+
+    public function checaSession(){
+
+        $check = session()->get('usuario') == null ? 0 : 1;
+        return $check;
+    }
+
     public function index()
     {
         try {
@@ -48,52 +55,72 @@ class LoginController extends Controller
             GROUP BY u.id, p.id, a.id
         ", [$cpf]);
 
-            if (count($result) === 0) {
-                app('flasher')->addError('Credenciais inválidas');
-                return view('login/login');
-            }
+        if (count($result) > 0) {
+            $perfis = explode(',', $result[0]->perfis);
+            $setores = explode(',', $result[0]->setores);
+            $perfis = $perfis[0] == '' ? [0] : $perfis;
+            $setores = $setores[0] == '' ? [0] : $setores;
+            $array_setores = $setores;
 
-            $user = $result[0];
-            if (!Hash::check($senha, $user->hash_senha)) {
-                app('flasher')->addError('Credenciais inválidas');
-                return view('login/login');
-            }
+            $perfis = DB::table('rotas_perfil')->whereIn('id_perfil', $perfis)->orderBy('id_rotas')->pluck('id_rotas');
+            $setores = DB::table('rotas_setor')->whereIn('id_setor', $setores)->orderBy('id_rotas')->pluck('id_rotas');
 
-            $perfis = explode(',', $user->perfis);
-            $setores = explode(',', $user->setores);
+            $perfis = json_decode(json_encode($perfis), true);
+            $setores = json_decode(json_encode($setores), true);
 
-            $rotasPerfis = DB::table('tp_rotas_perfil')
-                ->whereIn('id_perfil', $perfis)
-                ->orderBy('id_rotas')
-                ->pluck('id_rotas')
-                ->toArray();
+            $rotasAutorizadas = array_intersect($perfis, $setores);
 
-            $rotasSetores = DB::table('tp_rotas_setor')
-                ->whereIn('id_setor', $setores)
-                ->orderBy('id_rotas')
-                ->pluck('id_rotas')
-                ->toArray();
+            $hash_senha = $result[0]->hash_senha;
 
-            $rotasAutorizadas = array_intersect($rotasPerfis, $rotasSetores);
+            $id_usuario = $result[0]->id_usuario;
 
-            session()->put('usuario', [
-                'id_usuario' => $user->id_usuario,
-                'id_pessoa' => $user->id_pessoa,
-                'id_associado' => $user->id_associado,
-                'nome' => $user->nome_completo,
-                'cpf' => $user->cpf,
-                'sexo' => $user->sexo,
-                'setor' => $setores,
-                'acesso' => $rotasAutorizadas,
-                'perfis' =>  $perfis
-            ]);
+            $usuario = DB::table('usuario AS u')
+            ->leftJoin('pessoas AS p', 'u.id_pessoa', 'p.id')
+            ->where('u.id', $id_usuario)
+            ->first();
+            
+            $senhacpf = $usuario->cpf;
 
+           // dd(Hash::check($senhadigitada, $hashusuario));
+            
+                if($senha == $senhacpf && (Hash::check($senha, $hash_senha))){
+                    session()->put('usuario', [
+                        'nome' => $result[0]->nome_completo
+                    ]);
 
-            app('flasher')->addSuccess('Acesso autorizado');
-            return view('login/home');
-        } catch (\Exception $exception) {
-            app('flasher')->addError("Você não possui perfis para acesso");
-            return redirect()->back();
+                    return view('/usuario/alterar-senha');
+                    }
+
+                elseif (Hash::check($senha, $hash_senha)) {
+                    session()->put('usuario', [
+                        'id_usuario' => $result[0]->id_usuario,
+                        'id_pessoa' => $result[0]->id_pessoa,
+                        'id_associado' => $result[0]->id_associado,
+                        'nome' => $result[0]->nome_completo,
+                        'cpf' => $result[0]->cpf,
+                        'sexo' => $result[0]->sexo,
+                        'setor' => $array_setores,
+                        'acesso' => $rotasAutorizadas,
+                        'perfis' => $perfis,
+                    ]);                    
+
+                    app('flasher')->addSuccess('Acesso autorizado');
+
+                    return view('login/home');
+                    
+                    }                   
+
+                else{
+
+                    app('flasher')->addError('Credenciais inválidas');
+                    return view('login/login');
+                }
+
+        }
+       } catch (\Exception $e) {
+
+            $code = $e->getCode();
+            return view('tratamento-erro.erro-inesperado', compact('code'));
         }
     }
 
