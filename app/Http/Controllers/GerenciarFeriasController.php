@@ -815,6 +815,47 @@ class GerenciarFeriasController extends Controller
         }
     }
 
+    public function EnviaPeriodoDeFeriasIndividualmente($id)
+    {
+        try {
+            $periodo_de_ferias = $ferias_funcionarios = DB::table('ferias')
+                ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+                ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+                ->select(
+                    'pessoas.nome_completo as nome_completo_funcionario',
+                    'pessoas.id as id_pessoa',
+                    'ferias.dt_ini_a',
+                    'ferias.dt_fim_a',
+                    'ferias.dt_ini_b',
+                    'ferias.dt_fim_b',
+                    'ferias.dt_ini_c',
+                    'ferias.dt_fim_c',
+                    'ferias.motivo_retorno',
+                    'ferias.id as id_ferias',
+                    'funcionarios.dt_inicio',
+                    'ferias.ano_de_referencia',
+                    'ferias.id_funcionario',
+                    'status_pedido_ferias.id as id_status_pedido_ferias',
+                    'status_pedido_ferias.nome as status_pedido_ferias'
+                )->where('ferias.id', '=', $id)->first();
+
+            if ($periodo_de_ferias->dt_ini_a == null) {
+                app('flasher')->addError('Foi feita uma tentativa de enviar as ferias de ' . $periodo_de_ferias->nome_completo_funcionario . ', porém as mesmas não foram preenchidas.');
+                return redirect()->route('IndexGerenciarFerias');
+            } else {
+                DB::table('ferias')->where('id', '=', $periodo_de_ferias->id_ferias)->update(['status_pedido_ferias' => 4]);
+                DB::commit();
+                app('flasher')->addSuccess("Ferias Enviadas com Sucesso!");
+                return redirect()->back();
+            }
+        } catch (Exception $exception) {
+            app('flasher')->addError("Houve um erro inesperado: #" . $exception->getCode());
+            DB::rollBack();
+            return redirect()->back();
+        }
+    }
+
     public
     function retornaPeriodoFerias($ano, $nome, $setor, $status)
     {

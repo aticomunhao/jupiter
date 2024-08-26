@@ -4,6 +4,7 @@
     <title>Período de Férias</title>
 @endsection
 @section('content')
+
     <div class="container-fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
             <div class="col-12">
@@ -92,7 +93,8 @@
                                         style="margin-top:10px;">
                                         <thead style="text-align: center;">
                                         <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th scope="col">Selecionar Para Envio</th>
+                                            <th scope="col"><p>Selecionar Para Envio</p>
+                                            <p>Todos:  <button id="toggleButton" class="btn btn-outline-primary"><i class="bi bi-people-fill"></i></button> </p></th>
                                             <th scope="col">Nome do Funcionário</th>
                                             <th scope="col">Periodo de Aquisitivo</th>
                                             <th scope="col">Início 1</th>
@@ -114,7 +116,7 @@
                                                             $periodos_aquisitivos->id_status_pedido_ferias == 5 or
                                                             $periodos_aquisitivos->id_status_pedido_ferias == 1)
                                                         <input class="form-check-input checkbox-trigger" type="checkbox"
-                                                               id="flexCheckDefault" name="checkbox[]"
+                                                               id="id_checkbox[]" name="checkbox[]"
                                                                value="{{ $periodos_aquisitivos->id_ferias }}">
                                                     @endif
                                                 </td>
@@ -157,7 +159,8 @@
                                                             $periodos_aquisitivos->id_status_pedido_ferias == 5)
                                                         <a href="{{ route('CriarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
                                                            class="btn btn-outline-success"
-                                                           data-bs-toggle="tooltip" data-bs-placement="top" title="Incluir">
+                                                           data-bs-toggle="tooltip" data-bs-placement="top"
+                                                           title="Incluir">
                                                             <i class="bi bi-pencil-square"></i>
                                                         </a>
                                                     @endif
@@ -165,10 +168,15 @@
                                                        class="btn btn-outline-secondary" data-bs-toggle="tooltip"
                                                        data-bs-placement="top" title="Histórico Férias"
                                                        style="font-size: 1rem; color:#0e0b16;">
-
                                                         <i class="bi bi-search"></i>
-
                                                     </a>
+                                                        <a href="{{ route('EnviaFeriasIndividual', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                           class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                           data-bs-placement="top" title="Enviar Ferias "
+                                                           style="font-size: 1rem; color:#0e0b16;"  >
+                                                            <i class="bi bi-person-check-fill" ></i>
+                                                        </a>
+
                                                     @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
                                                         <!-- Button trigger modal -->
 
@@ -224,6 +232,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                     @endif
                                                 </td>
                                             </tr>
@@ -252,12 +261,25 @@
     </div>
     </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#toggleButton').click(function(event) {
+                // Previne o envio do formulário
+                event.preventDefault();
 
+                // Verifica se todos os checkboxes estão selecionados
+                const allChecked = $('.checkbox-trigger').length === $('.checkbox-trigger:checked').length;
+                // Alterna o estado dos checkboxes
+                $('.checkbox-trigger').prop('checked', !allChecked);
+            });
+        });
+    </script>
 
 
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-        var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>

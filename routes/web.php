@@ -253,6 +253,7 @@ Route::middleware('rotas:13')->group(function () {
     Route::any('/enviar-ferias', [GerenciarFeriasController::class, 'enviarFerias'])->name('enviar-ferias');
     Route::any('/reabrir-formulario/{id}', [GerenciarFeriasController::class, 'reabrirFormulario'])->name('ReabrirFormulario');
     Route::get('/retorna-periodo-ferias/{ano}/{nome}/{setor}/{status}', [GerenciarFeriasController::class, 'retornaPeriodoFerias']);
+    Route::any('/enviar-ferias-individual/{id}', [GerenciarFeriasController::class, 'EnviaPeriodoDeFeriasIndividualmente'])->name('EnviaFeriasIndividual');
 });
 
 /*Administrador DAF*/
