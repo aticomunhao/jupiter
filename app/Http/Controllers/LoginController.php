@@ -62,8 +62,8 @@ class LoginController extends Controller
             $setores = $setores[0] == '' ? [0] : $setores;
             $array_setores = $setores;
 
-            $perfis = DB::table('rotas_perfil')->whereIn('id_perfil', $perfis)->orderBy('id_rotas')->pluck('id_rotas');
-            $setores = DB::table('rotas_setor')->whereIn('id_setor', $setores)->orderBy('id_rotas')->pluck('id_rotas');
+            $perfis = DB::table('tp_rotas_perfil')->whereIn('id_perfil', $perfis)->orderBy('id_rotas')->pluck('id_rotas');
+            $setores = DB::table('tp_rotas_setor')->whereIn('id_setor', $setores)->orderBy('id_rotas')->pluck('id_rotas');
 
             $perfis = json_decode(json_encode($perfis), true);
             $setores = json_decode(json_encode($setores), true);
@@ -85,7 +85,15 @@ class LoginController extends Controller
             
                 if($senha == $senhacpf && (Hash::check($senha, $hash_senha))){
                     session()->put('usuario', [
-                        'nome' => $result[0]->nome_completo
+                        'id_usuario' => $result[0]->id_usuario,
+                        'id_pessoa' => $result[0]->id_pessoa,
+                        'id_associado' => $result[0]->id_associado,
+                        'nome' => $result[0]->nome_completo,
+                        'cpf' => $result[0]->cpf,
+                        'sexo' => $result[0]->sexo,
+                        'setor' => $array_setores,
+                        'acesso' => $rotasAutorizadas,
+                        'perfis' => $perfis,
                     ]);
 
                     return view('/usuario/alterar-senha');
@@ -130,32 +138,32 @@ class LoginController extends Controller
             $cpf = session()->get('usuario.cpf');
 
             $result = DB::select("
-        select
-        u.id id_usuario,
-        p.id id_pessoa,
-        p.cpf,
-        p.sexo,
-        p.nome_completo,
-        u.hash_senha,
-        string_agg(distinct u_p.id_tp_perfil::text, ',') perfis,
-        string_agg(distinct u_d.id_deposito::text, ',') depositos,
-        string_agg(distinct u_s.id_setor::text, ',') setor
-        from usuario u
-        left join pessoas p on u.id_pessoa = p.id
-        left join tp_usuario_perfil u_p on u.id = u_p.id_usuario
-        left join usuario_deposito u_d on u.id = u_d.id_usuario
-        left join tp_usuario_setor u_s on u.id = u_s.id_usuario
-        where u.ativo is true and p.cpf = '$cpf'
-        group by u.id, p.id
-        ");
+                        select
+                        u.id id_usuario,
+                        p.id id_pessoa,
+                        p.cpf,
+                        p.sexo,
+                        p.nome_completo,
+                        u.hash_senha,
+                        string_agg(distinct u_p.id_tp_perfil::text, ',') perfis,
+                        string_agg(distinct u_d.id_deposito::text, ',') depositos,
+                        string_agg(distinct u_s.id_setor::text, ',') setores
+                        from usuario u
+                        left join pessoas p on u.id_pessoa = p.id
+                        left join tp_usuario_perfil u_p on u.id = u_p.id_usuario
+                        left join usuario_deposito u_d on u.id = u_d.id_usuario
+                        left join tp_usuario_setor u_s on u.id = u_s.id_usuario
+                        where u.ativo is true and p.cpf = '$cpf'
+                        group by u.id, p.id
+                        ");
 
 
             $perfis = explode(',', $result[0]->perfis);
-            $setores = explode(',', $result[0]->setor);
+            $setores = explode(',', $result[0]->setores);
             $array_setores = $setores;
 
             $perfis = DB::table('tp_rotas_perfil')->whereIn('id_perfil', $perfis)->orderBy('id_rotas')->pluck('id_rotas');
-            $setores = DB::table('rotas_setor')->whereIn('id_setor', $setores)->orderBy('id_rotas')->pluck('id_rotas');
+            $setores = DB::table('tp_rotas_setor')->whereIn('id_setor', $setores)->orderBy('id_rotas')->pluck('id_rotas');
 
             $perfis = json_decode(json_encode($perfis), true);
             $setores = json_decode(json_encode($setores), true);
@@ -172,6 +180,8 @@ class LoginController extends Controller
                     'setor' => $array_setores,
                     'acesso' => $rotasAutorizadas,
                 ]);
+
+                app('flasher')->addSuccess('O seu usuário foi validado!');
 
                 return view('/login/home');
             } else {

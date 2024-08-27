@@ -386,9 +386,12 @@ class UsuarioController extends Controller
             //dd($request);
             $id_usuario = session()->get('usuario.id_usuario');
             $senhaAtual = $request->input('senhaAtual');
-            $resultSenhaAtualHash = DB::select("select hash_senha from usuario where id = $id_usuario");
+            $resultSenhaAtualHash = DB::table('usuario')->where('id', $id_usuario)->value('hash_senha');
 
-            if (Hash::check($senhaAtual, $resultSenhaAtualHash[0]->hash_senha)) {
+//dd(Hash::check($senhaAtual, $resultSenhaAtualHash));
+
+            if (Hash::check($senhaAtual, $resultSenhaAtualHash)) {
+                
                 $senha_nova = Hash::make($request->input('senhaNova'));
 
                 DB::table('usuario')
@@ -397,14 +400,12 @@ class UsuarioController extends Controller
                         'hash_senha' => $senha_nova,
                     ]);
 
-                //return view('login.alterar-senha')->with('mensagem', 'Senha Alterada com sucesso!');
-
                 app('flasher')->addSuccess('Senha Alterada com sucesso!');
 
                 return view('login/home');
-            }
+            }else{
             return redirect()->back()->with('mensagemErro', 'Senha atual incorreta!');
-            //return view('login.alterar-senha')->withErrors(['Senha atual incorreta']);
+            }
         } catch (\Exception $e) {
 
             $code = $e->getCode();

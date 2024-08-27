@@ -2,6 +2,8 @@
 $acesso = session()->get('usuario.acesso');
 $setor = session()->get('usuario.setor');
 $perfis = session()->get('usuario.perfis');
+
+//dd(session()->all());
 ?>
 
 
@@ -9,7 +11,7 @@ $perfis = session()->get('usuario.perfis');
     <nav class="navbar navbar-dark navbar-expand-md navbar-light shadow-sm" style="background-color: #355089;">
         <div class="container">
             <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;"
-               href="{{ route('home.login') }}">Júpiter</a>
+               href="{{ route('inicio.val') }}">Júpiter</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDarkdropdown"
                     aria-controls="navbarNavDarkdropdown" aria-expanded="false" aria-label="Toggle navigation"

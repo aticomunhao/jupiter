@@ -50,10 +50,11 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::any('/', [App\Http\Controllers\LoginController::class, 'index']);
-Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'validaUserLogado'])->name('home.post');
+Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'validaUserLogado'])->name('inicio.val');
 Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida'])->name('home.login');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
+Route::get('/usuario/alterar-senha', [UsuarioController::class, 'alteraSenha']);
+
 
 
 /*Gerenciar funcionario*/
@@ -69,12 +70,12 @@ Route::middleware('rotas:1')->group(function () {
     Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
     Route::get('/visualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'show']);
     Route::get('/inativar-funcionario/{idf}', [GerenciarFuncionarioController::class, 'inativar']);
+    Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
 });
 
 /*Gerenciar usuário*/
 
 Route::middleware('rotas:2')->group(function () {
-    Route::any('/login/valida', [LoginController::class, 'validaUserLogado'])->name('home.post');
     Route::get('/gerenciar-usuario', [UsuarioController::class, 'index']);
     Route::get('/usuario-incluir', [UsuarioController::class, 'create']);
     Route::any('/cadastrar-usuarios/configurar/{id}', [UsuarioController::class, 'configurarUsuario']);
@@ -83,7 +84,8 @@ Route::middleware('rotas:2')->group(function () {
     Route::any('/usuario/alterar/{id}', [UsuarioController::class, 'edit']);
     Route::any('usuario-atualizar/{id}', [UsuarioController::class, 'update']);
     Route::any('/usuario/gerar-Senha/{id}', [UsuarioController::class, 'gerarSenha']);
-    Route::get('/usuario/alterar-senha', [UsuarioController::class, 'alteraSenha']);
+    
+
 });
 
 

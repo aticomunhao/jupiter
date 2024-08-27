@@ -1,7 +1,7 @@
 
 @extends('auth.app')
 
-@section('title') Vênus @endsection
+@section('title') Alterar senha @endsection
 
 @section('content')
  <div class="account-pages my-4 pt-sm-4">
