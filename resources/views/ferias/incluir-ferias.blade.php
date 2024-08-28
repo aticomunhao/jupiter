@@ -237,17 +237,13 @@
                 if (estadoBotao) {
                     $('#containerPeriodos').prop('hidden', false);
 
-                   alert($('input[name="periodoDeVendaDeFerias"]:checked').val());
+
                 } else {
                     $('#containerPeriodos').prop('hidden', true);
                     $('#periododevenda').empty(); // Esvazia o conteúdo se a checkbox for desmarcada
                 }
             });
-            $('input[name="periodoDeVendaDeFerias"]').click(function (e) {
-          
-                alert($(this).val());
-
-            });
+      
 
 
 

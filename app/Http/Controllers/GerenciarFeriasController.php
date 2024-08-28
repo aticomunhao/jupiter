@@ -215,7 +215,8 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addInfo("Não há nenhuma informação das férias do funcionário:  $funcionario->nome_completo.");
                 return redirect()->back();
             }
-            dd($periodo_de_ferias);
+        //
+   // dd($periodo_de_ferias);
 
 
             return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
