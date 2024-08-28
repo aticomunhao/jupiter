@@ -54,7 +54,7 @@ Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'valid
 Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida'])->name('home.login');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/usuario/alterar-senha', [UsuarioController::class, 'alteraSenha']);
-
+Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
 
 
 /*Gerenciar funcionario*/
@@ -70,7 +70,7 @@ Route::middleware('rotas:1')->group(function () {
     Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
     Route::get('/visualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'show']);
     Route::get('/inativar-funcionario/{idf}', [GerenciarFuncionarioController::class, 'inativar']);
-    Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
+
 });
 
 /*Gerenciar usuário*/
@@ -84,7 +84,7 @@ Route::middleware('rotas:2')->group(function () {
     Route::any('/usuario/alterar/{id}', [UsuarioController::class, 'edit']);
     Route::any('usuario-atualizar/{id}', [UsuarioController::class, 'update']);
     Route::any('/usuario/gerar-Senha/{id}', [UsuarioController::class, 'gerarSenha']);
-    
+
 
 });
 

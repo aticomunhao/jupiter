@@ -391,7 +391,7 @@ class UsuarioController extends Controller
 //dd(Hash::check($senhaAtual, $resultSenhaAtualHash));
 
             if (Hash::check($senhaAtual, $resultSenhaAtualHash)) {
-                
+
                 $senha_nova = Hash::make($request->input('senhaNova'));
 
                 DB::table('usuario')

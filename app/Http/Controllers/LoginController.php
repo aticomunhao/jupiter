@@ -78,11 +78,11 @@ class LoginController extends Controller
             ->leftJoin('pessoas AS p', 'u.id_pessoa', 'p.id')
             ->where('u.id', $id_usuario)
             ->first();
-            
+
             $senhacpf = $usuario->cpf;
 
            // dd(Hash::check($senhadigitada, $hashusuario));
-            
+
                 if($senha == $senhacpf && (Hash::check($senha, $hash_senha))){
                     session()->put('usuario', [
                         'id_usuario' => $result[0]->id_usuario,
@@ -110,13 +110,13 @@ class LoginController extends Controller
                         'setor' => $array_setores,
                         'acesso' => $rotasAutorizadas,
                         'perfis' => $perfis,
-                    ]);                    
+                    ]);
 
                     app('flasher')->addSuccess('Acesso autorizado');
 
                     return view('login/home');
-                    
-                    }                   
+
+                    }
 
                 else{
 
