@@ -70,7 +70,6 @@ Route::middleware('rotas:1')->group(function () {
     Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
     Route::get('/visualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'show']);
     Route::get('/inativar-funcionario/{idf}', [GerenciarFuncionarioController::class, 'inativar']);
-
 });
 
 /*Gerenciar usuário*/
@@ -84,8 +83,6 @@ Route::middleware('rotas:2')->group(function () {
     Route::any('/usuario/alterar/{id}', [UsuarioController::class, 'edit']);
     Route::any('usuario-atualizar/{id}', [UsuarioController::class, 'update']);
     Route::any('/usuario/gerar-Senha/{id}', [UsuarioController::class, 'gerarSenha']);
-
-
 });
 
 
