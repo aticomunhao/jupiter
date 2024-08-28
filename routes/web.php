@@ -54,7 +54,7 @@ Route::any('/login/valida', [App\Http\Controllers\LoginController::class, 'valid
 Route::any('/login/home', [App\Http\Controllers\LoginController::class, 'valida'])->name('home.login');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/usuario/alterar-senha', [UsuarioController::class, 'alteraSenha']);
-Route::post('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
+Route::any('/usuario/gravaSenha', [UsuarioController::class, 'gravaSenha']);
 
 
 /*Gerenciar funcionario*/
