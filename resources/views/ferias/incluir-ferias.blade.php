@@ -22,7 +22,7 @@
                 <br>
                 <div class="card">
                     <div class="card-header">
-                       Periodo Aquisitivo
+                        Periodo Aquisitivo
                     </div>
                     <div class="card-body">
 
@@ -51,7 +51,7 @@
                 <br>
                 <div class="card">
                     <div class="card-header">
-                     Período Concessivo
+                        Período Concessivo
                     </div>
                     <div class="card-body">
 
@@ -121,10 +121,12 @@
                         <div class="card-body">
                             <div class="row justify-content-center">
                                 <div class="form-check">
-                                    <div class="col-4">
-                                        <input class="form-check-input vendeferias" type="checkbox" id="vendeferias1"
-                                            name="vendeFerias">
-                                        <label class="form-check-label" for="vendeferias1">Vender Férias</label>
+                                    <div id="vendeferiasumperiodo">
+                                        <div class="col-4">
+                                            <input class="form-check-input vendeferias" type="checkbox" id="vendeferias1"
+                                                name="vendeFerias">
+                                            <label class="form-check-label" for="vendeferias1">Vender Férias</label>
+                                        </div>
                                     </div>
                                     <div class="col-4">
                                         <input class="form-check-input " type="checkbox" id="adiantaDecimoTerceiro"
@@ -146,25 +148,18 @@
             <br>
             <div class="container" id="containerPeriodos" hidden>
                 <div class="card">
-                    <div class="card-header">Qual período das Férias Você deseja vender um terço?</div>
+                    <div class="card-header">Gostaria de vender os dias de inicio ou de fim?</div>
                     <div class="card-body">
-
-                        <div class="form-check">
-                            <div id="periodo1" hidden>
-                                <input class="form-check-input" type="radio" id="periodoFerias"
-                                    name=periodoDeVendaDeFerias value=1>
-                                <label class="form-check-label" for="periodoFerias"> 1° Período</label>
-                            </div>
-
-                            <div id="periodo2" hidden>
-                                <input class="form-check-input" type="radio" id="periodoFerias"
-                                    name=periodoDeVendaDeFerias value=2>
-                                <label class="form-check-label" for="periodoFerias"> 2° Período</label>
-                            </div>
-                            <div id="periodo3" hidden>
-                                <input class="form-check-input" type="radio" id="periodoFerias"
-                                    name=periodoDeVendaDeFerias value=3>
-                                <label class="form-check-label" for="periodoFerias"> 3° Período</label>
+                        <div id="periododevenda">
+                            <div class="form-check">
+                                <div id="periodo1">
+                                    <input class="form-check-input" type="radio" id="periodoFerias1" name="periodoDeVendaDeFerias" value="1">
+                                    <label class="form-check-label" for="periodoFerias1">Dias De Início</label>
+                                </div>
+                                <div id="periodo2">
+                                    <input class="form-check-input" type="radio" id="periodoFerias2" name="periodoDeVendaDeFerias" value="2">
+                                    <label class="form-check-label" for="periodoFerias2">Dias de Fim</label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -188,26 +183,39 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script>
-
         $(document).ready(function() {
+            $('#vendeferiasumperiodo').hide();
             $('.form-check-input').prop('checked', false);
-            $('input[name="numeroPeriodoDeFerias"]').change(function(e) {
+
+            $('input[name="numeroPeriodoDeFerias"]').change(function() {
                 var numeroInputDates = $(this).val();
                 $('#dates').empty();
                 $('#informacaoferias').empty();
+
+                if (numeroInputDates == 1) {
+                    $('#vendeferiasumperiodo').show();
+                } else {
+                    $('#vendeferiasumperiodo').hide();
+                }
+
                 for (var i = 0; i < numeroInputDates; i++) {
                     var dateInput = $(
                         '<div class="col-md-5 col-sm-12 mb-3">' +
-                            '<label for="dateini' + i + '">Início ' + (i + 1) +' ° Período </label>' +
-                            '<input type="date" id="dateini' + i + '" name="data_inicio_' + i +'" class="form-control" required="required">' +
+                        '<label for="dateini' + i + '">Início ' + (i + 1) + ' ° Período </label>' +
+                        '<input type="date" id="dateini' + i + '" name="data_inicio_' + i +
+                        '" class="form-control" required="required">' +
                         '</div>' +
                         '<div class="col-md-5 col-sm-12 mb-3">' +
                         '<label for="datefim' + i + '">Fim ' + (i + 1) + '° Período </label>' +
-                        '<input type="date" id="datefim' + i + '" name="data_fim_' + i +'" class="form-control" required="required">' +
-                        '</div> '+
-                        '<div class="col-md-2 col-sm-12 mb-3">Dias Do ' + (i + 1) +'° Periodo <div id="contador_' + i + '"  class="form-control" disabled></div></div>'
+                        '<input type="date" id="datefim' + i + '" name="data_fim_' + i +
+                        '" class="form-control" required="required">' +
+                        '</div> ' +
+                        '<div class="col-md-2 col-sm-12 mb-3">Dias Do ' + (i + 1) +
+                        '° Período <div id="contador_' + i +
+                        '" class="form-control" disabled></div></div>'
                     );
                     $('#dates').append(dateInput);
+
                     (function(i) {
                         $(document).on('change', '#dateini' + i + ', #datefim' + i, function() {
                             calcularDiferenca(i);
@@ -216,40 +224,52 @@
                 }
 
                 $('#containerPeriodos').prop('hidden', true);
-                $(document).on('change', '.vendeferias', function() {
-                    var numeroDePeriodos = $('input[name="numeroPeriodoDeFerias"]:checked').val();
-                    var estadoBotao = $(this).prop('checked');
-                    $('#periodosDeFerias').empty();
-                    if (estadoBotao) {
-                        $('#containerPeriodos').prop('hidden', false);
-                    } else {
-                        $('#containerPeriodos').prop('hidden', true);
-                    }
-                    for (var i = 1; i <= numeroDePeriodos; i++) {
-                        $('#periodo' + i).prop('hidden', false);
-                    }
-                });
 
-                function calcularDiferenca(i) {
-                    var dataInicio = $('#dateini' + i).val();
-                    var dataFim = $('#datefim' + i).val();
+                // Manipulador para a checkbox "vendeferias"
+            });
 
-                    if (dataInicio && dataFim) {
-                        var inicio = new Date(dataInicio);
-                        var fim = new Date(dataFim);
+            //<!--Parte Relacionada a vender ferias-->
 
-                        // Calcula a diferença em milissegundos
-                        var diferenca = fim - inicio;
+            $('.vendeferias').change(function() {
+                var estadoBotao = $(this).prop('checked');
 
-                        // Converte a diferença em dias
-                        var diferencaDias = diferenca / (1000 * 60 * 60 * 24);
+                $('#containerPeriodos').show();
+                if (estadoBotao) {
+                    $('#containerPeriodos').prop('hidden', false);
 
-                        $('#contador_' + i).text((diferencaDias+1) + ' dias');
-                    } else {
-                        $('#contador_' + i).text('');
-                    }
+                   alert($('input[name="periodoDeVendaDeFerias"]:checked').val());
+                } else {
+                    $('#containerPeriodos').prop('hidden', true);
+                    $('#periododevenda').empty(); // Esvazia o conteúdo se a checkbox for desmarcada
                 }
             });
+            $('input[name="periodoDeVendaDeFerias"]').click(function (e) {
+          
+                alert($(this).val());
+
+            });
+
+
+
+            function calcularDiferenca(i) {
+                var dataInicio = $('#dateini' + i).val();
+                var dataFim = $('#datefim' + i).val();
+
+                if (dataInicio && dataFim) {
+                    var inicio = new Date(dataInicio);
+                    var fim = new Date(dataFim);
+
+                    // Calcula a diferença em milissegundos
+                    var diferenca = fim - inicio;
+
+                    // Converte a diferença em dias
+                    var diferencaDias = diferenca / (1000 * 60 * 60 * 24);
+
+                    $('#contador_' + i).text((diferencaDias + 1) + ' dias');
+                } else {
+                    $('#contador_' + i).text('');
+                }
+            }
         });
     </script>
 

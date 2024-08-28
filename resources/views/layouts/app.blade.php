@@ -12,12 +12,12 @@
     <title>@yield('title')</title>
 
 
-     @yield('style')
+    @yield('style')
 
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
-   
+
 
     <!--<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
 
@@ -54,15 +54,15 @@
 
 </body>
 
-    <script>
-        $("body").on("submit", "form", function() {
-            $(this).submit(function() {
-                return false;
-            });
-            $(':submit').html(
-                '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Carregando...')
-            return true;
+<script>
+    $("body").on("submit", "form", function() {
+        $(this).submit(function() {
+            return false;
         });
-    </script>
+        $(':submit').html(
+            '<span class="spinner-border spinner-border-sm" aria-hidden="true"></span> Carregando...')
+        return true;
+    });
+</script>
 
 </html>

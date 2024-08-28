@@ -31,12 +31,14 @@ class GerenciarFeriasController extends Controller
                 'ferias.dt_fim_c',
                 'ferias.motivo_retorno',
                 'ferias.id as id_ferias',
+                'ferias.venda_um_terco' ,
                 'funcionarios.dt_inicio',
                 'ferias.ano_de_referencia',
                 'ferias.id_funcionario',
                 'status_pedido_ferias.id as id_status_pedido_ferias',
                 'status_pedido_ferias.nome as status_pedido_ferias',
-                'funcionarios.id_setor'
+                'funcionarios.id_setor',
+
             )
             ->whereIn('funcionarios.id_setor', session('usuario.setor'));
         $ano_consulta = null;
@@ -213,6 +215,7 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addInfo("Não há nenhuma informação das férias do funcionário:  $funcionario->nome_completo.");
                 return redirect()->back();
             }
+            dd($periodo_de_ferias);
 
 
             return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
