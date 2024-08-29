@@ -387,7 +387,6 @@ class UsuarioController extends Controller
             $id_usuario = session()->get('usuario.id_usuario');
             $senhaAtual = $request->input('senhaAtual');
             $resultSenhaAtualHash = DB::table('usuario')->where('id', $id_usuario)->value('hash_senha');
-
 //dd(Hash::check($senhaAtual, $resultSenhaAtualHash));
 
             if (Hash::check($senhaAtual, $resultSenhaAtualHash)) {

@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Hash;
 class LoginController extends Controller
 {
 
-    public function checaSession(){
+    public function checaSession()
+    {
 
         $check = session()->get('usuario') == null ? 0 : 1;
         return $check;
@@ -55,35 +56,42 @@ class LoginController extends Controller
             GROUP BY u.id, p.id, a.id
         ", [$cpf]);
 
-        if (count($result) > 0) {
-            $perfis = explode(',', $result[0]->perfis);
-            $setores = explode(',', $result[0]->setores);
-            $perfis = $perfis[0] == '' ? [0] : $perfis;
-            $setores = $setores[0] == '' ? [0] : $setores;
-            $array_setores = $setores;
 
-            $perfis = DB::table('tp_rotas_perfil')->whereIn('id_perfil', $perfis)->orderBy('id_rotas')->pluck('id_rotas');
-            $setores = DB::table('tp_rotas_setor')->whereIn('id_setor', $setores)->orderBy('id_rotas')->pluck('id_rotas');
+            if (count($result) > 0) {
+                $perfis = explode(',', $result[0]->perfis);
+                // dd($perfis);
+                $setores = explode(',', $result[0]->setores);
 
-            $perfis = json_decode(json_encode($perfis), true);
-            $setores = json_decode(json_encode($setores), true);
+                $perfis = $perfis[0] == '' ? [] : $perfis;
+                $setores = $setores[0] == '' ? [] : $setores;
+                $array_setores = $setores;
+                $array_perfis = $perfis;
 
-            $rotasAutorizadas = array_intersect($perfis, $setores);
+                $perfis = DB::table('tp_rotas_perfil')->whereIn('id_perfil', $perfis)->orderBy('id_rotas')->pluck('id_rotas');
+                $setores = DB::table('tp_rotas_setor')->whereIn('id_setor', $setores)->orderBy('id_rotas')->pluck('id_rotas');
 
-            $hash_senha = $result[0]->hash_senha;
+                $perfis = json_decode(json_encode($perfis), true);
+                $setores = json_decode(json_encode($setores), true);
 
-            $id_usuario = $result[0]->id_usuario;
+                //dd($perfis);
+                $rotasAutorizadas = array_intersect($perfis, $setores);
 
-            $usuario = DB::table('usuario AS u')
-            ->leftJoin('pessoas AS p', 'u.id_pessoa', 'p.id')
-            ->where('u.id', $id_usuario)
-            ->first();
 
-            $senhacpf = $usuario->cpf;
+                $hash_senha = $result[0]->hash_senha;
 
-           // dd(Hash::check($senhadigitada, $hashusuario));
+                $id_usuario = $result[0]->id_usuario;
 
-                if($senha == $senhacpf && (Hash::check($senha, $hash_senha))){
+                $usuario = DB::table('usuario AS u')
+                    ->leftJoin('pessoas AS p', 'u.id_pessoa', 'p.id')
+                    ->where('u.id', $id_usuario)
+                    ->first();
+
+                $senhacpf = $usuario->cpf;
+
+                // dd(Hash::check($senhadigitada, $hashusuario));
+
+                if ($senha == $senhacpf && (Hash::check($senha, $hash_senha))) {
+
                     session()->put('usuario', [
                         'id_usuario' => $result[0]->id_usuario,
                         'id_pessoa' => $result[0]->id_pessoa,
@@ -93,13 +101,11 @@ class LoginController extends Controller
                         'sexo' => $result[0]->sexo,
                         'setor' => $array_setores,
                         'acesso' => $rotasAutorizadas,
-                        'perfis' => $perfis,
+                        'perfis' => $array_perfis,
                     ]);
-
                     return view('/usuario/alterar-senha');
-                    }
+                } elseif (Hash::check($senha, $hash_senha)) {
 
-                elseif (Hash::check($senha, $hash_senha)) {
                     session()->put('usuario', [
                         'id_usuario' => $result[0]->id_usuario,
                         'id_pessoa' => $result[0]->id_pessoa,
@@ -109,23 +115,22 @@ class LoginController extends Controller
                         'sexo' => $result[0]->sexo,
                         'setor' => $array_setores,
                         'acesso' => $rotasAutorizadas,
-                        'perfis' => $perfis,
+                        'perfis' => $array_perfis,
+
                     ]);
+                    //dd($perfis);
+                    // dd($perfis);
 
                     app('flasher')->addSuccess('Acesso autorizado');
 
                     return view('login/home');
-
-                    }
-
-                else{
+                } else {
 
                     app('flasher')->addError('Credenciais inválidas');
                     return view('login/login');
                 }
-
-        }
-       } catch (\Exception $e) {
+            }
+        } catch (\Exception $e) {
 
             $code = $e->getCode();
             return view('tratamento-erro.erro-inesperado', compact('code'));
@@ -161,9 +166,11 @@ class LoginController extends Controller
             $perfis = explode(',', $result[0]->perfis);
             $setores = explode(',', $result[0]->setores);
             $array_setores = $setores;
+            $array_perfis = $perfis;
 
             $perfis = DB::table('tp_rotas_perfil')->whereIn('id_perfil', $perfis)->orderBy('id_rotas')->pluck('id_rotas');
             $setores = DB::table('tp_rotas_setor')->whereIn('id_setor', $setores)->orderBy('id_rotas')->pluck('id_rotas');
+
 
             $perfis = json_decode(json_encode($perfis), true);
             $setores = json_decode(json_encode($setores), true);
@@ -179,6 +186,7 @@ class LoginController extends Controller
                     'sexo' => $result[0]->sexo,
                     'setor' => $array_setores,
                     'acesso' => $rotasAutorizadas,
+                    'perfis' => $array_perfis,
                 ]);
 
                 app('flasher')->addSuccess('O seu usuário foi validado!');

@@ -2,8 +2,8 @@
 $acesso = session()->get('usuario.acesso');
 $setor = session()->get('usuario.setor');
 $perfis = session()->get('usuario.perfis');
-
-//dd(session()->all());
+// dd(session());
+// dd($perfis);
 ?>
 
 
@@ -82,6 +82,7 @@ $perfis = session()->get('usuario.perfis');
                         </li>
                     </ul>
                 @endif
+
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="2" role="button"
@@ -89,17 +90,17 @@ $perfis = session()->get('usuario.perfis');
                             Remuneratórios</a>
 
                         <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkdropdownMenuLink">
-                            @if (in_array(7, $perfis))
+                            @if (in_array(7, $perfis ?? []))
                                 <li><a href="{{ route('IndexGerenciarFerias') }}" class="dropdown-item">Período de
                                         Férias</a>
                                 </li>
                             @endif
-                            @if (in_array(3, $perfis))
+                            @if (in_array(3, $perfis ?? []))
                                 <li><a href="{{ route('AdministrarFerias') }}" class="dropdown-item">Gerenciar
                                         Férias</a>
                                 </li>
                             @endif
-                            @if (in_array(3, $perfis))
+                            @if (in_array(3, $perfis ?? []) or in_array(3, $perfis ?? []))
                                 <li><a href="{{ route('index.gerenciar-dia-limite-ferias') }}"
                                        class="dropdown-item">Dias
                                         limite para as Férias </a>
