@@ -90,7 +90,7 @@
                             </div>
                         </div>
 
-                        @if ($periodo_de_ferias->venda_um_terco == 1)
+                     <!--
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="inicio_primeiro_periodo_ferias"> 1° Período de Férias Pós-venda:</label>
@@ -109,8 +109,8 @@
                                         value="{{ $periodo_de_ferias->nr_dias_per_a }}" readonly>
                                 </div>
                             </div>
-                        @endif
-                        @if ($periodo_de_ferias->venda_um_terco == 2)
+
+
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
@@ -130,7 +130,8 @@
                                         value="{{ $periodo_de_ferias->nr_dias_per_a }}" readonly>
                                 </div>
                             </div>
-                        @endif
+
+                        -->
 
 
 
