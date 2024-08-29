@@ -48,23 +48,8 @@
         </div>
     </div>
 
+<script>
+window.rotasSelecionadas = @json($rotasSelecionadas);
+</script>
 
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-
-            let rotasSelecionadas = {{ $rotasSelecionadas }};
-
-            $.each(rotasSelecionadas, function(index, value){
-                $('#id' + value).attr('selected','selected');
-                $("#id" + value).change();
-            })
-
-            })
-
-
-    </script>
 @endsection

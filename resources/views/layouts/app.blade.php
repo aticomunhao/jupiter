@@ -4,7 +4,13 @@
 <head>
     @yield('head')
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-compatible" content="ie-edge">
+    <link rel="icon" href="{{asset ('images/favicon.ico') }}" type="image/x-icon">
+    <!-- Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
+
+   
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -15,8 +21,7 @@
     @yield('style')
 
 
-    <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
+
 
 
     <!--<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
@@ -50,7 +55,7 @@
     <!-- footerScript -->
     @yield('footerScript')
 
-
+<!-- <script src="{{asset('js/custom.js')}}"></script> -->
 
 </body>
 

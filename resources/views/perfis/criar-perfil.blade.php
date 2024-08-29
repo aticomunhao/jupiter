@@ -27,7 +27,7 @@
                             </div>
                             <div class="col-12">
                                 Funcionalidades Autorizadas
-                                <select class="form-select js-example-basic-multiple" name="rotas[]" multiple="multiple">
+                                <select class="form-select select2" name="rotas[]" multiple>
                                     @foreach ($rotas as $rota)
                                         <option value="{{ $rota->id }}">{{ $rota->nome }}</option>
                                     @endforeach
@@ -47,17 +47,5 @@
         </div>
     </div>
     
-    <!-- Select2 JS -->
-   
-    <!-- Bootstrap Bundle JS -->
-    
-
-    <script>
-        $(document).ready(function () {
-            $('.js-example-basic-multiple').select2({
-                 theme: 'bootstrap-5'
-            });
-        });
-    </script>
 @endsection
 
