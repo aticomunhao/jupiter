@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('head')
-    <title>Editar Perfil</title>
+    <title>Editar Setor</title>
 @endsection
 @section('content')
     <br />
     <div class="container">
         <div class="card">
             <div class="card-header">
-                Editar Perfil
+                Editar Setor
             </div>
             <div class="card-body">
                 <br>
@@ -59,19 +59,6 @@
     
 
     <script>
-        $(document).ready(function() {
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-
-            let rotasSelecionadas = {{ $rotasSelecionadas }};
-
-            $.each(rotasSelecionadas, function(index, value) {
-                $('#id' + value).attr('selected', 'selected');
-                $("#id" + value).change();
-            })
-
-        });
+        window.rotasSelecionadas = @json($rotasSelecionadas);
     </script>
 @endsection
