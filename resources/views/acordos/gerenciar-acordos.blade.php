@@ -62,7 +62,7 @@
                                                 </td>
                                                 {{-- data de fim --}}
                                                 <td style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($acordo->dt_fim)->format('d/m/Y') }}
+                                                    {{ $acordo->dt_fim ? \Carbon\Carbon::parse($acordo->dt_fim)->format('d/m/Y') : 'Em vigor' }}
                                                 </td>
                                                 {{-- Observação --}}
                                                 <td style="text-align: center">

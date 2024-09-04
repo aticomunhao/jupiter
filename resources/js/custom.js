@@ -1,6 +1,6 @@
 //Quando eecutar a pagina usa o select2
 
-$(document).ready(function() {
+$(document).ready(function () {
     // Inicialize o Select2 com o tema Bootstrap 5
     $('.select2').select2({
         theme: 'bootstrap-5'
@@ -10,9 +10,9 @@ $(document).ready(function() {
     let rotasSelecionadas = window.rotasSelecionadas || [];
 
     // Itera sobre as rotas selecionadas e define como selecionado
-    $.each(rotasSelecionadas, function(index, value) {
-        $('#id' + value).prop('selected', true); 
-        $('#id' + value).trigger('change'); 
+    $.each(rotasSelecionadas, function (index, value) {
+        $('#id' + value).prop('selected', true);
+        $('#id' + value).trigger('change');
     });
 });
 
@@ -61,7 +61,7 @@ $(document).ready(function () {
 
 //tooltip permitindo um modal junto com o tooltip no mesmo botão
 
-import { Tooltip } from 'bootstrap';
+import {Tooltip} from 'bootstrap';
 
 document.addEventListener('DOMContentLoaded', function () {
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[title]'));
@@ -112,20 +112,23 @@ $(document).ready(function () {
 });
 
 
-
 //filtro do editar usuario
-$(document).ready(function() {
+$(document).ready(function () {
     function removeAcentos(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
 
-    $("#nome_pesquisa").on("keyup", function() {
+    $("#nome_pesquisa").on("keyup", function () {
         var value = removeAcentos($(this).val());
         console.log(value);
-        $("#myTable tr").filter(function() {
+        $("#myTable tr").filter(function () {
             var text = removeAcentos($(this).text());
             $(this).toggle(text.indexOf(value) > -1);
         });
     });
 });
+//ajax de saida e retorno dos bancos
+
+
+//inserir na base da gambiarra
 

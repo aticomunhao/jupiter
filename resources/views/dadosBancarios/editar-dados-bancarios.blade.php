@@ -3,7 +3,7 @@
     <title>Editar Dados Bancarios</title>
 @endsection
 @section('content')
-    
+
     <form method="post" action="{{ route('update.dadosbancarios.funcionario', ['id' => $contaBancaria->id]) }}"
         enctype="multipart/form-data">
         @csrf
@@ -126,7 +126,7 @@
     </form>
 
     <!--JQUERY-->
-    
+
 
 
     <script>

@@ -47,7 +47,6 @@ class GerenciarAcordosController extends Controller
             $dataFormatada = $dataDeHoje->format('Y-m-d');
             $datadoBancoDeDados = new DateTime($acordo->dt_fim);
             $datadoBancoDeDadosFormatada = $datadoBancoDeDados->format('Y-m-d');
-
             $acordo->valido = ($dataFormatada <= $datadoBancoDeDadosFormatada) ? "Sim" : "Não";
         }
 
@@ -89,8 +88,8 @@ class GerenciarAcordosController extends Controller
             //$caminho = $this->storeFile($request);
             app('flasher')->addError('A data inicial é maior que a data final');
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
-        }elseif ($funcionario && $funcionario->matricula == $request->input('matricula')) {
-            $caminho = $this->storeFile($request);
+        } elseif ($funcionario && $funcionario->matricula == $request->input('matricula')) {
+            $caminho = $this->storeFile($request ?? '');;
             $data = [
                 'tp_acordo' => $request->input('tipo_acordo'),
                 'dt_inicio' => $request->input('dt_inicio'),
@@ -105,7 +104,7 @@ class GerenciarAcordosController extends Controller
             app('flasher')->addSuccess('O novo cadastro do Acordo foi realizado com sucesso.');
             return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
         } else {
-            $caminho = $this->storeFile($request);
+            $caminho = $this->storeFile($request ?? '');;
             $data = [
                 'tp_acordo' => $request->input('tipo_acordo'),
                 'dt_inicio' => $request->input('dt_inicio'),
@@ -190,8 +189,11 @@ class GerenciarAcordosController extends Controller
 
     private function storeFile(Request $request)
     {
-        $caminho = $request->file('ficheiro')->storeAs('public/images', $request->file('ficheiro')->getClientOriginalName());
-        return 'storage/images/' . $request->file('ficheiro')->getClientOriginalName();
+        if ($request->hasFile('ficheiro')) {
+            $caminho = $request->file('ficheiro')->storeAs('public/images', $request->file('ficheiro')->getClientOriginalName());
+            return 'storage/images/' . $request->file('ficheiro')->getClientOriginalName();
+        }
+        return '';
     }
 
     private function updateAcordoWithoutFile($acordo, Request $request)

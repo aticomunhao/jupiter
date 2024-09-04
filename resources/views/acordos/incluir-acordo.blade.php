@@ -52,7 +52,7 @@
                                 <div class="form-group col-md-3">Arquivo de Anexo
                                     <input type="file" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control form-control-sm mb-2" name="ficheiro" id="idficheiro"
-                                        required="required">
+                                       >
                                 </div>
                             </div>
                         </div>
