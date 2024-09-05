@@ -6,11 +6,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-compatible" content="ie-edge">
-    <link rel="icon" href="{{asset ('images/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('images/pathjupiter.ico') }}" type="image/x-icon">
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/css/app.css', 'resources/js/app.js'])
 
-   
+
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -55,7 +55,7 @@
     <!-- footerScript -->
     @yield('footerScript')
 
-<!-- <script src="{{asset('js/custom.js')}}"></script> -->
+    <!-- <script src="{{ asset('js/custom.js') }}"></script> -->
 
 </body>
 
@@ -69,5 +69,5 @@
         return true;
     });
 </script>
-
+<script src="{{ asset('js/jquery.js') }}"></script>
 </html>

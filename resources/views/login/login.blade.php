@@ -4,6 +4,8 @@
 
 @section('title') Jupiter @endsection
 
+
+
 @section('content')
  <div class="account-pages my-5 pt-sm-5">
         <div class="container">
