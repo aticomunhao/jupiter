@@ -107,7 +107,7 @@ class ControleVagasController extends Controller
         $cargoId = $request->input('vagasCargo');
         $setorId = $request->input('vagasSetor');
 
-        dd($cargoId, $setorId);
+        //dd($cargoId, $setorId);
 
         // Verificar se já existem vagas para o cargo no setor
         $existingVagas = DB::table('tp_vagas_autorizadas')
