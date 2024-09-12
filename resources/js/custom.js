@@ -117,7 +117,6 @@ $(document).ready(function () {
     function removeAcentos(str) {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
     }
-
     $("#nome_pesquisa").on("keyup", function () {
         var value = removeAcentos($(this).val());
         console.log(value);
@@ -127,8 +126,3 @@ $(document).ready(function () {
         });
     });
 });
-//ajax de saida e retorno dos bancos
-
-
-//inserir na base da gambiarra
-
