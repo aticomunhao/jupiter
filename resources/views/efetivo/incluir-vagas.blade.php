@@ -3,7 +3,7 @@
     <title>Incluir Vagas</title>
 @endsection
 @section('content')
-    <form method="post" action="/armazenar-vagas/" enctype="multipart/form-data">
+    <form method="post" action="/armazenar-vagas" enctype="multipart/form-data">
         @csrf
         <div class="container-fluid"> {{-- Container completo da página  --}}
             <div class="justify-content-center">
@@ -46,13 +46,13 @@
                                 <div style="display: flex; gap: 20px; align-items: flex-end; margin-top: 20px;">
                                     <div  for="number" style="margin-top:20px; margin-right: 20px" class="form-label">
                                         Selecione a quantidade de vagas para o cargo selecionado
-                                        <input type="number" class="form-control form-control-number" id="number"
+                                        <input type="number" class="form-control form-control-number" id="numberC"
                                             name="vTotal" style="width: 600px;" required>
                                     </div>
                                     <div for="number" style="margin-top:20px" class="form-label">
                                             Selecione a quantidade de Vagas de Excelência para o cargo
                                             selecionado
-                                        <input type="number" class="form-control form-control-number" id="number"
+                                        <input type="number" class="form-control form-control-number" id="numberE"
                                             name="vExcelencia" style="width: 600px;" required>
                                     </div>
                                 </div>
@@ -74,8 +74,8 @@
     </form>
 
 
-    
-    
+
+
 
     <head>
         <style>

@@ -107,6 +107,8 @@ class ControleVagasController extends Controller
         $cargoId = $request->input('vagasCargo');
         $setorId = $request->input('vagasSetor');
 
+        //dd($cargoId, $setorId);
+
         // Verificar se já existem vagas para o cargo no setor
         $existingVagas = DB::table('tp_vagas_autorizadas')
             ->where('id_cargo', $cargoId)
@@ -117,12 +119,13 @@ class ControleVagasController extends Controller
             app('flasher')->addError('Esse Cargo já possui vagas nesse Setor.');
             return redirect()->back()->withInput();
         } else {
-            $data = [
-                'id_cargo' => $cargoId,
-                'id_setor' => $setorId,
+
+            DB::table('tp_vagas_autorizadas')->insert([
+                'id_cargo' => $request->input('vagasCargo'),
+                'id_setor' => $request->input('vagasSetor'),
                 'vagas_autorizadas' => $request->input('vTotal'),
                 'vagas_excelencia' => $request->input('vExcelencia'),
-            ];
+            ]);
             $histData = [
                 'id_cargo' => $cargoId,
                 'id_setor' => $setorId,
@@ -131,7 +134,6 @@ class ControleVagasController extends Controller
                 'alteracao' => 'Criado'
             ];
 
-            DB::table('tp_vagas_autorizadas')->insert($data);
             DB::table('hist_tp_vagas_autorizadas')->insert($histData);
             app('flasher')->addSuccess('O cadastro das vagas foram realizadas com sucesso.');
             return redirect()->route('indexControleVagas');
