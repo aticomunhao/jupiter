@@ -124,28 +124,33 @@
     </form>
 
     <!--JQUERY-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function () {
-            $('#idagencia').select2({
-                theme: 'bootstrap-5',
-                disabled: true, // Initialize the select2 with disabled state
+           $('#idagencia').select2({
+               theme: 'bootstrap-5',
+               width: '100%',
+              //Initialize the select2 with disabled state
             });
 
             $('#idbanco').change(function (e) {
                 var idbanco = $(this).val();
                 e.preventDefault();
                 $('#idagencia').prop('disabled', false); // Habilita o campo de agências
-                $('#idagencia').empty(); // Limpa as opções antes de popular novamente
-                $('#idagencia').append('<option value="">Selecione uma agência</option>'); // Reinsere a opção padrão
+               // Limpa as opções antes de popular novamente
+           ///     $('#idagencia').append('<option value="">Selecione uma agência</option>'); // Reinsere a opção padrão
 
                 $.ajax({
                     type: "GET",
                     url: "/recebe-agencias/" + idbanco,
                     dataType: "json",
                     success: function (response) {
+                        $('#idagencia').empty();
                         $.each(response, function (index, item) {
+
                             var agenciaFormatted = item.agencia.toString().padStart(4, '0'); // Formata a agência com zeros à esquerda
                             $('#idagencia').append("<option value='" + item.id + "'>" + agenciaFormatted + " - " + item.desc_agen + "</option>");
                         });
