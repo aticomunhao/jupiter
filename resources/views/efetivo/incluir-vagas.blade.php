@@ -72,27 +72,4 @@
             </button>
         </div>
     </form>
-
-
-
-
-
-    <head>
-        <style>
-            .select2-container .select2-selection--multiple {
-                min-width: 600px;
-            }
-        </style>
-    </head>
-
-    <script>
-        $(document).ready(function() {
-
-            //Importa o select2 com tema do Bootstrap para a classe "select2"
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-        });
-    </script>
 @endsection
