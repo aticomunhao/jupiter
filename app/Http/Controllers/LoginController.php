@@ -130,6 +130,11 @@ class LoginController extends Controller
                     return view('login/login');
                 }
             }
+            else {
+
+                app('flasher')->addError('Credenciais inválidas');
+                return view('login/login');
+            }
         } catch (\Exception $e) {
 
             $code = $e->getCode();
