@@ -92,7 +92,7 @@ class ControleVagasController extends Controller
             ->get();
 
         $setor = DB::table('setor')
-            ->select('setor.id AS idSetor', 'setor.nome AS nomeSetor')
+            ->select('setor.id AS idSetor', 'setor.nome AS nomeSetor', 'setor.sigla AS siglaSetor')
             ->get();
 
 
@@ -152,6 +152,7 @@ class ControleVagasController extends Controller
                 'va.vagas_autorizadas AS vTotal',
                 'cargos.nome AS nomeCargo',
                 'setor.nome AS nomeSetor',
+                'setor.sigla AS siglaSetor',
                 'va.id AS idVagas',
                 'va.vagas_excelencia AS vExcelencia'
             )

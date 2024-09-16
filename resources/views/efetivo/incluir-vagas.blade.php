@@ -22,7 +22,7 @@
                                 <div style="display: flex; gap: 20px; align-items: flex-end;">
                                     <div for="cargoSelect" class="form-label">Selecione o cargo desejado
                                         <br>
-                                        <select id="cargoSelect" class="form-select status select2 pesquisa-select"
+                                        <select id="cargoSelect" class="form-select select2"
                                             name="vagasCargo" style="width: 600px;" required>
                                             <option></option>
                                             @foreach ($cargo as $cargos)
@@ -34,11 +34,11 @@
                                     <div for="setorSelect" style="margin-top:20px" class="form-label">Selecione o
                                             Setor pertencente
                                         <br>
-                                        <select id="setorSelect" class="form-select status select2 pesquisa-select"
+                                        <select id="setorSelect" class="form-select select2"
                                             name="vagasSetor" style="width: 600px;" required>
                                             <option></option>
                                             @foreach ($setor as $setores)
-                                                <option value="{{ $setores->idSetor }}">{{ $setores->nomeSetor }}</option>
+                                                <option value="{{ $setores->idSetor }}">{{ $setores->siglaSetor }} - {{ $setores->nomeSetor }}</option>
                                             @endforeach
                                         </select>
                                     </div>

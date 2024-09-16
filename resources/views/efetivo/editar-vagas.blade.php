@@ -41,7 +41,7 @@
                                             pertencente
                                             <select id="setorSelect" class="form-select status select pesquisa-select"
                                                 style="width: 600px;" name="vagasSetor" disabled>
-                                                <option value="{{ $busca->idSetor }}">{{ $busca->nomeSetor }}</option>
+                                                <option value="{{ $busca->idSetor }}">{{ $busca->siglaSetor }} - {{ $busca->nomeSetor }}</option>
                                             </select>
                                         </div>
                                     </div>
