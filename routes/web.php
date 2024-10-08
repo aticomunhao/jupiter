@@ -280,6 +280,8 @@ Route::middleware('rotas:14')->group(function () {
     Route::any('/armazenar-afastamentos/{idf}', [GerenciarAfastamentosController::class, 'store']);
     Route::any('/excluir-afastamento/{idf}', [GerenciarAfastamentosController::class, 'destroy']);
     Route::any('/atualizar-afastamento/{idf}', [GerenciarAfastamentosController::class, 'update']);
+    Route::get('/afastamento/complemento/{id}', [GerenciarAfastamentosController::class, 'getComplemento']);
+
 });
 
 /*Controle de Efetivo*/

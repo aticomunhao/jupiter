@@ -29,13 +29,20 @@
                             <div class="form-group row">
                                 <div class="form-group col-3 mb-3">Motivo do Afastamento
                                     <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        name="tipo_afastamento" required="required" value="">
+                                        name="tipo_afastamento" id="tipo_afastamento" required="required" value="">
                                         @foreach ($tipoafastamento as $tiposafastamentos)
                                             <option value="{{ $tiposafastamentos->id }}"
                                                 {{ $tiposafastamentos->id == old('tipo_afastamento') ? 'selected' : '' }}>
                                                 {{ $tiposafastamentos->nome }}
                                             </option>
                                         @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-3 mb-3" id="complemento_suspensao" style="display: none;">
+                                    Complemento
+                                    <select class="form-select" id="referencia_suspensao" name="referencia_suspensao">
+                                        <!-- Dados serão preenchidos dinamicamente -->
                                     </select>
                                 </div>
 
@@ -58,7 +65,7 @@
                             <div class="form-check mb-2">
                                 <input type="checkbox" style="border: 1px solid #999999; padding: 5px;"
                                     class="form-check-input" id="justificado" name="justificado"
-                                    @if(old('justificado')) checked @endif>
+                                    @if (old('justificado')) checked @endif>
                                 <label class="form-check-label" for="justificado">
                                     Justificado?
                                 </label>
@@ -89,4 +96,35 @@
         </div>
     </form>
 
+    <script>
+        document.getElementById('tipo_afastamento').addEventListener('change', function() {
+            const selectedValue = this.value;
+            const complementoDiv = document.getElementById('complemento_suspensao');
+            const referenciaSelect = document.getElementById('referencia_suspensao');
+
+            // Verifica se o valor selecionado é 16 ou 17 (Suspensão de contrato ou outro motivo)
+            if (selectedValue == 16 || selectedValue == 17) {
+                complementoDiv.style.display = 'block'; // Mostra o campo
+
+                // Faz requisição AJAX para buscar as opções complementares
+                fetch(`/afastamento/complemento/${selectedValue}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        referenciaSelect.innerHTML = ''; // Limpa opções anteriores
+
+                        // Adiciona as novas opções
+                        data.forEach(item => {
+                            const option = document.createElement('option');
+                            option.value = item.id;
+                            option.textContent = item.complemento;
+                            referenciaSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Erro ao buscar dados:', error)); // Trata possíveis erros
+            } else {
+                complementoDiv.style.display = 'none'; // Esconde o campo se não for 16 ou 17
+                referenciaSelect.innerHTML = ''; // Limpa as opções do select
+            }
+        });
+    </script>
 @endsection

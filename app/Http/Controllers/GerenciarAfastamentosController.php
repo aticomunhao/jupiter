@@ -278,4 +278,29 @@ class GerenciarAfastamentosController extends Controller
             ->where('funcionarios.id', $funcionarioId)
             ->first();
     }
+
+    public function getComplemento($id)
+{
+    // Verifica se o ID é 16 (suspensão de contrato)
+    if ($id == 16) {
+        $complementos = DB::table('complemento_afastamento')
+            ->where('referencia', $id)
+            ->select('id', 'complemento')
+            ->get();
+
+        return response()->json($complementos);
+    }
+
+    if ($id == 17) {
+        $complementos = DB::table('complemento_afastamento')
+            ->where('referencia', $id)
+            ->select('id', 'referencia', 'complemento')
+            ->get();
+
+        return response()->json($complementos);
+    }
+
+    return response()->json([]);
+}
+
 }
