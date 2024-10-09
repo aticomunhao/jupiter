@@ -38,7 +38,7 @@
                                 </div>
                                 <div class="col-md-2 col-sm-12">CPF
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           type="numeric" maxlength="11" placeholder="888.888.888-88"
+                                           type="text" maxlength="11" placeholder="888.888.888-88"
                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                            id="8" name="cpf" required="required">
                                 </div>
