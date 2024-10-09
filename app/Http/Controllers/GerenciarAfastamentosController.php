@@ -26,7 +26,7 @@ class GerenciarAfastamentosController extends Controller
             ->leftJoin('funcionarios AS f', 'afastamento.id_funcionario', 'f.id')
             ->leftJoin('pessoas AS p', 'f.id_pessoa', 'p.id')
             ->leftJoin('tp_afastamento', 'afastamento.id_tp_afastamento', 'tp_afastamento.id')
-            ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa',  'p.nome_completo AS nome', 'afastamento.dt_inicio AS inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim', 'afastamento.justificado', 'f.dt_inicio')
+            ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa', 'p.nome_completo AS nome', 'afastamento.dt_inicio AS inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim', 'afastamento.justificado', 'f.dt_inicio')
             ->where('afastamento.id_funcionario', '=', $idf)
             ->get();
 
@@ -58,55 +58,98 @@ class GerenciarAfastamentosController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request, $idf)
+{
+    // Busca da data de início do funcionário
+    $afastamentos = DB::table('funcionarios AS f')
+        ->leftJoin('afastamento', 'afastamento.id_funcionario', 'f.id')
+        ->where('f.id', $idf)
+        ->value('f.dt_inicio');
 
-    {
+    // Busca o último afastamento do funcionário com dt_fim == null (afastamento "em aberto")
+    $afastamentoAberto = DB::table('acordo')
+        ->where('id_funcionario', '=', $idf)
+        ->where('tp_acordo', '=', $request->input('tipo_afastamento')) // Verifica o tipo de afastamento
+        ->whereNull('dt_fim') // Verifica se a dt_fim está null
+        ->orderByDesc('dt_inicio') // Ordena para pegar o mais recente
+        ->first();
 
-        $afastamentos = DB::table('funcionarios AS f')
-            ->leftJoin('afastamento', 'afastamento.id_funcionario', 'f.id')
-            //->select('f.dt_inicio')
-            ->where('f.id', $idf)
-            ->value('f.dt_inicio');
+    // Conversão de datas utilizando Carbon
+    $dataInicioFuncionario = Carbon::parse($afastamentos);
+    $dataInicioRequisicao = Carbon::parse($request->input('dt_inicio'));
 
+    $justificado = $request->has('justificado'); // Simplificado
 
+    // Verifica se a data de início da requisição é anterior à do funcionário
+    $teste = $dataInicioRequisicao->lt($dataInicioFuncionario);
 
-        $bola = date(strtotime($afastamentos));
-        $canhao = $request->input('dt_inicio');
-        $fogo = date(strtotime($canhao));
+    // Verifica se a data inicial é maior ou igual à data final,0
+    
+    if ($dataInicioRequisicao->gte(Carbon::parse($request->input('dt_fim')))) {
+        app('flasher')->addError('A data inicial é maior ou igual à data final');
+        return redirect()->back()->withInput();
+    } elseif ($teste) {
+        app('flasher')->addError('O funcionário não pertencia à comunhão nessa data inicial');
+        return back()->withInput();
+    } else {
+        // Salvamento do arquivo
+        $caminho = $this->storeFile($request);
 
-        $justificado = isset($request->justificado) ? true : false;
-        //dd($justificado);
+        // Dados para inserção na tabela afastamento
+        $dataAfastamento = [
+            'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
+            'id_tp_afastamento' => $request->input('tipo_afastamento'),
+            'dt_inicio' => $request->input('dt_inicio'),
+            'dt_fim' => $request->input('dt_fim'),
+            'id_funcionario' => $idf,
+            'justificado' => $justificado,
+            'observacao' => $request->input('observacao'),
+            'caminho' => $caminho,
+        ];
 
-        $teste = ($fogo < $bola);
-        //dd($teste);
+        // Se o funcionário já possui um afastamento em aberto (dt_fim == null)
+        if ($afastamentoAberto) {
+            // Atualiza a dt_fim do último afastamento aberto para ser a dt_inicio do novo afastamento
+            DB::table('acordo')
+                ->where('id', $afastamentoAberto->id)
+                ->update(['dt_fim' => $request->input('dt_inicio')]);
 
-        if ($request->input('dt_inicio') >= $request->input('dt_fim')) {
-            $caminho = $this->storeFile($request);
-            app('flasher')->addError('A data inicial é precisa ser anterior a data final');
-            return redirect()->back()->withInput();
-        } elseif ($teste) {
-            $caminho = $this->storeFile($request);
-            app('flasher')->addError('O funcionário não pertencia a comunhão nessa data inicial');
-            return back()->withInput();
-        } else {
-            $caminho = $this->storeFile($request);
-            $data = [
-                'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
-                'id_tp_afastamento' => $request->input('tipo_afastamento'),
-                'dt_inicio' => $request->input('dt_inicio'),
-                'dt_fim' => $request->input('dt_fim'),
+            // Insere o novo afastamento
+            $idAfastamento = DB::table('afastamento')->insertGetId($dataAfastamento);
+
+            // Inserção de um novo acordo (caso necessário)
+            $novoAcordo = [
+                'matricula' => $afastamentoAberto->matricula,
+                'tp_acordo' => $afastamentoAberto->tp_acordo,
+                'caminho' => $afastamentoAberto->caminho, // Preserva o caminho anterior
                 'id_funcionario' => $idf,
-                'justificado' => $justificado,
-                'observacao' => $request->input('observacao'),
-                'caminho' => $caminho
+                'dt_inicio' => $request->input('dt_fim'),
+                'admissao' => 'false',
+                'id_afastamento' => $idAfastamento, // Associar com o afastamento recém-criado
             ];
 
+            DB::table('acordo')->insert($novoAcordo);
+        } else {
+            // Se não existir um afastamento aberto, insere o novo afastamento e o novo acordo
+            $idAfastamento = DB::table('afastamento')->insertGetId($dataAfastamento);
 
+            $novoAcordo = [
+                'matricula' => $request->input('matricula'),
+                'tp_acordo' => $request->input('tipo_afastamento'),
+                'caminho' => $caminho,
+                'id_funcionario' => $idf,
+                'dt_inicio' => $request->input('dt_fim'),
+                'admissao' => 'false',
+                'id_afastamento' => $idAfastamento,
+            ];
 
-            DB::table('afastamento')->insert($data);
-            app('flasher')->addSuccess('O cadastro do afastamentos foi realizado com sucesso.');
-            return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
+            DB::table('acordo')->insert($novoAcordo);
         }
+
+        app('flasher')->addSuccess('O cadastro do afastamento foi realizado com sucesso.');
+        return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
     }
+}
+
 
     /**
      * Display the specified resource.
@@ -280,27 +323,27 @@ class GerenciarAfastamentosController extends Controller
     }
 
     public function getComplemento($id)
-{
-    // Verifica se o ID é 16 (suspensão de contrato)
-    if ($id == 16) {
-        $complementos = DB::table('complemento_afastamento')
-            ->where('referencia', $id)
-            ->select('id', 'complemento')
-            ->get();
+    {
+        // Verifica se o ID é 16 (suspensão de contrato)
+        if ($id == 16) {
+            $complementos = DB::table('complemento_afastamento')
+                ->where('referencia', $id)
+                ->select('id', 'complemento')
+                ->get();
 
-        return response()->json($complementos);
+            return response()->json($complementos);
+        }
+
+        if ($id == 17) {
+            $complementos = DB::table('complemento_afastamento')
+                ->where('referencia', $id)
+                ->select('id', 'referencia', 'complemento')
+                ->get();
+
+            return response()->json($complementos);
+        }
+
+        return response()->json([]);
     }
-
-    if ($id == 17) {
-        $complementos = DB::table('complemento_afastamento')
-            ->where('referencia', $id)
-            ->select('id', 'referencia', 'complemento')
-            ->get();
-
-        return response()->json($complementos);
-    }
-
-    return response()->json([]);
-}
 
 }
