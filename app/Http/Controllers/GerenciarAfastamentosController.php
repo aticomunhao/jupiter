@@ -276,7 +276,7 @@ class GerenciarAfastamentosController extends Controller
         // Excluir o registro do afastamento
         DB::table('afastamento')->where('id', $idf)->delete();
 
-        app('flasher')->addWarning('O cadastro do afastamento foi removido com sucesso.');
+        app('flasher')->addSuccess('O cadastro do afastamento foi removido com sucesso.');
         return redirect()->back();
     }
 

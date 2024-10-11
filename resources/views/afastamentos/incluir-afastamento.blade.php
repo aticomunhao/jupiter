@@ -53,8 +53,7 @@
                                 </div>
                                 <div class="form-group col-2">Data de Retorno
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" value="{{ old('dt_fim') }}" id="iddt_fim" name="dt_fim"
-                                        required="required">
+                                        type="date" value="{{ old('dt_fim') }}" id="iddt_fim" name="dt_fim">
                                 </div>
                                 <div class="form-group col-4">Arquivo de Anexo
                                     <input type="file" style="border: 1px solid #999999; padding: 5px;"

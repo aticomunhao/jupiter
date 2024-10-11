@@ -21,7 +21,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md col-sm-12" style="margin-left:5px">
-                                        <label for="1">Selecione o Setor Desejado</label>
+                                        <label for="1">Setor</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             @if ($setor_selecionado != null)
                                                 <option
@@ -31,13 +31,13 @@
 
                                             @foreach ($setor as $setors)
                                                 <option value="{{ $setors->idSetor }}">
-                                                    {{ $setors->nome_setor}}
+                                                    {{ $setors->siglaSetor}}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col-md col-sm-12">
-                                        <label for="1">Selecione o mês do Limite de Gozo Desejado</label>
+                                    {{-- <div class="col-md col-sm-12">
+                                        <label for="1">Limite do Período Aquisitivo</label>
                                         <select id="idmes" class="form-select select2" name="mes">
                                             @if ($mes_selecionado != null)
                                                 <option
@@ -51,15 +51,10 @@
                                                 </option>
                                             @endforeach
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-md col-sm-12">
-                                        <label for="1">Selecione o mês do Periodo de Ferias</label>
+                                        <label for="1">Mês de Referência</label>
                                         <select id="idmes" class="form-select select2" name="mes_gozo_ferias">
-                                            @if($mes_gozo_ferias != null)
-                                                <option value="{{ $mes_gozo_ferias['indice'] }}">
-                                                    {{ $mes_gozo_ferias['nome'] }}
-                                                </option>
-                                            @endif
                                             <option value="">Todos</option>
                                             @foreach ($mes as $meses => $nome)
                                                 <option value="{{ $meses }}">
@@ -69,7 +64,7 @@
                                         </select>
                                     </div>
                                     <div class="col-md col-sm-12">
-                                        <label for="1">Selecione o Periodo Aquisitivo</label>
+                                        <label for="1">Periodo Aquisitivo</label>
                                         <select id="idano" class="form-select select2" name="ano">
 
                                             @if($ano_selecionado != null)
