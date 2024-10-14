@@ -193,19 +193,6 @@
     </form>
 
 
-
-    <script>
-        $(document).ready(function () {
-
-            //Importa o select2 com tema do Bootstrap para a classe "select2"
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-        });
-    </script>
-
-
     <style>
         .highlight {
             color: red;
