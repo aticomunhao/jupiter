@@ -107,40 +107,31 @@ class GerenciarAfastamentosController extends Controller
 
             // Se o funcionário já possui um afastamento em aberto (dt_fim == null)
             if ($afastamentoAberto) {
-                // Atualiza a dt_fim do último afastamento aberto para ser a dt_inicio do novo afastamento
-                DB::table('acordo')
-                    ->where('id', $afastamentoAberto->id)
-                    ->update(['dt_fim' => $request->input('dt_inicio')]);
-
                 // Insere o novo afastamento
                 $idAfastamento = DB::table('afastamento')->insertGetId($dataAfastamento);
 
-                // Verifica se a dt_fim está presente e se o tipo de afastamento é 16 ou 17 antes de inserir na tabela acordo
-                if (!is_null($request->input('dt_fim')) && in_array($request->input('tipo_afastamento'), [16, 17])) {
+                // Verifica se a dt_fim está presente e se o tipo de afastamento é 16 antes de inserir na tabela acordo
+                if (!is_null($request->input('dt_fim')) && in_array($request->input('tipo_afastamento'), [16])) {
                     $novoAcordo = [
                         'matricula' => $afastamentoAberto->matricula,
                         'tp_acordo' => $afastamentoAberto->tp_acordo,
-                        'caminho' => $afastamentoAberto->caminho, // Preserva o caminho anterior
                         'id_funcionario' => $idf,
-                        'dt_inicio' => $request->input('dt_fim'),
+                        'dt_inicio' => $request->input('dt_inicio'),
+                        'dt_fim' => $request->input('dt_fim'),
                         'admissao' => 'false',
                         'id_afastamento' => $idAfastamento, // Associar com o afastamento recém-criado
                     ];
 
                     DB::table('acordo')->insert($novoAcordo);
-                }
-            } else {
-                // Se não existir um afastamento aberto, insere o novo afastamento
-                $idAfastamento = DB::table('afastamento')->insertGetId($dataAfastamento);
 
-                // Verifica se a dt_fim está presente e se o tipo de afastamento é 16 ou 17 antes de inserir na tabela acordo
-                if (!is_null($request->input('dt_fim')) && in_array($request->input('tipo_afastamento'), [16, 17])) {
+                // Verifica se a dt_fim está presente e se o tipo de afastamento é 16 antes de inserir na tabela acordo
+                } elseif (!is_null($request->input('dt_fim')) && in_array($request->input('tipo_afastamento'), [17])) {
                     $novoAcordo = [
                         'matricula' => $request->input('matricula'),
                         'tp_acordo' => $request->input('tipo_afastamento'),
-                        'caminho' => $caminho,
                         'id_funcionario' => $idf,
-                        'dt_inicio' => $request->input('dt_fim'),
+                        'dt_inicio' => $request->input('dt_inicio'),
+                        'dt_fim' => $request->input('dt_fim'),
                         'admissao' => 'false',
                         'id_afastamento' => $idAfastamento,
                     ];
@@ -148,7 +139,6 @@ class GerenciarAfastamentosController extends Controller
                     DB::table('acordo')->insert($novoAcordo);
                 }
             }
-
             app('flasher')->addSuccess('O cadastro do afastamento foi realizado com sucesso.');
             return redirect()->route('indexGerenciarAfastamentos', ['idf' => $idf]);
         }
@@ -245,14 +235,14 @@ class GerenciarAfastamentosController extends Controller
             DB::table('afastamento')
                 ->where('id', $afastamento->id)
                 ->update([
-                    'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
-                    'id_tp_afastamento' => $request->input('tipo_afastamento'),
-                    'dt_inicio' => $request->input('dt_inicio'),
-                    'dt_fim' => $request->input('dt_fim'),
-                    'observacao' => $request->input('observacao'),
-                    'justificado' => $justificado,
-                    'caminho' => 'storage/images/' . $nomeUnico . '.' . $extensao
-                ]);
+                        'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
+                        'id_tp_afastamento' => $request->input('tipo_afastamento'),
+                        'dt_inicio' => $request->input('dt_inicio'),
+                        'dt_fim' => $request->input('dt_fim'),
+                        'observacao' => $request->input('observacao'),
+                        'justificado' => $justificado,
+                        'caminho' => 'storage/images/' . $nomeUnico . '.' . $extensao
+                    ]);
         }
     }
 
@@ -308,13 +298,13 @@ class GerenciarAfastamentosController extends Controller
         DB::table('afastamento')
             ->where('id', $afastamento->id)
             ->update([
-                'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
-                'id_tp_afastamento' => $request->input('tipo_afastamento'),
-                'dt_inicio' => $request->input('dt_inicio'),
-                'dt_fim' => $request->input('dt_fim'),
-                'justificado' => $justificado,
-                'observacao' => $request->input('observacao')
-            ]);
+                    'qtd_dias' => Carbon::parse($request->input('dt_inicio'))->diffInDays(Carbon::parse($request->input('dt_fim'))),
+                    'id_tp_afastamento' => $request->input('tipo_afastamento'),
+                    'dt_inicio' => $request->input('dt_inicio'),
+                    'dt_fim' => $request->input('dt_fim'),
+                    'justificado' => $justificado,
+                    'observacao' => $request->input('observacao')
+                ]);
     }
 
 

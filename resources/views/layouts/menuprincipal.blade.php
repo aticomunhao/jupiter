@@ -30,10 +30,7 @@ $perfis = session()->get('usuario.perfis');
 
                                 <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar
                                         Funcionarios</a>
-                                </li>
-
-                                <li><a class="dropdown-item" href="gerenciar-voluntario">Gerenciar Voluntários</a></li>
-
+                                </li>              
 
                                 <li><a class="dropdown-item" href="/gerenciar-associado">Gerenciar Associados</a>
                                 </li>
