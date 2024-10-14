@@ -173,7 +173,7 @@
                     </a>
                 </div>
                 <div class="col-4">
-                    <button type="submit" class="btn btn-primary" style="width: 100%">Enviar</button>
+                    <button type="submit" class="btn btn-primary" style="width: 100%">Confirmar</button>
                 </div>
             </div>
         </div>
@@ -243,7 +243,7 @@
                     $('#periododevenda').empty(); // Esvazia o conteúdo se a checkbox for desmarcada
                 }
             });
-      
+
 
 
 

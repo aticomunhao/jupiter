@@ -92,7 +92,7 @@
                                         <thead style="text-align: center;">
                                             <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                                 <th scope="col">
-                                                    <p>Selecionar Para Envio</p>
+
                                                     <p>Todos: <input type="checkbox" id="toggleCheckbox"
                                                             class="form-check-input"></p>
                                                 </th>
@@ -176,7 +176,7 @@
                                                             class="btn btn-outline-primary" data-bs-toggle="tooltip"
                                                             data-bs-placement="top" title="Enviar Ferias "
                                                             style="font-size: 1rem; color:#0e0b16;">
-                                                            <i class="bi bi-person-check-fill"></i>
+                                                            <i class="bi bi-arrow-right-square"></i>
                                                         </a>
 
                                                         @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
@@ -187,7 +187,7 @@
                                                                 data-bs-toggle="modal"
                                                                 data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}"
                                                                 data-bs-placement="top" title="Reabrir Formulário">
-                                                                <i class="bi bi-folder2-open"></i>
+                                                                <i class="bi bi-arrow-counterclockwise"></i>
                                                             </button>
                                                             <div class="modal fade"
                                                                 id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
