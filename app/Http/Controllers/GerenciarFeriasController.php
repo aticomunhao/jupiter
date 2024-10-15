@@ -283,7 +283,8 @@ class GerenciarFeriasController extends Controller
                 //$dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
                 $afastamentos = DB::table('afastamento')
-                    ->where('id_funcionario', '=', $funcionario->id_funcionario);
+                    ->where('id_funcionario', '=', $funcionario->id_funcionario)
+                    ->whereIn('tp_acordo', '=', [16, 17]);
 
                 if ($afastamentos->count() > 0) {
                     foreach ($afastamentos as $afastamento) {
