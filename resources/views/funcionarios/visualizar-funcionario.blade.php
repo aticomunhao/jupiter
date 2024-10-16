@@ -21,7 +21,7 @@
                     <div class="card-body">
                         <fieldset class="border rounded p-4 position-relative" style="margin-bottom: 20px">
                             <legend class="w-auto"
-                                style="font-size: 1.2rem; padding: 0 10px; position: absolute; top: -15px; left: 20px; background: white;">
+                                style="font-size: .9rem; padding: 0 10px; position: absolute; top: -12px; left: 20px; background: white; color: red">
                                 Dados pessoais</legend>
                             <div class="row" style="margin-bottom: 10px">
                                 <div class="col">
@@ -143,22 +143,22 @@
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
-                                        Setor Alocado:
+                                        Ascendente 1:
                                     </legend>
-                                    {{ $funcionario[0]->nome_setor }}
+                                    {{ $funcionario[0]->nome_mae }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
-                                        Data de Ingresso na Comunhão:
+                                        Ascendente 2:
                                     </legend>
-                                    {{ $funcionario[0]->dt_inicio }}
+                                    {{ $funcionario[0]->nome_pai }}
                                 </div>
                             </div>
                         </fieldset>
                         <fieldset class="border rounded p-4 position-relative" style="margin-bottom: 20px">
                             <legend class="w-auto"
-                                style="font-size: 1.2rem; padding: 0 10px; position: absolute; top: -15px; left: 20px; background: white;">
+                                style="font-size: .9rem; padding: 0 10px; position: absolute; top: -12px; left: 20px; background: white; color: red">
                                 Dados Funcionais</legend>
                             <div class="row" style="margin-bottom: 10px">
                                 <div class="col">
@@ -208,9 +208,9 @@
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
-                                        Ascendente 1:
+                                        Data de Ingresso na Comunhão:
                                     </legend>
-                                    {{ $funcionario[0]->nome_mae }}
+                                    {{ $funcionario[0]->dt_inicio }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
@@ -252,9 +252,9 @@
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
-                                        Ascendente 2:
+                                        Setor Alocado:
                                     </legend>
-                                    {{ $funcionario[0]->nome_pai }}
+                                    {{ $funcionario[0]->nome_setor }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
@@ -284,6 +284,14 @@
                                     </legend>
                                     {{ $funcionario[0]->nome_fator }}
                                 </div>
+
+                            </div>
+                        </fieldset>
+                        <fieldset class="border rounded p-4 position-relative" style="margin-bottom: 10px">
+                            <legend class="w-auto"
+                                style="font-size: .9rem; padding: 0 10px; position: absolute; top: -12px; left: 20px; background: white; color: red">
+                                Endereço</legend>
+                            <div class="row">
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
@@ -291,13 +299,6 @@
                                     </legend>
                                     {{ $endereco[0]->cep }}
                                 </div>
-                            </div>
-                        </fieldset>
-                        <fieldset class="border rounded p-4 position-relative" style="margin-bottom: 10px">
-                            <legend class="w-auto"
-                                style="font-size: 1.2rem; padding: 0 10px; position: absolute; top: -15px; left: 20px; background: white;">
-                                Endereço</legend>
-                            <div class="row">
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
