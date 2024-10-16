@@ -112,14 +112,19 @@
                                         <tbody id="idtable">
                                             @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
                                                 <tr @if ($periodos_aquisitivos->em_conflito) class="table-warning" @endif>
-                                                    <td style="text-align:center">
+                                                    <td class="text-center align-middle">
                                                         @if (
                                                             $periodos_aquisitivos->id_status_pedido_ferias == 3 or
                                                                 $periodos_aquisitivos->id_status_pedido_ferias == 5 or
                                                                 $periodos_aquisitivos->id_status_pedido_ferias == 1)
-                                                            <input class="form-check-input checkbox-trigger" type="checkbox"
-                                                                id="id_checkbox[]" name="checkbox[]"
-                                                                value="{{ $periodos_aquisitivos->id_ferias }}">
+                                                            <div
+                                                                class="form-check form-switch d-flex justify-content-center">
+                                                                <input class="form-check-input checkbox-trigger"
+                                                                    type="checkbox"
+                                                                    id="id_checkbox_{{ $periodos_aquisitivos->id_ferias }}"
+                                                                    name="checkbox[]"
+                                                                    value="{{ $periodos_aquisitivos->id_ferias }}">
+                                                            </div>
                                                         @endif
                                                     </td>
                                                     <td style="text-align: center">
