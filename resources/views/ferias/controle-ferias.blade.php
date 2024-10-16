@@ -69,13 +69,13 @@
 
                                             @if($ano_selecionado != null)
                                                 <option value="{{ $ano_selecionado}}">
-                                                    {{ $ano_selecionado  }} - {{ $ano_selecionado+ 1 }}
+                                                    {{ $ano_selecionado +1 }} - {{ $ano_selecionado +2 }}
                                                 </option>
                                             @endif
                                             <option value="">Todos</option>
                                             @foreach ($ano as $anos)
                                                 <option value="{{ $anos->ano_de_referencia}}">
-                                                    {{ $anos->ano_de_referencia  }} - {{ $anos->ano_de_referencia +1 }}
+                                                    {{ $anos->ano_de_referencia +1 }} - {{ $anos->ano_de_referencia +2 }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -191,19 +191,6 @@
             </div>
         </div>
     </form>
-
-
-
-    <script>
-        $(document).ready(function () {
-
-            //Importa o select2 com tema do Bootstrap para a classe "select2"
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-        });
-    </script>
 
 
     <style>
