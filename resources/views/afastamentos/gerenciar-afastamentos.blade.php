@@ -55,12 +55,20 @@
                                                 <td scope="" style="text-align: center">
                                                     {{ date('d/m/Y', strtotime($afastamento->inicio)) }}
                                                 </td>
-                                                <td scope=""style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($afastamento->inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
+                                                <td scope="" style="text-align: center">
+                                                    @if ($afastamento->dt_fim)
+                                                        {{ \Carbon\Carbon::parse($afastamento->inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
+                                                    @endif
                                                 </td>
-                                                <td scope=""style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}
+
+                                                <td scope="" style="text-align: center">
+                                                    @if ($afastamento->dt_fim)
+                                                        {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}
+                                                    @else
+                                                        Não Possui
+                                                    @endif
                                                 </td>
+
                                                 <td style="text-align: center">
                                                     {{ $afastamento->justificado ? 'Sim' : 'Não' }}
                                                 </td>
@@ -95,14 +103,14 @@
                                                         </button>
                                                     </a>
                                                     <!-- Modal -->
-                                                    <div class="modal fade" id="A{{ $afastamento->id }}"
-                                                        tabindex="-1" aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true">
+                                                    <div class="modal fade" id="A{{ $afastamento->id }}" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header" style="background-color:#DC4C64;">
                                                                     <h5 class="modal-title" id="exampleModalLabel"
-                                                                        style=" color:rgb(255, 255, 255)">Excluir Afastamento</h5>
+                                                                        style=" color:rgb(255, 255, 255)">Excluir
+                                                                        Afastamento</h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal" aria-label="Close"></button>
                                                                 </div>
@@ -116,7 +124,7 @@
                                                                     <button type="button" class="btn btn-danger"
                                                                         data-bs-dismiss="modal">Cancelar</button>
                                                                     <a type="button" class="btn btn-primary"
-                                                                    href="/excluir-afastamento/{{ $afastamento->id }}">Confirmar
+                                                                        href="/excluir-afastamento/{{ $afastamento->id }}">Confirmar
                                                                     </a>
                                                                 </div>
                                                             </div>

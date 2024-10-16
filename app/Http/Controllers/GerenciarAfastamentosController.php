@@ -68,10 +68,10 @@ class GerenciarAfastamentosController extends Controller
         // Busca o último afastamento do funcionário com dt_fim == null (afastamento "em aberto")
         $afastamentoAberto = DB::table('acordo')
             ->where('id_funcionario', '=', $idf)
-            ->where('tp_acordo', '=', $request->input('tipo_afastamento')) // Verifica o tipo de afastamento
-            ->whereNull('dt_fim') // Verifica se a dt_fim está null
             ->orderByDesc('dt_inicio') // Ordena para pegar o mais recente
             ->first();
+
+            //dd($afastamentoAberto, $idf);
 
         // Conversão de datas utilizando Carbon
         $dataInicioFuncionario = Carbon::parse($afastamentos);
@@ -83,7 +83,7 @@ class GerenciarAfastamentosController extends Controller
         $teste = $dataInicioRequisicao->lt($dataInicioFuncionario);
 
         // Verifica se a data inicial é maior ou igual à data final
-        if ($dataInicioRequisicao->gte(Carbon::parse($request->input('dt_fim')))) {
+        if ($dataInicioRequisicao->gte(Carbon::parse($request->input('dt_fim'))) && !is_null($request->input('dt_fim'))) {
             app('flasher')->addError('A data inicial é maior ou igual à data final');
             return redirect()->back()->withInput();
         } elseif ($teste) {
@@ -103,13 +103,17 @@ class GerenciarAfastamentosController extends Controller
                 'justificado' => $justificado,
                 'observacao' => $request->input('observacao'),
                 'caminho' => $caminho,
+                'id_complemento' => $request->input('referencia_suspensao'),
             ];
 
-            // Insere o novo afastamento
-            $idAfastamento = DB::table('afastamento')->insertGetId($dataAfastamento);
+
 
             // Verifica se a dt_fim está presente e se o tipo de afastamento é 16 antes de inserir na tabela acordo
             if (!is_null($request->input('dt_fim')) && in_array($request->input('tipo_afastamento'), [16])) {
+
+                // Insere o novo afastamento
+                $idAfastamento = DB::table('afastamento')->insertGetId($dataAfastamento);
+
                 $novoAcordo = [
                     'matricula' => $afastamentoAberto->matricula,
                     'tp_acordo' => $afastamentoAberto->tp_acordo,
@@ -124,6 +128,9 @@ class GerenciarAfastamentosController extends Controller
 
                 // Verifica se a dt_fim está presente e se o tipo de afastamento é 17 antes de inserir na tabela acordo
             } elseif (!is_null($request->input('dt_fim')) && in_array($request->input('tipo_afastamento'), [17])) {
+
+                // Insere o novo afastamento
+                $idAfastamento = DB::table('afastamento')->insertGetId($dataAfastamento);
 
                 // Verifica a duração do afastamento atual
                 $dtInicio = Carbon::parse($request->input('dt_inicio'));
@@ -146,8 +153,8 @@ class GerenciarAfastamentosController extends Controller
                 if ($diferencaMesesAtual >= 6) {
                     // Insere o novo afastamento se o afastamento atual sozinho exceder 6 meses
                     $novoAcordo = [
-                        'matricula' => $request->input('matricula'),
-                        'tp_acordo' => $request->input('tipo_afastamento'),
+                        'matricula' => $afastamentoAberto->matricula,
+                        'tp_acordo' => $afastamentoAberto->tp_acordo,
                         'id_funcionario' => $idf,
                         'dt_inicio' => $request->input('dt_inicio'),
                         'dt_fim' => $request->input('dt_fim'),
@@ -160,8 +167,8 @@ class GerenciarAfastamentosController extends Controller
                 } elseif ($somaTotalMeses >= 6) {
                     // Insere o novo afastamento se a soma dos afastamentos anteriores com o atual exceder 6 meses
                     $novoAcordo = [
-                        'matricula' => $request->input('matricula'),
-                        'tp_acordo' => $request->input('tipo_afastamento'),
+                        'matricula' => $afastamentoAberto->matricula,
+                        'tp_acordo' => $afastamentoAberto->tp_acordo,
                         'id_funcionario' => $idf,
                         'dt_inicio' => $request->input('dt_inicio'),
                         'dt_fim' => $request->input('dt_fim'),
@@ -171,6 +178,10 @@ class GerenciarAfastamentosController extends Controller
 
                     DB::table('acordo')->insert($novoAcordo);
                 }
+            } else {
+
+                $idAfastamento = DB::table('afastamento')->insert($dataAfastamento);
+
             }
 
             app('flasher')->addSuccess('O cadastro do afastamento foi realizado com sucesso.');
