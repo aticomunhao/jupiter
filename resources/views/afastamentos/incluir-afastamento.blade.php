@@ -46,12 +46,12 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group col-2">Data de Início
+                                <div class="form-group col-2">Data Inicial
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="date" value="{{ old('dt_inicio') }}" id="iddt_inicio" name="dt_inicio"
                                         required="required">
                                 </div>
-                                <div class="form-group col-2">Data de Retorno
+                                <div class="form-group col-2">Data Final
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="date" value="{{ old('dt_fim') }}" id="iddt_fim" name="dt_fim">
                                 </div>

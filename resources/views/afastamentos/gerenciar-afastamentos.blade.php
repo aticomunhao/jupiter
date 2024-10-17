@@ -39,9 +39,9 @@
                                         <tr class="align-middle"
                                             style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th class="col-2">Tipo Afastamento</th>
-                                            <th class="col-2">Data de Início</th>
+                                            <th class="col-2">Data Inicial</th>
                                             <th class="col-2">Quantidade de dias</th>
-                                            <th class="col-2">Data de Retorno</th>
+                                            <th class="col-2">Data Final</th>
                                             <th class="col-2">Justificado</th>
                                             <th class="col-2">Ações</th>
                                         </tr>
@@ -57,7 +57,7 @@
                                                 </td>
                                                 <td scope="" style="text-align: center">
                                                     @if ($afastamento->dt_fim)
-                                                        {{ \Carbon\Carbon::parse($afastamento->inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
+                                                        {{ \Carbon\Carbon::parse($afastamento->inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) + 1}}
                                                     @endif
                                                 </td>
 
