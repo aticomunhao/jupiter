@@ -51,6 +51,12 @@ class GerenciarFeriasController extends Controller
             $periodo_aquisitivo->where('ferias.ano_de_referencia', $ano_referente);
             $ano_consulta = $ano_referente;
         }
+
+        if ($request->input('anoconsulta') == null) {
+            $ano_referente = $periodo_aquisitivo->max('ferias.ano_de_referencia');
+            $periodo_aquisitivo->where('ferias.ano_de_referencia', $ano_referente);
+            $ano_consulta = $ano_referente;
+        }
         if ($request->input('nomefuncionario')) {
             $nome_funcionario = $request->input('nomefuncionario');
             $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
@@ -377,15 +383,22 @@ class GerenciarFeriasController extends Controller
             $status_ferias = DB::table('status_pedido_ferias');
             $status_consulta_atual = null; // Inicialize a variável com valor padrão
 
-            if ($request->input('anoconsulta')) {
-                $ano_referente = $request->input('anoconsulta');
-                $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia', '=', $ano_referente);
-                $ano_consulta = $request->input('anoconsulta');
-            }
+
             if ($request->input('nomefuncionario')) {
                 $nome_funcionario = $request->input('nomefuncionario');
                 $periodo_aquisitivo = $periodo_aquisitivo->where('pessoas.nome_completo', 'ilike', '%' . $nome_funcionario . '%');
                 $nome_funcionario = $request->input('nomefuncionario');
+            }
+            if ($request->input('anoconsulta') and $request->input('anoconsulta') != '*') {
+                $ano_referente = $request->input('anoconsulta');
+                $periodo_aquisitivo = $periodo_aquisitivo->where('ferias.ano_de_referencia', '=', $ano_referente);
+                $ano_consulta = $request->input('anoconsulta');
+            } elseif ($request->input('anoconsulta') == '*') {
+                $ano_consulta == null;
+            } else {
+                $ano_consulta = $periodo_aquisitivo->max('ano_de_referencia');
+                $periodo_aquisitivo = $periodo_aquisitivo
+                    ->where('ferias.ano_de_referencia', '=', $ano_referente);
             }
             if ($request->input('statusconsulta')) {
                 $status_consulta = $request->input('statusconsulta');
@@ -396,7 +409,6 @@ class GerenciarFeriasController extends Controller
                 $setor = $request->input('setorconsulta');
                 $periodo_aquisitivo = $periodo_aquisitivo->where('s.id', '=', $setor);
                 $setor = DB::table('setor')->where('id', '=', $setor)->first();
-
             }
 
             $nome_funcionario = $request->input('nomefuncionario');

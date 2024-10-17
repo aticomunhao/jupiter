@@ -23,9 +23,7 @@
                                 <div class="col-md-3 col-sm-12">
                                     <h5>Nome do Funcionário</h5>
                                     <input type="text" name="nomefuncionario" id="idnomefuncionario"
-                                    @if($nome_funcionario != null)
-                                    value="{{$nome_funcionario}}"
-                                    @endif
+                                        @if ($nome_funcionario != null) value="{{ $nome_funcionario }}" @endif
                                         class="form-control">
                                 </div>
                                 <div class="col-md-3 col-sm-12">
@@ -36,7 +34,7 @@
                                                 {{ $ano_consulta + 1 }}
                                             </option>
                                         @endif
-                                        <option value="">Todos</option>
+                                        <option value="*">Todos</option>
                                         @foreach ($anos_possiveis as $ano_possivel)
                                             <option value="{{ $ano_possivel->ano_de_referencia }}">
                                                 {{ $ano_possivel->ano_de_referencia }}
@@ -64,9 +62,9 @@
                                     <h5>Selecione o Status</h5>
                                     <select class="form-select" aria-label="Ano" name="statusconsulta"
                                         id="idstatusconsulta">
-                                        @if($status_consulta != null)
-                                        <option value="{{$status_consulta->id}}">{{$status_consulta->nome}}</option>
-
+                                        @if ($status_consulta != null)
+                                            <option value="{{ $status_consulta->id }}">{{ $status_consulta->nome }}
+                                            </option>
                                         @endif
                                         <option value="">Todos</option>
                                         @foreach ($status_ferias as $id_status_ferias)
