@@ -3,7 +3,7 @@
     <title>Criar Associado</title>
 @endsection
 @section('content')
-    
+
     @csrf
     <div class="container-fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
@@ -20,7 +20,6 @@
                     </div>
                     <div class="card-body">
                         <hr>
-                        <div class="card-body">
                             <form class="form-horizontal mt-4" method='POST' action="/incluir-associado">
                                 @csrf
                                     <div class="row d-flex justify-content-around">
@@ -127,7 +126,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group col-md">
-                                    <label for="ciadade">Cidade</label>
+                                    <label for="cidade">Cidade</label>
                                     <select class="js-example-responsive form-select" id="idcidade" name="cidade"
                                         value="{{ old('cidade') }}" disabled required>
                                     </select>
@@ -176,37 +175,36 @@
 
             @section('footerScript')
                 <!-- Scripts -->
-                
-                
-                
                 <script>
-                    $(document).ready(function() {
-
+                    $(document).ready(function () {
                         $('#idcidade').select2({
                             theme: 'bootstrap-5',
                             width: '100%',
                         });
 
-
-                        $('#iduf').change(function(e) {
-                            e.preventDefault();
-
-                            $('#idcidade').removeAttr('disabled');
-                            var cidadeDadosResidenciais = $(this).val();
-
+                        function populateCities(selectElement, stateValue) {
                             $.ajax({
                                 type: "get",
-                                url: "/retorna-cidade-dados-residenciais/" + cidadeDadosResidenciais,
+                                url: "/retorna-cidade-dados-residenciais/" + stateValue,
                                 dataType: "json",
-                                success: function(response) {
-                                    $.each(response, function(indexInArray, item) {
-                                        $('#idcidade').append('<option value = ' + item.id_cidade +
-                                            '>' + item.descricao + '</option>');
+                                success: function (response) {
+                                    selectElement.empty();
+                                    $.each(response, function (indexInArray, item) {
+                                        selectElement.append('<option value="' + item.id_cidade + '">' +
+                                            item.descricao + '</option>');
                                     });
                                 },
+                                error: function (xhr, status, error) {
+                                    console.error("An error occurred:", error);
+                                }
                             });
-                        });
+                        }
 
+                        $('#iduf').change(function (e) {
+                            var stateValue = $(this).val();
+                            $('#idcidade').removeAttr('disabled');
+                            populateCities($('#idcidade'), stateValue);
+                        });
                     });
                 </script>
                 <script>

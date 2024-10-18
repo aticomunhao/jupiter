@@ -144,7 +144,7 @@ Route::middleware('rotas:6')->group(function () {
     Route::get('/pesquisar-associado', [GerenciarAssociadoController::class, 'index'])->name('pesquisar');
     Route::get('/gerenciar-associado', [GerenciarAssociadoController::class, 'index'])->name('gerenciar-associado');
     Route::get('/informar-dados-associado', [GerenciarAssociadoController::class, 'create']);
-    Route::get('/retorna-cidade-dados-residenciais', [GerenciarAssociadoController::class, 'retornaCidadeDadosResidenciais']);
+    Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarAssociadoController::class, 'retornaCidadeDadosResidenciais']);
     Route::any('/incluir-associado', [GerenciarAssociadoController::class, 'store']);
     Route::get('/editar-associado/{id}', [GerenciarAssociadoController::class, 'edit']);
     Route::any('/atualizar-associado/{ida}/{idp}/{ide}', [GerenciarAssociadoController::class, 'update']);

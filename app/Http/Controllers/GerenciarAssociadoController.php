@@ -103,9 +103,6 @@ class GerenciarAssociadoController extends Controller
             ->where('id_uf', $id)
             ->get();
 
-
-        // dd($cidadeDadosResidenciais);
-
         return response()->json($cidadeDadosResidenciais);
     }
 
