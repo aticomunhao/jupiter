@@ -264,9 +264,11 @@ class GerenciarFeriasController extends Controller
         $funcionarios = DB::table('funcionarios')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
             ->join('acordo', 'funcionarios.id', '=', 'acordo.id_funcionario')
+            ->join('afastamento', 'funcionarios.id', '=', 'afastamento.id_funcionario') // Adicionei o join para a tabela afastamento
             ->where('acordo.dt_inicio', '<', $dia_do_ultimo_ano)
-            ->where('acordo.dt_fim', '=', null)
             ->where('acordo.tp_acordo', '=', 1)
+            ->whereNull('acordo.dt_fim') // Mudança para whereNull para verificar se dt_fim é nulo
+            ->whereNotNull('afastamento.dt_fim') // Mudança para whereNotNull para verificar se dt_fim não é nulo
             ->select(
                 'pessoas.id as id_pessoa',
                 'funcionarios.id as id_funcionario',
@@ -300,7 +302,6 @@ class GerenciarFeriasController extends Controller
                     }
 
                     $data_inicio = $data_inicio->addDays($dias_afastado);
-                  
                 }
 
 
