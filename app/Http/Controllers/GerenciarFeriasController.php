@@ -194,9 +194,7 @@ class GerenciarFeriasController extends Controller
      * Store a newly created resource in storage.
      */
     public
-    function store(Request $request, $id)
-    {
-    }
+    function store(Request $request, $id) {}
 
     /**
      * Display the specified resource.
@@ -246,9 +244,7 @@ class GerenciarFeriasController extends Controller
      * Remove the specified resource from storage.
      */
     public
-    function destroy(string $id)
-    {
-    }
+    function destroy(string $id) {}
 
     public
     function InsereERetornaFuncionarios(Request $request)
@@ -271,10 +267,12 @@ class GerenciarFeriasController extends Controller
             ->where('acordo.dt_inicio', '<', $dia_do_ultimo_ano)
             ->where('acordo.dt_fim', '=', null)
             ->where('acordo.tp_acordo', '=', 1)
-            ->select('pessoas.id as id_pessoa',
+            ->select(
+                'pessoas.id as id_pessoa',
                 'funcionarios.id as id_funcionario',
                 'acordo.dt_inicio as data_de_inicio',
-                'pessoas.nome_completo')
+                'pessoas.nome_completo'
+            )
             ->get();
 
 
@@ -284,22 +282,25 @@ class GerenciarFeriasController extends Controller
                 ->where('id_funcionario', '=', $funcionario->id_funcionario)
                 ->where('ano_de_referencia', '=', $ano_referencia)
                 ->first();
-            $dias_afastado = 0;// Variavel que armazena a quantidade de dias que o funcionario ficou afastado por conta da COVID ou demais casos
+            $dias_afastado = 0; // Variavel que armazena a quantidade de dias que o funcionario ficou afastado por conta da COVID ou demais casos
             if (empty($periodo_de_ferias_do_funcionario)) {
                 //$dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
                 $afastamentos = DB::table('afastamento')
                     ->where('id_funcionario', '=', $funcionario->id_funcionario)
-                    ->whereIn('tp_acordo', '=', [16]);
+                    ->where('id_tp_afastamento', '=', 16)->get();
+
+
 
                 if ($afastamentos->count() > 0) {
                     foreach ($afastamentos as $afastamento) {
+
                         $dias_de_afastamento = Carbon::parse($afastamento->dt_inicio)->diffInDays($afastamento->dt_fim);
                         $dias_afastado += $dias_de_afastamento;
-
                     }
-                    $data_inicio = $data_inicio->addDays($dias_afastado);
 
+                    $data_inicio = $data_inicio->addDays($dias_afastado);
+                  
                 }
 
 
@@ -309,8 +310,21 @@ class GerenciarFeriasController extends Controller
                 $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
                 $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
                 $funcionario->data_fim_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 2)->subDay()->toDateString();
-                $id_ferias = DB::table('ferias')->insertGetId(['ano_de_referencia' => $ano_referencia, 'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo, 'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo, 'status_pedido_ferias' => 1, 'id_funcionario' => $funcionario->id_funcionario, 'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo, 'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo]);
-                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id_ferias, 'motivo_retorno' => "Criação do Formulario de Férias", 'data_de_acontecimento' => Carbon::now()->toDateString()]);
+                $id_ferias = DB::table('ferias')
+                    ->insertGetId([
+                        'ano_de_referencia' => $ano_referencia,
+                        'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
+                        'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
+                        'status_pedido_ferias' => 1,
+                        'id_funcionario' => $funcionario->id_funcionario,
+                        'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo,
+                        'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo
+                    ]);
+                DB::table('hist_recusa_ferias')->insert([
+                    'id_periodo_de_ferias' => $id_ferias,
+                    'motivo_retorno' => "Criação do Formulario de Férias",
+                    'data_de_acontecimento' => Carbon::now()->toDateString()
+                ]);
             }
         }
 
@@ -437,7 +451,8 @@ class GerenciarFeriasController extends Controller
             $periodo_aquisitivo = $periodo_aquisitivo->get();
 
 
-            return view('ferias.administrar-ferias', compact('periodo_aquisitivo',
+            return view('ferias.administrar-ferias', compact(
+                'periodo_aquisitivo',
                 'anos_possiveis',
                 'listaAnos',
                 'ano_consulta',
@@ -447,7 +462,8 @@ class GerenciarFeriasController extends Controller
                 'ano_referente',
                 'setor',
                 'periodo_aquisitivo',
-                'status_consulta'));
+                'status_consulta'
+            ));
         } catch (Exception $exception) {
             DB::rollBack();
             app('flasher')->addError($exception->getMessage());
@@ -568,8 +584,10 @@ class GerenciarFeriasController extends Controller
                     ->update([
                         'dt_ini_a' => $data_inicio_formulario,
                         'dt_fim_a' => $data_fim_formulario,
-                        'dt_ini_b' => null, 'dt_fim_b' => null,
-                        'dt_ini_c' => null, 'dt_fim_c' => null,
+                        'dt_ini_b' => null,
+                        'dt_fim_b' => null,
+                        'dt_ini_c' => null,
+                        'dt_fim_c' => null,
                         'motivo_retorno' => null,
                         'adianta_13sal' => $request->input('adiantaDecimoTerceiro'),
                         'status_pedido_ferias' => 3,
@@ -589,7 +607,6 @@ class GerenciarFeriasController extends Controller
                 app('flasher')->addCreated($ferias->nome_completo . ' teve férias adicionadas com sucesso.');
                 return redirect()->route('IndexGerenciarFerias');
             }
-
         } //Condicoes para segundo caso
         elseif ($formulario_de_ferias['numeroPeriodoDeFerias'] == 2) {
             // Condições para dois períodos de férias
@@ -657,7 +674,8 @@ class GerenciarFeriasController extends Controller
                     'dt_fim_a' => $data_fim_primeiro_periodo,
                     'dt_ini_b' => $data_inicio_segundo_periodo,
                     'dt_fim_b' => $data_fim_segundo_periodo,
-                    'dt_ini_c' => null, 'dt_fim_c' => null,
+                    'dt_ini_c' => null,
+                    'dt_fim_c' => null,
                     'motivo_retorno' => null,
                     'adianta_13sal' => $adiantar_decimo_terceiro,
                     'status_pedido_ferias' => 3,
@@ -746,7 +764,8 @@ class GerenciarFeriasController extends Controller
                     'dt_ini_c' => $data_inicio_terceiro_periodo,
                     'dt_fim_c' => $data_fim_terceiro_periodo,
                     'adianta_13sal' => $adiantar_decimo_terceiro,
-                    'motivo_retorno' => null, 'status_pedido_ferias' => 3,
+                    'motivo_retorno' => null,
+                    'status_pedido_ferias' => 3,
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
                     'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo),
                     'nr_dias_per_c' => $data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo),
