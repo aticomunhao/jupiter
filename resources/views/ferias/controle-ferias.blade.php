@@ -66,8 +66,7 @@
                                     <div class="col-md col-sm-12">
                                         <label for="1">Nome Funcionário</label>
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                             type="text" id="nomeFunc" name="nomeFunc"
-                                            value="">
+                                            type="text" id="nomeFunc" name="nomeFunc" value="">
                                     </div>
                                     <div class="col-md col-sm-12">
                                         <label for="1">Periodo Aquisitivo</label>
@@ -75,7 +74,7 @@
 
                                             @if ($ano_selecionado != null)
                                                 <option value="{{ $ano_selecionado }}">
-                                                    {{ $ano_selecionado + 1 }} - {{ $ano_selecionado + 2 }}
+                                                    {{ $ano_selecionado }} - {{ $ano_selecionado + 1 }}
                                                 </option>
                                             @endif
                                             <option value="">Todos</option>
@@ -106,10 +105,10 @@
                                             <tr style="background-color: #d6e3ff; font-size: 0.7rem; color:#000000;">
                                                 <th class="col-md-2">NOME DO EMPREGADO</th>
                                                 <th class="col">DATA DE ADMISSÃO</th>
-                                                <th class="col">DATA DO PERÍODO AQUISITIVO</th>
+                                                <th class="col">PERÍODO AQUISITIVO</th>
                                                 <th class="col">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
-                                                <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>
-                                                <th class="col" colspan="2">PERÍODO LIMITE DO GOZO DE FÉRIAS</th>
+                                                <!-- <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>-->
+                                                <th class="col">PERÍODO CONCESSIVO</th>
                                                 <th class="col">INÍCIO DO 1° PERÍODO</th>
                                                 <th class="col">FIM DO 1° PERÍODO</th>
                                                 <th class="col">INÍCIO DO 2° PERÍODO</th>
@@ -141,14 +140,13 @@
                                                     <td scope="">
 
                                                     </td>
-                                                    <td scope="">
-                                                        {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
-                                                    </td>
+                                                    <!--<td scope="">
+                                                                {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
+                                                    </td>-->
                                                     <td>
-                                                        {{ date('d/m/Y', strtotime($feriass->dt_inicio_gozo)) }}
-                                                    </td>
-                                                    <td>
-                                                        {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
+                                                        {{ $feriass->dt_inicio_gozo ? carbon::parse($feriass->dt_inicio_gozo)->format('d/m/y') : '--' }}
+                                                        -
+                                                        {{ $feriass->dt_fim_gozo ? carbon::parse($feriass->dt_fim_gozo)->format('d/m/y') : '--' }}
                                                     </td>
                                                     <td style="text-align: center">
                                                         {{ $feriass->dt_ini_a ? Carbon::parse($feriass->dt_ini_a)->format('d/m/y') : '--' }}
