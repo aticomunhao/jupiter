@@ -24,14 +24,14 @@
                                         <label for="1">Setor</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             @if ($setor_selecionado != null)
-                                                <option
-                                                        value="{{$setor_selecionado->id}}">{{$setor_selecionado->nome}}</option>
+                                                <option value="{{ $setor_selecionado->id }}">{{ $setor_selecionado->nome }}
+                                                </option>
                                             @endif
                                             <option value="">Todos</option>
 
                                             @foreach ($setor as $setors)
                                                 <option value="{{ $setors->idSetor }}">
-                                                    {{ $setors->siglaSetor}}
+                                                    {{ $setors->siglaSetor }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -64,30 +64,36 @@
                                         </select>
                                     </div>
                                     <div class="col-md col-sm-12">
+                                        <label for="1">Nome Funcionário</label>
+                                        <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
+                                             type="text" id="nomeFunc" name="nomeFunc"
+                                            value="">
+                                    </div>
+                                    <div class="col-md col-sm-12">
                                         <label for="1">Periodo Aquisitivo</label>
                                         <select id="idano" class="form-select select2" name="ano">
 
-                                            @if($ano_selecionado != null)
-                                                <option value="{{ $ano_selecionado}}">
-                                                    {{ $ano_selecionado +1 }} - {{ $ano_selecionado +2 }}
+                                            @if ($ano_selecionado != null)
+                                                <option value="{{ $ano_selecionado }}">
+                                                    {{ $ano_selecionado + 1 }} - {{ $ano_selecionado + 2 }}
                                                 </option>
                                             @endif
                                             <option value="">Todos</option>
                                             @foreach ($ano as $anos)
-                                                <option value="{{ $anos->ano_de_referencia}}">
-                                                    {{ $anos->ano_de_referencia +1 }} - {{ $anos->ano_de_referencia +2 }}
+                                                <option value="{{ $anos->ano_de_referencia }}">
+                                                    {{ $anos->ano_de_referencia }} - {{ $anos->ano_de_referencia + 1 }}
                                                 </option>
                                             @endforeach
                                         </select>
                                     </div>
                                     <div class="col" style="margin-top: 20px;">
                                         <a href="/controle-ferias" type="button" class="btn btn-light btn-sm"
-                                           type="button"
-                                           style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-right: 5px"
-                                           value="">Limpar</a>
+                                            type="button"
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-right: 5px"
+                                            value="">Limpar</a>
                                         <button class="btn btn-light btn-sm "
-                                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
-                                                {{-- Botao submit do formulario de pesquisa --}} type="submit">Pesquisar
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
+                                            {{-- Botao submit do formulario de pesquisa --}} type="submit">Pesquisar
                                         </button>
                                     </div>
                                 </div>
@@ -95,89 +101,91 @@
                                 <hr>
                                 <div class="table" style="padding-top:20px">
                                     <table
-                                            class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
+                                        class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
                                         <thead style="text-align: center;">
-                                        <tr style="background-color: #d6e3ff; font-size: 0.7rem; color:#000000;">
-                                            <th class="col-md-2">NOME DO EMPREGADO</th>
-                                            <th class="col">DATA DE ADMISSÃO</th>
-                                            <th class="col">PERÍODO AQUISITIVO</th>
-                                            <th class="col">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
-                                            <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>
-                                            <th class="col" colspan="2">PERÍODO LIMITE DO GOZO DE FÉRIAS</th>
-                                            <th class="col">INÍCIO DO 1° PERÍODO</th>
-                                            <th class="col">FIM DO 1° PERÍODO</th>
-                                            <th class="col">INÍCIO DO 2° PERÍODO</th>
-                                            <th class="col">FIM DO 2° PERÍODO</th>
-                                            <th class="col">INÍCIO DO 3° PERÍODO</th>
-                                            <th class="col">FIM DO 3° PERÍODO</th>
-                                            <th class="col">MÊS DAS FÉRIAS</th>
-                                            <th class="col">SITUAÇÃO DAS FÉRIAS</th>
-                                            <th class="col">VENDEU FÉRIAS</th>
-                                            <th class="coL">SETOR/CARGO</th>
-                                        </tr>
+                                            <tr style="background-color: #d6e3ff; font-size: 0.7rem; color:#000000;">
+                                                <th class="col-md-2">NOME DO EMPREGADO</th>
+                                                <th class="col">DATA DE ADMISSÃO</th>
+                                                <th class="col">DATA DO PERÍODO AQUISITIVO</th>
+                                                <th class="col">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
+                                                <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>
+                                                <th class="col" colspan="2">PERÍODO LIMITE DO GOZO DE FÉRIAS</th>
+                                                <th class="col">INÍCIO DO 1° PERÍODO</th>
+                                                <th class="col">FIM DO 1° PERÍODO</th>
+                                                <th class="col">INÍCIO DO 2° PERÍODO</th>
+                                                <th class="col">FIM DO 2° PERÍODO</th>
+                                                <th class="col">INÍCIO DO 3° PERÍODO</th>
+                                                <th class="col">FIM DO 3° PERÍODO</th>
+                                                <th class="col">MÊS DAS FÉRIAS</th>
+                                                <th class="col">SITUAÇÃO DAS FÉRIAS</th>
+                                                <th class="col">VENDEU FÉRIAS</th>
+                                                <th class="coL">SETOR/CARGO</th>
+                                            </tr>
                                         </thead>
                                         <tbody style="font-size: 0.6rem; color:#000000;">
-                                        @foreach ($ferias as $feriass)
-                                            <tr style="text-align: center">
-                                                <td class="nome-item" data-nome-completo="{{ $feriass->nome_completo }}"
-                                                    data-nome-resumido="{{ $feriass->nome_resumido }}">
-                                                    {{ $feriass->nome_completo }}
-                                                </td>
-                                                <td scope="">
-                                                    {{ date('d/m/Y', strtotime($feriass->dt_inicio_funcionario)) }}
-                                                </td>
-                                                <td scope="">
-                                                    {{ $feriass->ano_de_referencia + 1 }} -
-                                                    {{ $feriass->ano_de_referencia + 2 }}
-                                                </td>
-                                                <td scope="">
+                                            @foreach ($ferias as $feriass)
+                                                <tr style="text-align: center">
+                                                    <td class="nome-item"
+                                                        data-nome-completo="{{ $feriass->nome_completo }}"
+                                                        data-nome-resumido="{{ $feriass->nome_resumido }}">
+                                                        {{ $feriass->nome_completo }}
+                                                    </td>
+                                                    <td scope="">
+                                                        {{ date('d/m/Y', strtotime($feriass->dt_inicio_funcionario)) }}
+                                                    </td>
+                                                    <td scope="">
+                                                        {{ $feriass->ini_aqt ? carbon::parse($feriass->ini_aqt)->format('d/m/y') : '--' }}
+                                                        -
+                                                        {{ $feriass->fim_aqt ? carbon::parse($feriass->fim_aqt)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td scope="">
 
-                                                </td>
-                                                <td scope="">
-                                                    {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
-                                                </td>
-                                                <td>
-                                                    {{ date('d/m/Y', strtotime($feriass->dt_inicio_gozo)) }}
-                                                </td>
-                                                <td>
-                                                    {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $feriass->dt_ini_a ? Carbon::parse($feriass->dt_ini_a)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $feriass->dt_fim_a ? Carbon::parse($feriass->dt_fim_a)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $feriass->dt_ini_b ? Carbon::parse($feriass->dt_ini_b)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $feriass->dt_fim_b ? Carbon::parse($feriass->dt_fim_b)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $feriass->dt_ini_c ? Carbon::parse($feriass->dt_ini_c)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td style="text-align: center">
-                                                    {{ $feriass->dt_fim_c ? Carbon::parse($feriass->dt_fim_c)->format('d/m/y') : '--' }}
-                                                </td>
-                                                <td scope="">
+                                                    </td>
+                                                    <td scope="">
+                                                        {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ date('d/m/Y', strtotime($feriass->dt_inicio_gozo)) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $feriass->dt_ini_a ? Carbon::parse($feriass->dt_ini_a)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $feriass->dt_fim_a ? Carbon::parse($feriass->dt_fim_a)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $feriass->dt_ini_b ? Carbon::parse($feriass->dt_ini_b)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $feriass->dt_fim_b ? Carbon::parse($feriass->dt_fim_b)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $feriass->dt_ini_c ? Carbon::parse($feriass->dt_ini_c)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td style="text-align: center">
+                                                        {{ $feriass->dt_fim_c ? Carbon::parse($feriass->dt_fim_c)->format('d/m/y') : '--' }}
+                                                    </td>
+                                                    <td scope="">
 
-                                                </td>
-                                                <td scope="">
-                                                    {{ $feriass->nome_stf }}
-                                                </td>
-                                                <td scope="">
-                                                    @if ($feriass->vendeu_ferias == 'true')
-                                                        Sim
-                                                    @else
-                                                        Não
-                                                    @endif
-                                                </td>
-                                                <td scope="">
-                                                    {{ $feriass->sigla_setor }} / {{ $feriass->nome_cargo }}
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                                    </td>
+                                                    <td scope="">
+                                                        {{ $feriass->nome_stf }}
+                                                    </td>
+                                                    <td scope="">
+                                                        @if ($feriass->vendeu_ferias == 'true')
+                                                            Sim
+                                                        @else
+                                                            Não
+                                                        @endif
+                                                    </td>
+                                                    <td scope="">
+                                                        {{ $feriass->sigla_setor }} / {{ $feriass->nome_cargo }}
+                                                    </td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>

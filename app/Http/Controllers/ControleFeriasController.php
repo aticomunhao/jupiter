@@ -82,7 +82,10 @@ class ControleFeriasController extends Controller
                 ->where('id', '=', $setor_selecionado)
                 ->first();
         }
-        // if ($request->input('mes_gozo_ferias')) {
+        if ($request->nomeFunc) {
+            $ferias->where('p.nome_completo', 'ILIKE', '%' . $request->nomeFunc . '%');
+        }
+         // if ($request->input('mes_gozo_ferias')) {
         //     $ferias->whereMonth('fim_aqt', '=', $mes_gozo_ferias);
 
         // }
