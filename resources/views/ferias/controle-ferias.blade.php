@@ -17,7 +17,6 @@
                                     Controle de Férias
                                 </h5>
                             </div>
-                            <hr>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md col-sm-12" style="margin-left:5px">
@@ -69,7 +68,7 @@
                                             type="text" id="nomeFunc" name="nomeFunc" value="">
                                     </div>
                                     <div class="col-md col-sm-12">
-                                        <label for="1">Periodo Aquisitivo</label>
+                                        <label for="1">Período Aquisitivo</label>
                                         <select id="idano" class="form-select select2" name="ano">
 
                                             @if ($ano_selecionado != null)
@@ -96,29 +95,29 @@
                                         </button>
                                     </div>
                                 </div>
-                                <br>
                                 <hr>
-                                <div class="table" style="padding-top:20px">
+                                <div class="table-responsive" style="height: 400px; overflow-y: auto;">
                                     <table
                                         class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">
-                                        <thead style="text-align: center;">
+                                        <thead style="text-align: center; position: sticky; top: 0; z-index: 1;">
                                             <tr style="background-color: #d6e3ff; font-size: 0.7rem; color:#000000;">
-                                                <th class="col-md-2">NOME DO EMPREGADO</th>
-                                                <th class="col">DATA DE ADMISSÃO</th>
-                                                <th class="col">PERÍODO AQUISITIVO</th>
-                                                <th class="col">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
-                                                <!-- <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>-->
-                                                <th class="col">PERÍODO CONCESSIVO</th>
-                                                <th class="col">INÍCIO DO 1° PERÍODO</th>
-                                                <th class="col">FIM DO 1° PERÍODO</th>
-                                                <th class="col">INÍCIO DO 2° PERÍODO</th>
-                                                <th class="col">FIM DO 2° PERÍODO</th>
-                                                <th class="col">INÍCIO DO 3° PERÍODO</th>
-                                                <th class="col">FIM DO 3° PERÍODO</th>
-                                                <th class="col">MÊS DAS FÉRIAS</th>
-                                                <th class="col">SITUAÇÃO DAS FÉRIAS</th>
-                                                <th class="col">VENDEU FÉRIAS</th>
-                                                <th class="coL">SETOR/CARGO</th>
+                                                <th class="col-md-2 align-middle">NOME DO EMPREGADO</th>
+                                                <th class="col align-middle">DATA DE ADMISSÃO</th>
+                                                <th class="col align-middle">PERÍODO AQUISITIVO</th>
+                                                <!--<th class="col align-middle">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
+                                                 <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>-->
+                                                <th class="col align-middle">PERÍODO CONCESSIVO</th>
+                                                <th class="col align-middle">INÍCIO DO 1° PERÍODO</th>
+                                                <th class="col align-middle">FIM DO 1° PERÍODO</th>
+                                                <th class="col align-middle">INÍCIO DO 2° PERÍODO</th>
+                                                <th class="col align-middle">FIM DO 2° PERÍODO</th>
+                                                <th class="col align-middle">INÍCIO DO 3° PERÍODO</th>
+                                                <th class="col align-middle">FIM DO 3° PERÍODO</th>
+                                                <th class="col align-middle">MÊS DAS FÉRIAS</th>
+                                                <th class="col align-middle">SITUAÇÃO DAS FÉRIAS</th>
+                                                <th class="col align-middle">VENDEU 1/3</th>
+                                                <th class="col align-middle">PEDIU 13º</th>
+                                                <th class="col align-middle">SETOR/CARGO</th>
                                             </tr>
                                         </thead>
                                         <tbody style="font-size: 0.6rem; color:#000000;">
@@ -137,10 +136,10 @@
                                                         -
                                                         {{ $feriass->fim_aqt ? carbon::parse($feriass->fim_aqt)->format('d/m/y') : '--' }}
                                                     </td>
-                                                    <td scope="">
+                                                    <!--<td scope="">
 
                                                     </td>
-                                                    <!--<td scope="">
+                                                    <td scope="">
                                                                 {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
                                                     </td>-->
                                                     <td>
@@ -178,6 +177,9 @@
                                                         @else
                                                             Não
                                                         @endif
+                                                    </td>
+                                                    <td scope="">
+                                            
                                                     </td>
                                                     <td scope="">
                                                         {{ $feriass->sigla_setor }} / {{ $feriass->nome_cargo }}

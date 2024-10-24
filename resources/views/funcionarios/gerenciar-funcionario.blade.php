@@ -63,7 +63,6 @@
 
                             </form>
                         </div>
-                        <br>
                         <hr>
                         <div class="table-responsive">
                             <table
