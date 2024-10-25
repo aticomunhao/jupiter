@@ -131,155 +131,113 @@
 
 
                     @if (!empty($periodo_aquisitivo))
-                        <div class="table-responsive">
-                            <table
-                                class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
-                                style="margin-top:10px;">
-                                <thead style="text-align: center;">
-                                    <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                        <th scope="col">Nome do Funcionário</th>
-                                        <th scope="col">Setor</th>
-                                        <th scope="col">Periodo Aquisitivo</th>
-                                        <th scope="col">Início 1</th>
-                                        <th scope="col">Fim 1</th>
-                                        <th scope="col">Início 2</th>
-                                        <th scope="col">Fim 2</th>
-                                        <th scope="col">Início 3</th>
-                                        <th scope="col">Fim 3</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Ações</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="idtable">
-                                    @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
-                                        <tr>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->ano_de_referencia }}
-                                                - {{ $periodos_aquisitivos->ano_de_referencia + 1 }}
-                                            </td>
-
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_a ? Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_a ? Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_b ? Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_b ? Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_ini_c ? Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->dt_fim_c ? Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
-                                            </td>
-                                            <td style="text-align: center">
-                                                {{ $periodos_aquisitivos->status_pedido_ferias }}
-                                            </td>
-
-
-                                            <td style="text-align: center">
-
-                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 4)
-                                                    <a href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                        class="btn btn-outline-success"
-                                                        style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
-                                                        data-placement="top" title="Autorizar Férias"><i
-                                                            class="bi bi-check2"></i>
-
-                                                    </a>
-                                                    <a href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                        class="btn btn-outline-danger"
-                                                        style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
-                                                        data-placement="top" title="Recusar Férias"><i
-                                                            class="bi bi-x"></i>
-
-                                                    </a>
-                                                @else
-                                                    <a class="btn btn-outline-secondary disabled" disabled
-                                                        aria-label="Close">
-                                                        <i class="bi bi-check2"></i>
-                                                    </a>
-
-
-
-                                                    <a class="btn btn-outline-secondary disabled" disabled
-                                                        aria-label="Close"><i class="bi bi-x"></i>
-                                                    </a>
-                                                @endif
-                                                @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
-                                                    <!-- Button trigger modal -->
-
-                                                    <button type="button" class="btn btn-outline-primary"
-                                                        style="font-size: 1rem; color:#0e0b16;" data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}"
-                                                        data-bs-placement="top" title="Reabrir Formulário">
-                                                        <i class="bi bi-folder2-open"></i>
-                                                    </button>
-                                                    <div class="modal fade"
-                                                        id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
-                                                        tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-                                                        aria-hidden="true">
-                                                        <div class="modal-dialog" role="document">
-                                                            <div class="modal-content">
-                                                                <div class="modal-header"
-                                                                    style="background-color: rgb(88, 149, 242)">
-                                                                    <h2 class="modal-title" id="exampleModalLabel"
-                                                                        style="color: #ffffff">
-                                                                        Reabrir
-                                                                        Formulário</h2>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close">
-
-                                                                    </button>
-                                                                </div>
-                                                                <div class="modal-body">
-                                                                    Deseja Reabrir as férias do
-                                                                    funcionario:
-                                                                    <br>
-                                                                    <span
-                                                                        style="font-size: 20px; color: rgb(48, 121, 231)">
-                                                                        {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}
-                                                                    </span>
-                                                                    ?
-                                                                </div>
-                                                                <div class="modal-footer"
-                                                                    style="background-color: #ffffff">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                        data-bs-dismiss="modal">Cancelar
-                                                                    </button>
-                                                                    <a
-                                                                        href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}">
-                                                                        <button type="button" class="btn btn-primary">
-                                                                            Confirmar
-                                                                        </button>
-                                                                    </a>
-
+                        <div style="max-height: 400px; overflow-y: auto;">
+                            <div class="table-reponsive">
+                                <table
+                                    class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
+                                    style="margin-top:10px;">
+                                    <thead
+                                        style="text-align: center; position: sticky; top: 0; z-index: 1; background-color: #d6e3ff;">
+                                        <tr style="font-size:17px; color:#000000;">
+                                            <th scope="col" style="position: sticky; top: 0;">Nome do Funcionário</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Setor</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Periodo Aquisitivo</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Início 1</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Fim 1</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Início 2</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Fim 2</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Início 3</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Fim 3</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Status</th>
+                                            <th scope="col" style="position: sticky; top: 0;">Ações</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="idtable">
+                                        @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
+                                            <tr>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
+                                                <td style="text-align: center">{{ $periodos_aquisitivos->ano_de_referencia }}
+                                                    - {{ $periodos_aquisitivos->ano_de_referencia + 1 }}</td>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->dt_ini_a ? Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->dt_fim_a ? Carbon::parse($periodos_aquisitivos->dt_fim_a)->format('d/m/y') : '--' }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->dt_ini_b ? Carbon::parse($periodos_aquisitivos->dt_ini_b)->format('d/m/y') : '--' }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->dt_fim_b ? Carbon::parse($periodos_aquisitivos->dt_fim_b)->format('d/m/y') : '--' }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->dt_ini_c ? Carbon::parse($periodos_aquisitivos->dt_ini_c)->format('d/m/y') : '--' }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->dt_fim_c ? Carbon::parse($periodos_aquisitivos->dt_fim_c)->format('d/m/y') : '--' }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->status_pedido_ferias }}</td>
+                                                <td style="text-align: center">
+                                                    <!-- Adicionar lógica para botões de ações -->
+                                                    @if ($periodos_aquisitivos->id_status_pedido_ferias == 4)
+                                                        <a href="{{ route('autorizarFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                            class="btn btn-outline-success" title="Autorizar Férias"><i
+                                                                class="bi bi-check2"></i></a>
+                                                        <a href="{{ route('FormularioFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                            class="btn btn-outline-danger" title="Recusar Férias"><i
+                                                                class="bi bi-x"></i></a>
+                                                    @else
+                                                        <a class="btn btn-outline-secondary disabled" aria-label="Close"><i
+                                                                class="bi bi-check2"></i></a>
+                                                        <a class="btn btn-outline-secondary disabled" aria-label="Close"><i
+                                                                class="bi bi-x"></i></a>
+                                                    @endif
+                                                    @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
+                                                        <button type="button" class="btn btn-outline-primary"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                            title="Reabrir Formulário"><i
+                                                                class="bi bi-folder2-open"></i></button>
+                                                        <!-- Modal -->
+                                                        <div class="modal fade"
+                                                            id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                            tabindex="-1" role="dialog">
+                                                            <div class="modal-dialog" role="document">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header bg-primary text-white">
+                                                                        <h2 class="modal-title">Reabrir Formulário</h2>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"></button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        Deseja Reabrir as férias do funcionário: <span
+                                                                            class="text-primary">{{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</span>?
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <a
+                                                                            href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}"><button
+                                                                                type="button"
+                                                                                class="btn btn-primary">Confirmar</button></a>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                @endif
-                                                <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                    class="disabled" aria-disabled="true">
-                                                    <button class="btn btn-outline-secondary" aria-label="Close"
-                                                        style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip"
-                                                        data-placement="top" title="Histórico">
-                                                        <i class="bi bi-search"></i>
-                                                    </button>
-                                                </a>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                    @endif
+                                                    <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                        class="btn btn-outline-secondary" title="Histórico"><i
+                                                            class="bi bi-search"></i></a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -426,5 +384,17 @@
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
+    </script>
+    <script>
+        $(document).ready(function() {
+            const $tableHead = $('thead');
+            const $tableBody = $('tbody');
+
+            // Mover o cabeçalho junto com a rolagem
+            $('.table-responsive').on('scroll', function() {
+                const scrollTop = $(this).scrollTop();
+                $tableHead.css('transform', 'translateY(' + scrollTop + 'px)');
+            });
+        });
     </script>
 @endsection

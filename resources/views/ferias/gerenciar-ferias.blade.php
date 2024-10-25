@@ -38,7 +38,7 @@
                                                 <option value="{{ $ano_consulta }}">{{ $ano_consulta }}
                                                     - {{ $ano_consulta + 1 }}</option>
                                             @endif
-                                            <option value="">Todos</option>
+                                            <option value="*">Todos</option>
                                             @foreach ($anos_possiveis as $ano_possivel)
                                                 <option value="{{ $ano_possivel->ano_de_referencia }}">
                                                     {{ $ano_possivel->ano_de_referencia }} -

@@ -179,7 +179,7 @@
                                                         @endif
                                                     </td>
                                                     <td scope="">
-                                            
+
                                                     </td>
                                                     <td scope="">
                                                         {{ $feriass->sigla_setor }} / {{ $feriass->nome_cargo }}
