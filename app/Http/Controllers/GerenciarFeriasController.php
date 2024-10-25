@@ -429,13 +429,15 @@ class GerenciarFeriasController extends Controller
             }
 
 
+
+
             // $setores_unicos = $periodo_aquisitivo->map(function ($item) {
             //   return (object)[
             //     'id_do_setor' => $item->id_do_setor,
             //    'sigla_do_setor' => $item->sigla_do_setor,
             //    ]//;
             // })->unique('id_do_setor')->values();
-            $setores_unicos = DB::table('setor')->get();
+            $setores_unicos = DB::table('setor')->orderBy('sigla')->get();
             $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
             $anos_inicial = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->first();
             $anos_final = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->orderBy('ano_de_referencia', 'desc')->first();
@@ -463,7 +465,8 @@ class GerenciarFeriasController extends Controller
                 'ano_referente',
                 'setor',
                 'periodo_aquisitivo',
-                'status_consulta'
+                'status_consulta',
+                'status_consulta_atual'
             ));
         } catch (Exception $exception) {
             DB::rollBack();
@@ -551,7 +554,7 @@ class GerenciarFeriasController extends Controller
             app('flasher')->addError('O funcionario não possui direito a  por ter faltado mais de 32 dias sem abono');
             return redirect()->route('IndexGerenciarFerias');
         }
- 
+
 
 
         // Verifica o número de períodos de férias

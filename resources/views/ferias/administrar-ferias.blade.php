@@ -62,8 +62,9 @@
                                     <h5>Selecione o Status</h5>
                                     <select class="form-select" aria-label="Ano" name="statusconsulta"
                                         id="idstatusconsulta">
-                                        @if ($status_consulta != null)
-                                            <option value="{{ $status_consulta->id }}">{{ $status_consulta->nome }}
+                                        @if ($status_consulta_atual != null)
+                                            <option value="{{ $status_consulta_atual->id }}">
+                                                {{ $status_consulta_atual->nome }}
                                             </option>
                                         @endif
                                         <option value="">Todos</option>
@@ -159,7 +160,8 @@
                                                     {{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</td>
                                                 <td style="text-align: center">
                                                     {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
-                                                <td style="text-align: center">{{ $periodos_aquisitivos->ano_de_referencia }}
+                                                <td style="text-align: center">
+                                                    {{ $periodos_aquisitivos->ano_de_referencia }}
                                                     - {{ $periodos_aquisitivos->ano_de_referencia + 1 }}</td>
                                                 <td style="text-align: center">
                                                     {{ $periodos_aquisitivos->dt_ini_a ? Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
@@ -191,17 +193,17 @@
                                                             class="btn btn-outline-danger" title="Recusar Férias"><i
                                                                 class="bi bi-x"></i></a>
                                                     @else
-                                                        <a class="btn btn-outline-secondary disabled" aria-label="Close"><i
-                                                                class="bi bi-check2"></i></a>
-                                                        <a class="btn btn-outline-secondary disabled" aria-label="Close"><i
-                                                                class="bi bi-x"></i></a>
+                                                        <a class="btn btn-outline-secondary disabled"
+                                                            aria-label="Close"><i class="bi bi-check2"></i></a>
+                                                        <a class="btn btn-outline-secondary disabled"
+                                                            aria-label="Close"><i class="bi bi-x"></i></a>
                                                     @endif
                                                     @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
                                                         <button type="button" class="btn btn-outline-primary"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}"
                                                             title="Reabrir Formulário"><i
-                                                                class="bi bi-folder2-open"></i></button>
+                                                                class="bi bi-arrow-counterclockwise"></i></button>
                                                         <!-- Modal -->
                                                         <div class="modal fade"
                                                             id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
