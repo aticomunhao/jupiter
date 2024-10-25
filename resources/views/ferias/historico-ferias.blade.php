@@ -58,13 +58,13 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label for="inicio_gozo_ferias">Data de Início do Período de Gozo de Férias:</label>
+                                <label for="inicio_gozo_ferias">Data de Início do Período Concessivo de Ferias:</label>
                                 <input type="date" id="inicio_gozo_ferias" class="form-control"
                                     value="{{ $periodo_de_ferias->dt_inicio_periodo_de_licenca }}" readonly>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="fim_possivel_gozo_ferias">Data de Término do Período Possível de Gozo de
-                                    Férias:</label>
+                                <label for="fim_possivel_gozo_ferias">Data de Término do Período Concessivo de
+                                    Ferias:</label>
                                 <input type="date" id="fim_possivel_gozo_ferias" class="form-control"
                                     value="{{ $periodo_de_ferias->dt_fim_periodo_de_licenca }}" readonly>
                             </div>
@@ -94,47 +94,47 @@
                         </div>
 
                         <!--
-                                        <div class="row">
-                                            <div class="col-md-4 mb-3">
-                                                <label for="inicio_primeiro_periodo_ferias"> 1° Período de Férias Pós-venda:</label>
-                                                <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
-                                                    value="" readonly>
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="inicio_primeiro_periodo_ferias"> 1° Período de Férias Pós-venda:</label>
+                                                    <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
+                                                        value="" readonly>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                                        Férias:</label>
+                                                    <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
+                                                        value="" readonly>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                                    <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
+                                                        value="" readonly>
+                                                </div>
                                             </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
-                                                    Férias:</label>
-                                                <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
-                                                    value="" readonly>
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
-                                                <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                                    value="" readonly>
-                                            </div>
-                                        </div>
 
 
-                                        <div class="row">
-                                            <div class="col-md-4 mb-3">
-                                                <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
-                                                    Férias:</label>
-                                                <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
-                                                    value="" readonly>
+                                            <div class="row">
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
+                                                        Férias:</label>
+                                                    <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
+                                                        value="" readonly>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                                        Férias:</label>
+                                                    <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
+                                                        value="" readonly>
+                                                </div>
+                                                <div class="col-md-4 mb-3">
+                                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                                    <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
+                                                        value="" readonly>
+                                                </div>
                                             </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
-                                                    Férias:</label>
-                                                <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
-                                                    value="" readonly>
-                                            </div>
-                                            <div class="col-md-4 mb-3">
-                                                <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
-                                                <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                                    value="" readonly>
-                                            </div>
-                                        </div>
 
-                                    -->
+                                        -->
 
 
 
