@@ -373,6 +373,8 @@ class GerenciarFeriasController extends Controller
                 ->select(
                     'pessoas.nome_completo as nome_completo_funcionario',
                     'pessoas.id as id_pessoa',
+                    'ferias.inicio_periodo_aquisitivo',
+                    'ferias.fim_periodo_aquisitivo',
                     'ferias.dt_ini_a',
                     'ferias.dt_fim_a',
                     'ferias.dt_ini_b',
@@ -382,7 +384,6 @@ class GerenciarFeriasController extends Controller
                     'ferias.motivo_retorno',
                     'ferias.id as id_ferias',
                     'ferias.venda_um_terco',
-                    'funcionarios.dt_inicio',
                     'ferias.ano_de_referencia',
                     'ferias.id_funcionario',
                     'ferias.adianta_13sal',

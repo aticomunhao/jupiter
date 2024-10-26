@@ -142,7 +142,8 @@
                                         <tr style="font-size:17px; color:#000000;">
                                             <th scope="col" style="position: sticky; top: 0;">Nome do Funcionário</th>
                                             <th scope="col" style="position: sticky; top: 0;">Setor</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Periodo Aquisitivo</th>
+                                            <th scope="col" style="position: sticky; top: 0;" colspan="2">Periodo
+                                                Aquisitivo</th>
                                             <th scope="col" style="position: sticky; top: 0;">Início 1</th>
                                             <th scope="col" style="position: sticky; top: 0;">Fim 1</th>
                                             <th scope="col" style="position: sticky; top: 0;">Início 2</th>
@@ -161,8 +162,11 @@
                                                 <td style="text-align: center">
                                                     {{ $periodos_aquisitivos->sigla_do_setor ?? 'N/A' }}</td>
                                                 <td style="text-align: center">
-                                                    {{ $periodos_aquisitivos->ano_de_referencia }}
-                                                    - {{ $periodos_aquisitivos->ano_de_referencia + 1 }}</td>
+                                                    {{ Carbon::parse($periodos_aquisitivos->inicio_periodo_aquisitivo)->format('d/m/y') }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ Carbon::parse($periodos_aquisitivos->fim_periodo_aquisitivo)->format('d/m/y') }}
+                                                </td>
                                                 <td style="text-align: center">
                                                     {{ $periodos_aquisitivos->dt_ini_a ? Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
                                                 </td>
