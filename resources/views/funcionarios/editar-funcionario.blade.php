@@ -52,7 +52,8 @@
                                 </div>
                                 <div class="col-md-2 col-sm-12">Sexo
                                     <select id="4" class="form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" name="sexo" type="text" required="required">
+                                        style="border: 1px solid #999999; padding: 5px;" name="sexo" type="text"
+                                        required="required">
                                         <option value="{{ $pessoa[0]->id_sexo }}">{{ $pessoa[0]->nome_sexo }}</option>
                                         @foreach ($tpsexo as $tpsexos)
                                             <option value="{{ $tpsexos->id }}">
@@ -70,9 +71,11 @@
                                 <div class="col-md-5 col-sm-12">Nacionalidade
                                     <select id="5" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-select" name="pais" required="required">
-                                            <option value="{{ $pessoa[0]->nacionalidade }}">{{ $pessoa[0]->nome_nacionalidade }}</option>
+                                        <option value="{{ $pessoa[0]->nacionalidade }}">
+                                            {{ $pessoa[0]->nome_nacionalidade }}</option>
                                         @foreach ($tpnacionalidade as $tpnacionalidades)
-                                            <option value="{{ $tpnacionalidades->id }}">{{ $tpnacionalidades->local }}</option>
+                                            <option value="{{ $tpnacionalidades->id }}">{{ $tpnacionalidades->local }}
+                                            </option>
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback">
@@ -130,8 +133,8 @@
                                     </div>
                                 </div>
                                 <div class="col-md-3 col-sm-12">Órgão Expedidor
-                                    <select id="9" style="border: 1px solid #999999; padding: 5px;" name="orgexp"
-                                        class="form-select" required="required">
+                                    <select id="9" style="border: 1px solid #999999; padding: 5px;"
+                                        name="orgexp" class="form-select" required="required">
                                         <option value="{{ $pessoa[0]->id_orgao_expedidor }}">
                                             {{ $pessoa[0]->sigla_orgao_expedidor }}
                                         </option>
@@ -237,7 +240,9 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">CTPS
-                                    <button type="button" class="btn-circle" id="popoverButton1" data-bs-trigger="focus" data-bs-toggle="popover" title="Popover title" data-bs-content="And here's some amazing content. It's very engaging. Right?">?</button>
+                                    <button type="button" class="btn-circle" id="popoverButton1"
+                                        data-bs-trigger="focus" data-bs-toggle="popover" title="Popover title"
+                                        data-bs-content="And here's some amazing content. It's very engaging. Right?">?</button>
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-control" name="ctps" maxlength="6"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
@@ -514,8 +519,8 @@
 
                                 <div class="col-md-4 col-sm-12">UF
                                     <br>
-                                    <select class="form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" id="uf2" name="uf_end">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
+                                        id="uf2" name="uf_end">
                                         <option value="{{ $endereco[0]->uf_endereco }}">
                                             {{ $endereco[0]->sigla_uf_endereco }}
                                         </option>
@@ -529,8 +534,8 @@
 
                                 <div class="col-md-4 col-sm-12">Cidade
                                     <br>
-                                    <select class="form-select"
-                                        style="border: 1px solid #999999; padding: 5px;" id="cidade2" name="cidade">
+                                    <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
+                                        id="cidade2" name="cidade">
                                         <option value="{{ $endereco[0]->cidade }}">
                                             {{ $endereco[0]->nome_cidade }}
                                         </option>
@@ -568,8 +573,9 @@
         </div>
         <br>
         <div class="botões">
-            <a href="/gerenciar-funcionario" type="button" value=""
-                class="btn btn-danger col-md-3 col-2 mt-4 offset-md-2">Cancelar</a>
+            <a href="javascript:history.back()" type="button" class="btn btn-danger col-md-3 col-2 mt-4 offset-md-2">
+                Cancelar
+            </a>
             <input type="submit" value="Confirmar" class="btn btn-primary col-md-3 col-1 mt-4 offset-md-2">
         </div>
         <br>
@@ -653,7 +659,7 @@
             }
 
             var popoverButton1 = new bootstrap.Popover(document.querySelector('.popoverButton1'), {
-            container: 'body'
+                container: 'body'
             });
 
             var popoverButton2 = document.getElementById('popoverButton2');

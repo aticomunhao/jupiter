@@ -35,6 +35,18 @@
                                             maxlength="50" type="text" id="3" name="nome"
                                             value="{{ $nome }}">
                                     </div>
+                                    <div class="col-md-4 col-sm-12">
+                                        <label for="1">Selecione o Setor Desejado</label>
+                                        <select id="idsetor" class="form-select select2" name="setor">
+                                            <option></option>
+                                            @foreach ($setor as $setores)
+                                                <option value="{{ $setores->id }}"
+                                                    {{ $setores->nome == $setores->id ? 'selected' : '' }}>
+                                                    {{ $setores->nome }} - {{ $setores->sigla }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                     <div class="col-md-2 col-sm-12">Situação
                                         <select class="form-select custom-select"
                                             style="border: 1px solid #999999; padding: 5px;" id="4" name="status"
@@ -46,14 +58,14 @@
                                     </div>
 
                                     <div class="col" style="margin-top: 20px">
+                                        <input class="btn btn-light btn-sm"
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
+                                            type="submit" value="Pesquisar">
                                         <a href="/gerenciar-funcionario" class="btn btn-light btn-sm"
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
                                             type="button" value="">
                                             Limpar
                                         </a>
-                                        <input class="btn btn-light btn-sm"
-                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
-                                            type="submit" value="Pesquisar">
                                         <a href="/informar-dados">
                                             <input class="btn btn-success btn-sm" type="button" name="6"
                                                 value="Novo Cadastro +"

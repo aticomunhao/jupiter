@@ -53,6 +53,9 @@ class GerenciarFuncionarioController extends Controller
         if ($request->nome) {
             $lista->where('p.nome_completo', 'ilike', '%' . $request->nome . '%');
         }
+        if ($request->setor) {
+            $lista->where('f.id_setor', '=', $request->setor);
+        }
 
         $lista = $lista->orderBy('p.status', 'desc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
@@ -67,9 +70,11 @@ class GerenciarFuncionarioController extends Controller
             ->select('sc.dt_fim', 'sc.dt_inicio', 'sc.id_funcionario', 'sc.motivo')
             ->get();
 
+        $setor = db::table('setor')
+        ->select('id', 'nome', 'sigla')
+        ->get();
 
-
-        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'dataContrato'));
+        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'dataContrato', 'setor'));
     }
 
     public function create()
@@ -531,8 +536,7 @@ class GerenciarFuncionarioController extends Controller
             ]);
 
         app('flasher')->addSuccess('Edição feita com Sucesso!');
-
-        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
+        return redirect()->back();
     }
 
     public function delete($idp)

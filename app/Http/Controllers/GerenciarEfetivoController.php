@@ -17,6 +17,7 @@ class GerenciarEfetivoController extends Controller
     public function index(Request $request)
     {
         $setorId = $request->input('setor');
+        $statusPessoa = $request->input('statusPessoa', '1');
 
         $quantidadeFuncionariosPorSetor = DB::table('funcionarios')
             ->select('id_setor', DB::raw('count(*) as total_funcionarios'))
@@ -40,6 +41,7 @@ class GerenciarEfetivoController extends Controller
                 'fg.nome AS nome_funcao_gratificada',
                 'p.celular',
                 'f.id_setor',
+                'p.status AS statusPessoa'
             );
 
 
@@ -48,6 +50,11 @@ class GerenciarEfetivoController extends Controller
             $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->where('id_setor', $setorId)->sum('vagas_autorizadas');
         } else {
             $totalVagasAutorizadas = DB::table('tp_vagas_autorizadas')->sum('vagas_autorizadas');
+        }
+        if ($statusPessoa === '1') {
+            $base->where('p.status', 1);
+        } elseif ($statusPessoa === '0') {
+            $base->where('p.status', 0);
         }
 
         $base = $base->orderBy('nome_completo')->paginate(10);
@@ -69,8 +76,18 @@ class GerenciarEfetivoController extends Controller
             ->select('setor.id AS id_setor', 'setor.nome')
             ->get();
 
+        $totalFuncionariosAtivos = DB::table('funcionarios AS f')
+            ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
+            ->where('p.status', 1)
+            ->count();
+
+        $totalFuncionariosInativos = DB::table('funcionarios AS f')
+            ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
+            ->where('p.status', 0)
+            ->count();
 
 
-        return view('efetivo.gerenciar-efetivo', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId'));
+
+        return view('efetivo.gerenciar-efetivo', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId', 'statusPessoa', 'totalFuncionariosAtivos', 'totalFuncionariosInativos'));
     }
 }

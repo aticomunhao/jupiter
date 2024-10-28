@@ -18,8 +18,8 @@
                             </div>
                             <hr>
                             <div class="card-body">
-                                <div class="row" style="margin-left:5px">
-                                    <div class="col">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-12">
                                         <label for="1">Selecione o Setor Desejado</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
@@ -31,15 +31,25 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="col" style="padding-top:24px;">
-                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-light btn-sm"
-                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-right: 5px"
-                                            value="">Limpar</a>
+                                    <div class="col-md-2 col-sm-12">Situação
+                                        <select class="form-select custom-select"
+                                            style="border: 1px solid #999999; padding: 5px;" id="4"
+                                            name="statusPessoa">
+                                            <option value="1" {{ $statusPessoa == '1' ? 'selected' : '' }}>Ativo
+                                            </option>
+                                            <option value="0" {{ $statusPessoa == '0' ? 'selected' : '' }}>Inativo
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md" style="padding-top: 24px">
                                         <button class="btn btn-light btn-sm "
-                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"{{-- Botao submit do formulario de pesquisa --}}
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin-right: 5px"{{-- Botao submit do formulario de pesquisa --}}
                                             type="submit">Pesquisar
                                         </button>
-
+                                        <a href="/gerenciar-efetivo" type="button" class="btn btn-light btn-sm"
+                                            style="font-size: 1rem; box-shadow: 1px 2px 5px #000000"
+                                            value="">Limpar</a>
                                     </div>
                                 </div>
                                 <br>
@@ -53,6 +63,30 @@
                                                 style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
                                                 <span style="display: inline-block;">
                                                     {{ $totalFuncionariosTotal }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if (!$setorId)
+                                        <div
+                                            style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
+                                            <label style="margin-bottom: 5px;">Funcionários<br>Ativos</label>
+                                            <div
+                                                style="width: 50px; height: 50px; background-color: rgb(123, 231, 141); text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                                <span style="display: inline-block;">
+                                                    {{ $totalFuncionariosAtivos }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if (!$setorId)
+                                        <div
+                                            style="display: inline-block; margin-right: 20px; position: relative; margin-bottom: 40px; margin-right: 200px;">
+                                            <label style="margin-bottom: 5px;">Funcionários<br>Inativos</label>
+                                            <div
+                                                style="width: 50px; height: 50px; background-color: rgb(233, 114, 110); text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
+                                                <span style="display: inline-block;">
+                                                    {{ $totalFuncionariosInativos }}
                                                 </span>
                                             </div>
                                         </div>
@@ -132,8 +166,8 @@
         </div>
     </form>
 
-    
-    
+
+
 
     <script>
         $(document).ready(function() {
