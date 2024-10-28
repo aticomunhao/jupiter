@@ -132,26 +132,32 @@
 
 
                     @if (!empty($periodo_aquisitivo))
-                        <div style="max-height: 400px; overflow-y: auto;">
+                        <div style="max-height: 600px; overflow-y: auto;">
                             <div class="table-reponsive">
                                 <table
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
-                                    style="margin-top:10px;">
+                                    style="margin-top:10px; table-layout: auto;">
                                     <thead
                                         style="text-align: center; position: sticky; top: 0; z-index: 1; background-color: #d6e3ff;">
                                         <tr style="font-size:17px; color:#000000;">
-                                            <th scope="col" style="position: sticky; top: 0;">Nome do Funcionário</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Setor</th>
-                                            <th scope="col" style="position: sticky; top: 0;" colspan="2">Periodo
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Nome do Funcionário
+                                            </th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Setor</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;" colspan="2">Periodo
                                                 Aquisitivo</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Início 1</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Fim 1</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Início 2</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Fim 2</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Início 3</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Fim 3</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Status</th>
-                                            <th scope="col" style="position: sticky; top: 0;">Ações</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;" colspan="2">
+                                                Periodo
+                                                Concessivo</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Limite Concessivo
+                                            </th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Início 1</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Fim 1</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Início 2</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Fim 2</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Início 3</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Fim 3</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Status</th>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody id="idtable">
@@ -166,6 +172,15 @@
                                                 </td>
                                                 <td style="text-align: center">
                                                     {{ Carbon::parse($periodos_aquisitivos->fim_periodo_aquisitivo)->format('d/m/y') }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ Carbon::parse($periodos_aquisitivos->dt_inicio_periodo_de_licenca)->format('d/m/y') }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ Carbon::parse($periodos_aquisitivos->dt_fim_periodo_de_licenca)->format('d/m/y') }}
+                                                </td>
+                                                <td style="text-align: center">
+                                                    {{ Carbon::parse($periodos_aquisitivos->dia_limite_para_gozo_de_ferias)->format('d/m/y') }}
                                                 </td>
                                                 <td style="text-align: center">
                                                     {{ $periodos_aquisitivos->dt_ini_a ? Carbon::parse($periodos_aquisitivos->dt_ini_a)->format('d/m/y') : '--' }}
@@ -255,125 +270,6 @@
 
 
 
-    <!-- <script>
-        $(document).ready(function() {
-            // Função para carregar os dados com base nos filtros
-            var timeout = null;
-
-            function carregarDados() {
-                clearTimeout(timeout); // Limpa o timeout anterior, se houver
-
-                // Define um novo timeout para executar a função após 500ms do último evento de input
-                timeout = setTimeout(function() {
-                    var anoconsulta = $('#idanoconsulta').val() || "null";
-                    var setorconsulta = $('#idsetorconsulta').val() || "null";
-                    var nomefuncionario = $('#idnomefuncionario').val() || "null";
-                    var statusconsulta = $('#idstatusconsulta').val() || "null";
-                    console.log(statusconsulta);
-
-
-                    $('#idtable').empty(); // Limpa a tabela antes de adicionar novos dados
-
-                    $.ajax({
-                        type: "GET",
-                        url: "/retorna-periodo-ferias/" + anoconsulta + "/" + nomefuncionario +
-                            "/" + setorconsulta + "/" + statusconsulta,
-                        dataType: "json",
-                        success: function(response) {
-                            $('#idtable').empty();
-                            console.log(
-                                response); // Exemplo de como processar os dados retornados
-                            $.each(response, function(index, item) {
-                                // Cria uma nova linha na tabela
-                                var newRow = $('<tr>');
-
-                                // Adiciona as células da linha com os dados do item atual
-                                newRow.append('<td style="text-align: center">' + (item
-                                        .nome_completo_funcionario ?? 'N/A') +
-                                    '</td>');
-                                newRow.append('<td style="text-align: center">' + (item
-                                    .sigla_do_setor ?? 'N/A') + '</td>');
-                                newRow.append('<td style="text-align: center">' + (
-                                        parseInt(item.ano_de_referencia)) +
-                                    ' - ' + (parseInt(item.ano_de_referencia) + 1) +
-                                    '</td>');
-                                newRow.append('<td style="text-align: center">' + (item
-                                        .dt_ini_a ? new Date(item.dt_ini_a)
-                                        .toLocaleDateString('pt-BR') : '--') +
-                                    '</td>');
-                                newRow.append('<td style="text-align: center">' + (item
-                                        .dt_fim_a ? new Date(item.dt_fim_a)
-                                        .toLocaleDateString('pt-BR') : '--') +
-                                    '</td>');
-                                newRow.append('<td style="text-align: center">' + (item
-                                        .dt_ini_b ? new Date(item.dt_ini_b)
-                                        .toLocaleDateString('pt-BR') : '--') +
-                                    '</td>');
-                                newRow.append('<td style="text-align: center">' + (item
-                                        .dt_fim_b ? new Date(item.dt_fim_b)
-                                        .toLocaleDateString('pt-BR') : '--') +
-                                    '</td>');
-                                newRow.append('<td style="text-align: center">' + (item
-                                        .dt_ini_c ? new Date(item.dt_ini_c)
-                                        .toLocaleDateString('pt-BR') : '--') +
-                                    '</td>');
-                                newRow.append('<td style="text-align: center">' + (item
-                                        .dt_fim_c ? new Date(item.dt_fim_c)
-                                        .toLocaleDateString('pt-BR') : '--') +
-                                    '</td>');
-                                newRow.append('<td style="text-align: center">' + item
-                                    .status_pedido_ferias + '</td>');
-
-                                // Botões condicionais com base no status
-                                var actionsCell = $('<td style="text-align: center">');
-
-                                if (item.id_status_pedido_ferias == 4) {
-                                    actionsCell.append('<a href="/autorizar-ferias/' +
-                                        item.id_ferias +
-                                        '"><button class="btn btn-outline-success" style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip" data-placement="top" title="Autorizar Férias"><i class="bi bi-check2"></i></button></a>'
-                                    );
-                                    actionsCell.append(
-                                        '<a href="/formulario-recusar-ferias/' +
-                                        item.id_ferias +
-                                        '"><button class="btn btn-outline-danger" style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip" data-placement="top" title="Recusar Férias"><i class="bi bi-x"></i></button></a>'
-                                    );
-                                } else {
-                                    actionsCell.append(
-                                        '<a href="#" class="disabled" aria-disabled="true"><button class="btn btn-outline-secondary" disabled aria-label="Close"><i class="bi bi-check2"></i></button></a>'
-                                    );
-                                    actionsCell.append(
-                                        '<a href="#" class="disabled" aria-disabled="true"><button class="btn btn-outline-secondary" disabled aria-label="Close"><i class="bi bi-x"></i></button></a>'
-                                    );
-                                }
-
-                                actionsCell.append(
-                                    '<a href="/visualizar-historico-recusa-ferias/' +
-                                    item.id_ferias +
-                                    '" class="disabled" aria-disabled="true"><button class="btn btn-outline-secondary" aria-label="Close" style="font-size: 1rem; color:#0e0b16;" data-tt="tooltip" data-placement="top" title="Histórico"><i class="bi bi-search"></i></button></a>'
-                                );
-
-                                newRow.append(actionsCell);
-
-                                // Adiciona a nova linha à tabela com id 'idtable'
-                                $('#idtable').append(newRow);
-                            });
-                        },
-                        error: function(xhr, status, error) {
-                            console.log('Erro na requisição AJAX:', error);
-                        }
-                    });
-                }, 500); // Tempo de espera em milissegundos (500ms)
-            }
-            // Evento input para o campo de nome do funcionário
-            $('#idnomefuncionario').on('input', carregarDados);
-
-            // Eventos de mudança nos campos de ano e setor
-            $('#idanoconsulta').change(carregarDados);
-            $('#idsetorconsulta').change(carregarDados);
-            $('#idstatusconsulta').change(carregarDados);
-        });
-    </script>-->
-
     <script>
         $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();
@@ -392,15 +288,15 @@
         })
     </script>
     <script>
-        $(document).ready(function() {
-            const $tableHead = $('thead');
-            const $tableBody = $('tbody');
+        //  $(document).ready(function() {
+        //      const $tableHead = $('thead');
+        //     const $tableBody = $('tbody');
 
-            // Mover o cabeçalho junto com a rolagem
-            $('.table-responsive').on('scroll', function() {
-                const scrollTop = $(this).scrollTop();
-                $tableHead.css('transform', 'translateY(' + scrollTop + 'px)');
-            });
-        });
+        // Mover o cabeçalho junto com a rolagem
+        //  $('.table-responsive').on('scroll', function() {
+        //    const scrollTop = $(this).scrollTop();
+        //  $tableHead.css('transform', 'translateY(' + scrollTop + 'px)');
+        //});
+        // });
     </script>
 @endsection

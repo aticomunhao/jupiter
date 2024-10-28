@@ -71,73 +71,51 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
-                                    Férias:</label>
-                                <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
-                                    value="{{ isset($periodo_de_ferias->dt_ini_a) ? $periodo_de_ferias->dt_ini_a : '--' }}"
-                                    readonly>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
-                                    Férias:</label>
-                                <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
-                                    value="{{ isset($periodo_de_ferias->dt_fim_a) ? $periodo_de_ferias->dt_fim_a : '--' }}"
-                                    readonly>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
-                                <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                    value="{{ isset($periodo_de_ferias->nr_dias_per_a) ? $periodo_de_ferias->nr_dias_per_a + 1 : '--' }}"
-                                    readonly>
-                            </div>
+                            @if ($periodo_de_ferias->dt_ini_b == null)
+                                <div class="col-md-4 mb-3">
+                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
+                                        Férias:</label>
+                                    <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
+                                        value="{{ isset($periodo_de_ferias->dt_ini_a) ? $periodo_de_ferias->dt_ini_a : '--' }}"
+                                        readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                        Férias:</label>
+                                    <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
+                                        value="{{ isset($periodo_de_ferias->dt_fim_a) ? $periodo_de_ferias->dt_fim_a : '--' }}"
+                                        readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                    <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
+                                        value="{{ isset($periodo_de_ferias->nr_dias_per_a) ? $periodo_de_ferias->nr_dias_per_a : '--' }}"
+                                        readonly>
+                                </div>
+                            @else
+                                <div class="col-md-4 mb-3">
+                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
+                                        Férias:</label>
+                                    <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
+                                        value="{{ isset($periodo_de_ferias->dt_ini_a) ? $periodo_de_ferias->dt_ini_a : '--' }}"
+                                        readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
+                                        Férias:</label>
+                                    <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
+                                        value="{{ isset($periodo_de_ferias->dt_fim_a) ? $periodo_de_ferias->dt_fim_a : '--' }}"
+                                        readonly>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
+                                    <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
+                                        value="{{ isset($periodo_de_ferias->nr_dias_per_a) ? $periodo_de_ferias->nr_dias_per_a + 1 : '--' }}"
+                                        readonly>
+                                </div>
+                            @endif
+
                         </div>
-
-                        <!--
-                                            <div class="row">
-                                                <div class="col-md-4 mb-3">
-                                                    <label for="inicio_primeiro_periodo_ferias"> 1° Período de Férias Pós-venda:</label>
-                                                    <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
-                                                        value="" readonly>
-                                                </div>
-                                                <div class="col-md-4 mb-3">
-                                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
-                                                        Férias:</label>
-                                                    <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
-                                                        value="" readonly>
-                                                </div>
-                                                <div class="col-md-4 mb-3">
-                                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
-                                                    <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                                        value="" readonly>
-                                                </div>
-                                            </div>
-
-
-                                            <div class="row">
-                                                <div class="col-md-4 mb-3">
-                                                    <label for="inicio_primeiro_periodo_ferias">Data de Início do 1° Período de
-                                                        Férias:</label>
-                                                    <input type="date" id="inicio_primeiro_periodo_ferias" class="form-control"
-                                                        value="" readonly>
-                                                </div>
-                                                <div class="col-md-4 mb-3">
-                                                    <label for="fim_primeiro_periodo_ferias">Data de Término do 1° Período de
-                                                        Férias:</label>
-                                                    <input type="date" id="fim_primeiro_periodo_ferias" class="form-control"
-                                                        value="" readonly>
-                                                </div>
-                                                <div class="col-md-4 mb-3">
-                                                    <label for="dias_primeiro_periodo_ferias">Dias do 1° Período de Férias:</label>
-                                                    <input type="text" id="dias_primeiro_periodo_ferias" class="form-control"
-                                                        value="" readonly>
-                                                </div>
-                                            </div>
-
-                                        -->
-
-
-
 
                         @if (!empty($periodo_de_ferias->dt_fim_b))
                             <div class="row">
@@ -190,6 +168,12 @@
                                     value="{{ $periodo_de_ferias->adianta_13sal ? 'Sim' : 'Não' }}" readonly>
                             </div>
                             <div class="col-md-4 mb-3">
+                                <label for="inicio_primeiro_periodo_ferias">Data Limite Periodo Concessivo:</label>
+                                <input type="text" id="dia_limite_gozzo" class="form-control"
+                                    value="{{ Carbon::parse($periodo_de_ferias->dia_limite_para_gozo_de_ferias)->format('d/m/Y') }}"
+                                    readonly>
+                            </div>
+                            <div class="col-md-4 mb-3">
                                 <label for="inicio_primeiro_periodo_ferias">Vendeu o período de férias ?</label>
                                 @if ($periodo_de_ferias->venda_um_terco == 0)
                                     <input type="text" id="adiantou_decimo" class="form-control"
@@ -235,8 +219,9 @@
                 <br>
                 <div class="row justify-content-center">
                     <div class="col-5">
-                        <a href="{{ URL::previous() }}">
-                            <button class="btn btn-outline-primary" style="width: 100%">Retornar</button>
+                        <a href="{{ url()->previous() }}">
+                            <button class="btn btn-outline-primary" style="width: 100%">Voltar para a página
+                                anterior</button>
                         </a>
                     </div>
                 </div>

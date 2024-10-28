@@ -88,12 +88,23 @@ class GerenciarFeriasController extends Controller
             }
         }
 
+
+
+
         // Recupera anos e status possíveis
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $status_ferias = DB::table('status_pedido_ferias')->get();
 
 
-        return view('ferias.gerenciar-ferias', compact('periodo_aquisitivo', 'anos_possiveis', 'status_ferias', 'ano_consulta', 'nome_funcionario', 'status_consulta_atual'));
+        return view('ferias.gerenciar-ferias', compact(
+            'periodo_aquisitivo',
+            'anos_possiveis',
+            'status_ferias',
+            'ano_consulta',
+            'nome_funcionario',
+            'status_consulta_atual',
+
+        ));
     }
 
     private function hasDateConflict($p1, $p2)
@@ -212,8 +223,16 @@ class GerenciarFeriasController extends Controller
             $periodo_de_ferias = DB::table('ferias')->where('id', '=', $id)->first();
 
 
+
             $funcionario = DB::table('funcionarios')
-                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')->where('funcionarios.id', '=', $periodo_de_ferias->id_funcionario)->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')->first();
+                ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+                ->where('funcionarios.id', '=', $periodo_de_ferias->id_funcionario)
+                ->select(
+                    'pessoas.id as id_pessoa',
+                    'funcionarios.id as id_funcionario',
+                    'pessoas.nome_completo',
+                    'funcionarios.dt_inicio'
+                )->first();
 
 
             $historico_recusa_ferias = DB::table('hist_recusa_ferias')->where('id_periodo_de_ferias', '=', $id)->get();
@@ -226,7 +245,11 @@ class GerenciarFeriasController extends Controller
             // dd($periodo_de_ferias);
 
 
-            return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario'));
+            $dias_limite_para_periodo_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
+            // dd($dias_limite_para_periodo_de_ferias);
+            $periodo_de_ferias->dia_limite_para_gozo_de_ferias = Carbon::parse($periodo_de_ferias->dt_inicio_periodo_de_licenca)->addDays($dias_limite_para_periodo_de_ferias->dias)->toDateString();
+
+            return view('ferias.historico-ferias', compact('periodo_de_ferias', 'historico_recusa_ferias', 'funcionario', 'dias_limite_para_periodo_de_ferias'));
         } catch (Exception $exception) {
             DB::rollBack();
             app('flasher')->addError($exception->getMessage());
@@ -375,6 +398,8 @@ class GerenciarFeriasController extends Controller
                     'pessoas.id as id_pessoa',
                     'ferias.inicio_periodo_aquisitivo',
                     'ferias.fim_periodo_aquisitivo',
+                    'dt_inicio_periodo_de_licenca',
+                    'dt_fim_periodo_de_licenca',
                     'ferias.dt_ini_a',
                     'ferias.dt_fim_a',
                     'ferias.dt_ini_b',
@@ -400,7 +425,11 @@ class GerenciarFeriasController extends Controller
             $status_consulta_atual = null;
 
             // Obtenção de dados para possíveis seleções
-            $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
+            $anos_possiveis = DB::table('ferias')
+                ->select('ano_de_referencia')
+                ->groupBy('ano_de_referencia')
+                ->orderBy('ano_de_referencia', 'asc')
+                ->get();
             $status_ferias = DB::table('status_pedido_ferias');
 
             // Aplicação de filtros
@@ -453,6 +482,12 @@ class GerenciarFeriasController extends Controller
 
             $listaAnos = range($anoAnterior, $doisAnosFrente);
             $periodo_aquisitivo = $periodo_aquisitivo->get();
+            $dias_limite_para_periodo_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
+            $dias_limite_para_periodo_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
+            // dd($dias_limite_para_periodo_de_ferias);
+            foreach ($periodo_aquisitivo as $periodo_de_ferias) {
+                $periodo_de_ferias->dia_limite_para_gozo_de_ferias =  Carbon::parse($periodo_de_ferias->dt_inicio_periodo_de_licenca)->addDays($dias_limite_para_periodo_de_ferias->dias)->toDateString();
+            }
 
 
             return view('ferias.administrar-ferias', compact(
@@ -467,7 +502,8 @@ class GerenciarFeriasController extends Controller
                 'setor',
                 'periodo_aquisitivo',
                 'status_consulta',
-                'status_consulta_atual'
+                'status_consulta_atual',
+
             ));
         } catch (Exception $exception) {
             DB::rollBack();
@@ -533,7 +569,9 @@ class GerenciarFeriasController extends Controller
             ->join('tp_afastamento', 'afastamento.id_tp_afastamento', '=', 'tp_afastamento.id')
             ->where('dt_inicio', '>=', $ferias->inicio_periodo_aquisitivo)
             ->where('dt_fim', '<=', $ferias->fim_periodo_aquisitivo)
-            ->select('tp_afastamento.limite', 'afastamento.qtd_dias')->get();
+            ->whereNotIn('id_tp_afastamento', [16, 17, 18, 19]) // Corrigido para whereNotIn
+            ->select('tp_afastamento.limite', 'afastamento.qtd_dias')
+            ->get();
 
         foreach ($atestados as $atestado) {
             $faltas += $atestado->qtd_dias - $atestado->limite;
