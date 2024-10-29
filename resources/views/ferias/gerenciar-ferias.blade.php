@@ -113,10 +113,7 @@
                                             @foreach ($periodo_aquisitivo as $periodos_aquisitivos)
                                                 <tr @if ($periodos_aquisitivos->em_conflito) class="table-warning" @endif>
                                                     <td class="text-center align-middle">
-                                                        @if (
-                                                            $periodos_aquisitivos->id_status_pedido_ferias == 3 or
-                                                                $periodos_aquisitivos->id_status_pedido_ferias == 5
-                                                            )
+                                                        @if ($periodos_aquisitivos->id_status_pedido_ferias == 3 or $periodos_aquisitivos->id_status_pedido_ferias == 5)
                                                             <div
                                                                 class="form-check form-switch d-flex justify-content-center">
                                                                 <input class="form-check-input checkbox-trigger"
@@ -177,49 +174,48 @@
                                                             style="font-size: 1rem; color:#0e0b16;">
                                                             <i class="bi bi-search"></i>
                                                         </a>
-                                                        @if ( $periodos_aquisitivos->id_status_pedido_ferias == 3)
-
-
-                                                        <a href="{{ route('EnviaFeriasIndividual', ['id' => $periodos_aquisitivos->id_ferias]) }}"
-                                                            class="btn btn-outline-primary" data-bs-toggle="tooltip"
-                                                            data-bs-placement="top" title="Enviar Ferias "
-                                                            style="font-size: 1rem; color:#0e0b16;">
-                                                            <i class="bi bi-arrow-right-square"></i>
-                                                        </a>
+                                                        @if ($periodos_aquisitivos->id_status_pedido_ferias == 3)
+                                                            <a href="{{ route('EnviaFeriasIndividual', ['id' => $periodos_aquisitivos->id_ferias]) }}"
+                                                                class="btn btn-outline-primary" data-bs-toggle="tooltip"
+                                                                data-bs-placement="top" title="Enviar Ferias "
+                                                                style="font-size: 1rem; color:#0e0b16;">
+                                                                <i class="bi bi-arrow-right-square"></i>
+                                                            </a>
                                                         @endif
 
                                                         @if ($periodos_aquisitivos->id_status_pedido_ferias == 6)
-                                                        <button type="button" class="btn btn-outline-primary"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}"
-                                                            title="Reabrir Formulário"><i class="bi bi-arrow-counterclockwise"></i></button>
-                                                        <!-- Modal -->
-                                                        <div class="modal fade"
-                                                            id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
-                                                            tabindex="-1" role="dialog">
-                                                            <div class="modal-dialog" role="document">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header bg-primary text-white">
-                                                                        <h2 class="modal-title">Reabrir Formulário</h2>
-                                                                        <button type="button" class="btn-close"
-                                                                            data-bs-dismiss="modal"></button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        Deseja Reabrir as férias do funcionário: <span
-                                                                            class="text-primary">{{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</span>?
-                                                                    </div>
-                                                                    <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-danger"
-                                                                            data-bs-dismiss="modal">Cancelar</button>
-                                                                        <a
-                                                                            href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}"><button
-                                                                                type="button"
-                                                                                class="btn btn-primary">Confirmar</button></a>
+                                                            <button type="button" class="btn btn-outline-primary"
+                                                                data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                                title="Reabrir Formulário"><i
+                                                                    class="bi bi-arrow-counterclockwise"></i></button>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade"
+                                                                id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                                tabindex="-1" role="dialog">
+                                                                <div class="modal-dialog" role="document">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header bg-primary text-white">
+                                                                            <h2 class="modal-title">Reabrir Formulário</h2>
+                                                                            <button type="button" class="btn-close"
+                                                                                data-bs-dismiss="modal"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            Deseja Reabrir as férias do funcionário: <span
+                                                                                class="text-primary">{{ $periodos_aquisitivos->nome_completo_funcionario ?? 'N/A' }}</span>?
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-danger"
+                                                                                data-bs-dismiss="modal">Cancelar</button>
+                                                                            <a
+                                                                                href="{{ route('ReabrirFormulario', ['id' => $periodos_aquisitivos->id_ferias]) }}"><button
+                                                                                    type="button"
+                                                                                    class="btn btn-primary">Confirmar</button></a>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                    @endif
+                                                        @endif
                                                     </td>
                                                 </tr>
                                             @endforeach

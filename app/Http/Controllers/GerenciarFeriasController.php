@@ -387,19 +387,19 @@ class GerenciarFeriasController extends Controller
                 $ano_referente = DB::table('ferias')->max('ano_de_referencia');
             }
 
-
             $periodo_aquisitivo = DB::table('ferias')
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
                 ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
                 ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
                 ->join('setor as s', 's.id', '=', 'id_setor')
+                ->join('acordo', 'acordo.id_funcionario', '=', 'funcionarios.id')
                 ->select(
                     'pessoas.nome_completo as nome_completo_funcionario',
                     'pessoas.id as id_pessoa',
                     'ferias.inicio_periodo_aquisitivo',
                     'ferias.fim_periodo_aquisitivo',
-                    'dt_inicio_periodo_de_licenca',
-                    'dt_fim_periodo_de_licenca',
+                    'ferias.dt_inicio_periodo_de_licenca',
+                    'ferias.dt_fim_periodo_de_licenca',
                     'ferias.dt_ini_a',
                     'ferias.dt_fim_a',
                     'ferias.dt_ini_b',
@@ -417,7 +417,10 @@ class GerenciarFeriasController extends Controller
                     's.sigla as sigla_do_setor',
                     's.id as id_do_setor'
                 )
-                ->orderBy('nome_completo_funcionario');
+                ->whereIn('acordo.tp_acordo', [1, 5, 4])
+                ->whereNull('acordo.dt_fim')
+                ->orderBy('pessoas.nome_completo');
+
             $ano_consulta = null;
             $nome_funcionario = $request->input('nomefuncionario');
             $status_consulta = $request->input('statusconsulta');
@@ -648,7 +651,8 @@ class GerenciarFeriasController extends Controller
                         'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')
 
                     ]);
-                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Preenchimento do Formulario', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+
                 $ferias = DB::table('ferias')
                     ->where('ferias.id', $ferias->id)
                     ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -753,7 +757,7 @@ class GerenciarFeriasController extends Controller
                     'vendeu_ferias' => isset($formulario_de_ferias["vendeFerias"]) ? $formulario_de_ferias["vendeFerias"] : null,
                     'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')
                 ]);
-                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Envio do Formulário', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Preenchimento do Formulario', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
                 $ferias = DB::table('ferias')
                     ->where('ferias.id', $ferias->id)
                     ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -861,6 +865,8 @@ class GerenciarFeriasController extends Controller
                     'vendeu_ferias' => isset($formulario_de_ferias["vendeFerias"]) ? $formulario_de_ferias["vendeFerias"] : null,
                     'venda_um_terco' => (int)$request->input('periodoDeVendaDeFerias')
                 ]);
+                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $ferias->id, 'motivo_retorno' => 'Preenchimento do Formulario', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+
                 $ferias = DB::table('ferias')
                     ->where('ferias.id', $ferias->id)
                     ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -942,6 +948,7 @@ class GerenciarFeriasController extends Controller
                     'status_pedido_ferias.id as id_status_pedido_ferias',
                     'status_pedido_ferias.nome as status_pedido_ferias'
                 )->WhereIn('ferias.id', $numeros_checkboxes)->get();
+
             foreach ($ferias_funcionarios as $ferias_funcionario) {
                 if (empty($ferias_funcionario->dt_ini_a)) {
                     app('flasher')->addError('Foi feita uma tentativa de enviar as ferias de ' . $ferias_funcionario->nome_completo_funcionario . ', porém as mesmas não foram preenchidas.');
@@ -950,6 +957,11 @@ class GerenciarFeriasController extends Controller
             }
             foreach ($ferias_funcionarios as $ferias_funcionario) {
                 DB::table('ferias')->where('id', '=', $ferias_funcionario->id_ferias)->update(['status_pedido_ferias' => 4]);
+                DB::table('hist_recusa_ferias')->insert([
+                    'id_periodo_de_ferias' =>  $ferias_funcionarios->id_ferias,
+                    'motivo_retorno' => 'Envio do Fomulario',
+                    'data_de_acontecimento' => Carbon::today()->toDateString()
+                ]);
             }
             DB::commit();
             app('flasher')->addSuccess("Ferias Enviadas com Sucesso!");
@@ -985,7 +997,7 @@ class GerenciarFeriasController extends Controller
     public function EnviaPeriodoDeFeriasIndividualmente($id)
     {
         try {
-            $periodo_de_ferias = $ferias_funcionarios = DB::table('ferias')
+            $ferias_funcionario = DB::table('ferias')
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
                 ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
                 ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
@@ -1006,12 +1018,12 @@ class GerenciarFeriasController extends Controller
                     'status_pedido_ferias.id as id_status_pedido_ferias',
                     'status_pedido_ferias.nome as status_pedido_ferias'
                 )->where('ferias.id', '=', $id)->first();
-
-            if ($periodo_de_ferias->dt_ini_a == null) {
-                app('flasher')->addError('Foi feita uma tentativa de enviar as ferias de ' . $periodo_de_ferias->nome_completo_funcionario . ', porém as mesmas não foram preenchidas.');
+            DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' =>    $ferias_funcionario->id_ferias, 'motivo_retorno' => 'Envio do Fomulario', 'data_de_acontecimento' => Carbon::today()->toDateString()]);
+            if ($ferias_funcionario->dt_ini_a == null) {
+                app('flasher')->addError('Foi feita uma tentativa de enviar as ferias de ' .  $ferias_funcionario->nome_completo_funcionario . ', porém as mesmas não foram preenchidas.');
                 return redirect()->route('IndexGerenciarFerias');
             } else {
-                DB::table('ferias')->where('id', '=', $periodo_de_ferias->id_ferias)->update(['status_pedido_ferias' => 4]);
+                DB::table('ferias')->where('id', '=',   $ferias_funcionario->id_ferias)->update(['status_pedido_ferias' => 4]);
                 DB::commit();
                 app('flasher')->addSuccess("Ferias Enviadas com Sucesso!");
                 return redirect()->back();

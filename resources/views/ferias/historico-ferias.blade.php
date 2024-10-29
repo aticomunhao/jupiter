@@ -198,9 +198,9 @@
                     <table class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
                         style="margin-top:10px;">
                         <thead style="text-align: center;">
-                            <tr style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                <th class="text-align: center">Data de Recusa</th>
-                                <th class="text-align: center">Motivo Recusa</th>
+                            <tr style="background-color: #d6e3ff; color:#000000">
+                                <th class="text-align: center">Data de Acontecimento</th>
+                                <th class="text-align: center">Motivo Acontecimento</th>
                             </tr>
                         </thead>
                         <tbody>

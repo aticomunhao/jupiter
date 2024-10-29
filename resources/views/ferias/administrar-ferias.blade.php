@@ -148,7 +148,7 @@
                                             <th scope="col-md-auto" style="position: sticky; top: 0;" colspan="2">
                                                 Periodo
                                                 Concessivo</th>
-                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Limite Concessivo
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Data  Limite <br> Inicio  de  Férias
                                             </th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;">Início 1</th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;">Fim 1</th>
