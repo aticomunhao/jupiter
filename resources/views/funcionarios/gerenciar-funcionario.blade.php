@@ -36,7 +36,7 @@
                                             value="{{ $nome }}">
                                     </div>
                                     <div class="col-md-2 col-sm-12">
-                                        <label for="1">Selecione o Setor Desejado</label>
+                                        <label for="1">Setor</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
                                             @foreach ($setor as $setores)
