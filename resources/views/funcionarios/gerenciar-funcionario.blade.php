@@ -35,14 +35,14 @@
                                             maxlength="50" type="text" id="3" name="nome"
                                             value="{{ $nome }}">
                                     </div>
-                                    <div class="col-md-4 col-sm-12">
+                                    <div class="col-md-2 col-sm-12">
                                         <label for="1">Selecione o Setor Desejado</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
                                             @foreach ($setor as $setores)
                                                 <option value="{{ $setores->id }}"
-                                                    {{ $setores->nome == $setores->id ? 'selected' : '' }}>
-                                                    {{ $setores->nome }} - {{ $setores->sigla }}
+                                                    {{ $setores->sigla == $setores->id ? 'selected' : '' }}>
+                                                    {{ $setores->sigla }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -51,7 +51,6 @@
                                         <select class="form-select custom-select"
                                             style="border: 1px solid #999999; padding: 5px;" id="4" name="status"
                                             type="number">
-                                            <option value="">Todos</option> <!-- Opção 'Todos' com valor vazio -->
                                             <option value="1">Ativo</option>
                                             <option value="0">Inativo</option>
                                         </select>
@@ -75,6 +74,9 @@
 
                             </form>
                         </div>
+                        <h6>
+                            Ativos ({{ $totalFuncionariosAtivos }}) | Inativos ({{ $totalFuncionariosInativos }})
+                        </h6>
                         <hr>
                         <div class="table-responsive">
                             <table
@@ -106,23 +108,23 @@
                                                 <a href="/editar-funcionario/{{ $listas->idp }}" type="button"
                                                     class="btn btn-outline-warning" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Editar"><i class="bi-pencil"
-                                                    style="font-size: 1rem; color:#303030;"></i>
+                                                        style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/visualizar-funcionario/{{ $listas->idp }}" type="button"
                                                     class="btn btn-outline-primary" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    title="Visualizar"><i class="bi-search"
+                                                    data-bs-placement="top" title="Visualizar"><i class="bi-search"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-dependentes/{{ $listas->idf }}" type="button"
                                                     class="btn btn-outline-primary" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top"
-                                                    data-placement="top" title="Dependentes"><i class="bi-people-fill"
+                                                    data-bs-placement="top" data-placement="top" title="Dependentes"><i
+                                                        class="bi-people-fill"
                                                         style="font-size: 1rem;color:#303030; "></i>
                                                 </a>
                                                 <a href="{{ route('index.dadosbancarios.funcionario', ['id' => $listas->idf]) }}"
-                                                    type="button" class="btn btn-outline-primary" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Dados Bancários"><i class="bi bi-bank"
+                                                    type="button" class="btn btn-outline-primary"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top"
+                                                    title="Dados Bancários"><i class="bi bi-bank"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-afastamentos/{{ $listas->idf }}" type="button"
@@ -132,12 +134,14 @@
                                                 </a>
                                                 <a href="/gerenciar-certificados/{{ $listas->idf }}" type="button"
                                                     class="btn btn-outline-primary" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Certificados"><i class="bi-mortarboard"
+                                                    data-bs-placement="top" title="Certificados"><i
+                                                        class="bi-mortarboard"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-acordos/{{ $listas->idf }}" type="button"
                                                     class="btn btn-outline-primary" data-bs-toggle="tooltip"
-                                                    data-bs-placement="top" title="Contratos"><i class="bi bi-pencil-square"{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
+                                                    data-bs-placement="top" title="Contratos"><i
+                                                        class="bi bi-pencil-square"{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
                                                 <a href="/gerenciar-base-salarial/{{ $listas->idf }}" type="button"
@@ -149,11 +153,11 @@
                                                 <button type="button" class="btn btn-outline-danger"
                                                     data-bs-toggle="modal"
                                                     data-bs-target="#A{{ $listas->cpf }}-{{ $listas->idp }}"
-                                                    class="btn btn-outline-danger btn-sm"
-                                                    data-bs-placement="top" title="Excluir"><i class="bi-trash"
-                                                        style="font-size: 1rem; color:#303030;" ></i></button>
+                                                    class="btn btn-outline-danger btn-sm" data-bs-placement="top"
+                                                    title="Excluir"><i class="bi-trash"
+                                                        style="font-size: 1rem; color:#303030;"></i></button>
                                                 <button type="button" class="btn btn-outline-danger"
-                                                data-bs-placement="top" title="Inativar" data-bs-toggle="modal"
+                                                    data-bs-placement="top" title="Inativar" data-bs-toggle="modal"
                                                     data-bs-target="#situacao{{ $listas->cpf }}-{{ $listas->idf }}">
                                                     <i class="bi bi-exclamation-circle"
                                                         style="font-size: 1rem; color:#303030;"></i>
@@ -171,27 +175,28 @@
                                                                 <div class="modal-header"
                                                                     style="background-color:#DC4C64">
                                                                     <h5 class="modal-title" id="exampleModalLabel"
-                                                                        style="color:rgb(255, 255, 255)">Confirmar de Inativação</h5>
+                                                                        style="color:rgb(255, 255, 255)">Confirmar de
+                                                                        Inativação</h5>
                                                                     <button type="button" class="btn-close"
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body" style="text-align: center;">
-                                                                        <label for="mi" class="form-label">Motivo da
-                                                                            Inativação:</label>
-                                                                        <select class="form-select" name="motivo_inativar"
-                                                                            required="required" id="mi">
-                                                                            <option value=""></option>
-                                                                            @foreach ($situacao as $situacaos)
-                                                                                <option value="{{ $situacaos->id }}">
-                                                                                    {{ $situacaos->motivo }}</option>
-                                                                            @endforeach
-                                                                        </select>
-                                                                        <label for="dtf" class="form-label">Data de
-                                                                            Inativação:</label>
-                                                                        <input class="form-control" type="date"
-                                                                            id="dtf" name="dt_fim_inativacao"
-                                                                            required="required">
+                                                                    <label for="mi" class="form-label">Motivo da
+                                                                        Inativação:</label>
+                                                                    <select class="form-select" name="motivo_inativar"
+                                                                        required="required" id="mi">
+                                                                        <option value=""></option>
+                                                                        @foreach ($situacao as $situacaos)
+                                                                            <option value="{{ $situacaos->id }}">
+                                                                                {{ $situacaos->motivo }}</option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    <label for="dtf" class="form-label">Data de
+                                                                        Inativação:</label>
+                                                                    <input class="form-control" type="date"
+                                                                        id="dtf" name="dt_fim_inativacao"
+                                                                        required="required">
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-danger"
@@ -255,7 +260,7 @@
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
+        })
     </script>
 
     <style>

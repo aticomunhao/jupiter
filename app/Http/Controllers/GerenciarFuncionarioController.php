@@ -20,7 +20,6 @@ class GerenciarFuncionarioController extends Controller
 
 
     public function index(Request $request)
-
     {
 
         $lista = DB::table('funcionarios AS f')
@@ -44,10 +43,12 @@ class GerenciarFuncionarioController extends Controller
         if ($request->idt) {
             $lista->where('p.idt', '=', $request->idt);
         }
-        if ($request->status === '1') {
-            $lista->where('status', 1);
+        if ($request->status === null) {
+            $lista->where('p.status', 1);
+        } elseif ($request->status === '1') {
+            $lista->where('p.status', 1);
         } elseif ($request->status === '0') {
-            $lista->where('status', 0);
+            $lista->where('p.status', 0);
         }
 
         if ($request->nome) {
@@ -71,10 +72,20 @@ class GerenciarFuncionarioController extends Controller
             ->get();
 
         $setor = db::table('setor')
-        ->select('id', 'nome', 'sigla')
-        ->get();
+            ->select('id', 'nome', 'sigla')
+            ->get();
 
-        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'dataContrato', 'setor'));
+        $totalFuncionariosAtivos = DB::table('funcionarios AS f')
+            ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
+            ->where('p.status', 1)
+            ->count();
+
+        $totalFuncionariosInativos = DB::table('funcionarios AS f')
+            ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
+            ->where('p.status', 0)
+            ->count();
+
+        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'dataContrato', 'setor', 'totalFuncionariosAtivos', 'totalFuncionariosInativos'));
     }
 
     public function create()
