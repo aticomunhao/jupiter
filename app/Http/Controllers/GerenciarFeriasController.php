@@ -958,7 +958,7 @@ class GerenciarFeriasController extends Controller
             foreach ($ferias_funcionarios as $ferias_funcionario) {
                 DB::table('ferias')->where('id', '=', $ferias_funcionario->id_ferias)->update(['status_pedido_ferias' => 4]);
                 DB::table('hist_recusa_ferias')->insert([
-                    'id_periodo_de_ferias' =>  $ferias_funcionarios->id_ferias,
+                    'id_periodo_de_ferias' =>  $ferias_funcionario->id_ferias,
                     'motivo_retorno' => 'Envio do Fomulario',
                     'data_de_acontecimento' => Carbon::today()->toDateString()
                 ]);
