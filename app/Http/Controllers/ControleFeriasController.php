@@ -37,6 +37,7 @@ class ControleFeriasController extends Controller
                 'f.id_setor AS id_setor',
                 'p.nome_completo AS nome_completo',
                 'p.nome_resumido AS nome_resumido',
+                'p.status',
                 'fe.inicio_periodo_aquisitivo AS ini_aqt',
                 'fe.fim_periodo_aquisitivo AS fim_aqt',
                 'stf.nome AS nome_stf',
@@ -54,14 +55,16 @@ class ControleFeriasController extends Controller
                 'fe.dt_inicio_periodo_de_licenca AS dt_inicio_gozo',
                 'fe.dt_fim_periodo_de_licenca AS dt_fim_gozo',
             );
+
+        $status = $request->status;
         $setor_selecionado = null;
         $mes_selecionado = null;
         $ano_selecionado = null;
-        $mes_gozo_ferias = null;
+        $mes_ferias = null;
         $setor_selecionado = $request->setor;
-        $mes_selecionado = $request->mes_gozo_ferias;
+        $mes_selecionado = $request->mes_ferias;
         $ano_selecionado = $request->ano;
-        $mes_gozo_ferias = $request->input('mes_gozo_ferias');
+        $mes_ferias = $request->input('mes_ferias');
         $mes = [
             1 => "Janeiro",
             2 => "Fevereiro",
@@ -85,20 +88,35 @@ class ControleFeriasController extends Controller
         if ($request->nomeFunc) {
             $ferias->where('p.nome_completo', 'ILIKE', '%' . $request->nomeFunc . '%');
         }
-         // if ($request->input('mes_gozo_ferias')) {
+        // if ($request->input('mes_gozo_ferias')) {
         //     $ferias->whereMonth('fim_aqt', '=', $mes_gozo_ferias);
 
         // }
-        if ($request->mes_gozo_ferias) {
-            $ferias->whereMonth('fe.dt_inicio_periodo_de_licenca', $mes_selecionado);
+        if ($request->mes_ferias) {
             $mes_selecionado = [
-                'indice' => $request->input('mes_gozo_ferias'),
-                'nome' => $mes[$request->input('mes_gozo_ferias')]
+                'indice' => $request->input('mes_ferias'),
+                'nome' => $mes[$request->input('mes_ferias')]
             ];
+
+            // Aplica o filtro para buscar registros onde o mês em qualquer um dos campos é igual ao mês selecionado
+            $ferias->where(function ($query) use ($mes_selecionado) {
+                $query->whereMonth('fe.dt_ini_a', $mes_selecionado['indice'])
+                    ->orWhereMonth('fe.dt_ini_b', $mes_selecionado['indice'])
+                    ->orWhereMonth('fe.dt_ini_c', $mes_selecionado['indice']);
+            });
         }
+
         if ($request->ano) {
             $ferias->where('fe.ano_de_referencia', $ano_selecionado);
             $ano_selecionado = $request->input('ano');
+        }
+
+        if ($request->status === null) {
+            $ferias->where('p.status', 1);
+        } elseif ($request->status === '1') {
+            $ferias->where('p.status', 1);
+        } elseif ($request->status === '0') {
+            $ferias->where('p.status', 0);
         }
 
 
@@ -116,14 +134,14 @@ class ControleFeriasController extends Controller
                 's.id AS idSetor',
                 's.sigla AS siglaSetor',
             )
-            ->orderBy('nome_setor',)
+            ->orderBy('nome_setor', )
             ->distinct()
             ->get();
         //dd($setor);
         //dd($ano);
         // dd($mes_selecionado);
         //  dd($setor_selecionado != null);
-        return view('ferias.controle-ferias', compact('ferias', 'mes', 'ano', 'setor', 'setor_selecionado', 'mes_gozo_ferias', 'mes_selecionado', 'ano_selecionado'));
+        return view('ferias.controle-ferias', compact('ferias', 'mes', 'ano', 'setor', 'setor_selecionado', 'mes_ferias', 'mes_selecionado', 'ano_selecionado'));
     }
 
 }

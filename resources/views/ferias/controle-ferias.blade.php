@@ -53,7 +53,7 @@
                                     </div> --}}
                                     <div class="col-md col-sm-12">
                                         <label for="1">Mês de Férias</label>
-                                        <select id="idmes" class="form-select select2" name="mes_gozo_ferias">
+                                        <select id="idmes" class="form-select select2" name="mes_ferias">
                                             <option value="">Todos</option>
                                             @foreach ($mes as $meses => $nome)
                                                 <option value="{{ $meses }}">
@@ -82,6 +82,14 @@
                                                     {{ $anos->ano_de_referencia }} - {{ $anos->ano_de_referencia + 1 }}
                                                 </option>
                                             @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 col-sm-12">Situação
+                                        <select class="form-select custom-select"
+                                            style="border: 1px solid #999999; padding: 5px;" id="" name="status"
+                                            type="number">
+                                            <option value="1">Ativo</option>
+                                            <option value="0">Inativo</option>
                                         </select>
                                     </div>
                                     <div class="col" style="margin-top: 20px;">
