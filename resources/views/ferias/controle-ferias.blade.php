@@ -52,7 +52,7 @@
                                         </select>
                                     </div> --}}
                                     <div class="col-md col-sm-12">
-                                        <label for="1">Mês de Referência</label>
+                                        <label for="1">Mês de Férias</label>
                                         <select id="idmes" class="form-select select2" name="mes_gozo_ferias">
                                             <option value="">Todos</option>
                                             @foreach ($mes as $meses => $nome)

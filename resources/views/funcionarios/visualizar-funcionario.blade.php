@@ -217,7 +217,7 @@
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
-                                        Data de Ingresso na Comunhão:
+                                        Data de Admissão:
                                     </legend>
                                     {{ $funcionario[0]->dt_inicio }}
                                 </div>

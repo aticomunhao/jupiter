@@ -86,6 +86,7 @@
                                         <th class="col-1">CPF</th>
                                         <th class="col-1">Identidade</th>
                                         <th class="col-4">Nome</th>
+                                        <th class="col">Setor</th>
                                         <th class="col">Situação</th>
                                         <th class="col">Ações</th>
                                     </tr>
@@ -99,6 +100,7 @@
                                                 data-nome-resumido="{{ $listas->nome_resumido }}">
                                                 {{ $listas->nome_completo }}
                                             </td>
+                                            <td scope="" style="text-align: center;">{{ $listas->sigla }}</td>
                                             @if ($listas->status == 1)
                                                 <td scope="" style="text-align: center;">Ativo</td>
                                             @else
@@ -287,5 +289,4 @@
 @endsection
 
 
-@section('footerScript')
-@endsection
+

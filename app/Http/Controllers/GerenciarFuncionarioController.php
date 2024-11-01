@@ -24,7 +24,8 @@ class GerenciarFuncionarioController extends Controller
 
         $lista = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'f.id_pessoa AS idp', 'p.nome_resumido');
+            ->leftJoin('setor', 'setor.id', 'f.id_setor')
+            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'f.id_pessoa AS idp', 'p.nome_resumido', 'setor.sigla');
 
         $cpf = $request->cpf;
 
@@ -73,6 +74,7 @@ class GerenciarFuncionarioController extends Controller
 
         $setor = db::table('setor')
             ->select('id', 'nome', 'sigla')
+            ->orderBy('sigla')
             ->get();
 
         $totalFuncionariosAtivos = DB::table('funcionarios AS f')
@@ -547,7 +549,7 @@ class GerenciarFuncionarioController extends Controller
             ]);
 
         app('flasher')->addSuccess('Edição feita com Sucesso!');
-        return redirect()->back();
+        return redirect('/gerenciar-funcionario');
     }
 
     public function delete($idp)

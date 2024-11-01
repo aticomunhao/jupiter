@@ -1,10 +1,10 @@
 //Quando eecutar a pagina usa o select2
 
-// $(document).ready(function () {
-//     // Inicialize o Select2 com o tema Bootstrap 5
-//     $('.select2').select2({
-//         theme: 'bootstrap-5'
-//     });
+$(document).ready(function () {
+     //Inicialize o Select2 com o tema Bootstrap 5
+    $('.select2').select2({
+       theme: 'bootstrap-5'
+    });
 
 //     // Supondo que o array de rotas selecionadas esteja embutido no HTML, você precisará garantir que ele esteja disponível como variável JavaScript no DOM
 //     let rotasSelecionadas = window.rotasSelecionadas || [];
@@ -14,7 +14,7 @@
 //         $('#id' + value).prop('selected', true);
 //         $('#id' + value).trigger('change');
 //     });
-// });
+ });
 
 ////script de estado com cidade
 
