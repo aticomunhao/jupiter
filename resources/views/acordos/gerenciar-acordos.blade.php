@@ -71,7 +71,7 @@
                                                 {{--  Área de ações  --}}
                                                 <td style="text-align: center">
                                                     <!-- Botao de Arquivo -->
-                                                    <a href="{{ asset("$acordo->caminho") }}"
+                                                    <a href=""
                                                         class="btn  btn-outline-secondary" data-tt="tooltip"
                                                         data-placement="top" title="Visualizar">
                                                         <i class="bi bi-archive" style="font-size: 1rem; color:#303030"></i>

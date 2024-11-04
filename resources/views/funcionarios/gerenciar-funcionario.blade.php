@@ -53,6 +53,7 @@
                                             type="number">
                                             <option value="1">Ativo</option>
                                             <option value="0">Inativo</option>
+                                            <option value="3">Todos</option>
                                         </select>
                                     </div>
 
@@ -103,8 +104,10 @@
                                             <td scope="" style="text-align: center;">{{ $listas->sigla }}</td>
                                             @if ($listas->status == 1)
                                                 <td scope="" style="text-align: center;">Ativo</td>
-                                            @else
+                                            @elseif ($lista->status == 0)
                                                 <td scope="" style="text-align: center;">Inativo</td>
+                                            @else
+                                                <td scope="" style="text-align: center;">Todos</td>
                                             @endif
                                             <td scope="" style="text-align: center">
                                                 <a href="/editar-funcionario/{{ $listas->idp }}" type="button"
@@ -287,6 +290,3 @@
         });
     </script>
 @endsection
-
-
-

@@ -25,6 +25,7 @@ class GerenciarFuncionarioController extends Controller
         $lista = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
             ->leftJoin('setor', 'setor.id', 'f.id_setor')
+            ->leftJoin('acordo', 'acordo.id_funcionario', 'f.id')
             ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'f.id_pessoa AS idp', 'p.nome_resumido', 'setor.sigla');
 
         $cpf = $request->cpf;
@@ -44,13 +45,23 @@ class GerenciarFuncionarioController extends Controller
         if ($request->idt) {
             $lista->where('p.idt', '=', $request->idt);
         }
-        if ($request->status === null) {
-            $lista->where('p.status', 1);
-        } elseif ($request->status === '1') {
-            $lista->where('p.status', 1);
-        } elseif ($request->status === '0') {
-            $lista->where('p.status', 0);
+        if ($request->status == null) {
+            $lista->where('p.status', 1)
+                ->whereNull('acordo.dt_fim')
+                ->where('acordo.admissao', true);
+        } elseif ($request->status == '1') {
+            $lista->where('p.status', 1)
+                ->whereNull('acordo.dt_fim')
+                ->where('acordo.admissao', true);
+        } elseif ($request->status == '0') {
+            $lista->where(function ($query) {
+                $query->whereNotNull('acordo.dt_fim')
+                ->orWhere('p.status', 0)
+                ->orWhereNull('acordo.id');
+
+            });
         }
+
 
         if ($request->nome) {
             $lista->where('p.nome_completo', 'ilike', '%' . $request->nome . '%');
@@ -68,10 +79,6 @@ class GerenciarFuncionarioController extends Controller
             )
             ->get();
 
-        $dataContrato = DB::table('situacao_contrato AS sc')
-            ->select('sc.dt_fim', 'sc.dt_inicio', 'sc.id_funcionario', 'sc.motivo')
-            ->get();
-
         $setor = db::table('setor')
             ->select('id', 'nome', 'sigla')
             ->orderBy('sigla')
@@ -87,7 +94,7 @@ class GerenciarFuncionarioController extends Controller
             ->where('p.status', 0)
             ->count();
 
-        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'dataContrato', 'setor', 'totalFuncionariosAtivos', 'totalFuncionariosInativos'));
+        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'setor', 'totalFuncionariosAtivos', 'totalFuncionariosInativos'));
     }
 
     public function create()
@@ -760,19 +767,14 @@ class GerenciarFuncionarioController extends Controller
 
     public function inativar($idf, Request $request)
     {
-        DB::table('situacao_contrato AS sc')
-            ->where('sc.id_funcionario', $idf)
+        //dd($request->all(), $idf);
+        DB::table('acordo AS a')
+            ->leftJoin('funcionarios AS f', 'f.id', 'a.id_funcionario')
+            ->where('a.id_funcionario', $idf)
+            ->whereNull('a.dt_fim')
             ->update([
-                'sc.dt_fim' => $request->input('dt_fim_inativacao'),
-                'sc.motivo' => $request->input('motivo_inativar')
-            ]);
-
-
-        DB::table('pessoas AS p')
-            ->leftJoin('funcionarios AS f', 'f.id_pessoa', 'p.id')
-            ->where('f.id', $idf)
-            ->update([
-                'status' => 0
+                'a.dt_fim' => $request->input('dt_fim_inativacao'),
+                'a.motivo' => $request->input('motivo_inativar')
             ]);
 
 

@@ -45,7 +45,7 @@ class ControleVagasController extends Controller
 
         //SEGUNDA TABELA
         $setor = DB::table('setor AS s')
-            ->select('s.id AS idSetor', 's.nome AS nomeSetor')
+            ->select('s.id AS idSetor', 's.nome AS nomeSetor', 's.sigla')
             ->orderBy('nomeSetor');
 
 
@@ -82,8 +82,6 @@ class ControleVagasController extends Controller
 
         return view('efetivo.controle-vagas', compact('cargo', 'setor', 'vaga', 'pesquisa'));
     }
-
-
 
     public function create()
     {

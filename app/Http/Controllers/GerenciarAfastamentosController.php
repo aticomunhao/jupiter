@@ -235,66 +235,58 @@ class GerenciarAfastamentosController extends Controller
 
         if (!is_null($request->input('dt_fim')) && in_array($afastamento->id_tp_afastamento, [17])) {
 
+            // Busca o último acordo aberto
             $acordoAberto = DB::table('acordo')
                 ->where('id_funcionario', '=', $afastamento->id_funcionario)
                 ->whereNull('dt_fim')
                 ->orderByDesc('dt_inicio') // Ordena para pegar o mais recente
                 ->first();
 
+            if (!$acordoAberto) {
+                // Lidar com a situação onde não há acordo aberto
+                return; // Ou alguma outra lógica
+            }
+
             // Verifica a duração do afastamento atual
             $dtInicio = Carbon::parse($request->input('dt_inicio'));
             $dtFim = Carbon::parse($request->input('dt_fim'));
+
+            if ($dtInicio->gt($dtFim)) {
+                // Lógica para lidar com erro, se dt_inicio for maior que dt_fim
+                return; // Ou outra resposta adequada
+            }
+
             $anoAtual = $dtInicio->year;
             $diferencaMesesAtual = $dtInicio->diffInMonths($dtFim);
-            $diaSeguinte = Carbon::parse($request->input('dt_fim'))->addDay();
+            $diaSeguinte = $dtFim->addDay();
 
             // Soma a duração de afastamentos anteriores do tipo 17 dentro do mesmo ano
             $somaAfastamentos = DB::table('afastamento')
                 ->where('id_funcionario', $afastamento->id_funcionario)
-                ->where($afastamento->id_tp_afastamento, 17)
+                ->where('id_tp_afastamento', 17)
                 ->whereNotNull('dt_fim')
-                ->whereYear('dt_inicio', $anoAtual) // Filtra pelo mesmo ano
+                ->whereYear('dt_inicio', $anoAtual)
                 ->select(DB::raw('SUM(EXTRACT(MONTH FROM AGE(dt_fim, dt_inicio))) as meses'))
                 ->first();
 
             $mesesAnteriores = $somaAfastamentos ? $somaAfastamentos->meses : 0;
             $somaTotalMeses = $mesesAnteriores + $diferencaMesesAtual;
 
-            if ($diferencaMesesAtual >= 6) {
-
-                $novaDataFim = DB::table('acordo')
+            // Condições para atualizar a data de fim e inserir novo acordo
+            if ($diferencaMesesAtual >= 6 || $somaTotalMeses >= 6) {
+                DB::table('acordo')
                     ->where('id_funcionario', $afastamento->id_funcionario)
-                    ->whereNull('dt_fim') // Para verificar nulos corretamente
-                    ->where('id_afastamento', $afastamento->id)
+                    ->whereNull('dt_fim')
                     ->update(['dt_fim' => $request->input('dt_fim')]);
 
-                // Insere o novo afastamento se o afastamento atual sozinho exceder 6 meses
+                // Insere o novo afastamento
                 $novoAcordo = [
                     'matricula' => $acordoAberto->matricula,
                     'tp_acordo' => $acordoAberto->tp_acordo,
                     'id_funcionario' => $afastamento->id_funcionario,
                     'dt_inicio' => $diaSeguinte,
                     'admissao' => 'true',
-                    'id_afastamento' => '17',
-                ];
-
-                DB::table('acordo')->insert($novoAcordo);
-
-            } elseif ($somaTotalMeses >= 6) {
-
-                $novaDataFim = DB::table('acordo')
-                    ->where('id_funcionario', $afastamento->id_funcionario)
-                    ->whereNull('dt_fim') // Para verificar nulos corretamente
-                    ->update(['dt_fim' => $request->input('dt_fim')]);
-
-                // Insere o novo afastamento se a soma dos afastamentos anteriores com o atual exceder 6 meses
-                $novoAcordo = [
-                    'matricula' => $acordoAberto->matricula,
-                    'tp_acordo' => $acordoAberto->tp_acordo,
-                    'id_funcionario' => $afastamento->id_funcionario,
-                    'dt_inicio' => $diaSeguinte,
-                    'admissao' => 'true',
-                    'id_afastamento' => '17',
+                    'id_afastamento' => 17,
                 ];
 
                 DB::table('acordo')->insert($novoAcordo);

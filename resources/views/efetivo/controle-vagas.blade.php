@@ -75,7 +75,7 @@
                                                 @if (!in_array($setores->nomeSetor, $setoresExibidos))
                                                     <!-- Adicionar à lista suspensa somente se o nome do setor não tiver sido exibido anteriormente -->
                                                     <option value="{{ $setores->idSetor }}">
-                                                        {{ $setores->nomeSetor }}</option>
+                                                        {{ $setores->nomeSetor }} - {{ $setores->sigla }}</option>
                                                     @php
                                                         $setoresExibidos[] = $setores->nomeSetor; // Adiciona o setor ao array de setores únicos exibidos
                                                     @endphp
@@ -268,5 +268,5 @@
             </div>
         </div>
     </form>
-    
+
 @endsection
