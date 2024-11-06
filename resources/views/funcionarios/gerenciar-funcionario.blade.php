@@ -102,12 +102,10 @@
                                                 {{ $listas->nome_completo }}
                                             </td>
                                             <td scope="" style="text-align: center;">{{ $listas->sigla }}</td>
-                                            @if ($listas->status == 1)
-                                                <td scope="" style="text-align: center;">Ativo</td>
-                                            @elseif ($listas->status == 0)
+                                            @if (!is_null($listas->motivo) || is_null($listas->id_acordo))
                                                 <td scope="" style="text-align: center;">Inativo</td>
                                             @else
-                                                <td scope="" style="text-align: center;">Todos</td>
+                                                <td scope="" style="text-align: center;">Ativo</td>
                                             @endif
                                             <td scope="" style="text-align: center">
                                                 <a href="/editar-funcionario/{{ $listas->idp }}" type="button"
@@ -173,7 +171,7 @@
                                                     id="situacao{{ $listas->cpf }}-{{ $listas->idf }}" tabindex="-1"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
-                                                        <form class="form-horizontal" method="get"
+                                                        <form class="form-horizontal" method="post"
                                                             action="{{ url('/inativar-funcionario/' . $listas->idf) }}">
                                                             @csrf
                                                             <div class="modal-content">
@@ -223,7 +221,8 @@
                                                         <div class="modal-content">
                                                             <div class="modal-header" style="background-color:#DC4C64;">
                                                                 <h5 class="modal-title" id="exampleModalLabel"
-                                                                    style=" color:rgb(255, 255, 255)">Excluir Funcionário
+                                                                    style=" color:rgb(255, 255, 255)">Excluir
+                                                                    Funcionário
                                                                 </h5>
                                                                 <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal" aria-label="Close"></button>

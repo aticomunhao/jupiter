@@ -23,10 +23,32 @@ class GerenciarFuncionarioController extends Controller
     {
 
         $lista = DB::table('funcionarios AS f')
+            ->distinct()
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
             ->leftJoin('setor', 'setor.id', 'f.id_setor')
             ->leftJoin('acordo', 'acordo.id_funcionario', 'f.id')
-            ->select('f.id AS idf', 'p.cpf', 'p.idt', 'p.nome_completo', 'p.status', 'f.id_pessoa AS idp', 'p.nome_resumido', 'setor.sigla');
+            ->select(
+                'f.id AS idf',
+                'p.cpf',
+                'p.idt',
+                'p.nome_completo',
+                'p.status',
+                'f.id_pessoa AS idp',
+                'p.nome_resumido',
+                'setor.sigla',
+                DB::raw('MAX(acordo.motivo) AS motivo'), // Selecione o motivo do último acordo
+                DB::raw('MAX(acordo.id) AS id_acordo') // Selecione o ID do último acordo
+            )
+            ->groupBy(
+                'f.id',
+                'p.cpf',
+                'p.idt',
+                'p.nome_completo',
+                'p.status',
+                'f.id_pessoa',
+                'p.nome_resumido',
+                'setor.sigla'
+            ); // Agrupe por todas as colunas do funcionário
 
         $cpf = $request->cpf;
 
@@ -47,18 +69,16 @@ class GerenciarFuncionarioController extends Controller
         }
         if ($request->status == null) {
             $lista->where('p.status', 1)
-                ->whereNull('acordo.dt_fim')
+                ->whereNull('acordo.motivo')
                 ->where('acordo.admissao', true);
         } elseif ($request->status == '1') {
             $lista->where('p.status', 1)
-                ->whereNull('acordo.dt_fim')
+                ->whereNull('acordo.motivo')
                 ->where('acordo.admissao', true);
         } elseif ($request->status == '0') {
             $lista->where(function ($query) {
-                $query->whereNotNull('acordo.dt_fim')
-                ->orWhere('p.status', 0)
-                ->orWhereNull('acordo.id');
-
+                $query->whereNotNull('acordo.motivo')
+                    ->orWhere('p.status', 0);
             });
         }
 
@@ -70,7 +90,7 @@ class GerenciarFuncionarioController extends Controller
             $lista->where('f.id_setor', '=', $request->setor);
         }
 
-        $lista = $lista->orderBy('p.status', 'desc')->orderBy('p.nome_completo', 'asc')->paginate(10);
+        $lista = $lista->orderBy('p.status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
         $situacao = DB::table('tp_demissao')
             ->select(
