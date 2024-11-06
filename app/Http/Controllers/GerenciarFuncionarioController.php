@@ -84,7 +84,7 @@ class GerenciarFuncionarioController extends Controller
 
 
         if ($request->nome) {
-            $lista->where('p.nome_completo', 'ilike', '%' . $request->nome . '%');
+            $lista->whereRaw("UNACCENT(LOWER(p.nome_completo)) ILIKE UNACCENT(LOWER(?))", ["%{$request->nome}%"]);
         }
         if ($request->setor) {
             $lista->where('f.id_setor', '=', $request->setor);
