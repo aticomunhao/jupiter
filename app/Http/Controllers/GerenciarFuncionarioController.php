@@ -23,7 +23,6 @@ class GerenciarFuncionarioController extends Controller
     {
 
         $lista = DB::table('funcionarios AS f')
-            ->distinct()
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
             ->leftJoin('setor', 'setor.id', 'f.id_setor')
             ->leftJoin('acordo', 'acordo.id_funcionario', 'f.id')
@@ -67,14 +66,16 @@ class GerenciarFuncionarioController extends Controller
         if ($request->idt) {
             $lista->where('p.idt', '=', $request->idt);
         }
-        if ($request->status == null) {
+        if ($request->status == null || $request->status == '1') {
+            // Considera funcionário ativo se status é 1 e possui ao menos um acordo sem dt_fim (em aberto)
             $lista->where('p.status', 1)
-                ->whereNull('acordo.motivo')
-                ->where('acordo.admissao', true);
-        } elseif ($request->status == '1') {
-            $lista->where('p.status', 1)
-                ->whereNull('acordo.motivo')
-                ->where('acordo.admissao', true);
+                ->where(function ($query) {
+                    $query->whereNull('acordo.motivo')
+                        ->orWhere(function ($subquery) {
+                            $subquery->whereNull('acordo.dt_fim')
+                                ->where('acordo.admissao', true);
+                        });
+                });
         } elseif ($request->status == '0') {
             $lista->where(function ($query) {
                 $query->whereNotNull('acordo.motivo')
@@ -104,15 +105,37 @@ class GerenciarFuncionarioController extends Controller
             ->orderBy('sigla')
             ->get();
 
-        $totalFuncionariosAtivos = DB::table('funcionarios AS f')
+            $totalFuncionariosAtivos = DB::table('funcionarios AS f')
             ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
+            ->leftJoin('acordo', 'acordo.id_funcionario', '=', 'f.id')
             ->where('p.status', 1)
+            ->where(function ($query) {
+                $query->whereNull('acordo.motivo')
+                    ->orWhereExists(function ($subquery) {
+                        $subquery->select(DB::raw(1))
+                            ->from('acordo')
+                            ->whereColumn('acordo.id_funcionario', 'f.id')
+                            ->whereNull('acordo.dt_fim');
+                    });
+            })
             ->count();
+
 
         $totalFuncionariosInativos = DB::table('funcionarios AS f')
             ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
-            ->where('p.status', 0)
+            ->leftJoin('acordo', 'acordo.id_funcionario', '=', 'f.id')
+            ->where(function ($query) {
+                $query->whereNotNull('acordo.motivo')
+                    ->orWhere('p.status', 0);
+            })
+            ->whereNotExists(function ($subquery) {
+                $subquery->select(DB::raw(1))
+                    ->from('acordo')
+                    ->whereColumn('acordo.id_funcionario', 'f.id')
+                    ->whereNull('acordo.dt_fim');
+            })
             ->count();
+
 
         return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'setor', 'totalFuncionariosAtivos', 'totalFuncionariosInativos'));
     }
