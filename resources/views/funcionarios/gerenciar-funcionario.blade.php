@@ -104,7 +104,7 @@
                                             <td scope="" style="text-align: center;">{{ $listas->sigla }}</td>
                                             @if ($listas->status == 1)
                                                 <td scope="" style="text-align: center;">Ativo</td>
-                                            @elseif ($lista->status == 0)
+                                            @elseif ($listas->status == 0)
                                                 <td scope="" style="text-align: center;">Inativo</td>
                                             @else
                                                 <td scope="" style="text-align: center;">Todos</td>
