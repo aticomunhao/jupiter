@@ -105,21 +105,18 @@ class GerenciarFuncionarioController extends Controller
             ->orderBy('sigla')
             ->get();
 
-            $totalFuncionariosAtivos = DB::table('funcionarios AS f')
-            ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
-            ->leftJoin('acordo', 'acordo.id_funcionario', '=', 'f.id')
-            ->where('p.status', 1)
+        $totalFuncionariosAtivos = DB::table('funcionarios AS f')
+            ->join('pessoas AS p', 'p.id', '=', 'f.id_pessoa') // Usamos join em vez de leftJoin para garantir a correspondência
+            ->leftJoin('acordo', function ($join) {
+                $join->on('acordo.id_funcionario', '=', 'f.id')
+                    ->whereNull('acordo.dt_fim'); // Apenas acordos sem data de término
+            })
+            ->where('p.status', 1) // Filtra apenas funcionários ativos
             ->where(function ($query) {
-                $query->whereNull('acordo.motivo')
-                    ->orWhereExists(function ($subquery) {
-                        $subquery->select(DB::raw(1))
-                            ->from('acordo')
-                            ->whereColumn('acordo.id_funcionario', 'f.id')
-                            ->whereNull('acordo.dt_fim');
-                    });
+                $query->whereNull('acordo.id') // Filtra funcionários sem acordo
+                    ->orWhereNotNull('acordo.id'); // Ou com acordo sem dt_fim
             })
             ->count();
-
 
         $totalFuncionariosInativos = DB::table('funcionarios AS f')
             ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
