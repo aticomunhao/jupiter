@@ -56,7 +56,7 @@ class GerenciarAssociadoController extends Controller
 
 
         if ($request->nome_completo) {
-            $lista_associado->where('p.nome_completo', 'ILIKE', '%' . $request->nome_completo . '%');
+            $lista_associado->whereRaw("UNACCENT(LOWER(p.nome_completo)) ILIKE UNACCENT(LOWER(?))", ["%{$request->nome_completo}%"]);
         }
 
         if ($request->dt_inicio) {
