@@ -157,7 +157,7 @@
                                 </div>
                             </div>
                             <div style="margin-right: 10px; margin-left: 10px">
-                                {{ $base->links('pagination::bootstrap-5') }}
+                                {{ $base->appends(request()->except('page'))->links('pagination::bootstrap-5') }}
                             </div>
                         </div>
                     </div>
@@ -169,14 +169,5 @@
 
 
 
-    <script>
-        $(document).ready(function() {
 
-            //Importa o select2 com tema do Bootstrap para a classe "select2"
-            $('.select2').select2({
-                theme: 'bootstrap-5'
-            });
-
-        });
-    </script>
 @endsection

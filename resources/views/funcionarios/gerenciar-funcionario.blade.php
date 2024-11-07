@@ -251,13 +251,12 @@
                         </div>
                     </div>
                     <div style="margin-right: 10px; margin-left: 10px">
-                        {{ $lista->links('pagination::bootstrap-5') }}
+                        {{ $lista->appends(request()->except('page'))->links('pagination::bootstrap-5') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
 
     <script>
