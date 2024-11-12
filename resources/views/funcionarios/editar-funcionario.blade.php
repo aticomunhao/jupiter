@@ -212,14 +212,6 @@
                                         Por favor, informe o Número da Matrícula.
                                     </div>
                                 </div>
-                                <div class="col-md-3 col-sm-12">Data de Ingresso
-                                    <input type="date" style="border: 1px solid #999999; padding: 5px;"
-                                        class="form-control" name="dt_ini" id="3"
-                                        value="{{ $funcionario[0]->dt_inicio }}" required="required">
-                                    <div class="invalid-feedback">
-                                        Por favor, selecione a Data de Inicio.
-                                    </div>
-                                </div>
                                 <div class="col-md-5">Setor Alocado
                                     <select id="setorid" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-select" name="setor">

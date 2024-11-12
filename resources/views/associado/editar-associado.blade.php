@@ -3,7 +3,7 @@
     <title>Editar Associado</title>
 @endsection
 @section('content')
-    
+
     @csrf
     <div class="container-fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
@@ -127,22 +127,27 @@
                         <input type="text" class="form-control" id="1" name="cep"
                             value="{{ $edit_associado[0]->cep }}" required>
                     </div>
-                    <div class="form-group col-md-1 ">
-                        <label for="id_uf">UF</label>
-                        <select class="js-example-responsive form-select" id="iduf" name="uf_end" required>
-                            <option value="{{ $edit_associado[0]->tuf }}">{{ $edit_associado[0]->ufsgl }}</option>
-                            @foreach ($tp_uf as $tp_ufs)
-                                <option @if (old('uf_end') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
-                                    value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
+                    <div class="col-md-4 col-sm-12">UF
+                        <br>
+                        <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="uf2"
+                            name="uf_end">
+                            <option value="{{ $edit_associado[0]->tuf }}">
+                                {{ $edit_associado[0]->ufsgl }}
+                            </option>
+                            @foreach ($tp_uf as $tp_ufes)
+                                <option @if (old('uf_end') == $tp_ufes->id) {{ 'selected="selected"' }} @endif
+                                    value="{{ $tp_ufes->id }}">{{ $tp_ufes->sigla }}
                                 </option>
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group col-md-3">
-                        <label for="ciadade">Cidade</label>
-                        <select class="js-example-responsive form-select" id="idcidade" name="cidade"
-                            value="{{ old('cidade') }}" disabled required>
-                            <option value="{{ $edit_associado[0]->id_cidade }}">{{ $edit_associado[0]->nat }}</option>
+                    <div class="col-md-4 col-sm-12">Cidade
+                        <br>
+                        <select class="form-select" style="border: 1px solid #999999; padding: 5px;" id="cidade2"
+                            name="cidade">
+                            <option value="{{ $edit_associado[0]->id_cidade }}">
+                                {{ $edit_associado[0]->nat }}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-md-5">
@@ -151,21 +156,21 @@
                             value="{{ $edit_associado[0]->logradouro }}" required>
                     </div>
 
-                        <div class="form-group col-md-5">
-                            <label for="1">Complemento</label>
-                            <input type="text" class="form-control" id="1" name="complemento"
-                                value="{{ $edit_associado[0]->complemento }}" required>
-                        </div>
-                        <div class="form-group col-md-2">
-                            <label for="1">Número</label>
-                            <input type="text" class="form-control" id="1" name="numero"
-                                value="{{ $edit_associado[0]->numero }}" required>
-                        </div>
-                        <div class="form-group col-md-5">
-                            <label for="1">Bairro</label>
-                            <input type="text" class="form-control" id="1" name="bairro"
-                                value="{{ $edit_associado[0]->bairro }}" required>
-                        </div>
+                    <div class="form-group col-md-5">
+                        <label for="1">Complemento</label>
+                        <input type="text" class="form-control" id="1" name="complemento"
+                            value="{{ $edit_associado[0]->complemento }}" required>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="1">Número</label>
+                        <input type="text" class="form-control" id="1" name="numero"
+                            value="{{ $edit_associado[0]->numero }}" required>
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="1">Bairro</label>
+                        <input type="text" class="form-control" id="1" name="bairro"
+                            value="{{ $edit_associado[0]->bairro }}" required>
+                    </div>
                 </div>
                 <br>
             </div>
@@ -184,34 +189,42 @@
 
     @section('footerScript')
         <!-- Scripts -->
-        
+
         <script>
             $(document).ready(function() {
 
-                $('#idcidade').select2({
+
+                $('#cidade2, #setorid').select2({
                     theme: 'bootstrap-5',
                     width: '100%',
                 });
 
-
-                $('#iduf').change(function(e) {
-                    e.preventDefault();
-                    $('#idcidade').empty();
-                    $('#idcidade').removeAttr('disabled');
-                    var cidadeDadosResidenciais = $(this).val();
-
+                function populateCities(selectElement, stateValue) {
                     $.ajax({
                         type: "get",
-                        url: "/retorna-cidade-dados-residenciais/" + cidadeDadosResidenciais,
+                        url: "/retorna-cidade-dados-residenciais/" + stateValue,
                         dataType: "json",
                         success: function(response) {
+                            selectElement.empty();
                             $.each(response, function(indexInArray, item) {
-                                $('#idcidade').append('<option value = ' + item.id_cidade +
-                                    '>' + item.descricao + '</option>');
+                                selectElement.append('<option value="' + item.id_cidade + '">' +
+                                    item.descricao + '</option>');
                             });
                         },
+                        error: function(xhr, status, error) {
+                            console.error("An error occurred:", error);
+                        }
                     });
+                }
+
+                $('#uf2').change(function(e) {
+                    var stateValue = $(this).val();
+                    $('#cidade2').removeAttr('disabled');
+                    populateCities($('#cidade2'), stateValue);
                 });
 
+                $('#idlimpar').click(function(e) {
+                    $('#idnome_completo').val("");
+                });
             });
         </script>

@@ -113,22 +113,25 @@
                                     <input type="text" class="form-control" id="1" name="cep" value=""
                                         required>
                                 </div>
-                                <div class="form-group col-md ">
-                                    <label for="id_uf">UF</label>
-                                    <select class="js-example-responsive form-select" id="iduf" name="uf_end"
-                                        required>
+                                <div class="col-md-4 col-sm-12">UF
+                                    <br>
+                                    <select class="js-example-responsive form-select"
+                                            style="border: 1px solid #999999; padding: 5px;" id="uf2" name="uf_end">
                                         <option value=""></option>
                                         @foreach ($tp_uf as $tp_ufs)
-                                            <option @if (old('uf_end') == $tp_ufs->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
+                                            <option @if (old('uf_end') == $tp_ufs->id)
+                                                        {{ 'selected="selected"' }}
+                                                    @endif
+                                                    value="{{ $tp_ufs->id }}">{{ $tp_ufs->sigla }}
                                             </option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group col-md">
-                                    <label for="cidade">Cidade</label>
-                                    <select class="js-example-responsive form-select" id="idcidade" name="cidade"
-                                        value="{{ old('cidade') }}" disabled required>
+                                <div class="col-md-4 col-sm-12">Cidade
+                                    <br>
+                                    <select class="js-example-responsive form-select"
+                                            style="border: 1px solid #999999; padding: 5px;" id="cidade2" name="cidade"
+                                            value="{{ old('cidade') }}" disabled>
                                     </select>
                                 </div>
                                 <div class="form-group col-md">
@@ -177,7 +180,7 @@
                 <!-- Scripts -->
                 <script>
                     $(document).ready(function () {
-                        $('#idcidade').select2({
+                        $('#cidade1, #cidade2, #setorid').select2({
                             theme: 'bootstrap-5',
                             width: '100%',
                         });
@@ -200,10 +203,14 @@
                             });
                         }
 
-                        $('#iduf').change(function (e) {
+                        $('#uf2').change(function (e) {
                             var stateValue = $(this).val();
-                            $('#idcidade').removeAttr('disabled');
-                            populateCities($('#idcidade'), stateValue);
+                            $('#cidade2').removeAttr('disabled');
+                            populateCities($('#cidade2'), stateValue);
+                        });
+
+                        $('#idlimpar').click(function (e) {
+                            $('#idnome_completo').val("");
                         });
                     });
                 </script>

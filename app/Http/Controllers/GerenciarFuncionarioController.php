@@ -241,7 +241,6 @@ class GerenciarFuncionarioController extends Controller
 
             DB::table('funcionarios')->insert([
                 'id_pessoa' => $id_pessoa,
-                'dt_inicio' => $request->input('dt_ini'),
                 'matricula' => $request->input('matricula'),
                 'tp_programa' => $request->input('tp_programa'),
                 'nr_programa' => $request->input('nr_programa'),
@@ -290,6 +289,13 @@ class GerenciarFuncionarioController extends Controller
 
                 ]);
 
+            DB::table('hist_setor')
+                ->insert([
+                    'id_funcionario' => $id_funcionario,
+                    'id_setor' => $request->input('setor'),
+                    'dt_ini' => $today,
+                ]);
+
             app('flasher')->addWarning('Cadastro de funcionário realizado com base nos dados ja existentes da pessoa.');
             return redirect('/gerenciar-funcionario');
         } else {
@@ -324,7 +330,6 @@ class GerenciarFuncionarioController extends Controller
 
             DB::table('funcionarios')->insert([
                 'id_pessoa' => $id_pessoa,
-                'dt_inicio' => $request->input('dt_ini'),
                 'matricula' => $request->input('matricula'),
                 'tp_programa' => $request->input('tp_programa'),
                 'nr_programa' => $request->input('nr_programa'),
@@ -371,6 +376,13 @@ class GerenciarFuncionarioController extends Controller
                 'dt_inicio' => $today
 
             ]);
+
+            DB::table('hist_setor')
+                ->insert([
+                    'id_funcionario' => $id_funcionario,
+                    'id_setor' => $request->input('setor'),
+                    'dt_ini' => $today,
+                ]);
 
             app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
             return redirect('/gerenciar-funcionario');
@@ -542,6 +554,9 @@ class GerenciarFuncionarioController extends Controller
                 'celular' => $request->input('celular'),
             ]);
 
+        $setorAtual = DB::table('funcionarios')
+            ->where('id_pessoa', $idp)
+            ->value('id_setor');
 
         DB::table('funcionarios')
             ->where('id_pessoa', $idp)
@@ -594,6 +609,23 @@ class GerenciarFuncionarioController extends Controller
                 'bairro' => $request->input('bairro'),
                 'complemento' => $request->input('comple'),
             ]);
+
+        $novoSetor = $request->input('setor');
+        if ($setorAtual !== $novoSetor) {
+            DB::table('hist_setor')
+            ->where('id_funcionario', $id_funcionario)
+            ->where('dt_fim', null)
+            ->update([
+                'dt_fim' => \Carbon\Carbon::today()->format('d/m/Y'),
+                'id_motivo' => 'Alteração de setor',
+            ]);
+            DB::table('hist_setor')
+                ->insert([
+                    'id_funcionario' => $id_funcionario,
+                    'id_setor' => $novoSetor,
+                    'dt_ini' => \Carbon\Carbon::today()->format('d/m/Y'),
+                ]);
+        }
 
         app('flasher')->addSuccess('Edição feita com Sucesso!');
         return redirect('/gerenciar-funcionario');

@@ -183,11 +183,6 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3 col-sm-12">Data de Ingresso
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           type="date" id="13" name="dt_ini" value="{{ old('dt_ini') }}"
-                                           required="required">
-                                </div>
                                 <div class="col-md-5">Setor Alocado
                                     <select class="form-select select2"
                                             style="border: 1px solid #999999; padding: 5px;"
