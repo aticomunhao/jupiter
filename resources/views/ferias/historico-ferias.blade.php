@@ -59,14 +59,15 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="inicio_gozo_ferias">Data de Início do Período Concessivo de Ferias:</label>
-                                <input type="date" id="inicio_gozo_ferias" class="form-control"
-                                    value="{{ $periodo_de_ferias->dt_inicio_periodo_de_licenca }}" readonly>
+                                <input type="text" id="inicio_gozo_ferias" class="form-control"
+                                    value="{{ Carbon::parse($periodo_de_ferias->dt_inicio_periodo_de_licenca)->format('d/m/Y') }}"
+                                    readonly>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="fim_possivel_gozo_ferias">Data de Término do Período Concessivo de
                                     Ferias:</label>
-                                <input type="date" id="fim_possivel_gozo_ferias" class="form-control"
-                                    value="{{ $periodo_de_ferias->dt_fim_periodo_de_licenca }}" readonly>
+                                <input type="text" id="fim_possivel_gozo_ferias" class="form-control"
+                                    value="{{ Carbon::parse($periodo_de_ferias->dt_fim_periodo_de_licenca)->format('d/m/Y') }}" readonly>
                             </div>
                         </div>
 
