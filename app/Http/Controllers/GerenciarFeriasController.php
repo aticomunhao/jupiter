@@ -290,18 +290,25 @@ class GerenciarFeriasController extends Controller
         $funcionarios = DB::table('funcionarios')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
             ->join('acordo', 'funcionarios.id', '=', 'acordo.id_funcionario')
-            ->join('afastamento', 'funcionarios.id', '=', 'afastamento.id_funcionario') // Adicionei o join para a tabela afastamento
+            ->leftJoin('afastamento', 'funcionarios.id', '=', 'afastamento.id_funcionario')
             ->where('acordo.dt_inicio', '<', $dia_do_ultimo_ano)
             ->where('acordo.tp_acordo', '=', 1)
-            ->whereNull('acordo.dt_fim') // Mudança para whereNull para verificar se dt_fim é nulo
-            ->whereNotNull('afastamento.dt_fim') // Mudança para whereNotNull para verificar se dt_fim não é nulo
+            ->whereNull('acordo.dt_fim')
+            ->where(function ($query) {
+                $query->whereNotNull('afastamento.dt_inicio')
+                    ->orWhereNull('afastamento.dt_inicio');
+            })
             ->select(
                 'pessoas.id as id_pessoa',
                 'funcionarios.id as id_funcionario',
                 'acordo.dt_inicio as data_de_inicio',
                 'pessoas.nome_completo'
             )
+            // Modifiquei o COALESCE para tratar os nulos com um espaço em branco
+            ->orderByRaw('COALESCE(pessoas.nome_completo, \' \') ASC') // Agora com um espaço em branco
             ->get();
+
+
 
 
         //Codigo para olhar para o funcionario
