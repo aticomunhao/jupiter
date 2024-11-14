@@ -45,6 +45,8 @@ class GerenciarFeriasController extends Controller
         $nome_funcionario = null;
         $status_consulta_atual = null;
 
+
+
         // Filtros
         $ano_referente = $request->input('anoconsulta');
         if ($ano_referente === '*') {
@@ -82,6 +84,7 @@ class GerenciarFeriasController extends Controller
                     // Verifique conflitos para todos os períodos de $p1
                     if ($this->hasDateConflict($p1, $p2)) {
                         $p1->em_conflito = true;
+                        $p2->em_conflito = true;
                         break; // Se já encontrou um conflito, não precisa verificar mais
                     }
                 }
@@ -425,8 +428,8 @@ class GerenciarFeriasController extends Controller
                     's.id as id_do_setor'
                 )
                 ->whereIn('acordo.tp_acordo', [1, 5, 4])
-                ->whereNull('acordo.dt_fim')
-                ->orderBy('pessoas.nome_completo');
+                ->whereNull('acordo.dt_fim');
+            // ->orderBy('pessoas.nome_completo');
 
             $ano_consulta = null;
             $nome_funcionario = $request->input('nomefuncionario');
@@ -491,7 +494,19 @@ class GerenciarFeriasController extends Controller
             };
 
             $listaAnos = range($anoAnterior, $doisAnosFrente);
+            $contagemStatus = (clone $periodo_aquisitivo)
+                ->groupBy('status_pedido_ferias.id')
+                ->select(
+                    'status_pedido_ferias.id as id_status_pedido_ferias',
+                    'status_pedido_ferias.nome as status_pedido_ferias',
+                    DB::raw('COUNT(ferias.id) as total')
+                )
+                ->get();
+
             $periodo_aquisitivo = $periodo_aquisitivo->get();
+
+            // dd($contagemStatus);
+
             $dias_limite_para_periodo_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
             $dias_limite_para_periodo_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
             // dd($dias_limite_para_periodo_de_ferias);
@@ -499,7 +514,7 @@ class GerenciarFeriasController extends Controller
                 $periodo_de_ferias->dia_limite_para_gozo_de_ferias =  Carbon::parse($periodo_de_ferias->dt_inicio_periodo_de_licenca)->addDays($dias_limite_para_periodo_de_ferias->dias)->toDateString();
             }
 
-
+            // dd($contagemStatus);
             return view('ferias.administrar-ferias', compact(
                 'periodo_aquisitivo',
                 'anos_possiveis',
@@ -513,6 +528,7 @@ class GerenciarFeriasController extends Controller
                 'periodo_aquisitivo',
                 'status_consulta',
                 'status_consulta_atual',
+                'contagemStatus'
 
             ));
         } catch (Exception $exception) {

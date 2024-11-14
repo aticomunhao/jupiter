@@ -67,7 +67,8 @@
                                 <label for="fim_possivel_gozo_ferias">Data de Término do Período Concessivo de
                                     Ferias:</label>
                                 <input type="text" id="fim_possivel_gozo_ferias" class="form-control"
-                                    value="{{ Carbon::parse($periodo_de_ferias->dt_fim_periodo_de_licenca)->format('d/m/Y') }}" readonly>
+                                    value="{{ Carbon::parse($periodo_de_ferias->dt_fim_periodo_de_licenca)->format('d/m/Y') }}"
+                                    readonly>
                             </div>
                         </div>
 

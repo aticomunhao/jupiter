@@ -127,7 +127,21 @@
                     </div>
                     <br>
                     <hr>
+            
+                    <div class="row d-flex d-flex justify-content-evenly">
+                        @foreach ($contagemStatus as $contagem_individual_status)
+                            <div class="col-auto">
+                                <div class="row d-flex justify-content-center">
+                                    {{ $contagem_individual_status->status_pedido_ferias }}</div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        {{ $contagem_individual_status->total }}
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
 
+                    </div>
                     <br>
 
 
@@ -136,19 +150,21 @@
                             <div class="table-reponsive">
                                 <table
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
-                                    style="margin-top:10px; table-layout: auto;">
+                                    style="margin-top:10px; table-layout: auto;" id="ferias-table">
                                     <thead
                                         style="text-align: center; position: sticky; top: 0; z-index: 1; background-color: #d6e3ff;">
                                         <tr style="font-size:17px; color:#000000;">
                                             <th scope="col-md-auto" style="position: sticky; top: 0;">Nome do Funcionário
                                             </th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;">Setor</th>
-                                            <th scope="col-md-auto" style="position: sticky; top: 0;" colspan="2">Periodo
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;" colspan="2">
+                                                Periodo
                                                 Aquisitivo</th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;" colspan="2">
                                                 Periodo
                                                 Concessivo</th>
-                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Data  Limite <br> Inicio  de  Férias
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Data Limite <br>
+                                                Inicio de Férias
                                             </th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;">Início 1</th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;">Fim 1</th>
