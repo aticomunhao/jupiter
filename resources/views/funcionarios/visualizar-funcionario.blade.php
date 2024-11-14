@@ -66,7 +66,7 @@
                                         style="font-size: small; width:inherit; font-weight: bold;">
                                         Data de Nascimento:
                                     </legend>
-                                    {{ $pessoa[0]->dt_nascimento }}
+                                    {{ \Carbon\Carbon::parse($pessoa[0]->dt_nascimento)->format('d/m/Y') }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
@@ -147,7 +147,7 @@
                                         style="font-size: small; width:inherit; font-weight: bold;">
                                         Data de Emissão:
                                     </legend>
-                                    {{ $pessoa[0]->dt_emissao_identidade }}
+                                    {{ \Carbon\Carbon::parse($pessoa[0]->dt_emissao_identidade)->format('d/m/Y') }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
@@ -196,7 +196,8 @@
                                         style="font-size: small; width:inherit; font-weight: bold;">
                                         Data de Emissão:
                                     </legend>
-                                    {{ $funcionario[0]->dt_titulo }}
+                                    {{ \Carbon\Carbon::parse($funcionario[0]->dt_titulo)->format('d/m/Y') }}
+
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
@@ -219,7 +220,7 @@
                                         style="font-size: small; width:inherit; font-weight: bold;">
                                         Data de Admissão:
                                     </legend>
-                                    {{ $funcionario[0]->dt_inicio }}
+                                    {{ \Carbon\Carbon::parse($funcionario[0]->dt_inicio)->format('d/m/Y') }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
@@ -247,7 +248,7 @@
                                         style="font-size: small; width:inherit; font-weight: bold;">
                                         Data de Emissão do CTPS:
                                     </legend>
-                                    {{ $funcionario[0]->emissao_ctps }}
+                                    {{ \Carbon\Carbon::parse($funcionario[0]->emissao_ctps)->format('d/m/Y') }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
