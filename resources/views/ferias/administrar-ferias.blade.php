@@ -127,15 +127,16 @@
                     </div>
                     <br>
                     <hr>
-            
+
                     <div class="row d-flex d-flex justify-content-evenly">
                         @foreach ($contagemStatus as $contagem_individual_status)
                             <div class="col-auto">
                                 <div class="row d-flex justify-content-center">
-                                    {{ $contagem_individual_status->status_pedido_ferias }}</div>
+                                 {{ $contagem_individual_status->status_pedido_ferias }}
+                                </div>
                                 <div class="card">
                                     <div class="card-body">
-                                        {{ $contagem_individual_status->total }}
+                                       {{ $contagem_individual_status->total }}
                                     </div>
                                 </div>
                             </div>

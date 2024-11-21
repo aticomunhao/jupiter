@@ -275,18 +275,9 @@ class GerenciarFeriasController extends Controller
     public
     function destroy(string $id) {}
 
-    public
-    function InsereERetornaFuncionarios(Request $request)
+    public function InsereERetornaFuncionarios(Request $request)
     {
-
-        $ano_referencia = $request->input('ano_referencia');
-
-        if (empty($ano_referencia)) {
-            $ano_referencia = Carbon::now()->year - 1;
-        } else {
-            $ano_referencia = $request->input('ano_referencia');
-        }
-
+        $ano_referencia = $request->input('ano_referencia', Carbon::now()->year - 1);
 
         $dia_do_ultimo_ano = Carbon::createFromDate($ano_referencia, 12, 31)->toDateString();
 
@@ -307,83 +298,90 @@ class GerenciarFeriasController extends Controller
                 'acordo.dt_inicio as data_de_inicio',
                 'pessoas.nome_completo'
             )
-            // Modifiquei o COALESCE para tratar os nulos com um espaço em branco
-            ->orderByRaw('COALESCE(pessoas.nome_completo, \' \') ASC') // Agora com um espaço em branco
+            ->orderByRaw('COALESCE(pessoas.nome_completo, \' \') ASC')
             ->get();
 
+        DB::beginTransaction();
 
 
-
-        //Codigo para olhar para o funcionario
         foreach ($funcionarios as $funcionario) {
             $periodo_de_ferias_do_funcionario = DB::table('ferias')
                 ->where('id_funcionario', '=', $funcionario->id_funcionario)
                 ->where('ano_de_referencia', '=', $ano_referencia)
                 ->first();
-            $dias_afastado = 0; // Variavel que armazena a quantidade de dias que o funcionario ficou afastado por conta da COVID ou demais casos
-            if (empty($periodo_de_ferias_do_funcionario)) {
-                //$dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
+
+            if (is_null($periodo_de_ferias_do_funcionario)) {
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
-                $afastamentos = DB::table('afastamento')
-                    ->where('id_funcionario', '=', $funcionario->id_funcionario)
-                    ->where('id_tp_afastamento', '=', 16)->get();
+                $dias_afastado = $this->calcularDiasDeAfastamento($funcionario->id_funcionario);
 
-
-
-                if ($afastamentos->count() > 0) {
-                    foreach ($afastamentos as $afastamento) {
-
-                        $dias_de_afastamento = Carbon::parse($afastamento->dt_inicio)->diffInDays($afastamento->dt_fim);
-                        $dias_afastado += $dias_de_afastamento;
-                    }
-
-                    $data_inicio = $data_inicio->addDays($dias_afastado);
-                }
-
+                $data_inicio = $data_inicio->addDays($dias_afastado);
 
                 $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->toDateString();
                 $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia + 1)->subDay()->toDateString();
+
                 $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
                 $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
                 $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
                 $funcionario->data_fim_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 2)->subDay()->toDateString();
-                $id_ferias = DB::table('ferias')
-                    ->insertGetId([
-                        'ano_de_referencia' => $ano_referencia,
-                        'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
-                        'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
-                        'status_pedido_ferias' => 1,
-                        'id_funcionario' => $funcionario->id_funcionario,
-                        'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo,
-                        'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo
-                    ]);
+
+                $id_ferias = DB::table('ferias')->insertGetId([
+                    'ano_de_referencia' => $ano_referencia,
+                    'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo,
+                    'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo,
+                    'status_pedido_ferias' => 1,
+                    'id_funcionario' => $funcionario->id_funcionario,
+                    'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo,
+                    'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo
+                ]);
+
                 DB::table('hist_recusa_ferias')->insert([
                     'id_periodo_de_ferias' => $id_ferias,
                     'motivo_retorno' => "Criação do Formulario de Férias",
                     'data_de_acontecimento' => Carbon::now()->toDateString()
                 ]);
+
+                $esta_afastado = DB::table('afastamento')
+                    ->where('id_funcionario', '=', $funcionario->id_funcionario)
+                    ->whereNull('dt_fim')
+                    ->exists();
+
+                if ($esta_afastado == true) {
+
+                    DB::table('ferias')->where('id', '=', $id_ferias)->update([
+                        'status_pedido_ferias' => 7
+                    ]);
+                    DB::table('hist_recusa_ferias')->insert([
+                        'id_periodo_de_ferias' => $id_ferias,  // Usando o nome correto da coluna
+                        'motivo_retorno' => 'Funcionario está afastado',
+                        'data_de_acontecimento' => Carbon::now()->toDateString()
+                    ]);
+                }
             }
         }
 
-        /*
-        foreach ($contratos as $contrato) {
-            $periodo_de_ferias_do_funcionario = DB::table('ferias')->where('id_funcionario', '=', $contrato->id_funcionario)->where('ano_de_referencia', '=', $ano_referencia)->first();
-            if (empty($periodo_de_ferias_do_funcionario)) {
-                $data_inicio = Carbon::parse($contrato->data_de_inicio);
-                $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->toDateString();
-                $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia + 1)->subDay()->toDateString();
-                $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
-                $funcionario->data_fim_periodo_aquisitivo = $data_fim_periodo_aquisitivo;
-                $funcionario->data_inicio_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 1)->toDateString();
-                $funcionario->data_fim_periodo_de_gozo = $data_inicio->copy()->addYear()->year($ano_referencia + 2)->subDay()->toDateString();
-                $id_ferias = DB::table('ferias')->insertGetId(['ano_de_referencia' => $ano_referencia, 'inicio_periodo_aquisitivo' => $funcionario->data_inicio_periodo_aquisitivo, 'fim_periodo_aquisitivo' => $funcionario->data_fim_periodo_aquisitivo, 'status_pedido_ferias' => 1, 'id_funcionario' => $funcionario->id_funcionario, 'dt_inicio_periodo_de_licenca' => $funcionario->data_inicio_periodo_de_gozo, 'dt_fim_periodo_de_licenca' => $funcionario->data_fim_periodo_de_gozo]);
-                DB::table('hist_recusa_ferias')->insert(['id_periodo_de_ferias' => $id_ferias, 'motivo_retorno' => "Criação do Formulario de Férias", 'data_de_acontecimento' => Carbon::now()->toDateString()]);
-            }
-        }
-        */
+        DB::commit();
 
-        app('flasher')->addSuccess("Periodo Aquisitivo dos anos " . $ano_referencia . " - " . $ano_referencia + 1 . "foi criado");
+        // Formatação da mensagem de sucesso
+        app('flasher')->addSuccess("Periodo Aquisitivo dos anos {$ano_referencia} - " . ($ano_referencia + 1) . " foi criado");
+
+
         return redirect()->route('AdministrarFerias');
+    }
+    // Função auxiliar para calcular os dias de afastamento
+    private function calcularDiasDeAfastamento($id_funcionario)
+    {
+        $afastamentos_suspensao_de_contrato = DB::table('afastamento')
+            ->where('id_funcionario', '=', $id_funcionario)
+            ->where('id_tp_afastamento', '=', 16)
+            ->get();
+
+        $dias_afastado = 0;
+        foreach ($afastamentos_suspensao_de_contrato as $afastamento) {
+            $dias_de_afastamento = Carbon::parse($afastamento->dt_inicio)->diffInDays($afastamento->dt_fim);
+            $dias_afastado += $dias_de_afastamento;
+        }
+
+        return $dias_afastado;
     }
 
     public
