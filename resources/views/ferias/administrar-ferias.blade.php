@@ -27,7 +27,7 @@
                                         class="form-control">
                                 </div>
                                 <div class="col-md-3 col-sm-12">
-                                    <h5>Selecione o Período Aquisitivo</h5>
+                                    <h5>Período Aquisitivo</h5>
                                     <select class="form-select" aria-label="Ano" name="anoconsulta" id="idanoconsulta">
                                         @if ($ano_consulta != null)
                                             <option value="{{ $ano_consulta }}">{{ $ano_consulta }} -
@@ -43,7 +43,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">
-                                    <h5>Selecione o Setor</h5>
+                                    <h5>Setor</h5>
                                     <select class="form-select" aria-label="Ano" name="setorconsulta" id="idsetorconsulta">
 
                                         @if ($setor != null)
@@ -127,22 +127,24 @@
                     </div>
                     <br>
                     <hr>
-
-                    <div class="row d-flex d-flex justify-content-evenly">
+                    <div class="row d-flex justify-content-evenly ">
                         @foreach ($contagemStatus as $contagem_individual_status)
                             <div class="col-auto">
-                                <div class="row d-flex justify-content-center">
-                                 {{ $contagem_individual_status->status_pedido_ferias }}
-                                </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                       {{ $contagem_individual_status->total }}
+                                <div class="card shadow-sm border-0" style="width: 8rem; text-align: center;">
+                                    <div class="card-body p-2" style=" box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);">
+                                        <h5 class="card-title  " style="font-size: 1.1rem;">
+                                            {{ $contagem_individual_status->status_pedido_ferias }}:
+                                            {{ $contagem_individual_status->total }}
+                                        </h5>
+
                                     </div>
                                 </div>
                             </div>
                         @endforeach
-
                     </div>
+
+
+
                     <br>
 
 
