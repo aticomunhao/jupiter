@@ -264,7 +264,7 @@
                                         style="font-size: small; width:inherit; font-weight: bold;">
                                         Setor Alocado:
                                     </legend>
-                                    {{ $funcionario[0]->nome_setor }}
+                                    {{ $acharSetor->nome_setor }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"

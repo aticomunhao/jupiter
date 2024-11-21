@@ -215,8 +215,8 @@
                                 <div class="col-md-5">Setor Alocado
                                     <select id="setorid" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-select" name="setor">
-                                        <option value="{{ $funcionario[0]->id_setor }}" required="required">
-                                            {{ $funcionario[0]->nome_setor }}
+                                        <option value="{{ $acharSetor->id_setor }}" required="required">
+                                            {{ $acharSetor->nome_setor }}
                                         </option>
                                         @foreach ($tpsetor as $tpsetores)
                                             <option value="{{ $tpsetores->id }}">

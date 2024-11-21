@@ -28,13 +28,13 @@ class GerenciarEfetivoController extends Controller
             ->distinct('p.nome_completo')
             ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
             ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
-            ->leftJoin('cargos AS cr', 'cr.id', 'bs.cargo')
-            ->leftJoin('cargos AS fg', 'fg.id', 'bs.funcao_gratificada')
+            ->leftJoin('cargo AS cr', 'cr.id', 'bs.id_cargo_regular')
+            ->leftJoin('cargo AS fg', 'fg.id', 'bs.id_funcao_gratificada')
             ->leftJoin('setor AS s', 's.id', 'f.id_setor')
             ->select(
                 'bs.id_funcionario',
-                'bs.cargo',
-                'bs.funcao_gratificada',
+                'bs.id_cargo_regular',
+                'bs.id_funcao_gratificada',
                 'f.dt_inicio as dt_inicio_funcionario',
                 'p.nome_completo AS nome_completo',
                 'cr.nome AS nome_cargo_regular',

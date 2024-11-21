@@ -19,8 +19,8 @@ class ControleVagasController extends Controller
     {
 
         //PRIMEIRA TABELA
-        $cargo = DB::table('cargos AS c')
-            ->leftJoin('base_salarial AS bs', 'bs.cargo', 'c.id')
+        $cargo = DB::table('cargo AS c')
+            ->leftJoin('base_salarial AS bs', 'bs.id_cargo_regular', 'c.id')
             ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade_funcionarios'), 'c.id AS idCargo', 'c.nome AS nomeCargo')
             ->groupBy('idCargo', 'nomeCargo');
 
@@ -61,7 +61,7 @@ class ControleVagasController extends Controller
 
         foreach ($setor as $key => $teste) {
             $vagaUm = DB::table('tp_vagas_autorizadas AS va')
-                ->leftJoin('cargos AS c', 'c.id', 'va.id_cargo')
+                ->leftJoin('cargo AS c', 'c.id', 'va.id_cargo')
                 ->select('va.vagas_autorizadas AS vagas', 'c.nome AS nomeCargo', 'c.id AS idCargo', 'va.id AS idVagas', 'va.vagas_excelencia AS vExcelencia')
                 ->where('va.id_setor', $teste->idSetor)
                 ->get();
@@ -71,7 +71,7 @@ class ControleVagasController extends Controller
             foreach ($vagaUm as $keyDois => $testeDois) {
                 $base = DB::table('base_salarial AS bs')
                     ->leftJoin('funcionarios AS f', 'bs.id_funcionario', 'f.id')
-                    ->where('bs.cargo', $testeDois->idCargo)
+                    ->where('bs.id_cargo_regular', $testeDois->idCargo)
                     ->where('f.id_setor', $teste->idSetor)
                     ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade'))
                     ->get();
@@ -85,8 +85,8 @@ class ControleVagasController extends Controller
 
     public function create()
     {
-        $cargo = DB::table('cargos')
-            ->select('cargos.id AS idCargo', 'cargos.nome AS nomeCargo')
+        $cargo = DB::table('cargo')
+            ->select('cargo.id AS idCargo', 'cargo.nome AS nomeCargo')
             ->get();
 
         $setor = DB::table('setor')
@@ -142,13 +142,13 @@ class ControleVagasController extends Controller
         // Recupere o cargo pelo ID
         $busca = DB::table('setor')
             ->leftJoin('tp_vagas_autorizadas AS va', 'setor.id', '=', 'va.id_setor')
-            ->leftJoin('cargos', 'cargos.id', '=', 'va.id_cargo')
+            ->leftJoin('cargo', 'cargo.id', '=', 'va.id_cargo')
             ->where('va.id', $idVagas)
             ->select(
                 'va.id_setor AS idSetor',
                 'va.id_cargo AS idCargo',
                 'va.vagas_autorizadas AS vTotal',
-                'cargos.nome AS nomeCargo',
+                'cargo.nome AS nomeCargo',
                 'setor.nome AS nomeSetor',
                 'setor.sigla AS siglaSetor',
                 'va.id AS idVagas',

@@ -259,7 +259,6 @@ class GerenciarFuncionarioController extends Controller
                 'nome_mae' => $request->input('nome_mae'),
                 'nome_pai' => $request->input('nome_pai'),
                 'id_cat_cnh' => $request->input('cnh'),
-                'id_setor' => $request->input('setor')
             ]);
 
             $id_funcionario = DB::table('funcionarios')
@@ -348,7 +347,6 @@ class GerenciarFuncionarioController extends Controller
                 'nome_mae' => $request->input('nome_mae'),
                 'nome_pai' => $request->input('nome_pai'),
                 'id_cat_cnh' => $request->input('cnh'),
-                'id_setor' => $request->input('setor')
             ]);
 
             $id_funcionario = DB::table('funcionarios')
@@ -468,7 +466,7 @@ class GerenciarFuncionarioController extends Controller
                 'tp_fator.nome_fator AS nome_fator',
                 'tp_uf.sigla AS sigla_ctps',
                 'tp_cnh.nome_cat AS tp_cnh',
-                'setor.nome AS nome_setor'
+                'f.id'
             )
             ->where('f.id_pessoa', $idp)
             ->get();
@@ -503,7 +501,7 @@ class GerenciarFuncionarioController extends Controller
         $tpcidade = DB::table('tp_cidade')->select('id_cidade', 'descricao')->get();
         $tp_ufi = DB::select('select id, sigla from tp_uf');
 
-
+        //dd($funcionario);
         // Joins com a tabela funcionario
         $tpprograma = DB::table('tp_programa')->select('id', 'programa')->get();
         $tppele = DB::table('tp_cor_pele')->select('id', 'nome_cor')->get();
@@ -512,10 +510,20 @@ class GerenciarFuncionarioController extends Controller
         $tp_uff = DB::select('select id, sigla from tp_uf');
         $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
         $tpsetor = DB::table('setor')->select('id', 'nome')->get();
+        $acharSetor = DB::table('hist_setor')
+            ->leftJoin('setor', 'setor.id', 'hist_setor.id_setor')
+            ->where('hist_setor.id_func', $funcionario[0]->id)
+            ->where('hist_setor.dt_fim', null)
+            ->select(
+                'hist_setor.id_setor',
+                'setor.nome AS nome_setor',
+            )
+            ->first();
+        //dd($acharSetor);
 
 
 
-        return view('/funcionarios/editar-funcionario', compact('identidade', 'pessoa', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
+        return view('/funcionarios/editar-funcionario', compact('identidade', 'pessoa', 'acharSetor', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
     }
 
 
@@ -787,7 +795,8 @@ class GerenciarFuncionarioController extends Controller
                 'tp_fator.nome_fator AS nome_fator',
                 'tp_uf.sigla AS sigla_ctps',
                 'tp_cnh.nome_cat AS tp_cnh',
-                'setor.nome AS nome_setor'
+                'setor.nome AS nome_setor',
+                'f.id'
             )
             ->where('f.id_pessoa', $idp)
             ->get();
@@ -831,10 +840,17 @@ class GerenciarFuncionarioController extends Controller
         $tp_uff = DB::select('select id, sigla from tp_uf');
         $tpcnh = DB::table('tp_cnh')->select('id', 'nome_cat')->get();
         $tpsetor = DB::table('setor')->select('id', 'nome')->get();
+        $acharSetor = DB::table('hist_setor')
+            ->leftJoin('setor', 'setor.id', 'hist_setor.id_setor')
+            ->where('hist_setor.id_func', $funcionario[0]->id)
+            ->where('hist_setor.dt_fim', null)
+            ->select(
+                'hist_setor.id_setor',
+                'setor.nome AS nome_setor',
+            )
+            ->first();
 
-
-
-        return view('/funcionarios/visualizar-funcionario', compact('identidade', 'pessoa', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
+        return view('/funcionarios/visualizar-funcionario', compact('identidade', 'pessoa', 'acharSetor', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
     }
 
     public function inativar($idf, Request $request)
