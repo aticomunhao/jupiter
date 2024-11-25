@@ -850,6 +850,7 @@ class GerenciarFuncionarioController extends Controller
             ->select(
                 'hist_setor.id_setor',
                 'setor.nome AS nome_setor',
+                'setor.id',
             )
             ->first();
 
