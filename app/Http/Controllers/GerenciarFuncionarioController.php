@@ -853,7 +853,6 @@ class GerenciarFuncionarioController extends Controller
                 'setor.id',
             )
             ->first();
-        dd($acharSetor);
 
         return view('/funcionarios/visualizar-funcionario', compact('identidade', 'pessoa', 'acharSetor', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
     }
