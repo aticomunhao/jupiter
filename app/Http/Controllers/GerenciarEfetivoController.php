@@ -19,7 +19,9 @@ class GerenciarEfetivoController extends Controller
         $setorId = $request->input('setor');
         $statusPessoa = $request->input('statusPessoa', '1');
 
-        $quantidadeFuncionariosPorSetor = DB::table('funcionarios')
+        $quantidadeFuncionariosPorSetor = DB::table('hist_setor')
+            ->leftJoin('funcionarios', 'funcionarios.id', 'hist_setor.id_func')
+            ->where('dt_fim', null)
             ->select('id_setor', DB::raw('count(*) as total_funcionarios'))
             ->groupBy('id_setor')
             ->get();
@@ -30,7 +32,9 @@ class GerenciarEfetivoController extends Controller
             ->leftJoin('pessoas AS p', 'p.id', 'f.id_pessoa')
             ->leftJoin('cargo AS cr', 'cr.id', 'bs.id_cargo_regular')
             ->leftJoin('cargo AS fg', 'fg.id', 'bs.id_funcao_gratificada')
-            ->leftJoin('setor AS s', 's.id', 'f.id_setor')
+            ->leftJoin('hist_setor', 'f.id', 'hist_setor.id_func')
+            ->leftJoin('setor AS s', 's.id', 'hist_setor.id_setor')
+            ->where('hist_setor.dt_fim', null)
             ->select(
                 'bs.id_funcionario',
                 'bs.id_cargo_regular',
@@ -40,7 +44,7 @@ class GerenciarEfetivoController extends Controller
                 'cr.nome AS nome_cargo_regular',
                 'fg.nome AS nome_funcao_gratificada',
                 'p.celular',
-                'f.id_setor',
+                'hist_setor.id_setor',
                 'p.status AS statusPessoa'
             );
 
@@ -73,7 +77,7 @@ class GerenciarEfetivoController extends Controller
 
         $setor = DB::table('setor')
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
-            ->select('setor.id AS id_setor', 'setor.nome')
+            ->select('setor.id AS id_setor', 'setor.nome', 'setor.sigla')
             ->get();
 
         $totalFuncionariosAtivos = DB::table('funcionarios AS f')

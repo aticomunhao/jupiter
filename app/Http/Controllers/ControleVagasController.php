@@ -71,8 +71,9 @@ class ControleVagasController extends Controller
             foreach ($vagaUm as $keyDois => $testeDois) {
                 $base = DB::table('base_salarial AS bs')
                     ->leftJoin('funcionarios AS f', 'bs.id_funcionario', 'f.id')
+                    ->leftJoin('hist_setor', 'hist_setor.id_func', 'f.id')
                     ->where('bs.id_cargo_regular', $testeDois->idCargo)
-                    ->where('f.id_setor', $teste->idSetor)
+                    ->where('hist_setor.id_setor', $teste->idSetor)
                     ->select(DB::raw('COUNT(bs.id_funcionario) AS quantidade'))
                     ->get();
 
