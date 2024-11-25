@@ -24,8 +24,9 @@ class GerenciarFuncionarioController extends Controller
 
         $lista = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->leftJoin('setor', 'setor.id', 'f.id_setor')
-            ->leftJoin('acordo', 'acordo.id_funcionario', 'f.id')
+            ->leftJoin('hist_setor', 'hist_setor.id_func', 'f.id')
+            ->leftJoin('setor', 'setor.id', 'hist_setor.id_setor')
+            ->leftJoin('contrato', 'contrato.id_funcionario', 'f.id')
             ->select(
                 'f.id AS idf',
                 'p.cpf',
@@ -35,8 +36,8 @@ class GerenciarFuncionarioController extends Controller
                 'f.id_pessoa AS idp',
                 'p.nome_resumido',
                 'setor.sigla',
-                DB::raw('MAX(acordo.motivo) AS motivo'), // Selecione o motivo do último acordo
-                DB::raw('MAX(acordo.id) AS id_acordo') // Selecione o ID do último acordo
+                DB::raw('MAX(contrato.motivo) AS motivo'), // Selecione o motivo do último contrato
+                DB::raw('MAX(contrato.id) AS id_acordo') // Selecione o ID do último contrato
             )
             ->groupBy(
                 'f.id',
@@ -67,18 +68,18 @@ class GerenciarFuncionarioController extends Controller
             $lista->where('p.idt', '=', $request->idt);
         }
         if ($request->status == null || $request->status == '1') {
-            // Considera funcionário ativo se status é 1 e possui ao menos um acordo sem dt_fim (em aberto)
+            // Considera funcionário ativo se status é 1 e possui ao menos um contrato sem dt_fim (em aberto)
             $lista->where('p.status', 1)
                 ->where(function ($query) {
-                    $query->whereNull('acordo.motivo')
+                    $query->whereNull('contrato.motivo')
                         ->orWhere(function ($subquery) {
-                            $subquery->whereNull('acordo.dt_fim')
-                                ->where('acordo.admissao', true);
+                            $subquery->whereNull('contrato.dt_fim')
+                                ->where('contrato.admissao', true);
                         });
                 });
         } elseif ($request->status == '0') {
             $lista->where(function ($query) {
-                $query->whereNotNull('acordo.motivo')
+                $query->whereNotNull('contrato.motivo')
                     ->orWhere('p.status', 0);
             });
         }
@@ -88,7 +89,7 @@ class GerenciarFuncionarioController extends Controller
             $lista->whereRaw("UNACCENT(LOWER(p.nome_completo)) ILIKE UNACCENT(LOWER(?))", ["%{$request->nome}%"]);
         }
         if ($request->setor) {
-            $lista->where('f.id_setor', '=', $request->setor);
+            $lista->where('hist_setor.id_setor', '=', $request->setor);
         }
 
         $lista = $lista->orderBy('p.status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
@@ -107,29 +108,29 @@ class GerenciarFuncionarioController extends Controller
 
         $totalFuncionariosAtivos = DB::table('funcionarios AS f')
             ->join('pessoas AS p', 'p.id', '=', 'f.id_pessoa') // Usamos join em vez de leftJoin para garantir a correspondência
-            ->leftJoin('acordo', function ($join) {
-                $join->on('acordo.id_funcionario', '=', 'f.id')
-                    ->whereNull('acordo.dt_fim'); // Apenas acordos sem data de término
+            ->leftJoin('contrato', function ($join) {
+                $join->on('contrato.id_funcionario', '=', 'f.id')
+                    ->whereNull('contrato.dt_fim'); // Apenas contratos sem data de término
             })
             ->where('p.status', 1) // Filtra apenas funcionários ativos
             ->where(function ($query) {
-                $query->whereNull('acordo.id') // Filtra funcionários sem acordo
-                    ->orWhereNotNull('acordo.id'); // Ou com acordo sem dt_fim
+                $query->whereNull('contrato.id') // Filtra funcionários sem contrato
+                    ->orWhereNotNull('contrato.id'); // Ou com contrato sem dt_fim
             })
             ->count();
 
         $totalFuncionariosInativos = DB::table('funcionarios AS f')
             ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
-            ->leftJoin('acordo', 'acordo.id_funcionario', '=', 'f.id')
+            ->leftJoin('contrato', 'contrato.id_funcionario', '=', 'f.id')
             ->where(function ($query) {
-                $query->whereNotNull('acordo.motivo')
+                $query->whereNotNull('contrato.motivo')
                     ->orWhere('p.status', 0);
             })
             ->whereNotExists(function ($subquery) {
                 $subquery->select(DB::raw(1))
-                    ->from('acordo')
-                    ->whereColumn('acordo.id_funcionario', 'f.id')
-                    ->whereNull('acordo.dt_fim');
+                    ->from('contrato')
+                    ->whereColumn('contrato.id_funcionario', 'f.id')
+                    ->whereNull('contrato.dt_fim');
             })
             ->count();
 
@@ -438,7 +439,8 @@ class GerenciarFuncionarioController extends Controller
             ->leftJoin('tp_fator', 'f.fator_rh', 'tp_fator.id')
             ->leftJoin('tp_uf', 'f.uf_ctps', 'tp_uf.id')
             ->leftJoin('tp_cnh', 'f.id_cat_cnh', 'tp_cnh.id')
-            ->leftJoin('setor', 'f.id_setor', 'setor.id')
+            ->leftJoin('hist_setor', 'hist_setor.id_func', 'f.id')
+            ->leftJoin('setor', 'hist_setor.id_setor', 'setor.id')
             ->select(
                 'f.matricula AS matricula',
                 'f.ctps AS ctps',
@@ -458,7 +460,7 @@ class GerenciarFuncionarioController extends Controller
                 'f.zona_tit AS zona_titulo',
                 'f.secao_tit AS secao_titulo',
                 'f.dt_titulo AS dt_titulo',
-                'f.id_setor AS id_setor',
+                'hist_setor.id_setor AS id_setor',
                 'f.dt_inicio AS dt_inicio',
                 'tp_programa.programa AS nome_programa',
                 'tp_cor_pele.nome_cor AS nome_cor',
@@ -767,7 +769,8 @@ class GerenciarFuncionarioController extends Controller
             ->leftJoin('tp_fator', 'f.fator_rh', 'tp_fator.id')
             ->leftJoin('tp_uf', 'f.uf_ctps', 'tp_uf.id')
             ->leftJoin('tp_cnh', 'f.id_cat_cnh', 'tp_cnh.id')
-            ->leftJoin('setor', 'f.id_setor', 'setor.id')
+            ->leftJoin('hist_setor', 'hist_setor.id_func', 'f.id')
+            ->leftJoin('setor', 'hist_setor.id_setor', 'setor.id')
             ->select(
                 'f.matricula AS matricula',
                 'f.ctps AS ctps',
@@ -787,7 +790,7 @@ class GerenciarFuncionarioController extends Controller
                 'f.zona_tit AS zona_titulo',
                 'f.secao_tit AS secao_titulo',
                 'f.dt_titulo AS dt_titulo',
-                'f.id_setor AS id_setor',
+                'hist_setor.id_setor AS id_setor',
                 'f.dt_inicio AS dt_inicio',
                 'tp_programa.programa AS nome_programa',
                 'tp_cor_pele.nome_cor AS nome_cor',
@@ -856,7 +859,7 @@ class GerenciarFuncionarioController extends Controller
     public function inativar($idf, Request $request)
     {
         //dd($request->all(), $idf);
-        DB::table('acordo AS a')
+        DB::table('contrato AS a')
             ->leftJoin('funcionarios AS f', 'f.id', 'a.id_funcionario')
             ->where('a.id_funcionario', $idf)
             ->whereNull('a.dt_fim')
