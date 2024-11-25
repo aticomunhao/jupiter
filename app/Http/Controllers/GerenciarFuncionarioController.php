@@ -719,7 +719,7 @@ class GerenciarFuncionarioController extends Controller
             ->get();
         return response()->json($cidadeNaturalidade);
     }
-    public function show($idp)
+    public function show($idp, $idf)
     {
         $identidade = DB::table('pessoas AS pa')
             ->leftJoin('tp_uf', 'pa.uf_idt', 'tp_uf.id')
@@ -845,7 +845,7 @@ class GerenciarFuncionarioController extends Controller
         $tpsetor = DB::table('setor')->select('id', 'nome')->get();
         $acharSetor = DB::table('hist_setor')
             ->leftJoin('setor', 'setor.id', 'hist_setor.id_setor')
-            ->where('hist_setor.id_func', $funcionario[0]->id)
+            ->where('hist_setor.id_func', $idf)
             ->where('hist_setor.dt_fim', null)
             ->select(
                 'hist_setor.id_setor',

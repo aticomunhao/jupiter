@@ -113,7 +113,7 @@
                                                     data-bs-placement="top" title="Editar"><i class="bi-pencil"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
-                                                <a href="/visualizar-funcionario/{{ $listas->idp }}" type="button"
+                                                <a href="/visualizar-funcionario/{{ $listas->idp }}/ {{ $listas->idf }}" type="button"
                                                     class="btn btn-outline-primary" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Visualizar"><i class="bi-search"
                                                         style="font-size: 1rem; color:#303030;"></i>
