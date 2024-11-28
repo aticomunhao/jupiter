@@ -18,9 +18,9 @@ class GerenciarFeriasController extends Controller
         // Recupera os registros de férias com as devidas junções
         $periodo_aquisitivo = DB::table('ferias')
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
-            ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-            ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
-            ->join('hist_setor', 'hist_setor.id_func', '=', 'funcionarios.id')
+            ->leftJoin('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+            ->leftJoin('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
+            ->leftJoin('hist_setor', 'hist_setor.id_func', '=', 'funcionarios.id')
             ->join('setor', 'hist_setor.id_setor', '=', 'setor.id')
             ->select(
                 'pessoas.nome_completo as nome_completo_funcionario',
@@ -34,7 +34,6 @@ class GerenciarFeriasController extends Controller
                 'ferias.motivo_retorno',
                 'ferias.id as id_ferias',
                 'ferias.venda_um_terco',
-                'funcionarios.dt_inicio',
                 'ferias.ano_de_referencia',
                 'ferias.id_funcionario',
                 'status_pedido_ferias.id as id_status_pedido_ferias',
@@ -43,10 +42,11 @@ class GerenciarFeriasController extends Controller
                 'setor.id as id_setor',
                 'hist_setor.dt_inicio as dt_inicio_setor',
                 'hist_setor.dt_fim as dt_fim_setor',
-                'setor.nome as nome_setor'
-
+                // 'setor.nome as nome_setor'
             )
-            ->whereIn('setor.id', session('usuario.setor'));
+            ->whereIn('setor.id', session('usuario.setor'));;
+
+
 
         $ano_consulta = null;
         $nome_funcionario = null;
@@ -411,11 +411,8 @@ class GerenciarFeriasController extends Controller
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
             ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
-            // ->join('setor as s', 's.id', '=', 'id_setor')
-            // ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-            //  ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
             ->join('hist_setor', 'hist_setor.id_func', '=', 'funcionarios.id')
-            ->join('setor', 'hist_setor.id_setor', '=', 'setor.id')
+            ->join('setor as s', 'hist_setor.id_setor', '=', 's.id')
             ->join('contrato', 'contrato.id_funcionario', '=', 'funcionarios.id')
             ->select(
                 'pessoas.nome_completo as nome_completo_funcionario',
@@ -437,49 +434,15 @@ class GerenciarFeriasController extends Controller
                 'ferias.dt_inicio_periodo_de_licenca',
                 'ferias.inicio_periodo_aquisitivo',
                 'ferias.fim_periodo_aquisitivo',
-                'status_pedido_ferias.id as id_status_pedido_ferias',
-                'status_pedido_ferias.nome as status_pedido_ferias',
-                // 'funcionarios.id_setor',
-                'setor.id as id_setor',
+                's.id as id_setor', // Alterado de 'setor.id' para 's.id'
                 'hist_setor.dt_inicio as dt_inicio_setor',
                 'hist_setor.dt_fim as dt_fim_setor',
-                'setor.nome as nome_setor',
-                'setor.sigla'
+                's.nome as nome_setor', // Alterado de 'setor.nome' para 's.nome'
+                's.sigla as sigla_do_setor' // Alterado de 'setor.sigla' para 's.sigla'
             )
-            ->whereIn('contrato.tp_acordo',[1, 5, 4])
+            ->whereIn('contrato.tp_acordo', [1, 5, 4])
             ->whereNull('contrato.dt_fim');
-    
-        //     $periodo_aquisitivo = DB::table('ferias')
-        // ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
-        // ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-        // ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
-        // ->join('hist_setor', 'hist_setor.id_func', '=', 'funcionarios.id')
-        // ->join('setor', 'hist_setor.id_setor', '=', 'setor.id')
-        // ->select(
-        //     'pessoas.nome_completo as nome_completo_funcionario',
-        //     'pessoas.id as id_pessoa',
-        //     'ferias.dt_ini_a',
-        //     'ferias.dt_fim_a',
-        //     'ferias.dt_ini_b',
-        //     'ferias.dt_fim_b',
-        //     'ferias.dt_ini_c',
-        //     'ferias.dt_fim_c',
-        //     'ferias.motivo_retorno',
-        //     'ferias.id as id_ferias',
-        //     'ferias.venda_um_terco',
-        //     'funcionarios.dt_inicio',
-        //     'ferias.ano_de_referencia',
-        //     'ferias.id_funcionario',
-        //     'status_pedido_ferias.id as id_status_pedido_ferias',
-        //     'status_pedido_ferias.nome as status_pedido_ferias',
-        //     // 'funcionarios.id_setor',
-        //     'setor.id as id_setor',
-        //     'hist_setor.dt_inicio as dt_inicio_setor',
-        //     'hist_setor.dt_fim as dt_fim_setor',
-        //     'setor.nome as nome_setor'
-
-        // )
-        // ->orderBy('pessoas.nome_completo');
+        // dd($periodo_aquisitivo->get());
 
         $ano_consulta = null;
         $nome_funcionario = $request->input('nomefuncionario');
@@ -523,13 +486,6 @@ class GerenciarFeriasController extends Controller
 
 
 
-
-        // $setores_unicos = $periodo_aquisitivo->map(function ($item) {
-        //   return (object)[
-        //     'id_do_setor' => $item->id_do_setor,
-        //    'sigla_do_setor' => $item->sigla_do_setor,
-        //    ]//;
-        // })->unique('id_do_setor')->values();
         $setores_unicos = DB::table('setor')->orderBy('sigla')->get();
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $anos_inicial = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->first();
@@ -555,11 +511,10 @@ class GerenciarFeriasController extends Controller
 
         $periodo_aquisitivo = $periodo_aquisitivo->get();
 
-        // dd($contagemStatus);
 
         $dias_limite_para_periodo_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
         $dias_limite_para_periodo_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
-        // dd($dias_limite_para_periodo_de_ferias);
+
         foreach ($periodo_aquisitivo as $periodo_de_ferias) {
             $periodo_de_ferias->dia_limite_para_gozo_de_ferias =  Carbon::parse($periodo_de_ferias->dt_inicio_periodo_de_licenca)->addDays($dias_limite_para_periodo_de_ferias->dias)->toDateString();
         }

@@ -12,33 +12,33 @@ class GerenciarCargosController extends Controller
      * Display a listing of the resource.
      */
 
-    // public function index()
-    // {
-    //     $pesquisa = request('pesquisa');
+    public function index()
+    {
+        $pesquisa = request('pesquisa');
 
-    //     // Confere se alguma pesquisa esta sendo feita e busca os dados em banco
-    //     if ($pesquisa) {
+        // Confere se alguma pesquisa esta sendo feita e busca os dados em banco
+        if ($pesquisa) {
 
-    //         $cargo = DB::table('cargos as c')
-    //             ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
-    //             ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo', 'c.status') //faz uma pesquisa no banco apenas onde os valores batem
-    //             ->where('c.nome', 'ilike', '%' . $pesquisa . '%')
-    //             ->orWhere('tp.nomeTpCargo', 'ilike', '%' . $pesquisa . '%')
-    //             ->orderBy('c.status', 'desc')
-    //             ->orderBy('c.nome', 'asc')
-    //             ->get();
-    //     } else {
-    //         //Envia todos os dados do banco para a tabela
-    //         $cargo = DB::table('cargos as c')
-    //             ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
-    //             ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo', 'c.status')
-    //             ->orderBy('c.status', 'desc')
-    //             ->orderBy('c.nome', 'asc')
-    //             ->get();
-    //     }
+            $cargo = DB::table('cargos as c')
+                ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
+                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo', 'c.status') //faz uma pesquisa no banco apenas onde os valores batem
+                ->where('c.nome', 'ilike', '%' . $pesquisa . '%')
+                ->orWhere('tp.nomeTpCargo', 'ilike', '%' . $pesquisa . '%')
+                ->orderBy('c.status', 'desc')
+                ->orderBy('c.nome', 'asc')
+                ->get();
+        } else {
+            //Envia todos os dados do banco para a tabela
+            $cargo = DB::table('cargos as c')
+                ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
+                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo', 'c.status')
+                ->orderBy('c.status', 'desc')
+                ->orderBy('c.nome', 'asc')
+                ->get();
+        }
 
-    //     return view('cargos.gerenciar-cargos', compact('cargo', 'pesquisa'));
-    // }
+        return view('cargos.gerenciar-cargos', compact('cargo', 'pesquisa'));
+    }
 
     /**
      * Show the form for creating a new resource.

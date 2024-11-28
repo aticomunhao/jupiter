@@ -378,9 +378,9 @@ class GerenciarFuncionarioController extends Controller
 
             DB::table('hist_setor')
                 ->insert([
-                    'id_funcionario' => $id_funcionario,
+                    'id_func' => $id_funcionario,
                     'id_setor' => $request->input('setor'),
-                    'dt_ini' => $today,
+                    'dt_inicio' => $today,
                 ]);
 
             app('flasher')->addSuccess('O cadastro do funcionário foi realizado com sucesso.');
