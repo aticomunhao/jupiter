@@ -67,7 +67,7 @@ Route::middleware('rotas:1')->group(function () {
     Route::get('/excluir-funcionario/{idp}', [GerenciarFuncionarioController::class, 'delete']);
     Route::get('/pessoa-funcionario/{idp}', [GerenciarFuncionarioController::class, 'delete']);
     Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
-    Route::post('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
+    Route::any('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
     Route::get('/visualizar-funcionario/{idp}/{idf}', [GerenciarFuncionarioController::class, 'show']);
     Route::post('/inativar-funcionario/{idf}', [GerenciarFuncionarioController::class, 'inativar']);
 });

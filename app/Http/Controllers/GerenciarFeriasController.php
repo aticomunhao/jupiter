@@ -295,11 +295,11 @@ class GerenciarFeriasController extends Controller
 
         $funcionarios = DB::table('funcionarios')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-            ->join('acordo', 'funcionarios.id', '=', 'acordo.id_funcionario')
+            ->join('contrato as c', 'funcionarios.id', '=', 'c.id_funcionario')
             ->leftJoin('afastamento', 'funcionarios.id', '=', 'afastamento.id_funcionario')
-            ->where('acordo.dt_inicio', '<', $dia_do_ultimo_ano)
-            ->where('acordo.tp_acordo', '=', 1)
-            ->whereNull('acordo.dt_fim')
+            ->where('c.dt_inicio', '<', $dia_do_ultimo_ano)
+            ->where('c.tp_acordo', '=', 1)
+            ->whereNull('c.dt_fim')
             ->where(function ($query) {
                 $query->whereNotNull('afastamento.dt_inicio')
                     ->orWhereNull('afastamento.dt_inicio');
@@ -307,7 +307,7 @@ class GerenciarFeriasController extends Controller
             ->select(
                 'pessoas.id as id_pessoa',
                 'funcionarios.id as id_funcionario',
-                'acordo.dt_inicio as data_de_inicio',
+                'c.dt_inicio as data_de_inicio',
                 'pessoas.nome_completo'
             )
             ->orderByRaw('COALESCE(pessoas.nome_completo, \' \') ASC')
@@ -454,7 +454,7 @@ class GerenciarFeriasController extends Controller
         $anos_possiveis = DB::table('ferias')
             ->select('ano_de_referencia')
             ->groupBy('ano_de_referencia')
-            ->orderBy('ano_de_referencia', 'asc')
+            ->orderBy('ano_de_referencia')
             ->get();
         $status_ferias = DB::table('status_pedido_ferias');
 
@@ -585,7 +585,7 @@ class GerenciarFeriasController extends Controller
             ->first();
         //
 
-        // Obtém informações sobre as férias do funcionário
+
 
 
         // Calcula os dias de direito do funcionário (exemplo: 30 dias de férias - dias de falta)
