@@ -291,9 +291,9 @@ class GerenciarFuncionarioController extends Controller
 
             DB::table('hist_setor')
                 ->insert([
-                    'id_funcionario' => $id_funcionario,
+                    'id_func' => $id_funcionario,
                     'id_setor' => $request->input('setor'),
-                    'dt_ini' => $today,
+                    'dt_inicio' => $today,
                 ]);
 
             app('flasher')->addWarning('Cadastro de funcionário realizado com base nos dados ja existentes da pessoa.');
@@ -564,9 +564,6 @@ class GerenciarFuncionarioController extends Controller
                 'celular' => $request->input('celular'),
             ]);
 
-        $setorAtual = DB::table('funcionarios')
-            ->where('id_pessoa', $idp)
-            ->value('id_setor');
 
         DB::table('funcionarios')
             ->where('id_pessoa', $idp)
@@ -590,8 +587,6 @@ class GerenciarFuncionarioController extends Controller
                 'nome_mae' => $request->input('nome_mae'),
                 'nome_pai' => $request->input('nome_pai'),
                 'id_cat_cnh' => $request->input('cnh'),
-                'id_setor' => $request->input('setor')
-
             ]);
 
         $id_funcionario = DB::table('funcionarios')
@@ -599,6 +594,10 @@ class GerenciarFuncionarioController extends Controller
             ->select('funcionarios.id AS idf')
             ->where('pessoas.id', $idp)
             ->value('idf');
+
+        $setorAtual = DB::table('hist_setor')
+            ->where('id_func', $id_funcionario)
+            ->value('id_setor');
 
         DB::table('situacao_contrato')
             ->where('situacao_contrato.id_funcionario', $id_funcionario)
@@ -623,17 +622,16 @@ class GerenciarFuncionarioController extends Controller
         $novoSetor = $request->input('setor');
         if ($setorAtual !== $novoSetor) {
             DB::table('hist_setor')
-                ->where('id_funcionario', $id_funcionario)
-                ->where('dt_fim', null)
+                ->where('id_func', $id_funcionario)
+                ->whereNull('dt_fim')
                 ->update([
                     'dt_fim' => \Carbon\Carbon::today()->format('d/m/Y'),
-                    'id_motivo' => 'Alteração de setor',
                 ]);
             DB::table('hist_setor')
                 ->insert([
-                    'id_funcionario' => $id_funcionario,
+                    'id_func' => $id_funcionario,
                     'id_setor' => $novoSetor,
-                    'dt_ini' => \Carbon\Carbon::today()->format('d/m/Y'),
+                    'dt_inicio' => \Carbon\Carbon::today()->format('d/m/Y'),
                 ]);
         }
 
@@ -683,7 +681,7 @@ class GerenciarFuncionarioController extends Controller
 
         DB::table('funcionarios')->where('id_pessoa', $idp)->delete();
         DB::table('endereco_pessoas')->where('id_pessoa', $idp)->delete();
-        DB::table('hist_setor')->whereIn('id_funcionario', $funcionario)->delete();
+        DB::table('hist_setor')->whereIn('id_func', $funcionario)->delete();
 
         app('flasher')->addSuccess('O cadastro do funcionário foi Removido com Sucesso.');
         return redirect()->action([GerenciarFuncionarioController::class, 'index']);
