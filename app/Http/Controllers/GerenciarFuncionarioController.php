@@ -27,6 +27,7 @@ class GerenciarFuncionarioController extends Controller
             ->leftJoin('hist_setor', 'hist_setor.id_func', 'f.id')
             ->leftJoin('setor', 'setor.id', 'hist_setor.id_setor')
             ->leftJoin('contrato', 'contrato.id_funcionario', 'f.id')
+            ->whereNull('hist_setor.dt_fim')
             ->select(
                 'f.id AS idf',
                 'p.cpf',
