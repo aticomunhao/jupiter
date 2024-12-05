@@ -263,6 +263,7 @@ Route::middleware('rotas:12')->group(function () {
     Route::any('/formulario-recusar-ferias/{id}', [GerenciarFeriasController::class, 'formulario_recusa_periodo_de_ferias'])->name('FormularioFerias');
     Route::any('/recusa-ferias/{id}', [GerenciarFeriasController::class, 'recusa_pedido_de_ferias'])->name('RecusaFerias');
     Route::get('/retorna-periodo-ferias/{ano}/{nome}/{setor}', [GerenciarFeriasController::class, 'retornaPeriodoFerias']);
+    Route::any('/excluir-ferias/{id}', [GerenciarFeriasController::class,'destroy'])->name('ExcluiFerias');
 });
 /**Rotas de Entrada**/
 

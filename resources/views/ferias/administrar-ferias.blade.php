@@ -272,6 +272,59 @@
                                                     <a href="{{ route('HistoricoRecusaFerias', ['id' => $periodos_aquisitivos->id_ferias]) }}"
                                                         class="btn btn-outline-secondary" title="Histórico"><i
                                                             class="bi bi-search"></i></a>
+                                                    <!-- Button trigger modal -->
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModal{{ $periodos_aquisitivos->id_ferias }}">
+                                                        <i class="bi bi-trash3"></i>
+                                                    </button>
+
+                                                    <!-- Modal -->
+                                                    <div class="modal fade"
+                                                        id="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                        tabindex="-1"
+                                                        aria-labelledby="exampleModal{{ $periodos_aquisitivos->id_ferias }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content border-danger">
+                                                                <div class="modal-header bg-danger text-white">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">
+                                                                        <i class="bi bi-exclamation-triangle-fill"></i>
+                                                                        Confirmar Exclusão
+                                                                    </h5>
+                                                                    <button type="button"
+                                                                        class="btn-close btn-close-black"
+                                                                        data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body text-center">
+                                                                    <p class="text-danger fw-bold">
+                                                                        Tem certeza de que deseja excluir este período
+                                                                        aquisitivo? Esta ação não pode ser desfeita.
+                                                                    </p>
+                                                                    <p><strong>Funcionario: </strong>
+                                                                        {{ $periodos_aquisitivos->nome_completo_funcionario }}
+                                                                    </p>
+                                                                    <p><strong>Periodo Aquisitivo: </strong>
+                                                                        {{ $periodos_aquisitivos->ano_de_referencia }}</p>
+                                                                </div>
+                                                                <div class="modal-footer d-flex justify-content-center">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">
+                                                                        <i class="bi bi-arrow-left-circle"></i> Cancelar
+                                                                    </button>
+                                                                    <a
+                                                                        href="{{ route('ExcluiFerias', [$periodos_aquisitivos->id_ferias]) }}">
+                                                                        <button type="button" class="btn btn-danger">
+                                                                            <i class="bi bi-trash-fill"></i> Excluir
+                                                                        </button>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
                                                 </td>
                                             </tr>
                                         @endforeach

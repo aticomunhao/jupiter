@@ -20,7 +20,15 @@ class GerenciarFeriasController extends Controller
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->leftJoin('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
             ->leftJoin('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
-            ->leftJoin('hist_setor', 'hist_setor.id_func', '=', 'funcionarios.id')
+            ->join('hist_setor', function ($join) {
+                $join->on('hist_setor.id_func', '=', 'funcionarios.id')
+                    ->where(function ($query) {
+                        $query->whereNull('hist_setor.dt_fim')
+                            ->orWhereRaw('ferias.dt_ini_a BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim')
+                            ->orWhereRaw('ferias.dt_ini_b BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim')
+                            ->orWhereRaw('ferias.dt_ini_c BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim');
+                    });
+            })
             ->join('setor', 'hist_setor.id_setor', '=', 'setor.id')
             ->select(
                 'pessoas.nome_completo as nome_completo_funcionario',
@@ -38,21 +46,21 @@ class GerenciarFeriasController extends Controller
                 'ferias.id_funcionario',
                 'status_pedido_ferias.id as id_status_pedido_ferias',
                 'status_pedido_ferias.nome as status_pedido_ferias',
-                // 'funcionarios.id_setor',
                 'setor.id as id_setor',
+                'setor.nome as nome_setor',
                 'hist_setor.dt_inicio as dt_inicio_setor',
-                'hist_setor.dt_fim as dt_fim_setor',
-                // 'setor.nome as nome_setor'
+                'hist_setor.dt_fim as dt_fim_setor'
             )
-            ->whereIn('setor.id', session('usuario.setor'));;
+            ->whereIn('setor.id', session('usuario.setor'))
+            ->orderBy('pessoas.nome_completo');
+        
 
-
+        //    dd($periodo_aquisitivo);
 
         $ano_consulta = null;
         $nome_funcionario = null;
         $status_consulta_atual = null;
         //Começo a filtrar por periodo e setor interno
-
 
         // $periodo_aquisitivo = $periodo_aquisitivo->;
 
@@ -110,7 +118,7 @@ class GerenciarFeriasController extends Controller
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $status_ferias = DB::table('status_pedido_ferias')->get();
 
-
+        dd($periodo_aquisitivo);
         return view('ferias.gerenciar-ferias', compact(
             'periodo_aquisitivo',
             'anos_possiveis',
@@ -285,7 +293,27 @@ class GerenciarFeriasController extends Controller
      * Remove the specified resource from storage.
      */
     public
-    function destroy(string $id) {}
+    function destroy(string $id)
+    {
+
+        $periodo_de_ferias_funcionario = DB::table('ferias')
+            ->leftJoin('funcionarios as f', 'ferias.id_funcionario', '=', 'f.id')
+            ->leftJoin('pessoas as p', 'f.id_pessoa', '=', 'p.id')
+            ->where('ferias.id', $id)
+            ->select(
+                'ferias.ano_de_referencia as ano',
+                'p.nome_completo as nome'
+            )
+
+            ->first();
+        DB::table('hist_recusa_ferias')
+            ->where('id_periodo_de_ferias', $id)
+            ->delete();
+        DB::table('ferias')->where('id', $id)->delete();
+
+        app('flasher')->addSuccess('Ferias do Funcionario: ' . $periodo_de_ferias_funcionario->nome . ', referentes ao ano de ' . $periodo_de_ferias_funcionario->ano);
+        return redirect()->back();
+    }
 
     public function InsereERetornaFuncionarios(Request $request)
     {
@@ -442,7 +470,7 @@ class GerenciarFeriasController extends Controller
             )
             ->whereIn('contrato.tp_acordo', [1, 5, 4])
             ->whereNull('contrato.dt_fim');
-        // dd($periodo_aquisitivo->get());
+
 
         $ano_consulta = null;
         $nome_funcionario = $request->input('nomefuncionario');
