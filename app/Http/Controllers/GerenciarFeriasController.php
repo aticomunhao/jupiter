@@ -53,7 +53,7 @@ class GerenciarFeriasController extends Controller
             )
             ->whereIn('setor.id', session('usuario.setor'))
             ->orderBy('pessoas.nome_completo');
-        
+
 
         //    dd($periodo_aquisitivo);
 
@@ -118,7 +118,7 @@ class GerenciarFeriasController extends Controller
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $status_ferias = DB::table('status_pedido_ferias')->get();
 
-        dd($periodo_aquisitivo);
+     
         return view('ferias.gerenciar-ferias', compact(
             'periodo_aquisitivo',
             'anos_possiveis',
