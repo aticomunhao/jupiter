@@ -190,7 +190,7 @@
 
                                                     </td>
                                                     <td scope="">
-                                                        {{ $feriass->sigla_setor }} / {{ $feriass->nome_cargo }}
+                                                        {{ $feriass->sigla_setor }}  
                                                     </td>
                                                 </tr>
                                             @endforeach

@@ -24,9 +24,19 @@ class ControleFeriasController extends Controller
             ->leftJoin('status_pedido_ferias AS stf', 'fe.status_pedido_ferias', 'stf.id')
             ->leftJoin('funcionarios AS f', 'fe.id_funcionario', 'f.id')
             ->leftJoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->leftJoin('setor AS s', 'f.id_setor', 's.id')
-            ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
-            ->leftJoin('cargos AS c', 'bs.cargo', 'c.id')
+            ->join('hist_setor', function ($join) {
+                $join->on('hist_setor.id_func', '=', 'f.id')
+                    ->where(function ($query) {
+                        $query->whereNull('hist_setor.dt_fim')
+                            ->orWhereRaw('fe.dt_ini_a BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim')
+                            ->orWhereRaw('fe.dt_ini_b BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim')
+                            ->orWhereRaw('fe.dt_ini_c BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim');
+                    });
+            })
+            ->join('setor as s', 'hist_setor.id_setor', '=', 's.id')
+
+            // ->leftJoin('base_salarial AS bs', 'f.id', 'bs.id_funcionario')
+            // ->leftJoin('cargos AS c', 'bs.cargo', 'c.id')
             ->select(
                 'p.id AS id_pessoa',
                 'fe.id AS id_ferias',
@@ -34,7 +44,8 @@ class ControleFeriasController extends Controller
                 'fe.ano_de_referencia AS ano_de_referencia',
                 'f.id AS id_funcionario',
                 'stf.id AS id_stf',
-                'f.id_setor AS id_setor',
+                // 'f.id_setor AS id_setor',
+                's.id as id_setor',
                 'p.nome_completo AS nome_completo',
                 'p.nome_resumido AS nome_resumido',
                 'p.status',
@@ -42,9 +53,8 @@ class ControleFeriasController extends Controller
                 'fe.fim_periodo_aquisitivo AS fim_aqt',
                 'stf.nome AS nome_stf',
                 's.nome AS nome_setor',
-                'c.nome AS nome_cargo',
+                // 'c.nome AS nome_cargo',
                 's.sigla AS sigla_setor',
-                's.id AS idSetor',
                 'fe.dt_ini_a AS dt_ini_a',
                 'fe.dt_fim_a AS dt_fim_a',
                 'fe.dt_ini_b AS dt_ini_b',
@@ -55,6 +65,7 @@ class ControleFeriasController extends Controller
                 'fe.dt_inicio_periodo_de_licenca AS dt_inicio_gozo',
                 'fe.dt_fim_periodo_de_licenca AS dt_fim_gozo',
             );
+    
 
         $status = $request->status;
         $setor_selecionado = null;
@@ -84,9 +95,11 @@ class ControleFeriasController extends Controller
             $setor_selecionado = DB::table('setor')
                 ->where('id', '=', $setor_selecionado)
                 ->first();
+           
         }
         if ($request->nomeFunc) {
             $ferias->where('p.nome_completo', 'ILIKE', '%' . $request->nomeFunc . '%');
+          
         }
         // if ($request->input('mes_gozo_ferias')) {
         //     $ferias->whereMonth('fim_aqt', '=', $mes_gozo_ferias);
@@ -104,11 +117,14 @@ class ControleFeriasController extends Controller
                     ->orWhereMonth('fe.dt_ini_b', $mes_selecionado['indice'])
                     ->orWhereMonth('fe.dt_ini_c', $mes_selecionado['indice']);
             });
+         
         }
 
         if ($request->ano) {
+      
             $ferias->where('fe.ano_de_referencia', $ano_selecionado);
             $ano_selecionado = $request->input('ano');
+           
         }
 
         if ($request->status === null) {
@@ -134,7 +150,7 @@ class ControleFeriasController extends Controller
                 's.id AS idSetor',
                 's.sigla AS siglaSetor',
             )
-            ->orderBy('nome_setor', )
+            ->orderBy('nome_setor',)
             ->distinct()
             ->get();
         //dd($setor);
@@ -143,5 +159,4 @@ class ControleFeriasController extends Controller
         //  dd($setor_selecionado != null);
         return view('ferias.controle-ferias', compact('ferias', 'mes', 'ano', 'setor', 'setor_selecionado', 'mes_ferias', 'mes_selecionado', 'ano_selecionado'));
     }
-
 }
