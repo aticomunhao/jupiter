@@ -3,7 +3,6 @@
     <title>Gerenciar Contratos</title>{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
 @endsection
 @section('content')
-
     <div class="container-fluid"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
             <div class="col-12">
@@ -25,7 +24,8 @@
                             </div>
                             <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
                                 <a href="/incluir-acordos/{{ $funcionario->id }}" class="col-6"><button type="button"
-                                        class="btn btn-success col-md-8 col-12" style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;">Novo+</button>
+                                        class="btn btn-success col-md-8 col-12"
+                                        style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;">Novo+</button>
                                 </a>
                             </div>
                         </div>
@@ -66,13 +66,12 @@
                                                 </td>
                                                 {{-- Observação --}}
                                                 <td style="text-align: center">
-                                                    {{ $acordo->motivo}}
+                                                    {{ $acordo->motivo }}
                                                 </td>
                                                 {{--  Área de ações  --}}
                                                 <td style="text-align: center">
                                                     <!-- Botao de Arquivo -->
-                                                    <a href=""
-                                                        class="btn  btn-outline-secondary" data-tt="tooltip"
+                                                    <a href="" class="btn  btn-outline-secondary" data-tt="tooltip"
                                                         data-placement="top" title="Visualizar">
                                                         <i class="bi bi-archive" style="font-size: 1rem; color:#303030"></i>
                                                     </a>
@@ -88,7 +87,61 @@
                                                         data-placement="top" title="Excluir">
                                                         <i class="bi bi-trash" style="font-size: 1rem; color:#303030"></i>
                                                     </button>
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                        data-bs-placement="top" title="Finalizar contrato"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#situacao{{ $acordo->id }}">
+                                                        <i class="bi bi-exclamation-circle"
+                                                            style="font-size: 1rem; color:#303030;"></i>
+                                                    </button>
+                                                    <!-- Modal inativar -->
+                                                    <div class="modal fade" id="situacao{{ $acordo->id }}" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <form class="form-horizontal" method="post"
+                                                                action="{{ url('/inativar-acordo/' . $acordo->id) }}">
+                                                                @csrf
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header"
+                                                                        style="background-color:#DC4C64">
+                                                                        <h5 class="modal-title" id="exampleModalLabel"
+                                                                            style="color:rgb(255, 255, 255)">Confirmar de
+                                                                            Inativação</h5>
+                                                                        <button type="button" class="btn-close"
+                                                                            data-bs-dismiss="modal"
+                                                                            aria-label="Close"></button>
+                                                                    </div>
+                                                                    <div class="modal-body" style="text-align: center;">
+                                                                        <label for="mi" class="form-label">Motivo da
+                                                                            Inativação:</label>
+                                                                        <select class="form-select" name="motivo_inativar"
+                                                                            required="required" id="mi">
+                                                                            <option value=""></option>
+                                                                            @foreach ($situacao as $situacaos)
+                                                                                <option value="{{ $situacaos->id }}">
+                                                                                    {{ $situacaos->motivo }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                        <label for="dtf" class="form-label">Data de
+                                                                            Inativação:</label>
+                                                                        <input class="form-control" type="date"
+                                                                            id="dtf" name="dt_fim_inativacao"
+                                                                            required="required">
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-danger"
+                                                                            data-bs-dismiss="modal">Cancelar</button>
+                                                                        <button type="submit"
+                                                                            class="btn btn-primary">Confirmar</button>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </td>
+
+
+
                                                 <!-- Modal -->
                                                 <div class="modal fade" id="A{{ $acordo->id }}" tabindex="-1"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -144,7 +197,7 @@
             <br>
             <div class="row d-flex justify-content-around">
                 <div class="col-4">
-                    <a href="javascript:history.back()">
+                    <a href="/gerenciar-funcionario">
                         <button class="btn btn-primary" style="width: 100%">Retornar </button>
                     </a>
                 </div>

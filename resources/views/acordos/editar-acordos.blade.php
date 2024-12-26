@@ -48,10 +48,6 @@
                                         type="date" value="{{ $acordo->dt_inicio }}" id="iddt_inicio" name="dt_inicio"
                                         required="required">
                                 </div>
-                                <div class="form-group col-md-2">Data de Fim
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" value="{{ $acordo->dt_fim }}" id="iddt_fim" name="dt_fim">
-                                </div>
                                 <div class="form-group col-md-1" style="text-align: center">Arquivo atual
                                     <p>
                                         <a href="{{ asset("$acordo->caminho") }}"><button type="button"

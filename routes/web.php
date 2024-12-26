@@ -69,7 +69,6 @@ Route::middleware('rotas:1')->group(function () {
     Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarFuncionarioController::class, 'retornaCidadeDadosResidenciais']);
     Route::any('/atualizar-funcionario/{idp}', [GerenciarFuncionarioController::class, 'update'])->name('atualizar.funcionario');
     Route::get('/visualizar-funcionario/{idp}/{idf}', [GerenciarFuncionarioController::class, 'show']);
-    Route::post('/inativar-funcionario/{idf}', [GerenciarFuncionarioController::class, 'inativar']);
 });
 
 /*Gerenciar usuário*/
@@ -216,6 +215,7 @@ Route::middleware('rotas:10')->group(function () {
     Route::any('/excluir-acordo/{id}', [GerenciarAcordosController::class, 'destroy']);
     Route::any('/editar-acordo/{id}', [GerenciarAcordosController::class, 'edit']);
     Route::any('/atualizar-acordo/{id}', [GerenciarAcordosController::class, 'update']);
+    Route::post('/inativar-acordo/{idf}', [GerenciarAcordosController::class, 'inativar']);
 });
 
 /**Rotas para Cargos**/

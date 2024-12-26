@@ -159,58 +159,6 @@
                                                     class="btn btn-outline-danger btn-sm" data-bs-placement="top"
                                                     title="Excluir"><i class="bi-trash"
                                                         style="font-size: 1rem; color:#303030;"></i></button>
-                                                <button type="button" class="btn btn-outline-danger"
-                                                    data-bs-placement="top" title="Inativar" data-bs-toggle="modal"
-                                                    data-bs-target="#situacao{{ $listas->cpf }}-{{ $listas->idf }}">
-                                                    <i class="bi bi-exclamation-circle"
-                                                        style="font-size: 1rem; color:#303030;"></i>
-                                                </button>
-
-                                                <!-- Modal inativar -->
-                                                <div class="modal fade"
-                                                    id="situacao{{ $listas->cpf }}-{{ $listas->idf }}" tabindex="-1"
-                                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                    <div class="modal-dialog">
-                                                        <form class="form-horizontal" method="post"
-                                                            action="{{ url('/inativar-funcionario/' . $listas->idf) }}">
-                                                            @csrf
-                                                            <div class="modal-content">
-                                                                <div class="modal-header"
-                                                                    style="background-color:#DC4C64">
-                                                                    <h5 class="modal-title" id="exampleModalLabel"
-                                                                        style="color:rgb(255, 255, 255)">Confirmar de
-                                                                        Inativação</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
-                                                                </div>
-                                                                <div class="modal-body" style="text-align: center;">
-                                                                    <label for="mi" class="form-label">Motivo da
-                                                                        Inativação:</label>
-                                                                    <select class="form-select" name="motivo_inativar"
-                                                                        required="required" id="mi">
-                                                                        <option value=""></option>
-                                                                        @foreach ($situacao as $situacaos)
-                                                                            <option value="{{ $situacaos->id }}">
-                                                                                {{ $situacaos->motivo }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    <label for="dtf" class="form-label">Data de
-                                                                        Inativação:</label>
-                                                                    <input class="form-control" type="date"
-                                                                        id="dtf" name="dt_fim_inativacao"
-                                                                        required="required">
-                                                                </div>
-                                                                <div class="modal-footer">
-                                                                    <button type="button" class="btn btn-danger"
-                                                                        data-bs-dismiss="modal">Cancelar</button>
-                                                                    <button type="submit"
-                                                                        class="btn btn-primary">Confirmar</button>
-                                                                </div>
-                                                            </div>
-                                                        </form>
-                                                    </div>
-                                                </div>
 
 
                                                 <!-- Modal -->

@@ -855,21 +855,4 @@ class GerenciarFuncionarioController extends Controller
 
         return view('/funcionarios/visualizar-funcionario', compact('identidade', 'pessoa', 'acharSetor', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
     }
-
-    public function inativar($idf, Request $request)
-    {
-        //dd($request->all(), $idf);
-        DB::table('contrato AS a')
-            ->leftJoin('funcionarios AS f', 'f.id', 'a.id_funcionario')
-            ->where('a.id_funcionario', $idf)
-            ->whereNull('a.dt_fim')
-            ->update([
-                'a.dt_fim' => $request->input('dt_fim_inativacao'),
-                'a.motivo' => $request->input('motivo_inativar')
-            ]);
-
-
-        app('flasher')->addSuccess('O cadastro do funcionário foi inativado com Sucesso.');
-        return redirect()->action([GerenciarFuncionarioController::class, 'index']);
-    }
 }
