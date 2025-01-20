@@ -61,11 +61,12 @@ class ControleFeriasController extends Controller
                 'fe.dt_fim_b AS dt_fim_b',
                 'fe.dt_ini_c AS dt_ini_c',
                 'fe.dt_fim_c AS dt_fim_c',
+                'fe.adianta_13sal AS adianta_13sal',
                 'fe.vendeu_ferias AS vendeu_ferias',
                 'fe.dt_inicio_periodo_de_licenca AS dt_inicio_gozo',
                 'fe.dt_fim_periodo_de_licenca AS dt_fim_gozo',
             );
-    
+
 
         $status = $request->status;
         $setor_selecionado = null;
@@ -95,11 +96,11 @@ class ControleFeriasController extends Controller
             $setor_selecionado = DB::table('setor')
                 ->where('id', '=', $setor_selecionado)
                 ->first();
-           
+
         }
         if ($request->nomeFunc) {
             $ferias->where('p.nome_completo', 'ILIKE', '%' . $request->nomeFunc . '%');
-          
+
         }
         // if ($request->input('mes_gozo_ferias')) {
         //     $ferias->whereMonth('fim_aqt', '=', $mes_gozo_ferias);
@@ -117,14 +118,14 @@ class ControleFeriasController extends Controller
                     ->orWhereMonth('fe.dt_ini_b', $mes_selecionado['indice'])
                     ->orWhereMonth('fe.dt_ini_c', $mes_selecionado['indice']);
             });
-         
+
         }
 
         if ($request->ano) {
-      
+
             $ferias->where('fe.ano_de_referencia', $ano_selecionado);
             $ano_selecionado = $request->input('ano');
-           
+
         }
 
         if ($request->status === null) {

@@ -187,10 +187,14 @@
                                                         @endif
                                                     </td>
                                                     <td scope="">
-
+                                                        @if ($feriass->adianta_13sal == 'true')
+                                                        Sim
+                                                    @else
+                                                        Não
+                                                    @endif
                                                     </td>
                                                     <td scope="">
-                                                        {{ $feriass->sigla_setor }}  
+                                                        {{ $feriass->sigla_setor }}
                                                     </td>
                                                 </tr>
                                             @endforeach
