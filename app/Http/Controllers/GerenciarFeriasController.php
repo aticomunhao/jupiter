@@ -118,7 +118,7 @@ class GerenciarFeriasController extends Controller
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $status_ferias = DB::table('status_pedido_ferias')->get();
 
-     
+
         return view('ferias.gerenciar-ferias', compact(
             'periodo_aquisitivo',
             'anos_possiveis',
@@ -439,7 +439,15 @@ class GerenciarFeriasController extends Controller
             ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
             ->join('status_pedido_ferias', 'ferias.status_pedido_ferias', '=', 'status_pedido_ferias.id')
-            ->join('hist_setor', 'hist_setor.id_func', '=', 'funcionarios.id')
+            ->join('hist_setor', function ($join) {
+                $join->on('hist_setor.id_func', '=', 'funcionarios.id')
+                    ->where(function ($query) {
+                        $query->whereNull('hist_setor.dt_fim')
+                            ->orWhereRaw('ferias.dt_ini_a BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim')
+                            ->orWhereRaw('ferias.dt_ini_b BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim')
+                            ->orWhereRaw('ferias.dt_ini_c BETWEEN hist_setor.dt_inicio AND hist_setor.dt_fim');
+                    });
+            })
             ->join('setor as s', 'hist_setor.id_setor', '=', 's.id')
             ->join('contrato', 'contrato.id_funcionario', '=', 'funcionarios.id')
             ->select(
