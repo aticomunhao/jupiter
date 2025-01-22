@@ -658,6 +658,7 @@ class GerenciarFeriasController extends Controller
 
 
 
+
         // Verifica o número de períodos de férias
         if ($formulario_de_ferias['numeroPeriodoDeFerias'] == 1) {
 
@@ -703,7 +704,7 @@ class GerenciarFeriasController extends Controller
                         'dt_ini_c' => null,
                         'dt_fim_c' => null,
                         'motivo_retorno' => null,
-                        'adianta_13sal' => $request->input('adiantaDecimoTerceiro'),
+                        'adianta_13sal' => $request->boolean('adiantaDecimoTerceiro'),
                         'status_pedido_ferias' => 3,
                         'nr_dias_per_a' => $data_inicio_formulario->diffInDays($data_fim_formulario) + 1,
                         'vendeu_ferias' => isset($formulario_de_ferias["vendeFerias"]) ? $formulario_de_ferias["vendeFerias"] : null,
@@ -809,7 +810,7 @@ class GerenciarFeriasController extends Controller
                     'dt_ini_c' => null,
                     'dt_fim_c' => null,
                     'motivo_retorno' => null,
-                    'adianta_13sal' => $adiantar_decimo_terceiro,
+                    'adianta_13sal' => $request->boolean('adiantaDecimoTerceiro'),
                     'status_pedido_ferias' => 3,
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
                     'nr_dias_per_b' => $data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo),
@@ -915,7 +916,7 @@ class GerenciarFeriasController extends Controller
                     'dt_fim_b' => $data_fim_segundo_periodo,
                     'dt_ini_c' => $data_inicio_terceiro_periodo,
                     'dt_fim_c' => $data_fim_terceiro_periodo,
-                    'adianta_13sal' => $adiantar_decimo_terceiro,
+                    'adianta_13sal' => $request->boolean('adiantaDecimoTerceiro'),
                     'motivo_retorno' => null,
                     'status_pedido_ferias' => 3,
                     'nr_dias_per_a' => $data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo),
