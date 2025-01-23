@@ -153,7 +153,7 @@
                             <div class="table-reponsive">
                                 <table
                                     class="table table-sm table-striped table-bordered border-secondary table-hover align-middle"
-                                    style="margin-top:10px; table-layout: auto;" id="ferias-table">
+                                    style="margin-block-start:10px; table-layout: auto;" id="ferias-table">
                                     <thead
                                         style="text-align: center; position: sticky; top: 0; z-index: 1; background-color: #d6e3ff;">
                                         <tr style="font-size:17px; color:#000000;">
@@ -339,9 +339,6 @@
         </div>
     </div>
     </div>
-
-
-
     <script>
         $(document).ready(function() {
             $('[data-toggle="tooltip"]').tooltip();
@@ -358,17 +355,5 @@
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
-    </script>
-    <script>
-        //  $(document).ready(function() {
-        //      const $tableHead = $('thead');
-        //     const $tableBody = $('tbody');
-
-        // Mover o cabeçalho junto com a rolagem
-        //  $('.table-responsive').on('scroll', function() {
-        //    const scrollTop = $(this).scrollTop();
-        //  $tableHead.css('transform', 'translateY(' + scrollTop + 'px)');
-        //});
-        // });
     </script>
 @endsection
