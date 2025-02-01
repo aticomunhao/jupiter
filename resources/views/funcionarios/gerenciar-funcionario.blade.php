@@ -51,9 +51,10 @@
                                         <select class="form-select custom-select"
                                             style="border: 1px solid #999999; padding: 5px;" id="4" name="status"
                                             type="number">
-                                            <option value="1">Ativo</option>
-                                            <option value="0">Inativo</option>
-                                            <option value="3">Todos</option>
+                                            <option value="0" {{ 0 == request('status') ? 'selected' : '' }}>Ativos</option>
+                                            <option value="1" {{ 1 == request('status') ? 'selected' : '' }}>Inativos</option>
+                                            <option value="2" {{ 2 == request('status') ? 'selected' : '' }}>Sem contrato</option>
+                                            <option value="3" {{ 3 == request('status') ? 'selected' : '' }}>Todos</option>
                                         </select>
                                     </div>
 
@@ -76,7 +77,7 @@
                             </form>
                         </div>
                         <h6>
-                            Ativos ({{ $totalFuncionariosAtivos }}) | Inativos ({{ $totalFuncionariosInativos }})
+                            Ativos  Inativos 
                         </h6>
                         <hr>
                         <div class="table-responsive">
@@ -102,11 +103,7 @@
                                                 {{ $listas->nome_completo }}
                                             </td>
                                             <td scope="" style="text-align: center;">{{ $listas->sigla }}</td>
-                                            @if (!is_null($listas->motivo) || is_null($listas->id_acordo))
-                                                <td scope="" style="text-align: center;">Inativo</td>
-                                            @else
-                                                <td scope="" style="text-align: center;">Ativo</td>
-                                            @endif
+                                            <td scope="" style="text-align: center;">{{$listas->status_funcionario}}</td>
                                             <td scope="" style="text-align: center">
                                                 <a href="/editar-funcionario/{{ $listas->idp }}" type="button"
                                                     class="btn btn-outline-warning" data-bs-toggle="tooltip"
