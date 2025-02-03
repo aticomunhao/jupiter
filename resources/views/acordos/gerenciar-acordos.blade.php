@@ -38,9 +38,9 @@
                                         <tr class="align-middle"
                                             style="background-color: #d6e3ff; font-size:17px; color:#000000">
                                             <th class="col-2">Tipo de Contrato</th>{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
-                                            <th class="col-2">Data de Inicio</th>
+                                            <th class="col-2">Admissão</th>
                                             <th class="col-1">Matrícula</th>
-                                            <th class="col-2">Data de Fim</th>
+                                            <th class="col-2">Demissão</th>
                                             <th class="col-3">Motivo Desligamento</th>
                                             <th class="col-2">Ações</th>
                                         </tr>

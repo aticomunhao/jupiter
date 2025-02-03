@@ -19,7 +19,7 @@
                     <div>
                         <div class="card-body">
                             <form action="{{ route('gerenciar') }}" class="form-horizontal mt-2" method="GET">
-                                <div class="row">
+                                <div class="row justify-content-md-center">
                                     <div class="col-md-2 col-sm-12">CPF
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                             maxlength="11" type="text" id="1" name="cpf"
@@ -35,14 +35,13 @@
                                             maxlength="50" type="text" id="3" name="nome"
                                             value="{{ $nome }}">
                                     </div>
-                                    <div class="col-md-2 col-sm-12">
+                                    <div class="col-md-auto col-sm-12">
                                         <label for="1">Setor</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
                                             @foreach ($setor as $setores)
                                                 <option value="{{ $setores->id }}"
-                                                    {{ $setores->sigla == $setores->id ? 'selected' : '' }}>
-                                                    {{ $setores->sigla }}
+                                                    {{ $setores->sigla == $setores->id ? 'selected' : '' }}>{{ $setores->sigla }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -57,7 +56,6 @@
                                             <option value="3" {{ 3 == request('status') ? 'selected' : '' }}>Todos</option>
                                         </select>
                                     </div>
-
                                     <div class="col" style="margin-top: 20px">
                                         <input class="btn btn-light btn-sm"
                                             style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
@@ -69,17 +67,24 @@
                                         </a>
                                         <a href="/informar-dados">
                                             <input class="btn btn-success btn-sm" type="button" name="6"
-                                                value="Novo Cadastro +"
+                                                value="Novo+"
                                                 style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;">
                                         </a>
                                     </div>
+                                </div>
 
                             </form>
                         </div>
-                        <h6>
-                            Ativos  Inativos 
+                    </div>
+                </div>
+                <div>
+                        <h6 style="margin-top: 10px;">
+                        Ativos: <input type="text" value="{{$totativo}}" style="width: 5%; text-align:center;" disabled>
+                        Inativos: <input type="text" value="{{$totinativo}}" style="width: 5%; text-align:center;" disabled> 
+                        Sem contrato: <input type="text" value="{{$totscontr}}" style="width: 5%; text-align:center;" disabled> 
+                        Total: <input type="text" value="{{$totfunc}}" style="width: 5%; text-align:center;" disabled>
                         </h6>
-                        <hr>
+                </div>
                         <div class="table-responsive">
                             <table
                                 class="table table-sm table-striped table-bordered border-secondary table-hover align-middle">

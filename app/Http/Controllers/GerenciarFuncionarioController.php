@@ -24,10 +24,12 @@ class GerenciarFuncionarioController extends Controller
 
         $lista = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->leftJoin('hist_setor', 'hist_setor.id_func', 'f.id')
-            ->leftJoin('setor', 'setor.id', 'hist_setor.id_setor')
+            ->leftJoin('hist_setor AS hs', function ($join) {
+                $join->on('hs.id_func', '=', 'f.id')
+                    ->whereRaw('hs.dt_inicio = (SELECT MAX(hs2.dt_inicio) FROM hist_setor AS hs2 WHERE hs2.id_func = f.id)');
+            })
+            ->leftJoin('setor', 'setor.id', 'hs.id_setor')
             ->leftJoin('contrato', 'contrato.id_funcionario', 'f.id')
-            ->whereNull('hist_setor.dt_fim')
             ->select(
                 'f.id AS idf',
                 'p.cpf',
@@ -37,14 +39,12 @@ class GerenciarFuncionarioController extends Controller
                 'f.id_pessoa AS idp',
                 'p.nome_resumido',
                 'setor.sigla',
-                DB::raw("
-            CASE 
-                WHEN COUNT(contrato.id) = 0 THEN 'Sem Contrato'
-                WHEN SUM(CASE WHEN contrato.dt_fim IS NULL THEN 1 ELSE 0 END) > 0 THEN 'Ativo'
-                ELSE 'Inativo'
-            END AS status_funcionario
-        ")
-            )
+                DB::raw("CASE 
+                        WHEN COUNT(contrato.id) = 0 THEN 'Sem Contrato'
+                        WHEN SUM(CASE WHEN contrato.dt_fim IS NULL THEN 1 ELSE 0 END) > 0 THEN 'Ativo'
+                        ELSE 'Inativo'
+                        END AS status_funcionario
+                        "))
             ->groupBy(
                 'f.id',
                 'p.cpf',
@@ -55,6 +55,7 @@ class GerenciarFuncionarioController extends Controller
                 'p.nome_resumido',
                 'setor.sigla'
             ); // Agrupe por todas as colunas do funcionário
+
 
         $cpf = $request->cpf;
 
@@ -98,10 +99,10 @@ class GerenciarFuncionarioController extends Controller
             $lista->whereRaw("UNACCENT(LOWER(p.nome_completo)) ILIKE UNACCENT(LOWER(?))", ["%{$request->nome}%"]);
         }
         if ($request->setor) {
-            $lista->where('hist_setor.id_setor', '=', $request->setor);
+            $lista->where('hs.id_setor', '=', $request->setor);
         }
 
-        $lista = $lista->orderBy('p.status', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
+        $lista = $lista->orderBy('status_funcionario', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
         $situacao = DB::table('tp_demissao')
             ->select(
@@ -114,6 +115,28 @@ class GerenciarFuncionarioController extends Controller
             ->select('id', 'nome', 'sigla')
             ->orderBy('sigla')
             ->get();
+
+        //CONTADORES DE STATUS
+        $totfunc = DB::table('funcionarios AS f')
+        ->distinct('f.id')
+        ->count('f.id');
+
+        $totscontr = DB::table('funcionarios AS f')    
+        ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
+        ->distinct('f.id')
+        ->whereNull('c.id')
+        ->count('f.id');
+
+        $totativo = DB::table('funcionarios AS f')
+        ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
+        ->whereNull('c.dt_fim')
+        ->whereNotNull('c.id')
+        ->distinct('f.id')
+        ->count('f.id');
+
+        $totinativo = ($totfunc - ($totscontr + $totativo));
+
+       // dd($totscontr, $totativo, $totinativo, $totfunc);
 
 
         // $totalFuncionariosAtivos = DB::table('funcionarios AS f')
@@ -145,7 +168,7 @@ class GerenciarFuncionarioController extends Controller
         //     ->count();
 
 
-        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'setor'));
+        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'setor', 'totscontr', 'totinativo', 'totfunc', 'totativo'));
     }
 
     public function create()
