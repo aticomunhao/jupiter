@@ -99,7 +99,7 @@
                             <div class="row">
                                 <div class="col-md-4 col-sm-12">Número de Identidade
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="20" type="numeric" id="11" name="identidade"
+                                           maxlength="20" type="number" id="11" name="identidade"
                                            value="{{ old('identidade') }}" required="required">
                                 </div>
                                 <div class="col-md-2 col-sm-12">UF da Identidade
@@ -157,7 +157,7 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">Telefone/Celular
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="9" type="numeric"
+                                           maxlength="9" type="number"
                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                            placeholder="Ex.: 99999-9999" value="{{ old('celular') }}" id="22"
                                            name="celular">
@@ -207,7 +207,7 @@
                                         <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="8" type="numeric" id="23" name="ctps"
+                                           maxlength="8" type="number" id="23" name="ctps"
                                            value="{{ old('ctps') }}" required="required">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Série
@@ -216,7 +216,7 @@
                                         <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="5" type="numeric" id="26" name="serie_ctps"
+                                           maxlength="5" type="number" id="26" name="serie_ctps"
                                            value="{{ old('serie_ctps') }}" required="required">
                                 </div>
                                 <div class="col-md-2 col-sm-12">UF
@@ -255,7 +255,7 @@
                                         <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="12" type="numeric" id="17" name="titele"
+                                           maxlength="12" type="number" id="17" name="titele"
                                            value="{{ old('titele') }}">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Zona
@@ -264,7 +264,7 @@
                                         <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="5" type="numeric" id="18" name="zona"
+                                           maxlength="5" type="number" id="18" name="zona"
                                            value="{{ old('zona') }}">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Seção
@@ -273,7 +273,7 @@
                                         <i class="bi bi-question-circle"></i>
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="5" type="numeric" id="19" name="secao"
+                                           maxlength="5" type="number" id="19" name="secao"
                                            value="{{ old('secao') }}">
                                 </div>
                                 <div class="col-md-2 col-sm-12">Data emissão
@@ -302,7 +302,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-12">Número do PIS ou PASEP
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="11" type="numeric" id="10" name="nr_programa"
+                                           maxlength="11" type="number" id="10" name="nr_programa"
                                            value="{{ old('nr_programa') }}" required="required">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Cor pele
@@ -346,7 +346,7 @@
                             <br>
                             <div class="row">
                                 <div class="col-md-5 col-sm-12">Número de Reservista
-                                    <input class="form-control" maxlength="12" type="numeric" id="28"
+                                    <input class="form-control" maxlength="12" type="number" id="28"
                                            style="border: 1px solid #999999; padding: 5px;" name="reservista"
                                            value="{{ old('reservista') }}">
                                 </div>
@@ -412,7 +412,7 @@
                             <div class="row ">
                                 <div class="col-md-4 col-sm-12">CEP
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="8" type="numeric"
+                                           maxlength="8" type="number"
                                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                            id="cep" name="cep" value="{{ old('cep') }}">
                                 </div>
