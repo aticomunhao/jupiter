@@ -64,7 +64,7 @@
                                         {{-- Adiciona o salario --}}
                                         <td style="text-align: center;">{{-- Td dos botoes de acao --}}
                                             {{-- If dos botoes de editar e desativa --}}
-                                            @if ($cargos->status)
+                                            @if (empty($cargos->dt_fim))
                                                 <a href="/editar-cargos/{{ $cargos->id }}" class="btn btn-outline-warning"
                                                     data-tt="tooltip" data-placement="top"
                                                     title="Editar">{{-- Botao com rota para editar cargos --}}
@@ -123,6 +123,6 @@
                 </div>
             </div>
             {{-- Scritp  de funcionamento dos tooltips --}}
-            
-            
+
+
         @endsection

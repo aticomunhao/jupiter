@@ -221,12 +221,12 @@ Route::middleware('rotas:10')->group(function () {
 /**Rotas para Cargos**/
 
 Route::middleware('rotas:25')->group(function () {
-    Route::get('/gerenciar-cargos', [GerenciarCargosController::class, 'index'])->name('gerenciar.cargos');
-    Route::get('/incluir-cargos', [GerenciarCargosController::class, 'create']);
-    Route::get('/editar-cargos/{id}', [GerenciarCargosController::class, 'edit'])->name('Editar');
-    Route::post('/armazenar-cargo', [GerenciarCargosController::class, 'store'])->name('armazenaCargo');
+    Route::any('/gerenciar-cargos', [GerenciarCargosController::class, 'index'])->name('gerenciar.cargos');
+    Route::any('/incluir-cargos', [GerenciarCargosController::class, 'create']);
+    Route::any('/editar-cargos/{id}', [GerenciarCargosController::class, 'edit'])->name('Editar');
+    Route::any('/armazenar-cargo', [GerenciarCargosController::class, 'store'])->name('armazenaCargo');
     Route::any('/deletar-cargos/{id}', [GerenciarCargosController::class, 'destroy']);
-    Route::get('/vizualizar-historico/{id}', [GerenciarCargosController::class, 'show'])->name('visualizarHistoricoCargo');
+    Route::any('/vizualizar-historico/{id}', [GerenciarCargosController::class, 'show'])->name('visualizarHistoricoCargo');
     Route::any('/atualiza-cargo/{id}', [GerenciarCargosController::class, 'update'])->name('AtualizaCargo');
 });
 
@@ -263,7 +263,7 @@ Route::middleware('rotas:12')->group(function () {
     Route::any('/formulario-recusar-ferias/{id}', [GerenciarFeriasController::class, 'formulario_recusa_periodo_de_ferias'])->name('FormularioFerias');
     Route::any('/recusa-ferias/{id}', [GerenciarFeriasController::class, 'recusa_pedido_de_ferias'])->name('RecusaFerias');
     Route::get('/retorna-periodo-ferias/{ano}/{nome}/{setor}', [GerenciarFeriasController::class, 'retornaPeriodoFerias']);
-    Route::any('/excluir-ferias/{id}', [GerenciarFeriasController::class,'destroy'])->name('ExcluiFerias');
+    Route::any('/excluir-ferias/{id}', [GerenciarFeriasController::class, 'destroy'])->name('ExcluiFerias');
 });
 /**Rotas de Entrada**/
 
@@ -282,7 +282,6 @@ Route::middleware('rotas:14')->group(function () {
     Route::any('/excluir-afastamento/{idf}', [GerenciarAfastamentosController::class, 'destroy']);
     Route::any('/atualizar-afastamento/{idf}', [GerenciarAfastamentosController::class, 'update']);
     Route::get('/afastamento/complemento/{id}', [GerenciarAfastamentosController::class, 'getComplemento']);
-
 });
 
 /*Controle de Efetivo*/

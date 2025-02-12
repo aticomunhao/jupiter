@@ -19,20 +19,38 @@ class GerenciarCargosController extends Controller
         // Confere se alguma pesquisa esta sendo feita e busca os dados em banco
         if ($pesquisa) {
 
-            $cargo = DB::table('cargos as c')
+            $cargo = DB::table('cargo as c')
                 ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
-                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo', 'c.status') //faz uma pesquisa no banco apenas onde os valores batem
+                ->select(
+                    'c.id',
+                    'c.nome',
+                    'c.salario',
+                    'c.dt_inicio',
+                    'tp.nomeTpCargo',
+                    'tp.idTpCargo',
+                    'c.dt_fim'
+                    // 'c.status'
+                ) //faz uma pesquisa no banco apenas onde os valores batem
                 ->where('c.nome', 'ilike', '%' . $pesquisa . '%')
                 ->orWhere('tp.nomeTpCargo', 'ilike', '%' . $pesquisa . '%')
-                ->orderBy('c.status', 'desc')
+                // ->orderBy('c.status', 'desc')
                 ->orderBy('c.nome', 'asc')
                 ->get();
         } else {
             //Envia todos os dados do banco para a tabela
-            $cargo = DB::table('cargos as c')
+            $cargo = DB::table('cargo as c')
                 ->leftJoin('tp_cargo as tp', 'tp.idTpCargo', '=', 'c.tp_cargo')
-                ->select('c.id', 'c.nome', 'c.salario', 'c.dt_inicio', 'tp.nomeTpCargo', 'tp.idTpCargo', 'c.status')
-                ->orderBy('c.status', 'desc')
+                ->select(
+                    'c.id',
+                    'c.nome',
+                    'c.salario',
+                    'c.dt_inicio',
+                    'tp.nomeTpCargo',
+                    'tp.idTpCargo',
+                    'c.dt_fim'
+                    // 'c.status'
+                )
+                // ->orderBy('c.status', 'desc')
                 ->orderBy('c.nome', 'asc')
                 ->get();
         }
@@ -56,31 +74,39 @@ class GerenciarCargosController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
+        $input_tipo_cargo = $request->input('tipoCargo');
+        $input_nome = $request->input('nome');
+        $input_salario = $request->input('salario');
+
         $dataDeHoje = Carbon::today()->toDateString(); //busca a data de hoje
-        $salario = str_replace(',', '.', $input['salario']);
-        $salario = preg_replace('/\.(?=.*\.)/', '', $salario);
+        $salario = str_replace(',', '.', $input_salario); //substitui a virgula por ponto
 
 
-        $idCargo = DB::table('cargos')->insertGetId([ //insere e pega o ID, armazenando na variavel
-            'nome' => $input['nome'],
-            'salario' => $salario,
+        $salario_formatado = preg_replace('/\.(?=.*\.)/', '', $salario);
+        // dd($salario_formatado)
+
+        $idcargo = DB::table('cargo')->insertGetId([ //insere e pega o ID, armazenando na variavel
+            'nome' => $input_nome,
+            'salario' =>  $salario_formatado,
             'dt_inicio' => $dataDeHoje,
-            'tp_cargo' => $input['tipoCargo'],
-            'status' => true,
+            'tp_cargo' => $input_tipo_cargo,
+            // 'status' => true,
         ]);
 
-        $cargo = DB::table('cargos') // da select no item recem inserido
-        ->select('cargos.nome')
-            ->where('id', $idCargo)
-            ->first();
+        // $cargo = DB::table('cargo as c') // da select no item recem inserido
+        //     ->select('c.nome')
+        //     ->where('id', $idcargo)
+        //     ->first();
+
+        // dd($dataDeHoje)
 
         DB::table('hist_cargo')->insert([ //insere uma entrada no historico marcando o id inserido
-            'salario' => $salario ?? null,
+            'salario' => $salario_formatado ?? null,
             'data_inicio' => $dataDeHoje,
-            'idcargo' => $idCargo,
-            'motivoAlt' => 'Primeira Criação do Cargo',
+            'id_cargo' => $idcargo,
+            'motivo_alt' => 'Primeira Criação do Cargo',
         ]);
-        app('flasher')->addSuccess("Cargo $cargo->nome adicionado com sucesso");
+        app('flasher')->addSuccess("Cargo $input_nome adicionado com sucesso");
         return redirect()->route('gerenciar.cargos');
     }
 
@@ -89,19 +115,18 @@ class GerenciarCargosController extends Controller
      */
     public function show(string $id)
     {
-        $cargo = DB::table('cargos') // traz nome e o Id para a funcao visualizar
-        ->where('id', $id)
+        $cargo = DB::table('cargo') // traz nome e o Id para a funcao visualizar
+            ->where('id', $id)
             ->select('id as idCR', 'nome as nomeCR')
             ->first();
 
         $hist_cargo_regular = DB::table('hist_cargo') //gera todos os dados para a tabela
-        ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivoAlt')
-            ->where('idcargo', '=', $id)
+            ->select('id as idHist', 'salario as salarioHist', 'data_inicio', 'data_fim', 'motivo_alt')
+            ->where('id_cargo', '=', $id)
             ->orderBy('id', 'desc')
             ->get();
 
         return view('cargos.visualizar-cargos', compact('cargo', 'hist_cargo_regular'));
-
     }
 
     /**
@@ -109,7 +134,7 @@ class GerenciarCargosController extends Controller
      */
     public function edit(string $id)
     {
-        $cargo = DB::table('cargos as c')
+        $cargo = DB::table('cargo as c')
             ->where('c.id', $id)
             ->first();
 
@@ -124,12 +149,14 @@ class GerenciarCargosController extends Controller
     {
         $dataDeHoje = Carbon::today()->toDateString();
         $ultimaModificacao = DB::table('hist_cargo') //pega o dado nao modificado da tabela historico
-        ->where('idcargo', '=', $id)
+            ->where('id_cargo', '=', $id)
             ->where('data_fim', null)
             ->first();
+            dd($ultimaModificacao);
+
 
         DB::table('hist_cargo') // atualiza a data final desse dado para a data de hoje na tabela historico
-        ->where('id', $ultimaModificacao->id)
+            ->where('id', $ultimaModificacao->id)
             ->update([
                 'data_fim' => $dataDeHoje,
             ]);
@@ -137,18 +164,18 @@ class GerenciarCargosController extends Controller
         DB::table('hist_cargo')->insert([ // Insere uma nova linha na tabela historico indicando o fim do dado
             'salario' => $ultimaModificacao->salario,
             'data_inicio' => $dataDeHoje,
-            'idcargo' => $ultimaModificacao->idcargo,
+            'id_cargo' => $ultimaModificacao->id_cargo,
             'motivoAlt' => 'Fim do Cargo',
         ]);
 
-        $cargofechado = DB::table('cargos') // pega o nome do cargo finalizado
-        ->where('id', $ultimaModificacao->idcargo)
+        $cargofechado = DB::table('cargo') // pega o nome do cargo finalizado
+            ->where('id', $ultimaModificacao->id_cargo)
             ->first();
         DB::table('cargos') // atualiza a data de inicio na tabela cargos e coloca o status para desativado
-        ->where('id', $ultimaModificacao->idcargo)
+            ->where('id', $ultimaModificacao->id_cargo)
             ->update([
                 'dt_inicio' => $dataDeHoje,
-                'status' => false,
+                // 'status' => false,
             ]);
 
         app('flasher')->addSuccess("O cargo $cargofechado->nome foi desativado");
@@ -165,7 +192,7 @@ class GerenciarCargosController extends Controller
     public function update(Request $request, string $id)
     {
         $cargo = DB::table('cargos as c') //traz os dados do Id a ser editado
-        ->where('c.id', $id)
+            ->where('c.id', $id)
             ->first();
 
         $input = $request->all();
@@ -175,18 +202,18 @@ class GerenciarCargosController extends Controller
         $salario = preg_replace('/\.(?=.*\.)/', '', $salario);
 
         $ultimaModificacao = DB::table('hist_cargo') //Busca na tabela historico um dado nao editado
-        ->where('idcargo', '=', $id)
+            ->where('idcargo', '=', $id)
             ->where('data_fim', null)
             ->first();
 
         DB::table('hist_cargo')  // Adiciona no dado nao editado uma data final na historico para a data de ontem
-        ->where('id', $ultimaModificacao->id)
+            ->where('id', $ultimaModificacao->id)
             ->update([
                 'data_fim' => $dataDeOntem,
             ]);
 
         DB::table('cargos') //Atualiza todos os dados da tabela cargos
-        ->where('id', $id)
+            ->where('id', $id)
             ->update([
                 'nome' => $input['nome'],
                 'salario' => $salario,
@@ -202,7 +229,7 @@ class GerenciarCargosController extends Controller
         ]);
 
         $cargo = DB::table('cargos as c') // Pega o nome do cargo atualizado
-        ->where('c.id', $id)
+            ->where('c.id', $id)
             ->first();
         app('flasher')->addSuccess("O Cargo $cargo->nome foi atualizado");
         return redirect()->route('gerenciar.cargos');
