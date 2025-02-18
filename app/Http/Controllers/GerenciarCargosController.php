@@ -152,9 +152,8 @@ class GerenciarCargosController extends Controller
             ->where('id_cargo', '=', $id)
             ->where('data_fim', null)
             ->first();
-            dd($ultimaModificacao);
-
-
+        if ($ultimaModificacao) {
+        }
         DB::table('hist_cargo') // atualiza a data final desse dado para a data de hoje na tabela historico
             ->where('id', $ultimaModificacao->id)
             ->update([

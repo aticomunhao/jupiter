@@ -51,8 +51,12 @@ class GerenciarFeriasController extends Controller
                 'hist_setor.dt_inicio as dt_inicio_setor',
                 'hist_setor.dt_fim as dt_fim_setor'
             )
-            ->whereIn('setor.id', session('usuario.setor'))
-            ->orderBy('pessoas.nome_completo');
+            ->whereIn('setor.id', session('usuario.setor', [])) // Verifica se a sessão retorna um array válido
+            ->orderBy('pessoas.nome_completo') // Ordena pelo nome completo
+            ->orderBy('pessoas.id') // Garantia de ordenação única
+        ;
+        // ->get();
+
 
 
         //    dd($periodo_aquisitivo);
