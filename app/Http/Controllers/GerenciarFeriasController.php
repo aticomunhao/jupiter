@@ -484,6 +484,7 @@ class GerenciarFeriasController extends Controller
             ->whereNull('contrato.dt_fim');
 
 
+
         $ano_consulta = null;
         $nome_funcionario = $request->input('nomefuncionario');
         $status_consulta = $request->input('statusconsulta');
@@ -549,7 +550,9 @@ class GerenciarFeriasController extends Controller
             )
             ->get();
 
-        $periodo_aquisitivo = $periodo_aquisitivo->get();
+            $periodo_aquisitivo = $periodo_aquisitivo->orderBy('pessoas.nome_completo')->orderBy('pessoas.id')->get();
+
+        // $periodo_aquisitivo = $periodo_aquisitivo->get();
 
 
         $dias_limite_para_periodo_de_ferias = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
