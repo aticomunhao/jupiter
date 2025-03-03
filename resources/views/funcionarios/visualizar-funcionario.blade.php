@@ -152,14 +152,14 @@
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
-                                        Ascendente 1:
+                                        Mãe:
                                     </legend>
                                     {{ $funcionario[0]->nome_mae }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
-                                        Ascendente 2:
+                                        Pai:
                                     </legend>
                                     {{ $funcionario[0]->nome_pai }}
                                 </div>
@@ -209,7 +209,7 @@
                                 <div class="col">
                                     <legend class="schedule-border"
                                         style="font-size: small; width:inherit; font-weight: bold;">
-                                        Número do PIS ou PASEP:
+                                        Número do PIS/NIS/PASEP:
                                     </legend>
                                     {{ $funcionario[0]->nr_programa }}
                                 </div>

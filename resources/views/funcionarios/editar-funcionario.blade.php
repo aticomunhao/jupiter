@@ -373,10 +373,10 @@
                                         @endforeach
                                     </select>
                                     <div class="invalid-feedback">
-                                        Por favor, informe um PIS/PASEP válido.
+                                        Por favor, informe um PIS/NIS/PASEP válido.
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-sm-12">Número do PIS ou PASEP
+                                <div class="col-md-6 col-sm-12">Número do PIS/NIS/PASEP
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="11" type="numeric" id="10" name="nr_programa"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
@@ -401,7 +401,7 @@
                             </div>
                             <br>
                             <div class="row">
-                                <div class="col-md-6 col-sm-12">Ascendente 1
+                                <div class="col-md-6 col-sm-12">Mãe
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton9" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
                                         <span class="btn-circle">
@@ -417,7 +417,7 @@
                                     </div>
                                     <br>
                                 </div>
-                                <div class="col-md-6 col-sm-12">Ascendente 2
+                                <div class="col-md-6 col-sm-12">Pai
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton10" role="button"
                                         data-bs-toggle="popover" data-bs-trigger="focus">
                                         <span class="btn-circle">
