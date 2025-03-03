@@ -11,7 +11,7 @@ use File;
 use DateTime;
 use Illuminate\Support\Facades\Storage;
 
-class GerenciarAcordosController extends Controller
+class GerenciarContratoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -31,15 +31,15 @@ class GerenciarAcordosController extends Controller
             )
             ->get();
 
-        $acordos = DB::table('contrato as c')
-            ->join('tp_acordo', 'tp_acordo.id', '=', 'c.tp_acordo')
+        $contrato = DB::table('contrato as c')
+            ->join('tp_contrato', 'tp_contrato.id', '=', 'c.tp_contrato')
             ->leftJoin('tp_demissao', 'tp_demissao.id', 'c.motivo')
             ->select(
                 'c.id',
                 'c.matricula',
                 'c.dt_inicio',
                 'c.dt_fim',
-                'tp_acordo.nome',
+                'tp_contrato.nome',
                 'c.id_tp_demissao',
                 'c.id_funcionario',
                 'c.admissao',
@@ -49,15 +49,15 @@ class GerenciarAcordosController extends Controller
             ->where('c.id_funcionario', $idf)
             ->get();
 
-        foreach ($acordos as $acordo) {
+        foreach ($contrato as $contratos) {
             $dataDeHoje = new DateTime();
             $dataFormatada = $dataDeHoje->format('Y-m-d');
-            $datadoBancoDeDados = new DateTime($acordo->dt_fim);
+            $datadoBancoDeDados = new DateTime($contratos->dt_fim);
             $datadoBancoDeDadosFormatada = $datadoBancoDeDados->format('Y-m-d');
-            $acordo->valido = ($dataFormatada <= $datadoBancoDeDadosFormatada) ? "Sim" : "Não";
+            $contratos->valido = ($dataFormatada <= $datadoBancoDeDadosFormatada) ? "Sim" : "Não";
         }
 
-        return view('acordos.gerenciar-acordos', compact('acordos', 'funcionario', 'situacao'));
+        return view('contrato.gerenciar-contrato', compact('contrato', 'funcionario', 'situacao'));
     }
 
     /**
@@ -65,7 +65,7 @@ class GerenciarAcordosController extends Controller
      */
     public function create($idf)
     {
-        $tipoacordo = DB::table('tp_acordo')->get();
+        $tipocontrato = DB::table('tp_contrato')->get();
 
         $funcionario = DB::table("funcionarios")
             ->join('pessoas', 'pessoas.id', '=', 'funcionarios.id_pessoa')
@@ -73,7 +73,7 @@ class GerenciarAcordosController extends Controller
             ->where('funcionarios.id', $idf)
             ->first();
 
-        return view('acordos.incluir-acordo', compact('tipoacordo', 'funcionario'));
+        return view('contrato.incluir-contrato', compact('tipocontrato', 'funcionario'));
     }
 
     /**
@@ -94,12 +94,12 @@ class GerenciarAcordosController extends Controller
         if ($request->input('dt_inicio') > $request->input('dt_fim') && $request->input('dt_fim') != null) {
             //$caminho = $this->storeFile($request);
             app('flasher')->addError('A data inicial é maior que a data final');
-            return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
+            return redirect()->route('indexGerenciarContrato', ['id' => $idf]);
         } elseif ($funcionario && $funcionario->matricula == $request->input('matricula')) {
             $caminho = $this->storeFile($request ?? '');
             ;
             $data = [
-                'tp_acordo' => $request->input('tipo_acordo'),
+                'tp_contrato' => $request->input('tipo_contrato'),
                 'dt_inicio' => $request->input('dt_inicio'),
                 'dt_fim' => $request->input('dt_fim'),
                 'id_funcionario' => $idf,
@@ -109,13 +109,13 @@ class GerenciarAcordosController extends Controller
             ];
 
             DB::table('contrato')->insert($data);
-            app('flasher')->addSuccess('O novo cadastro do Acordo foi realizado com sucesso.');
-            return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
+            app('flasher')->addSuccess('O novo cadastro do Contrato foi realizado com sucesso.');
+            return redirect()->route('indexGerenciarContrato', ['id' => $idf]);
         } else {
             $caminho = $this->storeFile($request ?? '');
             ;
             $data = [
-                'tp_acordo' => $request->input('tipo_acordo'),
+                'tp_contrato' => $request->input('tipo_contrato'),
                 'dt_inicio' => $request->input('dt_inicio'),
                 'dt_fim' => $request->input('dt_fim'),
                 'id_funcionario' => $idf,
@@ -125,8 +125,8 @@ class GerenciarAcordosController extends Controller
             ];
 
             DB::table('contrato')->insert($data);
-            app('flasher')->addSuccess('O cadastro do Acordo foi realizado com sucesso.');
-            return redirect()->route('indexGerenciarAcordos', ['id' => $idf]);
+            app('flasher')->addSuccess('O cadastro do Contrato foi realizado com sucesso.');
+            return redirect()->route('indexGerenciarContrato', ['id' => $idf]);
         }
     }
 
@@ -135,11 +135,11 @@ class GerenciarAcordosController extends Controller
      */
     public function edit(string $id)
     {
-        $acordo = DB::table('contrato')->where('id', $id)->first();
-        $funcionario = $this->getFuncionarioData($acordo->id_funcionario);
-        $tipoacordo = DB::table('tp_acordo')->get();
+        $contrato = DB::table('contrato')->where('id', $id)->first();
+        $funcionario = $this->getFuncionarioData($contrato->id_funcionario);
+        $tipocontrato = DB::table('tp_contrato')->get();
 
-        return view('acordos.editar-acordos', compact('acordo', 'funcionario', 'tipoacordo'));
+        return view('contrato.editar-contrato', compact('contrato', 'funcionario', 'tipocontrato'));
     }
 
     /**
@@ -147,35 +147,35 @@ class GerenciarAcordosController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $acordo = DB::table('contrato')->where('id', $id)->first();
-        $funcionario = $this->getFuncionarioData($acordo->id_funcionario);
+        $contrato = DB::table('contrato')->where('id', $id)->first();
+        $funcionario = $this->getFuncionarioData($contrato->id_funcionario);
 
         if ($request->input('dt_inicio') > $request->input('dt_fim')) {
             app('flasher')->addError('A data inicial é maior que a data final');
-            return redirect()->route('indexGerenciarAcordos', ['id' => $acordo->id_funcionario]);
+            return redirect()->route('indexGerenciarContrato', ['id' => $contrato->id_funcionario]);
         } elseif ($request->file('ficheiroNovo') == null) {
-            $this->updateAcordoWithoutFile($acordo, $request);
+            $this->updateContratoWithoutFile($contrato, $request);
         } elseif ($request->hasFile('ficheiroNovo')) {
-            $this->updateAcordoWithFile($acordo, $request);
+            $this->updateContratoWithFile($contrato, $request);
         } else {
-            app('flasher')->addWarning('O cadastro do Acordo foi Alterado com Sucesso.');
+            app('flasher')->addWarning('O cadastro do Contrato foi Alterado com Sucesso.');
         }
 
-        return redirect()->route('indexGerenciarAcordos', ['id' => $acordo->id_funcionario]);
+        return redirect()->route('indexGerenciarContrato', ['id' => $contrato->id_funcionario]);
     }
 
-    private function updateAcordoWithFile($acordo, Request $request)
+    private function updateContratoWithFile($contrato, Request $request)
     {
         $nomeArquivo = $request->file('ficheiroNovo')->getClientOriginalName();
         $novoCaminho = $request->file('ficheiroNovo')->storeAs('public/images', $nomeArquivo);
 
         if ($novoCaminho) {
-            Storage::delete($acordo->caminho); // Remove o arquivo antigo
+            Storage::delete($contrato->caminho); // Remove o arquivo antigo
 
             DB::table('contrato')
-                ->where('id', $acordo->id)
+                ->where('id', $contrato->id)
                 ->update([
-                    'tp_acordo' => $request->input('tipo_acordo'),
+                    'tp_contrato' => $request->input('tipo_contrato'),
                     'dt_inicio' => $request->input('dt_inicio'),
                     'caminho' => 'storage/images/' . $nomeArquivo,
                     'matricula' => $request->input('matricula'),
@@ -195,12 +195,12 @@ class GerenciarAcordosController extends Controller
         }
     }
 
-    private function updateAcordoWithoutFile($acordo, Request $request)
+    private function updateContratoWithoutFile($contrato, Request $request)
     {
         DB::table('contrato')
-            ->where('id', $acordo->id)
+            ->where('id', $contrato->id)
             ->update([
-                'tp_acordo' => $request->input('tipo_acordo'),
+                'tp_contrato' => $request->input('tipo_contrato'),
                 'dt_inicio' => $request->input('dt_inicio'),
                 'matricula' => $request->input('matricula'),
             ]);
@@ -217,11 +217,11 @@ class GerenciarAcordosController extends Controller
     }
     public function destroy(string $id)
     {
-        $acordo = DB::table('acordo')->where('id', $id)->first();
-        Storage::delete($acordo->caminho);
-        DB::table('acordo')->where('id', $id)->delete();
+        $contrato = DB::table('contrato')->where('id', $id)->first();
+        //Storage::delete($contrato->caminho);
+        DB::table('contrato')->where('id', $id)->delete();
 
-        app('flasher')->addWarning('O cadastro do Acordo foi Removido com Sucesso.');
+        app('flasher')->addWarning('O cadastro do Contrato foi Removido com Sucesso.');
         return redirect()->back();
     }
     public function inativar($idf, Request $request)

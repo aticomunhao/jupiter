@@ -3,7 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ControleFeriasController;
 use App\Http\Controllers\ControleVagasController;
-use App\Http\Controllers\GerenciarAcordosController;
+use App\Http\Controllers\GerenciarContratoController;
 use App\Http\Controllers\GerenciarAfastamentosController;
 use App\Http\Controllers\GerenciarAssociadoController;
 use App\Http\Controllers\GerenciarBaseSalarialController;
@@ -22,7 +22,7 @@ use App\Http\Controllers\GerenciarHierarquiaController;
 use App\Http\Controllers\GerenciarPerfil;
 use App\Http\Controllers\GerenciarSetor;
 use App\Http\Controllers\GerenciarSetoresController;
-use App\Http\Controllers\GerenciarTipoDeAcordoController;
+use App\Http\Controllers\GerenciarTipoDeContratoController;
 use App\Http\Controllers\GerenciarTipoDescontoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
@@ -206,16 +206,16 @@ Route::middleware('rotas:24')->group(function () {
     Route::any('/atualizar-entidade-ensino/{id}', [GerenciarEntidadesController::class, 'update']);
 });
 
-/* Rota Para Tipos de Acordos*/
+/* Rota Para Tipos de Contrato*/
 
 Route::middleware('rotas:10')->group(function () {
-    Route::get('/gerenciar-acordos/{id}', [GerenciarAcordosController::class, 'index'])->name('indexGerenciarAcordos');
-    Route::get('/incluir-acordos/{id}', [GerenciarAcordosController::class, 'create']);
-    Route::any('/armazenar-acordos/{id}', [GerenciarAcordosController::class, 'store']);
-    Route::any('/excluir-acordo/{id}', [GerenciarAcordosController::class, 'destroy']);
-    Route::any('/editar-acordo/{id}', [GerenciarAcordosController::class, 'edit']);
-    Route::any('/atualizar-acordo/{id}', [GerenciarAcordosController::class, 'update']);
-    Route::post('/inativar-acordo/{idf}', [GerenciarAcordosController::class, 'inativar']);
+    Route::get('/gerenciar-contrato/{id}', [GerenciarContratoController::class, 'index'])->name('indexGerenciarContrato');
+    Route::get('/incluir-contrato/{id}', [GerenciarContratoController::class, 'create']);
+    Route::any('/armazenar-contrato/{id}', [GerenciarContratoController::class, 'store']);
+    Route::any('/excluir-contrato/{id}', [GerenciarContratoController::class, 'destroy']);
+    Route::any('/editar-contrato/{id}', [GerenciarContratoController::class, 'edit']);
+    Route::any('/atualizar-contrato/{id}', [GerenciarContratoController::class, 'update']);
+    Route::post('/inativar-contrato/{idf}', [GerenciarContratoController::class, 'inativar']);
 });
 
 /**Rotas para Cargos**/
@@ -315,14 +315,14 @@ Route::get('/retorna-cidades/{id}', [AjaxController::class, 'retornaCidades']);
 Route::get('/retorna-dados-endereco/{id}', [AjaxController::class, 'getAddressByCep']);
 
 
-/*Tipos de Acordo*/
+/*Tipos de Contrato*/
 Route::middleware('rotas:19')->group(function () {
-    Route::any('/gerenciar-tipos-de-acordo', [GerenciarTipoDeAcordoController::class, 'index'])->name('index.tipos-de-acordo');
-    Route::any('/incluir-tipos-de-acordo', [GerenciarTipoDeAcordoController::class, 'create'])->name('create.tipos-de-acordo');
-    Route::any('/armazenar-tipos-de-acordo', [GerenciarTipoDeAcordoController::class, 'store'])->name('store.tipos-de-acordo');
-    Route::any('/editar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'edit'])->name('edit.tipos-de-acordo');
-    Route::any('/atualizar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'update'])->name('update.tipos-de-acordo');
-    Route::any('/deletar-tipos-de-acordo/{id}', [GerenciarTipoDeAcordoController::class, 'destroy'])->name('destroy.tipos-de-acordo');
+    Route::any('/gerenciar-tipos-de-contrato', [GerenciarTipoDeContratoController::class, 'index'])->name('index.tipos-de-contrato');
+    Route::any('/incluir-tipos-de-contrato', [GerenciarTipoDeContratoController::class, 'create'])->name('create.tipos-de-contrato');
+    Route::any('/armazenar-tipos-de-contrato', [GerenciarTipoDeContratoController::class, 'store'])->name('store.tipos-de-contrato');
+    Route::any('/editar-tipos-de-contrato/{id}', [GerenciarTipoDeContratoController::class, 'edit'])->name('edit.tipos-de-contrato');
+    Route::any('/atualizar-tipos-de-contrato/{id}', [GerenciarTipoDeContratoController::class, 'update'])->name('update.tipos-de-contrato');
+    Route::any('/deletar-tipos-de-contrato/{id}', [GerenciarTipoDeContratoController::class, 'destroy'])->name('destroy.tipos-de-contrato');
 });
 /*Gerenciar Perfis*/
 Route::middleware('rotas:20')->group(function () {

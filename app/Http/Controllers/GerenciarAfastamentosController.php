@@ -66,7 +66,7 @@ class GerenciarAfastamentosController extends Controller
             ->value('f.dt_inicio');
 
         // Busca o último afastamento do funcionário com dt_fim == null (afastamento "em aberto")
-        $afastamentoAberto = DB::table('acordo')
+        $afastamentoAberto = DB::table('contrato')
             ->where('id_funcionario', '=', $idf)
             ->orderByDesc('dt_inicio') // Ordena para pegar o mais recente
             ->first();
@@ -104,7 +104,7 @@ class GerenciarAfastamentosController extends Controller
                 'id_complemento' => $request->input('referencia_suspensao'),
             ];
 
-            // Verifica se a dt_fim está presente e se o tipo de afastamento é 16 antes de inserir na tabela acordo
+            // Verifica se a dt_fim está presente e se o tipo de afastamento é 16 antes de inserir na tabela contrato
             if (!is_null($request->input('dt_fim')) && in_array($request->input('tipo_afastamento'), [17])) {
 
                 // Insere o novo afastamento
@@ -131,42 +131,42 @@ class GerenciarAfastamentosController extends Controller
 
                 if ($diferencaMesesAtual >= 6) {
 
-                    $novaDataFim = DB::table('acordo')
+                    $novaDataFim = DB::table('contrato')
                         ->where('id_funcionario', $idf)
                         ->whereNull('dt_fim') // Para verificar nulos corretamente
                         ->where('id_afastamento', $idAfastamento)
                         ->update(['dt_fim' => $request->input('dt_fim')]);
 
                     // Insere o novo afastamento se o afastamento atual sozinho exceder 6 meses
-                    $novoAcordo = [
+                    $novoContrato = [
                         'matricula' => $afastamentoAberto->matricula,
-                        'tp_acordo' => $afastamentoAberto->tp_acordo,
+                        'tp_contrato' => $afastamentoAberto->tp_contrato,
                         'id_funcionario' => $idf,
                         'dt_inicio' => $diaSeguinte,
                         'admissao' => 'true',
                         'id_afastamento' => $idAfastamento,
                     ];
 
-                    DB::table('acordo')->insert($novoAcordo);
+                    DB::table('contrato')->insert($novoContrato);
 
                 } elseif ($somaTotalMeses >= 6) {
 
-                    $novaDataFim = DB::table('acordo')
+                    $novaDataFim = DB::table('contrato')
                         ->where('id_funcionario', $idf)
                         ->whereNull('dt_fim') // Para verificar nulos corretamente
                         ->update(['dt_fim' => $request->input('dt_fim')]);
 
                     // Insere o novo afastamento se a soma dos afastamentos anteriores com o atual exceder 6 meses
-                    $novoAcordo = [
+                    $novoContrato = [
                         'matricula' => $afastamentoAberto->matricula,
-                        'tp_acordo' => $afastamentoAberto->tp_acordo,
+                        'tp_contrato' => $afastamentoAberto->tp_contrato,
                         'id_funcionario' => $idf,
                         'dt_inicio' => $diaSeguinte,
                         'admissao' => 'true',
                         'id_afastamento' => $idAfastamento,
                     ];
 
-                    DB::table('acordo')->insert($novoAcordo);
+                    DB::table('contrato')->insert($novoContrato);
                 }
             } else {
 
@@ -235,15 +235,15 @@ class GerenciarAfastamentosController extends Controller
 
         if (!is_null($request->input('dt_fim')) && in_array($afastamento->id_tp_afastamento, [17])) {
 
-            // Busca o último acordo aberto
-            $acordoAberto = DB::table('acordo')
+            // Busca o último contrato aberto
+            $contratoAberto = DB::table('contrato')
                 ->where('id_funcionario', '=', $afastamento->id_funcionario)
                 ->whereNull('dt_fim')
                 ->orderByDesc('dt_inicio') // Ordena para pegar o mais recente
                 ->first();
 
-            if (!$acordoAberto) {
-                // Lidar com a situação onde não há acordo aberto
+            if (!$contratoAberto) {
+                // Lidar com a situação onde não há contrato aberto
                 return; // Ou alguma outra lógica
             }
 
@@ -272,24 +272,24 @@ class GerenciarAfastamentosController extends Controller
             $mesesAnteriores = $somaAfastamentos ? $somaAfastamentos->meses : 0;
             $somaTotalMeses = $mesesAnteriores + $diferencaMesesAtual;
 
-            // Condições para atualizar a data de fim e inserir novo acordo
+            // Condições para atualizar a data de fim e inserir novo contrato
             if ($diferencaMesesAtual >= 6 || $somaTotalMeses >= 6) {
-                DB::table('acordo')
+                DB::table('contrato')
                     ->where('id_funcionario', $afastamento->id_funcionario)
                     ->whereNull('dt_fim')
                     ->update(['dt_fim' => $request->input('dt_fim')]);
 
                 // Insere o novo afastamento
-                $novoAcordo = [
-                    'matricula' => $acordoAberto->matricula,
-                    'tp_acordo' => $acordoAberto->tp_acordo,
+                $novoContrato = [
+                    'matricula' => $contratoAberto->matricula,
+                    'tp_contrato' => $contratoAberto->tp_contrato,
                     'id_funcionario' => $afastamento->id_funcionario,
                     'dt_inicio' => $diaSeguinte,
                     'admissao' => 'true',
                     'id_afastamento' => 17,
                 ];
 
-                DB::table('acordo')->insert($novoAcordo);
+                DB::table('contrato')->insert($novoContrato);
             }
         }
 

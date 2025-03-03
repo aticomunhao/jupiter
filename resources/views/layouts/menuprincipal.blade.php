@@ -65,10 +65,10 @@ $perfis = session()->get('usuario.perfis');
                                 <li><a class="dropdown-item" href="/controle-vagas">Vagas por Setor</a></li>
 
 
-                                <li><a href="{{ route('index.tipos-de-acordo') }}" class="dropdown-item">
+                                <li><a href="{{ route('index.tipos-de-contrato') }}" class="dropdown-item">
                                         Tipos
                                         de
-                                        Acordo</a>
+                                        Contrato</a>
                                 </li>
 
                                 <li><a href="/gerenciar-tipo-desconto" class="dropdown-item"> Tipos de

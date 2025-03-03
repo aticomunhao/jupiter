@@ -330,7 +330,7 @@ class GerenciarFeriasController extends Controller
             ->join('contrato as c', 'funcionarios.id', '=', 'c.id_funcionario')
             ->leftJoin('afastamento', 'funcionarios.id', '=', 'afastamento.id_funcionario')
             ->where('c.dt_inicio', '<', $dia_do_ultimo_ano)
-            ->where('c.tp_acordo', '=', 1)
+            ->where('c.tp_contrato', '=', 1)
             ->whereNull('c.dt_fim')
             ->where(function ($query) {
                 $query->whereNotNull('afastamento.dt_inicio')
@@ -480,7 +480,7 @@ class GerenciarFeriasController extends Controller
                 's.nome as nome_setor', // Alterado de 'setor.nome' para 's.nome'
                 's.sigla as sigla_do_setor' // Alterado de 'setor.sigla' para 's.sigla'
             )
-            ->whereIn('contrato.tp_acordo', [1, 5, 4])
+            ->whereIn('contrato.tp_contrato', [1, 5, 4])
             ->whereNull('contrato.dt_fim');
 
 

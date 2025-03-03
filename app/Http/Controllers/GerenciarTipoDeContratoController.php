@@ -7,16 +7,16 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class GerenciarTipoDeAcordoController extends Controller
+class GerenciarTipoDeContratoController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $tipos_de_acordo = DB::table('tp_acordo')->get();
+        $tipos_de_contrato = DB::table('tp_contrato')->get();
 
-        return view('tipos_de_acordo.gerenciar-tipos-de-acordo', compact('tipos_de_acordo'));
+        return view('tipos_de_contrato.gerenciar-tipos-de-contrato', compact('tipos_de_contrato'));
     }
 
     /**
@@ -24,7 +24,7 @@ class GerenciarTipoDeAcordoController extends Controller
      */
     public function create()
     {
-        return view('tipos_de_acordo\incluir-tipo-de-acordo');
+        return view('tipos_de_contrato\incluir-tipo-de-contrato');
     }
 
     /**
@@ -35,12 +35,12 @@ class GerenciarTipoDeAcordoController extends Controller
         try {
             $nome = $request->input('nome');
 
-            DB::table('tp_acordo')->insert(['nome' => $nome]);
+            DB::table('tp_contrato')->insert(['nome' => $nome]);
             app('flasher')->addSuccess("Adicionado com Sucesso");
         } catch (Exception $exception) {
             app('flasher')->addError('Erro: ' . $exception->getCode() . " favor contatar o administrador.");
         } finally {
-            return redirect()->route('index.tipos-de-acordo');
+            return redirect()->route('index.tipos-de-contrato');
         }
     }
 
@@ -56,9 +56,9 @@ class GerenciarTipoDeAcordoController extends Controller
      */
     public function edit(string $id)
     {
-        $tipo_de_acordo =  DB::table('tp_acordo')->where('id', '=', $id)->first();
+        $tipo_de_contrato =  DB::table('tp_contrato')->where('id', '=', $id)->first();
 
-        return view('tipos_de_acordo.editar-tipo-de-acordo', compact('tipo_de_acordo'));
+        return view('tipos_de_contrato.editar-tipo-de-contrato', compact('tipo_de_contrato'));
     }
 
     /**
@@ -68,12 +68,12 @@ class GerenciarTipoDeAcordoController extends Controller
     {
         try {
             $nome = $request->input('nome');
-            DB::table('tp_acordo')->where('id', $id)->update(['nome' => $nome]);
+            DB::table('tp_contrato')->where('id', $id)->update(['nome' => $nome]);
             app('flasher')->addSuccess('Editado com Sucesso');
         } catch (Exception $exception) {
             app('flasher')->addError('Erro: ' . $exception->getCode() . " favor contatar o administrador.");
         } finally {
-            return redirect()->route('index.tipos-de-acordo');
+            return redirect()->route('index.tipos-de-contrato');
         }
     }
 
@@ -83,12 +83,12 @@ class GerenciarTipoDeAcordoController extends Controller
     public function destroy(string $id)
     {
         try {
-            DB::table('tp_acordo')->where('id', $id)->delete();
+            DB::table('tp_contrato')->where('id', $id)->delete();
             app('flasher')->addWarning('Deletado com Sucesso');
         } catch (Exception $exception) {
             app('flasher')->addError('Erro: ' . $exception->getCode() . " favor contatar o administrador.");
         } finally {
-            return redirect()->route('index.tipos-de-acordo');
+            return redirect()->route('index.tipos-de-contrato');
         }
     }
 }

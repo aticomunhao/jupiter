@@ -157,10 +157,10 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">Telefone/Celular
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                           maxlength="9" type="number"
-                                           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                           placeholder="Ex.: 99999-9999" value="{{ old('celular') }}" id="22"
-                                           name="celular">
+                                        max="999999999" type="number"
+                                        oninput="if (this.value.length > 9) this.value = this.value.slice(0, 9);"
+                                        placeholder="Ex.: 99999-9999" value="{{ old('celular') }}" id="22"
+                                        name="celular">
                                 </div>
                             </div>
                         </div>

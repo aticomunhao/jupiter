@@ -3,7 +3,7 @@
     <title>Novo Contrato</title>{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
 @endsection
 @section('content')
-    <form method="post" action="/armazenar-acordos/{{ $funcionario->id }}" enctype="multipart/form-data">
+    <form method="post" action="/armazenar-contrato/{{ $funcionario->id }}" enctype="multipart/form-data">
         @csrf
         <div class="container-fluid">
             <div class="justify-content-center">
@@ -35,9 +35,9 @@
                                 </div>
                                 <div class="form-group col-md-6 col-lg-3 mt-lg-0 mt-md-0 mt-2">Tipo de Contrato{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
                                     <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        name="tipo_acordo" required="required">
-                                        @foreach ($tipoacordo as $tiposacordos)
-                                            <option value="{{ $tiposacordos->id }}">{{ $tiposacordos->nome }}</option>
+                                        name="tipo_contrato" required="required">
+                                        @foreach ($tipocontrato as $tiposcontrato)
+                                            <option value="{{ $tiposcontrato->id }}">{{ $tiposcontrato->nome }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -62,7 +62,7 @@
         </div>
         <br>
         <div>
-            <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1" href="/gerenciar-acordos/{{ $funcionario->id }}"
+            <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1" href="/gerenciar-contrato/{{ $funcionario->id }}"
                 role="button">
                 Cancelar
             </a>

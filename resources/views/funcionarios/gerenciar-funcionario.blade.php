@@ -143,7 +143,7 @@
                                                         class="bi-mortarboard"
                                                         style="font-size: 1rem; color:#303030;"></i>
                                                 </a>
-                                                <a href="/gerenciar-acordos/{{ $listas->idf }}" type="button"
+                                                <a href="/gerenciar-contrato/{{ $listas->idf }}" type="button"
                                                     class="btn btn-outline-primary" data-bs-toggle="tooltip"
                                                     data-bs-placement="top" title="Contratos"><i
                                                         class="bi bi-pencil-square"{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}

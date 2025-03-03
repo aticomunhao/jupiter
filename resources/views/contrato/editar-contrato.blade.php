@@ -3,7 +3,7 @@
     <title>Editar Contrato</title>{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
 @endsection
 @section('content')
-    <form method="post" action="/atualizar-acordo/{{ $acordo->id }}" enctype="multipart/form-data">
+    <form method="post" action="/atualizar-contrato/{{ $contrato->id }}" enctype="multipart/form-data">
         @csrf
         <div class="container-fluid">
             <div class="justify-content-center">
@@ -32,25 +32,25 @@
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         type="numeric" maxlength="11"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="1" name="matricula" value="{{ $acordo->matricula }}" required="required">
+                                        id="1" name="matricula" value="{{ $contrato->matricula }}" required="required">
                                 </div>
                                 <div class="form-group col-md-2">Tipo de Contrato{{-- ERA ACORDO ANTES, ESTÁ COMO ACORDO NO BANCO --}}
                                     <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
-                                        name="tipo_acordo" required="required" value="{{ $acordo->tp_acordo }}">
-                                        @foreach ($tipoacordo as $tiposacordos)
-                                            <option value="{{ $tiposacordos->id }}">{{ $tiposacordos->nome }}</option>
+                                        name="tipo_contrato" required="required" value="{{ $contrato->tp_contrato }}">
+                                        @foreach ($tipocontrato as $tiposcontrato)
+                                            <option value="{{ $tiposcontrato->id }}">{{ $tiposcontrato->nome }}</option>
                                         @endforeach
                                     </select>
                                 </div>
 
                                 <div class="form-group col-md-2">Data de Inicio
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        type="date" value="{{ $acordo->dt_inicio }}" id="iddt_inicio" name="dt_inicio"
+                                        type="date" value="{{ $contrato->dt_inicio }}" id="iddt_inicio" name="dt_inicio"
                                         required="required">
                                 </div>
                                 <div class="form-group col-md-1" style="text-align: center">Arquivo atual
                                     <p>
-                                        <a href="{{ asset("$acordo->caminho") }}"><button type="button"
+                                        <a href="{{ asset("$contrato->caminho") }}"><button type="button"
                                                 class="btn btn-lg btn-outline-secondary"><i
                                                     class="bi bi-archive"></i></button>
                                         </a>
@@ -68,7 +68,7 @@
         </div>
         <br>
         <div>
-            <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1" href="/gerenciar-acordos/{{ $funcionario->id }}"
+            <a class="btn btn-danger col-md-3 col-2 mt-4 offset-md-1" href="/gerenciar-contrato/{{ $funcionario->id }}"
                 role="button">
                 Cancelar
             </a>

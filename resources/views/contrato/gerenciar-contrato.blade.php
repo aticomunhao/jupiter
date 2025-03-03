@@ -23,7 +23,7 @@
                                     id="iddt_inicio" name="dt_inicio" required="required" disabled>
                             </div>
                             <div class="col-md-3 offset-md-3 col-12 mt-4 mt-md-0"> {{-- Botão de incluir --}}
-                                <a href="/incluir-acordos/{{ $funcionario->id }}" class="col-6"><button type="button"
+                                <a href="/incluir-contrato/{{ $funcionario->id }}" class="col-6"><button type="button"
                                         class="btn btn-success col-md-8 col-12"
                                         style="font-size: 1rem; box-shadow: 1px 2px 5px #000000;">Novo+</button>
                                 </a>
@@ -46,27 +46,27 @@
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;">
-                                        @foreach ($acordos as $acordo)
+                                        @foreach ($contrato as $contratos)
                                             <tr>
-                                                {{-- tipo de acordo --}}
+                                                {{-- tipo de contrato --}}
                                                 <td>
-                                                    {{ $acordo->nome }}
+                                                    {{ $contratos->nome }}
                                                 </td>
                                                 {{-- data de inicio --}}
                                                 <td style="text-align: center">
-                                                    {{ \Carbon\Carbon::parse($acordo->dt_inicio)->format('d/m/Y') }}
+                                                    {{ \Carbon\Carbon::parse($contratos->dt_inicio)->format('d/m/Y') }}
                                                 </td>
                                                 {{-- Se é válido --}}
                                                 <td style="text-align: center">
-                                                    {{ $acordo->matricula }}
+                                                    {{ $contratos->matricula }}
                                                 </td>
                                                 {{-- data de fim --}}
                                                 <td style="text-align: center">
-                                                    {{ $acordo->dt_fim ? \Carbon\Carbon::parse($acordo->dt_fim)->format('d/m/Y') : 'Em vigor' }}
+                                                    {{ $contratos->dt_fim ? \Carbon\Carbon::parse($contratos->dt_fim)->format('d/m/Y') : 'Em vigor' }}
                                                 </td>
                                                 {{-- Observação --}}
                                                 <td style="text-align: center">
-                                                    {{ $acordo->motivo }}
+                                                    {{ $contratos->motivo }}
                                                 </td>
                                                 {{--  Área de ações  --}}
                                                 <td style="text-align: center">
@@ -76,30 +76,30 @@
                                                         <i class="bi bi-archive" style="font-size: 1rem; color:#303030"></i>
                                                     </a>
                                                     <!-- Botao de Editar -->
-                                                    <a href="/editar-acordo/{{ $acordo->id }}"
+                                                    <a href="/editar-contrato/{{ $contratos->id }}"
                                                         class="btn btn-outline-warning" data-tt="tooltip"
                                                         data-placement="top" title="Editar">
                                                         <i class="bi bi-pencil" style="font-size: 1rem; color:#303030"></i>
                                                     </a>
                                                     <!-- Botao de Excluir, trigger modal -->
                                                     <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                        data-bs-target="#A{{ $acordo->id }}" data-tt="tooltip"
+                                                        data-bs-target="#A{{ $contratos->id }}" data-tt="tooltip"
                                                         data-placement="top" title="Excluir">
                                                         <i class="bi bi-trash" style="font-size: 1rem; color:#303030"></i>
                                                     </button>
                                                     <button type="button" class="btn btn-outline-danger"
                                                         data-bs-placement="top" title="Finalizar contrato"
                                                         data-bs-toggle="modal"
-                                                        data-bs-target="#situacao{{ $acordo->id }}">
+                                                        data-bs-target="#situacao{{ $contratos->id }}">
                                                         <i class="bi bi-exclamation-circle"
                                                             style="font-size: 1rem; color:#303030;"></i>
                                                     </button>
                                                     <!-- Modal inativar -->
-                                                    <div class="modal fade" id="situacao{{ $acordo->id }}" tabindex="-1"
+                                                    <div class="modal fade" id="situacao{{ $contratos->id }}" tabindex="-1"
                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <form class="form-horizontal" method="post"
-                                                                action="{{ url('/inativar-acordo/' . $acordo->id) }}">
+                                                                action="{{ url('/inativar-contrato/' . $contratos->id) }}">
                                                                 @csrf
                                                                 <div class="modal-content">
                                                                     <div class="modal-header"
@@ -143,14 +143,14 @@
 
 
                                                 <!-- Modal -->
-                                                <div class="modal fade" id="A{{ $acordo->id }}" tabindex="-1"
+                                                <div class="modal fade" id="A{{ $contratos->id }}" tabindex="-1"
                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header"
                                                                 style="background-color:rgba(202, 61, 61, 0.911);">
                                                                 <div class="row">
-                                                                    <h2 style="color:white;">Excluir Dependente</h2>
+                                                                    <h2 style="color:white;">Excluir Contrato</h2>
                                                                 </div>
                                                                 <button type="button" class="btn-close"
                                                                     data-bs-dismiss="modal" aria-label="Close">
@@ -162,7 +162,7 @@
                                                                     realmente deseja excluir
                                                                     <br>
                                                                     <span class="fw-bolder fs-5">
-                                                                        {{ $acordo->nome }}
+                                                                        {{ $contratos->nome }}
                                                                     </span>
                                                                 </p>
                                                             </div>
@@ -170,7 +170,7 @@
                                                                 <button type="button" class="btn btn-secondary"
                                                                     data-bs-dismiss="modal">Cancelar
                                                                 </button>
-                                                                <a href="/excluir-acordo/{{ $acordo->id }}">
+                                                                <a href="/excluir-contrato/{{ $contratos->id }}">
                                                                     <button type="button" class="btn btn-danger">Excluir
                                                                         permanentemente
                                                                     </button>
@@ -197,8 +197,8 @@
             <br>
             <div class="row d-flex justify-content-around">
                 <div class="col-4">
-                    <a href="javascript:history.back()">
-                        <button class="btn btn-primary" style="width: 100%">Retornar </button>
+                    <a href="{{route('gerenciar')}}">
+                        <button class="btn btn-danger" style="width: 100%">Retornar </button>
                     </a>
                 </div>
             </div>
