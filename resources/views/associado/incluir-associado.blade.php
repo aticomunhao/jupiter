@@ -19,32 +19,31 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <hr>
                             <form class="form-horizontal mt-4" method='POST' action="/incluir-associado">
                                 @csrf
                                     <div class="row d-flex justify-content-around">
                                         <div class="col-md-4 col-sm-12">
                                             <label for="1">Nome Completo</label>
-                                            <input type="text" class="form-control" name="nome_completo" maxlength="45"
+                                            <input type="text" class="form-control" name="nome_completo" maxlength="45" value="{{ old('nome_completo') }}" style="border: 1px solid #999999; padding: 5px;"
                                                 oninput="this.value = this.value.replace(/[0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                                 required>
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <label for="2">CPF</label>
-                                            <input type="text" class="form-control" name="cpf" maxlength="11"
+                                            <input type="text" class="form-control" name="cpf" maxlength="11" value="{{ old('cpf') }}" style="border: 1px solid #999999; padding: 5px;"
                                                 required>
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <label for="2">Identidade</label>
-                                            <input type="text" class="form-control" name="idt" maxlength="9"
+                                            <input type="text" class="form-control" name="idt" maxlength="9" value="{{ old('idt') }}" style="border: 1px solid #999999; padding: 5px;"
                                                 required>
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <label for="2">Data de Nascimento</label>
-                                            <input type="date" class="form-control" name="dt_nascimento" required>
+                                            <input type="date" class="form-control" name="dt_nascimento" value="{{ old('dt_nascimento') }}" style="border: 1px solid #999999; padding: 5px;" required>
                                         </div>
                                         <div class="col-md-2 col-sm-12">Sexo
-                                            <select class="form-select" id="sexo" name="sexo" required="required">
+                                            <select class="form-select" id="sexo" name="sexo"  value="{{ old('sexo') }}" style="border: 1px solid #999999; padding: 5px;" required="required">
                                                 <option value=""></option>
                                                 @foreach ($sexo as $sexos)
                                                     <option
@@ -55,12 +54,12 @@
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <label for="2">Número de Associado</label>
-                                            <input type="text" class="form-control" name="nrassociado" maxlength="11"
+                                            <input type="text" class="form-control" name="nrassociado" maxlength="11" value="{{ old('nrassociado') }}" style="border: 1px solid #999999; padding: 5px;"
                                                 required>
                                         </div>
                                         <div class="col-md">
                                             <label for="3">DDD</label>
-                                            <select class="form-select" name="ddd" id="3" value=""
+                                            <select class="form-select" name="ddd" id="3" value="{{ old('ddd') }}" style="border: 1px solid #999999; padding: 5px;"
                                                 required>
                                                 <option></option>
                                                 @foreach ($ddd as $ddds)
@@ -72,20 +71,20 @@
                                         </div>
 
                                         <div class="col-md-3 col-sm-12">
-                                            <label for="2">Telefone</label>
-                                            <input type="text" class="form-control" id="2" maxlength="12"
-                                                name="telefone" value=""
+                                            <label for="2">Celular</label>
+                                            <input type="text" class="form-control" id="2" maxlength="9" name="telefone" value="{{ old('telefone') }}" style="border: 1px solid #999999; padding: 5px;"
+                                                
                                                 oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
                                                 required>
                                         </div>
                                         <div class="col-md-4 col-sm-12">
                                             <label for="2">Email</label>
-                                            <input type="text" class="form-control" id="2" maxlength="50"
-                                                name="email" value="" required>
+                                            <input type="text" class="form-control" id="2" maxlength="50" name="email"  value="{{ old('email') }}" style="border: 1px solid #999999; padding: 5px;"
+                                                required>
                                         </div>
                                         <div class="col-md-2 col-sm-12">
                                             <label for="4">Data de Inicio</label>
-                                            <input type="date" class="form-control" name="dt_inicio" id="4"
+                                            <input type="date" class="form-control" name="dt_inicio" id="4" value="{{ old('dt_inicio') }}" style="border: 1px solid #999999; padding: 5px;"
                                                 required>
                                         </div>
 
@@ -95,7 +94,6 @@
                     </div>
                 </div>
                 <br>
-
                 <div class="card" style="border-color: #355089">
                     <div class="card-header">
                         <div class="ROW">
@@ -105,18 +103,17 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <hr>
                         <div class="row d-flex justify-content-around">
                             <div class="row ">
                                 <div class="form-group col-md">
                                     <label for="1">CEP</label>
-                                    <input type="text" class="form-control" id="1" name="cep" value=""
+                                    <input type="text" class="form-control" id="1" name="cep" value="{{ old('cep') }}" style="border: 1px solid #999999; padding: 5px;"
                                         required>
                                 </div>
                                 <div class="col-md-4 col-sm-12">UF
                                     <br>
                                     <select class="js-example-responsive form-select"
-                                            style="border: 1px solid #999999; padding: 5px;" id="uf2" name="uf_end">
+                                            style="border: 1px solid #999999; padding: 5px;" id="uf2" name="uf_end" value="{{ old('uf_end') }}">
                                         <option value=""></option>
                                         @foreach ($tp_uf as $tp_ufs)
                                             <option @if (old('uf_end') == $tp_ufs->id)
@@ -129,32 +126,31 @@
                                 </div>
                                 <div class="col-md-4 col-sm-12">Cidade
                                     <br>
-                                    <select class="js-example-responsive form-select"
-                                            style="border: 1px solid #999999; padding: 5px;" id="cidade2" name="cidade"
-                                            value="{{ old('cidade') }}" disabled>
+                                    <select class="js-example-responsive form-select" id="cidade2" name="cidade"
+                                            value="{{ old('cidade') }}" style="border: 1px solid #999999 !important; padding: 5px;"  readonly>
                                     </select>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="1">Logradouro</label>
                                     <input type="text" class="form-control" id="1" name="logradouro"
-                                        value="" required>
+                                    value="{{ old('logradouro') }}" style="border: 1px solid #999999; padding: 5px;" required>
                                 </div>
                             </div>
                             <div class="row d-flex justify-content-around">
                                 <div class="form-group col-md">
                                     <label for="1">Número</label>
                                     <input type="text" class="form-control" id="1" name="numero"
-                                        value="" required>
+                                    value="{{ old('numero') }}" style="border: 1px solid #999999; padding: 5px;" required>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="1">Complemento</label>
                                     <input type="text" class="form-control" id="1" name="complemento"
-                                        value="" required>
+                                    value="{{ old('complemento') }}" style="border: 1px solid #999999; padding: 5px;" required>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="1">Bairro</label>
                                     <input type="text" class="form-control" id="1" name="bairro"
-                                        value="" required>
+                                    value="{{ old('bairro') }}" style="border: 1px solid #999999; padding: 5px;" required>
                                 </div>
                             </div>
                         </div>
@@ -184,6 +180,7 @@
                             theme: 'bootstrap-5',
                             width: '100%',
                         });
+                        
 
                         function populateCities(selectElement, stateValue) {
                             $.ajax({

@@ -108,92 +108,160 @@ class GerenciarAssociadoController extends Controller
 
     public function store(Request $request)
     {
-        $comparar_cpf = DB::table('pessoas')->pluck('cpf')->toArray();
-        $validacaocpf = $request->input('cpf');
+        $cpf = $request->input('cpf');
 
-        //dd($comparar_cpf);
+        $associado = DB::table('pessoas as p')
+        ->leftJoin('associado as a', 'p.id', 'a.id_pessoa')
+        ->where('p.cpf', $cpf)
+        ->whereNotNull('a.id')->count();
 
-        foreach ($comparar_cpf as $cpf) {
-            if ($validacaocpf == $cpf) {
+        $pessoa = DB::table('pessoas')->where('cpf', $cpf)->count();
+        
+        $endereco = DB::table('endereco_pessoas as ep')
+        ->leftJoin('pessoas as p', 'ep.id_pessoa', 'p.id')
+        ->where('p.cpf', $cpf)
+        ->count();
 
-                DB::table('pessoas')
-                    ->where('cpf', $validacaocpf)
-                    ->update([
-                        'ddd' => $request->input('ddd'),
-                        'celular' => $request->input('telefone'),
-                        'email' => $request->input('email'),
-                        'idt' => $request->input('idt'),
-                        'sexo' => $request->input('sexo'),
-                        'dt_nascimento' => $request->input('dt_nascimento'),
-                        'status' => '1',
-                    ]);
+      
+        try {
+            $validated = $request->validate([
+                //'telefone' => 'required|telefone',
+                'cpf' => 'required|cpf',
+                //'cnpj' => 'required|cnpj',
+                // outras validações aqui
+            ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
 
-                $id_pessoa = DB::table('pessoas')
-                    ->where('pessoas.cpf', $cpf)
-                    ->value('id');
+            app('flasher')->addError('Este CPF não é válido');
 
-                DB::table('associado')
-                    ->insert([
-                        'id_pessoa' => $id_pessoa,
-                        'dt_inicio' => $request->input('dt_inicio'),
-                        'nr_associado' => $request->input('nrassociado'),
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }   
+        //dd($pessoa == 0);
+        //foreach ($comparar_cpf as $cpf) {
+        if ($associado > 0) 
+        {
+            app('flasher')->adderror('Esta pessoa já é associada!');
+            return redirect('/gerenciar-associado');
 
-                    ]);
-
-                DB::table('endereco_pessoas')->insert([
-                    'id_pessoa' => $id_pessoa,
-                    'cep' => str_replace('-', '', $request->input('cep')),
-                    'id_uf_end' => $request->input('uf_end'),
-                    'id_cidade' => $request->input('cidade'),
-                    'logradouro' => $request->input('logradouro'),
-                    'numero' => $request->input('numero'),
-                    'bairro' => $request->input('bairro'),
-                    'complemento' => $request->input('complemento'),
+        }elseif($pessoa == 0)
+        {
+            DB::table('pessoas')
+                ->insert([
+                    'nome_completo' => $request->input('nome_completo'),
+                    'cpf' => $request->input('cpf'),
+                    'ddd' => $request->input('ddd'),
+                    'celular' => $request->input('telefone'),
+                    'email' => $request->input('email'),
+                    'idt' => $request->input('idt'),
+                    'sexo' => $request->input('sexo'),
+                    'dt_nascimento' => $request->input('dt_nascimento'),
+                    'status' => '1',
                 ]);
 
-                app('flasher')->addwarning('Associado foi criado e dados de pessoa atualizados');
-                return redirect('/gerenciar-associado');
-            }
-        }
+                $id_pessoa = DB::table('pessoas')
+                ->max('id');
 
-        DB::table('pessoas')
-            ->insert([
-                'nome_completo' => $request->input('nome_completo'),
-                'cpf' => $request->input('cpf'),
-                'ddd' => $request->input('ddd'),
-                'celular' => $request->input('telefone'),
-                'email' => $request->input('email'),
-                'idt' => $request->input('idt'),
-                'sexo' => $request->input('sexo'),
-                'dt_nascimento' => $request->input('dt_nascimento'),
-                'status' => '1',
+            DB::table('associado')
+                ->insert([
+                    'id_pessoa' => $id_pessoa,
+                    'dt_inicio' => $request->input('dt_inicio'),
+                    'nr_associado' => $request->input('nrassociado'),
+                ]);
+
+            DB::table('endereco_pessoas')->insert([
+                'id_pessoa' => $id_pessoa,
+                'cep' => str_replace('-', '', $request->input('cep')),
+                'id_uf_end' => $request->input('uf_end'),
+                'id_cidade' => $request->input('cidade'),
+                'logradouro' => $request->input('logradouro'),
+                'numero' => $request->input('numero'),
+                'bairro' => $request->input('bairro'),
+                'complemento' => $request->input('complemento'),
             ]);
+
+            app('flasher')->addSuccess('O cadastro do Associado foi realizado com sucesso.');
+
+            return redirect('/gerenciar-associado');
+
+        }elseif($pessoa > 0 && $associado == 0 && $endereco == 0)
+        {
+            DB::table('pessoas')
+                ->where('cpf', $cpf)
+                ->update([
+                    'ddd' => $request->input('ddd'),
+                    'celular' => $request->input('telefone'),
+                    'email' => $request->input('email'),
+                    'idt' => $request->input('idt'),
+                    'sexo' => $request->input('sexo'),
+                    'dt_nascimento' => $request->input('dt_nascimento'),
+                    'status' => '1',
+                ]);
 
             $id_pessoa = DB::table('pessoas')
-            ->max('id');
+                ->where('pessoas.cpf', $cpf)
+                ->value('id');    
 
-        DB::table('associado')
-            ->insert([
+            DB::table('associado')
+                ->insert([
+                    'id_pessoa' => $id_pessoa,
+                    'dt_inicio' => $request->input('dt_inicio'),
+                    'nr_associado' => $request->input('nrassociado'),
+
+                ]);
+
+            DB::table('endereco_pessoas')
+                ->insert([
                 'id_pessoa' => $id_pessoa,
-                'dt_inicio' => $request->input('dt_inicio'),
-                'nr_associado' => $request->input('nrassociado'),
+                'cep' => str_replace('-', '', $request->input('cep')),
+                'id_uf_end' => $request->input('uf_end'),
+                'id_cidade' => $request->input('cidade'),
+                'logradouro' => $request->input('logradouro'),
+                'numero' => $request->input('numero'),
+                'bairro' => $request->input('bairro'),
+                'complemento' => $request->input('complemento'),
             ]);
 
-        DB::table('endereco_pessoas')->insert([
-            'id_pessoa' => $id_pessoa,
-            'cep' => str_replace('-', '', $request->input('cep')),
-            'id_uf_end' => $request->input('uf_end'),
-            'id_cidade' => $request->input('cidade'),
-            'logradouro' => $request->input('logradouro'),
-            'numero' => $request->input('numero'),
-            'bairro' => $request->input('bairro'),
-            'complemento' => $request->input('complemento'),
-        ]);
+            app('flasher')->addSuccess('O cadastro do associado e seu endereço foi concluído e foi atualizado o cadastro de pessoa.');
+
+            return redirect('/gerenciar-associado');
+
+        }elseif($pessoa > 0 && $associado == 0 && $endereco > 0)
+        {
+            DB::table('pessoas')
+                ->where('cpf', $cpf)
+                ->update([
+                    'ddd' => $request->input('ddd'),
+                    'celular' => $request->input('telefone'),
+                    'email' => $request->input('email'),
+                    'idt' => $request->input('idt'),
+                    'sexo' => $request->input('sexo'),
+                    'dt_nascimento' => $request->input('dt_nascimento'),
+                    'status' => '1',
+                ]);
+
+            $id_pessoa = DB::table('pessoas')
+                ->where('pessoas.cpf', $cpf)
+                ->value('id');    
+
+            DB::table('associado')
+                ->insert([
+                    'id_pessoa' => $id_pessoa,
+                    'dt_inicio' => $request->input('dt_inicio'),
+                    'nr_associado' => $request->input('nrassociado'),
+
+                ]);
+
+            app('flasher')->addSuccess('O cadastro de Associado foi concluído e atualizado o cadastro de pessoa.');
+
+            return redirect('/gerenciar-associado');
+        
+        }
+
+        app('flasher')->addError('Ocorreu um erro inesperado, avise a ATI.');
+
+        return redirect()->back()->withInput();
 
 
-        app('flasher')->addSuccess('O cadastro do Associado foi realizado com sucesso.');
-
-        return redirect('/gerenciar-associado');
     }
 
     public function edit($id)
