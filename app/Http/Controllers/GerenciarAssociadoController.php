@@ -420,49 +420,77 @@ class GerenciarAssociadoController extends Controller
     public function update(Request $request, $ida, $idp, $ide)
     {
 
-        $comparar_cpf = DB::table('pessoas')->pluck('cpf')->toArray();
-        $validacaocpf = $request->input('cpf');
+        $cpf = $request->input('cpf');
 
+        $pessoa = DB::table('pessoas')->where('cpf', $cpf)->count();
         //dd($comparar_cpf);
 
-        DB::table('pessoas')
-            ->where('id', $idp)
-            ->update([
-                'nome_completo' => $request->input('nome_completo'),
-                'cpf' => $request->input('cpf'),
-                'ddd' => $request->input('ddd'),
-                'celular' => $request->input('telefone'),
-                'email' => $request->input('email'),
-                'email' => $request->input('email'),
-                'sexo' => $request->input('sexo'),
-                'dt_nascimento' => $request->input('dt_nascimento'),
-                'idt' => $request->input('idt')
+        try {
+            $validated = $request->validate([
+                //'telefone' => 'required|telefone',
+                'cpf' => 'required|cpf',
+                //'cnpj' => 'required|cnpj',
+                // outras validações aqui
             ]);
+        } catch (\Illuminate\Validation\ValidationException $e) {
 
-        DB::table('associado')
-            ->where('id', $ida)
-            ->update([
-                'dt_inicio' => $request->input('dt_inicio'),
-                'dt_fim' => $request->input('dt_fim'),
-                'nr_associado' => $request->input('nrAssociado'),
-            ]);
+            app('flasher')->addError('Este CPF não é válido');
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        }   
 
-        DB::table('endereco_pessoas')
-            ->where('id', $ide)
-            ->update([
-                'cep' => $request->input('cep'),
-                'id_uf_end' => $request->input('uf_end'),
-                'id_cidade' => $request->input('cidade'),
-                'logradouro' => $request->input('logradouro'),
-                'numero' => $request->input('numero'),
-                'bairro' => $request->input('bairro'),
-                'complemento' => $request->input('complemento'),
-            ]);
+        $cpfExiste = DB::table('pessoas')
+            ->where('cpf', $request->cpf)
+            ->where('id', '!=', $idp) // Exclui o próprio usuário
+            ->exists();
 
+        if($cpfExiste){
+            app('flasher')->addError('O CPF digitado está em uso.');
+            return redirect()->back()->withInput();
 
-        app('flasher')->addSuccess('Edição do cadastro do Associado foi realizado com sucesso.');
+        }else
+        {
 
-        return redirect('/gerenciar-associado');
+            DB::table('pessoas')
+                ->where('id', $idp)
+                ->update([
+                    'nome_completo' => $request->input('nome_completo'),
+                    'cpf' => $request->input('cpf'),
+                    'ddd' => $request->input('ddd'),
+                    'celular' => $request->input('telefone'),
+                    'email' => $request->input('email'),
+                    'email' => $request->input('email'),
+                    'sexo' => $request->input('sexo'),
+                    'dt_nascimento' => $request->input('dt_nascimento'),
+                    'idt' => $request->input('idt')
+                ]);
+
+            DB::table('associado')
+                ->where('id', $ida)
+                ->update([
+                    'dt_inicio' => $request->input('dt_inicio'),
+                    'dt_fim' => $request->input('dt_fim'),
+                    'nr_associado' => $request->input('nrAssociado'),
+                ]);
+
+            DB::table('endereco_pessoas')
+                ->where('id', $ide)
+                ->update([
+                    'cep' => $request->input('cep'),
+                    'id_uf_end' => $request->input('uf_end'),
+                    'id_cidade' => $request->input('cidade'),
+                    'logradouro' => $request->input('logradouro'),
+                    'numero' => $request->input('numero'),
+                    'bairro' => $request->input('bairro'),
+                    'complemento' => $request->input('complemento'),
+                ]);
+
+            app('flasher')->addSuccess('Edição do cadastro realizado com sucesso.');
+            return redirect('/gerenciar-associado');
+        
+        }
+
+        app('flasher')->addError('Ocorreu um erro inesperado, avise a ATI.');
+        return redirect()->back()->withInput();
     }
 
     public function visualizarDocumento($id)
