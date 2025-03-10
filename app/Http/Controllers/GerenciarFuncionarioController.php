@@ -68,11 +68,11 @@ class GerenciarFuncionarioController extends Controller
 
 
         if ($request->cpf) {
-            $lista->where('p.cpf', $request->cpf);
+            $lista->where('p.cpf', 'ilike', "%$cpf%");
         }
 
         if ($request->idt) {
-            $lista->where('p.idt', '=', $request->idt);
+            $lista->where('p.idt', 'ilike', "%$idt%");
         }
         
         //Os ativos
