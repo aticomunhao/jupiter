@@ -103,6 +103,20 @@
                                         </button>
                                     </div>
                                 </div>
+                                <br>
+                                <div class="col-md-4 row">
+                                    <label style="text-align: center;">Por Período</label>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label>Data Inicial</label>
+                                        <input type="date" class="form-control" name="dt_inicio_periodo" id="dt_inicio_periodo"
+                                            style="border: 1px solid #999999; padding: 5px;">
+                                    </div>
+                                    <div class="col-md-6 col-sm-12">
+                                        <label>Data Final</label>
+                                        <input type="date" class="form-control" name="dt_fim_periodo" id="dt_fim_periodo"
+                                            style="border: 1px solid #999999; padding: 5px;">
+                                    </div>
+                                </div>
                                 <hr>
                                 <div class="table-responsive" style="height: 400px; overflow-y: auto;">
                                     <table
@@ -113,7 +127,7 @@
                                                 <th class="col align-middle">DATA DE ADMISSÃO</th>
                                                 <th class="col align-middle">PERÍODO AQUISITIVO</th>
                                                 <!--<th class="col align-middle">SITUAÇÃO DO PERÍODO AQUISITIVO</th>
-                                                 <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>-->
+                                                         <th class="col">DATA LIMITE DO GOZO DE FÉRIAS</th>-->
                                                 <th class="col align-middle">PERÍODO CONCESSIVO</th>
                                                 <th class="col align-middle">INÍCIO DO 1° PERÍODO</th>
                                                 <th class="col align-middle">FIM DO 1° PERÍODO</th>
@@ -146,10 +160,10 @@
                                                     </td>
                                                     <!--<td scope="">
 
-                                                    </td>
-                                                    <td scope="">
-                                                                {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
-                                                    </td>-->
+                                                            </td>
+                                                            <td scope="">
+                                                                        {{ date('d/m/Y', strtotime($feriass->dt_fim_gozo)) }}
+                                                            </td>-->
                                                     <td>
                                                         {{ $feriass->dt_inicio_gozo ? carbon::parse($feriass->dt_inicio_gozo)->format('d/m/y') : '--' }}
                                                         -
@@ -188,10 +202,10 @@
                                                     </td>
                                                     <td scope="">
                                                         @if ($feriass->adianta_13sal == 'true')
-                                                        Sim
-                                                    @else
-                                                        Não
-                                                    @endif
+                                                            Sim
+                                                        @else
+                                                            Não
+                                                        @endif
                                                     </td>
                                                     <td scope="">
                                                         {{ $feriass->sigla_setor }}

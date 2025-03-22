@@ -136,8 +136,28 @@ class ControleFeriasController extends Controller
             $ferias->where('p.status', 0);
         }
 
+        if ($request->dt_inicio_periodo || $request->dt_fim_periodo) {
+            $ferias->where(function ($query) use ($request) {
+                if ($request->dt_inicio_periodo && $request->dt_fim_periodo) {
+                    // Filtra registros entre as duas datas
+                    $query->whereBetween('fe.dt_ini_a', [$request->dt_inicio_periodo, $request->dt_fim_periodo])
+                        ->orWhereBetween('fe.dt_ini_b', [$request->dt_inicio_periodo, $request->dt_fim_periodo])
+                        ->orWhereBetween('fe.dt_ini_c', [$request->dt_inicio_periodo, $request->dt_fim_periodo]);
+                } elseif ($request->dt_inicio_periodo) {
+                    // Filtra registros a partir da data inicial
+                    $query->where('fe.dt_ini_a', '>=', $request->dt_inicio_periodo)
+                        ->orWhere('fe.dt_ini_b', '>=', $request->dt_inicio_periodo)
+                        ->orWhere('fe.dt_ini_c', '>=', $request->dt_inicio_periodo);
+                } elseif ($request->dt_fim_periodo) {
+                    // Filtra registros até a data final
+                    $query->where('fe.dt_ini_a', '<=', $request->dt_fim_periodo)
+                        ->orWhere('fe.dt_ini_b', '<=', $request->dt_fim_periodo)
+                        ->orWhere('fe.dt_ini_c', '<=', $request->dt_fim_periodo);
+                }
+            });
+        }
 
-        $ferias = $ferias->orderBy('nome_completo')->paginate(50);
+        $ferias = $ferias->orderBy('nome_completo')->paginate(50)->appends($request->query());
 
         $ano = DB::table('ferias AS fe')
             ->select('fe.ano_de_referencia AS ano_de_referencia')
