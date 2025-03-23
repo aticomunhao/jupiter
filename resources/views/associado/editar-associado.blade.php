@@ -13,13 +13,13 @@
             <div class="card" style="border-color: #355089">
                 <div class="card-header">
                     <div class="row">
-                        <h5 class="col-12" style="color: #355089">
+                        <h5 class="col-12" style="color: #355089; font-size:15px;">
                             Dados Pessoais
                         </h5>
                     </div>
                 </div>
                 <div class="card-body">
-                    <form class="form-horizontal mt-4" method='POST'action="/atualizar-associado/{{ $edit_associado[0]->ida }}/{{ $edit_associado[0]->idp }}/{{ $edit_associado[0]->ide }}">
+                    <form class="form-horizontal mt-2" method='POST' action="/atualizar-associado/{{ $edit_associado[0]->ida }}/{{ $edit_associado[0]->idp }}">
                         @csrf
                         <div class="container-fluid">
                             <div class="row g-3 d-flex justify-content-around">
@@ -64,7 +64,7 @@
                                 </div>
                                 <div class="col-md-2 col-sm-12">
                                     <label for="2">N.º Associado</label>
-                                    <input type="text" class="form-control" name="nrAssociado" maxlength="11"
+                                    <input type="text" class="form-control" name="nrassociado" maxlength="11"
                                         value="{{ $edit_associado[0]->nrAssociado }}" required>
                                 </div>
 
@@ -89,16 +89,6 @@
                                     <input type="text" class="form-control" id="2" maxlength="50"
                                         name="email" value="{{ $edit_associado[0]->email }}" required>
                                 </div>
-                                <div class="col-md-2 col-sm-12">
-                                    <label for="4">Inicio</label>
-                                    <input type="date" class="form-control" name="dt_inicio" id="4"
-                                        value="{{ $edit_associado[0]->dt_inicio }}" required>
-                                </div>
-                                <div class="col-md-2 col-sm-12">
-                                    <label for="4">Término</label>
-                                    <input type="date" class="form-control" name="dt_fim" id="4"
-                                        value="{{ $edit_associado[0]->dt_fim }}">
-                                </div>
                             </div>
                         </div>
                 </div>
@@ -110,7 +100,7 @@
     <div class="card" style="border-color: #355089">
         <div class="card-header">
             <div class="row">
-                <h5 class="col-12" style="color: #355089">
+                <h5 class="col-12" style="color: #355089; font-size:15px;">
                     Dados Residenciais
                 </h5>
             </div>
@@ -119,7 +109,7 @@
             <div class="container-fluid">
                 <div class="row g-3 d-flex justify-content-around">
                     <div class="col-md-2 col-sm-12">CEP
-                        <input type="text" class="form-control" id="1" name="cep"
+                        <input type="text" class="form-control" id="1" name="cep" maxlength="8"
                             value="{{ $edit_associado[0]->cep }}" required>
                     </div>
                     <div class="col-md-1 col-sm-12">UF
@@ -144,21 +134,21 @@
                         </select>
                     </div>
                     <div class="col-md-5 col-sm-12">Logradouro
-                        <input type="text" class="form-control" id="1" name="logradouro"
+                        <input type="text" class="form-control" id="1" name="logradouro" maxlength="50"
                             value="{{ $edit_associado[0]->logradouro }}" required>
                     </div>
                 </div>
                 <div class="row g-3 d-flex justify-content-around">
                     <div class="col-md-4 col-sm-12">Complemento
-                        <input type="text" class="form-control" id="1" name="complemento"
+                        <input type="text" class="form-control" id="1" name="complemento" maxlength="50"
                             value="{{ $edit_associado[0]->complemento }}" required>
                     </div>
                     <div class="col-md-4 col-sm-12">Número
-                        <input type="text" class="form-control" id="1" name="numero"
+                        <input type="text" class="form-control" id="1" name="numero" maxlength="10"
                             value="{{ $edit_associado[0]->numero }}" required>
                     </div>
                     <div class="col-md-4 col-sm-12">Bairro
-                        <input type="text" class="form-control" id="1" name="bairro"
+                        <input type="text" class="form-control" id="1" name="bairro" maxlength="50"
                             value="{{ $edit_associado[0]->bairro }}" required>
                     </div>
                 </div>
@@ -171,14 +161,7 @@
     </form>
 </div>
 
-
-    @endsection
-
-
-    @section('footerScript')
-        <!-- Scripts -->
-
-        <script>
+<script>
             $(document).ready(function() {
 
 
@@ -216,3 +199,12 @@
                 });
             });
         </script>
+
+    @endsection
+
+
+    @section('footerScript')
+    
+    @endsection
+
+       

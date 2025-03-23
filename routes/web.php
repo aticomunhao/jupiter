@@ -146,10 +146,11 @@ Route::middleware('rotas:6')->group(function () {
     Route::get('/retorna-cidade-dados-residenciais/{id}', [GerenciarAssociadoController::class, 'retornaCidadeDadosResidenciais']);
     Route::any('/incluir-associado', [GerenciarAssociadoController::class, 'store']);
     Route::get('/editar-associado/{id}', [GerenciarAssociadoController::class, 'edit']);
-    Route::any('/atualizar-associado/{ida}/{idp}/{ide}', [GerenciarAssociadoController::class, 'update']);
+    Route::post('/atualizar-associado/{ida}/{idp}', [GerenciarAssociadoController::class, 'update']);
     Route::get('/editar-associado/{id}', [GerenciarAssociadoController::class, 'edit']);
     Route::get('/documento-associado/{id}', [GerenciarAssociadoController::class, 'documentobancariopdf']);
     Route::get('/excluir-associado/{id}', [GerenciarAssociadoController::class, 'delete']);
+    Route::post('/inativar-associado/{ida}', [GerenciarAssociadoController::class, 'inativar']);
     Route::post('/salvar-documento-associado/{id}', [GerenciarAssociadoController::class, 'salvardocumento']);
     Route::get('/visualizar-arquivo/{id}', [GerenciarAssociadoController::class, 'visualizardocumento']);
 });

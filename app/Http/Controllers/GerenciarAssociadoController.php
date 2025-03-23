@@ -22,13 +22,14 @@ class GerenciarAssociadoController extends Controller
         $lista_associado = DB::table('associado AS ass')
             ->leftJoin('membro AS m', 'ass.nr_associado', 'm.id_associado')
             ->leftJoin('pessoas AS p', 'p.id', 'ass.id_pessoa')
+            ->leftJoin('historico_associado as ha', 'ass.id', 'ha.id_associado')
             ->select(
-                DB::raw('CASE WHEN ass.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
+                DB::raw('CASE WHEN ha.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
                 'ass.nr_associado',
-                'ass.id',
+                'ass.id as ida',
                 'p.nome_completo',
-                'ass.dt_inicio',
-                'ass.dt_fim',
+                'ha.dt_inicio',
+                'ha.dt_fim',
                 'ass.caminho_foto_associado',
                 DB::raw('(CASE WHEN EXISTS (
                         SELECT m.id_associado FROM membro AS m
@@ -60,26 +61,29 @@ class GerenciarAssociadoController extends Controller
         }
 
         if ($request->dt_inicio) {
-            $lista_associado->where('ass.dt_inicio', '=', $request->dt_inicio);
+            $lista_associado->where('ha.dt_inicio', '=', $request->dt_inicio);
         }
 
 
         if ($request->dt_fim) {
-            $lista_associado->where('ass.dt_fim', '=', $request->dt_fim);
+            $lista_associado->where('ha.dt_fim', '=', $request->dt_fim);
         }
 
 
         if ($request->status == 1) {
-            $lista_associado->where('ass.dt_fim', null);
+            $lista_associado->where('ha.dt_fim', null);
         } elseif ($request->status == 2) {
-            $lista_associado->whereNotNull('ass.dt_fim');
+            $lista_associado->whereNotNull('ha.dt_fim');
         }
 
 
         $lista_associado = $lista_associado->orderBy('status', 'asc', 'voluntario', 'asc')->orderBy('ass.nr_associado', 'asc')->paginate(100);
 
+        $motivo = DB::table('tipo_motivo_status_pessoa')
+                    ->select('id as idsp', 'motivo')->orderBy('motivo', 'asc')->get();
 
-        return view('/associado/gerenciar-associado', compact('lista_associado', 'id', 'nr_associado', 'nome_completo', 'voluntario', 'votante', 'dt_inicio', 'dt_fim', 'status'));
+
+        return view('/associado/gerenciar-associado', compact('lista_associado', 'id', 'nr_associado', 'nome_completo', 'voluntario', 'votante', 'dt_inicio', 'dt_fim', 'status', 'motivo'));
     }
 
     public function create(Request $request)
@@ -164,13 +168,22 @@ class GerenciarAssociadoController extends Controller
             DB::table('associado')
                 ->insert([
                     'id_pessoa' => $id_pessoa,
-                    'dt_inicio' => $request->input('dt_inicio'),
                     'nr_associado' => $request->input('nrassociado'),
                 ]);
+
+                $id_associado = DB::table('associado')
+                ->max('id');
+
+            DB::table('historico_associado')
+            ->insert([
+                'id_associado' => $id_associado,
+                'dt_inicio' => $request->input('dt_inicio'),
+            ]);
 
             DB::table('endereco_pessoas')->insert([
                 'id_pessoa' => $id_pessoa,
                 'cep' => str_replace('-', '', $request->input('cep')),
+                'dt_inicio' => $request->input('dt_inicio'),
                 'id_uf_end' => $request->input('uf_end'),
                 'id_cidade' => $request->input('cidade'),
                 'logradouro' => $request->input('logradouro'),
@@ -204,14 +217,23 @@ class GerenciarAssociadoController extends Controller
             DB::table('associado')
                 ->insert([
                     'id_pessoa' => $id_pessoa,
-                    'dt_inicio' => $request->input('dt_inicio'),
                     'nr_associado' => $request->input('nrassociado'),
 
                 ]);
 
+                $id_associado = DB::table('associado')
+                ->max('id');
+
+            DB::table('historico_associado')
+            ->insert([
+                'id_associado' => $id_associado,
+                'dt_inicio' => $request->input('dt_inicio'),
+            ]);
+
             DB::table('endereco_pessoas')
                 ->insert([
                 'id_pessoa' => $id_pessoa,
+                'dt_inicio' => $request->input('dt_inicio'),
                 'cep' => str_replace('-', '', $request->input('cep')),
                 'id_uf_end' => $request->input('uf_end'),
                 'id_cidade' => $request->input('cidade'),
@@ -246,10 +268,20 @@ class GerenciarAssociadoController extends Controller
             DB::table('associado')
                 ->insert([
                     'id_pessoa' => $id_pessoa,
-                    'dt_inicio' => $request->input('dt_inicio'),
                     'nr_associado' => $request->input('nrassociado'),
 
                 ]);
+
+                $id_associado = DB::table('associado')
+                ->max('id');
+
+            DB::table('historico_associado')
+            ->insert([
+                'id_associado' => $id_associado,
+                'dt_inicio' => $request->input('dt_inicio'),
+            ]);
+
+
 
             app('flasher')->addSuccess('O cadastro de Associado foi concluído e atualizado o cadastro de pessoa.');
 
@@ -267,44 +299,45 @@ class GerenciarAssociadoController extends Controller
     public function edit($id)
     {
         $edit_associado = DB::table('associado AS ass')
-            ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
-            ->leftJoin('tp_sexo', 'p.sexo', 'tp_sexo.id')
-            ->leftJoin('endereco_pessoas AS endp', 'p.id', '=', 'endp.id_pessoa')
-            ->leftJoin('tp_uf', 'endp.id_uf_end', '=', 'tp_uf.id')
-            ->leftJoin('tp_ddd', 'tp_ddd.id', '=', 'p.ddd')
-            ->leftjoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
-            ->where('ass.id', $id)
-            ->select(
-                'ass.id AS ida',
-                'ass.nr_associado',
-                'ass.dt_inicio',
-                'ass.dt_fim',
-                'p.id AS idp',
-                'endp.id AS ide',
-                'ass.dt_inicio',
-                'ass.dt_fim',
-                'p.nome_completo',
-                'p.cpf',
-                'p.celular',
-                'p.email',
-                'p.idt',
-                'p.sexo AS id_sexo',
-                'p.dt_nascimento AS dt_nascimento',
-                'tp_sexo.tipo AS nome_sexo',
-                'tp_ddd.id AS tpd',
-                'tp_ddd.descricao AS dddesc',
-                'tp_uf.id AS tuf',
-                'tp_uf.sigla AS ufsgl',
-                'endp.cep',
-                'tc.descricao',
-                'endp.logradouro',
-                'endp.numero',
-                'endp.bairro',
-                'endp.complemento',
-                'tc.id_cidade',
-                'tc.descricao AS nat',
-                'nr_associado AS nrAssociado'
-            )->get();
+        ->leftJoin('pessoas AS p', 'ass.id_pessoa', '=', 'p.id')
+        ->leftJoin('tp_sexo', 'p.sexo', 'tp_sexo.id')
+        ->leftJoin('endereco_pessoas AS endp', function ($join) {
+            $join->on('p.id', '=', 'endp.id_pessoa')
+                 ->whereRaw('endp.id = (SELECT MAX(id) FROM endereco_pessoas WHERE id_pessoa = p.id)');
+        })
+        ->leftJoin('tp_uf', 'endp.id_uf_end', '=', 'tp_uf.id')
+        ->leftJoin('tp_ddd', 'tp_ddd.id', '=', 'p.ddd')
+        ->leftJoin('tp_cidade AS tc', 'endp.id_cidade', '=', 'tc.id_cidade')
+        ->leftJoin('historico_associado as ha', 'ass.id', 'ha.id_associado')
+        ->where('ass.id', $id)
+        ->select(
+            'ass.id AS ida',
+            'ass.nr_associado',
+            'p.id AS idp',
+            'endp.id AS ide',
+            'p.nome_completo',
+            'p.cpf',
+            'p.celular',
+            'p.email',
+            'p.idt',
+            'p.sexo AS id_sexo',
+            'p.dt_nascimento AS dt_nascimento',
+            'tp_sexo.tipo AS nome_sexo',
+            'tp_ddd.id AS tpd',
+            'tp_ddd.descricao AS dddesc',
+            'tp_uf.id AS tuf',
+            'tp_uf.sigla AS ufsgl',
+            'endp.cep',
+            'tc.descricao',
+            'endp.logradouro',
+            'endp.numero',
+            'endp.bairro',
+            'endp.complemento',
+            'tc.id_cidade',
+            'tc.descricao AS nat',
+            'nr_associado AS nrAssociado'
+        )
+        ->get();
 
         $tpddd = DB::table('tp_ddd')->select('id', 'descricao')->get();
         $tpsexo = DB::table('tp_sexo')->select('id', 'tipo')->get();
@@ -417,13 +450,27 @@ class GerenciarAssociadoController extends Controller
         }
     }
 
-    public function update(Request $request, $ida, $idp, $ide)
+    public function update(Request $request, $ida, $idp)
     {
 
-        $cpf = $request->input('cpf');
+        $idEndereco = DB::table('endereco_pessoas')
+        ->where('id_pessoa', $idp)
+        ->orderByDesc('id') // Pegando o endereço mais recente
+        ->value('id'); // Retorna o maior ID
 
-        $pessoa = DB::table('pessoas')->where('cpf', $cpf)->count();
-        //dd($comparar_cpf);
+        $endereco = DB::table('endereco_pessoas as ep')
+        ->leftJoin('pessoas as p', 'ep.id_pessoa', 'p.id')
+        ->where('p.id', $idp)
+        ->count();
+
+        $associado = DB::table('pessoas as p')
+        ->leftJoin('associado as a', 'p.id', 'a.id_pessoa')
+        ->where('p.id', $idp)
+        ->whereNotNull('a.id')->count();
+
+        $pessoa = DB::table('pessoas as p')->where('p.id', $idp)->count();
+        
+        //dd($associado, $pessoa);
 
         try {
             $validated = $request->validate([
@@ -447,11 +494,50 @@ class GerenciarAssociadoController extends Controller
             app('flasher')->addError('O CPF digitado está em uso.');
             return redirect()->back()->withInput();
 
-        }else
+        }elseif($pessoa == 1 && $associado == 1 && $endereco == 0)
+        {
+            DB::table('pessoas as p')
+                ->where('p.id', $idp)
+                ->update([
+                    'ddd' => $request->input('ddd'),
+                    'celular' => $request->input('telefone'),
+                    'email' => $request->input('email'),
+                    'idt' => $request->input('idt'),
+                    'sexo' => $request->input('sexo'),
+                    'dt_nascimento' => $request->input('dt_nascimento'),
+                    'status' => '1',
+                ]);   
+
+            DB::table('associado as a')
+                ->where('a.id', $ida)
+                ->update([
+                    'nr_associado' => $request->input('nrassociado'),
+
+                ]);
+
+            DB::table('endereco_pessoas as ep')
+                ->insert([
+                'id_pessoa' => $idp,
+                'cep' => str_replace('-', '', $request->input('cep')),
+                'dt_inicio' =>  Carbon::now()->toDateString(),
+                'id_uf_end' => $request->input('uf_end'),
+                'id_cidade' => $request->input('cidade'),
+                'logradouro' => $request->input('logradouro'),
+                'numero' => $request->input('numero'),
+                'bairro' => $request->input('bairro'),
+                'complemento' => $request->input('complemento'),
+            ]);
+
+            app('flasher')->addSuccess('Foi incluido o endereço e atualizados os dados do associado!');
+
+            return redirect('/gerenciar-associado');
+
+
+        }elseif($pessoa == 1 && $associado == 1 && $endereco > 0)
         {
 
-            DB::table('pessoas')
-                ->where('id', $idp)
+            DB::table('pessoas as p')
+                ->where('p.id', $idp)
                 ->update([
                     'nome_completo' => $request->input('nome_completo'),
                     'cpf' => $request->input('cpf'),
@@ -464,28 +550,29 @@ class GerenciarAssociadoController extends Controller
                     'idt' => $request->input('idt')
                 ]);
 
-            DB::table('associado')
-                ->where('id', $ida)
+            DB::table('associado as a')
+                ->where('a.id', $ida)
                 ->update([
-                    'dt_inicio' => $request->input('dt_inicio'),
-                    'dt_fim' => $request->input('dt_fim'),
-                    'nr_associado' => $request->input('nrAssociado'),
+                    'nr_associado' => $request->input('nrassociado'),
                 ]);
 
-            DB::table('endereco_pessoas')
-                ->where('id', $ide)
-                ->update([
-                    'cep' => $request->input('cep'),
-                    'id_uf_end' => $request->input('uf_end'),
-                    'id_cidade' => $request->input('cidade'),
-                    'logradouro' => $request->input('logradouro'),
-                    'numero' => $request->input('numero'),
-                    'bairro' => $request->input('bairro'),
-                    'complemento' => $request->input('complemento'),
-                ]);
+                if ($idEndereco) {
+                    DB::table('endereco_pessoas')
+                        ->where('id', $idEndereco)
+                        ->update([
+                            'cep'         => $request->input('cep'),
+                            'id_uf_end'   => $request->input('uf_end'),
+                            'id_cidade'   => $request->input('cidade'),
+                            'logradouro'  => $request->input('logradouro'),
+                            'numero'      => $request->input('numero'),
+                            'bairro'      => $request->input('bairro'),
+                            'complemento' => $request->input('complemento'),
+                        ]);
+                }
 
-            app('flasher')->addSuccess('Edição do cadastro realizado com sucesso.');
-            return redirect('/gerenciar-associado');
+                app('flasher')->addSuccess('Todos os dados do associado foram atualizados!');
+
+                return redirect('/gerenciar-associado');
         
         }
 
@@ -519,6 +606,39 @@ class GerenciarAssociadoController extends Controller
         $delete_associado = DB::table('associado')->where('associado.id', $id)->delete();
 
         app('flasher')->addSuccess('O cadastro do Associado foi excluido com sucesso.');
+
+        return redirect('/gerenciar-associado');
+    }
+
+    function inativar(Request $request, $ida)
+    {
+
+        $verif_hist = DB::table('historico_associado as ha')->where('ha.id_associado', $ida)->whereNull('dt_fim')->count();
+
+        //dd($verif_hist);
+    
+        if($verif_hist > 1){
+
+            app('flasher')->addError('Existem dois períodos em aberto, contatar ATI.');
+
+            return redirect('/gerenciar-associado');
+
+        }else{
+
+            DB::table('historico_associado as ha')      
+            ->where('ha.id_associado', $ida)
+            ->whereNull('dt_fim')
+            ->update([
+                'dt_fim' => $request->input('dt_fim'),
+                'id_motivo' => $request->input('motivo'),
+            ]);
+
+            app('flasher')->addSuccess('O associado(a) foi inativado!');
+            
+            return redirect('/gerenciar-associado');
+        }
+
+        app('flasher')->addError('Ocorreu um erro inesperado contate a ATI!');
 
         return redirect('/gerenciar-associado');
     }
