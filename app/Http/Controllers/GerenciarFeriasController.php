@@ -327,6 +327,7 @@ class GerenciarFeriasController extends Controller
 
         $funcionarios = DB::table('funcionarios')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
+<<<<<<< HEAD
             ->join('contrato as c', 'funcionarios.id', '=', 'c.id_funcionario')
             ->leftJoin('afastamento', 'funcionarios.id', '=', 'afastamento.id_funcionario')
             ->where('c.dt_inicio', '<', $dia_do_ultimo_ano)
@@ -343,6 +344,16 @@ class GerenciarFeriasController extends Controller
                 'pessoas.nome_completo'
             )
             ->orderByRaw('COALESCE(pessoas.nome_completo, \' \') ASC')
+=======
+            ->join('acordo', 'funcionarios.id', '=', 'acordo.id_funcionario')
+            ->where('acordo.dt_inicio', '<', $dia_do_ultimo_ano)
+            ->where('acordo.dt_fim', '=', null)
+            ->where('acordo.tp_acordo', '=', 1)
+            ->select('pessoas.id as id_pessoa',
+                'funcionarios.id as id_funcionario',
+                'acordo.dt_inicio as data_de_inicio',
+                'pessoas.nome_completo')
+>>>>>>> origin/ferias
             ->get();
 
         DB::beginTransaction();
@@ -353,12 +364,33 @@ class GerenciarFeriasController extends Controller
                 ->where('id_funcionario', '=', $funcionario->id_funcionario)
                 ->where('ano_de_referencia', '=', $ano_referencia)
                 ->first();
+<<<<<<< HEAD
 
             if (is_null($periodo_de_ferias_do_funcionario)) {
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
                 $dias_afastado = $this->calcularDiasDeAfastamento($funcionario->id_funcionario);
 
                 $data_inicio = $data_inicio->addDays($dias_afastado);
+=======
+            $dias_afastado = 0;// Variavel que armazena a quantidade de dias que o funcionario ficou afastado por conta da COVID ou demais casos
+            if (empty($periodo_de_ferias_do_funcionario)) {
+                //$dias_limite_de_gozo = DB::table('hist_dia_limite_de_ferias')->where('data_fim', '=', null)->first();
+                $data_inicio = Carbon::parse($funcionario->data_de_inicio);
+                $afastamentos = DB::table('afastamento')
+                    ->where('id_funcionario', '=', $funcionario->id_funcionario)
+                    ->whereIn('tp_acordo', '=', [16, 17]);
+
+                if ($afastamentos->count() > 0) {
+                    foreach ($afastamentos as $afastamento) {
+                        $dias_de_afastamento = Carbon::parse($afastamento->dt_inicio)->diffInDays($afastamento->dt_fim);
+                        $dias_afastado += $dias_de_afastamento;
+
+                    }
+                    $data_inicio = $data_inicio->addDays($dias_afastado);
+
+                }
+
+>>>>>>> origin/ferias
 
                 $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->toDateString();
                 $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia + 1)->subDay()->toDateString();
