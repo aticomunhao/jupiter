@@ -62,7 +62,7 @@
                                             <div
                                                 style="width: 50px; height: 50px; background-color: lightblue; text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
                                                 <span style="display: inline-block;">
-                                                    {{ $totalFuncionariosTotal }}
+                                                    {{ $totfunc }}
                                                 </span>
                                             </div>
                                         </div>
@@ -74,7 +74,7 @@
                                             <div
                                                 style="width: 50px; height: 50px; background-color: rgb(123, 231, 141); text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
                                                 <span style="display: inline-block;">
-                                                    {{ $totalFuncionariosAtivos }}
+                                                    {{ $totativo }}
                                                 </span>
                                             </div>
                                         </div>
@@ -86,7 +86,7 @@
                                             <div
                                                 style="width: 50px; height: 50px; background-color: rgb(233, 114, 110); text-align: center; line-height: 50px; position: absolute; left: 50%; transform: translateX(-50%);">
                                                 <span style="display: inline-block;">
-                                                    {{ $totalFuncionariosInativos }}
+                                                    {{ $totinativo }}
                                                 </span>
                                             </div>
                                         </div>

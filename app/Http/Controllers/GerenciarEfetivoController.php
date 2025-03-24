@@ -63,35 +63,50 @@ class GerenciarEfetivoController extends Controller
 
         $base = $base->orderBy('nome_completo')->paginate(10);
 
+        // $totalFuncionariosSetor = 0;
+        // foreach ($quantidadeFuncionariosPorSetor as $quantidade) {
+        //     if ($quantidade->id_setor == $setorId) {
+        //         $totalFuncionariosSetor = $quantidade->total_funcionarios;
+        //         break;
+        //     }
+        // }
 
-
-        $totalFuncionariosSetor = 0;
-        foreach ($quantidadeFuncionariosPorSetor as $quantidade) {
-            if ($quantidade->id_setor == $setorId) {
-                $totalFuncionariosSetor = $quantidade->total_funcionarios;
-                break;
-            }
-        }
-
-        $totalFuncionariosTotal = DB::table('funcionarios')->count();
+        // $totalFuncionariosTotal = DB::table('funcionarios')->count();
 
         $setor = DB::table('setor')
             ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
             ->select('setor.id AS id_setor', 'setor.nome', 'setor.sigla')
             ->get();
 
-        $totalFuncionariosAtivos = DB::table('funcionarios AS f')
-            ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
-            ->where('p.status', 1)
-            ->count();
+        // $totalFuncionariosAtivos = DB::table('funcionarios AS f')
+        //     ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
+        //     ->where('p.status', 1)
+        //     ->count();
 
-        $totalFuncionariosInativos = DB::table('funcionarios AS f')
-            ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
-            ->where('p.status', 0)
-            ->count();
+        // $totalFuncionariosInativos = DB::table('funcionarios AS f')
+        //     ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
+        //     ->where('p.status', 0)
+        //     ->count();
 
+        $totfunc = DB::table('funcionarios AS f')
+            ->distinct('f.id')
+            ->count('f.id');
 
+        $totscontr = DB::table('funcionarios AS f')
+            ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
+            ->distinct('f.id')
+            ->whereNull('c.id')
+            ->count('f.id');
 
-        return view('efetivo.gerenciar-efetivo', compact('base', 'setor', 'totalFuncionariosSetor', 'totalFuncionariosTotal', 'totalVagasAutorizadas', 'setorId', 'statusPessoa', 'totalFuncionariosAtivos', 'totalFuncionariosInativos'));
+        $totativo = DB::table('funcionarios AS f')
+            ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
+            ->whereNull('c.dt_fim')
+            ->whereNotNull('c.id')
+            ->distinct('f.id')
+            ->count('f.id');
+
+        $totinativo = ($totfunc - ($totscontr + $totativo));
+
+        return view('efetivo.gerenciar-efetivo', compact('base', 'setor', 'totfunc', 'totscontr', 'totalVagasAutorizadas', 'setorId', 'statusPessoa', 'totativo', 'totinativo'));
     }
 }
