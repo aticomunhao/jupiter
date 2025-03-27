@@ -126,6 +126,9 @@
                         <!-- Fim Modal-->
                     </div>
                     <br>
+                    <div id="notificacao">
+
+                    </div>
                     <hr>
                     <div class="row d-flex justify-content-evenly ">
                         @foreach ($contagemStatus as $contagem_individual_status)
@@ -339,11 +342,7 @@
         </div>
     </div>
     </div>
-    <script>
-        $(document).ready(function() {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+    <script></script>
     <script>
         $(document).ready(function() {
             $('#idsetorconsulta').select2();
@@ -355,5 +354,29 @@
         var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var listaDePeriodoDeFerias = @json($periodo_aquisitivo);
+            var numeroDePeriodosParaAprovar = 0;
+
+            $.each(listaDePeriodoDeFerias, function(index, periodo) {
+                if (periodo.id_status_pedido_ferias == 4) {
+                    numeroDePeriodosParaAprovar++;
+                }
+            });
+
+            console.log(numeroDePeriodosParaAprovar);
+
+            if (numeroDePeriodosParaAprovar > 0) {
+                $('#notificacao').append(
+                    `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Atenção!</strong> Existem ${numeroDePeriodosParaAprovar} períodos de férias para aprovação.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>`
+                );
+            }
+        });
     </script>
 @endsection

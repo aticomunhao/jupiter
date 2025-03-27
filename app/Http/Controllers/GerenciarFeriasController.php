@@ -485,6 +485,7 @@ class GerenciarFeriasController extends Controller
 
 
 
+
         $ano_consulta = null;
         $nome_funcionario = $request->input('nomefuncionario');
         $status_consulta = $request->input('statusconsulta');
