@@ -203,15 +203,6 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-4 col-sm-12">Número da Matrícula
-                                    <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        name="matricula" maxlength="32"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="1" value="{{ $funcionario[0]->matricula }}" required="required">
-                                    <div class="invalid-feedback">
-                                        Por favor, informe o Número da Matrícula.
-                                    </div>
-                                </div>
                                 <div class="col-md-5">Setor Alocado
                                     <select id="setorid" style="border: 1px solid #999999; padding: 5px;"
                                         class="form-select" name="setor">

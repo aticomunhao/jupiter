@@ -39,7 +39,7 @@ class GerenciarFuncionarioController extends Controller
                 'f.id_pessoa AS idp',
                 'p.nome_resumido',
                 'setor.sigla',
-                DB::raw("CASE 
+                DB::raw("CASE
                         WHEN COUNT(contrato.id) = 0 THEN 'Sem Contrato'
                         WHEN SUM(CASE WHEN contrato.dt_fim IS NULL THEN 1 ELSE 0 END) > 0 THEN 'Ativo'
                         ELSE 'Inativo'
@@ -74,9 +74,9 @@ class GerenciarFuncionarioController extends Controller
         if ($request->idt) {
             $lista->where('p.idt', 'ilike', "%$idt%");
         }
-        
+
         //Os ativos
-        if ($request->status == '0') {
+        if ($request->status == '3') {
             $lista->whereNotNull('contrato.dt_inicio')->whereNull('contrato.dt_fim');
         }
         elseif ($request->status == '1') {
@@ -91,7 +91,7 @@ class GerenciarFuncionarioController extends Controller
         elseif ($request->status == '2') {
             $lista->havingRaw("count(contrato.id) = 0");
         }
-        elseif ($request->status == '3') {
+        elseif ($request->status == '0') {
             $lista->whereNotNull('f.id');
         }
 
@@ -121,7 +121,7 @@ class GerenciarFuncionarioController extends Controller
         ->distinct('f.id')
         ->count('f.id');
 
-        $totscontr = DB::table('funcionarios AS f')    
+        $totscontr = DB::table('funcionarios AS f')
         ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
         ->distinct('f.id')
         ->whereNull('c.id')
@@ -602,7 +602,6 @@ class GerenciarFuncionarioController extends Controller
             ->where('id_pessoa', $idp)
             ->update([
                 'dt_inicio' => $request->input('dt_ini'),
-                'matricula' => $request->input('matricula'),
                 'tp_programa' => $request->input('tp_programa'),
                 'nr_programa' => $request->input('nr_programa'),
                 'id_cor_pele' => $request->input('cor'),
