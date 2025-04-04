@@ -50,10 +50,10 @@
                                         <select class="form-select custom-select"
                                             style="border: 1px solid #999999; padding: 5px;" id="4" name="status"
                                             type="number">
-                                            <option value="0" {{ 0 == request('status') ? 'selected' : '' }}>Ativos</option>
+                                            <option value="0" {{ 0 == request('status') ? 'selected' : '' }}>Todos</option>
+                                            <option value="3" {{ 3 == request('status') ? 'selected' : '' }}>Ativos</option>
                                             <option value="1" {{ 1 == request('status') ? 'selected' : '' }}>Inativos</option>
                                             <option value="2" {{ 2 == request('status') ? 'selected' : '' }}>Sem contrato</option>
-                                            <option value="3" {{ 3 == request('status') ? 'selected' : '' }}>Todos</option>
                                         </select>
                                     </div>
                                     <div class="col" style="margin-top: 20px">
@@ -80,8 +80,8 @@
                 <div>
                         <h6 style="margin-top: 10px;">
                         Ativos: <input type="text" value="{{$totativo}}" style="width: 5%; text-align:center;" disabled>
-                        Inativos: <input type="text" value="{{$totinativo}}" style="width: 5%; text-align:center;" disabled> 
-                        Sem contrato: <input type="text" value="{{$totscontr}}" style="width: 5%; text-align:center;" disabled> 
+                        Inativos: <input type="text" value="{{$totinativo}}" style="width: 5%; text-align:center;" disabled>
+                        Sem contrato: <input type="text" value="{{$totscontr}}" style="width: 5%; text-align:center;" disabled>
                         Total: <input type="text" value="{{$totfunc}}" style="width: 5%; text-align:center;" disabled>
                         </h6>
                 </div>
