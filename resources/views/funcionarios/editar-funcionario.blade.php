@@ -573,7 +573,7 @@
         $(document).ready(function() {
 
 
-            $('#cidade1, #cidade2, #setorid').select2({
+            $('#cidade1, , #setorid').select2({
                 theme: 'bootstrap-5',
                 width: '100%',
             });
