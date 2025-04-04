@@ -40,6 +40,7 @@
         }
     </style>
 </head>
+<script src="{{ asset('js/jquery.min.js') }}?v={{ time() }}"></script>
 
 <body>
 
@@ -58,7 +59,13 @@
     <!-- <script src="{{ asset('js/custom.js') }}"></script> -->
 
 </body>
+{{-- <script src="{{ asset('js/jquery.js') }}"></script> --}}
 
+
+<!-- Teste se o jQuery foi carregado -->
+<script>
+    console.log(typeof jQuery !== 'undefined' ? "✅ jQuery carregado!" : "❌ jQuery NÃO carregado!");
+</script>
 <script>
     $("body").on("submit", "form", function() {
         $(this).submit(function() {
@@ -69,5 +76,5 @@
         return true;
     });
 </script>
-<script src="{{ asset('js/jquery.js') }}"></script>
+
 </html>
