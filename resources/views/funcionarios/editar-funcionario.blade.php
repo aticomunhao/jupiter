@@ -497,7 +497,7 @@
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="8" type="numeric"
                                         oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
-                                        id="35" name="cep" value="{{ $endereco[0]->cep }}">
+                                        id="cep" name="cep" value="{{ $endereco[0]->cep }}">
                                 </div>
 
                                 <div class="col-md-4 col-sm-12">UF
@@ -529,23 +529,23 @@
                             <div class="row">
                                 <div class="col-md-3 col-sm-12">Logradouro
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="45" type="text" id="36" name="logradouro"
+                                        maxlength="45" type="text" id="logradouro" name="logradouro"
                                         value="{{ $endereco[0]->logradouro }}">
                                 </div>
 
                                 <div class="col-md-3 col-sm-12">Número
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                        maxlength="10" type="text" id="35" name="numero"
+                                        maxlength="10" type="text" id="numero" name="numero"
                                         value="{{ $endereco[0]->numero }}">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Complemento
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;" maxlength="45"
-                                        class="form-control" id="36" name="comple"
+                                        class="form-control" id="complemento" name="comple"
                                         value="{{ $endereco[0]->complemento }}">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Bairro:
                                     <input type="text" style="border: 1px solid #999999; padding: 5px;" maxlength="45"
-                                        class="form-control" id="36" name="bairro"
+                                        class="form-control" id="bairro" name="bairro"
                                         value="{{ $endereco[0]->bairro }}">
                                 </div>
                             </div>
@@ -673,7 +673,31 @@
             customizePopover(popoverButton10, 'Pai/Mãe');
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#cep').on('input', function() {
 
+                let cep = $(this).val().replace(/\D/g, '');
+
+                if (cep.length === 8) {
+
+                    $.ajax({
+                        type: "GET",
+                        url: 'https://viacep.com.br/ws/' + cep + '/json/',
+                        dataType: "json",
+                        success: function(response) {
+
+                            console.log(response);
+                            $('#logradouro').val(response.logradouro);
+                            $('#bairro').val(response.bairro);
+                            $('#complemento').val(response.complemento);
+                        }
+                    });
+
+                }
+            });
+        });
+    </script>
     <style>
         /* Estilo para centralizar o conteúdo do botão */
         .btn-circle {
