@@ -44,7 +44,8 @@ class GerenciarFuncionarioController extends Controller
                         WHEN SUM(CASE WHEN contrato.dt_fim IS NULL THEN 1 ELSE 0 END) > 0 THEN 'Ativo'
                         ELSE 'Inativo'
                         END AS status_funcionario
-                        "))
+                        ")
+            )
             ->groupBy(
                 'f.id',
                 'p.cpf',
@@ -78,20 +79,17 @@ class GerenciarFuncionarioController extends Controller
         //Os ativos
         if ($request->status == '3') {
             $lista->whereNotNull('contrato.dt_inicio')->whereNull('contrato.dt_fim');
-        }
-        elseif ($request->status == '1') {
+        } elseif ($request->status == '1') {
             $lista->whereNotNull('contrato.dt_fim')
-            ->whereNotExists(function ($query) {
-                $query->select(DB::raw(1))
-                      ->from('contrato as c')
-                      ->whereColumn('c.id_funcionario', 'contrato.id_funcionario')
-                      ->whereNull('c.dt_fim'); // Verifica se existe algum contrato ativo
-            });
-        }
-        elseif ($request->status == '2') {
+                ->whereNotExists(function ($query) {
+                    $query->select(DB::raw(1))
+                        ->from('contrato as c')
+                        ->whereColumn('c.id_funcionario', 'contrato.id_funcionario')
+                        ->whereNull('c.dt_fim'); // Verifica se existe algum contrato ativo
+                });
+        } elseif ($request->status == '2') {
             $lista->havingRaw("count(contrato.id) = 0");
-        }
-        elseif ($request->status == '0') {
+        } elseif ($request->status == '0') {
             $lista->whereNotNull('f.id');
         }
 
@@ -118,25 +116,25 @@ class GerenciarFuncionarioController extends Controller
 
         //CONTADORES DE STATUS
         $totfunc = DB::table('funcionarios AS f')
-        ->distinct('f.id')
-        ->count('f.id');
+            ->distinct('f.id')
+            ->count('f.id');
 
         $totscontr = DB::table('funcionarios AS f')
-        ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
-        ->distinct('f.id')
-        ->whereNull('c.id')
-        ->count('f.id');
+            ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
+            ->distinct('f.id')
+            ->whereNull('c.id')
+            ->count('f.id');
 
         $totativo = DB::table('funcionarios AS f')
-        ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
-        ->whereNull('c.dt_fim')
-        ->whereNotNull('c.id')
-        ->distinct('f.id')
-        ->count('f.id');
+            ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
+            ->whereNull('c.dt_fim')
+            ->whereNotNull('c.id')
+            ->distinct('f.id')
+            ->count('f.id');
 
         $totinativo = ($totfunc - ($totscontr + $totativo));
 
-       // dd($totscontr, $totativo, $totinativo, $totfunc);
+        // dd($totscontr, $totativo, $totinativo, $totfunc);
 
 
         // $totalFuncionariosAtivos = DB::table('funcionarios AS f')
@@ -177,6 +175,7 @@ class GerenciarFuncionarioController extends Controller
         $sexo = DB::select('select id, tipo from tp_sexo');
 
         $tp_uf = DB::select('select id, sigla from tp_uf');
+
 
         $nac = DB::select('select id, local from tp_nacionalidade');
 

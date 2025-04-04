@@ -485,36 +485,47 @@
         });
     </script>
 
+
     <script>
         $(document).ready(function() {
             $('#cep').on('input', function() {
-
                 let cep = $(this).val().replace(/\D/g, '');
 
                 if (cep.length === 8) {
+                    let estados = @JSON($tp_uf);
 
                     $.ajax({
                         type: "GET",
                         url: 'https://viacep.com.br/ws/' + cep + '/json/',
                         dataType: "json",
                         success: function(response) {
-
                             console.log(response);
+
+                            // Preenchendo os campos automaticamente
                             $('#logradouro').val(response.logradouro);
                             $('#bairro').val(response.bairro);
                             $('#complemento').val(response.complemento);
+
+                            // Encontrando o estado correspondente
+                            let estadoEncontrado = estados.find(estado => estado.sigla ===
+                                response.uf);
+
+                            if (estadoEncontrado) {
+                                $('#uf2').val(estadoEncontrado.id).trigger('change');
+
+                                // Buscar cidades automaticamente e selecionar pelo nome
+                                populateCities($('#cidade2'), estadoEncontrado.id, response
+                                    .localidade);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Erro ao buscar o CEP:", error);
                         }
                     });
-
                 }
             });
-        });
-    </script>
 
-
-    <script>
-        $(document).ready(function() {
-            function populateCities(selectElement, uf) {
+            function populateCities(selectElement, uf, cidadeNome) {
                 $.ajax({
                     type: "GET",
                     url: "/retorna-cidades/" + uf,
@@ -522,14 +533,33 @@
                     success: function(response) {
                         selectElement.empty();
                         selectElement.removeAttr('disabled');
+
+                        let cidadeSelecionada = null;
+
                         $.each(response, function(indexInArray, item) {
-                            selectElement.append('<option value="' + item
-                                .id_cidade + '">' +
+                            selectElement.append('<option value="' + item.id_cidade + '">' +
                                 item.descricao + '</option>');
+
+                            // Verifica se o nome da cidade retornado pelo ViaCEP é igual ao da lista
+                            if (item.descricao.toLowerCase() === cidadeNome.toLowerCase()) {
+                                cidadeSelecionada = item.id_cidade;
+                            }
                         });
+
+                        // Se encontramos a cidade pelo nome, selecionamos ela
+                        if (cidadeSelecionada) {
+                            selectElement.val(cidadeSelecionada).trigger('change');
+                        }
                     }
                 });
             }
+        });
+    </script>
+
+
+    <script>
+        $(document).ready(function() {
+
             $('#uf1').change(function(e) {
 
                 var uf = $(this).val();
