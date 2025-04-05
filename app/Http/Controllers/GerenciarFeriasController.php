@@ -330,7 +330,7 @@ class GerenciarFeriasController extends Controller
             ->join('contrato as c', 'funcionarios.id', '=', 'c.id_funcionario')
             ->leftJoin('afastamento', 'funcionarios.id', '=', 'afastamento.id_funcionario')
             ->where('c.dt_inicio', '<', $dia_do_ultimo_ano)
-            ->where('c.tp_contrato', '=', 1)
+            ->whereIn('c.tp_contrato',  [1, 5])
             ->whereNull('c.dt_fim')
             ->where(function ($query) {
                 $query->whereNotNull('afastamento.dt_inicio')
@@ -348,6 +348,7 @@ class GerenciarFeriasController extends Controller
         DB::beginTransaction();
 
 
+
         foreach ($funcionarios as $funcionario) {
             $periodo_de_ferias_do_funcionario = DB::table('ferias')
                 ->where('id_funcionario', '=', $funcionario->id_funcionario)
@@ -355,6 +356,7 @@ class GerenciarFeriasController extends Controller
                 ->first();
 
             if (is_null($periodo_de_ferias_do_funcionario)) {
+        
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
                 $dias_afastado = $this->calcularDiasDeAfastamento($funcionario->id_funcionario);
 
