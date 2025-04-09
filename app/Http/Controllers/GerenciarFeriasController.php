@@ -356,7 +356,8 @@ class GerenciarFeriasController extends Controller
                 ->first();
 
             if (is_null($periodo_de_ferias_do_funcionario)) {
-        
+                // dd($funcionario);
+
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
                 $dias_afastado = $this->calcularDiasDeAfastamento($funcionario->id_funcionario);
 
@@ -534,6 +535,7 @@ class GerenciarFeriasController extends Controller
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $anos_inicial = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->first();
         $anos_final = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->orderBy('ano_de_referencia', 'desc')->first();
+    
         $status_ferias = DB::table('status_pedido_ferias')->get();
         if (!empty($anos_inicial)) {
             $anoAnterior = intval($anos_inicial->ano_de_referencia) - 2;

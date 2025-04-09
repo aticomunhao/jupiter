@@ -343,11 +343,11 @@
     </div>
     </div>
     <script></script>
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#idsetorconsulta').select2();
         });
-    </script>
+    </script> --}}
 
     <script>
         var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
@@ -355,7 +355,6 @@
             return new bootstrap.Tooltip(tooltipTriggerEl)
         })
     </script>
-    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> --}}
     <script>
         $(document).ready(function() {
             var listaDePeriodoDeFerias = @json($periodo_aquisitivo);
