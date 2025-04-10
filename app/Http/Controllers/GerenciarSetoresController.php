@@ -32,7 +32,6 @@ class GerenciarSetoresController extends Controller
             );
 
 
-        //dd($lista);
 
         $ids = $request->ids;
 
@@ -126,7 +125,7 @@ class GerenciarSetoresController extends Controller
         return view('/setores/editar-setor', compact('editar', 'nivel'));
     }
 
-    public function show($id)
+    public function show($ids)
     {
         $query = "
     WITH RECURSIVE cte AS (
@@ -140,11 +139,10 @@ class GerenciarSetoresController extends Controller
     )
     SELECT * FROM cte;
 ";
-        $setores_anteriores = DB::select($query, ['rootId' => $id]);
+        $setores_anteriores = DB::select($query, ['rootId' => $ids]);
 
-        $setores_subordinados = DB::table('setor')->where('setor_pai', $id)->get();
-
-        $setor = DB::table('setor')->where('id', $id)->first();
+        $setores_subordinados = DB::table('setor')->where('setor_pai', $ids)->get();
+        $setor = DB::table('setor')->where('id', $ids)->first();
 
         return view('setores.visualizar-setor', compact('setor', 'setores_anteriores', 'setores_subordinados'));
     }
