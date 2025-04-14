@@ -39,11 +39,9 @@
                                         <label for="1">Setor</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
-                                            @foreach ($setor as $setores)
-                                                <option value="{{ $setores->id }}"
-                                                    {{ $setores->sigla == $setores->id ? 'selected' : '' }}>
-                                                    {{ $setores->sigla }}
-                                                </option>
+                                            @foreach ($setor as $setores)                                                    
+                                                    <option @if (request('setor') == $setores->id) {{ 'selected="selected"' }} @endif
+                                                    value="{{ $setores->id }}">{{ $setores->sigla }}</option>                        
                                             @endforeach
                                         </select>
                                     </div>

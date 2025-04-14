@@ -22,6 +22,10 @@ class GerenciarFuncionarioController extends Controller
     public function index(Request $request)
     {
 
+        $setor_func = DB::table('funcionarios as f')->leftJoin('hist_setor as hs', 'f.id', 'hs.id_func')
+        ->select('hs.id_setor')->distinct('hs.id_setor')->pluck('id_setor')->toArray();
+        //dd($setor_func);
+
         $lista = DB::table('funcionarios AS f')
             ->leftjoin('pessoas AS p', 'f.id_pessoa', 'p.id')
             ->leftJoin('hist_setor AS hs', function ($join) {
@@ -109,11 +113,12 @@ class GerenciarFuncionarioController extends Controller
             )
             ->get();
 
-        $setor = db::table('setor')
+        $setor = DB::table('setor')
             ->select('id', 'nome', 'sigla')
+            ->whereIn('id', $setor_func )
             ->orderBy('sigla')
             ->get();
-
+//dd($setor);
         //CONTADORES DE STATUS
         $totfunc = DB::table('funcionarios AS f')
             ->distinct('f.id')
