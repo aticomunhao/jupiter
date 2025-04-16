@@ -180,6 +180,8 @@ class GerenciarContratoController extends Controller
                     'dt_inicio' => $request->input('dt_inicio'),
                     'caminho' => 'storage/images/' . $nomeArquivo,
                     'matricula' => $request->input('matricula'),
+                    'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
+                    'dt_fim' => $request->input('dt_fim'),
                 ]);
         }
     }
@@ -204,6 +206,8 @@ class GerenciarContratoController extends Controller
                 'tp_contrato' => $request->input('tipo_contrato'),
                 'dt_inicio' => $request->input('dt_inicio'),
                 'matricula' => $request->input('matricula'),
+                'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
+                'dt_fim' => $request->input('dt_fim'),
             ]);
     }
 
