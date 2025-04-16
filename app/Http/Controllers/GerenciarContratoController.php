@@ -44,7 +44,9 @@ class GerenciarContratoController extends Controller
                 'c.id_funcionario',
                 'c.admissao',
                 'c.caminho',
-                'tp_demissao.motivo AS motivo'
+                'tp_demissao.motivo AS motivo',
+                'c.tp_contrato',
+                'c.data_fim_prevista'
             )
             ->where('c.id_funcionario', $idf)
             ->get();
@@ -56,6 +58,7 @@ class GerenciarContratoController extends Controller
             $datadoBancoDeDadosFormatada = $datadoBancoDeDados->format('Y-m-d');
             $contratos->valido = ($dataFormatada <= $datadoBancoDeDadosFormatada) ? "Sim" : "Não";
         }
+        // dd($contrato);
 
         return view('contrato.gerenciar-contrato', compact('contrato', 'funcionario', 'situacao'));
     }
