@@ -96,8 +96,7 @@ class GerenciarContratoController extends Controller
             app('flasher')->addError('A data inicial é maior que a data final');
             return redirect()->route('indexGerenciarContrato', ['id' => $idf]);
         } elseif ($funcionario && $funcionario->matricula == $request->input('matricula')) {
-            $caminho = $this->storeFile($request ?? '');
-            ;
+            $caminho = $this->storeFile($request ?? '');;
             $data = [
                 'tp_contrato' => $request->input('tipo_contrato'),
                 'dt_inicio' => $request->input('dt_inicio'),
@@ -106,14 +105,14 @@ class GerenciarContratoController extends Controller
                 'caminho' => $caminho,
                 'matricula' => $request->input('matricula'),
                 'admissao' => '0',
+                'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
             ];
 
             DB::table('contrato')->insert($data);
             app('flasher')->addSuccess('O novo cadastro do Contrato foi realizado com sucesso.');
             return redirect()->route('indexGerenciarContrato', ['id' => $idf]);
         } else {
-            $caminho = $this->storeFile($request ?? '');
-            ;
+            $caminho = $this->storeFile($request ?? '');;
             $data = [
                 'tp_contrato' => $request->input('tipo_contrato'),
                 'dt_inicio' => $request->input('dt_inicio'),
@@ -122,6 +121,7 @@ class GerenciarContratoController extends Controller
                 'caminho' => $caminho,
                 'matricula' => $request->input('matricula'),
                 'admissao' => '1',
+                'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
             ];
 
             DB::table('contrato')->insert($data);
@@ -136,6 +136,7 @@ class GerenciarContratoController extends Controller
     public function edit(string $id)
     {
         $contrato = DB::table('contrato')->where('id', $id)->first();
+        // dd($contrato);
         $funcionario = $this->getFuncionarioData($contrato->id_funcionario);
         $tipocontrato = DB::table('tp_contrato')->get();
 
@@ -150,7 +151,7 @@ class GerenciarContratoController extends Controller
         $contrato = DB::table('contrato')->where('id', $id)->first();
         $funcionario = $this->getFuncionarioData($contrato->id_funcionario);
 
-        if ($request->input('dt_inicio') > $request->input('dt_fim')) {
+        if ($request->input('dt_inicio') > $request->input('dt_fim') and !empty($request->input('dt_fim'))) {
             app('flasher')->addError('A data inicial é maior que a data final');
             return redirect()->route('indexGerenciarContrato', ['id' => $contrato->id_funcionario]);
         } elseif ($request->file('ficheiroNovo') == null) {
