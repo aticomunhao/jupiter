@@ -33,18 +33,18 @@
                                 class="table table-striped table-bordered border-secondary table-hover align-middle text-center">
                                 <thead class="table-light">
                                     <tr class="text-dark" style="font-size: 17px;">
-                                        <th class="col-2">Tipo de Contrato</th>
-                                        <th class="col-2">Admissão</th>
-                                        <th class="col-1">Matrícula</th>
-                                        <th class="col-2">Demissão</th>
+                                        <th class="col">Tipo de Contrato</th>
+                                        <th class="col">Admissão</th>
+                                        <th class="col">Matrícula</th>
+                                        <th class="col">Demissão</th>
                                         @if (collect($contrato)->contains('tp_contrato', 5))
-                                            <th class="col-2">Previsão de Fim</th>
+                                            <th class="col">Previsão de Fim</th>
                                         @endif
-                                        <th class="col-3">Motivo Desligamento</th>
-                                        <th class="col-2">Ações</th>
+                                        <th class="col">Motivo Desligamento</th>
+                                        <th class="col">Ações</th>
                                     </tr>
                                 </thead>
-                                <tbody style="font-size: 15px;">
+                                <tbody>
                                     @foreach ($contrato as $contratos)
                                         <tr>
                                             <td>{{ $contratos->nome }}</td>
@@ -53,57 +53,67 @@
                                             <td>
                                                 {{ $contratos->dt_fim ? \Carbon\Carbon::parse($contratos->dt_fim)->format('d/m/Y') : 'Em vigor' }}
                                             </td>
-                                            @if (isset($contratos->tp_contrato) && $contratos->tp_contrato == 5)
-                                                <td>{{ $contratos->previsao_fim ?? '-' }}</td>
+                                            @if (collect($contrato)->contains('tp_contrato', 5))
+                                                <td>{{ $contratos->data_fim_prevista ? \Carbon\Carbon::parse($contratos->data_fim_prevista)->format('d/m/Y') : '-' }}
+                                                </td>
                                             @endif
                                             <td>{{ $contratos->motivo ?? '-' }}</td>
                                             <td>
-                                                <a href="#" class="btn btn-outline-secondary" title="Visualizar">
+                                                <a href="#" class="btn btn-outline-secondary" data-bs-toggle="tooltip"
+                                                    title="Visualizar">
                                                     <i class="bi bi-archive"></i>
                                                 </a>
 
                                                 <a href="/editar-contrato/{{ $contratos->id }}"
-                                                    class="btn btn-outline-warning" title="Editar">
+                                                    class="btn btn-outline-warning" data-bs-toggle="tooltip" title="Editar">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
 
                                                 <button class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#A{{ $contratos->id }}" title="Excluir">
+                                                    data-bs-target="#modalExcluir{{ $contratos->id }}" title="Excluir">
                                                     <i class="bi bi-trash"></i>
                                                 </button>
 
-                                                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-                                                    data-bs-target="#situacao{{ $contratos->id }}"
-                                                    title="Finalizar contrato">
-                                                    <i class="bi bi-exclamation-circle"></i>
-                                                </button>
+                                                @if (!$contratos->dt_fim)
+                                                    <button type="button" class="btn btn-outline-danger"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#modalFinalizar{{ $contratos->id }}"
+                                                        title="Finalizar contrato">
+                                                        <i class="bi bi-exclamation-circle"></i>
+                                                    </button>
+                                                @endif
 
-                                                {{-- Modal Finalizar --}}
-                                                <div class="modal fade" id="situacao{{ $contratos->id }}" tabindex="-1"
-                                                    aria-hidden="true">
+                                                <!-- Modal Finalizar Contrato (Lógica Original Mantida) -->
+                                                <div class="modal fade" id="modalFinalizar{{ $contratos->id }}"
+                                                    tabindex="-1">
                                                     <div class="modal-dialog">
                                                         <form method="POST"
-                                                            action="{{ url('/inativar-contrato/' . $contratos->id) }}">
+                                                            action="/inativar-contrato/{{ $contratos->id }}">
                                                             @csrf
                                                             <div class="modal-content">
                                                                 <div class="modal-header bg-danger text-white">
-                                                                    <h5 class="modal-title">Confirmar Inativação</h5>
+                                                                    <h5 class="modal-title">Finalizar Contrato</h5>
                                                                     <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        data-bs-dismiss="modal"></button>
                                                                 </div>
-                                                                <div class="modal-body text-center">
-                                                                    <label class="form-label">Motivo da Inativação:</label>
-                                                                    <select class="form-select mb-3" name="motivo_inativar"
-                                                                        required>
-                                                                        <option value=""></option>
-                                                                        @foreach ($situacao as $situacaos)
-                                                                            <option value="{{ $situacaos->id }}">
-                                                                                {{ $situacaos->motivo }}</option>
-                                                                        @endforeach
-                                                                    </select>
-                                                                    <label class="form-label">Data de Inativação:</label>
-                                                                    <input class="form-control" type="date"
-                                                                        name="dt_fim_inativacao" required>
+                                                                <div class="modal-body">
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Motivo da
+                                                                            Finalização:</label>
+                                                                        <select class="form-select" name="motivo_inativar"
+                                                                            required>
+                                                                            @foreach ($situacao as $motivo)
+                                                                                <option value="{{ $motivo->id }}">
+                                                                                    {{ $motivo->motivo }}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                    <div class="mb-3">
+                                                                        <label class="form-label">Data da
+                                                                            Finalização:</label>
+                                                                        <input type="date" class="form-control"
+                                                                            name="dt_fim_inativacao" required>
+                                                                    </div>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
@@ -116,32 +126,34 @@
                                                     </div>
                                                 </div>
 
-                                                {{-- Modal Excluir --}}
-                                                <div class="modal fade" id="A{{ $contratos->id }}" tabindex="-1"
-                                                    aria-hidden="true">
+                                                <!-- Modal Excluir Contrato (Lógica Original Mantida) -->
+                                                <div class="modal fade" id="modalExcluir{{ $contratos->id }}"
+                                                    tabindex="-1">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
                                                             <div class="modal-header bg-danger text-white">
-                                                                <h5 class="modal-title">Excluir Contrato</h5>
+                                                                <h5 class="modal-title">Confirmar Exclusão</h5>
                                                                 <button type="button" class="btn-close"
-                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                    data-bs-dismiss="modal"></button>
                                                             </div>
-                                                            <div class="modal-body text-center text-danger fw-bold">
-                                                                Tem certeza que deseja excluir o contrato:
-                                                                <br><span class="fs-5">{{ $contratos->nome }}</span>?
+                                                            <div class="modal-body">
+                                                                <p class="text-center fw-bold">Deseja realmente excluir o
+                                                                    contrato:<br>
+                                                                    <span
+                                                                        class="text-danger">"{{ $contratos->nome }}"</span>?
+                                                                </p>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <button type="button" class="btn btn-secondary"
-                                                                    data-bs-dismiss="modal">Cancelar</button>
                                                                 <a href="/excluir-contrato/{{ $contratos->id }}">
                                                                     <button type="button" class="btn btn-danger">Excluir
-                                                                        permanentemente</button>
+                                                                        Permanentemente</button>
                                                                 </a>
+                                                                <button type="button" class="btn btn-secondary"
+                                                                    data-bs-dismiss="modal">Cancelar</button>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
                                             </td>
                                         </tr>
                                     @endforeach
@@ -151,16 +163,19 @@
 
                         <div class="row mt-4">
                             <div class="col-md-4 mx-auto">
-                                <a href="{{ route('gerenciar') }}">
+                                <a href="{{ route('gerenciar') }}" class="d-block">
                                     <button class="btn btn-danger w-100">Retornar</button>
                                 </a>
                             </div>
                         </div>
 
                         <script>
-                            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tt="tooltip"]'))
-                            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                                return new bootstrap.Tooltip(tooltipTriggerEl)
+                            // Tooltips (Ajuste de Estilo)
+                            document.addEventListener('DOMContentLoaded', function() {
+                                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                                var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                                })
                             })
                         </script>
                     </div>
