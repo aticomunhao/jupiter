@@ -133,8 +133,8 @@ Route::middleware('rotas:4')->group(function () {
 Route::middleware('rotas:5')->group(function () {
     Route::get('/gerenciar-hierarquia', [GerenciarHierarquiaController::class, 'index'])->name('gerenciar-hierarquia');
     Route::get('/obter-setores/{id_nivel}', [GerenciarHierarquiaController::class, 'obterSetoresPorNivel']);
-    Route::any('/consultar-hierarquia', [GerenciarHierarquiaController::class, 'show'])->name('consultar-hierarquia');
-    Route::any('/atualizar-hierarquia', [GerenciarHierarquiaController::class, 'atualizarhierarquia']);
+    Route::get('/editar-hierarquia/{ids}', [GerenciarHierarquiaController::class, 'edit']);
+    Route::post('/atualizar-hierarquia/{ids}', [GerenciarHierarquiaController::class, 'atualizarhierarquia']);
 });
 
 /*Gerenciar-Associado*/

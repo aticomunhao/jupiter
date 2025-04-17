@@ -16,10 +16,9 @@ class GerenciarSetoresController extends Controller
     {
 
         $lista_setor = DB::table('tp_nivel_setor AS tns')
-            ->whereIn('tns.id', ['1', '2', '3'])
-            ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
-            ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
-            ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
+            ->leftJoin('setor AS s', 'tns.id', 's.id_nivel')
+            ->leftJoin('setor AS substituto', 's.substituto', 'substituto.id')
+            ->leftJoin('setor AS setor_pai', 's.setor_pai', 'setor_pai.id')
             ->select(
                 DB::raw('CASE WHEN s.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
                 's.id AS ids',
@@ -48,27 +47,27 @@ class GerenciarSetoresController extends Controller
         $nome_substituto = $request->nome_substituto;
 
         if ($request->nome) {
-            $lista_setor->where('s.nome', 'LIKE', '%' . $request->nome . '%');
+            $lista_setor->whereRaw("UNACCENT(LOWER(s.nome)) ILIKE UNACCENT(LOWER(?))", ["%{$request->nome}%"]);
         }
 
         if ($request->sigla) {
-            $lista_setor->where('s.sigla', 'LIKE', '%' . $request->sigla . '%');
+            $lista_setor->whereRaw("UNACCENT(LOWER(s.sigla)) ILIKE UNACCENT(LOWER(?))", ["%{$request->sigla}%"]);
         }
 
         if ($request->nome_substituto) {
-            $lista_setor->where('s.substituto', 'LIKE', '%' . $request->nome_substituto . '%');
+            $lista_setor->whereRaw("UNACCENT(LOWER(s.substituto)) ILIKE UNACCENT(LOWER(?))", ["%{$request->nome_substituto}%"]);
         }
 
         if ($request->dt_inicio) {
-            $lista_setor->where('s.dt_inicio', '=', $request->dt_inicio);
+            $lista_setor->whereDate('s.dt_inicio', '=', $request->dt_inicio);
         }
 
         if ($request->dt_fim) {
-            $lista_setor->where('s.dt_fim', '=', $request->dt_fim);
+            $lista_setor->whereDate('s.dt_fim', '=', $request->dt_fim);
         }
 
         if ($request->status == 1) {
-            $lista_setor->where('s.dt_fim', null);
+            $lista_setor->whereDate('s.dt_fim', null);
         } elseif ($request->status == 2) {
             $lista_setor->whereNotNull('s.dt_fim');
         }

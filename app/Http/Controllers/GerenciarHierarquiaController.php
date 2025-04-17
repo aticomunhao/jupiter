@@ -14,18 +14,28 @@ use Illuminate\Support\Collection;
 
 class GerenciarHierarquiaController extends Controller
 {
-    public function index(Request $request)
+
+   public function index(Request $request)
     {
+            // 1. Carrega todos os níveis disponíveis
         $nivel = DB::table('tp_nivel_setor')
-            ->select('tp_nivel_setor.id AS id_nivel', 'tp_nivel_setor.nome as nome_nivel')
-            ->get();
+        ->select('tp_nivel_setor.id AS id_nivel', 'tp_nivel_setor.nome as nome_nivel')
+        ->get();
 
-        $setor = DB::table('setor')
-            ->leftJoin('setor AS substituto', 'setor.substituto', '=', 'substituto.id')
-            ->select('setor.id AS id_setor', 'setor.nome AS nome_setor', 'setor.sigla', 'setor.dt_inicio', 'substituto.sigla AS nome_substituto')
-            ->get();
+        // 2. Carrega setores do nível selecionado (ou todos, se nada for selecionado ainda)
+        $setor = collect();
+        if ($request->nivel) {
+            $setor = DB::table('setor')
+                ->where('id_nivel', $request->nivel)
+                ->select('id AS id_setor', 'nome AS nome_setor')
+                ->get();
+        }
 
+        // Parâmetros recebidos do formulário
+        $nm_nivel = $request->nivel_pai;
+        $nome_setor = $request->setor_pai;
 
+        // 3. Consulta principal da grid
         $lista = DB::table('tp_nivel_setor AS tns')
             ->leftJoin('setor AS st', 'tns.id', '=', 'st.id_nivel')
             ->leftJoin('setor AS substituto', 'st.substituto', '=', 'substituto.id')
@@ -40,202 +50,125 @@ class GerenciarHierarquiaController extends Controller
                 'st.id_nivel',
                 'st.nome AS nome_setor',
                 'setor_pai.nome AS st_pai',
+                'setor_pai.id AS id_pai',
                 'substituto.sigla AS nome_substituto'
             );
 
-
-        $nm_nivel = $request->nivel;
-        $nome_setor = $request->nome_setor;
-        $id_nivel = $request->id_nivel;
-        $st_pai = $request->st_pai;
-
-
-
-
-        if ($nome_setor == 1) {
-            $lista->where('st.id_nivel', '>=', 2)->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
-
-
-
-            if ($nm_nivel == 1) {
-                $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
+            if($nome_setor > 0 ){
+                $lista->where('st.id', $nome_setor)
+                        ->orwhere('setor_pai.id', $nome_setor);
             }
 
-            if ($nm_nivel == 2) {
-                $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
-            }
-        }
-            else{
-                $lista->where('st.id_nivel', '>', 2)->whereNull('st.setor_pai')->orwhere('st.id', $request->nome_setor);
+        $lista = $lista->orderBy('tns.id', 'ASC')
+                    ->orderBy('st.setor_pai', 'ASC')
+                    ->paginate(12);
 
-
-                if ($nm_nivel == 1) {
-                    $lista->orWhere('st.setor_pai', '>=', $request->nome_setor);
-                }
-
-                if ($nm_nivel == 2) {
-                    $lista->orWhere('st.setor_pai', '=', $request->nome_setor);
-                }
-
-            }
-
-
-
-
-        $lista = $lista->orderby('tns.id', 'ASC')->orderBy('st.setor_pai', 'ASC')->get();
-
-        Session::flash('listas', $lista);
-
-        Session::flash('nome_setor', $nome_setor);
-
-
-        return view('/setores/Gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'st_pai', 'nm_nivel', 'setor'));
+        // 6. Envia os dados para a view
+        return view('/setores/gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'nm_nivel', 'setor'));
     }
 
 
 
     public function obterSetoresPorNivel($id_nivel)
     {
-        $set = DB::table('setor as s')
-            ->where('id_nivel', $id_nivel)
-            ->select('s.nome', 's.id')
-            ->get();
+        try {
+            $setores = DB::table('setor')
+                ->where('id_nivel', $id_nivel)
+                ->select('id', 'nome')
+                ->orderBy('nome')
+                ->get();
 
-        if ($set->isNotEmpty()) {
-            return response()
-                ->json($set);
-        }
-
-        return response()->json(['message' => 'Nenhum setor encontrado para o ID de nível fornecido']);
-    }
-
-    public function show(Request $request)
-    {
-
-        $nivel = $request->input('nivel');
-        $nome_set = $request->input('nome_setor');
-
-
-        $setor = DB::table('setor')->get();
-
-        $id_nivel_setor = DB::table('setor')
-            ->where('id', $nome_set)
-            ->value('id_nivel');
-
-
-
-        foreach ($setor as $setores) {
-            if ($nome_set == $setores->id or $nome_set == $setores->setor_pai) {
-                $lista1 = DB::table('tp_nivel_setor AS tns')
-                    ->leftJoin('setor AS s', 'tns.id', '=', 's.id_nivel')
-                    ->leftJoin('setor AS substituto', 's.substituto', '=', 'substituto.id')
-                    ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
-                    ->where('s.id',  $nome_set)
-                    ->select(
-                        's.id AS ids',
-                        's.nome',
-                        's.sigla',
-                        's.dt_inicio',
-                        's.dt_fim',
-                        's.status',
-                        's.setor_pai',
-                        'substituto.sigla AS nome_substituto'
-                    )->get();
-
-
-                $lista2 = DB::table('setor AS s')->where('s.setor_pai', $nome_set)->get();
-
-
-                $lista3 = DB::table('setor AS s')
-                    ->join('tp_nivel_setor AS n', 's.id_nivel', '=', 'n.id')
-                    ->where('n.id', '>', $id_nivel_setor)
-                    ->whereNull('s.setor_pai')
-                    ->select('s.*')->get();
-
-
-                $lista = [
-                    $lista1,
-                    $lista2,
-                    $lista3,
-                ];
-
-
-                dd($lista);
-
-                $id_nivel = $request->id_nivel;
-                $id_setor = $request->id_setor;
-                $sigla = $request->sigla;
-                $status = $request->status;
-                $dt_inicio = $request->dt_inicio;
-                $nome_substituto = $request->nome_substituto;
-                $nome_nivel = $request->nome_nivel;
-                $nome_setor = $request->nome_setor;
-
-                if ($request->id_setor) {
-                    $setor->where('id_setor', $request->id_setor);
-                }
-
-                if ($request->id_nivel) {
-                    $nivel->where('id_nivel', $request->id_nivel);
-                }
-
-                if ($request->status) {
-                    $status->where('status', $request->status);
-                }
-
-                if ($request->sigla) {
-                    $sigla->where('sigla', $request->sigla);
-                }
-
-                if ($request->nome_nivel) {
-                    $nivel->where('nome_nivel',  'LIKE', '%' . $request->nome_nivel . '%');
-                }
-
-                if ($request->nome_setor) {
-                    $setor->where('nome_setor',  'LIKE', '%' . $request->nome_nivel . '%');
-                }
-
-                $nivel = $nivel->orderBy('id_nivel', 'asc')->orderBy('nome_nivel');
-                $lista = $setor->orderBy('status', 'asc')->orderBy('nome_setor');
-
-
-                return view('/setores/Gerenciar-hierarquia', compact('nome_nivel', 'nivel', 'lista', 'nome_setor', 'id_nivel', 'id_setor', 'sigla', 'dt_inicio', 'status', 'nome_substituto'));
-            }
+            return response()->json($setores);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erro ao buscar setores.',
+                'details' => $e->getMessage()
+            ], 500);
         }
     }
 
-    public function atualizarhierarquia(Request $request)
+        public function edit(Request $request, $ids)
+        {         
+
+
+            $ss_pai = DB::table('setor as s')
+                            ->where('s.id', $ids)->value('s.sigla');
+
+            $sn_pai = DB::table('tp_nivel_setor as n')
+                            ->leftJoin('setor AS s', 'n.id', 's.id_nivel' )
+                            ->where('s.id', $ids)->value('n.nome');
+                        
+            if ($ids == null) {
+                app('flasher')->addWarning('Selecione um setor antes de pesquisar!!!');
+                return redirect()->back();
+
+            }
+            
+            // 1. Setor selecionado (vai aparecer no topo da lista, desabilitado)
+            $setorSelecionado = DB::table('setor as s')
+            ->leftJoin('tp_nivel_setor AS n', 's.id_nivel','n.id')
+            ->leftJoin('setor AS substituto', 's.substituto','substituto.id')
+            ->leftJoin('setor AS setor_pai', 's.setor_pai', '=', 'setor_pai.id')
+                ->select(
+                    's.id AS ids',
+                    's.nome AS nome_setor',
+                    's.sigla AS sigla_setor',
+                    's.dt_inicio',
+                    'substituto.sigla AS nome_substituto',
+                    's.setor_pai',
+                    'setor_pai.sigla AS sigla_pai',
+                    DB::raw('CASE WHEN s.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status')
+                )
+                ->where('s.id', $ids)
+                ->first();
+        
+            $setoresCandidatos = DB::table('setor AS s')
+                ->leftJoin('tp_nivel_setor AS n', 's.id_nivel','n.id')
+                ->leftJoin('setor AS substituto', 's.substituto','substituto.id')
+                ->leftJoin('setor AS setor_pai', 's.setor_pai', 'setor_pai.id')
+                ->select(
+                    DB::raw('CASE WHEN s.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
+                    's.id AS ids',
+                    's.nome AS nome_setor',
+                    's.sigla AS sigla_setor',
+                    's.dt_inicio',
+                    'substituto.sigla AS nome_substituto',
+                    'setor_pai.sigla AS sigla_pai',
+                    's.setor_pai AS id_pai'
+                )
+                ->where('s.id_nivel', '>', $ids)
+                ->orwhere('s.id_nivel', 1)                                
+                ->where('s.setor_pai', $ids)
+                ->orwhereNull('s.setor_pai')
+                ->get();
+
+           // dd($setoresCandidatos);
+            
+            // Junta tudo em uma collection
+            $result = collect([$setorSelecionado])
+                ->merge($setoresCandidatos);
+
+               // dd($result);
+
+            return view('setores.editar-hierarquia', compact('ids','result', 'ss_pai', 'sn_pai'));
+
+    }
+
+    public function atualizarhierarquia(Request $request, $ids)
     {
 
-        $nome_setor = session('nome_setor');
-        $lista = session('listas') ?? [];
-        $checkboxesMarcados = $request->input('checkboxes');
-
-        $checkboxesArray = explode(',', $checkboxesMarcados);
-
-        // Converte os valores para inteiros no array original
-        foreach ($checkboxesArray as &$valor) {
-            $valor = intval($valor);
-        }
-
-        foreach ($lista as $index => $listaItem) {
-            // Verifica se o ID está presente nos checkboxes marcados
-            $idPresente = in_array($listaItem->ids, $checkboxesArray);
-
-            // Atualiza setor_pai com base nas condições
-            if ($index !== 0) {
-                DB::table('setor')
-                    ->where('id', $listaItem->ids)
-                    ->update([
-                        'setor_pai' => $idPresente ? $nome_setor : null
-                    ]);
-            }
-        }
 
 
+        $checkboxesMarcados = array_filter(array_map('intval', $request->input('setores', [])));
+        
+        //dd($checkboxesMarcados);
 
+        DB::table('setor AS s')
+            ->whereIn('s.id', $checkboxesMarcados)
+            ->update(['setor_pai' => $ids]);
 
-
-        return redirect('/gerenciar-hierarquia')->with('success', 'Setores atualizados com sucesso!');
+    
+        return redirect()->route('gerenciar-hierarquia');
+        app('flasher')->addSuccess('Hierarquia(s) atualizada(s) com sucesso!!!');
     }
 }
