@@ -32,8 +32,9 @@ class GerenciarFuncionarioController extends Controller
                 $join->on('hs.id_func', '=', 'f.id')
                     ->whereRaw('hs.dt_inicio = (SELECT MAX(hs2.dt_inicio) FROM hist_setor AS hs2 WHERE hs2.id_func = f.id)');
             })
-            ->leftJoin('setor', 'setor.id', 'hs.id_setor')
-            ->leftJoin('contrato', 'contrato.id_funcionario', 'f.id')
+            ->leftJoin('setor AS s', 's.id', 'hs.id_setor')
+            ->leftJoin('setor AS sp', 'sp.id', 's.setor_pai')
+            ->leftJoin('contrato AS c', 'c.id_funcionario', 'f.id')
             ->select(
                 'f.id AS idf',
                 'p.cpf',
@@ -42,23 +43,13 @@ class GerenciarFuncionarioController extends Controller
                 'p.status',
                 'f.id_pessoa AS idp',
                 'p.nome_resumido',
-                'setor.sigla',
+                DB::raw("CONCAT(sp.sigla, '/',s.sigla ) AS sigla_completa"),
                 DB::raw("CASE
-                        WHEN COUNT(contrato.id) = 0 THEN 'Sem Contrato'
-                        WHEN SUM(CASE WHEN contrato.dt_fim IS NULL THEN 1 ELSE 0 END) > 0 THEN 'Ativo'
+                        WHEN COUNT(c.id) = 0 THEN 'Sem Contrato'
+                        WHEN SUM(CASE WHEN c.dt_fim IS NULL THEN 1 ELSE 0 END) > 0 THEN 'Ativo'
                         ELSE 'Inativo'
                         END AS status_funcionario
                         ")
-            )
-            ->groupBy(
-                'f.id',
-                'p.cpf',
-                'p.idt',
-                'p.nome_completo',
-                'p.status',
-                'f.id_pessoa',
-                'p.nome_resumido',
-                'setor.sigla'
             ); // Agrupe por todas as colunas do funcionário
 
 
@@ -82,17 +73,17 @@ class GerenciarFuncionarioController extends Controller
 
         //Os ativos
         if ($request->status == '3') {
-            $lista->whereNotNull('contrato.dt_inicio')->whereNull('contrato.dt_fim');
+            $lista->whereNotNull('c.dt_inicio')->whereNull('c.dt_fim');
         } elseif ($request->status == '1') {
-            $lista->whereNotNull('contrato.dt_fim')
+            $lista->whereNotNull('c.dt_fim')
                 ->whereNotExists(function ($query) {
                     $query->select(DB::raw(1))
-                        ->from('contrato as c')
-                        ->whereColumn('c.id_funcionario', 'contrato.id_funcionario')
+                        ->from('c as c')
+                        ->whereColumn('c.id_funcionario', 'c.id_funcionario')
                         ->whereNull('c.dt_fim'); // Verifica se existe algum contrato ativo
                 });
         } elseif ($request->status == '2') {
-            $lista->havingRaw("count(contrato.id) = 0");
+            $lista->havingRaw("count(c.id) = 0");
         } elseif ($request->status == '0') {
             $lista->whereNotNull('f.id');
         }
@@ -101,10 +92,21 @@ class GerenciarFuncionarioController extends Controller
             $lista->whereRaw("UNACCENT(LOWER(p.nome_completo)) ILIKE UNACCENT(LOWER(?))", ["%{$request->nome}%"]);
         }
         if ($request->setor) {
-            $lista->where('hs.id_setor', '=', $request->setor);
+            $lista->where('hs.id_setor', $request->setor);
         }
 
-        $lista = $lista->orderBy('status_funcionario', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
+        $lista = $lista->groupBy('f.id',
+            'p.cpf',
+            'p.idt',
+            'p.nome_completo',
+            'p.status',
+            'f.id_pessoa',
+            'p.nome_resumido',
+            's.sigla',
+            'sp.sigla'
+
+        )->orderBy('status_funcionario', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
+
 
         $situacao = DB::table('tp_demissao')
             ->select(
