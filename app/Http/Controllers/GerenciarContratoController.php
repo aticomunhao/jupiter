@@ -95,7 +95,7 @@ class GerenciarContratoController extends Controller
         //dd($funcionario, $idf);
 
         if ($request->input('dt_inicio') > $request->input('dt_fim') && $request->input('dt_fim') != null) {
-            //$caminho = $this->storeFile($request);
+
             app('flasher')->addError('A data inicial é maior que a data final');
             return redirect()->route('indexGerenciarContrato', ['id' => $idf]);
         } elseif ($funcionario && $funcionario->matricula == $request->input('matricula')) {
@@ -114,7 +114,22 @@ class GerenciarContratoController extends Controller
             DB::table('contrato')->insert($data);
             app('flasher')->addSuccess('O novo cadastro do Contrato foi realizado com sucesso.');
             return redirect()->route('indexGerenciarContrato', ['id' => $idf]);
-        } else {
+        } elseif($request->input('data_fim_contrato_jovem_aprendiz')) {
+            $caminho = $this->storeFile($request ?? '');;
+            $data = [
+                'tp_contrato' => $request->input('tipo_contrato'),
+                'dt_inicio' => $request->input('dt_inicio'),
+                // 'dt_fim' => $request->input('dt_fim'),
+                'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
+                'id_funcionario' => $idf,
+                'caminho' => $caminho,
+                'matricula' => $request->input('matricula'),
+                'admissao' => '1',
+                'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
+            ];
+
+
+        }else{
             $caminho = $this->storeFile($request ?? '');;
             $data = [
                 'tp_contrato' => $request->input('tipo_contrato'),
@@ -127,10 +142,10 @@ class GerenciarContratoController extends Controller
                 'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
             ];
 
-            DB::table('contrato')->insert($data);
+        }
+        DB::table('contrato')->insert($data);
             app('flasher')->addSuccess('O cadastro do Contrato foi realizado com sucesso.');
             return redirect()->route('indexGerenciarContrato', ['id' => $idf]);
-        }
     }
 
     /**

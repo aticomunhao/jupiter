@@ -44,11 +44,11 @@
                                 </div>
                                 <div class="col-md-2 col-sm-12">
                                     <h5>Setor</h5>
-                                    <select class="form-select select2" aria-label="Ano" name="setorconsulta" id="idsetorconsulta">
-                                        
+                                    <select class="form-select" aria-label="Ano" name="setorconsulta" id="idsetorconsulta">
+
                                         @foreach ($setores_unicos as $setor_unico)
                                             <option @if (request('setorconsulta') == $setor_unico->id) {{ 'selected="selected"' }} @endif
-                                            value="{{ $setor_unico->id }}">{{ $setor_unico->sigla }}</option>
+                                                value="{{ $setor_unico->id }}">{{ $setor_unico->sigla }}</option>
                                         @endforeach
                                     </select>
                                 </div>
