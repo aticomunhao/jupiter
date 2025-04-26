@@ -220,7 +220,7 @@
                                         style="font-size: small; width:inherit; font-weight: bold;">
                                         Data de Admissão:
                                     </legend>
-                                    {{ \Carbon\Carbon::parse($funcionario[0]->dt_inicio)->format('d/m/Y') }}
+                                    {{ !empty($data_inicio_contrato[0]->dt_inicio) ? \Carbon\Carbon::parse($data_inicio_contrato[0]->dt_inicio)->format('d/m/Y') : 'Não Possui' }}
                                 </div>
                                 <div class="col">
                                     <legend class="schedule-border"

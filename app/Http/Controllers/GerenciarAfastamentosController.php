@@ -60,10 +60,11 @@ class GerenciarAfastamentosController extends Controller
     public function store(Request $request, $idf)
     {
         // Busca da data de início do funcionário
-        $afastamentos = DB::table('funcionarios AS f')
-            ->leftJoin('afastamento', 'afastamento.id_funcionario', 'f.id')
-            ->where('f.id', $idf)
-            ->value('f.dt_inicio');
+        $afastamentos = DB::table('situacao_contrato')
+        ->where('id_funcionario', $idf)
+        ->where('dt_fim', null)
+        ->select('dt_inicio')
+        ->first();
 
         // Busca o último afastamento do funcionário com dt_fim == null (afastamento "em aberto")
         $afastamentoAberto = DB::table('contrato')

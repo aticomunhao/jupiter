@@ -890,6 +890,12 @@ class GerenciarFuncionarioController extends Controller
             )
             ->first();
 
-        return view('/funcionarios/visualizar-funcionario', compact('identidade', 'pessoa', 'acharSetor', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
+        $data_inicio_contrato = DB::table('situacao_contrato')
+            ->where('id_funcionario', $idf)
+            ->where('dt_fim', null)
+            ->select('dt_inicio')
+            ->first();
+
+        return view('/funcionarios/visualizar-funcionario', compact('identidade', 'data_inicio_contrato', 'pessoa', 'acharSetor', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
     }
 }
