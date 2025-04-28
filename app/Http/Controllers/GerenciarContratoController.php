@@ -119,13 +119,13 @@ class GerenciarContratoController extends Controller
             $data = [
                 'tp_contrato' => $request->input('tipo_contrato'),
                 'dt_inicio' => $request->input('dt_inicio'),
-                // 'dt_fim' => $request->input('dt_fim'),
+            //   'dt_fim' => $request->input('dt_fim'),
                 'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
                 'id_funcionario' => $idf,
                 'caminho' => $caminho,
                 'matricula' => $request->input('matricula'),
                 'admissao' => '1',
-                'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
+                // 'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
             ];
 
 
@@ -139,7 +139,7 @@ class GerenciarContratoController extends Controller
                 'caminho' => $caminho,
                 'matricula' => $request->input('matricula'),
                 'admissao' => '1',
-                'data_fim_prevista' => $request->input('data_fim_contrato_jovem_aprendiz'),
+
             ];
 
         }

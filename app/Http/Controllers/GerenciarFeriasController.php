@@ -534,13 +534,16 @@ class GerenciarFeriasController extends Controller
         $setores_unicos = DB::table('funcionarios as f')
         ->leftJoin('hist_setor as hs', 'f.id', 'hs.id_func')
         ->leftJoin('setor as s', 'hs.id_setor', 's.id')
-        ->select('hs.id_setor as id', 's.sigla' )->distinct('id')->get();
+        ->whereNotNull('hs.id_setor')
+        ->select('hs.id_setor as id', 's.sigla')
+        ->groupBy('hs.id_setor', 's.sigla')
+        ->get();
         //dd($setores_unicos);
 
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $anos_inicial = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->first();
         $anos_final = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->orderBy('ano_de_referencia', 'desc')->first();
-    
+
         $status_ferias = DB::table('status_pedido_ferias')->get();
         if (!empty($anos_inicial)) {
             $anoAnterior = intval($anos_inicial->ano_de_referencia) - 2;
@@ -561,7 +564,6 @@ class GerenciarFeriasController extends Controller
             ->get();
 
         $periodo_aquisitivo = $periodo_aquisitivo->orderBy('pessoas.nome_completo')->orderBy('pessoas.id')->get();
-
         // $periodo_aquisitivo = $periodo_aquisitivo->get();
 
 

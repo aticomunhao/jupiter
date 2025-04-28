@@ -45,6 +45,7 @@
                                 <div class="col-md-2 col-sm-12">
                                     <h5>Setor</h5>
                                     <select class="form-select" aria-label="Ano" name="setorconsulta" id="idsetorconsulta">
+                                        <option value="">Todos</option>
 
                                         @foreach ($setores_unicos as $setor_unico)
                                             <option @if (request('setorconsulta') == $setor_unico->id) {{ 'selected="selected"' }} @endif
