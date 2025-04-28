@@ -307,12 +307,12 @@ class GerenciarFuncionarioController extends Controller
                 ->where('pessoas.cpf', $cpf)
                 ->value('idf');
 
-            DB::table('situacao_contrato')
-                ->insert([
-                    'id_funcionario' => $id_funcionario,
-                    'dt_inicio' => $request->input('dt_ini'),
+            // DB::table('situacao_contrato')
+            //     ->insert([
+            //         'id_funcionario' => $id_funcionario,
+            //         'dt_inicio' => $request->input('dt_ini'),
 
-                ]);
+            //     ]);
 
             DB::table('endereco_pessoas')
                 ->insert([
@@ -395,12 +395,12 @@ class GerenciarFuncionarioController extends Controller
                 ->where('pessoas.cpf', $cpf)
                 ->value('idf');
 
-            DB::table('situacao_contrato')
-                ->insert([
-                    'id_funcionario' => $id_funcionario,
-                    'dt_inicio' => $request->input('dt_ini'),
+            // DB::table('situacao_contrato')
+            //     ->insert([
+            //         'id_funcionario' => $id_funcionario,
+            //         'dt_inicio' => $request->input('dt_ini'),
 
-                ]);
+            //     ]);
 
             DB::table('endereco_pessoas')->insert([
                 'id_pessoa' => $id_pessoa,
@@ -637,13 +637,13 @@ class GerenciarFuncionarioController extends Controller
             ->where('id_func', $id_funcionario)
             ->value('id_setor');
 
-        DB::table('situacao_contrato')
-            ->where('situacao_contrato.id_funcionario', $id_funcionario)
-            ->update([
-                'id_funcionario' => $id_funcionario,
-                'dt_inicio' => $request->input('dt_ini'),
+        // DB::table('situacao_contrato')
+        //     ->where('situacao_contrato.id_funcionario', $id_funcionario)
+        //     ->update([
+        //         'id_funcionario' => $id_funcionario,
+        //         'dt_inicio' => $request->input('dt_ini'),
 
-            ]);
+        //     ]);
 
         DB::table('endereco_pessoas')
             ->where('id_pessoa', $idp)
