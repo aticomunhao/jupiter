@@ -60,24 +60,48 @@ class GerenciarAfastamentosController extends Controller
     public function store(Request $request, $idf)
     {
         // Busca da data de início do funcionário
-        $afastamentos = DB::table('contrato')
-        ->where('id_funcionario', $idf)
-        ->where('dt_fim', null)
-        ->value('dt_inicio');
-        // Busca o último afastamento do funcionário com dt_fim == null (afastamento "em aberto")
-        $afastamentoAberto = DB::table('contrato')
+        $contratos = DB::table('contrato')
+            ->where('id_funcionario', $idf)
+            ->where('dt_fim', null)
+            ->value('dt_inicio');
+
+        // Busca o último contrato do funcionário com dt_fim == null (afastamento "em aberto")
+        $contratoAberto = DB::table('contrato')
             ->where('id_funcionario', '=', $idf)
             ->orderByDesc('dt_inicio') // Ordena para pegar o mais recente
             ->first();
 
         // Conversão de datas utilizando Carbon
-        $dataInicioFuncionario = Carbon::parse($afastamentos);
+        $dataInicioFuncionario = Carbon::parse($contratos);
         $dataInicioRequisicao = Carbon::parse($request->input('dt_inicio'));
 
         $justificado = $request->has('justificado'); // Simplificado
 
         // Verifica se a data de início da requisição é anterior à do funcionário
         $teste = $dataInicioRequisicao->lt($dataInicioFuncionario);
+
+        $contratosFuncionario = DB::table('contrato')
+            ->where('id_funcionario', $idf)
+            ->get();
+
+        $pertenceAfastamento = false;
+
+        foreach ($contratosFuncionario as $contratos) {
+            $dtInicioContrato = Carbon::parse($contratos->dt_inicio);
+            $dtFimContrato = $contratos->dt_fim ? Carbon::parse($contratos->dt_fim) : null;
+
+            if ($dtFimContrato) {
+                if ($dataInicioRequisicao->between($dtInicioContrato, $dtFimContrato)) {
+                    $pertenceAfastamento = true;
+                    break;
+                }
+            } else {
+                if ($dataInicioRequisicao->greaterThanOrEqualTo($dtInicioContrato)) {
+                    $pertenceAfastamento = true;
+                    break;
+                }
+            }
+        }
 
         // Verifica se a data inicial é maior ou igual à data final
         if ($dataInicioRequisicao->gte(Carbon::parse($request->input('dt_fim'))) && !is_null($request->input('dt_fim'))) {
@@ -86,7 +110,10 @@ class GerenciarAfastamentosController extends Controller
         } elseif ($teste) {
             app('flasher')->addError('O funcionário não pertencia à comunhão nessa data inicial');
             return back()->withInput();
-        } else {
+        } elseif (!$pertenceAfastamento) {
+            app('flasher')->addError('A data inicial não está em nenhum período de afastamento ou contrato válido.');
+            return back()->withInput();
+        } else  {
             // Salvamento do arquivo
             $caminho = $this->storeFile($request);
 
@@ -138,8 +165,8 @@ class GerenciarAfastamentosController extends Controller
 
                     // Insere o novo afastamento se o afastamento atual sozinho exceder 6 meses
                     $novoContrato = [
-                        'matricula' => $afastamentoAberto->matricula,
-                        'tp_contrato' => $afastamentoAberto->tp_contrato,
+                        'matricula' => $contratoAberto->matricula,
+                        'tp_contrato' => $contratoAberto->tp_contrato,
                         'id_funcionario' => $idf,
                         'dt_inicio' => $diaSeguinte,
                         'admissao' => 'true',
@@ -157,8 +184,8 @@ class GerenciarAfastamentosController extends Controller
 
                     // Insere o novo afastamento se a soma dos afastamentos anteriores com o atual exceder 6 meses
                     $novoContrato = [
-                        'matricula' => $afastamentoAberto->matricula,
-                        'tp_contrato' => $afastamentoAberto->tp_contrato,
+                        'matricula' => $contratoAberto->matricula,
+                        'tp_contrato' => $contratoAberto->tp_contrato,
                         'id_funcionario' => $idf,
                         'dt_inicio' => $diaSeguinte,
                         'admissao' => 'true',
