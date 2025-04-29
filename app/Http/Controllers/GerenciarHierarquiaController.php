@@ -35,33 +35,67 @@ class GerenciarHierarquiaController extends Controller
         $nm_nivel = $request->nivel_pai;
         $nome_setor = $request->setor_pai;
 
-        // 3. Consulta principal da grid
-        $lista = DB::table('tp_nivel_setor AS tns')
-            ->leftJoin('setor AS st', 'tns.id', '=', 'st.id_nivel')
-            ->leftJoin('setor AS substituto', 'st.substituto', '=', 'substituto.id')
-            ->leftJoin('setor AS setor_pai', 'st.setor_pai', '=', 'setor_pai.id')
-            ->select(
-                DB::raw('CASE WHEN st.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
-                'st.id AS ids',
-                'st.nome',
-                'st.sigla',
-                'st.dt_inicio',
-                'st.dt_fim',
-                'st.id_nivel',
-                'st.nome AS nome_setor',
-                'setor_pai.nome AS st_pai',
-                'setor_pai.id AS id_pai',
-                'substituto.sigla AS nome_substituto'
-            );
+        // Consultar a hierarquia recursiva com CTE
+        $subHierarquia = DB::table(DB::raw('(WITH RECURSIVE hierarquia_setor AS (
+            SELECT 
+                st.id AS id_setor_final,
+                st.id AS id_atual,
+                st.sigla,
+                st.setor_pai,
+                st.sigla::TEXT AS caminho_sigla,
+                st.setor_pai IS NULL AS raiz
+            FROM setor st
+        
+            UNION ALL
+        
+            SELECT 
+                hs.id_setor_final,
+                pai.id AS id_atual,
+                pai.sigla,
+                pai.setor_pai,
+                (pai.sigla || \'-\' || hs.caminho_sigla)::TEXT,
+                pai.setor_pai IS NULL AS raiz
+            FROM setor pai
+            INNER JOIN hierarquia_setor hs ON hs.setor_pai = pai.id
+        )
+        SELECT id_setor_final, caminho_sigla FROM hierarquia_setor WHERE raiz = true) AS hierarquia'))
+        ->select('id_setor_final', 'caminho_sigla');
 
-            if($nome_setor > 0 ){
-                $lista->where('st.id', $nome_setor)
-                        ->orwhere('setor_pai.id', $nome_setor);
-            }
+       // dd($subHierarquia);
 
-        $lista = $lista->orderBy('tns.id', 'ASC')
-                    ->orderBy('st.setor_pai', 'ASC')
-                    ->paginate(12);
+
+       $lista = DB::table('tp_nivel_setor AS tns')
+       ->leftJoin('setor AS st', 'tns.id', '=', 'st.id_nivel')
+       ->leftJoinSub($subHierarquia, 'h', function($join) {
+           $join->on('st.id', '=', 'h.id_setor_final');
+       })
+       ->leftJoin('setor AS substituto', 'st.substituto', '=', 'substituto.id')
+       ->leftJoin('setor AS setor_pai', 'st.setor_pai', '=', 'setor_pai.id')
+       ->select(
+           DB::raw('CASE WHEN st.dt_fim IS NULL THEN \'Ativo\' ELSE \'Inativo\' END AS status'),
+           'h.caminho_sigla AS sigla',
+           'st.id AS ids',
+           'st.nome',
+           'st.dt_inicio',
+           'st.dt_fim',
+           'st.sigla AS sigla_original', // Se quiser o sigla simples também
+           'st.id_nivel',
+           'st.nome AS nome_setor',
+           'setor_pai.nome AS st_pai',
+           'setor_pai.id AS id_pai',
+           'substituto.sigla AS nome_substituto'
+       );
+   
+   if($nome_setor > 0){
+       $lista->where('st.id', $nome_setor)
+             ->orWhere('setor_pai.id', $nome_setor);
+   }
+   
+   $lista = $lista->orderBy('tns.id', 'ASC')
+                  ->orderBy('st.setor_pai', 'ASC')
+                  ->paginate(12);
+
+        //dd($lista);
 
         // 6. Envia os dados para a view
         return view('/setores/gerenciar-hierarquia', compact('nome_setor', 'nivel', 'lista', 'nm_nivel', 'setor'));

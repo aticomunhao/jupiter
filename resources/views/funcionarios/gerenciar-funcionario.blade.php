@@ -113,7 +113,7 @@
                                         data-nome-resumido="{{ $listas->nome_resumido }}">
                                         {{ $listas->nome_completo }}
                                     </td>
-                                    <td scope="" style="text-align: center;">{{ $listas->sigla_completa }}</td>
+                                    <td scope="" style="text-align: center;">{{ $listas->sigla_composta }}</td>
                                     <td scope="" style="text-align: center;">{{ $listas->status_funcionario }}</td>
                                     <td scope="" style="text-align: center">
                                         <a href="/editar-funcionario/{{ $listas->idp }}" type="button"
