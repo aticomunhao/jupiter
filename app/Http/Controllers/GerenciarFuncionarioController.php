@@ -110,9 +110,9 @@ class GerenciarFuncionarioController extends Controller
             $lista->whereNotNull('c.dt_fim')
                 ->whereNotExists(function ($query) {
                     $query->select(DB::raw(1))
-                        ->from('c as c')
-                        ->whereColumn('c.id_funcionario', 'c.id_funcionario')
-                        ->whereNull('c.dt_fim'); // Verifica se existe algum contrato ativo
+                ->from('contrato')
+                ->whereColumn('contrato.id_funcionario', 'f.id')
+                ->whereNull('contrato.dt_fim');
                 });
         } elseif ($request->status == '2') {
             $lista->havingRaw("count(c.id) = 0");
@@ -174,35 +174,6 @@ class GerenciarFuncionarioController extends Controller
         $totinativo = ($totfunc - ($totscontr + $totativo));
 
         // dd($totscontr, $totativo, $totinativo, $totfunc);
-
-
-        // $totalFuncionariosAtivos = DB::table('funcionarios AS f')
-        //     ->join('pessoas AS p', 'p.id', '=', 'f.id_pessoa') // Usamos join em vez de leftJoin para garantir a correspondência
-        //     ->leftJoin('contrato', function ($join) {
-        //         $join->on('contrato.id_funcionario', '=', 'f.id')
-        //             ->whereNull('contrato.dt_fim'); // Apenas contratos sem data de término
-        //     })
-        //     ->where('p.status', 1) // Filtra apenas funcionários ativos
-        //     ->where(function ($query) {
-        //         $query->whereNull('contrato.id') // Filtra funcionários sem contrato
-        //             ->orWhereNotNull('contrato.id'); // Ou com contrato sem dt_fim
-        //     })
-        //     ->count();
-
-        // $totalFuncionariosInativos = DB::table('funcionarios AS f')
-        //     ->leftJoin('pessoas AS p', 'p.id', '=', 'f.id_pessoa')
-        //     ->leftJoin('contrato', 'contrato.id_funcionario', '=', 'f.id')
-        //     ->where(function ($query) {
-        //         $query->whereNotNull('contrato.motivo')
-        //             ->orWhere('p.status', 0);
-        //     })
-        //     ->whereNotExists(function ($subquery) {
-        //         $subquery->select(DB::raw(1))
-        //             ->from('contrato')
-        //             ->whereColumn('contrato.id_funcionario', 'f.id')
-        //             ->whereNull('contrato.dt_fim');
-        //     })
-        //     ->count();
 
 
         return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'setor', 'totscontr', 'totinativo', 'totfunc', 'totativo'));
