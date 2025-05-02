@@ -49,12 +49,12 @@
 
                                         @foreach ($setores_unicos as $setor_unico)
                                             <option @if (request('setorconsulta') == $setor_unico->id) {{ 'selected="selected"' }} @endif
-                                                value="{{ $setor_unico->id }}">{{ $setor_unico->sigla }}</option>
+                                                value="{{ $setor_unico->id }}">{{ $setor_unico->siglap }}-{{ $setor_unico->sigla }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="col-md-2 col-sm-12">
-                                    <h5>Selecione o Status</h5>
+                                    <h5>Status</h5>
                                     <select class="form-select" aria-label="Ano" name="statusconsulta"
                                         id="idstatusconsulta">
                                         @if ($status_consulta_atual != null)
@@ -128,7 +128,7 @@
                     <div class="row d-flex justify-content-evenly ">
                         @foreach ($contagemStatus as $contagem_individual_status)
                             <div class="col-auto">
-                                <div class="card shadow-sm border-0" style="width: 8rem; text-align: center;">
+                                <div class="card shadow-sm border-0" style="width: 100%; text-align: center;">
                                     <div class="card-body p-2" style=" box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.2);">
                                         <h5 class="card-title  " style="font-size: 1.1rem;">
                                             {{ $contagem_individual_status->status_pedido_ferias }}:
@@ -159,12 +159,12 @@
                                             </th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;">Setor</th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;" colspan="2">
-                                                Periodo
+                                                Período
                                                 Aquisitivo</th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;" colspan="2">
-                                                Periodo
+                                                Período
                                                 Concessivo</th>
-                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Data Limite <br>
+                                            <th scope="col-md-auto" style="position: sticky; top: 0;">Limite <br>
                                                 Inicio de Férias
                                             </th>
                                             <th scope="col-md-auto" style="position: sticky; top: 0;">Início 1</th>

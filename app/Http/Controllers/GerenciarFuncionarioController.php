@@ -147,10 +147,11 @@ class GerenciarFuncionarioController extends Controller
             )
             ->get();
 
-        $setor = DB::table('setor')
-            ->select('id', 'nome', 'sigla')
-            ->whereIn('id', $setor_func )
-            ->orderBy('sigla')
+        $setor = DB::table('setor AS s')
+        ->leftJoin('setor AS sp', 's.setor_pai', 'sp.id')
+            ->select('s.id', 's.nome', 's.sigla', 'sp.sigla AS siglap')
+            ->whereIn('s.id', $setor_func )
+            ->orderBy('s.sigla')
             ->get();
 //dd($setor);
         //CONTADORES DE STATUS

@@ -41,7 +41,7 @@
                                             <option></option>
                                             @foreach ($setor as $setores)                                                    
                                                     <option @if (request('setor') == $setores->id) {{ 'selected="selected"' }} @endif
-                                                    value="{{ $setores->id }}">{{ $setores->sigla }}</option>                        
+                                                    value="{{ $setores->id }}">{{$setores->siglap}}-{{ $setores->sigla }}</option>                        
                                             @endforeach
                                         </select>
                                     </div>

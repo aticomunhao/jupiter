@@ -534,11 +534,13 @@ class GerenciarFeriasController extends Controller
         $setores_unicos = DB::table('funcionarios as f')
         ->leftJoin('hist_setor as hs', 'f.id', 'hs.id_func')
         ->leftJoin('setor as s', 'hs.id_setor', 's.id')
+        ->leftJoin('setor AS sp', 's.setor_pai', 'sp.id')
         ->whereNotNull('hs.id_setor')
-        ->select('hs.id_setor as id', 's.sigla')
-        ->groupBy('hs.id_setor', 's.sigla')
+        ->select('hs.id_setor as id', 's.sigla', 'sp.sigla AS siglap')
+        ->groupBy('hs.id_setor', 's.sigla', 'sp.sigla')
         ->get();
         //dd($setores_unicos);
+        
 
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $anos_inicial = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->first();
