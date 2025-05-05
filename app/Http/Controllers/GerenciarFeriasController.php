@@ -540,7 +540,7 @@ class GerenciarFeriasController extends Controller
         ->groupBy('hs.id_setor', 's.sigla', 'sp.sigla')
         ->get();
         //dd($setores_unicos);
-        
+
 
         $anos_possiveis = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->get();
         $anos_inicial = DB::table('ferias')->select('ano_de_referencia')->groupBy('ano_de_referencia')->first();
@@ -709,8 +709,8 @@ class GerenciarFeriasController extends Controller
             elseif ($data_fim_formulario < $data_inicio_formulario) {
                 app('flasher')->addError('Você colocou uma data de fim excedendo a data de início');
             } //Verifica se a data inicia das ferias ocore em uma sexta-feira
-            elseif ($data_de_saida_para_as_ferias == 5) {
-                app('flasher')->addError("Sua data de saida, antecede dois dias antes do repouso semanal remunerado");
+            elseif ($data_de_saida_para_as_ferias == 5 or $data_de_saida_para_as_ferias == 6) {
+                app('flasher')->addError("Sua data de saida, antecede dois dias antes do repouso semanal remunerado, ou colocou a data de inicio no sabado.");
             } elseif ($dia_limite_para_inicio_do_periodo_de_ferias <= $data_inicio_formulario) {
                 app('flasher')->addError('Uma das datas iniciais que selecionou ultrapassa a data limite para inicio das férias: ' . $dia_limite_para_inicio_do_periodo_de_ferias);
             } //Insere no banco e coloca no historico
@@ -794,11 +794,11 @@ class GerenciarFeriasController extends Controller
             elseif ($dias_de_ferias_utilizadas > $diasDeDireitoDoFuncionario) {
                 app('flasher')->addError('Utilizou dias de férias a mais. <br> Utilizou:' . ($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1) . 'no primeiro período.<br> E ' . ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1) . ' no segundo período');
             } //Verifica se a data inicia do primeiro periodo de ferias ocorre em uma sexta-feira
-            elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
-                app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
+            elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5 or $dia_da_semana_de_saida_do_primeiro_periodo == 6) {
+                app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado, ou colocou a data de inicio no sabado');
             } //Verifica se a data inicia do primeiro periodo de ferias ocorre em uma sexta-feira
-            elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5) {
-                app('flasher')->addError('A data inicial do segundo periodo ocorre dois dias antes do descanso semanal remunerado');
+            elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5 or $dia_da_semana_de_saida_do_segundo_periodo == 6) {
+                app('flasher')->addError('A data inicial do segundo periodo ocorre dois dias antes do descanso semanal remunerado, ou colocou a data de inicio no sabado');
             } //Verifica se o primeiro periodo é menor que cinco dias
             elseif (Carbon::parse($data_inicio_primeiro_periodo)->diffInDays($data_fim_primeiro_periodo) < 5) {
                 app('flasher')->addError('O primeiro periodo é inferior a 5 dias');
@@ -900,14 +900,14 @@ class GerenciarFeriasController extends Controller
             elseif ($dias_de_ferias_utilizadas < $diasDeDireitoDoFuncionario) {
                 app('flasher')->addError('Ainda não utilizou todos os dias de ferías. <br> Utilizou:' . ($data_inicio_primeiro_periodo->diffInDays($data_fim_primeiro_periodo) + 1) . 'no primeiro período.<br> E ' . ($data_inicio_segundo_periodo->diffInDays($data_fim_segundo_periodo) + 1) . ' no segundo . <br>' . ($data_inicio_terceiro_periodo->diffInDays($data_fim_terceiro_periodo) + 1) . " no terceiro período");
             } //Verifica se o primeiro periodo ocore em uma sexta
-            elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5) {
-                app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado');
+            elseif ($dia_da_semana_de_saida_do_primeiro_periodo == 5 or $dia_da_semana_de_saida_do_primeiro_periodo == 6) {
+                app('flasher')->addError('A data inicial do primeiro periodo ocorre dois dias antes do descanso semanal remunerado, ou colocou a data de inicio no sabado');
             } //Verifica se o segundo periodo ocore em uma sexta
-            elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5) {
-                app('flasher')->addError('A data inicial do segundo periodo ocorre dois dias antes do descanso semanal remunerado');
+            elseif ($dia_da_semana_de_saida_do_segundo_periodo == 5 or $dia_da_semana_de_saida_do_segundo_periodo == 6) {
+                app('flasher')->addError('A data inicial do segundo periodo ocorre dois dias antes do descanso semanal remunerado, ou colocou a data de inicio no sabado');
             } //Verifica se o terceiro periodo ocore em uma sexta
-            elseif ($dia_da_semana_de_saida_do_terceiro_periodo == 5) {
-                app('flasher')->addError('A data inicial do terceiro período ocorre dois dias antes do descanso semanal remunerado');
+            elseif ($dia_da_semana_de_saida_do_terceiro_periodo == 5 or $dia_da_semana_de_saida_do_terceiro_periodo == 6) {
+                app('flasher')->addError('A data inicial do terceiro período ocorre dois dias antes do descanso semanal remunerado, ou colocou a data de inicio no sabado');
             } elseif ($dia_limite_para_inicio_do_periodo_de_ferias <= $data_inicio_primeiro_periodo or $dia_limite_para_inicio_do_periodo_de_ferias <= $data_inicio_segundo_periodo or $dia_limite_para_inicio_do_periodo_de_ferias <= $data_inicio_terceiro_periodo) {
                 app('flasher')->addError('Uma das datas iniciais que selecionou ultrapassa a data limite para inicio das férias: ' . $dia_limite_para_inicio_do_periodo_de_ferias);
             } elseif (
@@ -953,7 +953,6 @@ class GerenciarFeriasController extends Controller
                     ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
                     ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
                     ->select('pessoas.nome_completo')->first();
-
 
                 app('flasher')->addCreated($ferias->nome_completo . ' teve férias adicionadas com sucesso.');
                 return redirect()->route('IndexGerenciarFerias');
