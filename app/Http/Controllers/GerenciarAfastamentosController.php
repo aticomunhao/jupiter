@@ -107,9 +107,6 @@ class GerenciarAfastamentosController extends Controller
         if ($dataInicioRequisicao->gte(Carbon::parse($request->input('dt_fim'))) && !is_null($request->input('dt_fim'))) {
             app('flasher')->addError('A data inicial é maior ou igual à data final');
             return redirect()->back()->withInput();
-        } elseif ($teste) {
-            app('flasher')->addError('O funcionário não pertencia à comunhão nessa data inicial');
-            return back()->withInput();
         } elseif (!$pertenceAfastamento) {
             app('flasher')->addError('A data inicial não está em nenhum período de afastamento ou contrato válido.');
             return back()->withInput();
