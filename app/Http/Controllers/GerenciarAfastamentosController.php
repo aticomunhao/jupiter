@@ -313,7 +313,7 @@ class GerenciarAfastamentosController extends Controller
             }
         }
 
-        if ($request->input('dt_inicio') >= $request->input('dt_fim') and $request->input('dt_fim') && !is_null($request->input('dt_fim'))) {
+        if ($request->input('dt_inicio') > $request->input('dt_fim') and $request->input('dt_fim') && !is_null($request->input('dt_fim'))) {
             app('flasher')->addError('A data inicial precisa ser anterior a data final');
             return redirect()->back()->withInput();
         } elseif ($teste) {
