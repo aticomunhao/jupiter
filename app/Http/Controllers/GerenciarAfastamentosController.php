@@ -104,10 +104,7 @@ class GerenciarAfastamentosController extends Controller
         }
 
         // Verifica se a data inicial é maior ou igual à data final
-        if ($dataInicioRequisicao->gte(Carbon::parse($request->input('dt_fim'))) && !is_null($request->input('dt_fim'))) {
-            app('flasher')->addError('A data inicial é maior ou igual à data final');
-            return redirect()->back()->withInput();
-        } elseif (!$pertenceAfastamento) {
+        if (!$pertenceAfastamento) {
             app('flasher')->addError('A data inicial não está em nenhum período de afastamento ou contrato válido.');
             return back()->withInput();
         } else  {
