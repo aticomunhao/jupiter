@@ -74,7 +74,7 @@
                             <div class="row">
                                 <div class="mb-3 mt-md-0 mt-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Observação</label>
-                                    <textarea class="form-control" style="border: 1px solid #999999; padding: 5px;" id="idobservacao" rows="3"
+                                    <textarea class="form-control" style="border: 1px solid #999999; padding: 5px;" maxlength="255" id="idobservacao" rows="3"
                                         name="observacao" value=""></textarea>
                                 </div>
                             </div>

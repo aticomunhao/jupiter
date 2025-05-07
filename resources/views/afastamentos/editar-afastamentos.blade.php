@@ -82,7 +82,7 @@
                                     Observação
                                 </label>
                                 <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
-                                    value="{{ $afastamentos->observacao }}" type="text" maxlength="40"
+                                    value="{{ $afastamentos->observacao }}" type="text" maxlength="255"
                                     id="2"class="form-control " id="idobservacao" rows="3" value=""
                                     name="observacao">
                             </div>
