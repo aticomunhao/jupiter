@@ -193,7 +193,7 @@ class GerenciarFeriasController extends Controller
     public
     function create($id_ferias)
     {
-        try {
+
             $ano_referente = Carbon::now()->year - 1;
             $periodo_aquisitivo = DB::table('ferias')
                 ->leftJoin('funcionarios', 'ferias.id_funcionario', '=', 'funcionarios.id')
@@ -210,7 +210,7 @@ class GerenciarFeriasController extends Controller
                     'ferias.dt_fim_c',
                     'ferias.id as id_ferias',
                     'ferias.motivo_retorno',
-                    'funcionarios.dt_inicio',
+                    // 'funcionarios.dt_inicio',
                     'ferias.ano_de_referencia',
                     'ferias.id_funcionario',
                     'status_pedido_ferias.id as id_status_pedido_ferias',
@@ -224,11 +224,11 @@ class GerenciarFeriasController extends Controller
                 ->first();
 
             return view('ferias.incluir-ferias', compact('ano_referente', "periodo_aquisitivo", 'id_ferias'));
-        } catch (Exception $e) {
-            DB::rollBack();
+
+
             app('flasher')->addError("Houve um erro inesperado: #" . $e->getCode());
             return redirect()->back();
-        }
+
     }
 
     /**
@@ -345,6 +345,7 @@ class GerenciarFeriasController extends Controller
             ->orderByRaw('COALESCE(pessoas.nome_completo, \' \') ASC')
             ->get();
 
+
         DB::beginTransaction();
 
 
@@ -355,6 +356,7 @@ class GerenciarFeriasController extends Controller
                 ->where('ano_de_referencia', '=', $ano_referencia)
                 ->first();
 
+
             if (is_null($periodo_de_ferias_do_funcionario)) {
                 // dd($funcionario);
 
@@ -362,8 +364,9 @@ class GerenciarFeriasController extends Controller
                 $dias_afastado = $this->calcularDiasDeAfastamento($funcionario->id_funcionario);
 
                 $data_inicio = $data_inicio->addDays($dias_afastado);
+                $ano_referencia_int = (int)$ano_referencia;
+                $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year(  $ano_referencia_int )->toDateString();
 
-                $data_inicio_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia)->toDateString();
                 $data_fim_periodo_aquisitivo = $data_inicio->copy()->subYear()->year($ano_referencia + 1)->subDay()->toDateString();
 
                 $funcionario->data_inicio_periodo_aquisitivo = $data_inicio_periodo_aquisitivo;
@@ -485,9 +488,6 @@ class GerenciarFeriasController extends Controller
             )
             ->whereIn('contrato.tp_contrato', [1, 5, 4])
             ->whereNull('contrato.dt_fim');
-
-
-
 
         $ano_consulta = null;
         $nome_funcionario = $request->input('nomefuncionario');
@@ -638,7 +638,12 @@ class GerenciarFeriasController extends Controller
         // Obtém informações do funcionário
         $funcionario = DB::table('funcionarios')
             ->join('pessoas', 'funcionarios.id_pessoa', '=', 'pessoas.id')
-            ->select('pessoas.id as id_pessoa', 'funcionarios.id as id_funcionario', 'pessoas.nome_completo', 'funcionarios.dt_inicio')
+            ->select(
+                'pessoas.id as id_pessoa',
+            'funcionarios.id as id_funcionario',
+            'pessoas.nome_completo',
+            // 'funcionarios.dt_inicio'
+            )
             ->first();
         //
 
