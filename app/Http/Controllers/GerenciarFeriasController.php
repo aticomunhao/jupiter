@@ -468,7 +468,7 @@ class GerenciarFeriasController extends Controller
                 'ferias.dt_fim_c',
                 'ferias.id as id_ferias',
                 'ferias.motivo_retorno',
-                'funcionarios.dt_inicio',
+                // 'funcionarios.dt_inicio',
                 'ferias.ano_de_referencia',
                 'ferias.id_funcionario',
                 'status_pedido_ferias.id as id_status_pedido_ferias',
