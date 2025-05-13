@@ -357,9 +357,11 @@ class GerenciarFeriasController extends Controller
                 ->first();
 
 
+
+
             if (is_null($periodo_de_ferias_do_funcionario)) {
                 // dd($funcionario);
-
+          
                 $data_inicio = Carbon::parse($funcionario->data_de_inicio);
                 $dias_afastado = $this->calcularDiasDeAfastamento($funcionario->id_funcionario);
 
