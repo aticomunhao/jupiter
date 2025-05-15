@@ -568,10 +568,10 @@
     </script>
     <script>
         $(document).ready(function() {
-            $('#cidade1').select2({
-                theme: 'bootstrap-5',
-                width: '100%',
-            });
+            // $('#cidade1').select2({
+            //     theme: 'bootstrap-5',
+            //     width: '100%',
+            // });
 
             function populateCities(selectElement, stateValue) {
                 $.ajax({
