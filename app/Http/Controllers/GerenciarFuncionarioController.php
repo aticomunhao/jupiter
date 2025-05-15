@@ -512,7 +512,7 @@ class GerenciarFuncionarioController extends Controller
                 'f.secao_tit AS secao_titulo',
                 'f.dt_titulo AS dt_titulo',
                 'hist_setor.id_setor AS id_setor',
-                'f.dt_inicio AS dt_inicio',
+                // 'f.dt_inicio AS dt_inicio',
                 'tp_programa.programa AS nome_programa',
                 'tp_cor_pele.nome_cor AS nome_cor',
                 'tp_sangue.nome_sangue AS nome_sangue',
@@ -576,7 +576,7 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-        return view('/funcionarios/editar-funcionario', compact('identidade', 'pessoa', 'acharSetor', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
+        return view('funcionarios.editar-funcionario', compact('identidade', 'pessoa', 'acharSetor', 'funcionario', 'endereco', 'tpsangue', 'tpsexo', 'tpnacionalidade', 'tppele', 'tpddd', 'tp_uf', 'tpcnh', 'tpcidade', 'tpprograma', 'tpsetor', 'tporg_exp', 'fator', 'tp_uff', 'tp_ufi', 'tp_ufe'));
     }
 
 
