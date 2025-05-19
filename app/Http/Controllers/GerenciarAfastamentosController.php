@@ -42,6 +42,7 @@ class GerenciarAfastamentosController extends Controller
     {
         $tipoafastamento = DB::table('tp_afastamento AS afa')
             ->select('afa.id', 'afa.nome', 'afa.limite')
+            ->orderBy('afa.nome')
             ->get();
 
 
