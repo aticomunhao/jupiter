@@ -66,7 +66,7 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', '192.168.1.137'),
+            'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'pessoal'),
             'username' => env('DB_USERNAME', 'postgres'),
@@ -81,20 +81,20 @@ return [
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE', 'forge'),
-            'username' => env('DB_USERNAME', 'forge'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('VIEW_DB_HOST', 'vmshop'),
+            'port' => env('VIEW_DB_PORT', '1434'),
+            'database' => env('VIEW_DB_DATABASE', 's9_real'),
+            'username' => env('VIEW_DB_USERNAME', 'sa'),
+            'password' => env('VIEW_DB_PASSWORD', 'Senha123'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            // 'encrypt' => env('DB_ENCRYPT', 'yes'),
-            // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
+            'options' => [
+                'TrustServerCertificate' => false, // desativa verificação do certificado
+                'driver' => 'ODBC Driver 17 for SQL Server', // Tenta forçar o driver mais permissivo
+            ],
         ],
-
     ],
-
     /*
     |--------------------------------------------------------------------------
     | Migration Repository Table

@@ -142,6 +142,9 @@ $perfis = session()->get('usuario.perfis');
 
                                 <li><a href="/gerenciar-perfis" class="dropdown-item">Gerenciar Perfis </a>
                                 </li>
+
+                                <li><a href="/gerenciar-descontos" class="dropdown-item">Gerenciar Descontos </a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

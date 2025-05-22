@@ -30,7 +30,7 @@ class LoginController extends Controller
 
     public function valida(Request $request)
     {
-        try {
+       // try {
             $cpf = $request->input('cpf');
             $senha = $request->input('senha');
 
@@ -135,11 +135,11 @@ class LoginController extends Controller
                 app('flasher')->addError('Credenciais inválidas');
                 return view('login/login');
             }
-        } catch (\Exception $e) {
+       // } catch (\Exception $e) {
 
-            $code = $e->getCode();
-            return view('tratamento-erro.erro-inesperado', compact('code'));
-        }
+       //     $code = $e->getCode();
+       //     return view('tratamento-erro.erro-inesperado', compact('code'));
+      //  }
     }
 
     public function validaUserLogado()

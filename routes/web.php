@@ -24,6 +24,7 @@ use App\Http\Controllers\GerenciarSetor;
 use App\Http\Controllers\GerenciarSetoresController;
 use App\Http\Controllers\GerenciarTipoDeContratoController;
 use App\Http\Controllers\GerenciarTipoDescontoController;
+use App\Http\Controllers\GerenciarViewsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
@@ -347,3 +348,11 @@ Route::middleware('rotas:21')->group(function () {
     Route::post('/atualizar-setor-usuario/{id}', [GerenciarSetor::class, 'update']);
     Route::any('/excluir-setor-usuario/{id}', [GerenciarSetor::class, 'destroy']);
 });
+
+
+// Gerenciar pagamentos externos
+Route::middleware('rotas:22')->group(function () {
+    Route::get('/gerenciar-descontos', [GerenciarViewsController::class, 'index']);
+
+});
+
