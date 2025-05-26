@@ -4,9 +4,6 @@
     <title>Dados Externos</title>
 @endsection
 
-
-
-
 @section('content')
-  
+
 @endsection

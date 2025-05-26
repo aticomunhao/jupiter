@@ -30,6 +30,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
 
 /*
@@ -351,8 +352,12 @@ Route::middleware('rotas:21')->group(function () {
 
 
 // Gerenciar pagamentos externos
-Route::middleware('rotas:22')->group(function () {
-    Route::get('/gerenciar-descontos', [GerenciarViewsController::class, 'index']);
 
+Route::get('/gerenciar-descontos', [GerenciarViewsController::class, 'index']);
+Route::any('/gerenciar-descontos/{id}', [GerenciarViewsController::class, 'show'])->name('gerenciar_descontos.show');
+
+
+Route::get('/batata123', function () {
+    $teste = DB::connection('sqlsrv')->table('ati_v_contribuicoes')->limit(400000)->get();
+    // dd($teste);
 });
-
