@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Collection;
+
 use App\Models\ViewExterna;
 
 class GerenciarViewsController extends Controller
@@ -42,10 +44,30 @@ class GerenciarViewsController extends Controller
 
         // Extrair os IDs em um array simples
         $ids = $grupo->pluck('id_associado')->toArray();
-        dd($ids);
+        // dd($ids);
 
         // dd($grupo);
+        $teste = DB::connection('sqlsrv')->table('ati_v_contribuicoes')->limit(400000)->get();
+        $registros = DB::connection('sqlsrv')
+            ->table('ati_v_contribuicoes')
+            ->select('codigoAssociado', 'Preco_Total_Com_Desconto', 'Data_Cadastro')
+            ->whereIn('codigoAssociado', $ids)
+            ->orderBy('codigoAssociado')
+            ->orderBy('Data_Cadastro', 'desc')
+            ->get();
+        // dd($registros);
 
-        DB::connection('sqlsr')
+        $registro_por_codigo = Array();
+
+        foreach($registros as $registro) {
+            $registro_por_codigo[$registro->codigoAssociado][] = $registro;
+        }
+        dd($registro_por_codigo);
+
+
+
+
+
+        dd($contribuicoesAgrupadas);
     }
 }

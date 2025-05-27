@@ -24,7 +24,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($grupos as $grupo)
+                            @foreach ($grupos as  $grupo)
                                 <tr>
                                     <td>{{ $grupo->nome }} - {{ $grupo->nome_setor}}</th>
                                     <td>
