@@ -18,6 +18,8 @@ class regrasrotas
         try {
             $rotasAutorizadas = session()->get('usuario.acesso');
 
+           //dd($rotasAutorizadas);
+
             if (!$rotasAutorizadas) {
                 app('flasher')->addError('É necessário fazer login para acessar!');
                 return redirect()->back();

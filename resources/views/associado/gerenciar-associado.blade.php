@@ -16,8 +16,7 @@
                     </div>
                     <div>
                         <div class="card-body">
-                            <form class="justify-content-center" action="{{ route('pesquisar') }}"
-                                class="form-horizontal mt-4" method="GET">
+                            <form class="justify-content-center" class="form-horizontal mt-4" method="GET">
                                 <div class="row">
                                     <div class="col-1">Nr Associado
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
@@ -29,12 +28,12 @@
                                             maxlength="30" type="text" id="3" name="nome_completo"
                                             value="{{ $nome_completo }}">
                                     </div>
-                                    <div class="col-2">Data de Início
+                                    <div class="col-auto">Data de Início
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                             maxlength="30" type="date" id="3" name="dt_inicio"
                                             value="{{ $dt_inicio }}">
                                     </div>
-                                    <div class="col-2">Data de Fim
+                                    <div class="col-auto">Data de Fim
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                             maxlength="30" type="date" id="3" name="dt_fim"
                                             value="{{ $dt_fim }}">
@@ -47,22 +46,26 @@
                                             <option value="2">Inativo</option>
                                         </select>
                                     </div>
-                                    <div class="col"><br>
-                                        <input class="btn btn-light btn-sm"
-                                            style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"
-                                            type="submit" value="Pesquisar">
+                                    <div class="col d-flex align-items-end justify-content-center">
+                                        <input class="btn btn-light btn-md" formaction="{{ route('pesquisar') }}" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Pesquisar">
 
-                                        <a href="/gerenciar-associado"><button class="btn btn-light btn-sm" type="button"
-                                                value=""
+                                        <a href="/gerenciar-associado"><button class="btn btn-light btn-md" type="button" value=""
                                                 style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">Limpar</button></a>
 
-
-                                        <a href="/informar-dados-associado"><input class="btn btn-success btn-sm"
-                                                type="button" name="6" value="Novo Cadastro +"
+                                        <a href="/informar-dados-associado"><input class="btn btn-success btn-lg" type="button" name="6" value="Novo Cadastro +"
                                                 style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>
+                                        </form>
                                     </div>
-                            </form>
-                        </div>
+                                    <div class="col">
+                                            @if (in_array(26, session()->get('usuario.acesso')))
+                                            <form method="POST">
+                                                @csrf
+                                                <input class="btn btn-warning btn-md" formaction="{{ route('executar.job') }}" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Importa Assoc">
+                                            </form>
+                                            @endif
+                                    </div>
+                                </div>
+                            </div>
                         <br>
                         <hr>
                         <div class="table">

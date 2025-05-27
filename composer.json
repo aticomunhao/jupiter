@@ -18,6 +18,7 @@
         "laravellegends/pt-br-validator": "^11.0",
         "livewire/livewire": "^3.4",
         "php-flasher/flasher-laravel": "^1.14",
+        "predis/predis": "^3.0",
         "slim/slim": "^2.6",
         "twbs/bootstrap-icons": "^1.10"
     },
