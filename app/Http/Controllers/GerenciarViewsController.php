@@ -50,18 +50,54 @@ class GerenciarViewsController extends Controller
         $registros = DB::connection('sqlsrv')
             ->table('ati_v_contribuicoes')
             ->selectRaw("
-            codigoAssociado,
-            Nome,
-            ordemMovimento,
-            Data_Cadastro,
-            Preco_Total_Com_Desconto,
-            nomeProduto,
-            CASE
-                WHEN CHARINDEX('-', nomeProduto) > 0
-                    THEN LTRIM(SUBSTRING(nomeProduto, CHARINDEX('-', nomeProduto) + 1, LEN(nomeProduto)))
-                ELSE nomeProduto
-            END AS nomeProdutoLimpo
-        ")
+        codigoAssociado,
+        Nome,
+        ordemMovimento,
+        Data_Cadastro,
+        Preco_Total_Com_Desconto,
+        nomeProduto,
+
+        -- Limpa o nome após o hífen
+        CASE
+            WHEN CHARINDEX('-', nomeProduto) > 0
+                THEN LTRIM(SUBSTRING(nomeProduto, CHARINDEX('-', nomeProduto) + 1, LEN(nomeProduto)))
+            ELSE nomeProduto
+        END AS nomeProdutoLimpo,
+
+        -- Detecta se há mês e ano
+        CASE
+            WHEN nomeProduto LIKE '%JANEIRO %'
+              OR nomeProduto LIKE '%FEVEREIRO %'
+              OR nomeProduto LIKE '%MARÇO %'
+              OR nomeProduto LIKE '%ABRIL %'
+              OR nomeProduto LIKE '%MAIO %'
+              OR nomeProduto LIKE '%JUNHO %'
+              OR nomeProduto LIKE '%JULHO %'
+              OR nomeProduto LIKE '%AGOSTO %'
+              OR nomeProduto LIKE '%SETEMBRO %'
+              OR nomeProduto LIKE '%OUTUBRO %'
+              OR nomeProduto LIKE '%NOVEMBRO %'
+              OR nomeProduto LIKE '%DEZEMBRO %'
+            THEN 1 ELSE 0
+        END AS temMesAno,
+
+        -- Extrai o texto do mês e ano
+        CASE
+            WHEN nomeProduto LIKE '%JANEIRO %' THEN SUBSTRING(nomeProduto, PATINDEX('%JANEIRO %', nomeProduto), 11)
+            WHEN nomeProduto LIKE '%FEVEREIRO %' THEN SUBSTRING(nomeProduto, PATINDEX('%FEVEREIRO %', nomeProduto), 13)
+            WHEN nomeProduto LIKE '%MARÇO %' THEN SUBSTRING(nomeProduto, PATINDEX('%MARÇO %', nomeProduto), 10)
+            WHEN nomeProduto LIKE '%ABRIL %' THEN SUBSTRING(nomeProduto, PATINDEX('%ABRIL %', nomeProduto), 10)
+            WHEN nomeProduto LIKE '%MAIO %' THEN SUBSTRING(nomeProduto, PATINDEX('%MAIO %', nomeProduto), 9)
+            WHEN nomeProduto LIKE '%JUNHO %' THEN SUBSTRING(nomeProduto, PATINDEX('%JUNHO %', nomeProduto), 10)
+            WHEN nomeProduto LIKE '%JULHO %' THEN SUBSTRING(nomeProduto, PATINDEX('%JULHO %', nomeProduto), 10)
+            WHEN nomeProduto LIKE '%AGOSTO %' THEN SUBSTRING(nomeProduto, PATINDEX('%AGOSTO %', nomeProduto), 11)
+            WHEN nomeProduto LIKE '%SETEMBRO %' THEN SUBSTRING(nomeProduto, PATINDEX('%SETEMBRO %', nomeProduto), 13)
+            WHEN nomeProduto LIKE '%OUTUBRO %' THEN SUBSTRING(nomeProduto, PATINDEX('%OUTUBRO %', nomeProduto), 12)
+            WHEN nomeProduto LIKE '%NOVEMBRO %' THEN SUBSTRING(nomeProduto, PATINDEX('%NOVEMBRO %', nomeProduto), 13)
+            WHEN nomeProduto LIKE '%DEZEMBRO %' THEN SUBSTRING(nomeProduto, PATINDEX('%DEZEMBRO %', nomeProduto), 13)
+            ELSE NULL
+        END AS nomeProdutoMesAno
+    ")
             ->whereIn('codigoAssociado', $ids)
             ->orderBy('codigoAssociado')
             ->orderBy('Data_Cadastro', 'desc')
@@ -87,6 +123,8 @@ class GerenciarViewsController extends Controller
                 'Preco_Total_Com_Desconto' => $registro->Preco_Total_Com_Desconto,
                 'Data_Cadastro' => $registro->Data_Cadastro,
                 'nomeProdutoLimpo' => $registro->nomeProdutoLimpo ?? null,
+                'temMesAno' => $registro->temMesAno ?? 0,
+                'nomeProdutoMesAno' => $registro->nomeProdutoMesAno ?? null,
             ];
         }
 
@@ -104,7 +142,7 @@ class GerenciarViewsController extends Controller
             ->where('grupo.id', $id)
             ->orderBy('nome')
             ->first();
-        // dd($contribuicoes_por_associado);
+      dd($contribuicoes_por_associado);
 
         return view('dados_externos.show', compact('grupo', 'contribuicoes_por_associado'));
     }

@@ -22,7 +22,8 @@
                             <div id="collapse{{ $codigo }}" class="accordion-collapse collapse"
                                 aria-labelledby="heading{{ $codigo }}" data-bs-parent="#accordionExample">
                                 <div class="accordion-body">
-                                    <table class="table table-striped table-bordered border-secondary table-hover align-middle">
+                                    <table
+                                        class="table table-striped table-bordered border-secondary table-hover align-middle">
                                         <thead style="text-align: center;">
                                             <tr style="background-color: #d6e3ff; font-size:14px; color:#000000">
                                                 <th>Ordem Movimento</th>
@@ -34,8 +35,10 @@
                                             @foreach ($associado['contribuicoes'] as $contribuicao)
                                                 <tr>
                                                     <td>{{ $contribuicao['ordemMovimento'] }}</td>
-                                                    <td>R$ {{ number_format($contribuicao['Preco_Total_Com_Desconto'], 2, ',', '.') }}</td>
-                                                    <td>{{ $contribuicao['nomeProdutoLimpo']}}</td>
+                                                    <td>R$
+                                                        {{ number_format($contribuicao['Preco_Total_Com_Desconto'], 2, ',', '.') }}
+                                                    </td>
+                                                    <td>{{ $contribuicao['nomeProdutoLimpo'] }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
