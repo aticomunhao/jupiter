@@ -180,6 +180,8 @@ class LoginController extends Controller
             $perfis = json_decode(json_encode($perfis), true);
             $setores = json_decode(json_encode($setores), true);
 
+//dd($setores);
+
             $rotasAutorizadas = array_intersect($perfis, $setores);
 
             if ($cpf = session()->get('usuario.cpf')) {

@@ -49,7 +49,19 @@
     </div>
 
 <script>
-window.rotasSelecionadas = @json($rotasSelecionadas);
+    $(document).ready(function() {
+        $('.select2').select2({
+            theme: 'bootstrap-5',
+            placeholder: 'Seleciona as rotas',
+            width: '100%',
+            allowClear: true
+        });
+
+        let rotasSelecionadas = @json($rotasSelecionadas);
+
+        // Define os valores selecionados diretamente
+        $('.select2').val(rotasSelecionadas).trigger('change');
+    });
 </script>
 
 @endsection

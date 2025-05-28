@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title') Gerenciar Setor @endsection
+@section('title') Rotas do Setor @endsection
 
 @section('content')
 <div class="container-fluid">
-    <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">GERENCIAR SETOR</h4>
+    <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family:calibri">GERENCIAR ROTAS DO SETOR</h4>
     <div class="col-12">
         <div class="row justify-content-center">
             <form action="/gerenciar-setor-usuario" class="form-horizontal mt-4" method="GET">
@@ -17,7 +17,7 @@
                         <input class="btn btn-light btn-sm me-md-2" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Pesquisar">
                         <a href="/gerenciar-setor-usuario"><input class="btn btn-light btn-sm me-md-2" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="button" value="Limpar"></a>
                     </form>
-                    <a href="/criar-setor-usuario"><input class="btn btn-success btn-sm me-md-2" style="font-size: 0.9rem;" type="button" value="Novo +"></a>
+                    <a href="/criar-setor-usuario"><input class="btn btn-success btn-lg" style="font-size: 1rem;" type="button" value="Novo +"></a>
 
                     </div>
                 </div>
@@ -40,34 +40,34 @@
                 <tbody style="font-size: 14px; color:#000000; text-align:center;">
                     @foreach ($setores as $setor)
                     <tr>
-                        <td>{{ $setor->id }}</td>
+                        <td>{{ $setor->sid}}</td>
                         <td>{{ $setor->nome }}</td>
                         <td>{{ $setor->sigla }}</td>
                         <td>
-                            <a href="/editar-setor-usuario/{{ $setor->id }}" type="button" class="btn btn-outline-warning btn-sm" data-tt="tooltip" data-placement="top" title="Editar">
+                            <a href="/editar-setor-usuario/{{ $setor->sid }}" type="button" class="btn btn-outline-warning btn-sm" data-tt="tooltip" data-placement="top" title="Editar">
                                 <i class="bi bi-pen" style="font-size: 1rem; color:#000;"></i>
                             </a>
-                            <a href="/visualizar-setor-usuario/{{ $setor->id }}" type="button" class="btn btn-outline-primary btn-sm" data-tt="tooltip" data-placement="top" title="Visualizar">
+                            <a href="/visualizar-setor-usuario/{{ $setor->sid }}" type="button" class="btn btn-outline-primary btn-sm" data-tt="tooltip" data-placement="top" title="Visualizar">
                                 <i class="bi bi-search" style="font-size: 1rem; color:#000;" data-bs-target="#pessoa"></i>
                             </a>
-                            <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ $setor->id }}"  data-tt="tooltip" data-placement="top" title="Deletar">
+                            <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#modal{{ $setor->sid }}"  data-tt="tooltip" data-placement="top" title="Apagar rotas">
                                 <i class="bi bi-x-circle" style="font-size: 1rem; color:#000;"></i>
                             </a>
                             {{--  Modal de Exclusao --}}
-                            <div class="modal fade" id="modal{{ $setor->id }}" tabindex="-1"
+                            <div class="modal fade" id="modal{{ $setor->sid }}" tabindex="-1"
                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header" style="background-color:#DC4C64">
-                                            <h5 class="modal-title" id="exampleModalLabel" style="color:white">Exclusão de Setor </h5>
+                                            <h5 class="modal-title" id="exampleModalLabel" style="color:white">Excluir rotas </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body" style="text-align: center; ">
-                                            Tem certeza que deseja excluir o setor<br /><span style="color:#DC4C64; font-weight: bold;">{{ $setor->nome }}</span>&#63;
+                                            Tem certeza que deseja excluir todas as rotas do setor<br /><span style="color:#DC4C64; font-weight: bold;">{{ $setor->nome }}</span>&#63;
                                         </div>
                                         <div class="modal-footer mt-3">
                                             <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
-                                            <a type="button" class="btn btn-primary" href="/excluir-setor-usuario/{{ $setor->id }}">Confirmar</a>
+                                            <a type="button" class="btn btn-primary" href="/excluir-setor-usuario/{{ $setor->sid }}">Confirmar</a>
                                         </div>
                                     </div>
                                 </div>

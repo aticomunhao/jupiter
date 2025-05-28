@@ -19,6 +19,7 @@ use App\Http\Controllers\GerenciarEntidadesController;
 use App\Http\Controllers\GerenciarFeriasController;
 use App\Http\Controllers\GerenciarFuncionarioController;
 use App\Http\Controllers\GerenciarHierarquiaController;
+use App\Http\Controllers\JobController;
 use App\Http\Controllers\GerenciarPerfil;
 use App\Http\Controllers\GerenciarSetor;
 use App\Http\Controllers\GerenciarSetoresController;
@@ -362,3 +363,29 @@ Route::get('/batata123', function () {
     $teste = DB::connection('sqlsrv')->table('ati_v_contribuicoes')->limit(400000)->get();
     // dd($teste);
 });
+
+
+//Executa o job de resgatar novos associados
+Route::middleware('rotas:26')->group(function () {
+    Route::post('/executar-job', [JobController::class, 'executar'])->name('executar.job');
+});
+
+//     Route::get('/lista-associado', function(){
+//      $max_associado = DB::table('associado')->max('nr_associado') ?? 0;
+
+//      $novosAssociados = DB::connection('sqlsrv')
+//                 ->table('cli_for as c')
+//                 ->select('Codigo', 'Nome', 'CPF_Sem_Literais','Endereco','RG_IE', 'Numero', 'Bairro', 'Complemento', 'CEP')
+//                 ->where('c.Codigo', '<', 50000)
+//                 ->where('c.Codigo', '>', $max_associado)
+//                 ->get();
+
+//                   $endereco = DB::connection('sqlsrv')
+//                 ->table('Cli_For_Contatos')
+//                 ->select('Email')
+//                 //->where('Codigo', $associado->Codigo)
+//                 ->orderBy('Ordem') // ou outro critério de prioridade
+//                 ->get();
+
+//     dd($max_associado, $novosAssociados, $endereco); // Ou use dd($novosAssociados);
+// });

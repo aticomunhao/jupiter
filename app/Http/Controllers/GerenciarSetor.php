@@ -13,7 +13,9 @@ class GerenciarSetor extends Controller
     public function index(Request $request)
     {
 
-        $setores = DB::table('tp_rotas_setor as rs')->leftJoin('setor as s', 'rs.id_setor', 's.id')->distinct('s.nome')->orderBy('s.nome');
+        $setores = DB::table('setor AS s')
+                    ->leftJoin('tp_rotas_setor as rs', 's.id', 'rs.id_setor')
+                    ->select('s.id AS sid', 's.nome', 's.sigla');
 
         $pesquisa = $request->nome_pesquisa;
         if ($request->nome_pesquisa) {
@@ -23,7 +25,7 @@ class GerenciarSetor extends Controller
             });
         }
 
-        $setores = $setores->orderBy('s.nome')->get();
+        $setores = $setores->groupBy('s.id')->orderBy('s.nome')->get();
         return view('setor.gerenciar-setor', compact('setores'));
     }
 
@@ -100,13 +102,14 @@ class GerenciarSetor extends Controller
         DB::table('tp_rotas_setor')->where('id_setor', $id)->delete();
 
         foreach ($request->rotas as $rota) {
-            DB::table('tp_rotas_setor')->where('id_setor', $id)->insert([
-                'id_setor' => $request->setor,
+            DB::table('tp_rotas_setor')->insert([
+                'id_setor' => $id,
                 'id_rotas' => $rota
             ]);
         }
-
-
+            
+        app('flasher')->addSuccess('As rotas foram redefinidas!');
+        
         return redirect('/gerenciar-setor-usuario');
 
     }
@@ -117,6 +120,9 @@ class GerenciarSetor extends Controller
     public function destroy(string $id)
     {
         DB::table('tp_rotas_setor')->where('id_setor', $id)->delete();
+
+        app('flasher')->addSuccess('As rotas foram excluidas!');
+
         return redirect('/gerenciar-setor-usuario');
     }
 }

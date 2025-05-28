@@ -4,15 +4,21 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use App\Jobs\ImportarAssociadosJob;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redis;
 
 class Kernel extends ConsoleKernel
 {
     /**
      * Define the application's command schedule.
      */
-    protected function schedule(Schedule $schedule): void
+        protected function schedule(Schedule $schedule): void
+
     {
-        // $schedule->command('inspire')->hourly();
+        Log::info('🏁 Início da execução do ImportarAssociadosJob');
+
+        $schedule->job(new ImportarAssociadosJob)->dailyAt('15:00');
     }
 
     /**
