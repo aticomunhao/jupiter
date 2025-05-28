@@ -18,7 +18,7 @@ class Kernel extends ConsoleKernel
     {
         Log::info('🏁 Início da execução do ImportarAssociadosJob');
 
-        $schedule->job(new ImportarAssociadosJob)->dailyAt('15:00');
+        $schedule->job(new ImportarAssociadosJob)->dailyAt('03:00');
     }
 
     /**
