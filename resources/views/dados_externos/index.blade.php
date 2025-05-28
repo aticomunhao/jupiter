@@ -12,6 +12,10 @@
             <div class="card-body">
                 <p class="card-text">
                 <div class="row ">
+                    <div class="col">
+                        <a class="btn btn-success" href="{{ route('gerenciar_descontos.formulario_consulta') }}">Nova
+                            Consulta</a>
+                    </div>
                 </div>
                 <hr>
                 <div class="container">
@@ -24,12 +28,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($grupos as  $grupo)
+                            @foreach ($grupos as $grupo)
                                 <tr>
-                                    <td>{{ $grupo->nome }} - {{ $grupo->nome_setor}}</th>
+                                    <td>{{ $grupo->nome }} - {{ $grupo->nome_setor }}</th>
                                     <td>
-                                        <a href="{{route('gerenciar_descontos.show', $grupo->id)}}" class="btn btn-primary">
-                                            <i class="bi bi-search">    </i>
+                                        <a href="{{ route('gerenciar_descontos.show', $grupo->id) }}"
+                                            class="btn btn-primary">
+                                            <i class="bi bi-search"> </i>
                                         </a>
 
                                     </td>

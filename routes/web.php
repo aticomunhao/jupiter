@@ -355,6 +355,7 @@ Route::middleware('rotas:21')->group(function () {
 
 Route::get('/gerenciar-descontos', [GerenciarViewsController::class, 'index']);
 Route::any('/gerenciar-descontos/{id}', [GerenciarViewsController::class, 'show'])->name('gerenciar_descontos.show');
+Route::any('/gerenciar-decontos/formulario-de-consulta', [GerenciarViewsController::class, 'formulario_consulta'])->name('gerenciar_descontos.formulario_consulta');
 
 
 Route::get('/batata123', function () {
