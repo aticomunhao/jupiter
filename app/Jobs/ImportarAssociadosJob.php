@@ -27,6 +27,9 @@ class ImportarAssociadosJob implements ShouldQueue
      */
     public function handle(): void
     {
+
+        Log::info('🏁 Início da execução do ImportarAssociadosJob');
+
          $max_associado = DB::table('associado')->max('nr_associado')  ?? 0;
         // Consulta no banco SQL Server
         $novosAssociados = DB::connection('sqlsrv')
@@ -36,7 +39,7 @@ class ImportarAssociadosJob implements ShouldQueue
                 ->where('c.Codigo', '>', $max_associado)
                 ->get();
 
-         Log::info('ImportarAssociadosJob - Total de associados encontrados: ' . $novosAssociados->count());
+        Log::info('ImportarAssociadosJob - Total de associados encontrados: ' . $novosAssociados->count());
 
         foreach ($novosAssociados as $associado) {
 
@@ -64,7 +67,7 @@ class ImportarAssociadosJob implements ShouldQueue
                 if ($endereco) {
                     DB::connection('pgsql')->table('endereco_pessoas')->insert([
                         'id_pessoa' => $pessoaId,
-                        'logradouro' => $associado->Endereco,
+                        'logradouro' => $associado->Endereco ?? null,
                         'numero' => $associado->Numero ?? null,
                         'bairro' => $associado->Bairro ?? null,
                         'complemento' => $associado->Complemento ?? null,
@@ -92,11 +95,11 @@ class ImportarAssociadosJob implements ShouldQueue
                 Log::error('Erro ao importar associado: ' . $e->getMessage(), ['id' => $associado->Ordem]);
 
             }
-
-            Log::info('ImportarAssociadosJob finalizado com sucesso.');
+            
 
         }
 
-         Log::info('ImportarAssociadosJob com erros na execução.');
+        Log::info('ImportarAssociadosJob finalizado com sucesso.');
+
     }
 }

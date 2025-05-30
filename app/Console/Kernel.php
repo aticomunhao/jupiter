@@ -16,9 +16,8 @@ class Kernel extends ConsoleKernel
         protected function schedule(Schedule $schedule): void
 
     {
-        Log::info('🏁 Início da execução do ImportarAssociadosJob');
 
-        $schedule->job(new ImportarAssociadosJob)->dailyAt('03:00');
+        $schedule->job(new ImportarAssociadosJob)->dailyAt('11:00');
     }
 
     /**
