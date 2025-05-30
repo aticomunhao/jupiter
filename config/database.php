@@ -65,8 +65,8 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'url' => env('192.168.1.192'),
-            'host' => env('DB_HOST', '192.168.1.192'),
+            'url' => env('192.168.1.242'),
+            'host' => env('DB_HOST', '192.168.1.242'),
             'port' => env('DB_PORT', '5432'),
             'database' => env('DB_DATABASE', 'pessoal'),
             'username' => env('DB_USERNAME', 'postgres'),
@@ -81,7 +81,7 @@ return [
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
-            'host' => env('SECOND_DB_HOST', 'vmshop'),
+            'host' => env('SECOND_DB_HOST', '192.168.1.98'),
             'port' => env('SECOND_DB_PORT', '1434'),
             'database' => env('SECOND_DB_DATABASE', 'S9_Real'),
             'username' => env('SECOND_DB_USERNAME', 'sa'),
