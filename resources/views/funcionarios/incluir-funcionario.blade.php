@@ -92,7 +92,7 @@
                                 <div class="col-md-4 col-sm-12">Número de Identidade
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="20" type="number" id="11" name="identidade"
-                                        value="{{ old('identidade') }}" required="required">
+                                        value="{{ old('identidade') }}" required="required" oninput="if(this.value.length > 20) this.value = this.value.slice(0, 20);">
                                 </div>
                                 <div class="col-md-2 col-sm-12">UF da Identidade
                                     <select class="js-example-responsive form-select"
@@ -190,7 +190,7 @@
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="8" type="number" id="23" name="ctps"
-                                        value="{{ old('ctps') }}" required="required">
+                                        value="{{ old('ctps') }}" oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);"required="required">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Série
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton2" role="button"
@@ -199,7 +199,7 @@
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="number" id="26" name="serie_ctps"
-                                        value="{{ old('serie_ctps') }}" required="required">
+                                        value="{{ old('serie_ctps') }}" required="required" oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5);">
                                 </div>
                                 <div class="col-md-2 col-sm-12">UF
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton3" role="button"
@@ -236,7 +236,7 @@
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="12" type="number" id="17" name="titele"
-                                        value="{{ old('titele') }}">
+                                        value="{{ old('titele') }}" oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Zona
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton6" role="button"
@@ -245,7 +245,7 @@
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="number" id="18" name="zona"
-                                        value="{{ old('zona') }}">
+                                        value="{{ old('zona') }}" oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5);">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Seção
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton7" role="button"
@@ -254,7 +254,7 @@
                                     </a>
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="5" type="number" id="19" name="secao"
-                                        value="{{ old('secao') }}">
+                                        value="{{ old('secao') }}" oninput="if(this.value.length > 5) this.value = this.value.slice(0, 5);">
                                 </div>
                                 <div class="col-md-2 col-sm-12">Data emissão
                                     <a tabindex="0" class="btn btn-sm" id="popoverButton8" role="button"
@@ -281,7 +281,7 @@
                                 <div class="col-md-6 col-sm-12">Número do PIS/NIS/PASEP
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="11" type="number" id="10" name="nr_programa"
-                                        value="{{ old('nr_programa') }}" required="required">
+                                        value="{{ old('nr_programa') }}" required="required" oninput="if(this.value.length > 11) this.value = this.value.slice(0, 11);">
                                 </div>
                                 <div class="col-md-3 col-sm-12">Cor pele
                                     <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
@@ -324,7 +324,7 @@
                                 <div class="col-md-5 col-sm-12">Número de Reservista
                                     <input class="form-control" maxlength="12" type="number" id="28"
                                         style="border: 1px solid #999999; padding: 5px;" name="reservista"
-                                        value="{{ old('reservista') }}">
+                                        value="{{ old('reservista') }}" oninput="if(this.value.length > 12) this.value = this.value.slice(0, 12);">
                                 </div>
                                 <div class="col-md-2 col-sm-12">Cat CNH
                                     <select class="form-select" style="border: 1px solid #999999; padding: 5px;"
@@ -383,7 +383,7 @@
                                 <div class="col-md-4 col-sm-12">CEP
                                     <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                         maxlength="8" type="number"
-                                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+                                        oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);"
                                         id="cep" name="cep" value="{{ old('cep') }}">
                                 </div>
                                 <div class="col-md-4 col-sm-12">UF
