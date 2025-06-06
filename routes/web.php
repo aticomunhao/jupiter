@@ -19,7 +19,6 @@ use App\Http\Controllers\GerenciarEntidadesController;
 use App\Http\Controllers\GerenciarFeriasController;
 use App\Http\Controllers\GerenciarFuncionarioController;
 use App\Http\Controllers\GerenciarHierarquiaController;
-use App\Http\Controllers\JobController;
 use App\Http\Controllers\GerenciarPerfil;
 use App\Http\Controllers\GerenciarSetor;
 use App\Http\Controllers\GerenciarSetoresController;
@@ -30,6 +29,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UsuarioController;
+use App\Jobs\ImportarAssociadosJob;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 
@@ -366,9 +366,11 @@ Route::get('/batata123', function () {
 
 
 //Executa o job de resgatar novos associados
-Route::middleware('rotas:26')->group(function () {
-    Route::post('/executar-job', [JobController::class, 'executar'])->name('executar.job');
-});
+Route::middleware('rotas:26')->post('/executar-job', function () {
+    ImportarAssociadosJob::dispatchSync();
+    return redirect()->back();
+})->name('executar.job');
+
 
 //     Route::get('/lista-associado', function(){
 //      $max_associado = DB::table('associado')->max('nr_associado') ?? 0;
