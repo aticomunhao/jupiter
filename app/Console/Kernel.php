@@ -17,7 +17,14 @@ class Kernel extends ConsoleKernel
 
     {
 
-        $schedule->job(new ImportarAssociadosJob)->dailyAt('01:00');
+       $schedule->job(new ImportarAssociadosJob)
+            ->dailyAt('01:00')
+            ->before(function () {
+                Log::info('⏳ [Scheduler] Iniciando ImportarAssociadosJob...');
+            })
+            ->after(function () {
+                Log::info('✅ [Scheduler] ImportarAssociadosJob finalizado.');
+            });
     }
 
     /**
