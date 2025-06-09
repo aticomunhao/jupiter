@@ -657,7 +657,7 @@ class GerenciarFeriasController extends Controller
             ->where('afastamento.id_funcionario', '=', $ferias->id_funcionario)
             ->select('tp_afastamento.limite', 'afastamento.qtd_dias')
             ->get();
-        dd($atestados);
+        // dd($atestados);
 
         foreach ($atestados as $atestado) {
             $faltas += $atestado->qtd_dias - $atestado->limite;
