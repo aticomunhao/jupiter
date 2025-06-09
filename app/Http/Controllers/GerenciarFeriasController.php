@@ -679,7 +679,7 @@ class GerenciarFeriasController extends Controller
             app('flasher')->addError('O funcionario não possui direito a  por ter faltado mais de 32 dias sem abono');
             return redirect()->route('IndexGerenciarFerias');
         }
-        dd($diasDeDireitoDoFuncionario);
+        // dd($diasDeDireitoDoFuncionario);
 
 
 
