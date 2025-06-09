@@ -160,6 +160,7 @@ class GerenciarAssociadoController extends Controller
                     'sexo' => $request->input('sexo'),
                     'dt_nascimento' => $request->input('dt_nascimento'),
                     'status' => '1',
+                    'dt_cadastro' => Carbon::now(),
                 ]);
 
                 $id_pessoa = DB::table('pessoas')
