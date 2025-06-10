@@ -17,12 +17,16 @@ class Kernel extends ConsoleKernel
     {
 
        $schedule->job(new ImportarAssociadosJob)
-            ->dailyAt('01:00')
-            ->before(function () {
+            ->everyFiveMinutes()
+            ->withoutOverlapping()
+           ->before(function () {
                 Log::info('⏳ [Scheduler] Iniciando ImportarAssociadosJob...');
             })
-            ->after(function () {
-                Log::info('✅ [Scheduler] ImportarAssociadosJob finalizado.');
+            ->onSuccess(function () { // Similar ao after(), mas mais explícito
+                Log::info('✅ [Scheduler] ImportarAssociadosJob finalizado com SUCESSO.');
+            })
+            ->onFailure(function () {
+                Log::error('❌ [Scheduler] ImportarAssociadosJob FALHOU.');
             });
     }
 
