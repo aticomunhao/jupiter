@@ -51,7 +51,6 @@ class ImportarAssociadosJob implements ShouldQueue
             // Adicional: Garantir que pegamos apenas um email se houver vários
             // E que a ordem seja consistente. chunkById precisa de um orderBy.
             ->groupBy('c.Ordem', 'c.Codigo', 'c.Nome', 'c.CPF_Sem_Literais', 'c.Endereco', 'c.RG_IE', 'c.Numero', 'c.Bairro', 'c.Complemento', 'c.CEP', 'cont.Email')
-            ->orderBy('c.Codigo') // chunkById requer um orderBy na coluna do chunk
             ->chunkById(200, function ($novosAssociados) use (&$associadosProcessados, &$associadosIgnorados) {
             
                 Log::info("Processando um lote de " . $novosAssociados->count() . " associados.");
@@ -117,7 +116,7 @@ class ImportarAssociadosJob implements ShouldQueue
                         $associadosIgnorados++;
                     }
                 }
-            }, 'c.Codigo'); // Informa ao chunkById para usar a coluna Codigo
+            }, 'Codigo'); // Informa ao chunkById para usar a coluna Codigo
 
         Log::info("✅ Execução do ImportarAssociadosJob finalizada. Processados: {$associadosProcessados}, Ignorados/Falhas: {$associadosIgnorados}");
     }
