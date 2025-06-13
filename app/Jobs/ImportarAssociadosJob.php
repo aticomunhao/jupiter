@@ -29,60 +29,77 @@ class ImportarAssociadosJob implements ShouldQueue
         //
     }
 
-    public function handle(): void
+   public function handle(): void
     {
         Log::info('🏁 Início da execução do ImportarAssociadosJob');
 
-        // Pega o ID máximo da sua tabela de destino (PostgreSQL)
-        $max_associado = DB::connection('pgsql')->table('associado')->max('nr_associado') ?? 0;
+        $pgsql = DB::connection('pgsql');
+        $sqlsrv = DB::connection('sqlsrv');
+
+        $max_associado = $pgsql->table('associado')->max('nr_associado') ?? 0;
         Log::info("Último nr_associado importado: {$max_associado}");
 
         $associadosProcessados = 0;
         $associadosIgnorados = 0;
 
-        // Use chunkById para processar em lotes e evitar problemas de memória
-        DB::connection('sqlsrv')
-            ->table('Cli_For as c')
-            // Fazendo LEFT JOIN para buscar o email na mesma consulta (Otimização N+1)
-            ->leftJoin('Cli_For_Contatos as cont', 'c.Ordem', '=', 'cont.Ordem_Cli_For') 
-            ->select('c.Ordem', 'c.Codigo', 'c.Nome', 'c.CPF_Sem_Literais', 'c.Endereco', 'c.RG_IE', 'c.Numero', 'c.Bairro', 'c.Complemento', 'c.CEP', 'cont.Email')
+        $sqlsrv->table('Cli_For as c')
+            ->leftJoin('Cli_For_Contatos as cont', 'c.Ordem', '=', 'cont.Ordem_Cli_For')
+            ->selectRaw('
+                c.Ordem, c.Codigo, c.Nome, c.CPF_Sem_Literais, c.Endereco, 
+                c.RG_IE, c.Numero, c.Bairro, c.Complemento, c.CEP, 
+                MAX(cont.Email) as email
+            ')
             ->where('c.Codigo', '<', 50000)
             ->where('c.Codigo', '>', $max_associado)
-            // Adicional: Garantir que pegamos apenas um email se houver vários
-            // E que a ordem seja consistente. chunkById precisa de um orderBy.
-            ->groupBy('c.Ordem', 'c.Codigo', 'c.Nome', 'c.CPF_Sem_Literais', 'c.Endereco', 'c.RG_IE', 'c.Numero', 'c.Bairro', 'c.Complemento', 'c.CEP', 'cont.Email')
-            ->chunkById(200, function ($novosAssociados) use (&$associadosProcessados, &$associadosIgnorados) {
-            
-                Log::info("Processando um lote de " . $novosAssociados->count() . " associados.");
+            ->groupBy(
+                'c.Ordem', 'c.Codigo', 'c.Nome', 'c.CPF_Sem_Literais', 'c.Endereco',
+                'c.RG_IE', 'c.Numero', 'c.Bairro', 'c.Complemento', 'c.CEP'
+            )
+            ->chunkById(200, function ($novosAssociados) use (&$associadosProcessados, &$associadosIgnorados, $pgsql) {
 
-                foreach ($novosAssociados as $associado) {
-                    
-                    // A verificação de existência do nr_associado se torna redundante
-                    // devido à cláusula where > $max_associado, mas mantê-la é uma segurança extra.
-                    // Para performance, pode ser removida se confiar na lógica.
+                Log::info("🔄 Processando lote com {$novosAssociados->count()} associados.");
 
-                    DB::connection('pgsql')->beginTransaction();
-                    try {
-                        // Verifica se o CPF já existe
-                        $pessoaExistente = DB::connection('pgsql')
-                            ->table('pessoas')
+                $pgsql->beginTransaction();
+                try {
+                    foreach ($novosAssociados as $associado) {
+                        Log::debug("➡️ Associado: Codigo {$associado->Codigo}, Email: " . ($associado->email ?? 'N/A'));
+
+                        // Evita duplicidade na tabela 'associado'
+                        $existeAssociado = $pgsql->table('associado')
+                            ->where('nr_associado', $associado->Codigo)
+                            ->exists();
+
+                        if ($existeAssociado) {
+                            Log::warning("⚠️ Associado já existe (nr_associado {$associado->Codigo}), ignorado.");
+                            $associadosIgnorados++;
+                            continue;
+                        }
+
+                        $pessoaExistente = $pgsql->table('pessoas')
                             ->where('cpf', $associado->CPF_Sem_Literais)
                             ->first();
 
                         if ($pessoaExistente) {
+                            $pgsql->table('pessoas')
+                                ->where('id', $pessoaExistente->id)
+                                ->update([
+                                    'email'  => $associado->email,
+                                    'status' => 1,
+                                ]);
                             $pessoaId = $pessoaExistente->id;
                         } else {
-                            $pessoaId = DB::connection('pgsql')->table('pessoas')->insertGetId([
+                            $pessoaId = $pgsql->table('pessoas')->insertGetId([
                                 'nome_completo' => $associado->Nome,
                                 'cpf'           => $associado->CPF_Sem_Literais,
-                                'email'         => $associado->Email, // Email já vem da consulta principal
+                                'email'         => $associado->email,
                                 'idt'           => $associado->RG_IE,
                                 'status'        => 1,
+                                'dt_cadastro'   => now(),
                             ]);
                         }
 
                         // Inserir endereço
-                        DB::connection('pgsql')->table('endereco_pessoas')->insert([
+                        $pgsql->table('endereco_pessoas')->insert([
                             'id_pessoa'   => $pessoaId,
                             'logradouro'  => $associado->Endereco,
                             'numero'      => $associado->Numero,
@@ -92,32 +109,33 @@ class ImportarAssociadosJob implements ShouldQueue
                             'dt_inicio'   => now(),
                         ]);
 
-                        // Inserir na tabela associado
-                        $associadoId = DB::connection('pgsql')->table('associado')->insertGetId([
+                        // Inserir associado
+                        $associadoId = $pgsql->table('associado')->insertGetId([
                             'id_pessoa'    => $pessoaId,
                             'nr_associado' => $associado->Codigo,
                         ]);
 
-                        // Inserir status do associado
-                        DB::connection('pgsql')->table('historico_associado')->insert([
+                        // Histórico do associado
+                        $pgsql->table('historico_associado')->insert([
                             'id_associado' => $associadoId,
                             'dt_inicio'    => now(),
                         ]);
 
-                        DB::connection('pgsql')->commit();
                         $associadosProcessados++;
-
-                    } catch (Throwable $e) { // Usar Throwable pega Exceptions e Errors
-                        DB::connection('pgsql')->rollBack();
-                        Log::error('Erro ao importar associado: ' . $e->getMessage(), [
-                            'codigo_associado' => $associado->Codigo,
-                            'trace' => $e->getTraceAsString() // Muito útil para depurar
-                        ]);
-                        $associadosIgnorados++;
                     }
-                }
-            }, 'Codigo'); // Informa ao chunkById para usar a coluna Codigo
 
-        Log::info("✅ Execução do ImportarAssociadosJob finalizada. Processados: {$associadosProcessados}, Ignorados/Falhas: {$associadosIgnorados}");
+                    $pgsql->commit();
+                } catch (Throwable $e) {
+                    $pgsql->rollBack();
+                    Log::error('❌ Erro ao importar lote de associados. Lote revertido.', [
+                        'erro' => $e->getMessage(),
+                        'trace' => $e->getTraceAsString(),
+                    ]);
+                    $associadosIgnorados += $novosAssociados->count();
+                }
+
+            }, 'Codigo'); // importante: qualificar coluna para chunkById
+
+        Log::info("✅ Fim do ImportarAssociadosJob. Processados: {$associadosProcessados}, Ignorados: {$associadosIgnorados}");
     }
 }
