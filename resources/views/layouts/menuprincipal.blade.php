@@ -119,6 +119,10 @@ $perfis = session()->get('usuario.perfis');
                                 @if (in_array(18, $acesso))
                                     <li><a class="dropdown-item" href="/controle-ferias">Controle de Férias</a></li>
                                 @endif
+                                @if (in_array(26, $acesso))
+                                     <li><a href="/contribuicao" class="dropdown-item">Relatório Contribuição</a>
+                                    </li>
+                                @endif
                             </ul>
                         </li>
                     </ul>
@@ -144,7 +148,7 @@ $perfis = session()->get('usuario.perfis');
                                 </li>
 
                                 <li><a href="/gerenciar-descontos" class="dropdown-item">Gerenciar Descontos </a>
-                                </li>
+                                </li>                           
                             </ul>
                         </li>
                     </ul>

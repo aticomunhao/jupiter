@@ -29,6 +29,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\RelatoriosContribuicaoController;
 use App\Jobs\ImportarAssociadosJob;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -313,6 +314,8 @@ Route::middleware('rotas:17')->group(function () {
 /*Controle de Férias*/
 Route::middleware('rotas:18')->group(function () {
     Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleFerias');
+
+    Route::get('/contribuicao', [RelatoriosContribuicaoController::class, 'index'])->name('rel.contr');
 });
 /*Ajax Controller */
 Route::get('/retorna-cidades/{id}', [AjaxController::class, 'retornaCidades']);
@@ -370,6 +373,10 @@ Route::middleware('rotas:26')->post('/executar-job', function () {
     ImportarAssociadosJob::dispatchSync();
     return redirect()->back();
 })->name('executar.job');
+
+
+
+
 
 
 //     Route::get('/lista-associado', function(){
