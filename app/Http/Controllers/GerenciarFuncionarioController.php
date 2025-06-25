@@ -283,7 +283,7 @@ class GerenciarFuncionarioController extends Controller
                     'ddd' => $request->input('ddd'),
                     'celular' => $request->input('celular'),
                     'status' => '1',
-                    'dt_cadastro' => Carbon::now(),
+                    // 'dt_cadastro' => Carbon::now(),
                 ]);
 
             $id_pessoa = DB::table('pessoas')
@@ -312,7 +312,7 @@ class GerenciarFuncionarioController extends Controller
                 'nome_mae' => $request->input('nome_mae'),
                 'nome_pai' => $request->input('nome_pai'),
                 'id_cat_cnh' => $request->input('cnh'),
-                'dt_cadastro' => Carbon::now(),
+                // 'dt_cadastro' => Carbon::now(),
             ]);
 
             $id_funcionario = DB::table('funcionarios')
@@ -370,7 +370,7 @@ class GerenciarFuncionarioController extends Controller
                 'ddd' => $request->input('ddd'),
                 'celular' => $request->input('celular'),
                 'status' => '1',
-                'dt_cadastro' => Carbon::now(),
+                // 'dt_cadastro' => Carbon::now(),
 
             ]);
 
@@ -402,7 +402,7 @@ class GerenciarFuncionarioController extends Controller
                 'nome_mae' => $request->input('nome_mae'),
                 'nome_pai' => $request->input('nome_pai'),
                 'id_cat_cnh' => $request->input('cnh'),
-                'dt_cadastro' => Carbon::now(),
+                // 'dt_cadastro' => Carbon::now(),
             ]);
 
             $id_funcionario = DB::table('funcionarios')
