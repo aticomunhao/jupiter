@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection; // Certifique-se de importar Collection
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class RelatoriosContribuicaoController extends Controller
 {
@@ -24,7 +25,7 @@ class RelatoriosContribuicaoController extends Controller
         $setorFiltro = $request->input('setor');
         $reuniaoFiltro = $request->input('reuniao');
         $membroFiltro = $request->input('membro');
-        $anoFiltro = $request->input('ano') ?? date('Y');
+        $anoFiltro = $request->input('anoFiltro') ?? date('Y');
 
         // 🔢 Paginação dos resultados FINAIS AGRUPADOS (por ano)
         $perPage = 5; // Ajuste este valor conforme necessário
@@ -59,7 +60,7 @@ class RelatoriosContribuicaoController extends Controller
             $queryAssociados->where('c.id', $reuniaoFiltro);
         }
         if ($membroFiltro) {
-            $queryAssociados->where('p.id', $membroFiltro);
+            $queryAssociados->where('m.id', $membroFiltro);
         }
         // Adicionar um order by para consistência, se não já tiver um implícito
         $queryAssociados->whereNull('m.dt_fim')->orderBy('p.nome_completo');
@@ -70,10 +71,12 @@ class RelatoriosContribuicaoController extends Controller
    
         $allAssociateNrs = $allAssociates->pluck('nr_associado')->unique()->filter()->values()->toArray();
 
+        
         // 2. 🔎 Buscar TODOS os pagamentos relevantes para ESTES associados (SQL Server)
         $allPagamentos = collect();
         if (!empty($allAssociateNrs)) {
             $chunks = collect($allAssociateNrs)->chunk(2000);
+            
 
             foreach ($chunks as $chunk) {
                 $dadosQuery = $sqlsrv->table('movimento_prod_serv AS ms')
@@ -100,6 +103,7 @@ class RelatoriosContribuicaoController extends Controller
                 $allPagamentos = $allPagamentos->merge($dadosQuery->get());
             }
         }
+
 
         $indexedPagamentos = $allPagamentos->groupBy('codigoAssociado');
 
@@ -141,7 +145,10 @@ class RelatoriosContribuicaoController extends Controller
             // Apenas adiciona se houve alguma contribuição para *qualquer ano*
             // Ou se queremos mostrar membros sem contribuições (mude a lógica se for o caso)
             if (empty($contribuicoesPorAnoMes)) {
-               continue;
+                    $contribuicoesPorAnoMes[$anoFiltro] = array_fill_keys(
+                    array_map(fn($m) => str_pad($m, 2, '0', STR_PAD_LEFT), range(1, 12)),
+                    0.0
+                );
             }
 
             $intermediateProcessedMembers->push([
@@ -254,7 +261,7 @@ class RelatoriosContribuicaoController extends Controller
             ->leftJoin('setor AS s', 'g.id_setor', 's.id')
             ->leftJoin('tipo_dia AS td', 'c.dia_semana', 'td.id')
             ->whereNull('c.data_fim')
-            ->select('g.id AS cid', 'g.nome AS g_nome', 's.sigla AS s_sigla', 'td.sigla AS d_sigla', 'c.h_inicio')
+            ->select('c.id AS cid', 'g.nome AS g_nome', 's.sigla AS s_sigla', 'td.sigla AS d_sigla', 'c.h_inicio')
             ->orderBy('g.nome', 'asc')
             ->get();
 
@@ -262,7 +269,6 @@ class RelatoriosContribuicaoController extends Controller
             ->leftJoin('associado as a', 'm.id_associado', 'a.id')
             ->leftJoin('pessoas as p', 'a.id_pessoa', 'p.id')
             ->select('m.id', 'p.id as pid', 'p.nome_completo')
-            ->distinct('p.nome_completo')
             ->orderBy('p.nome_completo', 'asc')
             ->get();
 
@@ -271,7 +277,20 @@ class RelatoriosContribuicaoController extends Controller
             ->orderBy('nome', 'asc')
             ->get();
 
+        return view('relatorio.contribuicao-grupo', compact('paginatedResult', 'grupo', 'membro', 'setor', 'anoFiltro'));
+    }
 
-        return view('relatorio.contribuicao-grupo', compact('paginatedResult', 'grupo', 'membro', 'setor'));
+    public function gerarPdf(Request $request){
+
+          $dados = $this->index($request);
+
+          //dd($dados);
+
+    $pdf = PDF::loadView('gerar-pdf', $dados)
+        ->setPaper('a4', 'landscape');
+         
+        return $pdf->download('lista_associados.pdf');
+    
+
     }
 }

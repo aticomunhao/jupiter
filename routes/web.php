@@ -374,8 +374,8 @@ Route::middleware('rotas:26')->post('/executar-job', function () {
     return redirect()->back();
 })->name('executar.job');
 
-
-
+Route::get('/contribuicoes', [RelatoriosContribuicaoController::class, 'index'])->name('contribuicoes.index');
+Route::get('/contribuicoes/pdf', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('contribuicoes.pdf');
 
 
 
