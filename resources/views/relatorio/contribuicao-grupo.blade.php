@@ -44,15 +44,14 @@
                     @endforeach
                 </select>
             </div>
-
             <div class="col">
                 <label for="ano" class="form-label">Ano</label>
-                <input type="text" name="ano" id="ano" class="form-control" value="{{ request('ano') }}" placeholder="Ex: Ano com 4 digitos">
+                <input type="text" name="anoFiltro" id="anoFiltro" class="form-control" value="{{ request('anoFiltro', date('Y'))  }}" placeholder="Ex: Ano com 4 digitos">
             </div>
-
             <div class="col mt-4">
                 <input class="btn btn-light btn-sm me-md-2" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000;" type="submit" value="Pesquisar">
                 <a href="{{ url()->current() }}" class="btn btn-light btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000;">Limpar</a>
+                <a href="{{ route('contribuicoes.pdf') }}" class="btn btn-primary btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000;">Gerar PDF</a>
             </div>
         </div>
     </form>
