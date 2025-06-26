@@ -315,7 +315,8 @@ Route::middleware('rotas:17')->group(function () {
 Route::middleware('rotas:18')->group(function () {
     Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleFerias');
 
-    Route::get('/contribuicao', [RelatoriosContribuicaoController::class, 'index'])->name('rel.contr');
+    Route::get('/gerenciar-contribuicao', [RelatoriosContribuicaoController::class, 'index'])->name('rel.contr');
+    Route::get('/pdf-contribuicao', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('pdf.contribuicao');
 });
 /*Ajax Controller */
 Route::get('/retorna-cidades/{id}', [AjaxController::class, 'retornaCidades']);
@@ -374,8 +375,7 @@ Route::middleware('rotas:26')->post('/executar-job', function () {
     return redirect()->back();
 })->name('executar.job');
 
-Route::get('/contribuicoes', [RelatoriosContribuicaoController::class, 'index'])->name('contribuicoes.index');
-Route::get('/contribuicoes/pdf', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('contribuicoes.pdf');
+
 
 
 

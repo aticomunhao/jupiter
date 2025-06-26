@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cd5df09d1f5f51143b237c73573d4df",
+    "content-hash": "741c75a8fd0f77b8009195e3d98402f3",
     "packages": [
         {
             "name": "apalfrey/select2-bootstrap-5-theme",

@@ -9,9 +9,9 @@
     <h4 class="card-title" style="font-size:20px; text-align: left; color: gray; font-family: calibri">
         RELATÓRIO DE CONTRIBUIÇÕES
     </h4>
-    <form action="{{ route('rel.contr') }}" method="GET">
-        <div class="row mb-3">
-            <div class="col">
+    <form method="GET">
+        <div class="row justify-content-md-center">
+            <div class="col-md-2 col-sm-12">
                 <label for="setor" class="form-label">Setor</label>
                 <select class="form-select select2" id="setor" name="setor">
                     <option value="">Todos</option>
@@ -22,7 +22,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col">
+            <div class="col-md-2 col-sm-12">
                 <label for="reuniao" class="form-label">Reunião</label>
                 <select class="form-select select2" id="" name="reuniao">
                     <option value="">Todos</option>
@@ -33,7 +33,7 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col">
+            <div class="col-md-2 col-sm-12">
                 <label for="membro" class="form-label">Trabalhador</label>
                 <select class="form-select select2" id="membro" name="membro">
                     <option value="">Todos</option>
@@ -44,14 +44,14 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col">
+            <div class="col-md-2 col-sm-12">
                 <label for="ano" class="form-label">Ano</label>
                 <input type="text" name="anoFiltro" id="anoFiltro" class="form-control" value="{{ request('anoFiltro', date('Y'))  }}" placeholder="Ex: Ano com 4 digitos">
             </div>
-            <div class="col mt-4">
-                <input class="btn btn-light btn-sm me-md-2" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000;" type="submit" value="Pesquisar">
+            <div class="col-md-2 col-sm-12">
+                <input class="btn btn-light btn-sm me-md-2" type="submit" formaction="{{ route('rel.contr')}}" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000;" value="Pesquisar">
                 <a href="{{ url()->current() }}" class="btn btn-light btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000;">Limpar</a>
-                <a href="{{ route('contribuicoes.pdf') }}" class="btn btn-primary btn-sm" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000;">Gerar PDF</a>
+                <input class="btn btn-info" type="submit" formaction="{{route('pdf.contribuicao')}}" value="Gerar PDF" style="box-shadow: 1px 2px 5px #000000; margin:5px;">
             </div>
         </div>
     </form>
@@ -143,7 +143,5 @@
         {{ $paginatedResult->appends(request()->query())->links('pagination::bootstrap-5') }}
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 @endsection

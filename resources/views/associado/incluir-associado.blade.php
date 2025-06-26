@@ -5,7 +5,7 @@
 @section('content')
 
     @csrf
-    <div class="container-fluid"> {{-- Container completo da página  --}}
+    <div class="container"> {{-- Container completo da página  --}}
         <div class="justify-content-center">
             <div class="col-12">
                 <legend style="color: #355089; font-size:25px;">Criar Associado</legend>
@@ -105,12 +105,12 @@
                     <div class="card-body">
                         <div class="row d-flex justify-content-around">
                             <div class="row ">
-                                <div class="form-group col-md">
-                                    <label for="1">CEP</label>
-                                    <input type="text" class="form-control" id="1" name="cep" value="{{ old('cep') }}" style="border: 1px solid #999999; padding: 5px;"
-                                        required>
+                                <div class="col-md-2 col-sm-12">CEP
+                                    <input type="text" class="form-control" name="cep" id="cep" value="{{ old('cep') }}" style="border: 1px solid #999999; padding: 5px;"
+                                        required  oninput="if(this.value.length > 8) this.value = this.value.slice(0, 8);"
+                                        >
                                 </div>
-                                <div class="col-md-4 col-sm-12">UF
+                                <div class="col-md-1 col-sm-12">UF
                                     <br>
                                     <select class="js-example-responsive form-select"
                                             style="border: 1px solid #999999; padding: 5px;" id="uf2" name="uf_end" value="{{ old('uf_end') }}">
@@ -132,7 +132,7 @@
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="1">Logradouro</label>
-                                    <input type="text" class="form-control" id="1" name="logradouro"
+                                    <input type="text" class="form-control" id="logradouro" name="logradouro"
                                     value="{{ old('logradouro') }}" style="border: 1px solid #999999; padding: 5px;" required>
                                 </div>
                             </div>
@@ -144,12 +144,12 @@
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="1">Complemento</label>
-                                    <input type="text" class="form-control" id="1" name="complemento"
+                                    <input type="text" class="form-control" id="complemento" name="complemento"
                                     value="{{ old('complemento') }}" style="border: 1px solid #999999; padding: 5px;" required>
                                 </div>
                                 <div class="form-group col-md">
                                     <label for="1">Bairro</label>
-                                    <input type="text" class="form-control" id="1" name="bairro"
+                                    <input type="text" class="form-control" id="bairro" name="bairro"
                                     value="{{ old('bairro') }}" style="border: 1px solid #999999; padding: 5px;" required>
                                 </div>
                             </div>
@@ -169,71 +169,73 @@
                 </div>
                 </form>
 
-            @endsection
+ <script>
+        $(document).ready(function() {
+            $('#cep').on('input', function() {
+                let cep = $(this).val().replace(/\D/g, '');
 
+                if (cep.length === 8) {
+                    let estados = @JSON($tp_uf);
 
-            @section('footerScript')
-                <!-- Scripts -->
-                <script>
-                    $(document).ready(function () {
-                        $('#cidade1, #cidade2, #setorid').select2({
-                            theme: 'bootstrap-5',
-                            width: '100%',
-                        });
-                        
+                    $.ajax({
+                        type: "GET",
+                        url: 'https://viacep.com.br/ws/' + cep + '/json/',
+                        dataType: "json",
+                        success: function(response) {
+                            console.log(response);
 
-                        function populateCities(selectElement, stateValue) {
-                            $.ajax({
-                                type: "get",
-                                url: "/retorna-cidade-dados-residenciais/" + stateValue,
-                                dataType: "json",
-                                success: function (response) {
-                                    selectElement.empty();
-                                    $.each(response, function (indexInArray, item) {
-                                        selectElement.append('<option value="' + item.id_cidade + '">' +
-                                            item.descricao + '</option>');
-                                    });
-                                },
-                                error: function (xhr, status, error) {
-                                    console.error("An error occurred:", error);
-                                }
-                            });
+                            // Preenchendo os campos automaticamente
+                            $('#logradouro').val(response.logradouro);
+                            $('#bairro').val(response.bairro);
+                            $('#complemento').val(response.complemento);
+
+                            // Encontrando o estado correspondente
+                            let estadoEncontrado = estados.find(estado => estado.sigla ===
+                                response.uf);
+
+                            if (estadoEncontrado) {
+                                $('#uf2').val(estadoEncontrado.id).trigger('change');
+
+                                // Buscar cidades automaticamente e selecionar pelo nome
+                                populateCities($('#cidade2'), estadoEncontrado.id, response
+                                    .localidade);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Erro ao buscar o CEP:", error);
                         }
-
-                        $('#uf2').change(function (e) {
-                            var stateValue = $(this).val();
-                            $('#cidade2').removeAttr('disabled');
-                            populateCities($('#cidade2'), stateValue);
-                        });
-
-                        $('#idlimpar').click(function (e) {
-                            $('#idnome_completo').val("");
-                        });
                     });
-                </script>
-                <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        const video = document.getElementById('video');
-                        const canvas = document.createElement('canvas');
-                        const context = canvas.getContext('2d');
-                        const captureBtn = document.getElementById('capture-btn');
-                        const photoInput = document.getElementById('photo-input');
+                }
+            });
 
-                        navigator.mediaDevices.getUserMedia({
-                                video: true
-                            })
-                            .then((stream) => {
-                                video.srcObject = stream;
-                            })
-                            .catch((err) => {
-                                console.error('Error accessing webcam: ', err);
-                            });
+            function populateCities(selectElement, uf, cidadeNome) {
+                $.ajax({
+                    type: "GET",
+                    url: "/retorna-cidades/" + uf,
+                    dataType: "JSON",
+                    success: function(response) {
+                        selectElement.empty();
+                        selectElement.removeAttr('disabled');
 
-                        captureBtn.addEventListener('click', () => {
-                            canvas.width = video.videoWidth;
-                            canvas.height = video.videoHeight;
-                            context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-                            photoInput.value = canvas.toDataURL('image/jpeg');
+                        let cidadeSelecionada = null;
+
+                        $.each(response, function(indexInArray, item) {
+                            selectElement.append('<option value="' + item.id_cidade + '">' +
+                                item.descricao + '</option>');
+
+                            // Verifica se o nome da cidade retornado pelo ViaCEP é igual ao da lista
+                            if (item.descricao.toLowerCase() === cidadeNome.toLowerCase()) {
+                                cidadeSelecionada = item.id_cidade;
+                            }
                         });
-                    });
-                </script>
+
+                        // Se encontramos a cidade pelo nome, selecionamos ela
+                        if (cidadeSelecionada) {
+                            selectElement.val(cidadeSelecionada).trigger('change');
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+@endsection

@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-<link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
     <div class="container-fluid">
         <div class="justify-content-center">
             <div class="col-12">
@@ -18,27 +17,27 @@
                         <div class="card-body">
                             <form class="justify-content-center" class="form-horizontal mt-4" method="GET">
                                 <div class="row">
-                                    <div class="col-1">Nr Associado
+                                    <div class="col-md-1 col-sm-12">Nr Associado
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                             maxlength="50" type="text" id="2" name="nr_associado"
                                             value="{{ $nr_associado }}">
                                     </div>
-                                    <div class="col-3">Nome
+                                    <div class="col-md-2 col-sm-12">Nome
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                             maxlength="30" type="text" id="3" name="nome_completo"
                                             value="{{ $nome_completo }}">
                                     </div>
-                                    <div class="col-auto">Data de Início
+                                    <div class="col-auto col-auto">Data de Início
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                             maxlength="30" type="date" id="3" name="dt_inicio"
                                             value="{{ $dt_inicio }}">
                                     </div>
-                                    <div class="col-auto">Data de Fim
+                                    <div class="col-auto col-auto">Data de Fim
                                         <input class="form-control" style="border: 1px solid #999999; padding: 5px;"
                                             maxlength="30" type="date" id="3" name="dt_fim"
                                             value="{{ $dt_fim }}">
                                     </div>
-                                    <div class="col-1">Status
+                                    <div class="col-md-2 col-sm-12">Status
                                         <select class="form-select" id="4" name="status" type="number"
                                             style="border: 1px solid #999999; padding: 5px;">
                                             <option value="">Todos</option>
@@ -46,23 +45,24 @@
                                             <option value="2">Inativo</option>
                                         </select>
                                     </div>
-                                    <div class="col d-flex align-items-end justify-content-center">
+                                    <div class="col-md-2 col-sm-12">
                                         <input class="btn btn-light btn-md" formaction="{{ route('pesquisar') }}" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Pesquisar">
 
                                         <a href="/gerenciar-associado"><button class="btn btn-light btn-md" type="button" value=""
                                                 style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;">Limpar</button></a>
-
-                                        <a href="/informar-dados-associado"><input class="btn btn-success btn-lg" type="button" name="6" value="Novo Cadastro +"
-                                                style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>
-                                        </form>
                                     </div>
-                                    <div class="col">
-                                            @if (in_array(26, session()->get('usuario.acesso')))
-                                            <form method="POST">
-                                                @csrf
-                                                <input class="btn btn-warning btn-md" formaction="{{ route('executar.job') }}" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Importa Assoc">
-                                            </form>
-                                            @endif
+                                    </form>
+                                    <div class="col-md-1 col-sm-12">
+                                        <a href="/informar-dados-associado"><input class="btn btn-success btn-lg" type="button" name="6" value="Novo Cadastro +"
+                                                style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;"></a>  
+                                    </div>
+                                    <div class="col-md-1 col-sm-12">                                      
+                                        @if (in_array(26, session()->get('usuario.acesso')))
+                                        <form method="POST">
+                                            @csrf
+                                            <input class="btn btn-warning btn-md" formaction="{{ route('executar.job') }}" style="font-size: 0.9rem; box-shadow: 1px 2px 5px #000000; margin:5px;" type="submit" value="Importa Assoc">
+                                        </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -280,7 +280,5 @@
 
     </div>
     </div>
-    
-    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
 
 @endsection
