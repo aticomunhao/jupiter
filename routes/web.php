@@ -375,6 +375,9 @@ Route::middleware('rotas:26')->post('/executar-job', function () {
     return redirect()->back();
 })->name('executar.job');
 
+// Rotas para Relatórios de Contribuição
+Route::get('/gerenciar-contribuicao', [RelatoriosContribuicaoController::class, 'index'])->name('rel.contr');
+Route::get('/pdf-contribuicao', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('pdf.contribuicao');
 
 
 
