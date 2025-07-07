@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\ControleFeriasController;
 use App\Http\Controllers\ControleVagasController;
@@ -311,12 +312,10 @@ Route::middleware('rotas:17')->group(function () {
     Route::any('/criar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'create'])->name('create.gerenciar-dia-limite-ferias');
     Route::any('/armazenar-dia-limite-ferias', [GerenciarDataLimiteDeFeriasController::class, 'store'])->name('store.gerenciar-dia-limite-ferias');
 });
-/*Controle de Férias*/
+/*Relatórios*/
 Route::middleware('rotas:18')->group(function () {
     Route::get('/controle-ferias', [ControleFeriasController::class, 'index'])->name('indexControleFerias');
 
-    Route::get('/gerenciar-contribuicao', [RelatoriosContribuicaoController::class, 'index'])->name('rel.contr');
-    Route::get('/pdf-contribuicao', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('pdf.contribuicao');
 });
 /*Ajax Controller */
 Route::get('/retorna-cidades/{id}', [AjaxController::class, 'retornaCidades']);
@@ -355,6 +354,12 @@ Route::middleware('rotas:21')->group(function () {
     Route::any('/excluir-setor-usuario/{id}', [GerenciarSetor::class, 'destroy']);
 });
 
+// Gerenciar Relatórios
+Route::middleware('rotas:27')->group(function () {
+    Route::get('/gerenciar-contribuicao', [RelatoriosContribuicaoController::class, 'index'])->name('rel.contr');
+    Route::get('/gerenciar-estatistica', [RelatoriosContribuicaoController::class, 'estatistica'])->name('rel.est');
+    Route::get('/pdf-contribuicao', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('pdf.contribuicao');
+});
 
 // Gerenciar pagamentos externos
 
@@ -375,9 +380,7 @@ Route::middleware('rotas:26')->post('/executar-job', function () {
     return redirect()->back();
 })->name('executar.job');
 
-// Rotas para Relatórios de Contribuição
-Route::get('/gerenciar-contribuicao', [RelatoriosContribuicaoController::class, 'index'])->name('rel.contr');
-Route::get('/pdf-contribuicao', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('pdf.contribuicao');
+
 
 
 

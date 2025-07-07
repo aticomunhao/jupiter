@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection; // Certifique-se de importar Collection
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class RelatoriosContribuicaoController extends Controller
 {
@@ -18,6 +19,7 @@ class RelatoriosContribuicaoController extends Controller
      // 🔗 Conexões
         $pgsql = DB::connection('pgsql');
         $sqlsrv = DB::connection('sqlsrv');
+
 
         // 🔍 Filtros
         $setorFiltro = $request->input('setor');
@@ -357,7 +359,8 @@ class RelatoriosContribuicaoController extends Controller
                         'ps.codigo AS codDesc',
                         'ps.nome AS nomeProduto', // nome do produto é a contribuição em si
                         'ms.preco_total_com_desconto AS valor',
-                        'cf.codigo AS codigoAssociado'
+                        'cf.codigo AS codigoAssociado',
+                        'cf.comentarios'
                     )
                     ->where('m.Efetivado_Financeiro', 1)
                     ->where('m.Desefetivado_Financeiro', 0)
@@ -562,4 +565,268 @@ class RelatoriosContribuicaoController extends Controller
     
 
     }
+
+    public function estatistica(Request $request)
+    {
+            $pgsql = DB::connection('pgsql');
+            $sqlsrv = DB::connection('sqlsrv');
+
+            $mesAtual = intval(date('m'));
+            $setorFiltro = $request->input('setor');
+            $reuniaoFiltro = $request->input('reuniao');
+            $membroFiltro = $request->input('membro');
+            $anoFiltro = $request->input('anoFiltro') ?? date('Y');
+            $perPage = 3;
+            $currentPage = $request->get('page', 1);
+            $valorIdealMensal = 80.00;
+
+            // Utilitário para extrair valor previsto dos comentários
+            function extrairValorPrevisto($comentarios)
+            {
+                if (!$comentarios) return null;
+
+                if (preg_match('/\/\s*\$([\d.,]+)\$\s*\//', $comentarios, $matches) ||
+                    preg_match('/\$([\d.,]+)\$/', $comentarios, $matches)) {
+
+                    $valor = str_replace(['.', ','], ['', '.'], $matches[1]);
+                    return floatval($valor);
+                }
+
+                Log::warning("Valor previsto não extraído. Comentários: " . $comentarios);
+                return null;
+            }
+
+            // Verifica isenção de contribuição
+            function verificarIsencao($comentarios, $anoFiltro)
+            {
+                $hoje = date('Ymd');
+
+                if (stripos($comentarios, 'ISENTO_FIXO') !== false) {
+                    return 'Fixo';
+                }
+
+                if (preg_match_all('/ISENTO:(\d{7})-(\d{7})/', $comentarios, $matches, PREG_SET_ORDER)) {
+                    foreach ($matches as $match) {
+                        $inicio = $match[1];
+                        $fim = $match[2];
+                        if ($hoje >= $inicio && $hoje <= $fim) {
+                            return 'Parcial';
+                        }
+                    }
+                }
+
+                return 'Não';
+            }
+
+            // Consulta principal dos associados
+            $query = $pgsql->table('associado AS a')
+                ->leftJoin('membro AS m', 'a.id', '=', 'm.id_associado')
+                ->leftJoin('tipo_funcao AS tf', 'm.id_funcao', '=', 'tf.id')
+                ->leftJoin('cronograma AS c', 'm.id_cronograma', '=', 'c.id')
+                ->leftJoin('grupo AS g', 'c.id_grupo', '=', 'g.id')
+                ->leftJoin('pessoas AS p', 'a.id_pessoa', '=', 'p.id')
+                ->leftJoin('setor AS s', 'g.id_setor', '=', 's.id')
+                ->leftJoin('tipo_dia AS td', 'c.dia_semana', '=', 'td.id')
+                ->select(
+                    'a.nr_associado',
+                    'p.nome_completo',
+                    'tf.nome AS membro_funcao',
+                    'g.nome AS nome_grupo',
+                    's.sigla AS sigla_setor',
+                    'c.id AS cronograma_id',
+                    'c.h_inicio',
+                    'td.sigla AS dia_sigla'
+                )
+                ->whereNull('m.dt_fim')
+                ->whereNotNull('g.id');
+
+            if ($setorFiltro) $query->where('s.id', $setorFiltro);
+            if ($reuniaoFiltro) $query->where('c.id', $reuniaoFiltro);
+            if ($membroFiltro) $query->where('m.id', $membroFiltro);
+
+            $associados = $query->get()->unique(fn ($a) => $a->nr_associado . '_' . $a->cronograma_id);
+
+            // Padronizar código dos associados
+            $codigos = $associados->pluck('nr_associado')->unique()->filter()->values()->toArray();
+
+            // Comentários dos cadastros
+            $comentariosIndividuais = collect();
+            if (!empty($codigos)) {
+                foreach (array_chunk($codigos, 2000) as $chunk) {
+                    $comentariosIndividuais = $comentariosIndividuais->merge(
+                        $sqlsrv->table('cli_for')
+                            ->select('codigo', 'comentarios')
+                            ->where('fisica_juridica', 'F')
+                            ->where('tipo', 'C')
+                            ->whereIn('codigo', $chunk)
+                            ->get()
+                    );
+                }
+            }
+            $comentariosIndexados = $comentariosIndividuais->keyBy('codigo');
+
+            // Pagamentos incluindo valor 0 ou NULL
+            $pagamentos = collect();
+            if (!empty($codigos)) {
+                foreach (array_chunk($codigos, 2000) as $chunk) {
+                    $pagamentos = $pagamentos->merge(
+                        $sqlsrv->table('movimento_prod_serv AS ms')
+                            ->join('movimento AS m', 'm.ordem', '=', 'ms.ordem_movimento')
+                            ->join('prod_serv AS ps', 'ms.ordem_prod_serv', '=', 'ps.ordem')
+                            ->join('cli_for AS cf', 'm.ordem_cli_for', '=', 'cf.ordem')
+                            ->select(
+                                'ps.codigo AS codDesc',
+                                'ms.preco_total_com_desconto AS valor',
+                                'cf.codigo AS codigoAssociado',
+                                'cf.comentarios'
+                            )
+                            ->where('m.Efetivado_Financeiro', 1)
+                            ->where('m.Desefetivado_Financeiro', 0)
+                            ->where('ps.ordem_classe', 10)
+                            ->where('cf.fisica_juridica', 'F')
+                            ->where('cf.tipo', 'C')
+                            ->whereIn('cf.codigo', $chunk)
+                            ->where(function ($q) {
+                                $q->whereNull('ms.preco_total_com_desconto')
+                                ->orWhere('ms.preco_total_com_desconto', 0)
+                                ->orWhere('ms.preco_total_com_desconto', '>', 0);
+                            })
+                            ->when($anoFiltro, fn ($q) => $q->whereRaw("SUBSTRING(ps.codigo, 2, 4) = ?", [$anoFiltro]))
+                            ->get()
+                    );
+                }
+            }
+
+            $pagamentosIndexados = $pagamentos->groupBy('codigoAssociado');
+            $dadosAgrupados = [];
+            $contadorGlobal = 1;
+
+        foreach ($associados as $assoc) {
+            $ano = $anoFiltro;
+            $setor = $assoc->sigla_setor ?? 'SEM SETOR';
+            $reuniaoKey = md5($assoc->nome_grupo . $assoc->h_inicio . $assoc->dia_sigla);
+
+            // Convertendo para string para evitar conflitos de tipo
+            $nr = (string) $assoc->nr_associado;
+
+            // Pagamentos e comentários indexados por código
+            $pagamentosAssoc = $pagamentosIndexados->get($nr, collect());
+            $comentariosCadastro = optional($comentariosIndexados->get($nr))->comentarios;
+
+            $contribuicoesMensais = array_fill_keys(
+                array_map(fn ($m) => str_pad($m, 2, '0', STR_PAD_LEFT), range(1, 12)),
+                0.0
+            );
+
+            // Comentários dos pagamentos ou, se não houver, do cadastro
+            $comentariosConcat = $pagamentosAssoc->pluck('comentarios')->implode(' ');
+            if (empty(trim($comentariosConcat))) {
+                $comentariosConcat = $comentariosCadastro ?? '';
+            }
+
+            $isentoStatus = verificarIsencao($comentariosConcat, $anoFiltro);
+            $valorPrevistoOriginal = extrairValorPrevisto($comentariosConcat) ?? 0;
+
+            // Somando valores mensais
+            foreach ($pagamentosAssoc as $pag) {
+                if (strlen($pag->codDesc) >= 7) {
+                    $mes = substr($pag->codDesc, 5, 2);
+                    if (isset($contribuicoesMensais[$mes])) {
+                        $contribuicoesMensais[$mes] += floatval($pag->valor);
+                    }
+                }
+            }
+
+            $mesesContribuidos = 0;
+            for ($i = 1; $i <= $mesAtual; $i++) {
+                $mesStr = str_pad($i, 2, '0', STR_PAD_LEFT);
+                if (!empty($contribuicoesMensais[$mesStr]) && $contribuicoesMensais[$mesStr] > 0) {
+                    $mesesContribuidos++;
+                }
+            }
+
+            $total = array_sum($contribuicoesMensais);
+            $valorPrevisto = $valorPrevistoOriginal ? $valorPrevistoOriginal * $mesAtual : null;
+            $valorIdealParcial = $valorIdealMensal * $mesAtual;
+            $mesesAtrasados = $mesAtual - $mesesContribuidos;
+
+        $percentIdeal = $valorIdealParcial > 0
+            ? round(($total / $valorIdealParcial) * 100, 1)
+            : null;
+
+        $percentPrev = $valorPrevisto > 0
+            ? round(($total / $valorPrevisto) * 100, 1)
+            : null;
+
+            $dadosAgrupados[$ano][$setor]['container_id'] = "acc_" . md5($setor . $ano);
+            $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['display_name'] =
+                "{$assoc->nome_grupo} ({$assoc->sigla_setor}) | {$assoc->dia_sigla} | {$assoc->h_inicio}";
+
+            $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['key'] = $reuniaoKey;
+            $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['members'][] = [
+                'codigo_associado' => $assoc->nr_associado,
+                'isento' => $isentoStatus,
+                'sequencial' => $contadorGlobal++,
+                'codigo_associado' => $assoc->nr_associado,
+                'contribuicoes' => [$ano => $contribuicoesMensais],
+                'resumo_ano' => [
+                    'total_arrecadado' => $total,
+                    'valor_ideal' => $valorIdealParcial,
+                    'valor_previsto' => $valorPrevisto,
+                    'meses_atrasados' => $mesesAtrasados,
+                    'percentual_ideal' => $percentIdeal,
+                    'percentual_previsto' => $percentPrev,
+                ],
+            ];
+        }
+            // Filtros
+            $reunioes = DB::table('cronograma as c')
+                ->leftJoin('grupo AS g', 'c.id_grupo', 'g.id')
+                ->leftJoin('setor AS s', 'g.id_setor', 's.id')
+                ->leftJoin('tipo_dia AS td', 'c.dia_semana', 'td.id')
+                ->whereNull('c.data_fim')
+                ->select('c.id AS cid', 'g.nome AS g_nome', 's.sigla AS s_sigla', 'td.sigla AS d_sigla', 'c.h_inicio')
+                ->orderBy('g.nome', 'asc')
+                ->get();
+
+            $setores = DB::table('setor as s')
+                ->select('s.id as sid', 's.nome', 's.sigla')
+                ->orderBy('nome', 'asc')
+                ->get();
+
+            // Paginação
+            //$paginated = collect($dadosAgrupados)->forPage($currentPage, $perPage);
+           // $paginatedResult = new LengthAwarePaginator($paginated, count($dadosAgrupados), $perPage, $currentPage);
+           $setoresFlattened = collect();
+
+foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
+    foreach ($setoresAgrupados as $setor => $conteudo) {
+        $setoresFlattened->push([
+            'ano' => $ano,
+            'setor' => $setor,
+            'container_id' => $conteudo['container_id'],
+            'reunions' => $conteudo['reunions']
+        ]);
+    }
+}
+
+$total = $setoresFlattened->count();
+$paginatedSetores = collect();
+$paginatedSetores = $setoresFlattened->forPage($currentPage, $perPage);
+
+$paginatedResult = new LengthAwarePaginator(
+    $paginatedSetores,
+    $total,
+    $perPage,
+    $currentPage,
+    [
+        'path' => $request->url(),
+        'query' => $request->query(),
+    ]
+);
+
+            return view('relatorio.estatistica-grupo', compact('paginatedResult', 'setores', 'reunioes', 'valorIdealParcial'));
+        }
+
+
 }

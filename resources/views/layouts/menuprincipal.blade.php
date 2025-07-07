@@ -104,8 +104,10 @@ $perfis = session()->get('usuario.perfis');
                                 <li><a class="dropdown-item" href="/controle-ferias">Controle de Férias</a>
                                 </li>
                             @endif
-                            @if (in_array(18, $acesso))
-                                <li><a href="/gerenciar-contribuicao" class="dropdown-item">Relatório Contribuição</a>
+                            @if (in_array(27, $acesso))
+                                <li><a href="/gerenciar-contribuicao" class="dropdown-item">Contribuição por Grupo</a>
+                                </li>                             
+                                <li><a href="/gerenciar-estatistica" class="dropdown-item">Estatística por Grupo</a>
                                 </li>
                             @endif
                         </ul>
