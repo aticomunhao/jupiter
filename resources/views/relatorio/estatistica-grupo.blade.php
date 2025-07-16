@@ -48,6 +48,49 @@
     </form>
 
         <hr />
+        <!--AQUI É A TABELA COM A SOMA GERAL-->
+
+       <div id="totalGeralContainer" style="position: relative; max-width: 600px; margin: 20px auto; border: 1px solid #ccc; padding: 15px;">
+    <button 
+        onclick="document.getElementById('totalGeralContainer').style.display = 'none';"
+        style="position: absolute; top: 5px; right: 5px; border: none; background: transparent; font-weight: bold; font-size: 20px; cursor: pointer;"
+        aria-label="Fechar Total Geral"
+        title="Fechar Total Geral"
+    >&times;
+    </button>
+
+    <table class="table table-bordered table-sm text-center" style="width: 100%;">
+        <thead class="table-info">
+            <tr>
+                <th>TIPO</th>
+                <th>VALOR</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Arrecadado</td>
+                <td>R$ {{ number_format($totalGeralArrecadado, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td>Ideal</td>
+                <td>R$ {{ number_format($totalGeralIdeal, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td>Previsto</td>
+                <td>R$ {{ number_format($totalGeralPrevisto, 2, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td>% Ideal</td>
+                <td>{{ $percentualGeralIdeal !== null ? $percentualGeralIdeal.'%' : '—' }}</td>
+            </tr>
+            <tr>
+                <td>% Previsto</td>
+                <td>{{ $percentualGeralPrevisto !== null ? $percentualGeralPrevisto.'%' : '—' }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 
         {{-- Conteúdo --}}
         @forelse($paginatedResult as $setorData)
@@ -73,6 +116,21 @@
                         <div class="accordion-body">
                             <div class="table-responsive">
                                 <table class="table table-bordered table-sm">
+                                   <div class="mt-3 text-center">
+    <button class="btn btn-outline-primary btn-sm"
+            id="btn_grafico_{{ $reuniaoData['key'] }}"
+            onclick="toggleGrafico('{{ $reuniaoData['key'] }}')">
+        Ver Gráfico
+    </button>
+</div>
+
+<div class="grafico-container text-center mt-2"
+     id="container_grafico_{{ $reuniaoData['key'] }}"
+     style="display: none;">
+    <canvas id="grafico_{{ $reuniaoData['key'] }}"
+            height="200"
+            style="max-width: 500px; margin: auto;"></canvas>
+</div>
                                     <thead class="table-light">
                                         <tr>
                                             <th style="text-align:center;">Nr sócio</th>
@@ -130,6 +188,50 @@
                                                 <td colspan="21" class="text-center">Nenhum membro com contribuições registradas.</td>
                                             </tr>
                                         @endforelse
+                                        <!--AQUI É A ÚLTIMA LINHA COM A SOMA GERAL-->
+                                        @php
+                                            $grupoTotalArrecadado = 0;
+                                            $grupoTotalIdeal = 0;
+                                            $grupoTotalPrevisto = 0;
+                                            $grupoTotalAtrasos = 0;
+                                            $grupoQtdMembros = count($reuniaoData['members']);
+                                        @endphp
+
+                                        @foreach($reuniaoData['members'] as $trab)
+                                            @php
+                                                $resumo = $trab['resumo_ano'];
+                                                $grupoTotalArrecadado += $resumo['total_arrecadado'];
+                                                $grupoTotalIdeal += $resumo['valor_ideal'];
+                                                $grupoTotalPrevisto += $resumo['valor_previsto'] ?? 0;
+                                                $grupoTotalAtrasos += $resumo['meses_atrasados'];
+                                            @endphp
+                                        @endforeach
+
+                                        @if($grupoQtdMembros > 0)
+                                            <tr style="background-color: #e9ecef; font-weight: bold;">
+                                                <td style="text-align:right;">Totais:</td>
+                                                @foreach(['01','02','03','04','05','06','07','08','09','10','11','12'] as $mes)
+                                                    @php
+                                                        $somaMes = 0;
+                                                        foreach($reuniaoData['members'] as $trab) {
+                                                            $somaMes += $trab['contribuicoes'][$setorData['ano']][$mes] ?? 0;
+                                                        }
+                                                    @endphp
+                                                    <td style="text-align:right;">{{ number_format($somaMes, 2, ',', '.') }}</td>
+                                                @endforeach
+                                                <td style="text-align:right;">{{ number_format($grupoTotalArrecadado, 2, ',', '.') }}</td>
+                                                <td style="text-align:center;">—</td>
+                                                <td style="text-align:right;">{{ number_format($grupoTotalIdeal, 2, ',', '.') }}</td>
+                                                <td style="text-align:right;">{{ number_format($grupoTotalPrevisto, 2, ',', '.') }}</td>
+                                                <td style="text-align:center;">{{ $grupoTotalAtrasos }}</td>
+                                                <td style="text-align:center;">
+                                                    {{ $grupoTotalIdeal > 0 ? round(($grupoTotalArrecadado / $grupoTotalIdeal) * 100, 1) . '%' : '—' }}
+                                                </td>
+                                                <td style="text-align:center;">
+                                                    {{ $grupoTotalPrevisto > 0 ? round(($grupoTotalArrecadado / $grupoTotalPrevisto) * 100, 1) . '%' : '—' }}
+                                                </td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -147,4 +249,119 @@
         </div>
 
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartsCriados = {};
+
+    function toggleGrafico(key) {
+        const container = document.getElementById('container_grafico_' + key);
+        const btn = document.getElementById('btn_grafico_' + key);
+
+        if (!container || !btn) return;
+
+        // Alternar visibilidade
+        const visivel = container.style.display === 'block';
+
+        if (visivel) {
+            container.style.display = 'none';
+            btn.textContent = 'Ver Gráfico';
+            return;
+        }
+
+        container.style.display = 'block';
+        btn.textContent = 'Ocultar Gráfico';
+
+        if (chartsCriados[key]) return;
+
+        const ctx = document.getElementById('grafico_' + key)?.getContext('2d');
+        if (!ctx) return;
+
+        @foreach($paginatedResult as $setorData)
+            @foreach($setorData['reunions'] as $reuniaoData)
+                if (key === '{{ $reuniaoData['key'] }}') {
+                    @php
+                        $arrecadado = 0;
+                        $previsto = 0;
+                        $ideal = 0;
+
+                        foreach($reuniaoData['members'] as $membro) {
+                            $resumo = $membro['resumo_ano'];
+                            $arrecadado += $resumo['total_arrecadado'];
+                            $previsto += $resumo['valor_previsto'] ?? 0;
+                            $ideal += $resumo['valor_ideal'] ?? 0;
+                        }
+
+                        $percentPrev = $arrecadado > 0 ? ($previsto / $arrecadado) * 100 : 0;
+                        $percentIdeal = $arrecadado > 0 ? ($ideal / $arrecadado) * 100 : 0;
+
+                        $colorPrev = $percentPrev < 80
+                            ? 'rgba(255, 69, 58, 0.9)'       // vermelho
+                            : ($percentPrev < 100
+                                ? 'rgba(255, 193, 7, 0.9)'    // amarelo
+                                : 'rgba(40, 167, 69, 0.9)');  // verde
+
+                        $colorIdeal = $percentIdeal < 80
+                            ? 'rgba(255, 69, 58, 0.9)'
+                            : ($percentIdeal < 100
+                                ? 'rgba(255, 193, 7, 0.9)'
+                                : 'rgba(40, 167, 69, 0.9)');
+                    @endphp
+
+                    new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ['Arrecadado', 'Previsto', 'Ideal'],
+                            datasets: [{
+                                label: 'R$',
+                                data: [
+                                    {{ round($arrecadado, 2) }},
+                                    {{ round($previsto, 2) }},
+                                    {{ round($ideal, 2) }}
+                                ],
+                                backgroundColor: [
+                                    'rgba(0, 123, 255, 0.9)', // azul forte
+                                    '{{ $colorPrev }}',
+                                    '{{ $colorIdeal }}'
+                                ],
+                                borderColor: [
+                                    'rgba(0, 123, 255, 1)',
+                                    '{{ str_replace("0.9", "1", $colorPrev) }}',
+                                    '{{ str_replace("0.9", "1", $colorIdeal) }}'
+                                ],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                tooltip: {
+                                    callbacks: {
+                                        label: ctx => {
+                                            const valor = ctx.raw;
+                                            return ctx.label + ': R$ ' + parseFloat(valor).toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                                        }
+                                    }
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        callback: val => 'R$ ' + val.toLocaleString('pt-BR')
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    chartsCriados[key] = true;
+                }
+            @endforeach
+        @endforeach
+    }
+</script>
+
+
+
+
 @endsection

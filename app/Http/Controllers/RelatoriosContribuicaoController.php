@@ -16,22 +16,22 @@ class RelatoriosContribuicaoController extends Controller
 {
     private function montarDadosRelatorio(Request $request)
     {
-     // 🔗 Conexões
+     //  Conexões
         $pgsql = DB::connection('pgsql');
         $sqlsrv = DB::connection('sqlsrv');
 
 
-        // 🔍 Filtros
+        //  Filtros
         $setorFiltro = $request->input('setor');
         $reuniaoFiltro = $request->input('reuniao');
         $membroFiltro = $request->input('membro');
         $anoFiltro = $request->input('anoFiltro') ?? date('Y');
 
-        // 🔢 Paginação dos resultados FINAIS AGRUPADOS (por ano)
+        //  Paginação dos resultados FINAIS AGRUPADOS (por ano)
         $perPage = 5; // Ajuste este valor conforme necessário
         $currentPage = $request->get('page', 1);
 
-        // 1. 🔥 Buscar TODOS os associados relevantes (PostgreSQL)
+        // 1. Buscar TODOS os associados relevantes (PostgreSQL)
         $queryAssociados = $pgsql->table('associado AS a')
             ->leftJoin('membro AS m', 'a.id', 'm.id_associado')
             ->leftJoin('tipo_funcao AS tf', 'm.id_funcao', 'tf.id')
@@ -72,7 +72,7 @@ class RelatoriosContribuicaoController extends Controller
         $allAssociateNrs = $allAssociates->pluck('nr_associado')->unique()->filter()->values()->toArray();
 
         
-        // 2. 🔎 Buscar TODOS os pagamentos relevantes para ESTES associados (SQL Server)
+        // 2. Buscar TODOS os pagamentos relevantes para ESTES associados (SQL Server)
         $allPagamentos = collect();
         if (!empty($allAssociateNrs)) {
             $chunks = collect($allAssociateNrs)->chunk(2000);
@@ -108,7 +108,7 @@ class RelatoriosContribuicaoController extends Controller
         $indexedPagamentos = $allPagamentos->groupBy('codigoAssociado');
 
 
-        // 3. 🔄 Processar e Agregar Pagamentos para CADA Associado por Ano/Mês
+        // 3.  Processar e Agregar Pagamentos para CADA Associado por Ano/Mês
         $intermediateProcessedMembers = collect();
         foreach ($allAssociates as $assoc) {
 
@@ -238,7 +238,7 @@ class RelatoriosContribuicaoController extends Controller
             $finalGroupedData[$year] = $mappedDataForBlade;
         }
 
-        // 5. 🔁 Paginação dos resultados agrupados
+        // 5.  Paginação dos resultados agrupados
         $totalItems = $finalGroupedData->count();
         $offset = ($currentPage - 1) * $perPage;
         $itemsForCurrentPage = $finalGroupedData->slice($offset, $perPage);
@@ -255,7 +255,7 @@ class RelatoriosContribuicaoController extends Controller
         );
 
 
-        // 🧠 Dados auxiliares para os filtros
+        //  Dados auxiliares para os filtros
         $grupo = DB::table('cronograma as c')
             ->leftJoin('grupo AS g', 'c.id_grupo', 'g.id')
             ->leftJoin('setor AS s', 'g.id_setor', 's.id')
@@ -289,21 +289,21 @@ class RelatoriosContribuicaoController extends Controller
     public function index(Request $request)
     {
 
-         // 🔗 Conexões
+         //  Conexões
         $pgsql = DB::connection('pgsql');
         $sqlsrv = DB::connection('sqlsrv');
 
-        // 🔍 Filtros
+        //  Filtros
         $setorFiltro = $request->input('setor');
         $reuniaoFiltro = $request->input('reuniao');
         $membroFiltro = $request->input('membro');
         $anoFiltro = $request->input('anoFiltro') ?? date('Y');
 
-        // 🔢 Paginação dos resultados FINAIS AGRUPADOS (por ano)
+        //  Paginação dos resultados FINAIS AGRUPADOS (por ano)
         $perPage = 5; // Ajuste este valor conforme necessário
         $currentPage = $request->get('page', 1);
 
-        // 1. 🔥 Buscar TODOS os associados relevantes (PostgreSQL)
+        // 1.  Buscar TODOS os associados relevantes (PostgreSQL)
         $queryAssociados = $pgsql->table('associado AS a')
             ->leftJoin('membro AS m', 'a.id', 'm.id_associado')
             ->leftJoin('tipo_funcao AS tf', 'm.id_funcao', 'tf.id')
@@ -344,7 +344,7 @@ class RelatoriosContribuicaoController extends Controller
         $allAssociateNrs = $allAssociates->pluck('nr_associado')->unique()->filter()->values()->toArray();
 
         
-        // 2. 🔎 Buscar TODOS os pagamentos relevantes para ESTES associados (SQL Server)
+        // 2.  Buscar TODOS os pagamentos relevantes para ESTES associados (SQL Server)
         $allPagamentos = collect();
         if (!empty($allAssociateNrs)) {
             $chunks = collect($allAssociateNrs)->chunk(2000);
@@ -381,7 +381,7 @@ class RelatoriosContribuicaoController extends Controller
         $indexedPagamentos = $allPagamentos->groupBy('codigoAssociado');
 
 
-        // 3. 🔄 Processar e Agregar Pagamentos para CADA Associado por Ano/Mês
+        // 3.  Processar e Agregar Pagamentos para CADA Associado por Ano/Mês
         $intermediateProcessedMembers = collect();
         foreach ($allAssociates as $assoc) {
 
@@ -437,7 +437,7 @@ class RelatoriosContribuicaoController extends Controller
             ]);
         }
 
-        // 4. 🏗️ Agrupamento final: Ano ➝ Setor ➝ Reunião (Identificador Único) ➝ Trabalhador
+        // 4.  Agrupamento final: Ano ➝ Setor ➝ Reunião (Identificador Único) ➝ Trabalhador
         $finalGroupedData = collect();
 
         // Pega todos os anos para os quais há contribuições
@@ -511,7 +511,7 @@ class RelatoriosContribuicaoController extends Controller
             $finalGroupedData[$year] = $mappedDataForBlade;
         }
 
-        // 5. 🔁 Paginação dos resultados agrupados
+        // 5.  Paginação dos resultados agrupados
         $totalItems = $finalGroupedData->count();
         $offset = ($currentPage - 1) * $perPage;
         $itemsForCurrentPage = $finalGroupedData->slice($offset, $perPage);
@@ -528,7 +528,7 @@ class RelatoriosContribuicaoController extends Controller
         );
 
 
-        // 🧠 Dados auxiliares para os filtros
+        //  Dados auxiliares para os filtros
         $grupo = DB::table('cronograma as c')
             ->leftJoin('grupo AS g', 'c.id_grupo', 'g.id')
             ->leftJoin('setor AS s', 'g.id_setor', 's.id')
@@ -702,131 +702,179 @@ class RelatoriosContribuicaoController extends Controller
             $contadorGlobal = 1;
 
         foreach ($associados as $assoc) {
-            $ano = $anoFiltro;
-            $setor = $assoc->sigla_setor ?? 'SEM SETOR';
-            $reuniaoKey = md5($assoc->nome_grupo . $assoc->h_inicio . $assoc->dia_sigla);
+            $totalGeralArrecadado = 0;
+            $totalGeralIdeal = 0;
+            $totalGeralPrevisto = 0;
 
-            // Convertendo para string para evitar conflitos de tipo
-            $nr = (string) $assoc->nr_associado;
+            $dadosAgrupados = [];
+            $contadorGlobal = 1;
 
-            // Pagamentos e comentários indexados por código
-            $pagamentosAssoc = $pagamentosIndexados->get($nr, collect());
-            $comentariosCadastro = optional($comentariosIndexados->get($nr))->comentarios;
+            foreach ($associados as $assoc) {
+                $ano = $anoFiltro;
+                $setor = $assoc->sigla_setor ?? 'SEM SETOR';
+                $reuniaoKey = md5($assoc->nome_grupo . $assoc->h_inicio . $assoc->dia_sigla);
+                $nr = (string) $assoc->nr_associado;
 
-            $contribuicoesMensais = array_fill_keys(
-                array_map(fn ($m) => str_pad($m, 2, '0', STR_PAD_LEFT), range(1, 12)),
-                0.0
-            );
+                $pagamentosAssoc = $pagamentosIndexados->get($nr, collect());
+                $comentariosCadastro = optional($comentariosIndexados->get($nr))->comentarios;
 
-            // Comentários dos pagamentos ou, se não houver, do cadastro
-            $comentariosConcat = $pagamentosAssoc->pluck('comentarios')->implode(' ');
-            if (empty(trim($comentariosConcat))) {
-                $comentariosConcat = $comentariosCadastro ?? '';
-            }
+                $contribuicoesMensais = array_fill_keys(
+                    array_map(fn ($m) => str_pad($m, 2, '0', STR_PAD_LEFT), range(1, 12)),
+                    0.0
+                );
 
-            $isentoStatus = verificarIsencao($comentariosConcat, $anoFiltro);
-            $valorPrevistoOriginal = extrairValorPrevisto($comentariosConcat) ?? 0;
+                $comentariosConcat = $pagamentosAssoc->pluck('comentarios')->implode(' ');
+                if (empty(trim($comentariosConcat))) {
+                    $comentariosConcat = $comentariosCadastro ?? '';
+                }
 
-            // Somando valores mensais
-            foreach ($pagamentosAssoc as $pag) {
-                if (strlen($pag->codDesc) >= 7) {
-                    $mes = substr($pag->codDesc, 5, 2);
-                    if (isset($contribuicoesMensais[$mes])) {
-                        $contribuicoesMensais[$mes] += floatval($pag->valor);
+                $isentoStatus = verificarIsencao($comentariosConcat, $anoFiltro);
+                $valorPrevistoOriginal = extrairValorPrevisto($comentariosConcat) ?? 0;
+
+                foreach ($pagamentosAssoc as $pag) {
+                    if (strlen($pag->codDesc) >= 7) {
+                        $mes = substr($pag->codDesc, 5, 2);
+                        if (isset($contribuicoesMensais[$mes])) {
+                            $contribuicoesMensais[$mes] += floatval($pag->valor);
+                        }
                     }
                 }
+
+                $mesesContribuidos = 0;
+                for ($i = 1; $i <= $mesAtual; $i++) {
+                    $mesStr = str_pad($i, 2, '0', STR_PAD_LEFT);
+                    if (!empty($contribuicoesMensais[$mesStr]) && $contribuicoesMensais[$mesStr] > 0) {
+                        $mesesContribuidos++;
+                    }
+                }
+
+                $total = array_sum($contribuicoesMensais);
+                $valorPrevisto = $valorPrevistoOriginal ? $valorPrevistoOriginal * $mesAtual : null;
+                $valorIdealParcial = $valorIdealMensal * $mesAtual;
+                $mesesAtrasados = $mesAtual - $mesesContribuidos;
+
+                $percentIdeal = $valorIdealParcial > 0
+                    ? round(($total / $valorIdealParcial) * 100, 1)
+                    : null;
+
+                $percentPrev = $valorPrevisto > 0
+                    ? round(($total / $valorPrevisto) * 100, 1)
+                    : null;
+
+                // Acumulando para total geral
+                $totalGeralArrecadado += $total;
+                $totalGeralIdeal += $valorIdealParcial;
+                if ($valorPrevisto !== null) {
+                    $totalGeralPrevisto += $valorPrevisto;
+                }
+
+                $dadosAgrupados[$ano][$setor]['container_id'] = "acc_" . md5($setor . $ano);
+                $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['display_name'] =
+                    "{$assoc->nome_grupo} ({$assoc->sigla_setor}) | {$assoc->dia_sigla} | {$assoc->h_inicio}";
+                $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['key'] = $reuniaoKey;
+
+                $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['members'][] = [
+                    'codigo_associado' => $assoc->nr_associado,
+                    'isento' => $isentoStatus,
+                    'sequencial' => $contadorGlobal++,
+                    'contribuicoes' => [$ano => $contribuicoesMensais],
+                    'resumo_ano' => [
+                        'total_arrecadado' => $total,
+                        'valor_ideal' => $valorIdealParcial,
+                        'valor_previsto' => $valorPrevisto,
+                        'meses_atrasados' => $mesesAtrasados,
+                        'percentual_ideal' => $percentIdeal,
+                        'percentual_previsto' => $percentPrev,
+                    ],
+                ];
             }
 
-            $mesesContribuidos = 0;
-            for ($i = 1; $i <= $mesAtual; $i++) {
-                $mesStr = str_pad($i, 2, '0', STR_PAD_LEFT);
-                if (!empty($contribuicoesMensais[$mesStr]) && $contribuicoesMensais[$mesStr] > 0) {
-                    $mesesContribuidos++;
+            // Calcular percentuais gerais
+            $percentualGeralIdeal = $totalGeralIdeal > 0
+                ? round(($totalGeralArrecadado / $totalGeralIdeal) * 100, 1)
+                : null;
+
+            $percentualGeralPrevisto = $totalGeralPrevisto > 0
+                ? round(($totalGeralArrecadado / $totalGeralPrevisto) * 100, 1)
+                : null;
+
+            // Paginação
+            $setoresFlattened = collect();
+            foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
+                foreach ($setoresAgrupados as $setor => $conteudo) {
+                    $setoresFlattened->push([
+                        'ano' => $ano,
+                        'setor' => $setor,
+                        'container_id' => $conteudo['container_id'],
+                        'reunions' => $conteudo['reunions']
+                    ]);
                 }
             }
 
-            $total = array_sum($contribuicoesMensais);
-            $valorPrevisto = $valorPrevistoOriginal ? $valorPrevistoOriginal * $mesAtual : null;
-            $valorIdealParcial = $valorIdealMensal * $mesAtual;
-            $mesesAtrasados = $mesAtual - $mesesContribuidos;
-
-        $percentIdeal = $valorIdealParcial > 0
-            ? round(($total / $valorIdealParcial) * 100, 1)
-            : null;
-
-        $percentPrev = $valorPrevisto > 0
-            ? round(($total / $valorPrevisto) * 100, 1)
-            : null;
-
-            $dadosAgrupados[$ano][$setor]['container_id'] = "acc_" . md5($setor . $ano);
-            $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['display_name'] =
-                "{$assoc->nome_grupo} ({$assoc->sigla_setor}) | {$assoc->dia_sigla} | {$assoc->h_inicio}";
-
-            $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['key'] = $reuniaoKey;
-            $dadosAgrupados[$ano][$setor]['reunions'][$reuniaoKey]['members'][] = [
-                'codigo_associado' => $assoc->nr_associado,
-                'isento' => $isentoStatus,
-                'sequencial' => $contadorGlobal++,
-                'codigo_associado' => $assoc->nr_associado,
-                'contribuicoes' => [$ano => $contribuicoesMensais],
-                'resumo_ano' => [
-                    'total_arrecadado' => $total,
-                    'valor_ideal' => $valorIdealParcial,
-                    'valor_previsto' => $valorPrevisto,
-                    'meses_atrasados' => $mesesAtrasados,
-                    'percentual_ideal' => $percentIdeal,
-                    'percentual_previsto' => $percentPrev,
-                ],
-            ];
-        }
-            // Filtros
-            $reunioes = DB::table('cronograma as c')
-                ->leftJoin('grupo AS g', 'c.id_grupo', 'g.id')
-                ->leftJoin('setor AS s', 'g.id_setor', 's.id')
-                ->leftJoin('tipo_dia AS td', 'c.dia_semana', 'td.id')
-                ->whereNull('c.data_fim')
-                ->select('c.id AS cid', 'g.nome AS g_nome', 's.sigla AS s_sigla', 'td.sigla AS d_sigla', 'c.h_inicio')
-                ->orderBy('g.nome', 'asc')
-                ->get();
+            $total = $setoresFlattened->count();
+            $paginatedSetores = $setoresFlattened->forPage($currentPage, $perPage);
 
             $setores = DB::table('setor as s')
-                ->select('s.id as sid', 's.nome', 's.sigla')
-                ->orderBy('nome', 'asc')
-                ->get();
+            ->select('s.id as sid', 's.nome', 's.sigla')
+            ->orderBy('nome', 'asc')
+            ->get();
 
-            // Paginação
-            //$paginated = collect($dadosAgrupados)->forPage($currentPage, $perPage);
-           // $paginatedResult = new LengthAwarePaginator($paginated, count($dadosAgrupados), $perPage, $currentPage);
-           $setoresFlattened = collect();
+            $reunioes = DB::table('cronograma as c')
+    ->leftJoin('grupo AS g', 'c.id_grupo', 'g.id')
+    ->leftJoin('setor AS s', 'g.id_setor', 's.id')
+    ->leftJoin('tipo_dia AS td', 'c.dia_semana', 'td.id')
+    ->whereNull('c.data_fim')
+    ->select('c.id AS cid', 'g.nome AS g_nome', 's.sigla AS s_sigla', 'td.sigla AS d_sigla', 'c.h_inicio')
+    ->orderBy('g.nome', 'asc')
+    ->get();
+
+            $paginatedResult = new LengthAwarePaginator(
+                $paginatedSetores,
+                $total,
+                $perPage,
+                $currentPage,
+                [
+                    'path' => $request->url(),
+                    'query' => $request->query(),
+                ]
+            );
+
+            $dadosGrafico = [];
 
 foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
     foreach ($setoresAgrupados as $setor => $conteudo) {
-        $setoresFlattened->push([
-            'ano' => $ano,
-            'setor' => $setor,
-            'container_id' => $conteudo['container_id'],
-            'reunions' => $conteudo['reunions']
-        ]);
+        foreach ($conteudo['reunions'] as $reuniaoKey => $reuniao) {
+            $nomeGrupo = $reuniao['display_name'];
+            $totalGrupo = 0;
+
+            foreach ($reuniao['members'] as $m) {
+                $totalGrupo += $m['resumo_ano']['total_arrecadado'];
+            }
+
+            $dadosGrafico[] = [
+                'grupo' => $nomeGrupo,
+                'valor' => round($totalGrupo, 2)
+            ];
+        }
     }
 }
 
-$total = $setoresFlattened->count();
-$paginatedSetores = collect();
-$paginatedSetores = $setoresFlattened->forPage($currentPage, $perPage);
+            return view('relatorio.estatistica-grupo', compact(
+                'paginatedResult',
+                'setores',
+                'reunioes',
+                'valorIdealParcial',
+                'totalGeralArrecadado',
+                'totalGeralIdeal',
+                'totalGeralPrevisto',
+                'percentualGeralIdeal',
+                'percentualGeralPrevisto',
+                'mesAtual', 
+                'dadosGrafico'
+            ));
 
-$paginatedResult = new LengthAwarePaginator(
-    $paginatedSetores,
-    $total,
-    $perPage,
-    $currentPage,
-    [
-        'path' => $request->url(),
-        'query' => $request->query(),
-    ]
-);
-
-            return view('relatorio.estatistica-grupo', compact('paginatedResult', 'setores', 'reunioes', 'valorIdealParcial'));
         }
+    }
 
 
 }
