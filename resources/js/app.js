@@ -13,5 +13,10 @@ window.$ = window.jQuery = $;
 
 import './custom.js';
 
+import Chart from 'chart.js/auto';
+
+window.Chart = Chart;
+
+
 
 

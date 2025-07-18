@@ -48,6 +48,8 @@
     @yield('footerScript')
 
 
+
+
 </body>
 
 
@@ -66,7 +68,6 @@
         return true;
     });
 </script>
-
 
 
 

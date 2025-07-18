@@ -359,6 +359,7 @@ Route::middleware('rotas:27')->group(function () {
     Route::get('/gerenciar-contribuicao', [RelatoriosContribuicaoController::class, 'index'])->name('rel.contr');
     Route::get('/gerenciar-estatistica', [RelatoriosContribuicaoController::class, 'estatistica'])->name('rel.est');
     Route::get('/pdf-contribuicao', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('pdf.contribuicao');
+    Route::get('/gerenciar-geral', [RelatoriosContribuicaoController::class, 'geral'])->name('rel.ger');
 });
 
 // Gerenciar pagamentos externos

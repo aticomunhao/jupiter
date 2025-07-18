@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Log;
 
 class RelatoriosContribuicaoController extends Controller
 {
+    private const IDEAL_VALUE = 80.00; 
+
     private function montarDadosRelatorio(Request $request)
     {
      //  Conexões
@@ -25,7 +27,7 @@ class RelatoriosContribuicaoController extends Controller
         $setorFiltro = $request->input('setor');
         $reuniaoFiltro = $request->input('reuniao');
         $membroFiltro = $request->input('membro');
-        $anoFiltro = $request->input('anoFiltro') ?? date('Y');
+        $anoFiltro = $request->input('anoFiltro');
 
         //  Paginação dos resultados FINAIS AGRUPADOS (por ano)
         $perPage = 5; // Ajuste este valor conforme necessário
@@ -96,8 +98,9 @@ class RelatoriosContribuicaoController extends Controller
                     ->where('cf.tipo', 'C')
                     ->whereIn('cf.codigo', $chunk);
 
-                if ($anoFiltro) {
+                if (!empty($anoFiltro)) {
                     $dadosQuery->whereRaw("SUBSTRING(ps.codigo, 2, 4) = ?", [$anoFiltro]);
+
                 }
 
                 $allPagamentos = $allPagamentos->merge($dadosQuery->get());
@@ -571,11 +574,11 @@ class RelatoriosContribuicaoController extends Controller
             $pgsql = DB::connection('pgsql');
             $sqlsrv = DB::connection('sqlsrv');
 
-            $mesAtual = intval(date('m'));
+            $mesAtual = intval(date('m'))-1;
             $setorFiltro = $request->input('setor');
             $reuniaoFiltro = $request->input('reuniao');
             $membroFiltro = $request->input('membro');
-            $anoFiltro = $request->input('anoFiltro') ?? date('Y');
+            $anoFiltro = $request->input('anoFiltro');
             $perPage = 3;
             $currentPage = $request->get('page', 1);
             $valorIdealMensal = 80.00;
@@ -597,26 +600,44 @@ class RelatoriosContribuicaoController extends Controller
             }
 
             // Verifica isenção de contribuição
-            function verificarIsencao($comentarios, $anoFiltro)
-            {
-                $hoje = date('Ymd');
 
-                if (stripos($comentarios, 'ISENTO_FIXO') !== false) {
-                    return 'Fixo';
-                }
+function verificarIsencao($comentarios, $anoFiltro)
+{
+    // Sempre "Sim" se for isento fixo
+    if (stripos($comentarios, 'ISENTO_FIXO') !== false) {
+        return 'Sim';
+    }
 
-                if (preg_match_all('/ISENTO:(\d{7})-(\d{7})/', $comentarios, $matches, PREG_SET_ORDER)) {
-                    foreach ($matches as $match) {
-                        $inicio = $match[1];
-                        $fim = $match[2];
-                        if ($hoje >= $inicio && $hoje <= $fim) {
-                            return 'Parcial';
-                        }
-                    }
-                }
+    // Ex: ISENTO: 1202507-1202410 (com espaço após :)
+    if (preg_match_all('/ISENTO:\s*(\d{7})-(\d{7})/i', $comentarios, $matches, PREG_SET_ORDER)) {
+        $hoje = Carbon::now()->startOfMonth();
 
-                return 'Não';
+        foreach ($matches as $match) {
+            $raw1 = $match[1]; // pode ser início ou fim
+            $raw2 = $match[2];
+
+            // Extrai ano e mês
+            $ano1 = intval(substr($raw1, 1, 4));
+            $mes1 = intval(substr($raw1, 5, 2));
+            $data1 = Carbon::create($ano1, $mes1, 1)->startOfMonth();
+
+            $ano2 = intval(substr($raw2, 1, 4));
+            $mes2 = intval(substr($raw2, 5, 2));
+            $data2 = Carbon::create($ano2, $mes2, 1)->startOfMonth();
+
+            // Define intervalo
+            $inicio = $data1->lt($data2) ? $data1 : $data2;
+            $fim = $data1->gt($data2) ? $data1 : $data2;
+
+            // Verifica se o mês atual está no intervalo
+            if ($hoje->between($inicio, $fim)) {
+                return 'Parcial';
             }
+        }
+    }
+
+    return 'Não';
+}
 
             // Consulta principal dos associados
             $query = $pgsql->table('associado AS a')
@@ -696,6 +717,7 @@ class RelatoriosContribuicaoController extends Controller
                     );
                 }
             }
+
 
             $pagamentosIndexados = $pagamentos->groupBy('codigoAssociado');
             $dadosAgrupados = [];
@@ -815,18 +837,18 @@ class RelatoriosContribuicaoController extends Controller
             $paginatedSetores = $setoresFlattened->forPage($currentPage, $perPage);
 
             $setores = DB::table('setor as s')
-            ->select('s.id as sid', 's.nome', 's.sigla')
-            ->orderBy('nome', 'asc')
-            ->get();
+                        ->select('s.id as sid', 's.nome', 's.sigla')
+                        ->orderBy('nome', 'asc')
+                        ->get();
 
             $reunioes = DB::table('cronograma as c')
-    ->leftJoin('grupo AS g', 'c.id_grupo', 'g.id')
-    ->leftJoin('setor AS s', 'g.id_setor', 's.id')
-    ->leftJoin('tipo_dia AS td', 'c.dia_semana', 'td.id')
-    ->whereNull('c.data_fim')
-    ->select('c.id AS cid', 'g.nome AS g_nome', 's.sigla AS s_sigla', 'td.sigla AS d_sigla', 'c.h_inicio')
-    ->orderBy('g.nome', 'asc')
-    ->get();
+                        ->leftJoin('grupo AS g', 'c.id_grupo', 'g.id')
+                        ->leftJoin('setor AS s', 'g.id_setor', 's.id')
+                        ->leftJoin('tipo_dia AS td', 'c.dia_semana', 'td.id')
+                        ->whereNull('c.data_fim')
+                        ->select('c.id AS cid', 'g.nome AS g_nome', 's.sigla AS s_sigla', 'td.sigla AS d_sigla', 'c.h_inicio')
+                        ->orderBy('g.nome', 'asc')
+                        ->get();
 
             $paginatedResult = new LengthAwarePaginator(
                 $paginatedSetores,
@@ -859,22 +881,242 @@ foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
     }
 }
 
+// Tabela 1 – Isenção
+$totalAssociados = 0;
+$qtdeIsentos = [
+    'Sim' => 0,
+    'Parcial' => 0,
+    'Não' => 0
+];
+
+// Tabela 2 – Contribuição x Ideal
+$contribuicaoVsIdeal = [
+    'zero' => 0,
+    'abaixo' => 0,
+    'igual' => 0,
+    'acima' => 0
+];
+
+foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
+    foreach ($setoresAgrupados as $setor => $conteudo) {
+        foreach ($conteudo['reunions'] as $reuniao) {
+            foreach ($reuniao['members'] as $membro) {
+                $totalAssociados++;
+
+                // Contagem de isentos
+                $isento = $membro['isento'] ?? 'Não';
+                if (isset($qtdeIsentos[$isento])) {
+                    $qtdeIsentos[$isento]++;
+                }
+
+                // Contagem por faixa de contribuição
+                $totalArrecadado = $membro['resumo_ano']['total_arrecadado'] ?? 0;
+                $valorIdeal = $membro['resumo_ano']['valor_ideal'] ?? 0;
+
+                if ($totalArrecadado == 0) {
+    $contribuicaoVsIdeal['zero']++;
+} elseif ($valorIdeal == 0) {
+    // Valor ideal 0 mas houve contribuição positiva — considera como "acima"
+    $contribuicaoVsIdeal['acima']++;
+} elseif ($totalArrecadado < $valorIdeal) {
+    $contribuicaoVsIdeal['abaixo']++;
+} elseif ($totalArrecadado == $valorIdeal) {
+    $contribuicaoVsIdeal['igual']++;
+} else {
+    $contribuicaoVsIdeal['acima']++;
+}
+            }
+        }
+    }
+}
+
+
             return view('relatorio.estatistica-grupo', compact(
-                'paginatedResult',
-                'setores',
-                'reunioes',
-                'valorIdealParcial',
-                'totalGeralArrecadado',
-                'totalGeralIdeal',
-                'totalGeralPrevisto',
-                'percentualGeralIdeal',
-                'percentualGeralPrevisto',
-                'mesAtual', 
-                'dadosGrafico'
+            'paginatedResult',
+            'setores',
+            'reunioes',
+            'valorIdealParcial',
+            'totalGeralArrecadado',
+            'totalGeralIdeal',
+            'totalGeralPrevisto',
+            'percentualGeralIdeal',
+            'percentualGeralPrevisto',
+            'mesAtual', 
+            'dadosGrafico',
+            'totalAssociados',
+            'qtdeIsentos',
+            'contribuicaoVsIdeal'
             ));
 
         }
     }
 
+   public function geral(Request $request)
+    {
+        
 
+        $anoFiltro = $request->input('anoFiltro') ?? date('Y');
+        $mesFiltro = $request->input('mes');
+
+        $sqlsrv = DB::connection('sqlsrv');
+
+        $associados = $sqlsrv->table('cli_for')
+            ->select('codigo', 'comentarios')
+            ->where('fisica_juridica', 'F')
+            ->where('tipo', 'C')
+            ->whereRaw('CAST(codigo AS INT) < 50000')
+            ->whereYear('data_cadastro', '<=', $anoFiltro)
+            ->get();
+
+        $pagamentosQuery = $sqlsrv->table('movimento_prod_serv AS ms')
+            ->join('movimento AS m', 'm.ordem', '=', 'ms.ordem_movimento')
+            ->join('prod_serv AS ps', 'ms.ordem_prod_serv', '=', 'ps.ordem')
+            ->join('cli_for AS cf', 'm.ordem_cli_for', '=', 'cf.ordem')
+            ->select(
+                'cf.codigo AS codigoAssociado',
+                'ms.preco_total_com_desconto AS valor',
+                'ps.codigo AS codDesc'
+            )
+            ->where('m.Efetivado_Financeiro', 1)
+            ->where('m.Desefetivado_Financeiro', 0)
+            ->where('ps.ordem_classe', 10)
+            ->where('cf.fisica_juridica', 'F')
+            ->where('cf.tipo', 'C')
+            ->whereRaw('CAST(cf.codigo AS INT) < 50000');
+
+        $pagamentosQuery->when($anoFiltro, function ($q, $ano) {
+            $q->whereRaw("SUBSTRING(ps.codigo, 2, 4) = ?", [$ano]);
+        });
+
+        $pagamentosQuery->when($mesFiltro, function ($q, $mes) {
+            $paddedMes = str_pad($mes, 2, '0', STR_PAD_LEFT);
+            $q->whereRaw("SUBSTRING(ps.codigo, 6, 2) = ?", [$paddedMes]);
+        });
+
+        $pagamentos = $pagamentosQuery->get();
+
+        $pagos = [];
+        foreach ($pagamentos as $pagamento) {
+            $cod = $pagamento->codigoAssociado;
+            $valor = (float) $pagamento->valor;
+            $pagos[$cod] = ($pagos[$cod] ?? 0) + $valor;
+        }
+
+        $contribuicaoVsIdeal = [
+            'zero' => 0,
+            'abaixo' => 0,
+            'igual' => 0,
+            'acima' => 0,
+        ];
+
+        $qtdeIsentos = [
+            'Sim' => 0,
+            'Parcial' => 0,
+            'Não' => 0,
+        ];
+
+        $totalGeralPrevisto = 0;
+
+        foreach ($associados as $assoc) {
+            $codigo = $assoc->codigo;
+            $valorPago = $pagos[$codigo] ?? 0;
+
+            if ($valorPago == 0) {
+                $contribuicaoVsIdeal['zero']++;
+            } elseif ($valorPago < self::IDEAL_VALUE) {
+                $contribuicaoVsIdeal['abaixo']++;
+            } elseif (abs($valorPago - self::IDEAL_VALUE) < PHP_FLOAT_EPSILON) {
+                $contribuicaoVsIdeal['igual']++;
+            } else {
+                $contribuicaoVsIdeal['acima']++;
+            }
+
+            $tipoIsencao = $this->verificarIsencao($assoc->comentarios, $anoFiltro);
+            $qtdeIsentos[$tipoIsencao]++;
+
+            $previsto = $this->extrairValorPrevisto($assoc->comentarios);
+            if ($previsto !== null) {
+                $totalGeralPrevisto += $previsto;
+            }
+        }
+
+        $totalAssociados = count($associados);
+        $totalGeralIdeal = $totalAssociados * self::IDEAL_VALUE;
+        $totalGeralArrecadado = array_sum($pagos);
+
+        $percentualGeralIdeal = $totalGeralIdeal > 0
+            ? round(($totalGeralArrecadado / $totalGeralIdeal) * 100, 2)
+            : null;
+
+        $percentualGeralPrevisto = $totalGeralPrevisto > 0
+            ? round(($totalGeralArrecadado / $totalGeralPrevisto) * 100, 2)
+            : null;
+
+        return view('relatorio.estatistica-geral', [
+            'totalAssociados' => $totalAssociados,
+            'qtdeIsentos' => $qtdeIsentos,
+            'contribuicaoVsIdeal' => $contribuicaoVsIdeal,
+            'totalGeralArrecadado' => $totalGeralArrecadado,
+            'totalGeralIdeal' => $totalGeralIdeal,
+            'totalGeralPrevisto' => $totalGeralPrevisto,
+            'percentualGeralIdeal' => $percentualGeralIdeal,
+            'percentualGeralPrevisto' => $percentualGeralPrevisto,
+        ]);
+    }
+
+    private function verificarIsencao($comentarios, $anoFiltro)
+    {
+if (!$comentarios) {
+        return 'Não';
+    }
+
+    if (stripos($comentarios, 'ISENTO_FIXO') !== false) {
+        return 'Sim';
+    }
+
+    // Regex ajustada para capturar DYYYYMM. Ex: ISENTO:1202301-1202412
+    // Captura: 1º dígito (D), Ano (AAAA), Mês (MM) para cada data.
+    if (preg_match_all('/ISENTO: \s*\d(\d{4})(\d{2})-\d(\d{4})(\d{2})/i', $comentarios, $matches, PREG_SET_ORDER)) {
+        // Criamos uma data no início do ano do filtro para usar na comparação
+        $anoAtualData = Carbon::createFromDate($anoFiltro, 1, 1)->startOfYear();
+
+        foreach ($matches as $match) {
+            // $match[1] é o ano da primeira data, $match[2] é o mês da primeira data
+            $ano1 = (int) $match[1];
+            $mes1 = (int) $match[2];
+            $data1 = Carbon::create($ano1, $mes1, 1)->startOfMonth();
+
+            // $match[3] é o ano da segunda data, $match[4] é o mês da segunda data
+            $ano2 = (int) $match[3];
+            $mes2 = (int) $match[4];
+            $data2 = Carbon::create($ano2, $mes2, 1)->startOfMonth();
+
+            // Garantir que $inicio é a data menor e $fim é a data maior
+            $inicio = $data1->min($data2);
+            $fim = $data1->max($data2);
+
+            // Verifica se o ano atual (do filtro) está dentro do período de isenção
+            if ($anoAtualData->between($inicio, $fim)) {
+                return 'Parcial';
+            }
+        }
+    }
+
+    return 'Não';    }
+
+    private function extrairValorPrevisto($comentarios)
+    {
+        if (!$comentarios) return null;
+
+        if (preg_match('/\/\s*\$([\d.,]+)\$\s*\//', $comentarios, $matches) ||
+            preg_match('/\$([\d.,]+)\$/', $comentarios, $matches)) {
+
+            $valor = str_replace(['.', ','], ['', '.'], $matches[1]);
+            return floatval($valor);
+        }
+
+        Log::warning("Valor previsto não extraído. Comentários: " . $comentarios);
+        return null;
+    }
+   
 }

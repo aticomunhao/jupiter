@@ -35,10 +35,33 @@
                     @endforeach
                 </select>
             </div>
-            <div class="col-md-2">
+             <div class="col-md-2">
                 <label for="anoFiltro" class="form-label">Ano</label>
-                <input type="text" class="form-control" name="anoFiltro" id="anoFiltro"
-                    value="{{ request('anoFiltro', date('Y')) }}" placeholder="Ex: 2025">
+                    <select class="form-select" name="anoFiltro" id="anoFiltro">
+                        @php
+                            // Obtém o ano atual
+                            $currentYear = date('Y');
+
+                            // Obtém o valor de 'anoFiltro' da requisição.
+                            // Se não estiver presente, será null. Usamos null/'' para "Todos".
+                            $selectedAnoFiltro = request('anoFiltro');
+
+                            // Determina qual ano deve ser pré-selecionado no loop para os anos numéricos.
+                            // Se $selectedAnoFiltro for um número, usa ele. Caso contrário (se for null, '', ou string não numérica),
+                            // usa o ano atual como padrão para a seleção *dos anos específicos*.
+                            $preselectedYearForNumericOptions = is_numeric($selectedAnoFiltro) ? (int)$selectedAnoFiltro : $currentYear;
+                        @endphp
+
+                        {{-- Opção "Todos" --}}
+                        {{-- Esta opção deve ser selecionada se 'anoFiltro' não estiver na requisição (null) ou for uma string vazia '' --}}
+                        <option value="" @if ($selectedAnoFiltro === '' || $selectedAnoFiltro === null) selected @endif>Todos</option>
+
+                        {{-- Loop para gerar as opções de ano --}}
+                        {{-- Você pode ajustar o range de anos (ex: $currentYear - 10 até $currentYear + 2) --}}
+                        @for ($year = $currentYear - 5; $year <= $currentYear + 2; $year++)
+                            <option value="{{ $year }}" @if ($year == $preselectedYearForNumericOptions) selected @endif>{{ $year }}</option>
+                        @endfor
+                    </select>
             </div>
             <div class="col-md-4 d-flex align-items-end">
                 <button type="submit" class="btn btn-primary me-2">Pesquisar</button>
@@ -48,49 +71,119 @@
     </form>
 
         <hr />
-        <!--AQUI É A TABELA COM A SOMA GERAL-->
 
-       <div id="totalGeralContainer" style="position: relative; max-width: 600px; margin: 20px auto; border: 1px solid #ccc; padding: 15px;">
-    <button 
+        <!-- O container principal que será fechado pelo botão X -->
+<div id="totalGeralContainer" style="position: relative; border: 1px solid #ccc; padding: 15px;">
+    <button
         onclick="document.getElementById('totalGeralContainer').style.display = 'none';"
         style="position: absolute; top: 5px; right: 5px; border: none; background: transparent; font-weight: bold; font-size: 20px; cursor: pointer;"
-        aria-label="Fechar Total Geral"
-        title="Fechar Total Geral"
+        aria-label="Fechar Container de Tabelas"
+        title="Fechar Container de Tabelas"
     >&times;
     </button>
 
-    <table class="table table-bordered table-sm text-center" style="width: 100%;">
-        <thead class="table-info">
-            <tr>
-                <th>TIPO</th>
-                <th>VALOR</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Arrecadado</td>
-                <td>R$ {{ number_format($totalGeralArrecadado, 2, ',', '.') }}</td>
-            </tr>
-            <tr>
-                <td>Ideal</td>
-                <td>R$ {{ number_format($totalGeralIdeal, 2, ',', '.') }}</td>
-            </tr>
-            <tr>
-                <td>Previsto</td>
-                <td>R$ {{ number_format($totalGeralPrevisto, 2, ',', '.') }}</td>
-            </tr>
-            <tr>
-                <td>% Ideal</td>
-                <td>{{ $percentualGeralIdeal !== null ? $percentualGeralIdeal.'%' : '—' }}</td>
-            </tr>
-            <tr>
-                <td>% Previsto</td>
-                <td>{{ $percentualGeralPrevisto !== null ? $percentualGeralPrevisto.'%' : '—' }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+    <!-- Este é o ROW que conterá as TRÊS tabelas lado a lado -->
+    <div class="row mb-4">
 
+        <!-- Coluna para a Tabela 1: SOMA GERAL (já está no formato) -->
+        <div class="col-md-4">
+            <h5 class="text-muted">Total Geral</h5>
+            <table class="table table-bordered table-sm text-center" style="width: 100%;">
+                <thead class="table-info">
+                    <tr>
+                        <th>TIPO</th>
+                        <th>VALOR</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Arrecadado</td>
+                        <td>R$ {{ number_format($totalGeralArrecadado, 2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Ideal</td>
+                        <td>R$ {{ number_format($totalGeralIdeal, 2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Previsto</td>
+                        <td>R$ {{ number_format($totalGeralPrevisto, 2, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>% Ideal</td>
+                        <td>{{ $percentualGeralIdeal !== null ? $percentualGeralIdeal.'%' : '—' }}</td>
+                    </tr>
+                    <tr>
+                        <td>% Previsto</td>
+                        <td>{{ $percentualGeralPrevisto !== null ? $percentualGeralPrevisto.'%' : '—' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Coluna para a Tabela 2: Resumo de Isentos (agora com TIPO e QUANTIDADE) -->
+        <div class="col-md-4">
+            <h5 class="text-muted">Resumo de Isentos</h5>
+            <table class="table table-bordered table-sm text-center">
+                <thead class="table-info">
+                    <tr>
+                        <th>TIPO</th>
+                        <th>QUANTIDADE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total de Associados</td>
+                        <td>{{ $totalAssociados }}</td>
+                    </tr>
+                    <tr>
+                        <td>Isentos</td>
+                        <td>{{ $qtdeIsentos['Sim'] ?? 0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Parciais</td>
+                        <td>{{ $qtdeIsentos['Parcial'] ?? 0 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Não Isentos</td>
+                        <td>{{ $qtdeIsentos['Não'] ?? 0 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Coluna para a Tabela 3: Faixa de Contribuição (agora com TIPO e QUANTIDADE) -->
+        <div class="col-md-4">
+            <h5 class="text-muted">Faixa de Contribuição</h5>
+            <table class="table table-bordered table-sm text-center">
+                <thead class="table-info">
+                    <tr>
+                        <th>TIPO</th>
+                        <th>QUANTIDADE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Valor Zero</td>
+                        <td>{{ $contribuicaoVsIdeal['zero'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Abaixo do Ideal</td>
+                        <td>{{ $contribuicaoVsIdeal['abaixo'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Igual ao Ideal</td>
+                        <td>{{ $contribuicaoVsIdeal['igual'] }}</td>
+                    </tr>
+                    <tr>
+                        <td>Acima do Ideal</td>
+                        <td>{{ $contribuicaoVsIdeal['acima'] }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div> <!-- Fim do ROW que contém as TRES tabelas -->
+</div> <!-- Fim do totalGeralContainer (que fecha com o X) -->
 
         {{-- Conteúdo --}}
         @forelse($paginatedResult as $setorData)
@@ -115,22 +208,21 @@
                         data-bs-parent="#{{ $setorData['container_id'] }}">
                         <div class="accordion-body">
                             <div class="table-responsive">
+                                <div class="mt-3 text-center">
+                                        <button class="btn btn-outline-primary btn-sm"
+                                                id="btn_grafico_{{ $reuniaoData['key'] }}"
+                                                onclick="toggleGrafico('{{ $reuniaoData['key'] }}')">
+                                            Ver Gráfico
+                                        </button>
+                                    </div>
+                                    <div class="grafico-container text-center mt-2"
+                                        id="container_grafico_{{ $reuniaoData['key'] }}"
+                                        style="display: none;">
+                                        <canvas id="grafico_{{ $reuniaoData['key'] }}"
+                                                height="200"
+                                            style="width: 600px; margin: auto;"></canvas>
+                                </div>
                                 <table class="table table-bordered table-sm">
-                                   <div class="mt-3 text-center">
-    <button class="btn btn-outline-primary btn-sm"
-            id="btn_grafico_{{ $reuniaoData['key'] }}"
-            onclick="toggleGrafico('{{ $reuniaoData['key'] }}')">
-        Ver Gráfico
-    </button>
-</div>
-
-<div class="grafico-container text-center mt-2"
-     id="container_grafico_{{ $reuniaoData['key'] }}"
-     style="display: none;">
-    <canvas id="grafico_{{ $reuniaoData['key'] }}"
-            height="200"
-            style="max-width: 500px; margin: auto;"></canvas>
-</div>
                                     <thead class="table-light">
                                         <tr>
                                             <th style="text-align:center;">Nr sócio</th>
@@ -249,7 +341,7 @@
         </div>
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
     const chartsCriados = {};
 
