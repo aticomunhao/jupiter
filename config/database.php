@@ -91,10 +91,9 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
-            'options' => [
-                'TrustServerCertificate' => false, // desativa verificação do certificado
-                'driver' => 'ODBC Driver 17 for SQL Server', // Tenta forçar o driver mais permissivo
-            ],
+            'encrypt' => env('DB_ENCRYPT', 'yes'),
+            'trust_server_certificate' => true
+          
         ],
     ],
     /*

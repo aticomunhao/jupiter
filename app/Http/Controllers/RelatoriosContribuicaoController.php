@@ -326,6 +326,7 @@ class RelatoriosContribuicaoController extends Controller
                 'c.h_inicio AS cronograma_h_inicio',
                 'td.sigla AS cronograma_dia_sigla'
             );
+            
 
 
         if ($setorFiltro) {
@@ -554,6 +555,7 @@ class RelatoriosContribuicaoController extends Controller
             ->get();
 
         $dados = $this->montarDadosRelatorio($request);
+     
         return view('relatorio.contribuicao-grupo', $dados);
     }
 
@@ -958,7 +960,10 @@ class RelatoriosContribuicaoController extends Controller
         $anoFiltro = $request->input('anoFiltro') ?? date('Y');
         $mesFiltro = $request->input('mes');
 
+
         $sqlsrv = DB::connection('sqlsrv');
+        
+
 
         $associados = $sqlsrv->table('cli_for')
             ->select('codigo', 'comentarios')
@@ -966,7 +971,9 @@ class RelatoriosContribuicaoController extends Controller
             ->where('tipo', 'C')
             ->whereRaw('CAST(codigo AS INT) < 50000')
             ->whereYear('data_cadastro', '<=', $anoFiltro)
-            ->get();
+            ->get()
+            ;
+
 
         $pagamentosQuery = $sqlsrv->table('movimento_prod_serv AS ms')
             ->join('movimento AS m', 'm.ordem', '=', 'ms.ordem_movimento')
@@ -982,7 +989,7 @@ class RelatoriosContribuicaoController extends Controller
             ->where('ps.ordem_classe', 10)
             ->where('cf.fisica_juridica', 'F')
             ->where('cf.tipo', 'C')
-            ->whereRaw('CAST(cf.codigo AS INT) < 50000');
+            ->whereRaw('CAST(cf.codigo AS INT) < 50000')            ;
 
         $pagamentosQuery->when($anoFiltro, function ($q, $ano) {
             $q->whereRaw("SUBSTRING(ps.codigo, 2, 4) = ?", [$ano]);
