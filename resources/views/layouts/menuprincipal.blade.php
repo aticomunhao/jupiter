@@ -7,7 +7,7 @@ $perfis = session()->get('usuario.perfis');
 ?>
 
 
-<nav class="navbar navbar-expand-lg navbar-light shadow-sm " style="background-color: #355089;">
+<nav class="navbar navbar-expand-lg navbar-light shadow-sm" style="background-color: #355089;">
     <div class="container">
         <a class="navbar-brand" style="font-weight:bold; font-size: 28px; color:#ffffff;"
             href="{{ url('/login/valida') }}">Júpiter</a>

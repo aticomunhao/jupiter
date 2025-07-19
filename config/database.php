@@ -4,6 +4,8 @@ use Illuminate\Support\Str;
 
 return [
 
+
+
     /*
     |--------------------------------------------------------------------------
     | Default Database Connection Name
@@ -81,7 +83,7 @@ return [
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
-            'host' => env('SECOND_DB_HOST', '192.168.1.98'),
+            'host' => env('SECOND_DB_HOST', '192.168.1.192'),
             'port' => env('SECOND_DB_PORT', '1434'),
             'database' => env('SECOND_DB_DATABASE', 'S9_Real'),
             'username' => env('SECOND_DB_USERNAME', 'sa'),
@@ -121,7 +123,7 @@ return [
 
     'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+        'client' => env('REDIS_CLIENT', 'predis'),
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),

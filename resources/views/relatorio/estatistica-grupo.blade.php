@@ -73,14 +73,14 @@
         <hr />
 
         <!-- O container principal que será fechado pelo botão X -->
-<div id="totalGeralContainer" style="position: relative; border: 1px solid #ccc; padding: 15px;">
-    <button
-        onclick="document.getElementById('totalGeralContainer').style.display = 'none';"
-        style="position: absolute; top: 5px; right: 5px; border: none; background: transparent; font-weight: bold; font-size: 20px; cursor: pointer;"
-        aria-label="Fechar Container de Tabelas"
-        title="Fechar Container de Tabelas"
-    >&times;
-    </button>
+    <div id="totalGeralContainer" style="position: relative; border: 1px solid #ccc; padding: 15px;">
+        <button
+            onclick="document.getElementById('totalGeralContainer').style.display = 'none';"
+            style="position: absolute; top: 5px; right: 5px; border: none; background: transparent; font-weight: bold; font-size: 20px; cursor: pointer;"
+            aria-label="Fechar Container de Tabelas"
+            title="Fechar Container de Tabelas"
+        >&times;
+        </button>
 
     <!-- Este é o ROW que conterá as TRÊS tabelas lado a lado -->
     <div class="row mb-4">

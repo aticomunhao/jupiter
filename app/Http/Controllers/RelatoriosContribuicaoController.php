@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models;
-use iluminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -167,7 +167,7 @@ class RelatoriosContribuicaoController extends Controller
             ]);
         }
 
-        // 4. 🏗️ Agrupamento final: Ano ➝ Setor ➝ Reunião (Identificador Único) ➝ Trabalhador
+        // 4. Agrupamento final: Ano ➝ Setor ➝ Reunião (Identificador Único) ➝ Trabalhador
         $finalGroupedData = collect();
 
         // Pega todos os anos para os quais há contribuições
@@ -601,43 +601,43 @@ class RelatoriosContribuicaoController extends Controller
 
             // Verifica isenção de contribuição
 
-function verificarIsencao($comentarios, $anoFiltro)
-{
-    // Sempre "Sim" se for isento fixo
-    if (stripos($comentarios, 'ISENTO_FIXO') !== false) {
-        return 'Sim';
-    }
+            function verificarIsencao($comentarios, $anoFiltro)
+            {
+                // Sempre "Sim" se for isento fixo
+                if (stripos($comentarios, 'ISENTO_FIXO') !== false) {
+                    return 'Sim';
+                }
 
-    // Ex: ISENTO: 1202507-1202410 (com espaço após :)
-    if (preg_match_all('/ISENTO:\s*(\d{7})-(\d{7})/i', $comentarios, $matches, PREG_SET_ORDER)) {
-        $hoje = Carbon::now()->startOfMonth();
+                // Ex: ISENTO: 1202507-1202410 (com espaço após :)
+                if (preg_match_all('/ISENTO:\s*(\d{7})-(\d{7})/i', $comentarios, $matches, PREG_SET_ORDER)) {
+                    $hoje = Carbon::now()->startOfMonth();
 
-        foreach ($matches as $match) {
-            $raw1 = $match[1]; // pode ser início ou fim
-            $raw2 = $match[2];
+                    foreach ($matches as $match) {
+                        $raw1 = $match[1]; // pode ser início ou fim
+                        $raw2 = $match[2];
 
-            // Extrai ano e mês
-            $ano1 = intval(substr($raw1, 1, 4));
-            $mes1 = intval(substr($raw1, 5, 2));
-            $data1 = Carbon::create($ano1, $mes1, 1)->startOfMonth();
+                        // Extrai ano e mês
+                        $ano1 = intval(substr($raw1, 1, 4));
+                        $mes1 = intval(substr($raw1, 5, 2));
+                        $data1 = Carbon::create($ano1, $mes1, 1)->startOfMonth();
 
-            $ano2 = intval(substr($raw2, 1, 4));
-            $mes2 = intval(substr($raw2, 5, 2));
-            $data2 = Carbon::create($ano2, $mes2, 1)->startOfMonth();
+                        $ano2 = intval(substr($raw2, 1, 4));
+                        $mes2 = intval(substr($raw2, 5, 2));
+                        $data2 = Carbon::create($ano2, $mes2, 1)->startOfMonth();
 
-            // Define intervalo
-            $inicio = $data1->lt($data2) ? $data1 : $data2;
-            $fim = $data1->gt($data2) ? $data1 : $data2;
+                        // Define intervalo
+                        $inicio = $data1->lt($data2) ? $data1 : $data2;
+                        $fim = $data1->gt($data2) ? $data1 : $data2;
 
-            // Verifica se o mês atual está no intervalo
-            if ($hoje->between($inicio, $fim)) {
-                return 'Parcial';
+                        // Verifica se o mês atual está no intervalo
+                        if ($hoje->between($inicio, $fim)) {
+                            return 'Parcial';
+                        }
+                    }
+                }
+
+                return 'Não';
             }
-        }
-    }
-
-    return 'Não';
-}
 
             // Consulta principal dos associados
             $query = $pgsql->table('associado AS a')
@@ -723,13 +723,13 @@ function verificarIsencao($comentarios, $anoFiltro)
             $dadosAgrupados = [];
             $contadorGlobal = 1;
 
-        foreach ($associados as $assoc) {
-            $totalGeralArrecadado = 0;
-            $totalGeralIdeal = 0;
-            $totalGeralPrevisto = 0;
+            foreach ($associados as $assoc) {
+                $totalGeralArrecadado = 0;
+                $totalGeralIdeal = 0;
+                $totalGeralPrevisto = 0;
 
-            $dadosAgrupados = [];
-            $contadorGlobal = 1;
+                $dadosAgrupados = [];
+                $contadorGlobal = 1;
 
             foreach ($associados as $assoc) {
                 $ano = $anoFiltro;
@@ -863,72 +863,72 @@ function verificarIsencao($comentarios, $anoFiltro)
 
             $dadosGrafico = [];
 
-foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
-    foreach ($setoresAgrupados as $setor => $conteudo) {
-        foreach ($conteudo['reunions'] as $reuniaoKey => $reuniao) {
-            $nomeGrupo = $reuniao['display_name'];
-            $totalGrupo = 0;
+            foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
+                foreach ($setoresAgrupados as $setor => $conteudo) {
+                    foreach ($conteudo['reunions'] as $reuniaoKey => $reuniao) {
+                        $nomeGrupo = $reuniao['display_name'];
+                        $totalGrupo = 0;
 
-            foreach ($reuniao['members'] as $m) {
-                $totalGrupo += $m['resumo_ano']['total_arrecadado'];
-            }
+                        foreach ($reuniao['members'] as $m) {
+                            $totalGrupo += $m['resumo_ano']['total_arrecadado'];
+                        }
 
-            $dadosGrafico[] = [
-                'grupo' => $nomeGrupo,
-                'valor' => round($totalGrupo, 2)
-            ];
-        }
-    }
-}
-
-// Tabela 1 – Isenção
-$totalAssociados = 0;
-$qtdeIsentos = [
-    'Sim' => 0,
-    'Parcial' => 0,
-    'Não' => 0
-];
-
-// Tabela 2 – Contribuição x Ideal
-$contribuicaoVsIdeal = [
-    'zero' => 0,
-    'abaixo' => 0,
-    'igual' => 0,
-    'acima' => 0
-];
-
-foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
-    foreach ($setoresAgrupados as $setor => $conteudo) {
-        foreach ($conteudo['reunions'] as $reuniao) {
-            foreach ($reuniao['members'] as $membro) {
-                $totalAssociados++;
-
-                // Contagem de isentos
-                $isento = $membro['isento'] ?? 'Não';
-                if (isset($qtdeIsentos[$isento])) {
-                    $qtdeIsentos[$isento]++;
+                        $dadosGrafico[] = [
+                            'grupo' => $nomeGrupo,
+                            'valor' => round($totalGrupo, 2)
+                        ];
+                    }
                 }
-
-                // Contagem por faixa de contribuição
-                $totalArrecadado = $membro['resumo_ano']['total_arrecadado'] ?? 0;
-                $valorIdeal = $membro['resumo_ano']['valor_ideal'] ?? 0;
-
-                if ($totalArrecadado == 0) {
-    $contribuicaoVsIdeal['zero']++;
-} elseif ($valorIdeal == 0) {
-    // Valor ideal 0 mas houve contribuição positiva — considera como "acima"
-    $contribuicaoVsIdeal['acima']++;
-} elseif ($totalArrecadado < $valorIdeal) {
-    $contribuicaoVsIdeal['abaixo']++;
-} elseif ($totalArrecadado == $valorIdeal) {
-    $contribuicaoVsIdeal['igual']++;
-} else {
-    $contribuicaoVsIdeal['acima']++;
-}
             }
-        }
-    }
-}
+
+            // Tabela 1 – Isenção
+            $totalAssociados = 0;
+            $qtdeIsentos = [
+                'Sim' => 0,
+                'Parcial' => 0,
+                'Não' => 0
+            ];
+
+            // Tabela 2 – Contribuição x Ideal
+            $contribuicaoVsIdeal = [
+                'zero' => 0,
+                'abaixo' => 0,
+                'igual' => 0,
+                'acima' => 0
+            ];
+
+        foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
+            foreach ($setoresAgrupados as $setor => $conteudo) {
+                foreach ($conteudo['reunions'] as $reuniao) {
+                    foreach ($reuniao['members'] as $membro) {
+                        $totalAssociados++;
+
+                        // Contagem de isentos
+                        $isento = $membro['isento'] ?? 'Não';
+                        if (isset($qtdeIsentos[$isento])) {
+                            $qtdeIsentos[$isento]++;
+                        }
+
+                        // Contagem por faixa de contribuição
+                        $totalArrecadado = $membro['resumo_ano']['total_arrecadado'] ?? 0;
+                        $valorIdeal = $membro['resumo_ano']['valor_ideal'] ?? 0;
+
+                        if ($totalArrecadado == 0) {
+                            $contribuicaoVsIdeal['zero']++;
+                        } elseif ($valorIdeal == 0) {
+                            // Valor ideal 0 mas houve contribuição positiva — considera como "acima"
+                            $contribuicaoVsIdeal['acima']++;
+                        } elseif ($totalArrecadado < $valorIdeal) {
+                            $contribuicaoVsIdeal['abaixo']++;
+                        } elseif ($totalArrecadado == $valorIdeal) {
+                            $contribuicaoVsIdeal['igual']++;
+                        } else {
+                            $contribuicaoVsIdeal['acima']++;
+                        }
+                                    }
+                                }
+                            }
+                        }
 
 
             return view('relatorio.estatistica-grupo', compact(
@@ -1066,43 +1066,44 @@ foreach ($dadosAgrupados as $ano => $setoresAgrupados) {
 
     private function verificarIsencao($comentarios, $anoFiltro)
     {
-if (!$comentarios) {
-        return 'Não';
-    }
+        if (!$comentarios) {
+            return 'Não';
+        }
 
-    if (stripos($comentarios, 'ISENTO_FIXO') !== false) {
-        return 'Sim';
-    }
+        if (stripos($comentarios, 'ISENTO_FIXO') !== false) {
+            return 'Sim';
+        }
 
-    // Regex ajustada para capturar DYYYYMM. Ex: ISENTO:1202301-1202412
-    // Captura: 1º dígito (D), Ano (AAAA), Mês (MM) para cada data.
-    if (preg_match_all('/ISENTO: \s*\d(\d{4})(\d{2})-\d(\d{4})(\d{2})/i', $comentarios, $matches, PREG_SET_ORDER)) {
-        // Criamos uma data no início do ano do filtro para usar na comparação
-        $anoAtualData = Carbon::createFromDate($anoFiltro, 1, 1)->startOfYear();
+        // Regex ajustada para capturar DYYYYMM. Ex: ISENTO:1202301-1202412
+        // Captura: 1º dígito (D), Ano (AAAA), Mês (MM) para cada data.
+        if (preg_match_all('/ISENTO: \s*\d(\d{4})(\d{2})-\d(\d{4})(\d{2})/i', $comentarios, $matches, PREG_SET_ORDER)) {
+            // Criamos uma data no início do ano do filtro para usar na comparação
+            $anoAtualData = Carbon::createFromDate($anoFiltro, 1, 1)->startOfYear();
 
-        foreach ($matches as $match) {
-            // $match[1] é o ano da primeira data, $match[2] é o mês da primeira data
-            $ano1 = (int) $match[1];
-            $mes1 = (int) $match[2];
-            $data1 = Carbon::create($ano1, $mes1, 1)->startOfMonth();
+            foreach ($matches as $match) {
+                // $match[1] é o ano da primeira data, $match[2] é o mês da primeira data
+                $ano1 = (int) $match[1];
+                $mes1 = (int) $match[2];
+                $data1 = Carbon::create($ano1, $mes1, 1)->startOfMonth();
 
-            // $match[3] é o ano da segunda data, $match[4] é o mês da segunda data
-            $ano2 = (int) $match[3];
-            $mes2 = (int) $match[4];
-            $data2 = Carbon::create($ano2, $mes2, 1)->startOfMonth();
+                // $match[3] é o ano da segunda data, $match[4] é o mês da segunda data
+                $ano2 = (int) $match[3];
+                $mes2 = (int) $match[4];
+                $data2 = Carbon::create($ano2, $mes2, 1)->startOfMonth();
 
-            // Garantir que $inicio é a data menor e $fim é a data maior
-            $inicio = $data1->min($data2);
-            $fim = $data1->max($data2);
+                // Garantir que $inicio é a data menor e $fim é a data maior
+                $inicio = $data1->min($data2);
+                $fim = $data1->max($data2);
 
-            // Verifica se o ano atual (do filtro) está dentro do período de isenção
-            if ($anoAtualData->between($inicio, $fim)) {
-                return 'Parcial';
+                // Verifica se o ano atual (do filtro) está dentro do período de isenção
+                if ($anoAtualData->between($inicio, $fim)) {
+                    return 'Parcial';
+                }
             }
         }
-    }
 
-    return 'Não';    }
+        return 'Não';
+    }
 
     private function extrairValorPrevisto($comentarios)
     {
