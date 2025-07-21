@@ -17,18 +17,19 @@ class Kernel extends ConsoleKernel
     {
 
        $schedule->job(new ImportarAssociadosJob)
+            ->everyMinute() // Executa a cada minuto
             //->everyFiveMinutes()
-            ->twiceDaily(0, 12)
+            //->twiceDaily(0, 12)
             ->withoutOverlapping()
-           ->before(function () {
-                Log::info('⏳ [Scheduler] Iniciando ImportarAssociadosJob...');
-            })
-            ->onSuccess(function () { // Similar ao after(), mas mais explícito
-                Log::info('✅ [Scheduler] ImportarAssociadosJob finalizado com SUCESSO.');
-            })
-            ->onFailure(function () {
-                Log::error('❌ [Scheduler] ImportarAssociadosJob FALHOU.');
-            });
+            ->before(function () {
+                    Log::info('⏳ [Scheduler] Iniciando ImportarAssociadosJob...');
+                })
+                ->onSuccess(function () { // Similar ao after(), mas mais explícito
+                    Log::info('✅ [Scheduler] ImportarAssociadosJob finalizado com SUCESSO.');
+                })
+                ->onFailure(function () {
+                    Log::error('❌ [Scheduler] ImportarAssociadosJob FALHOU.');
+                });
     }
 
     /**
