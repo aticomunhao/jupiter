@@ -22,12 +22,14 @@ class GerenciarAfastamentosController extends Controller
             ->first();
 
 
-        $afastamentos = DB::table('afastamento')
-            ->leftJoin('funcionarios AS f', 'afastamento.id_funcionario', 'f.id')
+        $afastamentos = DB::table('afastamento AS a')
+            ->leftJoin('funcionarios AS f', 'a.id_funcionario', 'f.id')
             ->leftJoin('pessoas AS p', 'f.id_pessoa', 'p.id')
-            ->leftJoin('tp_afastamento', 'afastamento.id_tp_afastamento', 'tp_afastamento.id')
-            ->select('afastamento.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa', 'p.nome_completo AS nome', 'afastamento.dt_inicio AS inicio', 'tp_afastamento.limite', 'afastamento.id', 'afastamento.caminho', 'afastamento.dt_fim', 'afastamento.justificado', 'f.dt_inicio')
-            ->where('afastamento.id_funcionario', '=', $idf)
+            ->leftJoin('tp_afastamento', 'a.id_tp_afastamento', 'tp_afastamento.id')
+            ->leftJoin('complemento_afastamento AS ca', 'a.id_complemento', 'ca.id')
+            ->select('a.id_tp_afastamento', 'tp_afastamento.nome AS nome_afa', 'p.nome_completo AS nome', 'a.dt_inicio AS inicio', 'tp_afastamento.limite', 'a.id', 'a.caminho', 'a.dt_fim', 'a.justificado', 'f.dt_inicio', 'ca.complemento AS compnome')
+            ->where('a.id_funcionario', $idf)
+            ->orderBy('a.dt_inicio', 'Desc')
             ->get();
 
 
