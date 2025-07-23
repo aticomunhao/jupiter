@@ -39,9 +39,9 @@
                                         <label for="1">Setor</label>
                                         <select id="idsetor" class="form-select select2" name="setor">
                                             <option></option>
-                                            @foreach ($setor as $setores)                                                    
+                                            @foreach ($setor as $setores)
                                                     <option @if (request('setor') == $setores->id) {{ 'selected="selected"' }} @endif
-                                                    value="{{ $setores->id }}">{{$setores->siglap}}-{{ $setores->sigla }}</option>                        
+                                                    value="{{ $setores->id }}">{{$setores->siglap}}-{{ $setores->sigla }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -69,9 +69,7 @@
                                             Limpar
                                         </a>
                                         <a href="/informar-dados">
-                                            <input class="btn btn-success btn-sm" type="button" name="6"
-                                                value="Novo+"
-                                                style="font-size: 1rem; box-shadow: 1px 2px 5px #000000; margin:5px;">
+                                            <input class="btn btn-success" type="button" name="6" value="Incluir +" style="font-size: 1.09rem; font-weight:bold; box-shadow: 1px 2px 5px #000000; margin:5px;">
                                         </a>
                                     </div>
                                 </div>
@@ -82,14 +80,23 @@
                 </div>
                 <div>
                     <h6 style="margin-top: 10px;">
-                        Ativos: <input type="text" value="{{ $totativo }}" style="width: 5%; text-align:center;"
-                            disabled>
-                        Inativos: <input type="text" value="{{ $totinativo }}" style="width: 5%; text-align:center;"
-                            disabled>
-                        Sem contrato: <input type="text" value="{{ $totscontr }}"
-                            style="width: 5%; text-align:center;" disabled>
-                        Total: <input type="text" value="{{ $totfunc }}" style="width: 5%; text-align:center;"
-                            disabled>
+                    <div class="row" style="font-weight: 500;">
+                        <div class="col">Ativos:
+                            <input type="text" value="{{ $totativo }}" style="width: 20%; text-align:center; font-weight:bold;" disabled>
+                        </div>
+                        <div class="col">Inativos:
+                            <input type="text" value="{{ $totinativo }}" style="width: 20%; text-align:center;font-weight:bold;" disabled>
+                        </div>
+                        <div class="col">Sem contrato:
+                            <input type="text" value="{{ $totscontr }}" style="width: 20%; text-align:center; font-weight:bold;" disabled>
+                        </div>
+                        <div class="col">Total:
+                            <input type="text" value="{{ $totfunc }}" style="width: 20%; text-align:center; font-weight:bold;" disabled>
+                        </div>
+                        <div class="col">INSS:
+                            <input type="text" value="{{ $totalComAfastamento17 }}" style="width: 20%; text-align:center; font-weight:bold;" disabled>
+                        </div>
+                    </div>
                     </h6>
                 </div>
                 <div class="table-responsive">
@@ -206,7 +213,7 @@
     </div>
     </div>
     </div>
-    
+
     <style>
         .highlight {
             color: red;

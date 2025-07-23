@@ -31,6 +31,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RelatoriosContribuicaoController;
+use App\Http\Controllers\RelatoriosFuncionariosController;
 use App\Jobs\ImportarAssociadosJob;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -360,6 +361,8 @@ Route::middleware('rotas:27')->group(function () {
     Route::get('/gerenciar-estatistica', [RelatoriosContribuicaoController::class, 'estatistica'])->name('rel.est');
     Route::get('/pdf-contribuicao', [RelatoriosContribuicaoController::class, 'gerarPdf'])->name('pdf.contribuicao');
     Route::get('/gerenciar-geral', [RelatoriosContribuicaoController::class, 'geral'])->name('rel.ger');
+    Route::get('/situacao-afastamentos', [RelatoriosFuncionariosController::class, 'index'])->name('rel.afast');
+
 });
 
 // Gerenciar pagamentos externos

@@ -30,7 +30,7 @@ class GerenciarFuncionarioController extends Controller
         ->pluck('id_setor')
         ->toArray();
         //dd($setor_func);
- $subHierarquia = DB::table(DB::raw('(WITH RECURSIVE hierarquia_setor AS (
+        $subHierarquia = DB::table(DB::raw('(WITH RECURSIVE hierarquia_setor AS (
             SELECT
                 st.id AS id_setor_final,
                 st.id AS id_atual,
@@ -55,40 +55,60 @@ class GerenciarFuncionarioController extends Controller
         SELECT id_setor_final, caminho_sigla FROM hierarquia_setor WHERE raiz = true) AS hierarquia'))
         ->select('id_setor_final', 'caminho_sigla');
 
+        $subAfastamentoAtual = DB::table('afastamento')
+    ->select('id_funcionario', 'id_tp_afastamento', 'dt_fim')
+    ->whereNull('dt_fim')
+    ->where('id_tp_afastamento', 17)
+    ->groupBy('id_funcionario', 'id_tp_afastamento', 'dt_fim');
 
-        $lista = DB::table('funcionarios AS f')
-        ->leftJoin('pessoas AS p', 'f.id_pessoa', '=', 'p.id')
-        ->leftJoin('hist_setor AS hs', function ($join) {
-            $join->on('hs.id_func', '=', 'f.id')
-                ->whereNull('hs.dt_fim')
-                ->whereRaw('hs.dt_inicio = (SELECT MAX(hs2.dt_inicio) FROM hist_setor AS hs2 WHERE hs2.id_func = f.id AND hs2.dt_fim IS NULL)');
-        })
-        ->leftJoin('setor AS s', 's.id', '=', 'hs.id_setor')
-        ->leftJoin('tp_nivel_setor AS tns', 's.id_nivel', '=', 'tns.id')
-        ->leftJoin('setor AS sp', 'sp.id', '=', 's.setor_pai')
-        ->leftJoinSub($subHierarquia, 'h', function ($join) {
-            $join->on('s.id', '=', 'h.id_setor_final');
-        })
-        ->leftJoin('contrato AS c', 'c.id_funcionario', '=', 'f.id')
-        ->select(
-            'h.caminho_sigla AS sigla_composta',
-            'f.id AS idf',
-            'p.cpf',
-            'p.idt',
-            'p.nome_completo',
-            'p.status',
-            'f.id_pessoa AS idp',
-            'p.nome_resumido',
-            's.sigla',
-            's.id_nivel',
-            DB::raw("CASE
-                WHEN COUNT(c.id) = 0 THEN 'Sem Contrato'
-                WHEN SUM(CASE WHEN c.dt_fim IS NULL THEN 1 ELSE 0 END) > 0 THEN 'Ativo'
-                ELSE 'Inativo'
-            END AS status_funcionario")
-        ); // Agrupe por todas as colunas do funcionário
-// dd($lista->get());
-// dd($lista->toSql(), $lista->getBindings());
+
+
+       $lista = DB::table('funcionarios AS f')
+    ->leftJoin('pessoas AS p', 'f.id_pessoa', '=', 'p.id')
+    ->leftJoinSub($subAfastamentoAtual, 'a', function ($join) {
+        $join->on('f.id', '=', 'a.id_funcionario');
+    })
+    ->leftJoin('hist_setor AS hs', function ($join) {
+        $join->on('hs.id_func', '=', 'f.id')
+            ->whereNull('hs.dt_fim')
+            ->whereRaw('hs.dt_inicio = (SELECT MAX(hs2.dt_inicio) FROM hist_setor AS hs2 WHERE hs2.id_func = f.id AND hs2.dt_fim IS NULL)');
+    })
+    ->leftJoin('setor AS s', 's.id', '=', 'hs.id_setor')
+    ->leftJoin('tp_nivel_setor AS tns', 's.id_nivel', '=', 'tns.id')
+    ->leftJoin('setor AS sp', 'sp.id', '=', 's.setor_pai')
+    ->leftJoinSub($subHierarquia, 'h', function ($join) {
+        $join->on('s.id', '=', 'h.id_setor_final');
+    })
+    ->leftJoin('contrato AS c', 'c.id_funcionario', '=', 'f.id')
+    ->select(
+        'h.caminho_sigla AS sigla_composta',
+        'f.id AS idf',
+        'p.cpf',
+        'p.idt',
+        'p.nome_completo',
+        'p.status',
+        'f.id_pessoa AS idp',
+        'p.nome_resumido',
+        's.sigla',
+        's.id_nivel',
+        DB::raw("CASE
+            WHEN COUNT(c.id) = 0 THEN 'Sem Contrato'
+            WHEN SUM(CASE WHEN c.dt_fim IS NULL THEN 1 ELSE 0 END) > 0 THEN 'Ativo'
+            ELSE 'Inativo'
+        END AS status_funcionario")
+    )
+    ->groupBy(
+        'h.caminho_sigla',
+        'f.id',
+        'p.cpf',
+        'p.idt',
+        'p.nome_completo',
+        'p.status',
+        'f.id_pessoa',
+        'p.nome_resumido',
+        's.sigla',
+        's.id_nivel'
+    );
 
         $cpf = $request->cpf;
 
@@ -142,10 +162,16 @@ class GerenciarFuncionarioController extends Controller
                 'p.nome_resumido',
                 's.sigla',
                 'h.caminho_sigla',
-                's.id_nivel'
-        )->orderBy('status_funcionario', 'asc')->orderBy('p.nome_completo', 'asc')
+                's.id_nivel',
+                'a.dt_fim',
+                'a.id_tp_afastamento'
+        )->orderBy('status_funcionario', 'asc')->orderBy('p.nome_completo', 'asc')->paginate(10);
 
-          ->paginate(10);
+        $totalComAfastamento17 = DB::table('afastamento')
+                                ->where('id_tp_afastamento', 17)
+                                ->whereNull('dt_fim')
+                                ->distinct('id_funcionario')
+                                ->count('id_funcionario');
 
         $situacao = DB::table('tp_demissao')
             ->select(
@@ -160,8 +186,7 @@ class GerenciarFuncionarioController extends Controller
             ->whereIn('s.id', $setor_func )
             ->orderBy('s.sigla')
             ->get();
-//dd($setor);
-        //CONTADORES DE STATUS
+
         $totfunc = DB::table('funcionarios AS f')
             ->distinct('f.id')
             ->count('f.id');
@@ -185,7 +210,7 @@ class GerenciarFuncionarioController extends Controller
 
 
 
-        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'setor', 'totscontr', 'totinativo', 'totfunc', 'totativo'));
+        return view('/funcionarios.gerenciar-funcionario', compact('lista', 'cpf', 'idt', 'status', 'nome', 'situacao', 'setor', 'totscontr', 'totinativo', 'totfunc', 'totativo',  'totalComAfastamento17'));
     }
 
     public function create()

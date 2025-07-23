@@ -37,46 +37,38 @@
                                 <table class="table table-striped table-bordered border-secondary table-hover align-middle">
                                     <thead style="text-align: center;">
                                         <tr class="align-middle"
-                                            style="background-color: #d6e3ff; font-size:17px; color:#000000">
-                                            <th class="col-2">Tipo Afastamento</th>
-                                            <th class="col-2">Data Inicial</th>
-                                            <th class="col-2">Quantidade de dias</th>
-                                            <th class="col-2">Data Final</th>
-                                            <th class="col-2">Justificado</th>
-                                            <th class="col-2">Ações</th>
+                                            style="background-color: #d6e3ff; font-size:17px; color:#000000; text-align:center;">
+                                            <th class="col">Tipo</th>
+                                            <th class="col">Complemento</th>
+                                            <th class="col">Início</th>
+                                            <th class="col">Dias</th>
+                                            <th class="col">Final</th>
+                                            <th class="col">Justificado</th>
+                                            <th class="col">Ações</th>
                                         </tr>
                                     </thead>
                                     <tbody style="font-size: 15px; color:#000000;">
                                         @foreach ($afastamentos as $afastamento)
-                                            <tr>
-                                                <td scope="">
-                                                    {{ $afastamento->nome_afa }}
-                                                </td>
-                                                <td scope="" style="text-align: center">
-                                                    {{ date('d/m/Y', strtotime($afastamento->inicio)) }}
-                                                </td>
+                                            <tr  style="text-align:center;">
+                                                <td scope="">{{ $afastamento->nome_afa }}</td>
+                                                <td scope="">{{ $afastamento->compnome }}</td>
+                                                <td scope="" style="text-align: center">{{ date('d/m/Y', strtotime($afastamento->inicio)) }}</td>
                                                 <td scope="" style="text-align: center">
                                                     @if ($afastamento->dt_fim)
                                                         {{ \Carbon\Carbon::parse($afastamento->inicio)->diffInDays(\Carbon\Carbon::parse($afastamento->dt_fim)) }}
                                                     @endif
                                                 </td>
-
                                                 <td scope="" style="text-align: center">
                                                     @if ($afastamento->dt_fim)
                                                         {{ \Carbon\Carbon::parse($afastamento->dt_fim)->format('d/m/Y') }}
                                                     @else
-                                                        Não Possui
+                                                        -
                                                     @endif
                                                 </td>
-
-                                                <td style="text-align: center">
-                                                    {{ $afastamento->justificado ? 'Sim' : 'Não' }}
-                                                </td>
-
+                                                <td style="text-align: center">{{ $afastamento->justificado ? 'Sim' : 'Não' }}</td>
                                                 <!--Botao de Arquivo-->
                                                 <td scope=""
                                                     style="font-size: 1rem; color:#303030; text-align: center">
-
                                                     @if ($afastamento->caminho)
                                                         <a href="{{ asset($afastamento->caminho) }}"
                                                             class="btn btn-outline-secondary" target="_blank">

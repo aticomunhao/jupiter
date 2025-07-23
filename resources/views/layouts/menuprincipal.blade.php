@@ -114,6 +114,8 @@ $perfis = session()->get('usuario.perfis');
                                  <li><a href="/gerenciar-geral" class="dropdown-item">Estatística Geral</a>
                                 </li>
                             @endif
+                            <li><a href="/situacao-afastamentos" class="dropdown-item">Situação Afastamentos</a>
+                                </li>
                         </ul>
                     </li>
                 </ul>
