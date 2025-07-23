@@ -18,11 +18,12 @@ $perfis = session()->get('usuario.perfis');
 
         <div class="collapse navbar-collapse" id="menu">
             @if (in_array(1, $perfis) or
-                    in_array(2, $perfis) or
-                    in_array(3, $perfis) or
-                    in_array(4, $perfis) or
-                    in_array(5, $perfis) or
-                    in_array(6, $perfis))
+                in_array(2, $perfis) or
+                in_array(3, $perfis) or
+                in_array(4, $perfis) or
+                in_array(5, $perfis) or
+                in_array(6, $perfis) or
+                in_array(9, $perfis))
                 <ul class="navbar-nav" id="1">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="a" role="button"
@@ -37,11 +38,12 @@ $perfis = session()->get('usuario.perfis');
                 </ul>
             @endif
             @if (in_array(1, $perfis) or
-                    in_array(2, $perfis) or
-                    in_array(3, $perfis) or
-                    in_array(4, $perfis) or
-                    in_array(5, $perfis) or
-                    in_array(6, $perfis))
+                in_array(2, $perfis) or
+                in_array(3, $perfis) or
+                in_array(4, $perfis) or
+                in_array(5, $perfis) or
+                in_array(6, $perfis) or
+                in_array(9, $perfis))
                 <ul class="navbar-nav" id="2">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="b" role="button"
@@ -73,12 +75,12 @@ $perfis = session()->get('usuario.perfis');
                         data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gestão de Férias
                     </a>
                     <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
-                        @if (in_array(7, $perfis ?? []) or in_array(8, $perfis ?? []))
+                        @if (in_array(7, $perfis ?? []) or in_array(9, $perfis ?? []) or in_array(8, $perfis ?? []))
                             <li><a href="{{ route('IndexGerenciarFerias') }}" class="dropdown-item">Período de
                                     Férias</a>
                             </li>
                         @endif
-                        @if (in_array(3, $perfis ?? []))
+                        @if (in_array(3, $perfis ?? []) or in_array(9, $perfis ?? []))
                             <li><a href="{{ route('AdministrarFerias') }}" class="dropdown-item">Gerenciar Férias</a>
                             </li>
                         @endif
@@ -90,7 +92,7 @@ $perfis = session()->get('usuario.perfis');
                     </ul>
                 </li>
             </ul>
-            @if (in_array(1, $perfis ?? []) or in_array(6, $perfis ?? []) or in_array(4, $perfis ?? []) or in_array(8, $perfis ?? []))
+            @if (in_array(1, $perfis ?? []) or in_array(6, $perfis ?? []) or in_array(9, $perfis ?? []) or in_array(4, $perfis ?? []) or in_array(8, $perfis ?? []))
                 <ul class="navbar-nav" id="4">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="d" role="button"
