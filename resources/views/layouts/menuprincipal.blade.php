@@ -23,6 +23,8 @@ $perfis = session()->get('usuario.perfis');
                 in_array(4, $perfis) or
                 in_array(5, $perfis) or
                 in_array(6, $perfis) or
+                in_array(7, $perfis) or
+                in_array(8, $perfis) or
                 in_array(9, $perfis))
                 <ul class="navbar-nav" id="1">
                     <li class="nav-item dropdown">
@@ -43,6 +45,8 @@ $perfis = session()->get('usuario.perfis');
                 in_array(4, $perfis) or
                 in_array(5, $perfis) or
                 in_array(6, $perfis) or
+                in_array(7, $perfis) or
+                in_array(8, $perfis) or
                 in_array(9, $perfis))
                 <ul class="navbar-nav" id="2">
                     <li class="nav-item dropdown">
@@ -92,7 +96,15 @@ $perfis = session()->get('usuario.perfis');
                     </ul>
                 </li>
             </ul>
-            @if (in_array(1, $perfis ?? []) or in_array(6, $perfis ?? []) or in_array(9, $perfis ?? []) or in_array(4, $perfis ?? []) or in_array(8, $perfis ?? []))
+            @if (in_array(1, $perfis ?? []) or 
+                in_array(2, $perfis ?? []) or
+                in_array(3, $perfis ?? []) or 
+                in_array(4, $perfis ?? []) or 
+                in_array(5, $perfis ?? []) or
+                in_array(6, $perfis ?? []) or
+                in_array(7, $perfis ?? []) or
+                in_array(8, $perfis ?? []) or 
+                in_array(9, $perfis ?? []))
                 <ul class="navbar-nav" id="4">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="d" role="button"
