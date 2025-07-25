@@ -51,7 +51,7 @@ $perfis = session()->get('usuario.perfis');
                 <ul class="navbar-nav" id="2">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="b" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Gerenciar Estrutura</a>
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Estrutura do negócio</a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">Cargo dos
                                     Funcionários</a>
@@ -136,7 +136,7 @@ $perfis = session()->get('usuario.perfis');
                 <ul class="navbar-nav" id="5">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="e" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Administrar
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Acesso
                             Sistema</a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a href="/gerenciar-usuario" class="dropdown-item">Gerenciar Usuários</a>
