@@ -8,7 +8,7 @@
                 <div class="ROW">
                     <div class="col-sm-12 col-md-6">
                         <h5 style="color: #355089">
-                            Gerenciar Dias Limite de Férias
+                            Gerenciar Emails
                         </h5>
                     </div>
                 </div>
