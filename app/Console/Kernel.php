@@ -17,9 +17,10 @@ class Kernel extends ConsoleKernel
     {
 
        $schedule->job(new ImportarAssociadosJob)
-            ->everyMinute() // Executa a cada minuto
+            //->everyMinute() // Executa a cada minuto
             //->everyFiveMinutes()
             //->twiceDaily(0, 12)
+            ->hourly()
             ->withoutOverlapping()
             ->before(function () {
                     Log::info('⏳ [Scheduler] Iniciando ImportarAssociadosJob...');
