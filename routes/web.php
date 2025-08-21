@@ -32,6 +32,7 @@ use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\RelatoriosContribuicaoController;
 use App\Http\Controllers\RelatoriosFuncionariosController;
+use App\Http\Controllers\GerenciarRelatorioEmail;
 use App\Jobs\ImportarAssociadosJob;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
@@ -384,7 +385,7 @@ Route::middleware('rotas:26')->post('/executar-job', function () {
     return redirect()->back();
 })->name('executar.job');
 
-
+Route::any('/gerenciar-relatorio-email', [GerenciarRelatorioEmail::class, 'index'])->name('gerenciar-relatorio-email');
 
 
 

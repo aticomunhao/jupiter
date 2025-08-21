@@ -18,18 +18,19 @@ $perfis = session()->get('usuario.perfis');
 
         <div class="collapse navbar-collapse" id="menu">
             @if (in_array(1, $perfis) or
-                in_array(2, $perfis) or
-                in_array(3, $perfis) or
-                in_array(4, $perfis) or
-                in_array(5, $perfis) or
-                in_array(6, $perfis) or
-                in_array(7, $perfis) or
-                in_array(8, $perfis) or
-                in_array(9, $perfis))
+                    in_array(2, $perfis) or
+                    in_array(3, $perfis) or
+                    in_array(4, $perfis) or
+                    in_array(5, $perfis) or
+                    in_array(6, $perfis) or
+                    in_array(7, $perfis) or
+                    in_array(8, $perfis) or
+                    in_array(9, $perfis))
                 <ul class="navbar-nav" id="1">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="a" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Cadastros de Pessoal</a>
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Cadastros de
+                            Pessoal</a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a class="dropdown-item" href="/gerenciar-funcionario">Gerenciar Funcionarios</a>
                             </li>
@@ -40,18 +41,19 @@ $perfis = session()->get('usuario.perfis');
                 </ul>
             @endif
             @if (in_array(1, $perfis) or
-                in_array(2, $perfis) or
-                in_array(3, $perfis) or
-                in_array(4, $perfis) or
-                in_array(5, $perfis) or
-                in_array(6, $perfis) or
-                in_array(7, $perfis) or
-                in_array(8, $perfis) or
-                in_array(9, $perfis))
+                    in_array(2, $perfis) or
+                    in_array(3, $perfis) or
+                    in_array(4, $perfis) or
+                    in_array(5, $perfis) or
+                    in_array(6, $perfis) or
+                    in_array(7, $perfis) or
+                    in_array(8, $perfis) or
+                    in_array(9, $perfis))
                 <ul class="navbar-nav" id="2">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="b" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Estrutura do negócio</a>
+                            data-bs-toggle="dropdown" aria-expanded="false" style="color:#ffffff;">Estrutura do
+                            negócio</a>
                         <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
                             <li><a href="{{ route('gerenciar.cargos') }}" class="dropdown-item">Cargo dos
                                     Funcionários</a>
@@ -96,15 +98,15 @@ $perfis = session()->get('usuario.perfis');
                     </ul>
                 </li>
             </ul>
-            @if (in_array(1, $perfis ?? []) or 
-                in_array(2, $perfis ?? []) or
-                in_array(3, $perfis ?? []) or 
-                in_array(4, $perfis ?? []) or 
-                in_array(5, $perfis ?? []) or
-                in_array(6, $perfis ?? []) or
-                in_array(7, $perfis ?? []) or
-                in_array(8, $perfis ?? []) or 
-                in_array(9, $perfis ?? []))
+            @if (in_array(1, $perfis ?? []) or
+                    in_array(2, $perfis ?? []) or
+                    in_array(3, $perfis ?? []) or
+                    in_array(4, $perfis ?? []) or
+                    in_array(5, $perfis ?? []) or
+                    in_array(6, $perfis ?? []) or
+                    in_array(7, $perfis ?? []) or
+                    in_array(8, $perfis ?? []) or
+                    in_array(9, $perfis ?? []))
                 <ul class="navbar-nav" id="4">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="d" role="button"
@@ -117,17 +119,20 @@ $perfis = session()->get('usuario.perfis');
                             @if (in_array(18, $acesso))
                                 <li><a class="dropdown-item" href="/controle-ferias">Controle de Férias</a>
                                 </li>
+                                <li><a class="dropdown-item" href="{{ route('gerenciar-relatorio-email') }}">Relatorio
+                                        de Emails</a>
+                                </li>
                             @endif
                             @if (in_array(27, $acesso))
                                 <li><a href="/gerenciar-contribuicao" class="dropdown-item">Contribuição por Grupo</a>
-                                </li>                             
+                                </li>
                                 <li><a href="/gerenciar-estatistica" class="dropdown-item">Estatística por Grupo</a>
                                 </li>
-                                 <li><a href="/gerenciar-geral" class="dropdown-item">Estatística Geral</a>
+                                <li><a href="/gerenciar-geral" class="dropdown-item">Estatística Geral</a>
                                 </li>
                             @endif
                             <li><a href="/situacao-afastamentos" class="dropdown-item">Situação Afastamentos</a>
-                                </li>
+                            </li>
                         </ul>
                     </li>
                 </ul>
