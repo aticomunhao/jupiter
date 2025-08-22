@@ -81,7 +81,7 @@ return [
         'sqlsrv' => [
             'driver' => 'sqlsrv',
             'url' => env('DATABASE_URL'),
-            'host' => env('SECOND_DB_HOST', '192.168.1.98'),
+            'host' => env('SECOND_DB_HOST', '192.168.1.192'),
             'port' => env('SECOND_DB_PORT', '1434'),
             'database' => env('SECOND_DB_DATABASE', 'S9_Real'),
             'username' => env('SECOND_DB_USERNAME', 'sa'),
