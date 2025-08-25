@@ -810,7 +810,7 @@ class GerenciarFeriasController extends Controller
             } //Verifica se o primeiro periodo é menor que cinco dias
             elseif (Carbon::parse($data_inicio_segundo_periodo)->diffInDays($data_fim_segundo_periodo) < 5) {
                 app('flasher')->addError('O segundo periodo é inferior a 5 dias');
-            } elseif ($dia_limite_para_inicio_do_periodo_de_ferias < $data_inicio_primeiro_periodo or $dia_limite_para_inicio_do_periodo_de_ferias < $data_inicio_segundo_periodo) {
+            } elseif ($dia_limite_para_inicio_do_periodo_de_ferias <= $data_inicio_primeiro_periodo or $dia_limite_para_inicio_do_periodo_de_ferias <= $data_inicio_segundo_periodo) {
                 app('flasher')->addError('Uma das datas iniciais que selecionou ultrapassa a data limite para inicio das férias: ' . $dia_limite_para_inicio_do_periodo_de_ferias);
             } elseif (
                 $data_inicio_primeiro_periodo < $data_inicio_periodo_concessivo ||
